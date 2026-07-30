@@ -25,19 +25,17 @@ test("current manifest reports the real growing catalog and blocks a premature f
   assert.equal(result.catalog_status, "growing");
   assert.equal(result.full_catalog_claim, false);
   assert.equal(result.full_catalog_ready, false);
-  assert.equal(result.actual.verified_models, 34);
-  assert.deepEqual(result.actual.brands, ["Hisense", "LG", "Samsung", "Xiaomi"]);
-  assert.equal(result.actual.series.length, 19);
-  assert.deepEqual(result.actual.diagonals_inches, [32, 43, 50, 55, 65]);
+  assert.equal(result.actual.verified_models, 53);
+  assert.deepEqual(result.actual.brands, ["Hisense", "LG", "Samsung", "TCL", "Xiaomi"]);
+  assert.equal(result.actual.series.length, 31);
+  assert.deepEqual(result.actual.diagonals_inches, [32, 42, 43, 50, 55, 65, 75]);
   assert.deepEqual(result.actual.model_years, [2024, 2025, 2026]);
   assert.equal(result.target.demand_status, "measured");
-  assert.equal(result.target.models, 32);
-  assert.equal(result.target.covered_models, 32);
-  assert.equal(result.target.coverage_percent, 100);
-  assert.ok(result.blockers.some((blocker) => blocker.includes("verified models 34/50")));
-  assert.ok(result.blockers.some((blocker) => blocker.includes("brands 4/5")));
-  assert.ok(result.blockers.some((blocker) => blocker.includes("missing diagonals 75")));
-  assert.ok(result.blockers.some((blocker) => blocker.includes("target models 32/50")));
+  assert.equal(result.target.models, 50);
+  assert.equal(result.target.covered_models, 45);
+  assert.equal(result.target.coverage_percent, 90);
+  assert.ok(result.blockers.some((blocker) => blocker.includes("target coverage 90.0%/100%")));
+  assert.ok(result.blockers.some((blocker) => blocker.includes("TCL 55P6K")));
 });
 
 test("the growing catalog cannot be relabelled as complete", () => {
@@ -50,7 +48,7 @@ test("the growing catalog cannot be relabelled as complete", () => {
     (error) =>
       error instanceof CatalogCoverageError &&
       error.issues.some(
-        (issue) => issue.includes("full_catalog_claim") && issue.includes("verified models 34/50"),
+        (issue) => issue.includes("full_catalog_claim") && issue.includes("target coverage 90.0%/100%"),
       ),
   );
 });
@@ -100,6 +98,7 @@ test("unmeasured demand cannot contain an unsourced target list", () => {
     target_models: [
       {
         model_id: "invented-model",
+        catalog_verified: true,
         brand: "Brand",
         model: "Model",
         series: "Series",
@@ -110,6 +109,7 @@ test("unmeasured demand cannot contain an unsourced target list", () => {
         model_source_url: "https://example.com/model",
         model_source_label: "Invalid test target",
         model_checked_at: "2026-07-30",
+        operator_query: "\"[Model]\"",
       },
     ],
   };
@@ -129,9 +129,17 @@ test("a measured target is ranked and bound to the exact catalog identity", () =
     source_url: "https://yandex.ru/support2/wordstat/ru/",
     source_label: "Test-only demand snapshot",
     checked_at: "2026-07-30",
+    batch_sha256: "a".repeat(64),
+    region_id: 225,
+    period: "последние 30 дней",
+    devices: "все устройства",
+    selection_rule: "top-positive-exact-demand",
+    candidate_pool_size: 1,
+    target_limit: 50,
     target_models: [
       {
         model_id: "samsung-qe55q70dauxru",
+        catalog_verified: true,
         brand: "Samsung",
         model: "QE55Q70DAUXRU",
         series: "Wrong series",
@@ -143,6 +151,7 @@ test("a measured target is ranked and bound to the exact catalog identity", () =
           "https://www.samsung.com/ru/tvs/qled-tv/q70d-55-inch-qled-4k-tizen-os-smart-tv-qe55q70dauxru/",
         model_source_label: "Test-only official model source",
         model_checked_at: "2026-07-30",
+        operator_query: "\"[QE55Q70DAUXRU]\"",
       },
     ],
   };

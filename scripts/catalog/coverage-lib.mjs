@@ -158,7 +158,8 @@ function validateTargetModels(snapshot, issues) {
     return [];
   }
 
-  const seen = new Set();
+  const seenIdentities = new Set();
+  const seenModelIds = new Set();
   const seenRanks = new Set();
   snapshot.target_models.forEach((row, index) => {
     const location = `demand_snapshot.target_models[${index}]`;
@@ -166,36 +167,61 @@ function validateTargetModels(snapshot, issues) {
       add(issues, location, "must be an object");
       return;
     }
-    for (const key of ["model_id", "brand", "model", "series"]) {
+    for (const key of ["brand", "model", "series"]) {
       if (typeof row[key] !== "string" || !row[key].trim()) {
         add(issues, `${location}.${key}`, "must be a non-empty string");
       }
     }
-    if (seen.has(row.model_id)) add(issues, `${location}.model_id`, "must be unique");
-    seen.add(row.model_id);
+    const identity = `${row.brand}\u0000${row.model}`;
+    if (seenIdentities.has(identity)) {
+      add(issues, `${location}.model`, "brand and exact model identity must be unique");
+    }
+    seenIdentities.add(identity);
+    if (typeof row.catalog_verified !== "boolean") {
+      add(issues, `${location}.catalog_verified`, "must be boolean");
+    }
+    if (row.catalog_verified === true) {
+      if (typeof row.model_id !== "string" || !row.model_id.trim()) {
+        add(issues, `${location}.model_id`, "must be a non-empty string when verified");
+      } else {
+        if (seenModelIds.has(row.model_id)) {
+          add(issues, `${location}.model_id`, "must be unique");
+        }
+        seenModelIds.add(row.model_id);
+      }
+      if (!Number.isInteger(row.model_year) || row.model_year < 2000 || row.model_year > 2100) {
+        add(issues, `${location}.model_year`, "must be a four-digit product year when verified");
+      }
+      if (!isHttpsUrl(row.model_source_url)) {
+        add(issues, `${location}.model_source_url`, "must be a credential-free HTTPS URL when verified");
+      }
+      if (typeof row.model_source_label !== "string" || !row.model_source_label.trim()) {
+        add(issues, `${location}.model_source_label`, "must be a non-empty source label when verified");
+      }
+      if (!isIsoDate(row.model_checked_at)) {
+        add(issues, `${location}.model_checked_at`, "must be a real ISO date when verified");
+      }
+    } else if (row.catalog_verified === false) {
+      for (const key of ["model_id", "model_year", "model_source_url", "model_source_label", "model_checked_at"]) {
+        if (row[key] !== null) {
+          add(issues, `${location}.${key}`, "must be null until the exact model is verified");
+        }
+      }
+    }
     if (!Number.isInteger(row.demand_rank) || row.demand_rank <= 0) {
       add(issues, `${location}.demand_rank`, "must be a positive integer");
     } else if (seenRanks.has(row.demand_rank)) {
       add(issues, `${location}.demand_rank`, "must be unique");
     }
     seenRanks.add(row.demand_rank);
-    if (!Number.isInteger(row.model_year) || row.model_year < 2000 || row.model_year > 2100) {
-      add(issues, `${location}.model_year`, "must be a four-digit product year");
-    }
     if (!Number.isInteger(row.diagonal_inches) || row.diagonal_inches <= 0) {
       add(issues, `${location}.diagonal_inches`, "must be a positive whole-inch diagonal");
     }
     if (!Number.isInteger(row.monthly_exact_searches) || row.monthly_exact_searches <= 0) {
       add(issues, `${location}.monthly_exact_searches`, "must be a positive integer");
     }
-    if (!isHttpsUrl(row.model_source_url)) {
-      add(issues, `${location}.model_source_url`, "must be a credential-free HTTPS URL");
-    }
-    if (typeof row.model_source_label !== "string" || !row.model_source_label.trim()) {
-      add(issues, `${location}.model_source_label`, "must be a non-empty source label");
-    }
-    if (!isIsoDate(row.model_checked_at)) {
-      add(issues, `${location}.model_checked_at`, "must be a real ISO date");
+    if (typeof row.operator_query !== "string" || !row.operator_query.trim()) {
+      add(issues, `${location}.operator_query`, "must be the non-empty measured query");
     }
   });
 
@@ -250,6 +276,40 @@ function validateDemandSnapshot(snapshot, issues) {
     if (!isIsoDate(snapshot.checked_at)) {
       add(issues, "demand_snapshot.checked_at", "must be a real ISO date");
     }
+    if (typeof snapshot.batch_sha256 !== "string" || !/^[a-f0-9]{64}$/.test(snapshot.batch_sha256)) {
+      add(issues, "demand_snapshot.batch_sha256", "must be a lowercase SHA-256 digest");
+    }
+    if (!Number.isInteger(snapshot.region_id) || snapshot.region_id <= 0) {
+      add(issues, "demand_snapshot.region_id", "must be a positive region identifier");
+    }
+    for (const key of ["period", "devices"]) {
+      if (typeof snapshot[key] !== "string" || !snapshot[key].trim()) {
+        add(issues, `demand_snapshot.${key}`, "must be a non-empty measurement dimension");
+      }
+    }
+    if (snapshot.selection_rule !== "top-positive-exact-demand") {
+      add(
+        issues,
+        "demand_snapshot.selection_rule",
+        "must equal top-positive-exact-demand",
+      );
+    }
+    if (!Number.isInteger(snapshot.candidate_pool_size) || snapshot.candidate_pool_size < targetModels.length) {
+      add(
+        issues,
+        "demand_snapshot.candidate_pool_size",
+        "must be an integer not smaller than the selected target",
+      );
+    }
+    if (!Number.isInteger(snapshot.target_limit) || snapshot.target_limit <= 0) {
+      add(issues, "demand_snapshot.target_limit", "must be a positive integer");
+    } else if (targetModels.length !== Math.min(snapshot.target_limit, snapshot.candidate_pool_size)) {
+      add(
+        issues,
+        "demand_snapshot.target_models",
+        "must contain the full target limit or the whole positive candidate pool",
+      );
+    }
   }
 
   return targetModels;
@@ -262,7 +322,7 @@ export function validateCoverageManifest(manifest, catalogModels) {
     throw new CatalogCoverageError(["catalog: models must be an array"]);
   }
 
-  if (manifest.schema_version !== 1) add(issues, "schema_version", "must equal 1");
+  if (manifest.schema_version !== 2) add(issues, "schema_version", "must equal 2");
   if (manifest.market !== "RU") add(issues, "market", "must equal RU");
   if (!STATUS_VALUES.has(manifest.catalog_status)) {
     add(issues, "catalog_status", "must be pilot, growing, or complete");
@@ -340,6 +400,17 @@ export function validateCoverageManifest(manifest, catalogModels) {
 
   const rows = validateCatalogCoverageRows(manifest.catalog_models, catalogModels, issues);
   const targetModels = validateDemandSnapshot(manifest.demand_snapshot, issues);
+  if (
+    isObject(gate) &&
+    manifest.demand_snapshot?.status === "measured" &&
+    manifest.demand_snapshot.target_limit !== gate.minimum_target_models
+  ) {
+    add(
+      issues,
+      "demand_snapshot.target_limit",
+      "must equal completion_gate.minimum_target_models",
+    );
+  }
 
   const actual = {
     verified_models: rows.length,
@@ -353,9 +424,34 @@ export function validateCoverageManifest(manifest, catalogModels) {
     ),
   };
   const catalogIds = new Set(catalogModels.map((model) => model.id));
-  const coveredTargetModels = targetModels.filter((model) => catalogIds.has(model.model_id));
+  const catalogByIdentity = new Map(
+    catalogModels.map((model) => [`${model.brand}\u0000${model.model}`, model]),
+  );
+  const coveredTargetModels = targetModels.filter(
+    (model) => model.catalog_verified === true && catalogIds.has(model.model_id),
+  );
   const coverageById = new Map(rows.map((row) => [row.model_id, row]));
   const catalogById = new Map(catalogModels.map((model) => [model.id, model]));
+  for (const targetModel of targetModels) {
+    const catalogIdentity = catalogByIdentity.get(`${targetModel.brand}\u0000${targetModel.model}`);
+    if (catalogIdentity && targetModel.catalog_verified !== true) {
+      add(
+        issues,
+        `demand_snapshot.target_models.${targetModel.brand}.${targetModel.model}`,
+        "must be marked verified because the exact identity exists in the catalog",
+      );
+    }
+    if (
+      targetModel.catalog_verified === true &&
+      (!catalogIdentity || catalogIdentity.id !== targetModel.model_id)
+    ) {
+      add(
+        issues,
+        `demand_snapshot.target_models.${targetModel.brand}.${targetModel.model}`,
+        "verified target must resolve to the same exact catalog identity",
+      );
+    }
+  }
   for (const targetModel of coveredTargetModels) {
     const coverage = coverageById.get(targetModel.model_id);
     const catalogModel = catalogById.get(targetModel.model_id);
@@ -377,6 +473,9 @@ export function validateCoverageManifest(manifest, catalogModels) {
   }
   const targetCoveragePercent =
     targetModels.length === 0 ? null : (coveredTargetModels.length / targetModels.length) * 100;
+  const missingTargetModels = targetModels.filter(
+    (model) => model.catalog_verified !== true || !catalogIds.has(model.model_id),
+  );
 
   const blockers = [];
   if (isObject(gate)) {
@@ -417,6 +516,15 @@ export function validateCoverageManifest(manifest, catalogModels) {
     ) {
       blockers.push(
         `target coverage ${targetCoveragePercent === null ? "unknown" : `${targetCoveragePercent.toFixed(1)}%`}/${gate.required_target_coverage_percent}%`,
+      );
+    }
+    if (missingTargetModels.length > 0) {
+      const examples = missingTargetModels
+        .slice(0, 8)
+        .map((row) => `${row.brand} ${row.model}`)
+        .join(", ");
+      blockers.push(
+        `unverified top-demand models ${examples}${missingTargetModels.length > 8 ? ` +${missingTargetModels.length - 8}` : ""}`,
       );
     }
   }

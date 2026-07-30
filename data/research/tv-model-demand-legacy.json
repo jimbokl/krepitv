@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "research_contract": {
+    "product": "KREPI TV",
+    "landing_page": "https://krepitv.ru/modeli/",
+    "intended_conversion": "Переход к подходящему кронштейну на Яндекс Маркете после технической проверки",
+    "relevance_rule": "Точная модель телевизора или точное поколение модели; без смешивания региональных суффиксов",
+    "region_id": 225,
+    "region": "Россия",
+    "period": "последние 30 дней на дату сбора",
+    "devices": "все устройства",
+    "scope": "поисковый спрос Wordstat; не CPC и не прогноз кликов",
+    "operator": "кавычки фиксируют число слов, квадратные скобки фиксируют их порядок",
+    "source_url": "https://wordstat.yandex.ru/",
+    "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+  },
+  "observed_at": "2026-07-30T17:10:19.494Z",
+  "batch_sha256": "ce95ef2fd5b734b777666c8b70779223e6fe564559d52b3c3ffd5eaba7b873c5",
+  "models": [
+    {
+      "brand": "LG",
+      "model": "OLED55C4RLA",
+      "series": "OLED C4",
+      "diagonal_inches": 55,
+      "operator_query": "\"[OLED55C4RLA]\"",
+      "seo_frequency": 333,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-07-30T17:10:19.494Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
+      "brand": "Samsung",
+      "model": "QE55Q70DAUXRU",
+      "series": "Q70D",
+      "diagonal_inches": 55,
+      "operator_query": "\"[QE55Q70DAUXRU]\"",
+      "seo_frequency": 130,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-07-30T17:10:19.494Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    }
+  ]
+}

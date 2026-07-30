@@ -1,0 +1,222 @@
+[
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "QE55Q70DAUXRU",
+      "series": "Q70D",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[QE55Q70DAUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "15963",
+          "text": "tcl 55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4198",
+          "text": "tcl 55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "7216",
+          "text": "tcl 55c7l"
+        },
+        {
+          "isAssociations": true,
+          "value": "1568",
+          "text": "qled что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "6003",
+          "text": "ue4ss"
+        },
+        {
+          "isAssociations": true,
+          "value": "1599",
+          "text": "samsung ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "556",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "4280",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1569",
+          "text": "какой телевизор выбрать в 2026 году"
+        },
+        {
+          "isAssociations": true,
+          "value": "17226",
+          "text": "55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "2432",
+          "text": "qe50q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1399",
+          "text": "qe55qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1096",
+          "text": "qe55q7f5auxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "903",
+          "text": "qe55q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "848",
+          "text": "qe55s90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "795",
+          "text": "qe55q8faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "qe55qn80fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "418",
+          "text": "qe55qn90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "qe55qef1auxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "130",
+          "text": "qe55q70dauxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "OLED55C4RLA",
+      "series": "OLED C4",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[OLED55C4RLA]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "73492",
+          "text": "let me be"
+        },
+        {
+          "isAssociations": true,
+          "value": "16090",
+          "text": "tcl 55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "58745",
+          "text": "жди меня 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "5657",
+          "text": "all make su"
+        },
+        {
+          "isAssociations": true,
+          "value": "4250",
+          "text": "tcl 55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "295828",
+          "text": "oled"
+        },
+        {
+          "isAssociations": true,
+          "value": "6796",
+          "text": "верни меня назад хоть на 5"
+        },
+        {
+          "isAssociations": true,
+          "value": "19034",
+          "text": "let me in"
+        },
+        {
+          "isAssociations": true,
+          "value": "1290",
+          "text": "быть а не казаться 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "1579",
+          "text": "qled что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "4366",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1510",
+          "text": "lg oled55c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "1220",
+          "text": "oled65c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "1901",
+          "text": "oled55c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "769",
+          "text": "oled48c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "881",
+          "text": "oled55g5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "390",
+          "text": "oled55b5rla"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "333",
+          "text": "oled55c4rla"
+        }
+      ]
+    }
+  }
+]

@@ -142,7 +142,7 @@ export function ViewingDistanceCalculator() {
 function ViewingNumberField({ label, max, min, onChange, unit, value }) {
   return (
     <label className="grid gap-2 text-sm font-medium">
-      <span>{formatFieldLabel(label, unit)}</span>
+      <span className="field-label">{formatFieldLabel(label, unit)}</span>
       <input
         aria-label={`${label}, ${unit}`}
         className="input-control"

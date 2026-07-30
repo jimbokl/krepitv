@@ -272,7 +272,7 @@ function NumberField({ hint, label, max, min = "0", name, onChange, step = "1", 
   const hintId = `${name}-tilt-hint`;
   return (
     <label className="grid content-start gap-2 text-sm font-medium">
-      <span>{formatFieldLabel(label, unit)}</span>
+      <span className="field-label">{formatFieldLabel(label, unit)}</span>
       <input
         aria-describedby={hintId}
         aria-label={`${label}, ${unit}`}

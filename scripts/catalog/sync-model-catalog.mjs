@@ -16,7 +16,8 @@ const [register, demand, coverage] = await Promise.all(
   ),
 );
 
-const demandByModel = new Map(demand.models.map((row) => [row.model, row]));
+const demandIdentity = (row) => `${row.brand}\u0000${row.model}`;
+const demandByIdentity = new Map(demand.models.map((row) => [demandIdentity(row), row]));
 const seenIds = new Set();
 const seenModels = new Set();
 for (const row of register) {
@@ -45,17 +46,27 @@ const catalog = register.map((row) => ({
   checked_at: row.checked_at,
 }));
 
-const rankedDemand = register
-  .map((row) => ({ row, demand: demandByModel.get(row.model) }))
-  .filter(({ demand: demandRow }) => Number.isInteger(demandRow?.seo_frequency) && demandRow.seo_frequency > 0)
+const registerByIdentity = new Map(register.map((row) => [demandIdentity(row), row]));
+const rankedDemand = demand.models
+  .filter((row) => Number.isInteger(row.seo_frequency) && row.seo_frequency > 0)
   .sort(
     (left, right) =>
-      right.demand.seo_frequency - left.demand.seo_frequency ||
-      left.row.model.localeCompare(right.row.model, "ru"),
-  );
+      right.seo_frequency - left.seo_frequency ||
+      left.brand.localeCompare(right.brand, "ru") ||
+      left.model.localeCompare(right.model, "ru"),
+  )
+  .slice(0, coverage.completion_gate.minimum_target_models);
+
+for (const row of register) {
+  const demandRow = demandByIdentity.get(demandIdentity(row));
+  if (demandRow && demandRow.diagonal_inches !== row.diagonal_inches) {
+    throw new Error(`Demand identity mismatch for ${row.brand} ${row.model}`);
+  }
+}
 
 const nextCoverage = {
   ...coverage,
+  schema_version: 2,
   catalog_status: "growing",
   full_catalog_claim: false,
   updated_at: demand.observed_at.slice(0, 10),
@@ -68,20 +79,27 @@ const nextCoverage = {
     region_id: demand.research_contract.region_id,
     period: demand.research_contract.period,
     devices: demand.research_contract.devices,
-    target_models: rankedDemand.map(({ row, demand: demandRow }, index) => ({
-      model_id: row.id,
-      brand: row.brand,
-      model: row.model,
-      series: row.series,
-      diagonal_inches: row.diagonal_inches,
-      model_year: row.model_year,
-      monthly_exact_searches: demandRow.seo_frequency,
-      demand_rank: index + 1,
-      model_source_url: row.source_url,
-      model_source_label: row.source_label,
-      model_checked_at: row.checked_at,
-      operator_query: demandRow.operator_query,
-    })),
+    selection_rule: "top-positive-exact-demand",
+    candidate_pool_size: demand.models.filter((row) => row.seo_frequency > 0).length,
+    target_limit: coverage.completion_gate.minimum_target_models,
+    target_models: rankedDemand.map((demandRow, index) => {
+      const row = registerByIdentity.get(demandIdentity(demandRow));
+      return {
+        model_id: row?.id ?? null,
+        catalog_verified: Boolean(row),
+        brand: demandRow.brand,
+        model: demandRow.model,
+        series: row?.series ?? demandRow.series,
+        diagonal_inches: demandRow.diagonal_inches,
+        model_year: row?.model_year ?? null,
+        monthly_exact_searches: demandRow.seo_frequency,
+        demand_rank: index + 1,
+        model_source_url: row?.source_url ?? null,
+        model_source_label: row?.source_label ?? null,
+        model_checked_at: row?.checked_at ?? null,
+        operator_query: demandRow.operator_query,
+      };
+    }),
   },
   catalog_models: register.map((row) => ({
     model_id: row.id,
@@ -102,5 +120,5 @@ await Promise.all([
 ]);
 
 process.stdout.write(
-  `Synced ${catalog.length} verified TVs; ${rankedDemand.length} demand-ranked exact models.\n`,
+  `Synced ${catalog.length} verified TVs; ${rankedDemand.filter((row) => registerByIdentity.has(demandIdentity(row))).length}/${rankedDemand.length} top demand targets covered.\n`,
 );

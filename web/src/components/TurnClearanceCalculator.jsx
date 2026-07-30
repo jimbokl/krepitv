@@ -219,7 +219,7 @@ function NumberField({ help, label, max, min, name, onChange, step, unit = "см
   const helpId = `${name}-help`;
   return (
     <label className="grid content-start gap-2 text-sm font-medium">
-      <span>{formatFieldLabel(label, unit)}</span>
+      <span className="field-label">{formatFieldLabel(label, unit)}</span>
       <input
         aria-describedby={helpId}
         aria-label={`${label}, ${unit}`}

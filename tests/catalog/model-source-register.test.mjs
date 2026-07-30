@@ -27,7 +27,7 @@ const mountOperationalFields = [
 ];
 
 test("verified source register is the exact operational catalog source", () => {
-  assert.equal(register.length, 34);
+  assert.equal(register.length, 53);
   assert.equal(new Set(register.map((row) => row.id)).size, register.length);
   assert.equal(new Set(register.map((row) => row.model)).size, register.length);
   assert.deepEqual(
@@ -50,17 +50,41 @@ test("verified mount register excludes unresolved identities and drives the cata
 });
 
 test("measured exact demand is preserved without inflating zero-frequency SKU", () => {
-  assert.equal(demand.models.length, 40);
+  assert.equal(demand.models.length, 89);
   const positive = demand.models.filter((row) => row.seo_frequency > 0);
   const zero = demand.models.filter((row) => row.seo_frequency === 0);
-  assert.equal(positive.length, 32);
+  assert.equal(positive.length, 81);
   assert.equal(zero.length, 8);
   assert.ok(zero.every((row) => row.brand === "Яндекс"));
 
-  assert.equal(coverage.demand_snapshot.target_models.length, positive.length);
+  const identity = (row) => `${row.brand}\u0000${row.model}`;
+  const registerByIdentity = new Map(register.map((row) => [identity(row), row]));
+  const topDemand = [...positive]
+    .sort(
+      (left, right) =>
+        right.seo_frequency - left.seo_frequency ||
+        left.brand.localeCompare(right.brand, "ru") ||
+        left.model.localeCompare(right.model, "ru"),
+    )
+    .slice(0, 50);
+
+  assert.equal(coverage.demand_snapshot.target_models.length, 50);
   assert.deepEqual(
     coverage.demand_snapshot.target_models.map((row) => row.monthly_exact_searches),
-    [...positive].sort((left, right) => right.seo_frequency - left.seo_frequency || left.model.localeCompare(right.model, "ru")).map((row) => row.seo_frequency),
+    topDemand.map((row) => row.seo_frequency),
+  );
+  assert.deepEqual(
+    coverage.demand_snapshot.target_models.map(({ brand, model }) => ({ brand, model })),
+    topDemand.map(({ brand, model }) => ({ brand, model })),
+  );
+  for (const target of coverage.demand_snapshot.target_models) {
+    const verified = registerByIdentity.get(identity(target));
+    assert.equal(target.catalog_verified, Boolean(verified));
+    assert.equal(target.model_id, verified?.id ?? null);
+  }
+  assert.equal(
+    coverage.demand_snapshot.target_models.filter((row) => row.catalog_verified).length,
+    45,
   );
   assert.ok(coverage.demand_snapshot.target_models.every((row) => row.monthly_exact_searches > 0));
 });

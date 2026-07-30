@@ -21,6 +21,10 @@ const outputRoot = path.resolve(
   ROOT,
   argument("--output", `product-docs/research/raw/wordstat-tv-models-${date}`),
 );
+const manifestOutput = path.resolve(
+  ROOT,
+  argument("--manifest-output", "data/research/tv-model-demand.json"),
+);
 const secretPath = argument("--secret", process.env.XMLRIVER_WORDSTAT_SECRET ?? DEFAULT_SECRET);
 
 function normalize(value) {
@@ -148,7 +152,7 @@ await Promise.all([
   writeFile(path.join(outputRoot, "raw.json"), `${JSON.stringify(raw, null, 2)}\n`),
   writeFile(path.join(outputRoot, "normalized.json"), `${JSON.stringify(manifest, null, 2)}\n`),
   writeFile(path.join(outputRoot, "normalized.csv"), `${csv}\n`),
-  writeFile(path.join(ROOT, "data/research/tv-model-demand.json"), `${JSON.stringify(manifest, null, 2)}\n`),
+  writeFile(manifestOutput, `${JSON.stringify(manifest, null, 2)}\n`),
 ]);
 await Promise.all([
   unlink(path.join(outputRoot, "raw.partial.json")).catch(() => {}),

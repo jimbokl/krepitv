@@ -109,7 +109,7 @@ export function HeightCalculator({ model = null }) {
 function NumberField({ label, max, min = "0", name, value, onChange, unit = "см" }) {
   return (
     <label className="grid gap-2 text-sm font-medium">
-      <span>{formatFieldLabel(label, unit)}</span>
+      <span className="field-label">{formatFieldLabel(label, unit)}</span>
       <input
         aria-label={`${label}, ${unit}`}
         className="input-control"
