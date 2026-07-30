@@ -70,7 +70,7 @@ jobs:
           ')"
           echo "has_error=$has_error" >> "$GITHUB_OUTPUT"
           if [ "$has_error" = "true" ]; then
-            echo "::warning::Часть карточек не проверена после персональных повторов; для них сохраняется только свежий last-known-good."
+            echo "::warning::Часть карточек не проверена после персональных повторов; их CTA будет снят по fail-closed правилу."
           fi
 
       - name: Собрать и проверить публичный снимок
@@ -83,7 +83,7 @@ jobs:
           npm run affiliate:validate-public
           npm run affiliate:test
           install -m 0644 data/affiliate/public-offers.json docs/data/affiliate-offers.json
-          node scripts/affiliate/validate.mjs --kind snapshot docs/data/affiliate-offers.json
+          node scripts/affiliate/validate.mjs --kind public docs/data/affiliate-offers.json
 
       - name: Зафиксировать обновление
         if: steps.manifest.outputs.count != '0'

@@ -64,6 +64,7 @@ export function installMetrika({
       entity_id: safeToken(detail.entityId),
       offer_id: safeToken(detail.offerId),
       page_path: safePagePath(detail.pagePath),
+      source_path: safePagePath(detail.sourcePath),
       vid: safeToken(detail.vid),
     };
     for (const [key, value] of Object.entries(parameters)) {

@@ -9,10 +9,12 @@ import { fileURLToPath } from "node:url";
 import {
   AffiliateValidationError,
   buildMarketAffiliateRequestUrl,
+  buildPublicSnapshot,
   buildSnapshot,
   marketTitleMatchesExpected,
   readJson,
   validateBatch,
+  validatePublicSnapshot,
   validateSnapshot,
   validateSource,
   validateSourceAgainstMounts,
@@ -79,16 +81,49 @@ function nonAdOffer(overrides = {}) {
   };
 }
 
-test("validates example.invalid source, batch and snapshot fixtures", async () => {
-  const [source, batch, snapshot] = await Promise.all([
+test("validates example.invalid source, batch, private and public snapshot fixtures", async () => {
+  const [source, batch, snapshot, publicSnapshot] = await Promise.all([
     readJson(path.join(fixtures, "source.valid.json")),
     readJson(path.join(fixtures, "batch.valid.json")),
     readJson(path.join(fixtures, "snapshot.valid.json")),
+    readJson(path.join(fixtures, "public.valid.json")),
   ]);
 
   assert.equal(validateSource(source, fixtureOptions), source);
   assert.equal(validateBatch(batch, fixtureOptions), batch);
   assert.equal(validateSnapshot(snapshot, fixtureOptions), snapshot);
+  assert.equal(validatePublicSnapshot(publicSnapshot, fixtureOptions), publicSnapshot);
+});
+
+test("publishes only eligible offers without private decision numbers", async () => {
+  const snapshot = await readJson(path.join(fixtures, "snapshot.valid.json"));
+  snapshot.offers[1] = {
+    ...snapshot.offers[1],
+    affiliate_href: null,
+    stock: 0,
+    eligibility: "out_of_stock",
+    publishable: false,
+  };
+
+  const publicSnapshot = buildPublicSnapshot(snapshot, fixtureOptions);
+  assert.equal(publicSnapshot.offers.length, 1);
+  assert.equal(publicSnapshot.offers[0].id, "mount-fixed-01");
+  for (const field of ["promise", "price", "stock"]) {
+    assert.equal(field in publicSnapshot.offers[0], false);
+  }
+});
+
+test("public snapshot validator rejects private decision fields", async () => {
+  const publicSnapshot = await readJson(path.join(fixtures, "public.valid.json"));
+
+  for (const field of ["promise", "price", "stock"]) {
+    const leaked = structuredClone(publicSnapshot);
+    leaked.offers[0][field] = 1;
+    assert.throws(
+      () => validatePublicSnapshot(leaked, fixtureOptions),
+      new RegExp(`unexpected key ${field}`),
+    );
+  }
 });
 
 test("builds advertising and explicit non-ad storefront offers", async () => {
@@ -130,7 +165,7 @@ test("strips an unmarked advertising draft href", async () => {
   assert.equal(actual.offers[1].affiliate_href, null);
 });
 
-test("updates healthy cards while retaining only fresh matching offers on API error", async () => {
+test("retains a fresh matching offer only when a private snapshot is supplied", async () => {
   const [source, batch, previous] = await Promise.all([
     readJson(path.join(fixtures, "source.valid.json")),
     readJson(path.join(fixtures, "batch.valid.json")),
@@ -159,7 +194,7 @@ test("updates healthy cards while retaining only fresh matching offers on API er
 
   const actual = buildSnapshot(source, batch, {
     ...fixtureOptions,
-    previousSnapshot: previous,
+    previousPrivateSnapshot: previous,
   });
   assert.deepEqual(actual.offers[0], previous.offers[0]);
   assert.equal(actual.offers[1].promise, 95);
@@ -168,7 +203,7 @@ test("updates healthy cards while retaining only fresh matching offers on API er
   batch.generated_at = "2026-08-02T20:00:00Z";
   const stale = buildSnapshot(source, batch, {
     ...fixtureOptions,
-    previousSnapshot: previous,
+    previousPrivateSnapshot: previous,
   });
   assert.equal(stale.offers[0].eligibility, "error");
   assert.equal(stale.offers[0].affiliate_href, null);
@@ -364,6 +399,7 @@ test("emits one sanitized affiliate-click payload for every Market CTA", () => {
   }
   const windowObject = {
     CustomEvent: FakeCustomEvent,
+    location: { pathname: "/modeli/samsung-qe55s90fauxru/" },
     dispatchEvent(event) {
       dispatched.push(event);
       return true;
@@ -377,16 +413,20 @@ test("emits one sanitized affiliate-click payload for every Market CTA", () => {
     affiliate_href: "https://market.yandex.ru/card/example?erid=fixture",
   };
 
-  assert.deepEqual(affiliateClickDetail(offer), {
+  assert.deepEqual(affiliateClickDetail(offer, windowObject.location.pathname), {
     entityId: "onkron-tm5-bw",
     offerId: "market-onkron-tm5-bw",
     pagePath: "/kronshteyny/onkron-tm5-bw/",
+    sourcePath: "/modeli/samsung-qe55s90fauxru/",
     vid: "krepitv-mount",
   });
   assert.equal(emitAffiliateClick(windowObject, offer), true);
   assert.equal(dispatched.length, 1);
   assert.equal(dispatched[0].type, AFFILIATE_CLICK_EVENT);
-  assert.deepEqual(dispatched[0].detail, affiliateClickDetail(offer));
+  assert.deepEqual(
+    dispatched[0].detail,
+    affiliateClickDetail(offer, windowObject.location.pathname),
+  );
   assert.equal("affiliate_href" in dispatched[0].detail, false);
 });
 
@@ -487,7 +527,7 @@ test("does not retain an old offer after CLID or compliance mode changes", async
 
     const actual = buildSnapshot(source, batch, {
       ...fixtureOptions,
-      previousSnapshot: previous,
+      previousPrivateSnapshot: previous,
     });
     assert.equal(actual.offers[0].eligibility, "error");
     assert.equal(actual.offers[0].affiliate_href, null);

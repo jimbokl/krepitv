@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.example.invalid/krepitv/market-affiliate-snapshot.schema.json",
-  "title": "KREPI TV publish decision snapshot",
+  "title": "KREPI TV private publish decision snapshot",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "generated_at", "offers"],

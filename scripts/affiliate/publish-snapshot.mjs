@@ -2,7 +2,7 @@
 
 import path, { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readJson, validateSnapshot, writeJson } from "./lib.mjs";
+import { buildPublicSnapshot, readJson, writeJson } from "./lib.mjs";
 
 function valueAfter(args, flag) {
   const index = args.indexOf(flag);
@@ -25,8 +25,8 @@ if (outputFile !== publicFile) {
   throw new Error("Public affiliate snapshot has one audited destination");
 }
 
-const snapshot = validateSnapshot(await readJson(inputFile));
+const snapshot = buildPublicSnapshot(await readJson(inputFile));
 await writeJson(outputFile, snapshot);
 console.log(
-  `Опубликован снимок: ${snapshot.offers.length} предложений, ${snapshot.offers.filter((offer) => offer.publishable).length} активных.`,
+  `Опубликован снимок: ${snapshot.offers.length} активных предложений; приватные числовые проверки удалены.`,
 );

@@ -4,6 +4,11 @@ use serde_json::{Value, json};
 use std::collections::HashSet;
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::time::{SystemTime, UNIX_EPOCH};
+
+const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
+const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
+const AFFILIATE_LINK_REL: &str = "sponsored nofollow noopener noreferrer";
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -88,6 +93,46 @@ struct TrustLink {
     label: String,
 }
 
+#[derive(Debug, Deserialize)]
+struct PublicAffiliateSnapshot {
+    schema_version: u32,
+    generated_at: String,
+    offers: Vec<PublicAffiliateOffer>,
+}
+
+#[derive(Debug, Deserialize)]
+struct PublicAffiliateOffer {
+    id: String,
+    market_source_url: String,
+    page_path: String,
+    entity_kind: String,
+    entity_id: String,
+    compliance_mode: String,
+    clid: String,
+    vid: String,
+    affiliate_href: String,
+    page_name: String,
+    title: String,
+    product_photo: String,
+    checked_at: String,
+    eligibility: String,
+    publishable: bool,
+    creative: Option<AffiliateCreative>,
+}
+
+#[derive(Debug, Deserialize)]
+struct AffiliateCreative {
+    erid: String,
+    disclosure: AffiliateDisclosure,
+}
+
+#[derive(Debug, Deserialize)]
+struct AffiliateDisclosure {
+    label: String,
+    advertiser_name: String,
+    advertiser_inn: String,
+}
+
 fn workspace_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
@@ -137,6 +182,180 @@ fn is_valid_iso_date(value: &str) -> bool {
         _ => return false,
     };
     (1..=maximum).contains(&day)
+}
+
+fn unix_now_seconds() -> i64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("Системное время не должно быть раньше Unix epoch")
+        .as_secs() as i64
+}
+
+fn parse_rfc3339_utc_seconds(value: &str) -> Option<i64> {
+    if value.len() < 20 || !value.ends_with('Z') {
+        return None;
+    }
+    let bytes = value.as_bytes();
+    if bytes.get(10) != Some(&b'T') || bytes.get(13) != Some(&b':') || bytes.get(16) != Some(&b':')
+    {
+        return None;
+    }
+    let date = value.get(..10)?;
+    if !is_valid_iso_date(date) {
+        return None;
+    }
+    let year = date.get(..4)?.parse::<i64>().ok()?;
+    let month = date.get(5..7)?.parse::<i64>().ok()?;
+    let day = date.get(8..10)?.parse::<i64>().ok()?;
+    let hour = value.get(11..13)?.parse::<i64>().ok()?;
+    let minute = value.get(14..16)?.parse::<i64>().ok()?;
+    let second = value.get(17..19)?.parse::<i64>().ok()?;
+    if hour > 23 || minute > 59 || second > 59 {
+        return None;
+    }
+    let fractional = value.get(19..value.len() - 1)?;
+    if !fractional.is_empty()
+        && (!fractional.starts_with('.')
+            || fractional.len() == 1
+            || !fractional[1..].bytes().all(|byte| byte.is_ascii_digit()))
+    {
+        return None;
+    }
+
+    Some(days_from_civil(year, month, day) * 86_400 + hour * 3_600 + minute * 60 + second)
+}
+
+// Howard Hinnant's civil-calendar conversion, shifted to Unix epoch.
+fn days_from_civil(mut year: i64, month: i64, day: i64) -> i64 {
+    year -= i64::from(month <= 2);
+    let era = if year >= 0 { year } else { year - 399 } / 400;
+    let year_of_era = year - era * 400;
+    let month_prime = month + if month > 2 { -3 } else { 9 };
+    let day_of_year = (153 * month_prime + 2) / 5 + day - 1;
+    let day_of_era = year_of_era * 365 + year_of_era / 4 - year_of_era / 100 + day_of_year;
+    era * 146_097 + day_of_era - 719_468
+}
+
+fn https_url_parts<'a>(value: &'a str, origin: &str) -> Option<(&'a str, &'a str)> {
+    if value.contains('#') {
+        return None;
+    }
+    let remainder = value.strip_prefix(origin)?;
+    if !remainder.starts_with('/') || remainder.starts_with("//") {
+        return None;
+    }
+    Some(remainder.split_once('?').unwrap_or((remainder, "")))
+}
+
+fn query_value_count(query: &str, key: &str, expected: Option<&str>) -> usize {
+    query
+        .split('&')
+        .filter_map(|pair| pair.split_once('='))
+        .filter(|(candidate_key, value)| {
+            *candidate_key == key && expected.is_none_or(|expected| *value == expected)
+        })
+        .count()
+}
+
+fn is_fresh_affiliate_offer(offer: &PublicAffiliateOffer, now_seconds: i64) -> bool {
+    let Some(checked_at) = parse_rfc3339_utc_seconds(&offer.checked_at) else {
+        return false;
+    };
+    let age = now_seconds - checked_at;
+    (-AFFILIATE_FUTURE_TOLERANCE_SECONDS..=MAX_AFFILIATE_AGE_SECONDS).contains(&age)
+}
+
+fn is_publishable_affiliate_offer(offer: &PublicAffiliateOffer, now_seconds: i64) -> bool {
+    if !offer.publishable
+        || offer.eligibility != "publishable"
+        || !is_fresh_affiliate_offer(offer, now_seconds)
+        || offer.entity_kind != "mount"
+        || offer.page_path != format!("/kronshteyny/{}/", offer.entity_id)
+        || offer.page_name != "POKUPKI_PRODUCT"
+        || offer.title.trim().is_empty()
+        || !(5..=20).contains(&offer.clid.len())
+        || !offer.clid.bytes().all(|byte| byte.is_ascii_digit())
+        || offer.vid.is_empty()
+        || offer.vid.len() > 150
+        || !offer.vid.bytes().all(|byte| byte.is_ascii_alphanumeric())
+    {
+        return false;
+    }
+
+    let Some((destination_path, destination_query)) =
+        https_url_parts(&offer.affiliate_href, "https://market.yandex.ru")
+    else {
+        return false;
+    };
+    let Some((source_path, _)) =
+        https_url_parts(&offer.market_source_url, "https://market.yandex.ru")
+    else {
+        return false;
+    };
+    if destination_path != source_path
+        || https_url_parts(&offer.product_photo, "https://avatars.mds.yandex.net").is_none()
+        || query_value_count(destination_query, "clid", Some(&offer.clid)) != 1
+        || query_value_count(destination_query, "vid", Some(&offer.vid)) != 1
+        || query_value_count(destination_query, "distr_type", Some("7")) != 1
+        || query_value_count(destination_query, "utm_source", Some("partner_network")) != 1
+        || query_value_count(destination_query, "utm_campaign", Some(&offer.clid)) != 1
+    {
+        return false;
+    }
+
+    match (offer.compliance_mode.as_str(), &offer.creative) {
+        ("advertising", Some(creative)) => {
+            !creative.erid.is_empty()
+                && creative.disclosure.label == "Реклама"
+                && creative.disclosure.advertiser_name == "ООО «Яндекс Маркет»"
+                && creative.disclosure.advertiser_inn == "9704254424"
+                && query_value_count(destination_query, "erid", Some(&creative.erid)) == 1
+        }
+        ("non_ad_storefront", None) => query_value_count(destination_query, "erid", None) == 0,
+        _ => false,
+    }
+}
+
+fn affiliate_notice(offer: &PublicAffiliateOffer) -> String {
+    match &offer.creative {
+        Some(creative) => format!(
+            "{} · {} · ИНН {} · erid: {}",
+            creative.disclosure.label,
+            creative.disclosure.advertiser_name,
+            creative.disclosure.advertiser_inn,
+            creative.erid,
+        ),
+        None => "Партнёрская ссылка на Яндекс Маркет. Если вы оформите заказ, Крепи ТВ может получить вознаграждение. Цена для вас не меняется.".to_string(),
+    }
+}
+
+fn affiliate_offer_card_html(offer: &PublicAffiliateOffer, heading_level: u8) -> String {
+    let heading = if heading_level == 3 { "h3" } else { "h2" };
+    let erid_attribute = offer
+        .creative
+        .as_ref()
+        .map(|creative| format!(" data-erid=\"{}\"", escape_html(&creative.erid)))
+        .unwrap_or_default();
+    let aria_label = if offer.compliance_mode == "advertising" {
+        "Рекламное предложение"
+    } else {
+        "Партнёрское предложение"
+    };
+
+    format!(
+        "<aside aria-label=\"{aria_label}\" class=\"grid gap-5 border-2 border-ink bg-white p-5 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center\" data-affiliate-mode=\"{mode}\" data-clid=\"{clid}\"{erid_attribute}><img alt=\"{title}\" class=\"aspect-square w-full object-contain\" height=\"300\" loading=\"lazy\" referrerpolicy=\"no-referrer\" src=\"{photo}\" width=\"300\"><div><p class=\"font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">{notice}</p><{heading} class=\"mt-2 font-display text-2xl font-extrabold\">{title}</{heading}><p class=\"mt-2 text-sm leading-relaxed text-muted\">Ссылка ведёт прямо на карточку этого кронштейна, а не на похожую модель.</p><a class=\"primary-button mt-4\" data-affiliate-offer-id=\"{offer_id}\" data-affiliate-mode=\"{mode}\" data-clid=\"{clid}\"{erid_attribute} href=\"{href}\" rel=\"{rel}\" target=\"_blank\">Проверить цену на Яндекс Маркете</a><p class=\"mt-3 text-xs leading-relaxed text-muted\">Цена и наличие уточняются на стороне Яндекс Маркета с учётом региона.</p></div></aside>",
+        aria_label = escape_html(aria_label),
+        mode = escape_html(&offer.compliance_mode),
+        clid = escape_html(&offer.clid),
+        erid_attribute = erid_attribute,
+        title = escape_html(&offer.title),
+        photo = escape_html(&offer.product_photo),
+        notice = escape_html(&affiliate_notice(offer)),
+        heading = heading,
+        offer_id = escape_html(&offer.id),
+        href = escape_html(&offer.affiliate_href),
+        rel = AFFILIATE_LINK_REL,
+    )
 }
 
 fn is_indexable_seo_page(page: &SeoPage) -> bool {
@@ -505,7 +724,12 @@ fn mounts_catalog_body(mounts: &[Mount]) -> String {
     ))
 }
 
-fn model_page_body(tv: &TvModel, matches: &[MountMatch]) -> String {
+fn model_page_body(
+    tv: &TvModel,
+    matches: &[MountMatch],
+    affiliate_offers: &[PublicAffiliateOffer],
+    affiliate_now_seconds: i64,
+) -> String {
     let compatible = matches
         .iter()
         .filter(|matched| matched.compatible)
@@ -529,9 +753,28 @@ fn model_page_body(tv: &TvModel, matches: &[MountMatch]) -> String {
     } else {
         brand_catalog_html(compatible, "Кронштейнов", "div", "border-b border-line")
     };
+    let affiliate_cards = affiliate_offers
+        .iter()
+        .filter(|offer| {
+            is_publishable_affiliate_offer(offer, affiliate_now_seconds)
+                && matches
+                    .iter()
+                    .any(|matched| matched.compatible && matched.mount.id == offer.entity_id)
+        })
+        .take(3)
+        .map(|offer| affiliate_offer_card_html(offer, 3))
+        .collect::<Vec<_>>()
+        .join("\n");
+    let affiliate_section = if affiliate_cards.is_empty() {
+        String::new()
+    } else {
+        format!(
+            "<section class=\"border-b-2 border-ink py-8\" aria-label=\"Предложения Яндекс Маркета\"><h2 class=\"font-display text-3xl font-extrabold\">Сейчас доступны на Яндекс Маркете</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны только свежие предложения точных кронштейнов, прошедших проверку совместимости с этой моделью телевизора.</p><div class=\"mt-5 grid gap-5\">{affiliate_cards}</div></section>"
+        )
+    };
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl>{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = tv.model_year,
@@ -545,10 +788,17 @@ fn model_page_body(tv: &TvModel, matches: &[MountMatch]) -> String {
         checked_at = escape_html(&tv.checked_at),
         source = escape_html(&tv.source_url),
         source_label = escape_html(&tv.source_label),
+        affiliate_section = affiliate_section,
     ))
 }
 
-fn mount_page_body(mount: &Mount, models: &[TvModel], graph: &[CompatibilityEdge]) -> String {
+fn mount_page_body(
+    mount: &Mount,
+    models: &[TvModel],
+    graph: &[CompatibilityEdge],
+    affiliate_offers: &[PublicAffiliateOffer],
+    affiliate_now_seconds: i64,
+) -> String {
     let television_row = |edge: &CompatibilityEdge| {
         let tv = models.iter().find(|tv| tv.id == edge.tv_id)?;
         let evidence = edge
@@ -605,9 +855,22 @@ fn mount_page_body(mount: &Mount, models: &[TvModel], graph: &[CompatibilityEdge
             mount.wall_distance_min_mm, mount.wall_distance_max_mm
         )
     };
+    let affiliate_section = affiliate_offers
+        .iter()
+        .find(|offer| {
+            offer.entity_id == mount.id
+                && is_publishable_affiliate_offer(offer, affiliate_now_seconds)
+        })
+        .map(|offer| {
+            format!(
+                "<section class=\"border-t-2 border-ink py-8\">{}</section>",
+                affiliate_offer_card_html(offer, 2),
+            )
+        })
+        .unwrap_or_default();
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section>{affiliate_section}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -618,6 +881,7 @@ fn mount_page_body(mount: &Mount, models: &[TvModel], graph: &[CompatibilityEdge
         checked_at = escape_html(&mount.checked_at),
         source = escape_html(&mount.source_url),
         source_label = escape_html(&mount.source_label),
+        affiliate_section = affiliate_section,
         verified_rows = verified_rows,
         conditional_section = conditional_section,
     ))
@@ -970,6 +1234,17 @@ fn main() {
     let mounts: Vec<Mount> = read_json(&data.join("mounts.json"));
     let seo_pages: Vec<SeoPage> = read_json(&data.join("seo_pages.json"));
     let trust_pages: Vec<TrustPage> = read_json(&data.join("trust_pages.json"));
+    let affiliate_snapshot: PublicAffiliateSnapshot =
+        read_json(&data.join("affiliate/public-offers.json"));
+    assert_eq!(
+        affiliate_snapshot.schema_version, 2,
+        "Неподдерживаемая версия публичного affiliate snapshot"
+    );
+    assert!(
+        parse_rfc3339_utc_seconds(&affiliate_snapshot.generated_at).is_some(),
+        "Некорректная дата генерации публичного affiliate snapshot"
+    );
+    let affiliate_now_seconds = unix_now_seconds();
     validate_models(&models);
     validate_mounts(&mounts);
     validate_seo_pages(&seo_pages);
@@ -1108,7 +1383,12 @@ fn main() {
             tv.title, tv.vesa_width_mm, tv.vesa_height_mm, tv.weight_kg
         );
         let matches = model_mount_matches(tv, &mounts);
-        let static_body = model_page_body(tv, &matches);
+        let static_body = model_page_body(
+            tv,
+            &matches,
+            &affiliate_snapshot.offers,
+            affiliate_now_seconds,
+        );
         let canonical = format!("https://krepitv.ru/modeli/{}/", tv.id);
         let structured_data = format!(
             "{}{}",
@@ -1151,7 +1431,13 @@ fn main() {
             formatted_vesa_list(mount),
             mount.max_load_kg
         );
-        let static_body = mount_page_body(mount, &models, &compatibility_graph);
+        let static_body = mount_page_body(
+            mount,
+            &models,
+            &compatibility_graph,
+            &affiliate_snapshot.offers,
+            affiliate_now_seconds,
+        );
         let canonical = format!("https://krepitv.ru/kronshteyny/{}/", mount.id);
         let structured_data = format!(
             "{}{}",
@@ -1292,10 +1578,11 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        SeoPage, TvModel, brand_catalog_html, build_compatibility_graph, escape_html,
-        is_indexable_model, is_indexable_mount, is_indexable_seo_page, is_valid_iso_date,
-        json_ld_script, mount_page_body, read_json, related_seo_pages, seo_calculator_note,
-        workspace_root,
+        PublicAffiliateSnapshot, SeoPage, TvModel, affiliate_offer_card_html, brand_catalog_html,
+        build_compatibility_graph, escape_html, is_indexable_model, is_indexable_mount,
+        is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
+        mount_page_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
+        seo_calculator_note, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -1341,6 +1628,38 @@ mod tests {
         let script = json_ld_script(json!({ "name": "</script><script>" }));
         assert!(!script.contains("</script><script>"));
         assert!(script.contains("\\u003c/script\\u003e\\u003cscript\\u003e"));
+    }
+
+    #[test]
+    fn affiliate_offer_is_fresh_for_48_hours_and_renders_redacted_static_card() {
+        let snapshot: PublicAffiliateSnapshot =
+            read_json(&workspace_root().join("data/affiliate/public-offers.json"));
+        let offer = snapshot
+            .offers
+            .iter()
+            .find(|offer| offer.publishable)
+            .expect("Нужен хотя бы один publishable affiliate offer");
+        let checked_at = parse_rfc3339_utc_seconds(&offer.checked_at)
+            .expect("Дата проверки affiliate offer должна разбираться");
+
+        assert!(is_publishable_affiliate_offer(offer, checked_at + 60));
+        assert!(is_publishable_affiliate_offer(
+            offer,
+            checked_at + 48 * 60 * 60
+        ));
+        assert!(!is_publishable_affiliate_offer(
+            offer,
+            checked_at + 48 * 60 * 60 + 1
+        ));
+
+        let html = affiliate_offer_card_html(offer, 2);
+        assert!(html.contains("data-affiliate-offer-id="));
+        assert!(html.contains("data-affiliate-mode="));
+        assert!(html.contains("data-clid="));
+        assert!(html.contains("sponsored nofollow noopener noreferrer"));
+        assert!(html.contains("Проверить цену на Яндекс Маркете"));
+        assert!(!html.contains("promise"));
+        assert!(!html.contains("stock"));
     }
 
     #[test]
@@ -1557,7 +1876,7 @@ mod tests {
         );
 
         for mount in &mounts {
-            let body = mount_page_body(mount, &models, &graph);
+            let body = mount_page_body(mount, &models, &graph, &[], 0);
             for edge in graph.iter().filter(|edge| edge.mount_id == mount.id) {
                 assert!(body.contains(&format!("/modeli/{}/", edge.tv_id)));
                 for warning in &edge.warnings {
@@ -1565,5 +1884,35 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn mount_page_places_static_affiliate_cta_before_compatible_televisions() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let snapshot: PublicAffiliateSnapshot =
+            read_json(&root.join("data/affiliate/public-offers.json"));
+        let offer = snapshot
+            .offers
+            .iter()
+            .find(|offer| offer.publishable)
+            .expect("Нужен publishable affiliate offer");
+        let mount = mounts
+            .iter()
+            .find(|mount| mount.id == offer.entity_id)
+            .expect("Affiliate offer должен ссылаться на кронштейн из каталога");
+        let graph = build_compatibility_graph(&models, &mounts);
+        let now = parse_rfc3339_utc_seconds(&offer.checked_at).expect("Дата должна разбираться");
+        let body = mount_page_body(mount, &models, &graph, &snapshot.offers, now);
+        let cta_position = body
+            .find("data-affiliate-offer-id=")
+            .expect("Статический affiliate CTA отсутствует");
+        let models_position = body
+            .find("Подтверждённые популярные телевизоры")
+            .expect("Список телевизоров отсутствует");
+
+        assert!(cta_position < models_position);
+        assert!(body.contains(&escape_html(&offer.affiliate_href)));
     }
 }

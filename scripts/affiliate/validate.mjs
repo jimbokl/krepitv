@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   readJson,
   validateBatch,
+  validatePublicSnapshot,
   validateSnapshot,
   validateSource,
   validateSourceAgainstMounts,
@@ -13,7 +14,7 @@ import {
 function usage() {
   return [
     "Usage:",
-    "  node scripts/affiliate/validate.mjs --kind source|batch|snapshot <file>",
+    "  node scripts/affiliate/validate.mjs --kind source|batch|snapshot|public <file>",
     "  add --allow-example-hosts only for tests/fixtures",
   ].join("\n");
 }
@@ -36,6 +37,7 @@ const validators = {
   source: validateSource,
   batch: validateBatch,
   snapshot: validateSnapshot,
+  public: validatePublicSnapshot,
 };
 if (!(kind in validators)) throw new Error(usage());
 

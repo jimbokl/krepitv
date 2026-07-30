@@ -861,6 +861,84 @@ export function validateSnapshot(snapshot, options = {}) {
   return snapshot;
 }
 
+export function validatePublicSnapshot(snapshot, options = {}) {
+  const issues = [];
+  scanForSecrets(snapshot, "$", issues);
+  if (!exactKeys(snapshot, ["schema_version", "generated_at", "offers"], "$", issues)) {
+    finish(issues);
+  }
+  if (!Array.isArray(snapshot.offers)) {
+    add(issues, "$.offers", "must be an array");
+    finish(issues);
+  }
+
+  const publicOfferKeys = [
+    "id",
+    "market_source_url",
+    "page_path",
+    "entity_kind",
+    "entity_id",
+    "compliance_mode",
+    "clid",
+    "vid",
+    "affiliate_href",
+    "page_name",
+    "title",
+    "product_photo",
+    "checked_at",
+    "eligibility",
+    "publishable",
+    "creative",
+  ];
+  snapshot.offers.forEach((offer, index) => {
+    const location = `$.offers[${index}]`;
+    if (!exactKeys(offer, publicOfferKeys, location, issues)) return;
+    if (offer.eligibility !== "publishable") {
+      add(issues, `${location}.eligibility`, "public data may contain only publishable offers");
+    }
+    if (offer.publishable !== true) {
+      add(issues, `${location}.publishable`, "public data may contain only publishable offers");
+    }
+  });
+  finish(issues);
+
+  // Reuse the stricter decision-snapshot validation for identity, URL,
+  // freshness inputs and advertising disclosure. Synthetic positive values
+  // never leave this function; exactKeys above guarantees that the private
+  // decision inputs are absent from the public object itself.
+  validateSnapshot(
+    {
+      ...snapshot,
+      offers: snapshot.offers.map((offer) => ({
+        ...offer,
+        promise: 1,
+        price: 0,
+        stock: 1,
+      })),
+    },
+    options,
+  );
+  return snapshot;
+}
+
+export function buildPublicSnapshot(snapshot, options = {}) {
+  const validated = validateSnapshot(snapshot, options);
+  const publicSnapshot = {
+    schema_version: validated.schema_version,
+    generated_at: validated.generated_at,
+    offers: validated.offers
+      .filter((offer) => offer.publishable)
+      .map((offer) => {
+        const publicOffer = structuredClone(offer);
+        delete publicOffer.promise;
+        delete publicOffer.price;
+        delete publicOffer.stock;
+        return publicOffer;
+      }),
+  };
+  return validatePublicSnapshot(publicSnapshot, options);
+}
+
 export function buildSnapshot(source, batch, options = {}) {
   validateSource(source, options);
   if (!options.allowExampleHosts) {
@@ -959,8 +1037,8 @@ export function buildSnapshot(source, batch, options = {}) {
     generated_at: batch.generated_at,
     offers,
   };
-  if (options.previousSnapshot) {
-    const previous = validateSnapshot(options.previousSnapshot, options);
+  if (options.previousPrivateSnapshot) {
+    const previous = validateSnapshot(options.previousPrivateSnapshot, options);
     const previousById = new Map(previous.offers.map((offer) => [offer.id, offer]));
     const mergedOffers = snapshot.offers.map((offer, index) => {
       if (offer.eligibility !== "error") return offer;

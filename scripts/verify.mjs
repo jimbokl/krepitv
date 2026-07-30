@@ -6,6 +6,8 @@ import { validateCoverageManifest } from "./catalog/coverage-lib.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const docs = path.join(root, "docs");
 const origin = "https://krepitv.ru";
+const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
+const affiliateFutureToleranceMs = 5 * 60 * 1000;
 
 async function walk(directory) {
   const entries = await readdir(directory);
@@ -46,6 +48,15 @@ function dataPageRoute(page) {
 
 function matchAttribute(tag, name) {
   return tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1] ?? "";
+}
+
+function decodeHtmlAttribute(value) {
+  return value
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#39;", "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
 }
 
 function metaContent(html, name) {
@@ -111,7 +122,26 @@ function assertHttpsSource(item, label) {
 
 const files = await walk(docs);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
-assertMinimum(htmlFiles, 25, "HTML-страницы");
+const yandexVerificationFiles = htmlFiles.filter((file) =>
+  /^yandex_[a-f0-9]+\.html$/i.test(path.basename(file)),
+);
+const pageHtmlFiles = htmlFiles.filter((file) => !yandexVerificationFiles.includes(file));
+assertMinimum(pageHtmlFiles, 25, "HTML-страницы");
+
+for (const file of yandexVerificationFiles) {
+  const relative = path.relative(docs, file).split(path.sep).join("/");
+  if (relative !== path.basename(file)) {
+    throw new Error(`Файл подтверждения Яндекса должен лежать в корне: ${relative}`);
+  }
+  const token = path.basename(file).match(/^yandex_([a-f0-9]+)\.html$/i)?.[1];
+  const html = await readFile(file, "utf8");
+  if (!token || !html.includes(`Verification: ${token}`)) {
+    throw new Error(`Неверное содержимое файла подтверждения Яндекса: ${relative}`);
+  }
+  if (/<(?:script|iframe|form)\b|\b(?:src|href)=["']https?:/i.test(html)) {
+    throw new Error(`Файл подтверждения Яндекса содержит лишний исполняемый код: ${relative}`);
+  }
+}
 
 const required = [
   "index.html",
@@ -154,11 +184,18 @@ const coverageManifest = JSON.parse(
 );
 const seoPages = JSON.parse(await readFile(path.join(docs, "data/seo-pages.json"), "utf8"));
 const trustPages = JSON.parse(await readFile(path.join(docs, "data/trust-pages.json"), "utf8"));
+const affiliateSnapshot = JSON.parse(
+  await readFile(path.join(docs, "data/affiliate-offers.json"), "utf8"),
+);
+const publishableAffiliateOffers = (affiliateSnapshot.offers ?? []).filter(
+  (offer) => offer.publishable && offer.eligibility === "publishable",
+);
 
 assertMinimum(models, 2, "Проверенные модели телевизоров");
 assertMinimum(mounts, 3, "Проверенные кронштейны");
 assertMinimum(seoPages, 12, "SEO-материалы");
 assertMinimum(trustPages, 4, "Доверительные страницы");
+assertMinimum(publishableAffiliateOffers, 1, "Публикуемые affiliate offers");
 const coverageSummary = validateCoverageManifest(coverageManifest, models);
 
 for (const [items, label] of [
@@ -175,6 +212,34 @@ assertUnique(trustPages.map((page) => page.path), "Доверительные с
 assertUnique(trustPages.map((page) => page.title), "Доверительные страницы, title");
 assertUnique(models.map((item) => item.source_url), "Модели телевизоров, источники");
 assertUnique(mounts.map((item) => item.source_url), "Кронштейны, источники");
+assertUnique(
+  publishableAffiliateOffers.map((offer) => offer.id),
+  "Affiliate offers, идентификаторы",
+);
+assertUnique(
+  publishableAffiliateOffers.map((offer) => offer.page_path),
+  "Affiliate offers, страницы кронштейнов",
+);
+
+const affiliateNow = Date.now();
+for (const offer of publishableAffiliateOffers) {
+  const checkedAt = Date.parse(offer.checked_at ?? "");
+  const age = affiliateNow - checkedAt;
+  if (
+    !Number.isFinite(checkedAt) ||
+    age < -affiliateFutureToleranceMs ||
+    age > maximumAffiliateAgeMs
+  ) {
+    throw new Error(`Publishable affiliate offer устарел или имеет неверную дату: ${offer.id}`);
+  }
+  if (
+    offer.entity_kind !== "mount" ||
+    offer.page_path !== `/kronshteyny/${offer.entity_id}/` ||
+    !mounts.some((mount) => mount.id === offer.entity_id)
+  ) {
+    throw new Error(`Affiliate offer ссылается на неизвестную страницу кронштейна: ${offer.id}`);
+  }
+}
 
 for (const model of models) {
   assertHttpsSource(model, `Модель ${model.id}`);
@@ -241,7 +306,7 @@ for (const file of sourceFiles) {
 }
 
 const htmlByRoute = new Map();
-for (const file of htmlFiles) {
+for (const file of pageHtmlFiles) {
   const route = routeFromHtmlFile(file);
   const html = await readFile(file, "utf8");
   htmlByRoute.set(route, html);
@@ -282,6 +347,12 @@ for (const file of htmlFiles) {
     if (!/\brel=["'][^"']*\bnofollow\b[^"']*["']/i.test(link)) {
       throw new Error(`Партнёрская ссылка без rel=nofollow: ${path.relative(root, file)}`);
     }
+    if (!/\brel=["'][^"']*\bnoopener\b[^"']*["']/i.test(link)) {
+      throw new Error(`Партнёрская ссылка без rel=noopener: ${path.relative(root, file)}`);
+    }
+    if (!/\brel=["'][^"']*\bnoreferrer\b[^"']*["']/i.test(link)) {
+      throw new Error(`Партнёрская ссылка без rel=noreferrer: ${path.relative(root, file)}`);
+    }
     const mode = link.match(/\bdata-affiliate-mode=["']([^"']+)["']/i)?.[1];
     if (mode === "advertising") {
       if (!/\bdata-erid=["'][^"']+["']/i.test(link)) {
@@ -300,6 +371,43 @@ for (const file of htmlFiles) {
     } else {
       throw new Error(`Партнёрская ссылка без режима размещения: ${path.relative(root, file)}`);
     }
+  }
+}
+
+for (const offer of publishableAffiliateOffers) {
+  const html = htmlByRoute.get(offer.page_path);
+  if (!html) {
+    throw new Error(`Нет mount page для publishable affiliate offer: ${offer.id}`);
+  }
+  const matchingLinks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
+    (tag) => matchAttribute(tag, "data-affiliate-offer-id") === offer.id,
+  );
+  if (matchingLinks.length !== 1) {
+    throw new Error(
+      `Publishable affiliate offer должен иметь ровно одну статическую ссылку на своей mount page: ${offer.id}`,
+    );
+  }
+  const link = matchingLinks[0];
+  if (decodeHtmlAttribute(matchAttribute(link, "href")) !== offer.affiliate_href) {
+    throw new Error(`Статическая affiliate ссылка не совпадает со snapshot: ${offer.id}`);
+  }
+  if (
+    matchAttribute(link, "data-affiliate-mode") !== offer.compliance_mode ||
+    matchAttribute(link, "data-clid") !== offer.clid
+  ) {
+    throw new Error(`Статическая affiliate ссылка потеряла mode или CLID: ${offer.id}`);
+  }
+  if (offer.compliance_mode === "advertising") {
+    if (matchAttribute(link, "data-erid") !== offer.creative?.erid) {
+      throw new Error(`Статическая рекламная ссылка потеряла ERID: ${offer.id}`);
+    }
+  } else if (matchAttribute(link, "data-erid")) {
+    throw new Error(`Нерекламная статическая ссылка получила ERID: ${offer.id}`);
+  }
+  const ctaPosition = html.indexOf(`data-affiliate-offer-id="${offer.id}"`);
+  const modelListPosition = html.indexOf("Подтверждённые популярные телевизоры");
+  if (ctaPosition < 0 || modelListPosition < 0 || ctaPosition > modelListPosition) {
+    throw new Error(`Affiliate CTA расположен после списка телевизоров: ${offer.id}`);
   }
 }
 
@@ -480,5 +588,5 @@ if (!robotsTxt.includes("Sitemap: https://krepitv.ru/sitemap.xml")) {
 }
 
 console.log(
-  `Проверено: ${htmlFiles.length} HTML-страниц (минимум 25), ${models.length} модели ТВ, ${mounts.length} кронштейна, ${compatibilityEdges.length} рёбер графа, ${seoPages.length} SEO-материалов; в sitemap ${sitemapUrls.length} индексируемых URL; полнота каталога: ${coverageSummary.catalog_status}, полный=${coverageSummary.full_catalog_ready}`,
+  `Проверено: ${pageHtmlFiles.length} HTML-страниц (минимум 25) и ${yandexVerificationFiles.length} файл подтверждения Яндекса, ${models.length} модели ТВ, ${mounts.length} кронштейна, ${compatibilityEdges.length} рёбер графа, ${seoPages.length} SEO-материалов; в sitemap ${sitemapUrls.length} индексируемых URL; полнота каталога: ${coverageSummary.catalog_status}, полный=${coverageSummary.full_catalog_ready}`,
 );

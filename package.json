@@ -15,7 +15,7 @@
     "research:merge-tv-demand": "node scripts/research/merge-tv-model-demand.mjs",
     "qa:screenshot": "node scripts/qa/capture-page.mjs",
     "affiliate:validate": "node scripts/affiliate/validate.mjs --kind source data/affiliate/market-products.json",
-    "affiliate:validate-public": "node scripts/affiliate/validate.mjs --kind snapshot data/affiliate/public-offers.json",
+    "affiliate:validate-public": "node scripts/affiliate/validate.mjs --kind public data/affiliate/public-offers.json",
     "affiliate:check-market": "node scripts/affiliate/check-market-links.mjs",
     "affiliate:check-market-chrome": "node scripts/affiliate/check-market-links-chrome.mjs",
     "affiliate:build-snapshot": "node scripts/affiliate/build-snapshot.mjs --source data/affiliate/market-products.json --batch .private/market-affiliate-batch.json --out .private/market-affiliate-snapshot.json",

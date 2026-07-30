@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-07-30T09:00:00Z",
+  "offers": [
+    {
+      "id": "mount-fixed-01",
+      "market_source_url": "https://market.example.invalid/card/mount-fixed-01/100001",
+      "page_path": "/kronshteyny/mount-fixed-01/",
+      "entity_kind": "mount",
+      "entity_id": "mount-fixed-01",
+      "compliance_mode": "advertising",
+      "clid": "12345678",
+      "vid": "krepitvfixture01",
+      "affiliate_href": "https://affiliate.example.invalid/card/mount-fixed-01/100001?clid=12345678&vid=krepitvfixture01&distr_type=7&utm_source=partner_network&utm_campaign=12345678&erid=eridFixture123",
+      "page_name": "POKUPKI_PRODUCT",
+      "title": "Кронштейн Fixture Fixed",
+      "product_photo": "https://images.example.invalid/mount-fixed-01.jpg",
+      "checked_at": "2026-07-30T08:59:00Z",
+      "eligibility": "publishable",
+      "publishable": true,
+      "creative": {
+        "form": "text-block",
+        "content_revision": "fixture-v1",
+        "erid": "eridFixture123",
+        "registered_at": "2026-07-30T08:00:00Z",
+        "disclosure": {
+          "label": "Реклама",
+          "advertiser_name": "ООО «Яндекс Маркет»",
+          "advertiser_inn": "9704254424"
+        }
+      }
+    },
+    {
+      "id": "mount-tilt-02",
+      "market_source_url": "https://market.example.invalid/card/mount-tilt-02/100002",
+      "page_path": "/kronshteyny/mount-tilt-02/",
+      "entity_kind": "mount",
+      "entity_id": "mount-tilt-02",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "12345678",
+      "vid": "krepitvfixture02",
+      "affiliate_href": "https://affiliate.example.invalid/card/mount-tilt-02/100002?clid=12345678&vid=krepitvfixture02&distr_type=7&utm_source=partner_network&utm_campaign=12345678",
+      "page_name": "POKUPKI_PRODUCT",
+      "title": "Кронштейн Fixture Tilt",
+      "product_photo": "https://images.example.invalid/mount-tilt-02.jpg",
+      "checked_at": "2026-07-30T08:59:30Z",
+      "eligibility": "publishable",
+      "publishable": true,
+      "creative": null
+    }
+  ]
+}

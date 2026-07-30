@@ -24,6 +24,126 @@
       "vid": "krepitvOnkronTM5BW",
       "expected_title_tokens": ["ONKRON", "TM5-BW"],
       "creative": null
+    },
+    {
+      "id": "market-itech-plb640nt-102190438184",
+      "market_source_url": "https://market.yandex.ru/card/nastennyy-kronshteyn-dlya-televizora-itechmount-plb640nt-s-funktsiyey-naklona/102190438184",
+      "page_path": "/kronshteyny/itech-plb640nt/",
+      "entity_kind": "mount",
+      "entity_id": "itech-plb640nt",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvItechPLB640NT",
+      "expected_title_tokens": ["iTECHmount", "PLB640NT"],
+      "creative": null
+    },
+    {
+      "id": "market-kromax-atlantis-45-103730423130",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130",
+      "page_path": "/kronshteyny/kromax-atlantis-45/",
+      "entity_kind": "mount",
+      "entity_id": "kromax-atlantis-45",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvKromaxAtlantis45",
+      "expected_title_tokens": ["KROMAX", "ATLANTIS-45"],
+      "creative": null
+    },
+    {
+      "id": "market-onkron-tm6-103581063123",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-tv-43-85-onkron-tm6-chernyy/103581063123",
+      "page_path": "/kronshteyny/onkron-tm6/",
+      "entity_kind": "mount",
+      "entity_id": "onkron-tm6",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvOnkronTM6Alt",
+      "expected_title_tokens": ["ONKRON", "TM6"],
+      "creative": null
+    },
+    {
+      "id": "market-itech-p4f-103201123450",
+      "market_source_url": "https://market.yandex.ru/card/fiksirovannyy-nastennyy-kronshteyn-itechmount-p4f/103201123450",
+      "page_path": "/kronshteyny/itech-p4f/",
+      "entity_kind": "mount",
+      "entity_id": "itech-p4f",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvItechP4F",
+      "expected_title_tokens": ["iTECHmount", "P4F"],
+      "creative": null
+    },
+    {
+      "id": "market-itech-slt-440-4609777303",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-tv-slt-440-chernyy-stalnoy-37-80-6-stepeney-svobody/4609777303",
+      "page_path": "/kronshteyny/itech-slt-440/",
+      "entity_kind": "mount",
+      "entity_id": "itech-slt-440",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvItechSLT440",
+      "expected_title_tokens": ["iTECHmount", "SLT-440"],
+      "creative": null
+    },
+    {
+      "id": "market-itech-plb440nt-103195508438",
+      "market_source_url": "https://market.yandex.ru/card/nastennyy-kronshteyn-dlya-televizora-itechmount-plb440nt-s-funktsiyey-naklona/103195508438",
+      "page_path": "/kronshteyny/itech-plb440nt/",
+      "entity_kind": "mount",
+      "entity_id": "itech-plb440nt",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvItechPLB440NT",
+      "expected_title_tokens": ["iTECHmount", "PLB440NT"],
+      "creative": null
+    },
+    {
+      "id": "market-itech-ptrb440ln-103201123444",
+      "market_source_url": "https://market.yandex.ru/card/nastennyy-kronshteyn-dlya-televizora-itechmount-ptrb440ln-s-vynosom-funktsiyey-naklona-i-povorota/103201123444",
+      "page_path": "/kronshteyny/itech-ptrb440ln/",
+      "entity_kind": "mount",
+      "entity_id": "itech-ptrb440ln",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvItechPTRB440LN",
+      "expected_title_tokens": ["iTECHmount", "PTRB440LN"],
+      "creative": null
+    },
+    {
+      "id": "market-itech-ptrb460ln-101935604187",
+      "market_source_url": "https://market.yandex.ru/card/nastennyy-kronshteyn-dlya-televizora-itechmount-ptrb460ln-s-vynosom-funktsiyey-naklona-i-povorota/101935604187",
+      "page_path": "/kronshteyny/itech-ptrb460ln/",
+      "entity_kind": "mount",
+      "entity_id": "itech-ptrb460ln",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvItechPTRB460LN",
+      "expected_title_tokens": ["iTECHmount", "PTRB460LN"],
+      "creative": null
+    },
+    {
+      "id": "market-itech-slt-460-102594180340",
+      "market_source_url": "https://market.yandex.ru/card/nastennyy-kronshteyn-dlya-televizora-itechmount-slt-460-s-vynosom-funktsiyey-naklona-i-povorota-37---80/102594180340",
+      "page_path": "/kronshteyny/itech-slt-460/",
+      "entity_kind": "mount",
+      "entity_id": "itech-slt-460",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvItechSLT460",
+      "expected_title_tokens": ["iTECHmount", "SLT-460"],
+      "creative": null
+    },
+    {
+      "id": "market-onkron-m4s-b-103581060220",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-na-stenu-m4s-dlya-televizora-17-43-naklonno-povorotnyy-do-35-kg-chernyy/103581060220",
+      "page_path": "/kronshteyny/onkron-m4s/",
+      "entity_kind": "mount",
+      "entity_id": "onkron-m4s",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvOnkronM4SB",
+      "expected_title_tokens": ["ONKRON", "M4S-B"],
+      "creative": null
     }
   ]
 }
