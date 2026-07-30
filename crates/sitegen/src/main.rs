@@ -264,13 +264,14 @@ fn model_page_body(tv: &TvModel) -> String {
 
 fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPage> {
     let preferred_ids: &[&str] = match page.id.as_str() {
-        "vesa" => &["how-to-find-vesa", "vesa-200x200", "vesa-300x200"],
+        "wall-mounted-tv" => &["vesa", "full-motion-mount", "mounting-height"],
+        "vesa" => &["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
         "vesa-200x200" | "vesa-300x200" => &["vesa", "how-to-find-vesa", "diagonal-55"],
-        "diagonal-55" => &["mounting-height", "vesa", "full-motion-mount"],
-        "fixed-mount" => &["full-motion-mount", "mounting-height", "diagonal-55"],
-        "full-motion-mount" => &["fixed-mount", "mounting-height", "diagonal-55"],
+        "diagonal-55" => &["wall-mounted-tv", "mounting-height", "vesa"],
+        "fixed-mount" => &["wall-mounted-tv", "full-motion-mount", "mounting-height"],
+        "full-motion-mount" => &["wall-mounted-tv", "fixed-mount", "mounting-height"],
         "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
-        "mounting-height" => &["viewing-distance", "diagonal-55", "full-motion-mount"],
+        "mounting-height" => &["wall-mounted-tv", "viewing-distance", "diagonal-55"],
         "viewing-distance" => &["mounting-height", "diagonal-55", "full-motion-mount"],
         _ => &["vesa", "how-to-find-vesa", "mounting-height"],
     };
@@ -294,6 +295,21 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
     related
 }
 
+fn seo_calculator_note(page_id: &str) -> &'static str {
+    match page_id {
+        "wall-mounted-tv" => {
+            "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Проект настенного монтажа</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент сводит в одну проверку точный VESA, массу телевизора, расчётный запас нагрузки, ширину корпуса и вылет кронштейна. Для поворотной конструкции он оценивает предельный угол по зазору до стены, а не только повторяет число на упаковке.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Паспортный предел и кинематика механизма проверяются отдельно. Результат не назначает анкеры и не подтверждает несущую способность стены: основание, скрытые коммуникации и крепёж проверяются на месте.</p></section>"
+        }
+        "mounting-height" => {
+            "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор высоты установки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Интерактивный расчёт учитывает диагональ экрана, высоту глаз, расстояние просмотра, вертикальный угол, высоту мебели и обязательный зазор.</p></section>"
+        }
+        "viewing-distance" => {
+            "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор расстояния и диагонали</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Расчёт работает в обе стороны: диагональ переводится в расстояние, а известное расстояние — в диагональ. Формула использует физическую ширину экрана 16:9 и выбранный горизонтальный угол обзора.</p></section>"
+        }
+        _ => "",
+    }
+}
+
 fn seo_page_body(page: &SeoPage, pages: &[SeoPage]) -> String {
     let facts = page
         .facts
@@ -313,15 +329,7 @@ fn seo_page_body(page: &SeoPage, pages: &[SeoPage]) -> String {
         })
         .collect::<Vec<_>>()
         .join("\n");
-    let calculator_note = match page.id.as_str() {
-        "mounting-height" => {
-            "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор высоты установки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Интерактивный расчёт учитывает диагональ экрана, высоту глаз, расстояние просмотра, вертикальный угол, высоту мебели и обязательный зазор.</p></section>"
-        }
-        "viewing-distance" => {
-            "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор расстояния и диагонали</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Расчёт работает в обе стороны: диагональ переводится в расстояние, а известное расстояние — в диагональ. Формула использует физическую ширину экрана 16:9 и выбранный горизонтальный угол обзора.</p></section>"
-        }
-        _ => "",
-    };
+    let calculator_note = seo_calculator_note(&page.id);
     let related_links = related_seo_pages(page, pages)
         .iter()
         .map(|related| {
@@ -700,7 +708,10 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::{SeoPage, escape_html, is_indexable_seo_page, json_ld_script};
+    use super::{
+        SeoPage, escape_html, is_indexable_seo_page, json_ld_script, read_json, related_seo_pages,
+        seo_calculator_note, workspace_root,
+    };
     use serde_json::json;
 
     #[test]
@@ -735,5 +746,52 @@ mod tests {
         let script = json_ld_script(json!({ "name": "</script><script>" }));
         assert!(!script.contains("</script><script>"));
         assert!(script.contains("\\u003c/script\\u003e\\u003cscript\\u003e"));
+    }
+
+    #[test]
+    fn wall_mount_master_page_is_indexable_and_has_its_own_calculator_copy() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let master = pages
+            .iter()
+            .find(|page| page.id == "wall-mounted-tv")
+            .expect("Нет основной страницы настенного кронштейна");
+
+        assert_eq!(master.path, "/kronshteyn-dlya-televizora-na-stenu/");
+        assert_eq!(master.kind, "calculator");
+        assert!(master.indexable);
+        assert!(master.description.contains("угол по зазору до стены"));
+        assert!(master.facts.len() >= 5);
+        assert!(master.faq.len() >= 5);
+
+        let calculator_copy = seo_calculator_note(&master.id);
+        assert!(calculator_copy.contains("Проект настенного монтажа"));
+        assert!(calculator_copy.contains("не назначает анкеры"));
+    }
+
+    #[test]
+    fn wall_mount_master_page_links_to_narrow_guides_and_back() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let master = pages
+            .iter()
+            .find(|page| page.id == "wall-mounted-tv")
+            .expect("Нет основной страницы настенного кронштейна");
+        let related_ids = related_seo_pages(master, &pages)
+            .iter()
+            .map(|page| page.id.as_str())
+            .collect::<Vec<_>>();
+        assert_eq!(
+            related_ids,
+            ["vesa", "full-motion-mount", "mounting-height"]
+        );
+
+        let full_motion = pages
+            .iter()
+            .find(|page| page.id == "full-motion-mount")
+            .expect("Нет справочника поворотных кронштейнов");
+        assert!(
+            related_seo_pages(full_motion, &pages)
+                .iter()
+                .any(|page| page.id == master.id)
+        );
     }
 }

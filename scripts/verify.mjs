@@ -120,6 +120,7 @@ const required = [
   "kontakty/index.html",
   "politika-konfidencialnosti/index.html",
   "pkg/krepitv_engine_bg.wasm",
+  "pkg/krepitv_engine.js",
   "robots.txt",
   "sitemap.xml",
   "CNAME",
@@ -129,6 +130,10 @@ for (const relative of required) {
   if (!files.includes(path.join(docs, relative))) {
     throw new Error(`В релизе отсутствует ${relative}`);
   }
+}
+
+if (files.includes(path.join(docs, "pkg/.gitignore"))) {
+  throw new Error("Публикуемый WASM-пакет не должен быть скрыт локальным .gitignore");
 }
 
 const models = JSON.parse(await readFile(path.join(docs, "data/tv-models.json"), "utf8"));

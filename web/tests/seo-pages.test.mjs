@@ -25,3 +25,18 @@ test("related pages exclude current and noindex pages", () => {
     ["same-kind", "other-kind"],
   );
 });
+
+test("master page leads to the compatibility chain before generic calculators", () => {
+  const catalog = [
+    { id: "wall-mounted-tv", kind: "calculator", indexable: true },
+    { id: "viewing-distance", kind: "calculator", indexable: true },
+    { id: "vesa", kind: "guide", indexable: true },
+    { id: "full-motion-mount", kind: "mechanism", indexable: true },
+    { id: "mounting-height", kind: "calculator", indexable: true },
+  ];
+
+  assert.deepEqual(
+    getRelatedPages(catalog[0], catalog).map((page) => page.id),
+    ["vesa", "full-motion-mount", "mounting-height", "viewing-distance"],
+  );
+});

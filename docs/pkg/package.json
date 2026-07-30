@@ -1,0 +1,20 @@
+{
+  "name": "krepitv-engine",
+  "type": "module",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jimbokl/krepitv"
+  },
+  "files": [
+    "krepitv_engine_bg.wasm",
+    "krepitv_engine.js",
+    "krepitv_engine.d.ts"
+  ],
+  "main": "krepitv_engine.js",
+  "types": "krepitv_engine.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

@@ -85,6 +85,21 @@ export async function calculateViewingGeometry(mode, value, horizontalAngle) {
   return response;
 }
 
+export async function calculateTurnClearance(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.turn_clearance_plan_json(
+      values.tvWidth,
+      values.vesaOffset,
+      values.targetAngle,
+      values.availableExtension,
+      values.safetyClearance,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export function modelHref(model) {
   return `/modeli/${model.id}/`;
 }

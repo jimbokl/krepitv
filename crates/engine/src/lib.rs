@@ -8,6 +8,11 @@ const MIN_VIEWING_DISTANCE_CM: f64 = 30.0;
 const MAX_VIEWING_DISTANCE_CM: f64 = 1_000.0;
 const MIN_HORIZONTAL_ANGLE_DEG: f64 = 20.0;
 const MAX_HORIZONTAL_ANGLE_DEG: f64 = 60.0;
+const MIN_TV_WIDTH_CM: f64 = 10.0;
+const MAX_TV_WIDTH_CM: f64 = 500.0;
+const MAX_TURN_ANGLE_DEG: f64 = 90.0;
+const MAX_MOUNT_EXTENSION_CM: f64 = 300.0;
+const MAX_SAFETY_CLEARANCE_CM: f64 = 50.0;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Mount {
@@ -58,6 +63,24 @@ pub struct ViewingGeometry {
     pub screen_height_cm: f64,
     pub viewing_distance_cm: f64,
     pub horizontal_angle_deg: f64,
+    pub warnings: Vec<String>,
+}
+
+/// Консервативная проверка горизонтального поворота телевизора в плоскости сверху.
+///
+/// `vesa_offset_cm` во входной функции задаётся со знаком относительно геометрического
+/// центра экрана. Поскольку направление поворота отдельно не задаётся, расчёт использует
+/// `abs(vesa_offset_cm)` и более длинную сторону экрана. Это худший случай для поворота
+/// в любую сторону. Минимальный вылет считается по формуле:
+///
+/// `safety_clearance_cm + effective_half_width_cm * sin(target_angle_degrees)`.
+#[derive(Clone, Debug, Serialize)]
+pub struct TurnClearancePlan {
+    pub minimum_extension_cm: f64,
+    pub maximum_clearance_angle_degrees: f64,
+    pub clearance_margin_cm: f64,
+    pub will_clear_wall: bool,
+    pub effective_half_width_cm: f64,
     pub warnings: Vec<String>,
 }
 
@@ -169,6 +192,108 @@ pub fn diagonal_for_viewing_distance(
         viewing_distance_cm: rounded(viewing_distance_cm),
         horizontal_angle_deg: rounded(horizontal_angle_deg),
         warnings: viewing_warnings(horizontal_angle_deg),
+    })
+}
+
+/// Рассчитывает, хватит ли вылета кронштейна для горизонтального поворота ТВ.
+///
+/// Геометрия намеренно консервативна: signed-смещение VESA преобразуется в модуль,
+/// чтобы проверить более длинную сторону экрана независимо от направления поворота.
+/// Модель двумерная и не заменяет проверку толщины ТВ, разъёмов, кабелей и формы стены.
+pub fn calculate_turn_clearance_plan(
+    tv_width_cm: f64,
+    vesa_offset_cm: f64,
+    target_angle_degrees: f64,
+    available_extension_cm: f64,
+    safety_clearance_cm: f64,
+) -> Result<TurnClearancePlan, String> {
+    validate_range(
+        tv_width_cm,
+        MIN_TV_WIDTH_CM,
+        MAX_TV_WIDTH_CM,
+        "Ширина телевизора",
+        "см",
+    )?;
+    validate_range(
+        vesa_offset_cm,
+        -tv_width_cm / 2.0,
+        tv_width_cm / 2.0,
+        "Смещение VESA от центра",
+        "см",
+    )?;
+    validate_range(
+        target_angle_degrees,
+        0.0,
+        MAX_TURN_ANGLE_DEG,
+        "Желаемый угол поворота",
+        "градусов",
+    )?;
+    validate_range(
+        available_extension_cm,
+        0.0,
+        MAX_MOUNT_EXTENSION_CM,
+        "Доступный вылет кронштейна",
+        "см",
+    )?;
+    validate_range(
+        safety_clearance_cm,
+        0.0,
+        MAX_SAFETY_CLEARANCE_CM,
+        "Безопасный зазор",
+        "см",
+    )?;
+
+    let effective_half_width_cm = tv_width_cm / 2.0 + vesa_offset_cm.abs();
+    let minimum_extension_cm =
+        safety_clearance_cm + effective_half_width_cm * target_angle_degrees.to_radians().sin();
+    let clearance_margin_cm = available_extension_cm - minimum_extension_cm;
+    let will_clear_wall = clearance_margin_cm >= -f64::EPSILON;
+
+    let usable_extension_cm = available_extension_cm - safety_clearance_cm;
+    let maximum_clearance_angle_degrees = if usable_extension_cm <= 0.0 {
+        0.0
+    } else if usable_extension_cm >= effective_half_width_cm {
+        MAX_TURN_ANGLE_DEG
+    } else {
+        (usable_extension_cm / effective_half_width_cm)
+            .asin()
+            .to_degrees()
+    };
+
+    let mut warnings = vec![
+        "Расчёт выполнен в плоскости сверху: проверьте толщину ТВ, разъёмы, кабели и неровности стены на месте"
+            .to_string(),
+    ];
+    if vesa_offset_cm.abs() > f64::EPSILON {
+        warnings.push(
+            "Смещение VESA учтено по более длинной стороне экрана — для безопасного поворота в любую сторону"
+                .to_string(),
+        );
+    }
+    if available_extension_cm < safety_clearance_cm {
+        warnings.push(
+            "Вылет меньше заданного безопасного зазора: расчётный зазор не соблюдается даже без поворота"
+                .to_string(),
+        );
+    } else if !will_clear_wall {
+        warnings.push(
+            "Доступного вылета недостаточно для выбранного угла и безопасного зазора".to_string(),
+        );
+    }
+    if target_angle_degrees > 75.0 {
+        warnings.push(
+            "При большом угле дополнительно проверьте шарниры кронштейна и запас кабелей"
+                .to_string(),
+        );
+    }
+
+    Ok(TurnClearancePlan {
+        minimum_extension_cm: rounded(minimum_extension_cm),
+        maximum_clearance_angle_degrees: rounded(maximum_clearance_angle_degrees),
+        clearance_margin_cm: rounded(clearance_margin_cm),
+        will_clear_wall,
+        effective_half_width_cm: rounded(effective_half_width_cm),
+        warnings,
     })
 }
 
@@ -375,6 +500,26 @@ pub fn viewing_geometry_json(mode: &str, value: f64, horizontal_angle_deg: f64) 
     }
 }
 
+#[wasm_bindgen]
+pub fn turn_clearance_plan_json(
+    tv_width_cm: f64,
+    vesa_offset_cm: f64,
+    target_angle_degrees: f64,
+    available_extension_cm: f64,
+    safety_clearance_cm: f64,
+) -> String {
+    match calculate_turn_clearance_plan(
+        tv_width_cm,
+        vesa_offset_cm,
+        target_angle_degrees,
+        available_extension_cm,
+        safety_clearance_cm,
+    ) {
+        Ok(plan) => serde_json::to_string(&plan).expect("turn clearance plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -483,5 +628,99 @@ mod tests {
         let invalid_value = viewing_geometry_json("diagonal-to-distance", 5.0, 36.0);
         let invalid_value: serde_json::Value = serde_json::from_str(&invalid_value).unwrap();
         assert!(invalid_value.get("error").is_some());
+    }
+
+    #[test]
+    fn calculates_ninety_degree_extension_for_centered_vesa() {
+        let plan = calculate_turn_clearance_plan(123.0, 0.0, 90.0, 65.0, 3.0).unwrap();
+        assert_eq!(plan.minimum_extension_cm, 64.5);
+        assert_eq!(plan.maximum_clearance_angle_degrees, 90.0);
+        assert_eq!(plan.clearance_margin_cm, 0.5);
+        assert!(plan.will_clear_wall);
+        assert_eq!(plan.effective_half_width_cm, 61.5);
+    }
+
+    #[test]
+    fn vesa_offset_uses_the_longer_side_for_either_direction() {
+        let centered = calculate_turn_clearance_plan(123.0, 0.0, 90.0, 70.0, 3.0).unwrap();
+        let offset_right = calculate_turn_clearance_plan(123.0, 5.0, 90.0, 70.0, 3.0).unwrap();
+        let offset_left = calculate_turn_clearance_plan(123.0, -5.0, 90.0, 70.0, 3.0).unwrap();
+
+        assert_eq!(centered.minimum_extension_cm, 64.5);
+        assert_eq!(offset_right.minimum_extension_cm, 69.5);
+        assert_eq!(offset_right.effective_half_width_cm, 66.5);
+        assert_eq!(offset_left.minimum_extension_cm, 69.5);
+        assert_eq!(offset_left.effective_half_width_cm, 66.5);
+    }
+
+    #[test]
+    fn reports_maximum_angle_and_deficit_for_short_mount() {
+        let plan = calculate_turn_clearance_plan(123.0, 0.0, 90.0, 46.4, 3.0).unwrap();
+        assert_eq!(plan.maximum_clearance_angle_degrees, 44.9);
+        assert_eq!(plan.clearance_margin_cm, -18.1);
+        assert!(!plan.will_clear_wall);
+        assert!(
+            plan.warnings
+                .iter()
+                .any(|warning| warning.contains("недостаточно"))
+        );
+    }
+
+    #[test]
+    fn zero_angle_only_needs_the_requested_clearance() {
+        let plan = calculate_turn_clearance_plan(123.0, 12.0, 0.0, 3.0, 3.0).unwrap();
+        assert_eq!(plan.minimum_extension_cm, 3.0);
+        assert_eq!(plan.clearance_margin_cm, 0.0);
+        assert!(plan.will_clear_wall);
+    }
+
+    #[test]
+    fn rejects_invalid_turn_clearance_inputs() {
+        assert!(
+            calculate_turn_clearance_plan(f64::NAN, 0.0, 45.0, 50.0, 3.0)
+                .unwrap_err()
+                .contains("конечное число")
+        );
+        assert!(
+            calculate_turn_clearance_plan(123.0, 62.0, 45.0, 50.0, 3.0)
+                .unwrap_err()
+                .contains("Смещение VESA")
+        );
+        assert!(
+            calculate_turn_clearance_plan(123.0, 0.0, 91.0, 50.0, 3.0)
+                .unwrap_err()
+                .contains("от 0 до 90")
+        );
+        assert!(
+            calculate_turn_clearance_plan(123.0, 0.0, 45.0, -1.0, 3.0)
+                .unwrap_err()
+                .contains("Доступный вылет")
+        );
+        assert!(
+            calculate_turn_clearance_plan(123.0, 0.0, 45.0, 50.0, -1.0)
+                .unwrap_err()
+                .contains("Безопасный зазор")
+        );
+    }
+
+    #[test]
+    fn turn_clearance_wasm_json_has_stable_shape_and_errors() {
+        let response = turn_clearance_plan_json(123.0, 0.0, 90.0, 65.0, 3.0);
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "minimum_extension_cm",
+            "maximum_clearance_angle_degrees",
+            "clearance_margin_cm",
+            "will_clear_wall",
+            "effective_half_width_cm",
+            "warnings",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert!(value.get("error").is_none());
+
+        let invalid = turn_clearance_plan_json(123.0, 0.0, 120.0, 65.0, 3.0);
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
     }
 }
