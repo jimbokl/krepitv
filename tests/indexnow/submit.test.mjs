@@ -7,7 +7,9 @@ import {
   INDEXNOW_ENDPOINT,
   INDEXNOW_KEY,
   INDEXNOW_KEY_LOCATION,
+  assertUrlsInSitemap,
   buildPayload,
+  expandManifestLines,
   normalizeUrlList,
   submitIndexNow,
 } from "../../scripts/indexnow/submit.mjs";
@@ -42,6 +44,26 @@ test("builds a Yandex-compatible batch without secrets", () => {
     keyLocation: INDEXNOW_KEY_LOCATION,
     urlList: ["https://krepitv.ru/kronshteyn-dlya-televizora-lg/"],
   });
+});
+
+test("expands audited catalog groups and rejects unknown directives", () => {
+  assert.deepEqual(
+    expandManifestLines(["# wave", "@models", "@mounts", "/"], {
+      models: [{ id: "lg-test" }],
+      mounts: [{ id: "mount-test" }],
+    }),
+    ["/modeli/lg-test/", "/kronshteyny/mount-test/", "/"],
+  );
+  assert.throws(() => expandManifestLines(["@everything"]), /Неизвестная директива/);
+});
+
+test("refuses to notify a URL missing from the sitemap", () => {
+  const sitemap = "<urlset><url><loc>https://krepitv.ru/</loc></url></urlset>";
+  assert.doesNotThrow(() => assertUrlsInSitemap(["/"], sitemap));
+  assert.throws(
+    () => assertUrlsInSitemap(["/noindex/"] , sitemap),
+    /отсутствует в production sitemap/,
+  );
 });
 
 test("verifies the public key before posting and accepts HTTP 202", async () => {

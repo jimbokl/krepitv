@@ -1,12 +1,4 @@
-# Содержательно изменённые индексируемые URL релиза b14e491.
-/
-/kronshteyn-dlya-televizora-43-dyuyma/
-/kronshteyn-dlya-televizora-55-dyuyma/
-/kronshteyn-dlya-televizora-65-dyuyma/
-/kronshteyn-dlya-televizora-lg/
-/kronshteyn-dlya-televizora-samsung/
-/tipy-kronshteynov/fiksirovannyy/
-/tipy-kronshteynov/naklonnyy/
-/tipy-kronshteynov/povorotnyy/
-/vesa/200x200/
-/vesa/300x200/
+# Содержательно изменённые индексируемые URL текущего релиза.
+# Директивы разворачиваются из проверенного каталога и сверяются с sitemap.
+@models
+@mounts

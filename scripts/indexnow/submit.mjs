@@ -12,6 +12,7 @@ export const INDEXNOW_KEY_LOCATION = `${SITE_ORIGIN}/${INDEXNOW_KEY}.txt`;
 const scriptPath = fileURLToPath(import.meta.url);
 const root = path.resolve(path.dirname(scriptPath), "../..");
 const defaultManifest = path.join(root, "data/indexnow/changed-urls.txt");
+const sitemapFile = path.join(root, "docs/sitemap.xml");
 
 export function normalizeUrlList(values) {
   const urls = [];
@@ -50,9 +51,35 @@ export function buildPayload(urlList) {
   };
 }
 
+export function expandManifestLines(lines, { models = [], mounts = [] } = {}) {
+  return lines.flatMap((rawValue) => {
+    const value = String(rawValue ?? "").trim();
+    if (!value || value.startsWith("#")) return [];
+    if (value === "@models") return models.map((model) => `/modeli/${model.id}/`);
+    if (value === "@mounts") return mounts.map((mount) => `/kronshteyny/${mount.id}/`);
+    if (value.startsWith("@")) throw new Error(`Неизвестная директива IndexNow: ${value}`);
+    return [value];
+  });
+}
+
+export function assertUrlsInSitemap(urlList, sitemap) {
+  const listed = new Set(
+    [...String(sitemap).matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]),
+  );
+  for (const url of normalizeUrlList(urlList)) {
+    if (!listed.has(url)) {
+      throw new Error(`IndexNow URL отсутствует в production sitemap: ${url}`);
+    }
+  }
+}
+
 async function readManifest(file) {
-  const content = await readFile(file, "utf8");
-  return content.split(/\r?\n/);
+  const [content, models, mounts] = await Promise.all([
+    readFile(file, "utf8"),
+    readFile(path.join(root, "data/tv_models.json"), "utf8").then(JSON.parse),
+    readFile(path.join(root, "data/mounts.json"), "utf8").then(JSON.parse),
+  ]);
+  return expandManifestLines(content.split(/\r?\n/), { models, mounts });
 }
 
 async function verifyPublishedKey(fetchImpl) {
@@ -98,7 +125,9 @@ async function main(args) {
     index !== manifestFlag + 1
   ));
   const values = positional.length ? positional : await readManifest(manifest);
-  const result = await submitIndexNow(values, { dryRun });
+  const normalized = normalizeUrlList(values);
+  assertUrlsInSitemap(normalized, await readFile(sitemapFile, "utf8"));
+  const result = await submitIndexNow(normalized, { dryRun });
   const verb = result.status === "dry-run" ? "Подготовлено" : "Принято IndexNow";
   console.log(`${verb}: ${result.payload.urlList.length} URL${result.httpStatus ? `, HTTP ${result.httpStatus}` : ""}.`);
   console.log("Это уведомление об изменениях, а не подтверждение индексации.");
