@@ -16,6 +16,7 @@ import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TiltAngleCalculator } from "../components/TiltAngleCalculator.jsx";
 import { TurnClearanceCalculator } from "../components/TurnClearanceCalculator.jsx";
 import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx";
+import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
 import { getRelatedPages, isIndexableSeoPage } from "../lib/seoPages.mjs";
@@ -38,7 +39,7 @@ export function SeoPage({ catalog, page, requestedPath }) {
 
 function SeoArticle({ catalog, page }) {
   const [query, setQuery] = useState("");
-  const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount"].includes(page.id)
+  const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
   const relatedPages = useMemo(
@@ -71,7 +72,7 @@ function SeoArticle({ catalog, page }) {
             {kindLabels[page.kind] ?? "Технический справочник"}
           </p>
           <h1 className={`mt-3 max-w-[1180px] font-display font-extrabold leading-[0.92] tracking-[-0.035em] ${
-            ["tv-zone-sockets", "tilt-mount"].includes(page.id)
+            ["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id)
               ? "text-[clamp(3rem,4vw,4.4rem)]"
               : ["wall-mounted-tv", "mounting-map"].includes(page.id)
               ? "text-[clamp(3rem,4.6vw,5rem)]"
@@ -85,7 +86,7 @@ function SeoArticle({ catalog, page }) {
         </header>
 
         <section
-          className={`${["tv-zone-sockets", "tilt-mount"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
+          className={`${["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
           aria-label="Ключевые факты"
         >
           {topFacts.map((fact, index) => (
@@ -102,6 +103,7 @@ function SeoArticle({ catalog, page }) {
         {page.id === "tilt-mount" ? <TiltAngleCalculator /> : null}
         {page.id === "mounting-map" ? <MountingMapCalculator /> : null}
         {page.id === "tv-zone-sockets" ? <TvZoneSocketCalculator /> : null}
+        {page.id === "vesa" ? <VesaMatchCalculator /> : null}
 
         <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
           <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-end">

@@ -90,3 +90,17 @@ test("tilt mount page leads to height, mounting, and mechanism checks", () => {
     ["mounting-height", "mounting-map", "wall-mounted-tv", "fixed-mount", "full-motion-mount"],
   );
 });
+
+test("VESA matcher stays on the VESA hub and links to measurement guidance", () => {
+  const catalog = [
+    { id: "vesa", kind: "guide", indexable: true },
+    { id: "wall-mounted-tv", kind: "calculator", indexable: true },
+    { id: "how-to-find-vesa", kind: "guide", indexable: true },
+    { id: "vesa-200x200", kind: "vesa", indexable: true },
+  ];
+
+  assert.deepEqual(
+    getRelatedPages(catalog[0], catalog).map((page) => page.id),
+    ["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
+  );
+});

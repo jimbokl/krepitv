@@ -173,6 +173,34 @@ export function tv_zone_socket_plan_json(diagonal_inches, screen_center_height_c
 }
 
 /**
+ * @param {number} measured_width
+ * @param {number} measured_height
+ * @param {string} measurement_unit
+ * @param {string} mount_spec
+ * @returns {string}
+ */
+export function vesa_match_plan_json(measured_width, measured_height, measurement_unit, mount_spec) {
+    let deferred3_0;
+    let deferred3_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(measurement_unit, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(mount_spec, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len1 = WASM_VECTOR_LEN;
+        wasm.vesa_match_plan_json(retptr, measured_width, measured_height, ptr0, len0, ptr1, len1);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred3_0 = r0;
+        deferred3_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export(deferred3_0, deferred3_1, 1);
+    }
+}
+
+/**
  * @param {string} mode
  * @param {number} value
  * @param {number} horizontal_angle_deg

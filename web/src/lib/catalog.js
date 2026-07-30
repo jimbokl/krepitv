@@ -183,6 +183,20 @@ export async function calculateTiltAngle(values) {
   return response;
 }
 
+export async function calculateVesaMatch(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.vesa_match_plan_json(
+      values.width,
+      values.height,
+      values.unit,
+      values.mountSpec,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export function modelHref(model) {
   return `/modeli/${model.id}/`;
 }

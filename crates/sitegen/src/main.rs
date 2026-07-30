@@ -335,6 +335,9 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "vesa" => {
+            "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельная проверка без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сравнить VESA телевизора и кронштейна</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент нормализует ручной замер и распознаёт явные пары из вставленной строки характеристик: x, х, ×, миллиметры и сантиметры. Ответ относится только к точной схеме отверстий.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Предельный размер вроде «до 400×400» не считается списком совместимости. Даже точное совпадение VESA не подтверждает массу, диагональ, винты, механизм, кабельные зазоры и основание стены.</p></section>"
+        }
         "wall-mounted-tv" => {
             "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Проект настенного монтажа</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент сводит в одну проверку точный VESA, массу телевизора, расчётный запас нагрузки, ширину корпуса и вылет кронштейна. Для поворотной конструкции он оценивает предельный угол по зазору до стены, а не только повторяет число на упаковке.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Паспортный предел и кинематика механизма проверяются отдельно. Результат не назначает анкеры и не подтверждает несущую способность стены: основание, скрытые коммуникации и крепёж проверяются на месте.</p></section>"
         }
@@ -931,6 +934,31 @@ mod tests {
             related_seo_pages(page, &pages)
                 .iter()
                 .any(|related| related.id == "wall-mounted-tv")
+        );
+    }
+
+    #[test]
+    fn vesa_page_is_indexable_and_keeps_compatibility_boundary() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let page = pages
+            .iter()
+            .find(|page| page.id == "vesa")
+            .expect("Нет страницы VESA");
+
+        assert_eq!(page.path, "/vesa/");
+        assert!(page.indexable);
+        assert!(page.title.contains("проверить совместимость"));
+        assert!(page.description.contains("точной пары"));
+        assert!(page.facts.len() >= 5);
+        assert!(page.faq.len() >= 6);
+
+        let calculator_copy = seo_calculator_note(&page.id);
+        assert!(calculator_copy.contains("Сравнить VESA телевизора и кронштейна"));
+        assert!(calculator_copy.contains("не подтверждает массу"));
+        assert!(
+            related_seo_pages(page, &pages)
+                .iter()
+                .any(|related| related.id == "how-to-find-vesa")
         );
     }
 }
