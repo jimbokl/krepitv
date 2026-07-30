@@ -345,7 +345,7 @@ for (const file of pageHtmlFiles) {
   const marketLinks = html.match(
     /<a\b[^>]*href=["']https:\/\/market\.yandex\.ru\/[^"']*["'][^>]*>/gi,
   ) ?? [];
-  if (html.includes("Если вы оформите заказ, Крепи ТВ может получить вознаграждение")) {
+  if (/Крепи ТВ может получить вознаграждение/i.test(html)) {
     throw new Error(`Удалённый партнёрский дисклеймер вернулся: ${path.relative(root, file)}`);
   }
   for (const link of marketLinks) {
