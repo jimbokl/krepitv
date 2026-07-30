@@ -1,4 +1,9 @@
-# Содержательно изменённые индексируемые URL текущего релиза.
-# Директивы разворачиваются из проверенного каталога и сверяются с sitemap.
-@models
+# Содержательно изменённые индексируемые URL релиза 98f05ed.
+# Директива разворачивается из проверенного каталога и сверяется с sitemap.
 @mounts
+/kupit-kronshteyn-dlya-televizora/
+/tipy-kronshteynov/vydvizhnoy/
+/kronshteyny-onkron/
+/tipy-kronshteynov/fiksirovannyy/
+/tipy-kronshteynov/naklonnyy/
+/tipy-kronshteynov/povorotnyy/
