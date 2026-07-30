@@ -173,7 +173,8 @@ const oauthFile = resolve(
 const chromeWindowIdFile = resolve(
   valueAfter(args, "--chrome-window-id-file") ?? ".private/chrome-window-id",
 );
-const chromeTabIndex = Number(valueAfter(args, "--chrome-tab-index") ?? 5);
+const chromeTabIndexValue = valueAfter(args, "--chrome-tab-index");
+const chromeTabIndex = chromeTabIndexValue === null ? null : Number(chromeTabIndexValue);
 const appleScriptFile = path.join(
   root,
   "scripts/affiliate/chrome-market-request.applescript",
@@ -196,7 +197,7 @@ if (!Number.isSafeInteger(chromeWindowId) || chromeWindowId <= 0) {
   throw new Error("Chrome window ID must be a positive integer");
 }
 if (!Number.isSafeInteger(chromeTabIndex) || chromeTabIndex <= 0) {
-  throw new Error("Chrome tab index must be a positive integer");
+  throw new Error("--chrome-tab-index must be an explicit positive integer");
 }
 
 const [sourceData, catalogMounts] = await Promise.all([

@@ -19,6 +19,8 @@ test("browser checker requires a saved Chrome window ID and a validated tab inde
     /Number\.isSafeInteger\(chromeWindowId\) \|\| chromeWindowId <= 0/,
   );
   assert.match(source, /--chrome-tab-index/);
+  assert.match(source, /chromeTabIndexValue === null \? null : Number/);
+  assert.doesNotMatch(source, /--chrome-tab-index"\) \?\?/);
   assert.match(
     source,
     /Number\.isSafeInteger\(chromeTabIndex\) \|\| chromeTabIndex <= 0/,
