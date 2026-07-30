@@ -35,13 +35,35 @@ function assertResponse(response) {
 
 export function loadEngine() {
   if (!enginePromise) {
-    const enginePath = "/pkg/krepitv_engine.js";
-    enginePromise = import(/* @vite-ignore */ enginePath).then(
-      async (engine) => {
-        await engine.default();
-        return engine;
-      },
-    );
+    enginePromise = new Promise((resolve, reject) => {
+      if (globalThis.__krepitvEngine) {
+        resolve(globalThis.__krepitvEngine);
+        return;
+      }
+
+      const fail = () => reject(new Error(
+        "Не удалось загрузить локальный модуль расчёта. Обновите страницу.",
+      ));
+      globalThis.addEventListener(
+        "krepitv-engine-ready",
+        () => resolve(globalThis.__krepitvEngine),
+        { once: true },
+      );
+      globalThis.addEventListener("krepitv-engine-error", fail, { once: true });
+
+      const existing = document.querySelector('script[data-krepitv-engine="loader"]');
+      if (existing) {
+        if (globalThis.__krepitvEngineError) fail();
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.dataset.krepitvEngine = "loader";
+      script.src = "/krepitv-engine-loader.js";
+      script.type = "module";
+      script.addEventListener("error", fail, { once: true });
+      document.head.append(script);
+    });
   }
   return enginePromise;
 }
@@ -88,6 +110,33 @@ export async function calculateMountingMap(values) {
       values.clearance,
       values.vesaVerticalOffset,
       values.wallPlateOffset,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
+export async function calculateTvZoneSocketPlan(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.tv_zone_socket_plan_json(
+      values.diagonal,
+      values.screenCenterHeight,
+      values.plateWidth,
+      values.plateHeight,
+      values.plateHorizontalOffset,
+      values.plateVerticalOffset,
+      values.socketWidth,
+      values.socketHeight,
+      values.socketHorizontalOffset,
+      values.socketVerticalOffset,
+      values.serviceMargin,
+      values.requiredDepth,
+      values.wallClearance,
+      values.poweredDevices,
+      values.sparePowerModules,
+      values.ethernetModules,
+      values.antennaModules,
     ),
   );
   if (response.error) throw new Error(response.error);

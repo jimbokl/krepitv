@@ -30,6 +30,7 @@ test("master page leads to the compatibility chain before generic calculators", 
   const catalog = [
     { id: "wall-mounted-tv", kind: "calculator", indexable: true },
     { id: "mounting-map", kind: "guide", indexable: true },
+    { id: "tv-zone-sockets", kind: "calculator", indexable: true },
     { id: "viewing-distance", kind: "calculator", indexable: true },
     { id: "vesa", kind: "guide", indexable: true },
     { id: "full-motion-mount", kind: "mechanism", indexable: true },
@@ -38,13 +39,14 @@ test("master page leads to the compatibility chain before generic calculators", 
 
   assert.deepEqual(
     getRelatedPages(catalog[0], catalog).map((page) => page.id),
-    ["mounting-map", "vesa", "full-motion-mount", "mounting-height", "viewing-distance"],
+    ["mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height", "viewing-distance"],
   );
 });
 
 test("mounting map leads to the geometry and compatibility chain", () => {
   const catalog = [
     { id: "mounting-map", kind: "guide", indexable: true },
+    { id: "tv-zone-sockets", kind: "calculator", indexable: true },
     { id: "viewing-distance", kind: "calculator", indexable: true },
     { id: "vesa", kind: "guide", indexable: true },
     { id: "how-to-find-vesa", kind: "guide", indexable: true },
@@ -54,6 +56,21 @@ test("mounting map leads to the geometry and compatibility chain", () => {
 
   assert.deepEqual(
     getRelatedPages(catalog[0], catalog).map((page) => page.id),
-    ["wall-mounted-tv", "mounting-height", "vesa", "how-to-find-vesa", "viewing-distance"],
+    ["tv-zone-sockets", "wall-mounted-tv", "mounting-height", "vesa", "how-to-find-vesa", "viewing-distance"],
+  );
+});
+
+test("TV-zone socket page leads back to mounting geometry and compatibility", () => {
+  const catalog = [
+    { id: "tv-zone-sockets", kind: "calculator", indexable: true },
+    { id: "mounting-map", kind: "guide", indexable: true },
+    { id: "wall-mounted-tv", kind: "calculator", indexable: true },
+    { id: "mounting-height", kind: "calculator", indexable: true },
+    { id: "vesa", kind: "guide", indexable: true },
+  ];
+
+  assert.deepEqual(
+    getRelatedPages(catalog[0], catalog).map((page) => page.id),
+    ["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
   );
 });

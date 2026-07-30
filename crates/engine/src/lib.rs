@@ -21,6 +21,10 @@ const MAX_FURNITURE_HEIGHT_CM: f64 = 200.0;
 const MAX_FURNITURE_CLEARANCE_CM: f64 = 100.0;
 const MAX_WALL_PLATE_OFFSET_CM: f64 = 100.0;
 const MAX_REFERENCE_HEIGHT_CM: f64 = 350.0;
+const MAX_TV_ZONE_ELEMENT_CM: f64 = 300.0;
+const MAX_TV_ZONE_OFFSET_CM: f64 = 250.0;
+const MAX_TV_ZONE_DEPTH_CM: f64 = 50.0;
+const MAX_TV_ZONE_MODULES: u32 = 16;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Mount {
@@ -80,6 +84,88 @@ pub struct MountingMapPlan {
     pub clearance_cm: f64,
     pub adjusted_for_furniture: bool,
     pub warnings: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct TvZoneSocketPlan {
+    pub diagonal_inches: f64,
+    pub screen_width_cm: f64,
+    pub screen_height_cm: f64,
+    pub screen_center_height_cm: f64,
+    pub screen_bottom_height_cm: f64,
+    pub screen_top_height_cm: f64,
+    pub plate_center_height_cm: f64,
+    pub socket_center_height_cm: f64,
+    pub screen_clears_floor: bool,
+    pub plate_hidden_by_screen: bool,
+    pub service_zone_hidden_by_screen: bool,
+    pub socket_hidden_by_screen: bool,
+    pub socket_overlaps_plate: bool,
+    pub socket_overlaps_service_zone: bool,
+    pub screen_edge_margin_cm: f64,
+    pub required_depth_cm: f64,
+    pub wall_clearance_cm: f64,
+    pub depth_margin_cm: f64,
+    pub plug_fits_depth: bool,
+    pub minimum_shift_cm: Option<f64>,
+    pub shift_direction: Option<String>,
+    pub power_modules: u32,
+    pub ethernet_modules: u32,
+    pub antenna_modules: u32,
+    pub total_modules: u32,
+    pub ready_for_site_check: bool,
+    pub warnings: Vec<String>,
+}
+
+#[derive(Clone, Copy, Debug)]
+struct Rect {
+    left: f64,
+    right: f64,
+    bottom: f64,
+    top: f64,
+}
+
+impl Rect {
+    fn centered(width: f64, height: f64, center_x: f64, center_y: f64) -> Self {
+        Self {
+            left: center_x - width / 2.0,
+            right: center_x + width / 2.0,
+            bottom: center_y - height / 2.0,
+            top: center_y + height / 2.0,
+        }
+    }
+
+    fn expanded(self, margin: f64) -> Self {
+        Self {
+            left: self.left - margin,
+            right: self.right + margin,
+            bottom: self.bottom - margin,
+            top: self.top + margin,
+        }
+    }
+
+    fn translated(self, dx: f64, dy: f64) -> Self {
+        Self {
+            left: self.left + dx,
+            right: self.right + dx,
+            bottom: self.bottom + dy,
+            top: self.top + dy,
+        }
+    }
+
+    fn overlaps(self, other: Self) -> bool {
+        self.left < other.right
+            && self.right > other.left
+            && self.bottom < other.top
+            && self.top > other.bottom
+    }
+
+    fn contains(self, other: Self) -> bool {
+        other.left >= self.left
+            && other.right <= self.right
+            && other.bottom >= self.bottom
+            && other.top <= self.top
+    }
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -579,6 +665,260 @@ pub fn calculate_mounting_map(
     })
 }
 
+fn validate_module_count(value: u32, field: &str) -> Result<(), String> {
+    if value > MAX_TV_ZONE_MODULES {
+        return Err(format!(
+            "{field}: допустимо не больше {MAX_TV_ZONE_MODULES} модулей"
+        ));
+    }
+    Ok(())
+}
+
+fn minimum_socket_shift(
+    socket: Rect,
+    forbidden_zone: Rect,
+    screen: Rect,
+) -> Option<(f64, &'static str)> {
+    if !socket.overlaps(forbidden_zone) {
+        return None;
+    }
+
+    let candidates = [
+        (forbidden_zone.left - socket.right, 0.0, "влево"),
+        (forbidden_zone.right - socket.left, 0.0, "вправо"),
+        (0.0, forbidden_zone.bottom - socket.top, "вниз"),
+        (0.0, forbidden_zone.top - socket.bottom, "вверх"),
+    ];
+
+    candidates
+        .into_iter()
+        .filter_map(|(dx, dy, direction)| {
+            let shifted = socket.translated(dx, dy);
+            if screen.contains(shifted) && !shifted.overlaps(forbidden_zone) {
+                Some(((dx.abs() + dy.abs()), direction))
+            } else {
+                None
+            }
+        })
+        .min_by(|left, right| left.0.total_cmp(&right.0))
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn calculate_tv_zone_socket_plan(
+    diagonal_inches: f64,
+    screen_center_height_cm: f64,
+    plate_width_cm: f64,
+    plate_height_cm: f64,
+    plate_horizontal_offset_cm: f64,
+    plate_vertical_offset_cm: f64,
+    socket_width_cm: f64,
+    socket_height_cm: f64,
+    socket_horizontal_offset_cm: f64,
+    socket_vertical_offset_cm: f64,
+    service_margin_cm: f64,
+    required_depth_cm: f64,
+    wall_clearance_cm: f64,
+    powered_devices: u32,
+    spare_power_modules: u32,
+    ethernet_modules: u32,
+    antenna_modules: u32,
+) -> Result<TvZoneSocketPlan, String> {
+    validate_range(
+        diagonal_inches,
+        MIN_TV_DIAGONAL_INCHES,
+        MAX_TV_DIAGONAL_INCHES,
+        "Диагональ",
+        "дюймов",
+    )?;
+    validate_range(
+        screen_center_height_cm,
+        0.0,
+        MAX_REFERENCE_HEIGHT_CM,
+        "Высота центра экрана",
+        "см",
+    )?;
+    for (value, field) in [
+        (plate_width_cm, "Ширина пластины"),
+        (plate_height_cm, "Высота пластины"),
+        (socket_width_cm, "Ширина розеточного блока"),
+        (socket_height_cm, "Высота розеточного блока"),
+    ] {
+        validate_range(value, 0.1, MAX_TV_ZONE_ELEMENT_CM, field, "см")?;
+    }
+    for (value, field) in [
+        (
+            plate_horizontal_offset_cm,
+            "Горизонтальное смещение пластины",
+        ),
+        (plate_vertical_offset_cm, "Вертикальное смещение пластины"),
+        (
+            socket_horizontal_offset_cm,
+            "Горизонтальное смещение розеточного блока",
+        ),
+        (
+            socket_vertical_offset_cm,
+            "Вертикальное смещение розеточного блока",
+        ),
+    ] {
+        validate_range(
+            value,
+            -MAX_TV_ZONE_OFFSET_CM,
+            MAX_TV_ZONE_OFFSET_CM,
+            field,
+            "см",
+        )?;
+    }
+    validate_range(
+        service_margin_cm,
+        0.0,
+        MAX_SAFETY_CLEARANCE_CM,
+        "Сервисный зазор вокруг пластины",
+        "см",
+    )?;
+    validate_range(
+        required_depth_cm,
+        0.0,
+        MAX_TV_ZONE_DEPTH_CM,
+        "Нужная глубина вилки и изгиба",
+        "см",
+    )?;
+    validate_range(
+        wall_clearance_cm,
+        0.0,
+        MAX_TV_ZONE_DEPTH_CM,
+        "Зазор между стеной и корпусом",
+        "см",
+    )?;
+    validate_module_count(powered_devices, "Питаемые устройства")?;
+    validate_module_count(spare_power_modules, "Запасные силовые модули")?;
+    validate_module_count(ethernet_modules, "Ethernet-модули")?;
+    validate_module_count(antenna_modules, "ТВ-вводы")?;
+
+    let power_modules = powered_devices
+        .checked_add(spare_power_modules)
+        .ok_or_else(|| "Слишком много силовых модулей".to_string())?;
+    validate_module_count(power_modules, "Силовые модули с запасом")?;
+    let total_modules = power_modules
+        .checked_add(ethernet_modules)
+        .and_then(|value| value.checked_add(antenna_modules))
+        .ok_or_else(|| "Слишком много модулей в блоке".to_string())?;
+    if total_modules == 0 {
+        return Err("Укажите хотя бы один модуль розеточного блока".to_string());
+    }
+    validate_module_count(total_modules, "Всего модулей")?;
+
+    let (screen_width_cm, screen_height_cm) = screen_dimensions_16_by_9(diagonal_inches);
+    let screen = Rect::centered(screen_width_cm, screen_height_cm, 0.0, 0.0);
+    let plate = Rect::centered(
+        plate_width_cm,
+        plate_height_cm,
+        plate_horizontal_offset_cm,
+        plate_vertical_offset_cm,
+    );
+    let socket = Rect::centered(
+        socket_width_cm,
+        socket_height_cm,
+        socket_horizontal_offset_cm,
+        socket_vertical_offset_cm,
+    );
+    let forbidden_zone = plate.expanded(service_margin_cm);
+
+    let screen_bottom_height_cm = screen_center_height_cm - screen_height_cm / 2.0;
+    let screen_top_height_cm = screen_center_height_cm + screen_height_cm / 2.0;
+    let screen_clears_floor = screen_bottom_height_cm >= 0.0;
+    let plate_hidden_by_screen = screen.contains(plate);
+    let service_zone_hidden_by_screen = screen.contains(forbidden_zone);
+    let socket_hidden_by_screen = screen.contains(socket);
+    let socket_overlaps_plate = socket.overlaps(plate);
+    let socket_overlaps_service_zone = socket.overlaps(forbidden_zone);
+    let screen_edge_margin_cm = [
+        socket.left - screen.left,
+        screen.right - socket.right,
+        socket.bottom - screen.bottom,
+        screen.top - socket.top,
+    ]
+    .into_iter()
+    .fold(f64::INFINITY, f64::min);
+    let depth_margin_cm = wall_clearance_cm - required_depth_cm;
+    let plug_fits_depth = depth_margin_cm >= 0.0;
+    let shift = minimum_socket_shift(socket, forbidden_zone, screen);
+
+    let mut warnings = Vec::new();
+    if !screen_clears_floor {
+        warnings.push("Нижний край экрана оказывается ниже уровня чистого пола".to_string());
+    }
+    if !plate_hidden_by_screen {
+        warnings
+            .push("Настенная пластина кронштейна не полностью скрыта контуром экрана".to_string());
+    } else if !service_zone_hidden_by_screen {
+        warnings
+            .push("Заданный сервисный зазор вокруг пластины выходит за контур экрана".to_string());
+    }
+    if socket_overlaps_plate {
+        warnings.push("Розеточный блок пересекает настенную пластину кронштейна".to_string());
+    } else if socket_overlaps_service_zone {
+        warnings.push(
+            "Розеточный блок попадает в заданный сервисный зазор вокруг пластины".to_string(),
+        );
+    }
+    if socket_overlaps_service_zone && shift.is_none() {
+        warnings.push(
+            "Внутри контура экрана не найден односторонний сдвиг: измените размер блока или геометрию пластины"
+                .to_string(),
+        );
+    }
+    if !socket_hidden_by_screen {
+        warnings.push(
+            "Розеточный блок не полностью скрыт контуром экрана при указанных размерах".to_string(),
+        );
+    }
+    if !plug_fits_depth {
+        warnings.push(format!(
+            "Не хватает {} см по глубине для вилки и заданного изгиба кабеля",
+            rounded(-depth_margin_cm)
+        ));
+    }
+    warnings.push(
+        "Положение разъёмов телевизора, блоков питания и траекторию подвижного механизма проверьте по точным изделиям"
+            .to_string(),
+    );
+
+    Ok(TvZoneSocketPlan {
+        diagonal_inches: rounded(diagonal_inches),
+        screen_width_cm: rounded(screen_width_cm),
+        screen_height_cm: rounded(screen_height_cm),
+        screen_center_height_cm: rounded(screen_center_height_cm),
+        screen_bottom_height_cm: rounded(screen_bottom_height_cm),
+        screen_top_height_cm: rounded(screen_top_height_cm),
+        plate_center_height_cm: rounded(screen_center_height_cm + plate_vertical_offset_cm),
+        socket_center_height_cm: rounded(screen_center_height_cm + socket_vertical_offset_cm),
+        screen_clears_floor,
+        plate_hidden_by_screen,
+        service_zone_hidden_by_screen,
+        socket_hidden_by_screen,
+        socket_overlaps_plate,
+        socket_overlaps_service_zone,
+        screen_edge_margin_cm: rounded(screen_edge_margin_cm),
+        required_depth_cm: rounded(required_depth_cm),
+        wall_clearance_cm: rounded(wall_clearance_cm),
+        depth_margin_cm: rounded(depth_margin_cm),
+        plug_fits_depth,
+        minimum_shift_cm: shift.map(|(distance, _)| rounded(distance)),
+        shift_direction: shift.map(|(_, direction)| direction.to_string()),
+        power_modules,
+        ethernet_modules,
+        antenna_modules,
+        total_modules,
+        ready_for_site_check: screen_clears_floor
+            && plate_hidden_by_screen
+            && service_zone_hidden_by_screen
+            && socket_hidden_by_screen
+            && !socket_overlaps_service_zone
+            && plug_fits_depth,
+        warnings,
+    })
+}
+
 #[wasm_bindgen]
 pub fn match_mounts_json(
     tv_weight_kg: f64,
@@ -650,6 +990,51 @@ pub fn mounting_map_json(
         wall_plate_offset_cm,
     ) {
         Ok(plan) => serde_json::to_string(&plan).expect("mounting map is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn tv_zone_socket_plan_json(
+    diagonal_inches: f64,
+    screen_center_height_cm: f64,
+    plate_width_cm: f64,
+    plate_height_cm: f64,
+    plate_horizontal_offset_cm: f64,
+    plate_vertical_offset_cm: f64,
+    socket_width_cm: f64,
+    socket_height_cm: f64,
+    socket_horizontal_offset_cm: f64,
+    socket_vertical_offset_cm: f64,
+    service_margin_cm: f64,
+    required_depth_cm: f64,
+    wall_clearance_cm: f64,
+    powered_devices: u32,
+    spare_power_modules: u32,
+    ethernet_modules: u32,
+    antenna_modules: u32,
+) -> String {
+    match calculate_tv_zone_socket_plan(
+        diagonal_inches,
+        screen_center_height_cm,
+        plate_width_cm,
+        plate_height_cm,
+        plate_horizontal_offset_cm,
+        plate_vertical_offset_cm,
+        socket_width_cm,
+        socket_height_cm,
+        socket_horizontal_offset_cm,
+        socket_vertical_offset_cm,
+        service_margin_cm,
+        required_depth_cm,
+        wall_clearance_cm,
+        powered_devices,
+        spare_power_modules,
+        ethernet_modules,
+        antenna_modules,
+    ) {
+        Ok(plan) => serde_json::to_string(&plan).expect("TV-zone socket plan is serializable"),
         Err(error) => serde_json::json!({ "error": error }).to_string(),
     }
 }
@@ -958,6 +1343,170 @@ mod tests {
         assert!(value.get("error").is_none());
 
         let invalid = turn_clearance_plan_json(123.0, 0.0, 120.0, 65.0, 3.0);
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+    }
+
+    #[test]
+    fn tv_zone_socket_plan_confirms_clear_hidden_block() {
+        let plan = calculate_tv_zone_socket_plan(
+            55.0, 114.2, 45.0, 20.0, 0.0, 0.0, 14.0, 8.0, 35.0, 0.0, 2.0, 3.5, 5.0, 4, 1, 1, 1,
+        )
+        .unwrap();
+
+        assert_eq!(plan.screen_width_cm, 121.8);
+        assert_eq!(plan.socket_center_height_cm, 114.2);
+        assert!(plan.screen_clears_floor);
+        assert!(plan.plate_hidden_by_screen);
+        assert!(plan.service_zone_hidden_by_screen);
+        assert!(plan.socket_hidden_by_screen);
+        assert!(!plan.socket_overlaps_plate);
+        assert!(!plan.socket_overlaps_service_zone);
+        assert!(plan.plug_fits_depth);
+        assert_eq!(plan.depth_margin_cm, 1.5);
+        assert_eq!(plan.power_modules, 5);
+        assert_eq!(plan.total_modules, 7);
+        assert!(plan.ready_for_site_check);
+    }
+
+    #[test]
+    fn tv_zone_socket_plan_finds_shortest_shift_around_plate() {
+        let plan = calculate_tv_zone_socket_plan(
+            55.0, 114.2, 45.0, 20.0, 0.0, 0.0, 14.0, 8.0, 0.0, 0.0, 2.0, 3.5, 5.0, 3, 1, 1, 0,
+        )
+        .unwrap();
+
+        assert!(plan.socket_overlaps_plate);
+        assert!(plan.socket_overlaps_service_zone);
+        assert_eq!(plan.minimum_shift_cm, Some(16.0));
+        assert_eq!(plan.shift_direction.as_deref(), Some("вниз"));
+        assert!(!plan.ready_for_site_check);
+    }
+
+    #[test]
+    fn tv_zone_socket_plan_reports_depth_shortage_and_visibility() {
+        let plan = calculate_tv_zone_socket_plan(
+            55.0, 114.2, 45.0, 20.0, 0.0, 0.0, 14.0, 8.0, 60.0, 0.0, 2.0, 4.0, 2.0, 2, 1, 0, 0,
+        )
+        .unwrap();
+
+        assert!(!plan.socket_hidden_by_screen);
+        assert!(!plan.plug_fits_depth);
+        assert_eq!(plan.depth_margin_cm, -2.0);
+        assert!(
+            plan.warnings
+                .iter()
+                .any(|warning| warning.contains("Не хватает 2 см"))
+        );
+    }
+
+    #[test]
+    fn tv_zone_socket_plan_rejects_plate_or_screen_outside_physical_bounds() {
+        let plate_outside = calculate_tv_zone_socket_plan(
+            55.0, 114.2, 45.0, 20.0, 0.0, -50.0, 14.0, 8.0, 35.0, 0.0, 2.0, 3.5, 5.0, 4, 1, 1, 1,
+        )
+        .unwrap();
+        assert!(!plate_outside.plate_hidden_by_screen);
+        assert!(!plate_outside.service_zone_hidden_by_screen);
+        assert!(!plate_outside.ready_for_site_check);
+        assert!(
+            plate_outside
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("пластина кронштейна"))
+        );
+
+        let service_zone_outside = calculate_tv_zone_socket_plan(
+            55.0, 114.2, 45.0, 20.0, 38.0, 0.0, 14.0, 8.0, -35.0, 0.0, 2.0, 3.5, 5.0, 4, 1, 1, 1,
+        )
+        .unwrap();
+        assert!(service_zone_outside.plate_hidden_by_screen);
+        assert!(!service_zone_outside.service_zone_hidden_by_screen);
+        assert!(!service_zone_outside.ready_for_site_check);
+        assert!(
+            service_zone_outside
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("сервисный зазор"))
+        );
+
+        let below_floor = calculate_tv_zone_socket_plan(
+            55.0, 0.0, 45.0, 20.0, 0.0, 0.0, 14.0, 8.0, 35.0, 0.0, 2.0, 3.5, 5.0, 4, 1, 1, 1,
+        )
+        .unwrap();
+        assert!(!below_floor.screen_clears_floor);
+        assert!(below_floor.screen_bottom_height_cm < 0.0);
+        assert!(!below_floor.ready_for_site_check);
+        assert!(
+            below_floor
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("ниже уровня чистого пола"))
+        );
+    }
+
+    #[test]
+    fn tv_zone_socket_plan_rejects_invalid_geometry_and_modules() {
+        assert!(
+            calculate_tv_zone_socket_plan(
+                55.0,
+                114.2,
+                f64::NAN,
+                20.0,
+                0.0,
+                0.0,
+                14.0,
+                8.0,
+                35.0,
+                0.0,
+                2.0,
+                3.5,
+                5.0,
+                4,
+                1,
+                1,
+                1,
+            )
+            .unwrap_err()
+            .contains("конечное число")
+        );
+        assert!(
+            calculate_tv_zone_socket_plan(
+                55.0, 114.2, 45.0, 20.0, 0.0, 0.0, 14.0, 8.0, 35.0, 0.0, 2.0, 3.5, 5.0, 16, 1, 0,
+                0,
+            )
+            .unwrap_err()
+            .contains("Силовые модули с запасом")
+        );
+    }
+
+    #[test]
+    fn tv_zone_socket_wasm_json_has_stable_shape_and_errors() {
+        let response = tv_zone_socket_plan_json(
+            55.0, 114.2, 45.0, 20.0, 0.0, 0.0, 14.0, 8.0, 35.0, 0.0, 2.0, 3.5, 5.0, 4, 1, 1, 1,
+        );
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "socket_center_height_cm",
+            "screen_clears_floor",
+            "plate_hidden_by_screen",
+            "service_zone_hidden_by_screen",
+            "socket_hidden_by_screen",
+            "socket_overlaps_service_zone",
+            "plug_fits_depth",
+            "minimum_shift_cm",
+            "power_modules",
+            "total_modules",
+            "ready_for_site_check",
+            "warnings",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert!(value.get("error").is_none());
+
+        let invalid = tv_zone_socket_plan_json(
+            5.0, 114.2, 45.0, 20.0, 0.0, 0.0, 14.0, 8.0, 35.0, 0.0, 2.0, 3.5, 5.0, 4, 1, 1, 1,
+        );
         let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
         assert!(invalid.get("error").is_some());
     }

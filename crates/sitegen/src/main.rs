@@ -266,16 +266,19 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
     let preferred_ids: &[&str] = match page.id.as_str() {
         "wall-mounted-tv" => &[
             "mounting-map",
+            "tv-zone-sockets",
             "vesa",
             "full-motion-mount",
             "mounting-height",
         ],
         "mounting-map" => &[
+            "tv-zone-sockets",
             "wall-mounted-tv",
             "mounting-height",
             "vesa",
             "how-to-find-vesa",
         ],
+        "tv-zone-sockets" => &["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
         "vesa" => &["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
         "vesa-200x200" | "vesa-300x200" => &["vesa", "how-to-find-vesa", "diagonal-55"],
         "diagonal-55" => &["wall-mounted-tv", "mounting-height", "vesa"],
@@ -284,6 +287,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
         "mounting-height" => &[
             "mounting-map",
+            "tv-zone-sockets",
             "wall-mounted-tv",
             "viewing-distance",
             "diagonal-55",
@@ -318,6 +322,9 @@ fn seo_calculator_note(page_id: &str) -> &'static str {
         }
         "mounting-map" => {
             "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Монтажная карта до сверления</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент рассчитывает нижний край, центр и верх экрана, затем переносит вертикальное смещение VESA и контрольной линии настенной пластины. Все значения даны от чистого пола и выполняются локально в браузере.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Карта не определяет координаты отверстий, анкеры, прочность основания и скрытые коммуникации. Отверстия переносят только по штатному шаблону или самой пластине после проверки стены.</p></section>"
+        }
+        "tv-zone-sockets" => {
+            "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Карта розеток ТВ-зоны</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент связывает положение экрана с реальными габаритами настенной пластины и розеточного блока. Он проверяет пересечение, скрытие блока корпусом, глубину вилок и минимальный сдвиг до отделки стены.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Расчёт не проектирует проводку и не разрешает штробление. Разъёмы телевизора, траекторию механизма, скрытые коммуникации, защиту и способ монтажа проверяют по точным изделиям и проекту электрика.</p></section>"
         }
         "mounting-height" => {
             "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор высоты установки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Интерактивный расчёт учитывает диагональ экрана, высоту глаз, расстояние просмотра, вертикальный угол, высоту мебели и обязательный зазор.</p></section>"
@@ -802,6 +809,7 @@ mod tests {
             related_ids,
             [
                 "mounting-map",
+                "tv-zone-sockets",
                 "vesa",
                 "full-motion-mount",
                 "mounting-height"
@@ -836,6 +844,37 @@ mod tests {
         let calculator_copy = seo_calculator_note(&page.id);
         assert!(calculator_copy.contains("Монтажная карта до сверления"));
         assert!(calculator_copy.contains("не определяет координаты отверстий"));
+        assert!(
+            related_seo_pages(page, &pages)
+                .iter()
+                .any(|related| related.id == "wall-mounted-tv")
+        );
+    }
+
+    #[test]
+    fn tv_zone_socket_page_is_indexable_and_keeps_electrical_boundary() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let page = pages
+            .iter()
+            .find(|page| page.id == "tv-zone-sockets")
+            .expect("Нет страницы карты розеток ТВ-зоны");
+
+        assert_eq!(page.path, "/rozetki-pod-televizor-na-stene/");
+        assert_eq!(page.kind, "calculator");
+        assert!(page.indexable);
+        assert!(page.title.contains("Розетки под телевизор на стене"));
+        assert!(page.description.contains("пластиной кронштейна"));
+        assert!(page.facts.len() >= 5);
+        assert!(page.faq.len() >= 5);
+
+        let calculator_copy = seo_calculator_note(&page.id);
+        assert!(calculator_copy.contains("Карта розеток ТВ-зоны"));
+        assert!(calculator_copy.contains("не проектирует проводку"));
+        assert!(
+            related_seo_pages(page, &pages)
+                .iter()
+                .any(|related| related.id == "mounting-map")
+        );
         assert!(
             related_seo_pages(page, &pages)
                 .iter()

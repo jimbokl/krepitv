@@ -243,6 +243,12 @@ function MountingMapResult({ result }) {
           {result.warnings?.map((warning) => (
             <p className="mt-3" key={warning}>{warning}</p>
           ))}
+          <a
+            className="mt-4 inline-flex font-semibold text-action underline underline-offset-4"
+            href="/rozetki-pod-televizor-na-stene/"
+          >
+            Проверить розетки и кронштейн
+          </a>
         </aside>
       </div>
     </div>

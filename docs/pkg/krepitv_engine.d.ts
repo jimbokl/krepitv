@@ -9,6 +9,8 @@ export function mounting_map_json(diagonal_inches: number, eye_height_cm: number
 
 export function turn_clearance_plan_json(tv_width_cm: number, vesa_offset_cm: number, target_angle_degrees: number, available_extension_cm: number, safety_clearance_cm: number): string;
 
+export function tv_zone_socket_plan_json(diagonal_inches: number, screen_center_height_cm: number, plate_width_cm: number, plate_height_cm: number, plate_horizontal_offset_cm: number, plate_vertical_offset_cm: number, socket_width_cm: number, socket_height_cm: number, socket_horizontal_offset_cm: number, socket_vertical_offset_cm: number, service_margin_cm: number, required_depth_cm: number, wall_clearance_cm: number, powered_devices: number, spare_power_modules: number, ethernet_modules: number, antenna_modules: number): string;
+
 export function viewing_geometry_json(mode: string, value: number, horizontal_angle_deg: number): string;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -19,6 +21,7 @@ export interface InitOutput {
     readonly match_mounts_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly mounting_map_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly turn_clearance_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
+    readonly tv_zone_socket_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number, p: number, q: number, r: number) => void;
     readonly viewing_geometry_json: (a: number, b: number, c: number, d: number, e: number) => void;
     readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
     readonly __wbindgen_export: (a: number, b: number, c: number) => void;

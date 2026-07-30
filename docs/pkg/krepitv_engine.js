@@ -110,6 +110,43 @@ export function turn_clearance_plan_json(tv_width_cm, vesa_offset_cm, target_ang
 }
 
 /**
+ * @param {number} diagonal_inches
+ * @param {number} screen_center_height_cm
+ * @param {number} plate_width_cm
+ * @param {number} plate_height_cm
+ * @param {number} plate_horizontal_offset_cm
+ * @param {number} plate_vertical_offset_cm
+ * @param {number} socket_width_cm
+ * @param {number} socket_height_cm
+ * @param {number} socket_horizontal_offset_cm
+ * @param {number} socket_vertical_offset_cm
+ * @param {number} service_margin_cm
+ * @param {number} required_depth_cm
+ * @param {number} wall_clearance_cm
+ * @param {number} powered_devices
+ * @param {number} spare_power_modules
+ * @param {number} ethernet_modules
+ * @param {number} antenna_modules
+ * @returns {string}
+ */
+export function tv_zone_socket_plan_json(diagonal_inches, screen_center_height_cm, plate_width_cm, plate_height_cm, plate_horizontal_offset_cm, plate_vertical_offset_cm, socket_width_cm, socket_height_cm, socket_horizontal_offset_cm, socket_vertical_offset_cm, service_margin_cm, required_depth_cm, wall_clearance_cm, powered_devices, spare_power_modules, ethernet_modules, antenna_modules) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.tv_zone_socket_plan_json(retptr, diagonal_inches, screen_center_height_cm, plate_width_cm, plate_height_cm, plate_horizontal_offset_cm, plate_vertical_offset_cm, socket_width_cm, socket_height_cm, socket_horizontal_offset_cm, socket_vertical_offset_cm, service_margin_cm, required_depth_cm, wall_clearance_cm, powered_devices, spare_power_modules, ethernet_modules, antenna_modules);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred1_0 = r0;
+        deferred1_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * @param {string} mode
  * @param {number} value
  * @param {number} horizontal_angle_deg

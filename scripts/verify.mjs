@@ -119,6 +119,8 @@ const required = [
   "metodika/index.html",
   "kontakty/index.html",
   "politika-konfidencialnosti/index.html",
+  "rozetki-pod-televizor-na-stene/index.html",
+  "krepitv-engine-loader.js",
   "pkg/krepitv_engine_bg.wasm",
   "pkg/krepitv_engine.js",
   "robots.txt",
