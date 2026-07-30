@@ -1,0 +1,20 @@
+[
+  {
+    "candidate_id": "commercial-buy",
+    "candidate_path": "/kupit-kronshteyn-dlya-televizora/",
+    "query": "кронштейн для телевизора купить",
+    "variant": "контроль старой CSV: обратный порядок"
+  },
+  {
+    "candidate_id": "mechanism-extendable",
+    "candidate_path": "/tipy-kronshteynov/vydvizhnoy/",
+    "query": "кронштейн для телевизора выдвижной",
+    "variant": "контроль старой CSV: обратный порядок"
+  },
+  {
+    "candidate_id": "brand-onkron",
+    "candidate_path": "/kronshteyny-onkron/",
+    "query": "онкрон кронштейны",
+    "variant": "контроль старой CSV: кириллица и обратный порядок"
+  }
+]

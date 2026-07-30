@@ -905,9 +905,36 @@ fn mount_page_body(
             )
         })
         .unwrap_or_default();
+    let mut context_links = vec![(
+        "/kupit-kronshteyn-dlya-televizora/",
+        "Сравнить все проверенные кронштейны",
+    )];
+    if mount.mechanism == "full-motion" {
+        context_links.push((
+            "/tipy-kronshteynov/vydvizhnoy/",
+            "Выдвижные кронштейны и расчёт вылета",
+        ));
+    }
+    if mount.brand.eq_ignore_ascii_case("ONKRON") {
+        context_links.push(("/kronshteyny-onkron/", "Все кронштейны ONKRON"));
+    }
+    let context_links = context_links
+        .iter()
+        .map(|(href, label)| {
+            format!(
+                "<a class=\"flex min-h-12 items-center justify-between gap-3 border-t border-line py-3 font-display font-bold first:border-t-0\" href=\"{}\">{} <span aria-hidden=\"true\">→</span></a>",
+                escape_html(href),
+                escape_html(label),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    let context_section = format!(
+        "<nav class=\"mt-5 border-y border-line\" aria-label=\"Связанные подборы кронштейнов\">{context_links}</nav>"
+    );
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -919,6 +946,7 @@ fn mount_page_body(
         source = escape_html(&mount.source_url),
         source_label = escape_html(&mount.source_label),
         affiliate_section = affiliate_section,
+        context_section = context_section,
         verified_rows = verified_rows,
         conditional_section = conditional_section,
     ))
@@ -973,12 +1001,14 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             "brand-lg",
         ],
         "fixed-mount" => &[
+            "buy-tv-mount",
             "wall-mounted-tv",
             "tilt-mount",
             "full-motion-mount",
             "mounting-height",
         ],
         "tilt-mount" => &[
+            "buy-tv-mount",
             "mounting-height",
             "mounting-map",
             "wall-mounted-tv",
@@ -986,10 +1016,36 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             "full-motion-mount",
         ],
         "full-motion-mount" => &[
+            "extendable-mount",
+            "buy-tv-mount",
             "wall-mounted-tv",
             "fixed-mount",
             "tilt-mount",
             "mounting-height",
+        ],
+        "buy-tv-mount" => &[
+            "wall-mounted-tv",
+            "extendable-mount",
+            "mount-brand-onkron",
+            "vesa",
+            "fixed-mount",
+            "tilt-mount",
+        ],
+        "extendable-mount" => &[
+            "buy-tv-mount",
+            "full-motion-mount",
+            "wall-mounted-tv",
+            "mount-brand-onkron",
+            "vesa",
+            "mounting-map",
+        ],
+        "mount-brand-onkron" => &[
+            "buy-tv-mount",
+            "extendable-mount",
+            "full-motion-mount",
+            "tilt-mount",
+            "vesa",
+            "wall-mounted-tv",
         ],
         "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
         "mounting-height" => &[
@@ -1028,7 +1084,7 @@ fn seo_calculator_note(page_id: &str) -> &'static str {
         "vesa" => {
             "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельная проверка без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сравнить VESA телевизора и кронштейна</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент нормализует ручной замер и распознаёт явные пары из вставленной строки характеристик: x, х, ×, миллиметры и сантиметры. Ответ относится только к точной схеме отверстий.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Предельный размер вроде «до 400×400» не считается списком совместимости. Даже точное совпадение VESA не подтверждает массу, диагональ, винты, механизм, кабельные зазоры и основание стены.</p></section>"
         }
-        "wall-mounted-tv" => {
+        "wall-mounted-tv" | "extendable-mount" => {
             "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Проект настенного монтажа</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент сводит в одну проверку точный VESA, массу телевизора, расчётный запас нагрузки, ширину корпуса и вылет кронштейна. Для поворотной конструкции он оценивает предельный угол по зазору до стены, а не только повторяет число на упаковке.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Паспортный предел и кинематика механизма проверяются отдельно. Результат не назначает анкеры и не подтверждает несущую способность стены: основание, скрытые коммуникации и крепёж проверяются на месте.</p></section>"
         }
         "mounting-map" => {
@@ -1251,16 +1307,67 @@ fn seo_mechanism_catalog_html(
     mounts: &[Mount],
     graph: &[CompatibilityEdge],
 ) -> String {
-    let mechanism = match page.id.as_str() {
-        "fixed-mount" => "fixed",
-        "tilt-mount" => "tilt",
-        "full-motion-mount" => "full-motion",
+    let selection = match page.kind.as_str() {
+        "mechanism" => {
+            let mechanism = match page.id.as_str() {
+                "fixed-mount" => "fixed",
+                "tilt-mount" => "tilt",
+                "full-motion-mount" | "extendable-mount" => "full-motion",
+                _ => return String::new(),
+            };
+            let selected = mounts
+                .iter()
+                .filter(|mount| {
+                    mount.mechanism == mechanism && is_indexable_mount(&mount.id, graph)
+                })
+                .collect::<Vec<_>>();
+            let (heading, explanation) = if page.id == "extendable-mount" {
+                (
+                    "Проверенные выдвижные кронштейны".to_string(),
+                    "Ниже собраны поворотно-выдвижные модели с проверенными VESA, нагрузкой, диапазоном диагоналей и минимальным/максимальным расстоянием от стены. Фактический угол зависит от ширины телевизора и препятствий рядом с экраном.".to_string(),
+                )
+            } else {
+                (
+                    "Кронштейны этого типа в каталоге".to_string(),
+                    "Изделия отобраны по механизму из карточек с проверенными характеристиками. Вылет — расстояние от стены до телевизора по данным производителя; для конкретной модели отдельно проверяются VESA, масса и паспортная диагональ.".to_string(),
+                )
+            };
+            (heading, explanation, selected)
+        }
+        "commercial" => (
+            "Сравнение проверенных кронштейнов".to_string(),
+            "Каталог содержит только точные модели с подтверждёнными характеристиками. Сначала выберите телевизор, затем сравните механизм, нагрузку, диапазон диагоналей, VESA и расстояние от стены в карточках подходящих изделий.".to_string(),
+            mounts
+                .iter()
+                .filter(|mount| is_indexable_mount(&mount.id, graph))
+                .collect::<Vec<_>>(),
+        ),
+        "mount-brand" => {
+            let Some(brand_key) = page.id.strip_prefix("mount-brand-") else {
+                return String::new();
+            };
+            let selected = mounts
+                .iter()
+                .filter(|mount| {
+                    mount.brand.eq_ignore_ascii_case(brand_key)
+                        && is_indexable_mount(&mount.id, graph)
+                })
+                .collect::<Vec<_>>();
+            let display_brand = selected
+                .first()
+                .map(|mount| mount.brand.as_str())
+                .unwrap_or(brand_key);
+            (
+                format!("Проверенные кронштейны {display_brand}"),
+                format!(
+                    "Каждая модель {display_brand} сохранена как отдельный артикул с явными VESA, нагрузкой, диапазоном диагоналей и расстоянием от стены. Близкие суффиксы не объединяются автоматически."
+                ),
+                selected,
+            )
+        }
         _ => return String::new(),
     };
-    let mut selected = mounts
-        .iter()
-        .filter(|mount| mount.mechanism == mechanism && is_indexable_mount(&mount.id, graph))
-        .collect::<Vec<_>>();
+    let (heading, explanation, mut selected) = selection;
     selected.sort_by(|left, right| {
         left.brand
             .to_lowercase()
@@ -1301,7 +1408,9 @@ fn seo_mechanism_catalog_html(
     };
 
     format!(
-        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"seo-catalog-heading\"><p class=\"font-mono text-xs uppercase text-action\">Данные проверенного каталога</p><h2 id=\"seo-catalog-heading\" class=\"mt-2 font-display text-3xl font-extrabold\">Кронштейны этого типа в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Изделия отобраны по механизму из карточек с проверенными характеристиками. Вылет — расстояние от стены до телевизора по данным производителя; для конкретной модели отдельно проверяются VESA, масса и паспортная диагональ.</p><dl class=\"mt-6 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Кронштейнов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mount_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённых пар</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{verified_pairs}</dd></div></dl><div class=\"mt-6\">{catalog}</div><p class=\"mt-5 text-sm leading-relaxed text-muted\">Число подтверждённых моделей учитывает только пары со статусом полной проверки: точная VESA, диапазон диагонали и нагрузка с запасом 25%. Крепёж и несущая способность стены проверяются на месте.</p></section>",
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"seo-catalog-heading\"><p class=\"font-mono text-xs uppercase text-action\">Данные проверенного каталога</p><h2 id=\"seo-catalog-heading\" class=\"mt-2 font-display text-3xl font-extrabold\">{heading}</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">{explanation}</p><dl class=\"mt-6 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Кронштейнов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mount_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённых пар</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{verified_pairs}</dd></div></dl><div class=\"mt-6\">{catalog}</div><p class=\"mt-5 text-sm leading-relaxed text-muted\">Число подтверждённых моделей учитывает только пары со статусом полной проверки: точная VESA, диапазон диагонали и нагрузка с запасом 25%. Крепёж и несущая способность стены проверяются на месте.</p></section>",
+        heading = escape_html(&heading),
+        explanation = escape_html(&explanation),
         mount_count = selected.len(),
     )
 }
@@ -1313,7 +1422,9 @@ fn seo_catalog_html(
     graph: &[CompatibilityEdge],
 ) -> String {
     match page.kind.as_str() {
-        "mechanism" => seo_mechanism_catalog_html(page, mounts, graph),
+        "mechanism" | "commercial" | "mount-brand" => {
+            seo_mechanism_catalog_html(page, mounts, graph)
+        }
         "vesa" | "diagonal" | "brand" => seo_model_catalog_html(page, models, graph),
         _ => String::new(),
     }
@@ -2077,6 +2188,59 @@ mod tests {
         assert!(mechanism_html.contains("вылет"));
         assert!(!mechanism_html.contains("market.yandex"));
 
+        let full_motion_mount = mounts
+            .iter()
+            .find(|mount| mount.mechanism == "full-motion")
+            .expect("В каталоге нужен выдвижной кронштейн");
+        let non_full_motion_mount = mounts
+            .iter()
+            .find(|mount| mount.mechanism != "full-motion")
+            .expect("В каталоге нужен кронштейн другого типа");
+        let extendable_html = seo_catalog_html(
+            &page("extendable-mount", "mechanism"),
+            &models,
+            &mounts,
+            &graph,
+        );
+        assert!(extendable_html.contains("Проверенные выдвижные кронштейны"));
+        assert!(extendable_html.contains(&format!(
+            "/kronshteyny/{}/",
+            full_motion_mount.id
+        )));
+        assert!(!extendable_html.contains(&format!(
+            "/kronshteyny/{}/",
+            non_full_motion_mount.id
+        )));
+
+        let commercial_html = seo_catalog_html(
+            &page("buy-tv-mount", "commercial"),
+            &models,
+            &mounts,
+            &graph,
+        );
+        assert!(commercial_html.contains("Сравнение проверенных кронштейнов"));
+        for mount in &mounts {
+            assert!(commercial_html.contains(&format!("/kronshteyny/{}/", mount.id)));
+        }
+
+        let onkron_mount = mounts
+            .iter()
+            .find(|mount| mount.brand == "ONKRON")
+            .expect("В каталоге нужен кронштейн ONKRON");
+        let other_mount = mounts
+            .iter()
+            .find(|mount| mount.brand != "ONKRON")
+            .expect("В каталоге нужен кронштейн другого бренда");
+        let onkron_html = seo_catalog_html(
+            &page("mount-brand-onkron", "mount-brand"),
+            &models,
+            &mounts,
+            &graph,
+        );
+        assert!(onkron_html.contains("Проверенные кронштейны ONKRON"));
+        assert!(onkron_html.contains(&format!("/kronshteyny/{}/", onkron_mount.id)));
+        assert!(!onkron_html.contains(&format!("/kronshteyny/{}/", other_mount.id)));
+
         let lg_model = models
             .iter()
             .find(|tv| tv.brand == "LG")
@@ -2327,6 +2491,13 @@ mod tests {
 
         for mount in &mounts {
             let body = mount_page_body(mount, &models, &graph, &[], 0);
+            assert!(body.contains("/kupit-kronshteyn-dlya-televizora/"));
+            if mount.mechanism == "full-motion" {
+                assert!(body.contains("/tipy-kronshteynov/vydvizhnoy/"));
+            }
+            if mount.brand == "ONKRON" {
+                assert!(body.contains("/kronshteyny-onkron/"));
+            }
             for edge in graph.iter().filter(|edge| edge.mount_id == mount.id) {
                 assert!(body.contains(&format!("/modeli/{}/", edge.tv_id)));
                 for warning in &edge.warnings {

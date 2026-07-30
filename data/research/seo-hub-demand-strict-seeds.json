@@ -1,0 +1,38 @@
+[
+  {
+    "candidate_id": "commercial-buy",
+    "candidate_path": "/kupit-kronshteyn-dlya-televizora/",
+    "query": "!купить !кронштейн для !телевизора",
+    "variant": "строгая словоформа: единственное число"
+  },
+  {
+    "candidate_id": "commercial-buy",
+    "candidate_path": "/kupit-kronshteyn-dlya-televizora/",
+    "query": "!купить !кронштейны для !телевизора",
+    "variant": "строгая словоформа: множественное число"
+  },
+  {
+    "candidate_id": "mechanism-extendable",
+    "candidate_path": "/tipy-kronshteynov/vydvizhnoy/",
+    "query": "!выдвижной !кронштейн для !телевизора",
+    "variant": "строгая словоформа: единственное число"
+  },
+  {
+    "candidate_id": "mechanism-extendable",
+    "candidate_path": "/tipy-kronshteynov/vydvizhnoy/",
+    "query": "!выдвижные !кронштейны для !телевизора",
+    "variant": "строгая словоформа: множественное число"
+  },
+  {
+    "candidate_id": "brand-onkron",
+    "candidate_path": "/kronshteyny-onkron/",
+    "query": "!кронштейн onkron",
+    "variant": "строгая словоформа: единственное число"
+  },
+  {
+    "candidate_id": "brand-onkron",
+    "candidate_path": "/kronshteyny-onkron/",
+    "query": "!кронштейны onkron",
+    "variant": "строгая словоформа: множественное число"
+  }
+]

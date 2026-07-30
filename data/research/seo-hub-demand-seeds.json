@@ -1,0 +1,44 @@
+[
+  {
+    "candidate_id": "commercial-buy",
+    "candidate_path": "/kupit-kronshteyn-dlya-televizora/",
+    "query": "купить кронштейн для телевизора",
+    "variant": "основная формулировка"
+  },
+  {
+    "candidate_id": "commercial-buy",
+    "candidate_path": "/kupit-kronshteyn-dlya-televizora/",
+    "query": "купить кронштейн на телевизор",
+    "variant": "предлог на"
+  },
+  {
+    "candidate_id": "mechanism-extendable",
+    "candidate_path": "/tipy-kronshteynov/vydvizhnoy/",
+    "query": "выдвижной кронштейн для телевизора",
+    "variant": "основная формулировка"
+  },
+  {
+    "candidate_id": "mechanism-extendable",
+    "candidate_path": "/tipy-kronshteynov/vydvizhnoy/",
+    "query": "выдвижной кронштейн на телевизор",
+    "variant": "предлог на"
+  },
+  {
+    "candidate_id": "brand-onkron",
+    "candidate_path": "/kronshteyny-onkron/",
+    "query": "кронштейн onkron",
+    "variant": "бренд после категории"
+  },
+  {
+    "candidate_id": "brand-onkron",
+    "candidate_path": "/kronshteyny-onkron/",
+    "query": "onkron кронштейн",
+    "variant": "бренд перед категорией"
+  },
+  {
+    "candidate_id": "brand-onkron",
+    "candidate_path": "/kronshteyny-onkron/",
+    "query": "кронштейн онкрон",
+    "variant": "кириллический бренд"
+  }
+]

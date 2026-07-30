@@ -1,0 +1,307 @@
+[
+  {
+    "seed": {
+      "candidate_id": "commercial-buy",
+      "candidate_path": "/kupit-kronshteyn-dlya-televizora/",
+      "query": "кронштейн для телевизора купить",
+      "variant": "контроль старой CSV: обратный порядок"
+    },
+    "operator_query": "\"[кронштейн для телевизора купить]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "19957",
+          "text": "крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1126",
+          "text": "крепеж для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "1570",
+          "text": "apple tv купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "5426",
+          "text": "телевизор kivi"
+        },
+        {
+          "isAssociations": true,
+          "value": "3995",
+          "text": "телевизор яндекс маркет"
+        },
+        {
+          "isAssociations": true,
+          "value": "1852",
+          "text": "крепление телевизора к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "1408",
+          "text": "жесткий диск для видеонаблюдения купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "2087",
+          "text": "коаксиальный кабель купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "13662",
+          "text": "как подключить телевизор к антенне"
+        },
+        {
+          "isAssociations": true,
+          "value": "416",
+          "text": "замена подсветки на телевизоре цена"
+        },
+        {
+          "isAssociations": true,
+          "value": "1135",
+          "text": "hdmi 2.1 купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "486",
+          "text": "шнур hdmi для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "3103",
+          "text": "купить тумбу под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "11580",
+          "text": "провод для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "6325",
+          "text": "как подключить телевизор к роутеру"
+        },
+        {
+          "isAssociations": true,
+          "value": "9413",
+          "text": "стоимость телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "3951",
+          "text": "кронштейн для штор"
+        },
+        {
+          "isAssociations": true,
+          "value": "85",
+          "text": "телевизор хаер 65 диагональ цена"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "6834",
+          "text": "кронштейны для телевизора купить"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mechanism-extendable",
+      "candidate_path": "/tipy-kronshteynov/vydvizhnoy/",
+      "query": "кронштейн для телевизора выдвижной",
+      "variant": "контроль старой CSV: обратный порядок"
+    },
+    "operator_query": "\"[кронштейн для телевизора выдвижной]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2236",
+          "text": "кронштейн для монитора на стол"
+        },
+        {
+          "isAssociations": true,
+          "value": "11724",
+          "text": "подставка для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1126",
+          "text": "крепеж для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "7390",
+          "text": "крепление для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "642",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "1646",
+          "text": "настенное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "352",
+          "text": "f разъем для тв кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "663",
+          "text": "телевизионная антенна quanta"
+        },
+        {
+          "isAssociations": true,
+          "value": "890",
+          "text": "подставка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "699",
+          "text": "стандарт крепления vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "1589",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "дырка в телике"
+        },
+        {
+          "isAssociations": true,
+          "value": "760",
+          "text": "тв антенна quanta"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1800",
+          "text": "кронштейн для телевизора выдвижные"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "brand-onkron",
+      "candidate_path": "/kronshteyny-onkron/",
+      "query": "онкрон кронштейны",
+      "variant": "контроль старой CSV: кириллица и обратный порядок"
+    },
+    "operator_query": "\"[онкрон кронштейны]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "21617",
+          "text": "onkron"
+        },
+        {
+          "isAssociations": true,
+          "value": "2119",
+          "text": "onkron g80"
+        },
+        {
+          "isAssociations": true,
+          "value": "7390",
+          "text": "крепление для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "651",
+          "text": "onkron g160"
+        },
+        {
+          "isAssociations": true,
+          "value": "3115",
+          "text": "скоба для крепления труб"
+        },
+        {
+          "isAssociations": true,
+          "value": "360",
+          "text": "onkron g100"
+        },
+        {
+          "isAssociations": true,
+          "value": "273",
+          "text": "onkron g130"
+        },
+        {
+          "isAssociations": true,
+          "value": "6856",
+          "text": "держатель для ножей"
+        },
+        {
+          "isAssociations": true,
+          "value": "450",
+          "text": "крепление для монитора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "597",
+          "text": "onkron tm6"
+        },
+        {
+          "isAssociations": true,
+          "value": "11047",
+          "text": "болт крепления суппорта"
+        },
+        {
+          "isAssociations": true,
+          "value": "409",
+          "text": "подвес для крепления кабеля к тросу"
+        },
+        {
+          "isAssociations": true,
+          "value": "394",
+          "text": "крепление монитора к столу"
+        },
+        {
+          "isAssociations": true,
+          "value": "306",
+          "text": "onkron ts1351"
+        },
+        {
+          "isAssociations": true,
+          "value": "1224",
+          "text": "крепление крокодил"
+        },
+        {
+          "isAssociations": true,
+          "value": "54",
+          "text": "скоба крепления троса кс 162"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "617",
+          "text": "онкрон кронштейны"
+        }
+      ]
+    }
+  }
+]

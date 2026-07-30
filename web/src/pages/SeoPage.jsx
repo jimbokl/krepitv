@@ -20,6 +20,7 @@ import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx
 import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
+import { getCatalogItems } from "../lib/seoCatalogItems.mjs";
 import { getRelatedPages, isIndexableSeoPage } from "../lib/seoPages.mjs";
 
 const kindLabels = {
@@ -27,7 +28,9 @@ const kindLabels = {
   vesa: "Справочник VESA",
   diagonal: "Подбор по диагонали",
   brand: "Подбор по бренду",
+  "mount-brand": "Кронштейны по бренду",
   mechanism: "Типы кронштейнов",
+  commercial: "Сравнение кронштейнов",
   calculator: "Расчёт установки",
 };
 
@@ -102,6 +105,7 @@ function SeoArticle({ catalog, page }) {
         {page.id === "mounting-height" ? <HeightCalculator /> : null}
         {page.id === "viewing-distance" ? <ViewingDistanceCalculator /> : null}
         {page.id === "wall-mounted-tv" ? <TurnClearanceCalculator /> : null}
+        {page.id === "extendable-mount" ? <TurnClearanceCalculator /> : null}
         {page.id === "tilt-mount" ? <TiltAngleCalculator /> : null}
         {page.id === "mounting-map" ? <MountingMapCalculator /> : null}
         {page.id === "tv-zone-sockets" ? <TvZoneSocketCalculator /> : null}
@@ -247,7 +251,11 @@ function CatalogEvidence({ items, page }) {
             renderItem={(item) =>
             isMountList ? (
               <article className="border border-line bg-white/70 p-5" key={item.id}>
-                <h3 className="font-display text-xl font-bold">{item.title}</h3>
+                <h3 className="font-display text-xl font-bold">
+                  <a className="underline decoration-action decoration-2 underline-offset-4" href={`/kronshteyny/${item.id}/`}>
+                    {item.title}
+                  </a>
+                </h3>
                 <dl className="mt-3 space-y-2 text-sm">
                   <div className="flex justify-between gap-4">
                     <dt className="text-muted">Нагрузка</dt>
@@ -303,7 +311,7 @@ function CatalogEvidence({ items, page }) {
 }
 
 function PageVisual({ kind }) {
-  const mechanisms = kind === "mechanism";
+  const mechanisms = ["mechanism", "mount-brand", "commercial"].includes(kind);
   return (
     <figure className="border-b border-line pb-5">
       <picture className="contents">
@@ -366,50 +374,6 @@ function SeoNotFound({ catalog, requestedPath }) {
       </div>
     </main>
   );
-}
-
-function getCatalogItems(page, catalog) {
-  if (page.kind === "mechanism") {
-    const mechanism = {
-      "fixed-mount": "fixed",
-      "tilt-mount": "tilt",
-      "full-motion-mount": "full-motion",
-    }[page.id];
-    return {
-      type: "mounts",
-      values: catalog.mounts.filter((mount) => mount.mechanism === mechanism),
-    };
-  }
-
-  if (page.kind === "vesa") {
-    const vesa = page.id.replace("vesa-", "");
-    return {
-      type: "models",
-      values: catalog.models.filter(
-        (model) => `${model.vesa_width_mm}x${model.vesa_height_mm}` === vesa,
-      ),
-    };
-  }
-
-  if (page.kind === "diagonal") {
-    const diagonal = Number(page.id.replace("diagonal-", ""));
-    return {
-      type: "models",
-      values: catalog.models.filter((model) => model.diagonal_inches === diagonal),
-    };
-  }
-
-  if (page.kind === "brand") {
-    const brand = page.id.replace(/^brand-/i, "").toLocaleLowerCase("ru-RU");
-    return {
-      type: "models",
-      values: catalog.models.filter(
-        (model) => String(model.brand ?? "").trim().toLocaleLowerCase("ru-RU") === brand,
-      ),
-    };
-  }
-
-  return { type: "models", values: catalog.models };
 }
 
 function shortTitle(page) {

@@ -1,0 +1,463 @@
+[
+  {
+    "seed": {
+      "candidate_id": "commercial-buy",
+      "candidate_path": "/kupit-kronshteyn-dlya-televizora/",
+      "query": "купить кронштейн для телевизора",
+      "variant": "основная формулировка"
+    },
+    "operator_query": "\"[купить кронштейн для телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19957",
+          "text": "крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "31047",
+          "text": "кабель для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "895",
+          "text": "панели под телевизор на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "455",
+          "text": "замена матрицы на телевизоре цена"
+        },
+        {
+          "isAssociations": true,
+          "value": "1022",
+          "text": "кронштейн для планшета"
+        },
+        {
+          "isAssociations": true,
+          "value": "10892",
+          "text": "фоторамки купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "903",
+          "text": "телевизор с алисой цена"
+        },
+        {
+          "isAssociations": true,
+          "value": "1646",
+          "text": "настенное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1852",
+          "text": "крепление телевизора к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "740",
+          "text": "тв приставка ростелеком купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "5610",
+          "text": "кронштейн vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "потолочное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "2072",
+          "text": "сколько стоит ремонт телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "9413",
+          "text": "стоимость телевизора"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "6834",
+          "text": "купить кронштейн для телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "commercial-buy",
+      "candidate_path": "/kupit-kronshteyn-dlya-televizora/",
+      "query": "купить кронштейн на телевизор",
+      "variant": "предлог на"
+    },
+    "operator_query": "\"[купить кронштейн на телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19957",
+          "text": "крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "31047",
+          "text": "кабель для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "895",
+          "text": "панели под телевизор на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "455",
+          "text": "замена матрицы на телевизоре цена"
+        },
+        {
+          "isAssociations": true,
+          "value": "1022",
+          "text": "кронштейн для планшета"
+        },
+        {
+          "isAssociations": true,
+          "value": "10892",
+          "text": "фоторамки купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "903",
+          "text": "телевизор с алисой цена"
+        },
+        {
+          "isAssociations": true,
+          "value": "1646",
+          "text": "настенное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1852",
+          "text": "крепление телевизора к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "740",
+          "text": "тв приставка ростелеком купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "5610",
+          "text": "кронштейн vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "потолочное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "2072",
+          "text": "сколько стоит ремонт телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "9413",
+          "text": "стоимость телевизора"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3972",
+          "text": "купить кронштейн на телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mechanism-extendable",
+      "candidate_path": "/tipy-kronshteynov/vydvizhnoy/",
+      "query": "выдвижной кронштейн для телевизора",
+      "variant": "основная формулировка"
+    },
+    "operator_query": "\"[выдвижной кронштейн для телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19957",
+          "text": "крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1126",
+          "text": "крепеж для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "7390",
+          "text": "крепление для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "642",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "352",
+          "text": "f разъем для тв кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "1044",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "663",
+          "text": "телевизионная антенна quanta"
+        },
+        {
+          "isAssociations": true,
+          "value": "890",
+          "text": "подставка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "699",
+          "text": "стандарт крепления vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "1589",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3496",
+          "text": "как подключить тв к телефону"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "дырка в телике"
+        },
+        {
+          "isAssociations": true,
+          "value": "760",
+          "text": "тв антенна quanta"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1800",
+          "text": "выдвижной кронштейн для телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mechanism-extendable",
+      "candidate_path": "/tipy-kronshteynov/vydvizhnoy/",
+      "query": "выдвижной кронштейн на телевизор",
+      "variant": "предлог на"
+    },
+    "operator_query": "\"[выдвижной кронштейн на телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19957",
+          "text": "крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1126",
+          "text": "крепеж для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "7390",
+          "text": "крепление для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "642",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "352",
+          "text": "f разъем для тв кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "1044",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "663",
+          "text": "телевизионная антенна quanta"
+        },
+        {
+          "isAssociations": true,
+          "value": "890",
+          "text": "подставка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "699",
+          "text": "стандарт крепления vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "1589",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3496",
+          "text": "как подключить тв к телефону"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "дырка в телике"
+        },
+        {
+          "isAssociations": true,
+          "value": "760",
+          "text": "тв антенна quanta"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "922",
+          "text": "выдвижной кронштейн на телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "brand-onkron",
+      "candidate_path": "/kronshteyny-onkron/",
+      "query": "кронштейн onkron",
+      "variant": "бренд после категории"
+    },
+    "operator_query": "\"[кронштейн onkron]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "6049",
+          "text": "крепление vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "7890",
+          "text": "крепление для монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1561",
+          "text": "держатель для монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "100",
+          "text": "коченкова ольга владимировна колопроктолог проктолог"
+        },
+        {
+          "isAssociations": true,
+          "value": "699",
+          "text": "стандарт крепления vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "493",
+          "text": "крепление vatl 5.1"
+        },
+        {
+          "isAssociations": true,
+          "value": "276",
+          "text": "тепловизионный прицел arkon arma lr35l"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "8464",
+          "text": "кронштейн onkron"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "brand-onkron",
+      "candidate_path": "/kronshteyny-onkron/",
+      "query": "onkron кронштейн",
+      "variant": "бренд перед категорией"
+    },
+    "operator_query": "\"[onkron кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "brand-onkron",
+      "candidate_path": "/kronshteyny-onkron/",
+      "query": "кронштейн онкрон",
+      "variant": "кириллический бренд"
+    },
+    "operator_query": "\"[кронштейн онкрон]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  }
+]

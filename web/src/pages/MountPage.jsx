@@ -55,6 +55,7 @@ export function MountPage({ catalog, mountId }) {
   const conditionalModels = compatibleModels.filter(
     (edge) => edge.fit_status === "conditional-fit",
   );
+  const contextLinks = mountContextLinks(mount);
 
   return (
     <main className="min-h-screen bg-paper text-ink">
@@ -73,6 +74,18 @@ export function MountPage({ catalog, mountId }) {
             <span className="sm:text-right">Граф рассчитан в Rust</span>
           </div>
         </header>
+
+        <nav className="mt-5 border-y border-line" aria-label="Связанные подборы кронштейнов">
+          {contextLinks.map((item) => (
+            <a
+              className="flex min-h-12 items-center justify-between gap-3 border-t border-line py-3 font-display font-bold first:border-t-0"
+              href={item.href}
+              key={item.href}
+            >
+              {item.label} <ArrowRight aria-hidden="true" className="size-5 shrink-0" />
+            </a>
+          ))}
+        </nav>
 
         {affiliateOffer ? (
           <section className="border-b-2 border-ink py-7">
@@ -204,4 +217,23 @@ function formatDistance(mount) {
     return `${formatNumber(mount.wall_distance_min_mm)} мм`;
   }
   return `${formatNumber(mount.wall_distance_min_mm)}–${formatNumber(mount.wall_distance_max_mm)} мм`;
+}
+
+function mountContextLinks(mount) {
+  const links = [
+    {
+      href: "/kupit-kronshteyn-dlya-televizora/",
+      label: "Сравнить все проверенные кронштейны",
+    },
+  ];
+  if (mount.mechanism === "full-motion") {
+    links.push({
+      href: "/tipy-kronshteynov/vydvizhnoy/",
+      label: "Выдвижные кронштейны и расчёт вылета",
+    });
+  }
+  if (String(mount.brand ?? "").trim().toLocaleLowerCase("ru-RU") === "onkron") {
+    links.push({ href: "/kronshteyny-onkron/", label: "Все кронштейны ONKRON" });
+  }
+  return links;
 }
