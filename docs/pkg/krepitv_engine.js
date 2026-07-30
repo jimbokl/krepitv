@@ -85,6 +85,32 @@ export function mounting_map_json(diagonal_inches, eye_height_cm, viewing_distan
 }
 
 /**
+ * @param {number} diagonal_inches
+ * @param {number} screen_center_height_cm
+ * @param {number} eye_height_cm
+ * @param {number} viewing_distance_cm
+ * @param {number} maximum_down_tilt_degrees
+ * @param {number} maximum_up_tilt_degrees
+ * @returns {string}
+ */
+export function tilt_angle_plan_json(diagonal_inches, screen_center_height_cm, eye_height_cm, viewing_distance_cm, maximum_down_tilt_degrees, maximum_up_tilt_degrees) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.tilt_angle_plan_json(retptr, diagonal_inches, screen_center_height_cm, eye_height_cm, viewing_distance_cm, maximum_down_tilt_degrees, maximum_up_tilt_degrees);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred1_0 = r0;
+        deferred1_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * @param {number} tv_width_cm
  * @param {number} vesa_offset_cm
  * @param {number} target_angle_degrees

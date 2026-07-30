@@ -27,10 +27,11 @@ function preferredRelatedIds(pageId) {
     "vesa-200x200": ["vesa", "how-to-find-vesa", "diagonal-55"],
     "vesa-300x200": ["vesa", "how-to-find-vesa", "diagonal-55"],
     "diagonal-55": ["wall-mounted-tv", "mounting-height", "vesa"],
-    "fixed-mount": ["wall-mounted-tv", "full-motion-mount", "mounting-height"],
-    "full-motion-mount": ["wall-mounted-tv", "fixed-mount", "mounting-height"],
+    "fixed-mount": ["wall-mounted-tv", "tilt-mount", "full-motion-mount", "mounting-height"],
+    "tilt-mount": ["mounting-height", "mounting-map", "wall-mounted-tv", "fixed-mount", "full-motion-mount"],
+    "full-motion-mount": ["wall-mounted-tv", "fixed-mount", "tilt-mount", "mounting-height"],
     "how-to-find-vesa": ["vesa", "vesa-200x200", "vesa-300x200"],
-    "mounting-height": ["mounting-map", "tv-zone-sockets", "wall-mounted-tv", "viewing-distance", "diagonal-55"],
+    "mounting-height": ["mounting-map", "tilt-mount", "tv-zone-sockets", "wall-mounted-tv", "viewing-distance", "diagonal-55"],
     "viewing-distance": ["mounting-height", "diagonal-55", "full-motion-mount"],
   };
   return groups[pageId] ?? ["vesa", "how-to-find-vesa", "mounting-height"];

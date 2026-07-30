@@ -74,3 +74,19 @@ test("TV-zone socket page leads back to mounting geometry and compatibility", ()
     ["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
   );
 });
+
+test("tilt mount page leads to height, mounting, and mechanism checks", () => {
+  const catalog = [
+    { id: "tilt-mount", kind: "mechanism", indexable: true },
+    { id: "mounting-height", kind: "calculator", indexable: true },
+    { id: "mounting-map", kind: "guide", indexable: true },
+    { id: "wall-mounted-tv", kind: "calculator", indexable: true },
+    { id: "fixed-mount", kind: "mechanism", indexable: true },
+    { id: "full-motion-mount", kind: "mechanism", indexable: true },
+  ];
+
+  assert.deepEqual(
+    getRelatedPages(catalog[0], catalog).map((page) => page.id),
+    ["mounting-height", "mounting-map", "wall-mounted-tv", "fixed-mount", "full-motion-mount"],
+  );
+});

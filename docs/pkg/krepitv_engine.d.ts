@@ -7,6 +7,8 @@ export function match_mounts_json(tv_weight_kg: number, diagonal_inches: number,
 
 export function mounting_map_json(diagonal_inches: number, eye_height_cm: number, viewing_distance_cm: number, viewing_angle_deg: number, furniture_height_cm: number, requested_clearance_cm: number, vesa_vertical_offset_cm: number, wall_plate_offset_cm: number): string;
 
+export function tilt_angle_plan_json(diagonal_inches: number, screen_center_height_cm: number, eye_height_cm: number, viewing_distance_cm: number, maximum_down_tilt_degrees: number, maximum_up_tilt_degrees: number): string;
+
 export function turn_clearance_plan_json(tv_width_cm: number, vesa_offset_cm: number, target_angle_degrees: number, available_extension_cm: number, safety_clearance_cm: number): string;
 
 export function tv_zone_socket_plan_json(diagonal_inches: number, screen_center_height_cm: number, plate_width_cm: number, plate_height_cm: number, plate_horizontal_offset_cm: number, plate_vertical_offset_cm: number, socket_width_cm: number, socket_height_cm: number, socket_horizontal_offset_cm: number, socket_vertical_offset_cm: number, service_margin_cm: number, required_depth_cm: number, wall_clearance_cm: number, powered_devices: number, spare_power_modules: number, ethernet_modules: number, antenna_modules: number): string;
@@ -20,6 +22,7 @@ export interface InitOutput {
     readonly height_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly match_mounts_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly mounting_map_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
+    readonly tilt_angle_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly turn_clearance_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
     readonly tv_zone_socket_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number, p: number, q: number, r: number) => void;
     readonly viewing_geometry_json: (a: number, b: number, c: number, d: number, e: number) => void;

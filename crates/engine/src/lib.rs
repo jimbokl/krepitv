@@ -11,6 +11,7 @@ const MAX_HORIZONTAL_ANGLE_DEG: f64 = 60.0;
 const MIN_TV_WIDTH_CM: f64 = 10.0;
 const MAX_TV_WIDTH_CM: f64 = 500.0;
 const MAX_TURN_ANGLE_DEG: f64 = 90.0;
+const MAX_MOUNT_TILT_ANGLE_DEG: f64 = 90.0;
 const MAX_MOUNT_EXTENSION_CM: f64 = 300.0;
 const MAX_SAFETY_CLEARANCE_CM: f64 = 50.0;
 const MIN_EYE_HEIGHT_CM: f64 = 50.0;
@@ -193,6 +194,35 @@ pub struct TurnClearancePlan {
     pub clearance_margin_cm: f64,
     pub will_clear_wall: bool,
     pub effective_half_width_cm: f64,
+    pub warnings: Vec<String>,
+}
+
+/// Геометрическая проверка паспортного диапазона наклонного кронштейна.
+///
+/// Положительное вертикальное смещение означает, что центр экрана находится
+/// выше глаз и нормаль экрана нужно направить вниз. Отрицательное смещение
+/// требует наклона вверх. Расчёт не является эргономической рекомендацией и не
+/// подтверждает совместимость кронштейна по VESA, массе или основанию стены.
+#[derive(Clone, Debug, Serialize)]
+pub struct TiltAnglePlan {
+    pub diagonal_inches: f64,
+    pub screen_width_cm: f64,
+    pub screen_height_cm: f64,
+    pub screen_center_height_cm: f64,
+    pub screen_bottom_height_cm: f64,
+    pub screen_top_height_cm: f64,
+    pub eye_height_cm: f64,
+    pub viewing_distance_cm: f64,
+    pub vertical_offset_cm: f64,
+    pub center_sightline_angle_degrees: f64,
+    pub bottom_sightline_angle_degrees: f64,
+    pub top_sightline_angle_degrees: f64,
+    pub required_tilt_degrees: f64,
+    pub required_direction: String,
+    pub available_tilt_degrees: f64,
+    pub tilt_margin_degrees: f64,
+    pub mount_covers_required_tilt: bool,
+    pub screen_clears_floor: bool,
     pub warnings: Vec<String>,
 }
 
@@ -405,6 +435,137 @@ pub fn calculate_turn_clearance_plan(
         clearance_margin_cm: rounded(clearance_margin_cm),
         will_clear_wall,
         effective_half_width_cm: rounded(effective_half_width_cm),
+        warnings,
+    })
+}
+
+pub fn calculate_tilt_angle_plan(
+    diagonal_inches: f64,
+    screen_center_height_cm: f64,
+    eye_height_cm: f64,
+    viewing_distance_cm: f64,
+    maximum_down_tilt_degrees: f64,
+    maximum_up_tilt_degrees: f64,
+) -> Result<TiltAnglePlan, String> {
+    validate_range(
+        diagonal_inches,
+        MIN_TV_DIAGONAL_INCHES,
+        MAX_TV_DIAGONAL_INCHES,
+        "Диагональ",
+        "дюймов",
+    )?;
+    validate_range(
+        screen_center_height_cm,
+        0.0,
+        MAX_REFERENCE_HEIGHT_CM,
+        "Высота центра экрана",
+        "см",
+    )?;
+    validate_range(
+        eye_height_cm,
+        MIN_EYE_HEIGHT_CM,
+        MAX_EYE_HEIGHT_CM,
+        "Высота глаз",
+        "см",
+    )?;
+    validate_range(
+        viewing_distance_cm,
+        MIN_VIEWING_DISTANCE_CM,
+        MAX_VIEWING_DISTANCE_CM,
+        "Расстояние до экрана",
+        "см",
+    )?;
+    validate_range(
+        maximum_down_tilt_degrees,
+        0.0,
+        MAX_MOUNT_TILT_ANGLE_DEG,
+        "Максимальный наклон вниз",
+        "градусов",
+    )?;
+    validate_range(
+        maximum_up_tilt_degrees,
+        0.0,
+        MAX_MOUNT_TILT_ANGLE_DEG,
+        "Максимальный наклон вверх",
+        "градусов",
+    )?;
+
+    let (screen_width_cm, screen_height_cm) = screen_dimensions_16_by_9(diagonal_inches);
+    let screen_bottom_height_cm = screen_center_height_cm - screen_height_cm / 2.0;
+    let screen_top_height_cm = screen_center_height_cm + screen_height_cm / 2.0;
+    let vertical_offset_cm = screen_center_height_cm - eye_height_cm;
+    let center_sightline_angle_degrees = vertical_offset_cm.atan2(viewing_distance_cm).to_degrees();
+    let bottom_sightline_angle_degrees = (screen_bottom_height_cm - eye_height_cm)
+        .atan2(viewing_distance_cm)
+        .to_degrees();
+    let top_sightline_angle_degrees = (screen_top_height_cm - eye_height_cm)
+        .atan2(viewing_distance_cm)
+        .to_degrees();
+    // The public result is expressed to one decimal place. Use that same
+    // precision for the direction and range verdict so the UI cannot show a
+    // red "15.0° of 15.0°" result caused only by hidden float precision.
+    let center_sightline_angle_degrees = rounded(center_sightline_angle_degrees);
+    let required_tilt_degrees = center_sightline_angle_degrees.abs();
+    let (required_direction, available_tilt_degrees) =
+        if center_sightline_angle_degrees > 0.0 {
+            ("вниз", rounded(maximum_down_tilt_degrees))
+        } else if center_sightline_angle_degrees < 0.0 {
+            ("вверх", rounded(maximum_up_tilt_degrees))
+        } else {
+            ("без наклона", 0.0)
+        };
+    let tilt_margin_degrees = if required_direction == "без наклона" {
+        0.0
+    } else {
+        rounded(available_tilt_degrees - required_tilt_degrees)
+    };
+    let screen_clears_floor = screen_bottom_height_cm >= 0.0;
+    let mount_covers_required_tilt = screen_clears_floor
+        && (required_direction == "без наклона" || tilt_margin_degrees >= 0.0);
+
+    let mut warnings = Vec::new();
+    if !screen_clears_floor {
+        warnings.push("Нижний край экрана оказывается ниже уровня чистого пола".to_string());
+    }
+    if required_direction != "без наклона" && tilt_margin_degrees < 0.0 {
+        warnings.push(format!(
+            "Паспортного диапазона наклона {required_direction} недостаточно на {}°",
+            rounded(-tilt_margin_degrees)
+        ));
+    }
+    if required_tilt_degrees > 15.0 {
+        warnings.push(
+            "Требуется угол больше 15°: перепроверьте высоту центра, позу и расстояние".to_string(),
+        );
+    }
+    warnings.push(
+        "Расчёт направляет нормаль центра экрана к уровню глаз и не определяет комфортную высоту"
+            .to_string(),
+    );
+    warnings.push(
+        "Сверьте паспортный диапазон, VESA, нагрузку, зазор для кабелей и фиксацию механизма по точному кронштейну"
+            .to_string(),
+    );
+
+    Ok(TiltAnglePlan {
+        diagonal_inches: rounded(diagonal_inches),
+        screen_width_cm: rounded(screen_width_cm),
+        screen_height_cm: rounded(screen_height_cm),
+        screen_center_height_cm: rounded(screen_center_height_cm),
+        screen_bottom_height_cm: rounded(screen_bottom_height_cm),
+        screen_top_height_cm: rounded(screen_top_height_cm),
+        eye_height_cm: rounded(eye_height_cm),
+        viewing_distance_cm: rounded(viewing_distance_cm),
+        vertical_offset_cm: rounded(vertical_offset_cm),
+        center_sightline_angle_degrees,
+        bottom_sightline_angle_degrees: rounded(bottom_sightline_angle_degrees),
+        top_sightline_angle_degrees: rounded(top_sightline_angle_degrees),
+        required_tilt_degrees: rounded(required_tilt_degrees),
+        required_direction: required_direction.to_string(),
+        available_tilt_degrees: rounded(available_tilt_degrees),
+        tilt_margin_degrees: rounded(tilt_margin_degrees),
+        mount_covers_required_tilt,
+        screen_clears_floor,
         warnings,
     })
 }
@@ -1073,6 +1234,28 @@ pub fn turn_clearance_plan_json(
     }
 }
 
+#[wasm_bindgen]
+pub fn tilt_angle_plan_json(
+    diagonal_inches: f64,
+    screen_center_height_cm: f64,
+    eye_height_cm: f64,
+    viewing_distance_cm: f64,
+    maximum_down_tilt_degrees: f64,
+    maximum_up_tilt_degrees: f64,
+) -> String {
+    match calculate_tilt_angle_plan(
+        diagonal_inches,
+        screen_center_height_cm,
+        eye_height_cm,
+        viewing_distance_cm,
+        maximum_down_tilt_degrees,
+        maximum_up_tilt_degrees,
+    ) {
+        Ok(plan) => serde_json::to_string(&plan).expect("tilt angle plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1343,6 +1526,101 @@ mod tests {
         assert!(value.get("error").is_none());
 
         let invalid = turn_clearance_plan_json(123.0, 0.0, 120.0, 65.0, 3.0);
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+    }
+
+    #[test]
+    fn tilt_angle_plan_calculates_downward_range_and_screen_bounds() {
+        let plan = calculate_tilt_angle_plan(55.0, 150.0, 110.0, 250.0, 15.0, 5.0).unwrap();
+
+        assert_eq!(plan.screen_height_cm, 68.5);
+        assert_eq!(plan.screen_bottom_height_cm, 115.8);
+        assert_eq!(plan.screen_top_height_cm, 184.2);
+        assert_eq!(plan.vertical_offset_cm, 40.0);
+        assert_eq!(plan.required_tilt_degrees, 9.1);
+        assert_eq!(plan.required_direction, "вниз");
+        assert_eq!(plan.available_tilt_degrees, 15.0);
+        assert_eq!(plan.tilt_margin_degrees, 5.9);
+        assert!(plan.mount_covers_required_tilt);
+        assert!(plan.screen_clears_floor);
+    }
+
+    #[test]
+    fn tilt_angle_plan_reports_deficit_and_upward_direction() {
+        let insufficient = calculate_tilt_angle_plan(55.0, 150.0, 110.0, 250.0, 5.0, 5.0).unwrap();
+        assert_eq!(insufficient.required_direction, "вниз");
+        assert_eq!(insufficient.tilt_margin_degrees, -4.1);
+        assert!(!insufficient.mount_covers_required_tilt);
+        assert!(
+            insufficient
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("недостаточно на 4.1°"))
+        );
+
+        let upward = calculate_tilt_angle_plan(55.0, 90.0, 110.0, 250.0, 15.0, 5.0).unwrap();
+        assert_eq!(upward.required_direction, "вверх");
+        assert_eq!(upward.required_tilt_degrees, 4.6);
+        assert_eq!(upward.available_tilt_degrees, 5.0);
+        assert_eq!(upward.tilt_margin_degrees, 0.4);
+        assert!(upward.mount_covers_required_tilt);
+    }
+
+    #[test]
+    fn tilt_angle_plan_uses_display_precision_for_boundary_verdict() {
+        let plan = calculate_tilt_angle_plan(55.0, 177.0, 110.0, 250.0, 15.0, 5.0).unwrap();
+
+        assert_eq!(plan.required_tilt_degrees, 15.0);
+        assert_eq!(plan.available_tilt_degrees, 15.0);
+        assert_eq!(plan.tilt_margin_degrees, 0.0);
+        assert!(plan.mount_covers_required_tilt);
+    }
+
+    #[test]
+    fn tilt_angle_plan_rejects_invalid_values_and_floor_conflict() {
+        assert!(
+            calculate_tilt_angle_plan(f64::NAN, 150.0, 110.0, 250.0, 15.0, 5.0)
+                .unwrap_err()
+                .contains("конечное число")
+        );
+        assert!(
+            calculate_tilt_angle_plan(55.0, 150.0, 110.0, 20.0, 15.0, 5.0)
+                .unwrap_err()
+                .contains("Расстояние до экрана")
+        );
+
+        let below_floor = calculate_tilt_angle_plan(55.0, 20.0, 110.0, 250.0, 15.0, 30.0).unwrap();
+        assert!(!below_floor.screen_clears_floor);
+        assert!(!below_floor.mount_covers_required_tilt);
+        assert!(
+            below_floor
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("ниже уровня чистого пола"))
+        );
+    }
+
+    #[test]
+    fn tilt_angle_wasm_json_has_stable_shape_and_errors() {
+        let response = tilt_angle_plan_json(55.0, 150.0, 110.0, 250.0, 15.0, 5.0);
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "screen_bottom_height_cm",
+            "screen_top_height_cm",
+            "center_sightline_angle_degrees",
+            "required_tilt_degrees",
+            "required_direction",
+            "available_tilt_degrees",
+            "tilt_margin_degrees",
+            "mount_covers_required_tilt",
+            "warnings",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert!(value.get("error").is_none());
+
+        let invalid = tilt_angle_plan_json(5.0, 150.0, 110.0, 250.0, 15.0, 5.0);
         let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
         assert!(invalid.get("error").is_some());
     }

@@ -13,6 +13,7 @@ import { ModelSearch } from "../components/ModelSearch.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
+import { TiltAngleCalculator } from "../components/TiltAngleCalculator.jsx";
 import { TurnClearanceCalculator } from "../components/TurnClearanceCalculator.jsx";
 import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
@@ -37,7 +38,7 @@ export function SeoPage({ catalog, page, requestedPath }) {
 
 function SeoArticle({ catalog, page }) {
   const [query, setQuery] = useState("");
-  const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets"].includes(page.id)
+  const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
   const relatedPages = useMemo(
@@ -70,7 +71,7 @@ function SeoArticle({ catalog, page }) {
             {kindLabels[page.kind] ?? "Технический справочник"}
           </p>
           <h1 className={`mt-3 max-w-[1180px] font-display font-extrabold leading-[0.92] tracking-[-0.035em] ${
-            page.id === "tv-zone-sockets"
+            ["tv-zone-sockets", "tilt-mount"].includes(page.id)
               ? "text-[clamp(3rem,4vw,4.4rem)]"
               : ["wall-mounted-tv", "mounting-map"].includes(page.id)
               ? "text-[clamp(3rem,4.6vw,5rem)]"
@@ -84,7 +85,7 @@ function SeoArticle({ catalog, page }) {
         </header>
 
         <section
-          className={`${page.id === "tv-zone-sockets" ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
+          className={`${["tv-zone-sockets", "tilt-mount"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
           aria-label="Ключевые факты"
         >
           {topFacts.map((fact, index) => (
@@ -98,6 +99,7 @@ function SeoArticle({ catalog, page }) {
         {page.id === "mounting-height" ? <HeightCalculator /> : null}
         {page.id === "viewing-distance" ? <ViewingDistanceCalculator /> : null}
         {page.id === "wall-mounted-tv" ? <TurnClearanceCalculator /> : null}
+        {page.id === "tilt-mount" ? <TiltAngleCalculator /> : null}
         {page.id === "mounting-map" ? <MountingMapCalculator /> : null}
         {page.id === "tv-zone-sockets" ? <TvZoneSocketCalculator /> : null}
 

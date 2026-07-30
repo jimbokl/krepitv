@@ -282,11 +282,29 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         "vesa" => &["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
         "vesa-200x200" | "vesa-300x200" => &["vesa", "how-to-find-vesa", "diagonal-55"],
         "diagonal-55" => &["wall-mounted-tv", "mounting-height", "vesa"],
-        "fixed-mount" => &["wall-mounted-tv", "full-motion-mount", "mounting-height"],
-        "full-motion-mount" => &["wall-mounted-tv", "fixed-mount", "mounting-height"],
+        "fixed-mount" => &[
+            "wall-mounted-tv",
+            "tilt-mount",
+            "full-motion-mount",
+            "mounting-height",
+        ],
+        "tilt-mount" => &[
+            "mounting-height",
+            "mounting-map",
+            "wall-mounted-tv",
+            "fixed-mount",
+            "full-motion-mount",
+        ],
+        "full-motion-mount" => &[
+            "wall-mounted-tv",
+            "fixed-mount",
+            "tilt-mount",
+            "mounting-height",
+        ],
         "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
         "mounting-height" => &[
             "mounting-map",
+            "tilt-mount",
             "tv-zone-sockets",
             "wall-mounted-tv",
             "viewing-distance",
@@ -325,6 +343,9 @@ fn seo_calculator_note(page_id: &str) -> &'static str {
         }
         "tv-zone-sockets" => {
             "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Карта розеток ТВ-зоны</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент связывает положение экрана с реальными габаритами настенной пластины и розеточного блока. Он проверяет пересечение, скрытие блока корпусом, глубину вилок и минимальный сдвиг до отделки стены.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Расчёт не проектирует проводку и не разрешает штробление. Разъёмы телевизора, траекторию механизма, скрытые коммуникации, защиту и способ монтажа проверяют по точным изделиям и проекту электрика.</p></section>"
+        }
+        "tilt-mount" => {
+            "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Рассчитать угол наклона телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент связывает высоту центра экрана, уровень глаз и расстояние просмотра, затем сравнивает требуемое направление с паспортными пределами кронштейна вверх и вниз.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Результат описывает только геометрию направления центра. Он не назначает удобную высоту и не подтверждает VESA, нагрузку, фиксацию механизма, кабельные зазоры или основание стены.</p></section>"
         }
         "mounting-height" => {
             "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор высоты установки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Интерактивный расчёт учитывает диагональ экрана, высоту глаз, расстояние просмотра, вертикальный угол, высоту мебели и обязательный зазор.</p></section>"
@@ -874,6 +895,37 @@ mod tests {
             related_seo_pages(page, &pages)
                 .iter()
                 .any(|related| related.id == "mounting-map")
+        );
+        assert!(
+            related_seo_pages(page, &pages)
+                .iter()
+                .any(|related| related.id == "wall-mounted-tv")
+        );
+    }
+
+    #[test]
+    fn tilt_mount_page_is_indexable_and_keeps_geometric_boundary() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let page = pages
+            .iter()
+            .find(|page| page.id == "tilt-mount")
+            .expect("Нет страницы наклонного кронштейна");
+
+        assert_eq!(page.path, "/tipy-kronshteynov/naklonnyy/");
+        assert_eq!(page.kind, "mechanism");
+        assert!(page.indexable);
+        assert!(page.title.contains("расчёт угла"));
+        assert!(page.description.contains("диапазоном кронштейна"));
+        assert!(page.facts.len() >= 5);
+        assert!(page.faq.len() >= 5);
+
+        let calculator_copy = seo_calculator_note(&page.id);
+        assert!(calculator_copy.contains("Рассчитать угол наклона телевизора"));
+        assert!(calculator_copy.contains("не назначает удобную высоту"));
+        assert!(
+            related_seo_pages(page, &pages)
+                .iter()
+                .any(|related| related.id == "mounting-height")
         );
         assert!(
             related_seo_pages(page, &pages)

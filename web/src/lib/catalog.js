@@ -167,6 +167,22 @@ export async function calculateTurnClearance(values) {
   return response;
 }
 
+export async function calculateTiltAngle(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.tilt_angle_plan_json(
+      values.diagonal,
+      values.screenCenterHeight,
+      values.eyeHeight,
+      values.viewingDistance,
+      values.maximumDownTilt,
+      values.maximumUpTilt,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export function modelHref(model) {
   return `/modeli/${model.id}/`;
 }
