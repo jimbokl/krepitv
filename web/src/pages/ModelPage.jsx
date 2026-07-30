@@ -8,6 +8,7 @@ import {
   Ruler,
   ShieldCheck,
 } from "@phosphor-icons/react";
+import { AffiliateLink } from "../components/AffiliateOffer.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { ModelFacts, formatNumber } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
@@ -136,23 +137,44 @@ function MountMatches({ affiliateOffers, matches }) {
   if (!matches.length) {
     return <p className="py-6 text-muted">В проверенном каталоге пока нет совместимых вариантов.</p>;
   }
+  const matchesWithOffers = matches
+    .map((match) => ({ ...match, ...marketOfferForMatch(affiliateOffers, match.mount) }))
+    .filter(({ market }) => market);
+  const featuredOffers = matchesWithOffers.slice(0, 3);
+  const featuredMountIds = new Set(featuredOffers.map(({ mount }) => mount.id));
+
   return (
-    <CatalogBrandGroups
-      countLabel="Кронштейнов"
-      getBrand={(item) => item.mount.brand}
-      items={matches}
-      listClassName="border-b border-line"
-      renderItem={({ mount, reasons, warnings, required_load_kg: requiredLoad, fit_status: fitStatus }) => {
-        const offer = selectAffiliateOffer(
-          affiliateOffers,
-          {
-            pagePath: `/kronshteyny/${mount.id}/`,
-            entityKind: "mount",
-            entityId: mount.id,
-          },
-        );
-        const market = getAffiliatePresentation(offer);
-        return (
+    <>
+      {featuredOffers.length ? (
+        <section aria-label="Предложения Яндекс Маркета" className="mt-6 border-2 border-ink bg-white p-5">
+          <div className="flex flex-wrap items-end justify-between gap-2 border-b border-ink pb-3">
+            <h2 className="font-display text-2xl font-extrabold">Сейчас доступны на Маркете</h2>
+            <span className="font-mono text-xs uppercase text-muted">До 3 проверенных вариантов</span>
+          </div>
+          <div className="grid gap-4 pt-4 lg:grid-cols-3">
+            {featuredOffers.map(({ market, mount, offer }) => (
+              <article className="flex flex-col border border-line p-4" key={mount.id}>
+                <h3 className="font-display text-xl font-bold">{mount.title}</h3>
+                <p className="mt-2 flex-1 font-mono text-[0.62rem] leading-relaxed text-muted">
+                  {market.label} · {market.advertiserName} · ИНН {market.advertiserInn} · erid: {market.erid}
+                </p>
+                <AffiliateLink className="primary-button mt-4" offer={offer}>
+                  Проверить цену <ArrowRight aria-hidden="true" />
+                </AffiliateLink>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <CatalogBrandGroups
+        countLabel="Кронштейнов"
+        getBrand={(item) => item.mount.brand}
+        items={matches}
+        listClassName="border-b border-line"
+        renderItem={({ mount, reasons, warnings, required_load_kg: requiredLoad, fit_status: fitStatus }) => {
+          const { market, offer } = marketOfferForMatch(affiliateOffers, mount);
+          return (
         <article className="grid gap-4 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" key={mount.id}>
           <div>
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
@@ -188,16 +210,11 @@ function MountMatches({ affiliateOffers, matches }) {
             </ul>
           </div>
           <div className="flex flex-col items-start gap-2 sm:items-end">
-            {market ? (
+            {market && !featuredMountIds.has(mount.id) ? (
               <>
-                <a
-                  className="primary-button"
-                  href={market.href}
-                  rel={market.rel}
-                  target={market.target}
-                >
+                <AffiliateLink className="primary-button" offer={offer}>
                   На Яндекс Маркет <ArrowRight aria-hidden="true" />
-                </a>
+                </AffiliateLink>
                 <span className="max-w-64 text-left font-mono text-[0.62rem] leading-relaxed text-muted sm:text-right">
                   {market.label} · {market.advertiserName} · ИНН {market.advertiserInn} · erid: {market.erid}
                 </span>
@@ -208,10 +225,23 @@ function MountMatches({ affiliateOffers, matches }) {
             </a>
           </div>
         </article>
-        );
-      }}
-    />
+          );
+        }}
+      />
+    </>
   );
+}
+
+function marketOfferForMatch(affiliateOffers, mount) {
+  const offer = selectAffiliateOffer(
+    affiliateOffers,
+    {
+      pagePath: `/kronshteyny/${mount.id}/`,
+      entityKind: "mount",
+      entityId: mount.id,
+    },
+  );
+  return { offer, market: getAffiliatePresentation(offer) };
 }
 
 function MissingModel({ catalog }) {

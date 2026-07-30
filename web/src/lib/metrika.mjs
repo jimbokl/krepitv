@@ -1,4 +1,6 @@
-export const AFFILIATE_CLICK_EVENT = "krepitv:affiliate-click";
+import { AFFILIATE_CLICK_EVENT } from "./affiliateClick.mjs";
+
+export { AFFILIATE_CLICK_EVENT };
 export const AFFILIATE_CLICK_GOAL = "market_click";
 
 const METRIKA_SCRIPT_ID = "krepitv-yandex-metrika";

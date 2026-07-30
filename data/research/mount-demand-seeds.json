@@ -1,0 +1,21 @@
+[
+  { "brand": "iTECHmount", "model": "SLT-460", "query": "itechmount slt 460", "catalog_id": "itech-slt-460", "reward_ui_rank": 1 },
+  { "brand": "ONKRON", "model": "NN24", "query": "onkron nn24", "catalog_id": null, "reward_ui_rank": 2 },
+  { "brand": "iTECHmount", "model": "SLT-440", "query": "itechmount slt 440", "catalog_id": null, "reward_ui_rank": 3 },
+  { "brand": "iTECHmount", "model": "PLB440NT", "query": "itechmount plb440nt", "catalog_id": null, "reward_ui_rank": 4 },
+  { "brand": "Kivi", "model": "Motion-443A", "query": "kivi motion 443a", "catalog_id": null, "reward_ui_rank": 6 },
+  { "brand": "iTECHmount", "model": "PTRB440LN", "query": "itechmount ptrb440ln", "catalog_id": null, "reward_ui_rank": 7 },
+  { "brand": "iTECHmount", "model": "PLB640NT", "query": "itechmount plb640nt", "catalog_id": null, "reward_ui_rank": 8 },
+  { "brand": "iTECHmount", "model": "PL2", "query": "itechmount pl2", "catalog_id": null, "reward_ui_rank": 11 },
+  { "brand": "iTECHmount", "model": "PLB220NT", "query": "itechmount plb220nt", "catalog_id": null, "reward_ui_rank": 12 },
+  { "brand": "GoDoo", "model": "GD78-446", "query": "godoo gd78 446", "catalog_id": null, "reward_ui_rank": 13 },
+  { "brand": "iTECHmount", "model": "PLB-64F", "query": "itechmount plb 64f", "catalog_id": null, "reward_ui_rank": 14 },
+  { "brand": "KEIZEN", "model": "KZ-20396124", "query": "keizen kz 20396124", "catalog_id": null, "reward_ui_rank": 15 },
+  { "brand": "iTECHmount", "model": "LCDN822", "query": "itechmount lcdn822", "catalog_id": null, "reward_ui_rank": 16 },
+  { "brand": "iTECHmount", "model": "P4T", "query": "itechmount p4t", "catalog_id": null, "reward_ui_rank": 17 },
+  { "brand": "Kivi", "model": "Heavy-48T", "query": "kivi heavy 48t", "catalog_id": null, "reward_ui_rank": 18 },
+  { "brand": "iTECHmount", "model": "LCDN832 WHITE", "query": "itechmount lcdn832 white", "catalog_id": null, "reward_ui_rank": 19 },
+  { "brand": "Remounts", "model": "RM 202F", "query": "remounts rm 202f", "catalog_id": null, "reward_ui_rank": 22 },
+  { "brand": "ELTRONIC", "model": "10-13", "query": "eltronic 10 13", "catalog_id": null, "reward_ui_rank": 23 },
+  { "brand": "ONKRON", "model": "TM5", "query": "onkron tm5", "catalog_id": null, "reward_ui_rank": 24 }
+]

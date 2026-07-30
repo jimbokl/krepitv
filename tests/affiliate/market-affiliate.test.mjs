@@ -23,6 +23,11 @@ import {
   getAffiliatePresentation,
   selectAffiliateOffer,
 } from "../../web/src/lib/affiliateOffer.mjs";
+import {
+  AFFILIATE_CLICK_EVENT,
+  affiliateClickDetail,
+  emitAffiliateClick,
+} from "../../web/src/lib/affiliateClick.mjs";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -220,6 +225,47 @@ test("publishes a direct sponsored link with the visible disclosure data", () =>
     ),
     offer,
   );
+});
+
+test("emits one sanitized affiliate-click payload for every Market CTA", () => {
+  const dispatched = [];
+  class FakeCustomEvent {
+    constructor(type, options) {
+      this.type = type;
+      this.detail = options.detail;
+    }
+  }
+  const windowObject = {
+    CustomEvent: FakeCustomEvent,
+    dispatchEvent(event) {
+      dispatched.push(event);
+      return true;
+    },
+  };
+  const offer = {
+    entity_id: "onkron-tm5-bw",
+    id: "market-onkron-tm5-bw",
+    page_path: "/kronshteyny/onkron-tm5-bw/",
+    vid: "krepitv-mount",
+    affiliate_href: "https://market.yandex.ru/card/example?erid=fixture",
+  };
+
+  assert.deepEqual(affiliateClickDetail(offer), {
+    entityId: "onkron-tm5-bw",
+    offerId: "market-onkron-tm5-bw",
+    pagePath: "/kronshteyny/onkron-tm5-bw/",
+    vid: "krepitv-mount",
+  });
+  assert.equal(emitAffiliateClick(windowObject, offer), true);
+  assert.equal(dispatched.length, 1);
+  assert.equal(dispatched[0].type, AFFILIATE_CLICK_EVENT);
+  assert.deepEqual(dispatched[0].detail, affiliateClickDetail(offer));
+  assert.equal("affiliate_href" in dispatched[0].detail, false);
+});
+
+test("affiliate-click emitter fails closed without a browser event API", () => {
+  assert.equal(emitAffiliateClick(null, {}), false);
+  assert.equal(emitAffiliateClick({}, {}), false);
 });
 
 test("hides stale offers and falls back to a fresh offer for the same page", () => {

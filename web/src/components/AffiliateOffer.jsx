@@ -1,23 +1,29 @@
 import { useState } from "react";
+import { emitAffiliateClick } from "../lib/affiliateClick.mjs";
 import { getAffiliatePresentation } from "../lib/affiliateOffer.mjs";
+
+export function AffiliateLink({ children, className = "primary-button", offer }) {
+  const presentation = getAffiliatePresentation(offer);
+  if (!presentation) return null;
+
+  return (
+    <a
+      className={className}
+      data-erid={presentation.erid}
+      href={presentation.href}
+      onClick={() => emitAffiliateClick(window, offer)}
+      rel={presentation.rel}
+      target={presentation.target}
+    >
+      {children}
+    </a>
+  );
+}
 
 export default function AffiliateOffer({ offer, children }) {
   const [imageFailed, setImageFailed] = useState(false);
   const presentation = getAffiliatePresentation(offer);
   if (!presentation) return null;
-
-  function trackClick() {
-    window.dispatchEvent(
-      new CustomEvent("krepitv:affiliate-click", {
-        detail: {
-          entityId: offer.entity_id,
-          offerId: offer.id,
-          pagePath: offer.page_path,
-          vid: offer.vid,
-        },
-      }),
-    );
-  }
 
   return (
     <aside
@@ -50,15 +56,9 @@ export default function AffiliateOffer({ offer, children }) {
           {presentation.productTitle}
         </h2>
         {children}
-        <a
-          className="primary-button mt-4"
-          href={presentation.href}
-          onClick={trackClick}
-          rel={presentation.rel}
-          target={presentation.target}
-        >
+        <AffiliateLink className="primary-button mt-4" offer={offer}>
           Проверить цену на Яндекс Маркете
-        </a>
+        </AffiliateLink>
         <p className="mt-3 text-xs leading-relaxed text-muted">
           Карточка получена через API Маркета. Цена и наличие уточняются на стороне Маркета с учётом региона.{" "}
           <a

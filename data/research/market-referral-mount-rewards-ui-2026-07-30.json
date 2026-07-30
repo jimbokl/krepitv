@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-07-30T18:45:30Z",
+  "source": {
+    "kind": "authenticated_yandex_market_referral_ui",
+    "url": "https://market.yandex.ru/page/referral_products?text=%D0%BA%D1%80%D0%BE%D0%BD%D1%88%D1%82%D0%B5%D0%B9%D0%BD%20%D0%B4%D0%BB%D1%8F%20%D1%82%D0%B5%D0%BB%D0%B5%D0%B2%D0%B8%D0%B7%D0%BE%D1%80%D0%B0&referral-products-only=1",
+    "region": "Москва",
+    "sort": "С наградой",
+    "capture_method": "visible DOM text from the already-open authenticated Chrome tab"
+  },
+  "interpretation": {
+    "displayed_reward_rub": "Витринная награда рядом с товаром; не доход и не гарантия выплаты.",
+    "displayed_price_rub": "Показанная цена выдачи на момент наблюдения; зависит от региона и условий покупателя.",
+    "purchases": "Округлённый счётчик покупок, показанный Маркетом; не поисковая частотность."
+  },
+  "items": [
+    { "rank": 1, "brand": "iTECHmount", "model": "SLT-460", "displayed_reward_rub": 1113, "displayed_price_rub": 2647, "rating": 4.9, "reviews": 314, "purchases": 1400 },
+    { "rank": 2, "brand": "ONKRON", "model": "NN24", "displayed_reward_rub": 220, "displayed_price_rub": 1350, "rating": 4.9, "reviews": 7100, "purchases": 26300 },
+    { "rank": 3, "brand": "iTECHmount", "model": "SLT-440", "displayed_reward_rub": 1036, "displayed_price_rub": 2477, "rating": 4.9, "reviews": 939, "purchases": 3400 },
+    { "rank": 4, "brand": "iTECHmount", "model": "PLB440NT", "displayed_reward_rub": 480, "displayed_price_rub": 922, "rating": 4.9, "reviews": 1200, "purchases": 4200 },
+    { "rank": 5, "brand": null, "model": "STE-644 32–70", "displayed_reward_rub": 213, "displayed_price_rub": 2014, "rating": 4.8, "reviews": 1300, "purchases": 6400 },
+    { "rank": 6, "brand": "Kivi", "model": "Motion-443A", "displayed_reward_rub": 289, "displayed_price_rub": 592, "rating": 5.0, "reviews": 13, "purchases": 83 },
+    { "rank": 7, "brand": "iTECHmount", "model": "PTRB440LN", "displayed_reward_rub": 971, "displayed_price_rub": 2286, "rating": 4.9, "reviews": 551, "purchases": 1800 },
+    { "rank": 8, "brand": "iTECHmount", "model": "PLB640NT", "displayed_reward_rub": 675, "displayed_price_rub": 1310, "rating": 4.8, "reviews": 191, "purchases": 776 },
+    { "rank": 9, "brand": null, "model": "STE-644 32–65", "displayed_reward_rub": 584, "displayed_price_rub": 3202, "rating": 4.9, "reviews": 1900, "purchases": 7900 },
+    { "rank": 10, "brand": null, "model": "Наклонный 26–55 до 50 кг", "displayed_reward_rub": 86, "displayed_price_rub": 683, "rating": 4.9, "reviews": 350, "purchases": 1000 },
+    { "rank": 11, "brand": "iTECHmount", "model": "PL2", "displayed_reward_rub": 189, "displayed_price_rub": 298, "rating": 4.8, "reviews": 212, "purchases": 654 },
+    { "rank": 12, "brand": "iTECHmount", "model": "PLB220NT", "displayed_reward_rub": 358, "displayed_price_rub": 630, "rating": 4.8, "reviews": 673, "purchases": 2100 },
+    { "rank": 13, "brand": "GoDoo", "model": "GD78-446", "displayed_reward_rub": 370, "displayed_price_rub": 1896, "rating": 4.9, "reviews": 738, "purchases": 3300 },
+    { "rank": 14, "brand": "iTECHmount", "model": "PLB-64F", "displayed_reward_rub": 482, "displayed_price_rub": 906, "rating": 4.9, "reviews": 155, "purchases": 613 },
+    { "rank": 15, "brand": "KEIZEN", "model": "KZ-20396124", "displayed_reward_rub": 144, "displayed_price_rub": 980, "rating": 4.9, "reviews": 261, "purchases": 1100 },
+    { "rank": 16, "brand": "iTECHmount", "model": "LCDN822", "displayed_reward_rub": 459, "displayed_price_rub": 853, "rating": 4.9, "reviews": 80, "purchases": 355 },
+    { "rank": 17, "brand": "iTECHmount", "model": "P4T", "displayed_reward_rub": 376, "displayed_price_rub": 677, "rating": 4.8, "reviews": 162, "purchases": 752 },
+    { "rank": 18, "brand": "Kivi", "model": "Heavy-48T", "displayed_reward_rub": 215, "displayed_price_rub": 791, "rating": 4.8, "reviews": 12, "purchases": 154 },
+    { "rank": 19, "brand": "iTECHmount", "model": "LCDN832 WHITE", "displayed_reward_rub": 555, "displayed_price_rub": 1078, "rating": 5.0, "reviews": 92, "purchases": 434 },
+    { "rank": 20, "brand": null, "model": "Поворотный 32–55 до 22 кг", "displayed_reward_rub": 104, "displayed_price_rub": 916, "rating": 4.8, "reviews": 774, "purchases": 2600 },
+    { "rank": 21, "brand": null, "model": "FME-44B", "displayed_reward_rub": 129, "displayed_price_rub": 688, "rating": 4.8, "reviews": 5400, "purchases": 17400 },
+    { "rank": 22, "brand": "Remounts", "model": "RM 202F", "displayed_reward_rub": 56, "displayed_price_rub": 206, "rating": 4.8, "reviews": 119, "purchases": 205 },
+    { "rank": 23, "brand": "ELTRONIC", "model": "10-13", "displayed_reward_rub": 64, "displayed_price_rub": 439, "rating": 4.8, "reviews": 23, "purchases": 99 },
+    { "rank": 24, "brand": "ONKRON", "model": "TM5", "displayed_reward_rub": 413, "displayed_price_rub": 2748, "rating": 4.9, "reviews": 3800, "purchases": 11400 }
+  ]
+}

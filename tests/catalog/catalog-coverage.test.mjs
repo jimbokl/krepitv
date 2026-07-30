@@ -25,10 +25,10 @@ test("current manifest reports the real growing catalog and blocks a premature f
   assert.equal(result.catalog_status, "growing");
   assert.equal(result.full_catalog_claim, false);
   assert.equal(result.full_catalog_ready, false);
-  assert.equal(result.actual.verified_models, 53);
+  assert.equal(result.actual.verified_models, 67);
   assert.deepEqual(result.actual.brands, ["Hisense", "LG", "Samsung", "TCL", "Xiaomi"]);
-  assert.equal(result.actual.series.length, 31);
-  assert.deepEqual(result.actual.diagonals_inches, [32, 42, 43, 50, 55, 65, 75]);
+  assert.equal(result.actual.series.length, 35);
+  assert.deepEqual(result.actual.diagonals_inches, [32, 42, 43, 48, 50, 55, 65, 75, 85]);
   assert.deepEqual(result.actual.model_years, [2024, 2025, 2026]);
   assert.equal(result.target.demand_status, "measured");
   assert.equal(result.target.models, 50);

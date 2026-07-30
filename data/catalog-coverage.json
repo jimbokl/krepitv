@@ -1376,6 +1376,160 @@
       "dimension_source_url": "https://www.lg.com/ru/televisions/lg-oled55g5rla",
       "dimension_source_label": "Официальные российские характеристики LG",
       "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "samsung-qe65qn70fauxru",
+      "brand": "Samsung",
+      "series": "QN70F",
+      "diagonal_inches": 65,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn70f-65-inch-neo-qled-4k-mini-led-smart-tv-qe65qn70fauxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn70f-65-inch-neo-qled-4k-mini-led-smart-tv-qe65qn70fauxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "samsung-qe55s90fauxru",
+      "brand": "Samsung",
+      "series": "S90F",
+      "diagonal_inches": 55,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/oled-tv/s90f-55-inch-oled-4k-smart-tv-qe55s90fauxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/oled-tv/s90f-55-inch-oled-4k-smart-tv-qe55s90fauxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "samsung-qe75q7faauxru",
+      "brand": "Samsung",
+      "series": "Q7FA",
+      "diagonal_inches": 75,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-75-inch-qled-4k-smart-tv-qe75q7faauxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-75-inch-qled-4k-smart-tv-qe75q7faauxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "samsung-qe50qn90fauxru",
+      "brand": "Samsung",
+      "series": "QN90F",
+      "diagonal_inches": 50,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn90f-50-inch-neo-qled-4k-mini-led-smart-tv-qe50qn90fauxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn90f-50-inch-neo-qled-4k-mini-led-smart-tv-qe50qn90fauxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "samsung-qe43qn90fauxru",
+      "brand": "Samsung",
+      "series": "QN90F",
+      "diagonal_inches": 43,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn90f-43-inch-neo-qled-4k-mini-led-smart-tv-qe43qn90fauxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn90f-43-inch-neo-qled-4k-mini-led-smart-tv-qe43qn90fauxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "samsung-ue75u8000fuxru",
+      "brand": "Samsung",
+      "series": "U8000F",
+      "diagonal_inches": 75,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-75-inch-crystal-uhd-4k-smart-tv-ue75u8000fuxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-75-inch-crystal-uhd-4k-smart-tv-ue75u8000fuxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "samsung-qe85q7faauxru",
+      "brand": "Samsung",
+      "series": "Q7FA",
+      "diagonal_inches": 85,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-85-inch-qled-4k-smart-tv-qe85q7faauxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-85-inch-qled-4k-smart-tv-qe85q7faauxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "samsung-ue85u8000fuxru",
+      "brand": "Samsung",
+      "series": "U8000F",
+      "diagonal_inches": 85,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-85-inch-crystal-uhd-4k-smart-tv-ue85u8000fuxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-85-inch-crystal-uhd-4k-smart-tv-ue85u8000fuxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "lg-43qned82a6b",
+      "brand": "LG",
+      "series": "QNED82",
+      "diagonal_inches": 43,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.lg.com/ru/televisions/lg-43qned82a6b",
+      "dimension_source_url": "https://www.lg.com/ru/televisions/lg-43qned82a6b",
+      "dimension_source_label": "Официальные российские характеристики LG",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "lg-oled48c5rla",
+      "brand": "LG",
+      "series": "OLED C5",
+      "diagonal_inches": 48,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.lg.com/ru/televisions/lg-oled48c5rla",
+      "dimension_source_url": "https://www.lg.com/ru/televisions/lg-oled48c5rla",
+      "dimension_source_label": "Официальные российские характеристики LG",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "lg-43qned80a6a",
+      "brand": "LG",
+      "series": "QNED80",
+      "diagonal_inches": 43,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.lg.com/ru/televisions/lg-43qned80a6a",
+      "dimension_source_url": "https://www.lg.com/ru/televisions/lg-43qned80a6a",
+      "dimension_source_label": "Официальные российские характеристики LG",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "lg-55qned93a6a",
+      "brand": "LG",
+      "series": "QNED93",
+      "diagonal_inches": 55,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.lg.com/ru/televisions/lg-55qned93a6a",
+      "dimension_source_url": "https://www.lg.com/ru/televisions/lg-55qned93a6a",
+      "dimension_source_label": "Официальные российские характеристики LG",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "lg-50qned82a6b",
+      "brand": "LG",
+      "series": "QNED82",
+      "diagonal_inches": 50,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.lg.com/ru/televisions/lg-50qned82a6b",
+      "dimension_source_url": "https://www.lg.com/ru/televisions/lg-50qned82a6b",
+      "dimension_source_label": "Официальные российские характеристики LG",
+      "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "lg-43qned70a6a",
+      "brand": "LG",
+      "series": "QNED70",
+      "diagonal_inches": 43,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.lg.com/ru/televisions/lg-43qned70a6a",
+      "dimension_source_url": "https://www.lg.com/ru/televisions/lg-43qned70a6a",
+      "dimension_source_label": "Официальные российские характеристики LG",
+      "checked_at": "2026-07-30"
     }
   ]
 }

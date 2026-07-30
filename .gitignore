@@ -23,5 +23,6 @@
 /.codex-tmp/
 /.private/
 /chromeuse-screenshots/
+/product-docs/browser-evidence/
 .DS_Store
 *.log
