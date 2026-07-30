@@ -4,15 +4,17 @@
 
 ## Production
 
-- GitHub Pages release: `c424091edb2ccda3baf270bb47a77c3295e4daa0`.
-- Страница `/kronshteyn-dlya-televizora-na-stenu/`, основной JavaScript,
-  WASM glue и `krepitv_engine_bg.wasm` отдаются со всех четырёх IPv4-узлов
-  GitHub Pages с HTTP 200.
+- Релиз монтажной карты: `3ceb6119ed94dddd0eec5b3eda0811de1377ccec`.
+- GitHub Pages workflow `30542956582` завершён успешно 30 июля 2026 года.
+- Страницы `/kronshteyn-dlya-televizora-na-stenu/` и
+  `/kak-povesit-televizor-na-stenu/`, основной JavaScript, WASM glue,
+  `krepitv_engine_bg.wasm` и sitemap отдаются через основной домен с HTTP 200.
 - MIME WASM корректный: `application/wasm`.
 - Авторитетные DNS-серверы REG.RU и публичные резолверы отдают четыре адреса
   GitHub Pages; `www` указывает CNAME на `jimbokl.github.io`.
-- Сертификат для `krepitv.ru` ещё не выпущен. На edge пока возвращается
-  сертификат `*.github.io`, поэтому HTTPS нельзя считать рабочим.
+- Сертификат для `krepitv.ru` ещё не выпущен. На edge 30 июля после релиза
+  по-прежнему возвращается сертификат `*.github.io`, поэтому HTTPS нельзя
+  считать рабочим.
 - Локальный системный резолвер macOS ещё может видеть старый парковочный A-record;
   это не совпадает с актуальным авторитетным DNS и должно исчезнуть после TTL.
 
