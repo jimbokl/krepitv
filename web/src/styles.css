@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  color: #151412;
+  background: #f7f5f0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background: #f7f5f0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+::selection {
+  color: #ffffff;
+  background: #f04a0b;
+}
+
+@layer components {
+  .primary-button {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-action px-5 py-3 font-display text-lg font-bold text-white transition hover:bg-[#d94108] focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .secondary-button {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-ink bg-white px-5 py-3 font-display text-lg font-bold text-ink transition hover:border-action hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2;
+  }
+
+  .input-control {
+    @apply h-12 w-full rounded-sm border border-ink bg-white px-3 text-base text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20;
+  }
+}

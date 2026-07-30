@@ -1,0 +1,73 @@
+[
+  {
+    "id": "itech-slt-460",
+    "title": "iTECHmount SLT-460",
+    "mechanism": "full-motion",
+    "min_diagonal_in": 37.0,
+    "max_diagonal_in": 80.0,
+    "max_load_kg": 40.0,
+    "vesa": [
+      "100x100",
+      "100x150",
+      "150x100",
+      "100x200",
+      "200x100",
+      "150x150",
+      "200x200",
+      "200x300",
+      "300x200",
+      "200x400",
+      "400x200",
+      "300x300",
+      "300x400",
+      "400x400",
+      "600x300",
+      "600x400"
+    ],
+    "wall_distance_min_mm": 67.0,
+    "wall_distance_max_mm": 355.0,
+    "source_url": "https://itechmount.ru/products/58350326"
+  },
+  {
+    "id": "itech-ptrb460ln",
+    "title": "iTECHmount PTRB460LN",
+    "mechanism": "full-motion",
+    "min_diagonal_in": 37.0,
+    "max_diagonal_in": 70.0,
+    "max_load_kg": 40.0,
+    "vesa": ["200x200", "300x300", "400x200", "400x400", "600x400"],
+    "wall_distance_min_mm": 56.0,
+    "wall_distance_max_mm": 464.0,
+    "source_url": "https://itechmount.ru/products/43001082"
+  },
+  {
+    "id": "itech-p4f",
+    "title": "iTECHmount P4F",
+    "mechanism": "fixed",
+    "min_diagonal_in": 32.0,
+    "max_diagonal_in": 75.0,
+    "max_load_kg": 45.0,
+    "vesa": [
+      "50x50",
+      "75x75",
+      "100x100",
+      "100x150",
+      "150x100",
+      "100x200",
+      "200x100",
+      "150x150",
+      "200x200",
+      "200x300",
+      "300x200",
+      "200x400",
+      "400x200",
+      "300x300",
+      "300x400",
+      "400x300",
+      "400x400"
+    ],
+    "wall_distance_min_mm": 22.0,
+    "wall_distance_max_mm": 22.0,
+    "source_url": "https://itechmount.ru/products/43001104"
+  }
+]

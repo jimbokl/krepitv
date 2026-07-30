@@ -1,0 +1,15 @@
+{
+  "name": "krepitv",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build:content": "cargo run -p krepitv-sitegen --release",
+    "build:wasm": "wasm-pack build crates/engine --target web --out-dir ../../web/public/pkg --release",
+    "build:web": "npm --prefix web run build",
+    "build:publish": "node scripts/copy-dist.mjs",
+    "build": "node scripts/clean.mjs && npm run build:content && npm run build:wasm && npm run build:web && npm run build:publish && npm run verify",
+    "dev:prepare": "npm run build:content && npm run build:wasm",
+    "dev": "npm run dev:prepare && npm --prefix web run dev",
+    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && node scripts/verify.mjs"
+  }
+}

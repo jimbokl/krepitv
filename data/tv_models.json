@@ -1,0 +1,34 @@
+[
+  {
+    "id": "samsung-qe55q70dauxru",
+    "brand": "Samsung",
+    "model": "QE55Q70DAUXRU",
+    "title": "Samsung QE55Q70DAUXRU",
+    "diagonal_inches": 55.0,
+    "weight_kg": 15.3,
+    "width_mm": 1232.9,
+    "height_mm": 708.7,
+    "depth_mm": 25.7,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q70d-55-inch-qled-4k-tizen-os-smart-tv-qe55q70dauxru/",
+    "source_label": "Официальные характеристики Samsung",
+    "checked_at": "2026-07-30"
+  },
+  {
+    "id": "lg-oled55c4rla",
+    "brand": "LG",
+    "model": "OLED55C4RLA",
+    "title": "LG OLED55C4RLA",
+    "diagonal_inches": 55.0,
+    "weight_kg": 14.1,
+    "width_mm": 1222.0,
+    "height_mm": 703.0,
+    "depth_mm": 45.1,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 200,
+    "source_url": "https://www.lg.com/ru/televisions/lg-oled55c4rla",
+    "source_label": "Официальные характеристики LG",
+    "checked_at": "2026-07-30"
+  }
+]

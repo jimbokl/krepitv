@@ -1,0 +1,202 @@
+import { useMemo, useState } from "react";
+import {
+  ArrowRight,
+  Check,
+  CheckCircle,
+  Crosshair,
+  LockKey,
+  MagnifyingGlass,
+  Medal,
+  Monitor,
+  ShieldCheck,
+  Wrench,
+} from "@phosphor-icons/react";
+import { Brand } from "../components/Brand.jsx";
+import { ModelFacts } from "../components/ModelFacts.jsx";
+import { ModelSearch } from "../components/ModelSearch.jsx";
+import { TrustMark } from "../components/TrustMark.jsx";
+import { modelHref } from "../lib/catalog.js";
+
+export function HomePage({ catalog }) {
+  const [query, setQuery] = useState("");
+  const [selectedSearch, setSelectedSearch] = useState(null);
+  const selectedModel = useMemo(
+    () =>
+      catalog.models.find((model) => model.id === selectedSearch?.id) ??
+      catalog.models[0],
+    [catalog.models, selectedSearch],
+  );
+  const compatibleMountCount = useMemo(
+    () =>
+      selectedModel
+        ? catalog.mounts.filter(
+            (mount) =>
+              mount.max_load_kg >= selectedModel.weight_kg * 1.2 &&
+              mount.min_diagonal_in <= selectedModel.diagonal_inches &&
+              mount.max_diagonal_in >= selectedModel.diagonal_inches &&
+              mount.vesa.includes(`${selectedModel.vesa_width_mm}x${selectedModel.vesa_height_mm}`),
+          ).length
+        : 0,
+    [catalog.mounts, selectedModel],
+  );
+
+  function openModel(item) {
+    window.location.assign(item.href || `/modeli/${item.id}/`);
+  }
+
+  return (
+    <main className="min-h-screen overflow-hidden bg-paper text-ink">
+      <div className="mx-auto max-w-[1440px] px-5 pb-10 pt-5 sm:px-8 lg:px-12">
+        <header className="flex flex-wrap items-center justify-between gap-x-8 gap-y-5 border-b border-line pb-5">
+          <div className="flex items-center gap-6">
+            <Brand />
+            <p className="hidden max-w-48 border-l border-line pl-6 text-sm font-semibold leading-tight sm:block">
+              точное крепление
+              <br />
+              для вашего телевизора
+            </p>
+          </div>
+          <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-3 lg:max-w-[560px]">
+            <HeaderTrust Icon={ShieldCheck} text="Точные данные от производителей" />
+            <HeaderTrust Icon={Medal} text="Сверено по источникам" />
+            <HeaderTrust Icon={LockKey} text="Покупайте без ошибок" />
+          </div>
+        </header>
+
+        <div className="my-4 flex items-center gap-3 font-mono text-[0.65rem] text-muted" aria-hidden="true">
+          <span>0</span>
+          <div className="h-px flex-1 bg-line" />
+          <span>200</span>
+          <div className="h-px flex-1 bg-line" />
+          <span>400</span>
+          <div className="h-px flex-1 bg-line" />
+          <span>600</span>
+          <div className="h-px flex-1 bg-line" />
+          <span>800</span>
+          <div className="h-px flex-1 bg-line" />
+          <span>1000 мм</span>
+        </div>
+
+        <section className="grid items-center gap-6 pt-1 lg:grid-cols-[minmax(0,1.75fr)_minmax(26rem,1fr)]">
+          <h1 className="max-w-[930px] font-display text-[clamp(3.25rem,6vw,5.8rem)] font-extrabold uppercase leading-[0.89] tracking-[-0.04em]">
+            Кронштейн точно
+            <br />
+            под ваш телевизор
+          </h1>
+          <div className="hidden min-h-64 items-center justify-center border-l border-dashed border-line lg:flex">
+            <img
+              alt="Задняя панель телевизора с отверстиями VESA 200×200 и боковой профиль"
+              className="h-72 w-full object-contain"
+              src="/assets/images/tv-vesa-diagram.png"
+            />
+          </div>
+        </section>
+
+        <section className="relative z-20 mt-6" aria-label="Поиск телевизора">
+          <ModelSearch
+            onChange={setQuery}
+            onSelect={setSelectedSearch}
+            onSubmit={openModel}
+            search={catalog.search}
+            value={query}
+          />
+        </section>
+
+        {selectedModel ? (
+          <a
+            className="mt-5 grid items-center gap-5 border-b border-line px-2 py-5 transition hover:bg-white/70 focus:outline-none focus:ring-2 focus:ring-action sm:grid-cols-[8rem_minmax(0,1fr)_auto]"
+            href={modelHref(selectedModel)}
+          >
+            <Monitor aria-hidden="true" className="mx-auto size-24" weight="thin" />
+            <div>
+              <h2 className="font-display text-3xl font-bold sm:text-4xl">
+                {selectedModel.title}
+              </h2>
+              <div className="mt-4">
+                <ModelFacts model={selectedModel} />
+              </div>
+            </div>
+            <div className="flex items-center gap-5 border-t border-line pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
+              <TrustMark compact label="Характеристики проверены" />
+              <div className="border-l border-line pl-5 font-display">
+                <span className="block text-sm font-bold">Подходят</span>
+                <span className="block text-4xl font-extrabold leading-none text-action">{compatibleMountCount}</span>
+                <span className="block text-sm font-bold">кронштейна</span>
+              </div>
+              <ArrowRight aria-hidden="true" className="size-8 shrink-0 text-action" />
+            </div>
+          </a>
+        ) : null}
+
+        <section className="grid gap-7 border-b border-line py-8 lg:grid-cols-[23rem_repeat(3,minmax(0,1fr))]" id="kak-vybrat">
+          <h2 className="font-display text-3xl font-bold uppercase leading-tight sm:text-4xl">
+            3 простых шага
+            <br />
+            к правильному креплению
+          </h2>
+          <Step number="1" Icon={MagnifyingGlass} title="Модель">
+            Введите точную модель телевизора.
+          </Step>
+          <Step number="2" Icon={ShieldCheck} title="Проверка">
+            Сверим VESA, массу и диагональ.
+          </Step>
+          <Step number="3" Icon={Wrench} title="Совместимые варианты">
+            Покажем только подходящие кронштейны.
+          </Step>
+        </section>
+
+        <section className="grid gap-4 border-b border-line py-6 sm:grid-cols-2 lg:grid-cols-4" id="proverka">
+          <Benefit Icon={Crosshair}>Точность до миллиметра</Benefit>
+          <Benefit Icon={Wrench}>Подходит к вашему телевизору</Benefit>
+          <Benefit Icon={CheckCircle}>Проверка по источнику</Benefit>
+          <Benefit Icon={ShieldCheck}>Покупайте уверенно</Benefit>
+        </section>
+
+        <div className="mt-6 flex justify-center">
+          <a
+            className="inline-flex items-center gap-3 border-b-2 border-action pb-1 font-display text-lg font-bold text-action"
+            href="/podbor/"
+          >
+            Пройти пошаговый подбор <ArrowRight aria-hidden="true" className="size-5" />
+          </a>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function HeaderTrust({ Icon, text }) {
+  return (
+    <div className="hidden items-center gap-3 text-sm leading-tight sm:flex">
+      <Icon aria-hidden="true" className="size-9 shrink-0" weight="regular" />
+      <span>{text}</span>
+    </div>
+  );
+}
+
+function Step({ number, Icon, title, children }) {
+  return (
+    <article className="relative grid grid-cols-[3.5rem_1fr] gap-4">
+      <span className="absolute -top-2 left-0 flex size-8 items-center justify-center rounded-full bg-action font-display text-lg font-bold text-white">
+        {number}
+      </span>
+      <Icon aria-hidden="true" className="mt-6 size-14" weight="regular" />
+      <div>
+        <h3 className="font-display text-xl font-bold uppercase">{title}</h3>
+        <p className="mt-2 text-sm leading-snug text-muted">{children}</p>
+        <p className="mt-2 flex items-center gap-1 text-xs font-semibold text-verified">
+          <Check aria-hidden="true" /> Только проверенные данные
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function Benefit({ Icon, children }) {
+  return (
+    <div className="flex items-center gap-4 border-r border-line last:border-r-0">
+      <Icon aria-hidden="true" className="size-8 shrink-0" weight="regular" />
+      <span className="text-sm">{children}</span>
+    </div>
+  );
+}
