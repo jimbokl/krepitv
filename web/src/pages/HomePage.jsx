@@ -16,6 +16,7 @@ import { ModelFacts } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
+import { isIndexableSeoPage } from "../lib/seoPages.mjs";
 
 export function HomePage({ catalog }) {
   const [query, setQuery] = useState("");
@@ -38,6 +39,10 @@ export function HomePage({ catalog }) {
           ).length
         : 0,
     [catalog.mounts, selectedModel],
+  );
+  const indexableSeoPages = useMemo(
+    () => catalog.seoPages.filter(isIndexableSeoPage),
+    [catalog.seoPages],
   );
 
   function openModel(item) {
@@ -84,11 +89,19 @@ export function HomePage({ catalog }) {
             вашего телевизора
           </h1>
           <div className="hidden min-h-64 items-center justify-center border-l border-dashed border-line lg:flex">
-            <img
-              alt="Задняя панель телевизора с отверстиями VESA 200×200 и боковой профиль"
-              className="h-72 w-full object-contain"
-              src="/assets/images/tv-vesa-diagram.png"
-            />
+            <picture className="contents">
+              <source srcSet="/assets/images/tv-vesa-diagram.avif" type="image/avif" />
+              <source srcSet="/assets/images/tv-vesa-diagram.webp" type="image/webp" />
+              <img
+                alt="Задняя панель телевизора с отверстиями VESA 200×200 и боковой профиль"
+                className="h-72 w-full object-contain"
+                decoding="async"
+                fetchPriority="high"
+                height="1024"
+                src="/assets/images/tv-vesa-diagram.png"
+                width="1536"
+              />
+            </picture>
           </div>
         </section>
 
@@ -150,6 +163,38 @@ export function HomePage({ catalog }) {
           <Benefit Icon={Wrench}>Проверка ключевых параметров</Benefit>
           <Benefit Icon={CheckCircle}>Проверка по источнику</Benefit>
           <Benefit Icon={ShieldCheck}>Стену проверяйте отдельно</Benefit>
+        </section>
+
+        <section className="border-b border-line py-8" id="spravochniki">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
+                Бесплатные инструменты
+              </p>
+              <h2 className="mt-2 font-display text-3xl font-bold uppercase sm:text-4xl">
+                Справочники и калькуляторы
+              </h2>
+            </div>
+            <p className="max-w-xl text-sm leading-relaxed text-muted sm:text-base">
+              Самостоятельно рассчитайте установку и проверьте технические параметры до
+              выбора товара. Все инструменты доступны без покупки.
+            </p>
+          </div>
+          <nav
+            aria-label="Справочники и калькуляторы"
+            className="mt-6 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {indexableSeoPages.map((page) => (
+              <a
+                className="group flex min-h-28 items-end justify-between gap-4 bg-paper p-5 font-display text-lg font-bold transition hover:bg-white hover:text-action"
+                href={page.path}
+                key={page.id}
+              >
+                {page.h1.replace(/:.+$/, "")}
+                <ArrowRight aria-hidden="true" className="size-5 shrink-0 transition group-hover:translate-x-1" />
+              </a>
+            ))}
+          </nav>
         </section>
 
         <div className="mt-6 flex justify-center">

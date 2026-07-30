@@ -1,6 +1,10 @@
 import { Brand } from "./Brand.jsx";
 
 const footerLinks = [
+  { href: "/podbor/", label: "Подбор" },
+  { href: "/na-kakoy-vysote-veshat-televizor/", label: "Высота установки" },
+  { href: "/rasstoyanie-do-televizora-i-diagonal/", label: "Расстояние и диагональ" },
+  { href: "/vesa/", label: "VESA" },
   { href: "/o-proekte/", label: "О проекте" },
   { href: "/metodika/", label: "Методика" },
   { href: "/kontakty/", label: "Контакты" },
@@ -19,7 +23,7 @@ export function SiteFooter() {
         </div>
         <nav
           className="flex flex-wrap gap-x-6 gap-y-3 font-display text-sm font-bold uppercase"
-          aria-label="Информация о сервисе"
+          aria-label="Инструменты и информация о сервисе"
         >
           {footerLinks.map((link) => (
             <a

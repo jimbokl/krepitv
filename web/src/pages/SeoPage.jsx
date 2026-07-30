@@ -12,7 +12,9 @@ import {
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
+import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
+import { getRelatedPages, isIndexableSeoPage } from "../lib/seoPages.mjs";
 
 const kindLabels = {
   guide: "Практическое руководство",
@@ -79,6 +81,7 @@ function SeoArticle({ catalog, page }) {
         </section>
 
         {page.id === "mounting-height" ? <HeightCalculator /> : null}
+        {page.id === "viewing-distance" ? <ViewingDistanceCalculator /> : null}
 
         <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
           <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-end">
@@ -275,11 +278,25 @@ function PageVisual({ kind }) {
   const mechanisms = kind === "mechanism";
   return (
     <figure className="border-b border-line pb-5">
-      <img
-        alt={mechanisms ? "Фиксированный, наклонный и поворотный механизмы" : "Устройство крепления телевизора к стене"}
-        className={`w-full object-contain ${mechanisms ? "aspect-[2.11/1]" : "aspect-[1.77/1]"}`}
-        src={mechanisms ? "/assets/images/mount-mechanisms.png" : "/assets/images/mount-wall-system.png"}
-      />
+      <picture className="contents">
+        <source
+          srcSet={mechanisms ? "/assets/images/mount-mechanisms.avif" : "/assets/images/mount-wall-system.avif"}
+          type="image/avif"
+        />
+        <source
+          srcSet={mechanisms ? "/assets/images/mount-mechanisms.webp" : "/assets/images/mount-wall-system.webp"}
+          type="image/webp"
+        />
+        <img
+          alt={mechanisms ? "Фиксированный, наклонный и поворотный механизмы" : "Устройство крепления телевизора к стене"}
+          className={`w-full object-contain ${mechanisms ? "aspect-[2.11/1]" : "aspect-[1.77/1]"}`}
+          decoding="async"
+          height={mechanisms ? 663 : 791}
+          loading="lazy"
+          src={mechanisms ? "/assets/images/mount-mechanisms.png" : "/assets/images/mount-wall-system.png"}
+          width="1400"
+        />
+      </picture>
       <figcaption className="mt-3 flex items-start gap-2 font-mono text-xs leading-relaxed text-muted">
         {mechanisms ? <Wrench aria-hidden="true" className="mt-0.5 size-4 shrink-0" /> : <Ruler aria-hidden="true" className="mt-0.5 size-4 shrink-0" />}
         Совместимость определяется всей цепочкой: телевизор, VESA, кронштейн, крепёж и основание стены.
@@ -312,7 +329,7 @@ function SeoNotFound({ catalog, requestedPath }) {
           />
         </div>
         <div className="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-          {catalog.seoPages.slice(0, 6).map((item) => (
+          {catalog.seoPages.filter(isIndexableSeoPage).slice(0, 6).map((item) => (
             <a className="flex min-h-28 items-end justify-between gap-4 bg-paper p-5 font-display text-xl font-bold transition hover:bg-white hover:text-action" href={item.path} key={item.id}>
               {shortTitle(item)} <ArrowRight aria-hidden="true" className="size-5 shrink-0" />
             </a>
@@ -355,17 +372,6 @@ function getCatalogItems(page, catalog) {
   }
 
   return { type: "models", values: catalog.models };
-}
-
-function getRelatedPages(page, pages) {
-  return [...pages]
-    .filter((item) => item.id !== page.id)
-    .sort((left, right) => {
-      const leftScore = left.kind === page.kind ? 0 : 1;
-      const rightScore = right.kind === page.kind ? 0 : 1;
-      return leftScore - rightScore;
-    })
-    .slice(0, 6);
 }
 
 function shortTitle(page) {

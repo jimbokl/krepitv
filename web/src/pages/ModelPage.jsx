@@ -98,11 +98,19 @@ export function ModelPage({ catalog, modelId }) {
               </div>
             </div>
 
-            <img
-              alt="Фиксированный, наклонный и поворотный механизмы кронштейнов"
-              className="mt-4 aspect-[2.11/1] w-full border-b border-line object-contain"
-              src="/assets/images/mount-mechanisms.png"
-            />
+            <picture className="contents">
+              <source srcSet="/assets/images/mount-mechanisms.avif" type="image/avif" />
+              <source srcSet="/assets/images/mount-mechanisms.webp" type="image/webp" />
+              <img
+                alt="Фиксированный, наклонный и поворотный механизмы кронштейнов"
+                className="mt-4 aspect-[2.11/1] w-full border-b border-line object-contain"
+                decoding="async"
+                height="663"
+                loading="lazy"
+                src="/assets/images/mount-mechanisms.png"
+                width="1400"
+              />
+            </picture>
 
             <MountMatches state={compatibility} matches={compatible} />
           </div>

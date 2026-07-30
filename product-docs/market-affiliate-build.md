@@ -106,6 +106,7 @@ KREPI TV не скрывает назначение партнёрского п�
 - все коммерческие ссылки имеют `rel="sponsored nofollow noopener noreferrer"`;
 - факт клика измеряется клиентским событием аналитики без изменения адреса назначения;
 - `/go/`, сторонние сокращатели, JavaScript-подмена ссылки и условная выдача по User-Agent запрещены тестами и сборкой.
+- релизная проверка запрещает подключать `AffiliateOffer` к пользовательской странице, пока для итогового DOM не добавлен интеграционный тест прямого `market.yandex.ru`, видимой маркировки, ИНН, ERID и `rel="sponsored nofollow"`.
 
 Официальные ориентиры: [квалификация исходящих ссылок](https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links) и [правила Google о thin affiliation и deceptive redirects](https://developers.google.com/search/docs/essentials/spam-policies).
 

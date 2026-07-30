@@ -76,6 +76,15 @@ export async function calculateHeight(model, values) {
   );
 }
 
+export async function calculateViewingGeometry(mode, value, horizontalAngle) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.viewing_geometry_json(mode, value, horizontalAngle),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export function modelHref(model) {
   return `/modeli/${model.id}/`;
 }

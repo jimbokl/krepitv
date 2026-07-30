@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use serde_json::{Value, json};
 use std::collections::HashSet;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -36,6 +37,7 @@ struct SeoPage {
     id: String,
     path: String,
     kind: String,
+    indexable: bool,
     title: String,
     description: String,
     h1: String,
@@ -91,6 +93,57 @@ fn escape_html(value: &str) -> String {
         .replace('\'', "&#39;")
 }
 
+fn is_indexable_seo_page(page: &SeoPage) -> bool {
+    page.indexable
+}
+
+fn json_ld_script(value: Value) -> String {
+    let json = serde_json::to_string(&value)
+        .expect("Структурированные данные должны сериализоваться")
+        .replace('<', "\\u003c")
+        .replace('>', "\\u003e")
+        .replace('&', "\\u0026");
+    format!("<script type=\"application/ld+json\">{json}</script>\n")
+}
+
+fn website_json_ld() -> String {
+    json_ld_script(json!({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://krepitv.ru/#website",
+        "url": "https://krepitv.ru/",
+        "name": "KREPI TV",
+        "description": "Независимый сервис проверки совместимости телевизоров и кронштейнов.",
+        "inLanguage": "ru-RU"
+    }))
+}
+
+fn breadcrumb_json_ld(items: &[(&str, &str)]) -> String {
+    let item_list = items
+        .iter()
+        .enumerate()
+        .map(|(index, (name, url))| {
+            json!({
+                "@type": "ListItem",
+                "position": index + 1,
+                "name": name,
+                "item": url
+            })
+        })
+        .collect::<Vec<_>>();
+
+    json_ld_script(json!({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": item_list
+    }))
+}
+
+struct HeadExtras<'a> {
+    robots: Option<&'a str>,
+    json_ld: &'a str,
+}
+
 fn html_shell(
     title: &str,
     description: &str,
@@ -98,6 +151,7 @@ fn html_shell(
     page_kind: &str,
     model_id: Option<&str>,
     static_body: Option<&str>,
+    head: HeadExtras<'_>,
 ) -> String {
     let title = escape_html(title);
     let description = escape_html(description);
@@ -106,8 +160,18 @@ fn html_shell(
         .map(|id| format!(" data-model-id=\"{}\"", escape_html(id)))
         .unwrap_or_default();
     let static_body = static_body.unwrap_or_default();
+    let robots_meta = head
+        .robots
+        .map(|value| {
+            format!(
+                "<meta name=\"robots\" content=\"{}\">\n",
+                escape_html(value)
+            )
+        })
+        .unwrap_or_default();
     format!(
-        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n"
+        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
+        head.json_ld,
     )
 }
 
@@ -116,7 +180,7 @@ fn static_header() -> &'static str {
 }
 
 fn static_footer() -> &'static str {
-    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Информация о сервисе\"><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
+    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/podbor/\">Подбор</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
 }
 
 fn static_layout(content: &str) -> String {
@@ -127,7 +191,7 @@ fn static_layout(content: &str) -> String {
     )
 }
 
-fn home_page_body(models: &[TvModel]) -> String {
+fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
     let model_links = models
         .iter()
         .map(|tv| {
@@ -143,9 +207,21 @@ fn home_page_body(models: &[TvModel]) -> String {
         })
         .collect::<Vec<_>>()
         .join("\n");
+    let seo_links = seo_pages
+        .iter()
+        .filter(|page| is_indexable_seo_page(page))
+        .map(|page| {
+            format!(
+                "<a class=\"border border-line bg-white p-5 font-display text-lg font-bold\" href=\"{}\">{}</a>",
+                escape_html(&page.path),
+                escape_html(&page.h1),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Модели с проверенными источниками</h2><div class=\"mt-5 grid gap-3 sm:grid-cols-2\">{model_links}</div></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Ссылки на официальные источники характеристик.</li></ul></section></div>"
+        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Модели с проверенными источниками</h2><div class=\"mt-5 grid gap-3 sm:grid-cols-2\">{model_links}</div></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте размер VESA, механизм и высоту установки до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3\" aria-label=\"Справочники и калькуляторы\">{seo_links}</nav></section></div>"
     ))
 }
 
@@ -186,7 +262,39 @@ fn model_page_body(tv: &TvModel) -> String {
     ))
 }
 
-fn seo_page_body(page: &SeoPage) -> String {
+fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPage> {
+    let preferred_ids: &[&str] = match page.id.as_str() {
+        "vesa" => &["how-to-find-vesa", "vesa-200x200", "vesa-300x200"],
+        "vesa-200x200" | "vesa-300x200" => &["vesa", "how-to-find-vesa", "diagonal-55"],
+        "diagonal-55" => &["mounting-height", "vesa", "full-motion-mount"],
+        "fixed-mount" => &["full-motion-mount", "mounting-height", "diagonal-55"],
+        "full-motion-mount" => &["fixed-mount", "mounting-height", "diagonal-55"],
+        "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
+        "mounting-height" => &["viewing-distance", "diagonal-55", "full-motion-mount"],
+        "viewing-distance" => &["mounting-height", "diagonal-55", "full-motion-mount"],
+        _ => &["vesa", "how-to-find-vesa", "mounting-height"],
+    };
+
+    let mut related = Vec::new();
+    for id in preferred_ids {
+        let Some(candidate) = pages
+            .iter()
+            .find(|candidate| candidate.id == *id && is_indexable_seo_page(candidate))
+        else {
+            continue;
+        };
+        if candidate.id != page.id
+            && !related
+                .iter()
+                .any(|item: &&SeoPage| item.id == candidate.id)
+        {
+            related.push(candidate);
+        }
+    }
+    related
+}
+
+fn seo_page_body(page: &SeoPage, pages: &[SeoPage]) -> String {
     let facts = page
         .facts
         .iter()
@@ -205,14 +313,29 @@ fn seo_page_body(page: &SeoPage) -> String {
         })
         .collect::<Vec<_>>()
         .join("\n");
-    let calculator_note = if page.kind == "calculator" {
-        "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор высоты установки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Интерактивный расчёт учитывает диагональ экрана, высоту глаз, расстояние просмотра, вертикальный угол, высоту мебели и обязательный зазор.</p></section>"
-    } else {
-        ""
+    let calculator_note = match page.id.as_str() {
+        "mounting-height" => {
+            "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор высоты установки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Интерактивный расчёт учитывает диагональ экрана, высоту глаз, расстояние просмотра, вертикальный угол, высоту мебели и обязательный зазор.</p></section>"
+        }
+        "viewing-distance" => {
+            "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор расстояния и диагонали</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Расчёт работает в обе стороны: диагональ переводится в расстояние, а известное расстояние — в диагональ. Формула использует физическую ширину экрана 16:9 и выбранный горизонтальный угол обзора.</p></section>"
+        }
+        _ => "",
     };
+    let related_links = related_seo_pages(page, pages)
+        .iter()
+        .map(|related| {
+            format!(
+                "<a class=\"border-t border-line py-3 font-display font-bold\" href=\"{}\">{}</a>",
+                escape_html(&related.path),
+                escape_html(&related.h1),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>{calculator_note}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><p class=\"border-t-2 border-ink pt-7\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>{calculator_note}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section><p><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
         h1 = escape_html(&page.h1),
         lead = escape_html(&page.lead),
     ))
@@ -414,12 +537,16 @@ fn main() {
     write(
         &web.join("index.html"),
         &html_shell(
-            "Подбор кронштейна по модели телевизора — KREPI TV",
+            "Проверка совместимости телевизора и кронштейна — KREPI TV",
             "Проверьте VESA, массу, диагональ и высоту установки для точной модели телевизора. Расчёт работает локально в браузере.",
             "https://krepitv.ru/",
             "home",
             None,
-            Some(&home_page_body(&models)),
+            Some(&home_page_body(&models, &seo_pages)),
+            HeadExtras {
+                robots: None,
+                json_ld: &website_json_ld(),
+            },
         ),
     );
 
@@ -432,6 +559,13 @@ fn main() {
             "matcher",
             None,
             Some(&matcher_page_body(&models)),
+            HeadExtras {
+                robots: None,
+                json_ld: &breadcrumb_json_ld(&[
+                    ("Главная", "https://krepitv.ru/"),
+                    ("Подбор по модели", "https://krepitv.ru/podbor/"),
+                ]),
+            },
         ),
     );
 
@@ -445,31 +579,58 @@ fn main() {
             tv.title, tv.vesa_width_mm, tv.vesa_height_mm, tv.weight_kg
         );
         let static_body = model_page_body(tv);
+        let canonical = format!("https://krepitv.ru/modeli/{}/", tv.id);
         write(
             &web.join(format!("modeli/{}/index.html", tv.id)),
             &html_shell(
                 &title,
                 &description,
-                &format!("https://krepitv.ru/modeli/{}/", tv.id),
+                &canonical,
                 "model",
                 Some(&tv.id),
                 Some(&static_body),
+                HeadExtras {
+                    robots: None,
+                    json_ld: &breadcrumb_json_ld(&[
+                        ("Главная", "https://krepitv.ru/"),
+                        ("Подбор по модели", "https://krepitv.ru/podbor/"),
+                        (&tv.title, &canonical),
+                    ]),
+                },
             ),
         );
     }
 
     for page in &seo_pages {
         let relative = page.path.trim_matches('/');
-        let static_body = seo_page_body(page);
+        let static_body = seo_page_body(page, &seo_pages);
+        let canonical = format!("https://krepitv.ru{}", page.path);
+        let breadcrumb = if page.path.starts_with("/vesa/") && page.path != "/vesa/" {
+            breadcrumb_json_ld(&[
+                ("Главная", "https://krepitv.ru/"),
+                ("Справочник VESA", "https://krepitv.ru/vesa/"),
+                (&page.h1, &canonical),
+            ])
+        } else {
+            breadcrumb_json_ld(&[("Главная", "https://krepitv.ru/"), (&page.h1, &canonical)])
+        };
         write(
             &web.join(relative).join("index.html"),
             &html_shell(
                 &page.title,
                 &page.description,
-                &format!("https://krepitv.ru{}", page.path),
+                &canonical,
                 "seo",
                 Some(&page.id),
                 Some(&static_body),
+                HeadExtras {
+                    robots: if is_indexable_seo_page(page) {
+                        None
+                    } else {
+                        Some("noindex,follow")
+                    },
+                    json_ld: &breadcrumb,
+                },
             ),
         );
     }
@@ -477,15 +638,23 @@ fn main() {
     for page in &trust_pages {
         let relative = page.path.trim_matches('/');
         let static_body = trust_page_body(page);
+        let canonical = format!("https://krepitv.ru{}", page.path);
         write(
             &web.join(relative).join("index.html"),
             &html_shell(
                 &page.title,
                 &page.description,
-                &format!("https://krepitv.ru{}", page.path),
+                &canonical,
                 "trust",
                 Some(&page.id),
                 Some(&static_body),
+                HeadExtras {
+                    robots: None,
+                    json_ld: &breadcrumb_json_ld(&[
+                        ("Главная", "https://krepitv.ru/"),
+                        (&page.h1, &canonical),
+                    ]),
+                },
             ),
         );
     }
@@ -502,6 +671,7 @@ fn main() {
     urls.extend(
         seo_pages
             .iter()
+            .filter(|page| is_indexable_seo_page(page))
             .map(|page| format!("https://krepitv.ru{}", page.path)),
     );
     urls.extend(
@@ -511,12 +681,7 @@ fn main() {
     );
     let sitemap_urls = urls
         .iter()
-        .map(|url| {
-            format!(
-                "  <url><loc>{}</loc><lastmod>2026-07-30</lastmod></url>",
-                escape_html(url)
-            )
-        })
+        .map(|url| format!("  <url><loc>{}</loc></url>", escape_html(url)))
         .collect::<Vec<_>>()
         .join("\n");
     write(
@@ -535,7 +700,8 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::escape_html;
+    use super::{SeoPage, escape_html, is_indexable_seo_page, json_ld_script};
+    use serde_json::json;
 
     #[test]
     fn escapes_html_attributes() {
@@ -543,5 +709,31 @@ mod tests {
             escape_html("<ТВ & \"стена\">"),
             "&lt;ТВ &amp; &quot;стена&quot;&gt;"
         );
+    }
+
+    #[test]
+    fn uses_explicit_indexability_policy() {
+        let page = |indexable| SeoPage {
+            id: "test".into(),
+            path: "/test/".into(),
+            kind: "guide".into(),
+            indexable,
+            title: "Тест".into(),
+            description: "Тест".into(),
+            h1: "Тест".into(),
+            lead: "Тест".into(),
+            facts: vec![],
+            faq: vec![],
+        };
+
+        assert!(is_indexable_seo_page(&page(true)));
+        assert!(!is_indexable_seo_page(&page(false)));
+    }
+
+    #[test]
+    fn escapes_script_breakout_in_json_ld() {
+        let script = json_ld_script(json!({ "name": "</script><script>" }));
+        assert!(!script.contains("</script><script>"));
+        assert!(script.contains("\\u003c/script\\u003e\\u003cscript\\u003e"));
     }
 }

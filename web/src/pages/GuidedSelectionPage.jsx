@@ -213,11 +213,19 @@ export function GuidedSelectionPage({ catalog }) {
                   <h2 className="font-display text-lg font-bold">
                     Как крепление соединяет телевизор со стеной
                   </h2>
-                  <img
-                    alt="Система крепления телевизора: VESA-пластина, кронштейн, анкер и стена"
-                    className="mt-4 aspect-[1.77/1] w-full object-contain"
-                    src="/assets/images/mount-wall-system.png"
-                  />
+                  <picture className="contents">
+                    <source srcSet="/assets/images/mount-wall-system.avif" type="image/avif" />
+                    <source srcSet="/assets/images/mount-wall-system.webp" type="image/webp" />
+                    <img
+                      alt="Система крепления телевизора: VESA-пластина, кронштейн, анкер и стена"
+                      className="mt-4 aspect-[1.77/1] w-full object-contain"
+                      decoding="async"
+                      height="791"
+                      loading="lazy"
+                      src="/assets/images/mount-wall-system.png"
+                      width="1400"
+                    />
+                  </picture>
                 </div>
               </div>
 
