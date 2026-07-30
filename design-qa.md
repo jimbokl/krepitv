@@ -313,6 +313,8 @@ Roboto Condensed для заголовков, IBM Plex Sans для текста,
 
 Контрольные снимки: `product-docs/design-qa/offset-field-before-crop.png`,
 `product-docs/design-qa/offset-field-after-crop.png` и
-`product-docs/design-qa/offset-field-mobile-final-20260730.png`.
+`product-docs/design-qa/offset-field-mobile-final-20260730.png`. После публикации
+повторная проверка сохранена в `offset-field-production-20260730.png` и
+`offset-field-production-mobile-final-20260730.png`.
 
 final result: passed
