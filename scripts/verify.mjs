@@ -282,8 +282,23 @@ for (const file of htmlFiles) {
     if (!/\brel=["'][^"']*\bnofollow\b[^"']*["']/i.test(link)) {
       throw new Error(`Партнёрская ссылка без rel=nofollow: ${path.relative(root, file)}`);
     }
-    if (!html.includes("Реклама") || !html.includes("erid:")) {
-      throw new Error(`Партнёрская ссылка без видимой маркировки: ${path.relative(root, file)}`);
+    const mode = link.match(/\bdata-affiliate-mode=["']([^"']+)["']/i)?.[1];
+    if (mode === "advertising") {
+      if (!/\bdata-erid=["'][^"']+["']/i.test(link)) {
+        throw new Error(`Рекламная ссылка без ERID: ${path.relative(root, file)}`);
+      }
+      if (!html.includes("Реклама") || !html.includes("erid:")) {
+        throw new Error(`Рекламная ссылка без видимой маркировки: ${path.relative(root, file)}`);
+      }
+    } else if (mode === "non_ad_storefront") {
+      if (/\bdata-erid=/i.test(link) || !/\bdata-clid=["']\d{5,20}["']/i.test(link)) {
+        throw new Error(`Нерекламная витринная ссылка с неверной атрибуцией: ${path.relative(root, file)}`);
+      }
+      if (!html.includes("Партнёрская ссылка на Яндекс Маркет")) {
+        throw new Error(`Партнёрская ссылка без пояснения: ${path.relative(root, file)}`);
+      }
+    } else {
+      throw new Error(`Партнёрская ссылка без режима размещения: ${path.relative(root, file)}`);
     }
   }
 }

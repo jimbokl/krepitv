@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { spawnSync } from "node:child_process";
+import { stat } from "node:fs/promises";
 import path, { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -18,16 +20,6 @@ const RETRY_DELAYS_MS = [1_000, 3_000];
 function valueAfter(args, flag) {
   const index = args.indexOf(flag);
   return index === -1 ? null : args[index + 1] ?? null;
-}
-
-function usage() {
-  return [
-    "Usage:",
-    "  YANDEX_MARKET_AFFILIATE_OAUTH=... \\",
-    "  node scripts/affiliate/check-market-links.mjs \\",
-    "    --source data/affiliate/market-products.json \\",
-    "    --out .private/market-affiliate-batch.json",
-  ].join("\n");
 }
 
 function nullableInteger(value) {
@@ -54,35 +46,36 @@ function failedCheck(card, checkedAt, status, errorCode) {
   };
 }
 
-async function checkCard(card, token) {
+function browserRequest(endpoint, oauthFile, appleScriptFile) {
+  const encodedEndpoint = Buffer.from(endpoint.toString(), "utf8").toString("base64");
+  const result = spawnSync(
+    "/usr/bin/osascript",
+    [appleScriptFile, encodedEndpoint, oauthFile],
+    {
+      encoding: "utf8",
+      maxBuffer: 2 * 1024 * 1024,
+      timeout: 30_000,
+    },
+  );
+  if (result.status !== 0) {
+    throw new Error(result.stderr.trim() || "Chrome request failed");
+  }
+  const envelope = JSON.parse(result.stdout.trim());
+  if (!envelope.ok) throw new Error(`Market HTTP ${envelope.status || 0}`);
+  return JSON.parse(envelope.body);
+}
+
+async function checkCard(card, oauthFile, appleScriptFile) {
   const checkedAt = new Date().toISOString();
-  const url = buildMarketAffiliateRequestUrl(card);
-
-  let response;
-  try {
-    response = await fetch(url, {
-      headers: { Authorization: `OAuth ${token}` },
-      signal: AbortSignal.timeout(15_000),
-    });
-  } catch {
-    return failedCheck(card, checkedAt, "error", "http_error");
-  }
-
-  if (!response.ok) {
-    const unavailable = response.status === 404 || response.status === 410;
-    return failedCheck(
-      card,
-      checkedAt,
-      unavailable ? "unavailable" : "error",
-      "http_error",
-    );
-  }
-
   let payload;
   try {
-    payload = await response.json();
+    payload = browserRequest(
+      buildMarketAffiliateRequestUrl(card),
+      oauthFile,
+      appleScriptFile,
+    );
   } catch {
-    return failedCheck(card, checkedAt, "error", "invalid_payload");
+    return failedCheck(card, checkedAt, "error", "http_error");
   }
 
   if (payload?.status !== "OK") {
@@ -131,28 +124,47 @@ async function checkCard(card, token) {
   };
 }
 
-async function checkCardWithRetries(card, token) {
+async function checkCardWithRetries(card, oauthFile, appleScriptFile) {
   let result = null;
   for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt += 1) {
-    result = await checkCard(card, token);
+    result = await checkCard(card, oauthFile, appleScriptFile);
     if (result.status !== "error") return result;
     if (attempt < RETRY_DELAYS_MS.length) {
-      await new Promise((resolveDelay) => setTimeout(resolveDelay, RETRY_DELAYS_MS[attempt]));
+      await new Promise((resolveDelay) =>
+        setTimeout(resolveDelay, RETRY_DELAYS_MS[attempt]),
+      );
     }
   }
   return result;
 }
 
 const args = process.argv.slice(2);
-const sourceFile = resolve(valueAfter(args, "--source") ?? "data/affiliate/market-products.json");
-const outFile = resolve(valueAfter(args, "--out") ?? ".private/market-affiliate-batch.json");
-const token = process.env.YANDEX_MARKET_AFFILIATE_OAUTH;
-if (!token) throw new Error(usage());
-
 const root = resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const privateRoot = path.join(root, ".private");
-if (outFile !== privateRoot && !outFile.startsWith(`${privateRoot}${path.sep}`)) {
-  throw new Error("Affiliate check batches may be written only under .private/");
+const sourceFile = resolve(
+  valueAfter(args, "--source") ?? "data/affiliate/market-products.json",
+);
+const outFile = resolve(
+  valueAfter(args, "--out") ?? ".private/market-affiliate-batch.json",
+);
+const oauthFile = resolve(
+  valueAfter(args, "--oauth-file") ?? ".private/yandex-market-affiliate-oauth",
+);
+const appleScriptFile = path.join(
+  root,
+  "scripts/affiliate/chrome-market-request.applescript",
+);
+
+for (const [label, file] of [
+  ["OAuth file", oauthFile],
+  ["output", outFile],
+]) {
+  if (file !== privateRoot && !file.startsWith(`${privateRoot}${path.sep}`)) {
+    throw new Error(`${label} must stay under .private/`);
+  }
+}
+if (((await stat(oauthFile)).mode & 0o077) !== 0) {
+  throw new Error("OAuth file permissions must be owner-only");
 }
 
 const [sourceData, catalogMounts] = await Promise.all([
@@ -161,10 +173,13 @@ const [sourceData, catalogMounts] = await Promise.all([
 ]);
 const source = validateSource(sourceData);
 validateSourceAgainstMounts(source, catalogMounts);
+
 const checks = [];
 for (const [index, card] of source.cards.entries()) {
-  if (index > 0) await new Promise((resolveDelay) => setTimeout(resolveDelay, REQUEST_INTERVAL_MS));
-  checks.push(await checkCardWithRetries(card, token));
+  if (index > 0) {
+    await new Promise((resolveDelay) => setTimeout(resolveDelay, REQUEST_INTERVAL_MS));
+  }
+  checks.push(await checkCardWithRetries(card, oauthFile, appleScriptFile));
 }
 
 const batch = {
@@ -174,4 +189,4 @@ const batch = {
 };
 validateBatch(batch);
 await writeJson(outFile, batch);
-console.log(`Проверено предложений: ${checks.length}; результат сохранён без секретов.`);
+console.log(`Проверено через внешний Chrome: ${checks.length}; секреты не сохранены.`);

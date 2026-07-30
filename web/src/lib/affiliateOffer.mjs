@@ -12,6 +12,11 @@ function isDisclosureComplete(disclosure) {
   );
 }
 
+function hasExactlyOneQueryValue(url, key, expected) {
+  const values = url.searchParams.getAll(key);
+  return values.length === 1 && values[0] === expected;
+}
+
 function isFresh(value, now, maximumAgeMs) {
   const checkedAt = Date.parse(value ?? "");
   if (!Number.isFinite(checkedAt)) return false;
@@ -25,10 +30,6 @@ export function getAffiliatePresentation(
 ) {
   if (!offer?.publishable || offer.eligibility !== "publishable") return null;
   if (!isFresh(offer.checked_at, now, maximumAgeMs)) return null;
-  if (!offer.creative?.erid || !isDisclosureComplete(offer.creative.disclosure)) {
-    return null;
-  }
-
   let destination;
   try {
     destination = new URL(offer.affiliate_href);
@@ -41,11 +42,42 @@ export function getAffiliatePresentation(
   } catch {
     return null;
   }
+  let source;
+  try {
+    source = new URL(offer.market_source_url);
+  } catch {
+    return null;
+  }
+
+  const commonTrackingIsValid =
+    /^\d{5,20}$/.test(offer.clid ?? "") &&
+    /^[A-Za-z0-9]{1,150}$/.test(offer.vid ?? "") &&
+    hasExactlyOneQueryValue(destination, "clid", offer.clid) &&
+    hasExactlyOneQueryValue(destination, "vid", offer.vid) &&
+    hasExactlyOneQueryValue(destination, "distr_type", "7") &&
+    hasExactlyOneQueryValue(destination, "utm_source", "partner_network") &&
+    hasExactlyOneQueryValue(destination, "utm_campaign", offer.clid);
+  const isAdvertising = offer.compliance_mode === "advertising";
+  const isNonAdStorefront = offer.compliance_mode === "non_ad_storefront";
+  const complianceIsValid = isAdvertising
+    ? Boolean(
+        offer.creative?.erid &&
+          isDisclosureComplete(offer.creative.disclosure) &&
+          hasExactlyOneQueryValue(destination, "erid", offer.creative.erid),
+      )
+    : isNonAdStorefront
+      ? offer.creative === null && destination.searchParams.getAll("erid").length === 0
+      : false;
 
   if (
     destination.protocol !== "https:" ||
     destination.hostname !== MARKET_HOST ||
-    destination.searchParams.get("erid") !== offer.creative.erid ||
+    destination.hash ||
+    source.protocol !== "https:" ||
+    source.hostname !== MARKET_HOST ||
+    source.pathname !== destination.pathname ||
+    !commonTrackingIsValid ||
+    !complianceIsValid ||
     offer.entity_kind !== "mount" ||
     typeof offer.entity_id !== "string" ||
     offer.page_path !== `/kronshteyny/${offer.entity_id}/` ||
@@ -62,10 +94,19 @@ export function getAffiliatePresentation(
     href: destination.toString(),
     rel: AFFILIATE_LINK_REL,
     target: "_blank",
-    label: offer.creative.disclosure.label,
-    advertiserName: offer.creative.disclosure.advertiser_name,
-    advertiserInn: offer.creative.disclosure.advertiser_inn,
-    erid: offer.creative.erid,
+    mode: offer.compliance_mode,
+    label: isAdvertising ? offer.creative.disclosure.label : "Партнёрская ссылка",
+    notice: isAdvertising
+      ? `${offer.creative.disclosure.label} · ${offer.creative.disclosure.advertiser_name} · ИНН ${offer.creative.disclosure.advertiser_inn} · erid: ${offer.creative.erid}`
+      : "Партнёрская ссылка на Яндекс Маркет. Если вы оформите заказ, Крепи ТВ может получить вознаграждение. Цена для вас не меняется.",
+    advertiserName: isAdvertising
+      ? offer.creative.disclosure.advertiser_name
+      : null,
+    advertiserInn: isAdvertising
+      ? offer.creative.disclosure.advertiser_inn
+      : null,
+    erid: isAdvertising ? offer.creative.erid : null,
+    clid: offer.clid,
     productTitle: offer.title,
     productPhoto: productPhoto.toString(),
     checkedAt: offer.checked_at,

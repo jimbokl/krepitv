@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "cards": [
     {
       "id": "mount-fixed-01",
@@ -7,6 +7,8 @@
       "page_path": "/kronshteyny/mount-fixed-01/",
       "entity_kind": "mount",
       "entity_id": "mount-fixed-01",
+      "compliance_mode": "advertising",
+      "clid": "12345678",
       "vid": "krepitvfixture01",
       "expected_title_tokens": ["Fixture", "Fixed"],
       "creative": {
@@ -27,19 +29,11 @@
       "page_path": "/kronshteyny/mount-tilt-02/",
       "entity_kind": "mount",
       "entity_id": "mount-tilt-02",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "12345678",
       "vid": "krepitvfixture02",
       "expected_title_tokens": ["Fixture", "Tilt"],
-      "creative": {
-        "form": "text-block",
-        "content_revision": "fixture-v1",
-        "erid": null,
-        "registered_at": null,
-        "disclosure": {
-          "label": "Реклама",
-          "advertiser_name": "ООО «Яндекс Маркет»",
-          "advertiser_inn": "9704254424"
-        }
-      }
+      "creative": null
     }
   ]
 }

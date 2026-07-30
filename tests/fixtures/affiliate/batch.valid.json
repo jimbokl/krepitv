@@ -1,12 +1,15 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "generated_at": "2026-07-30T09:00:00Z",
   "checks": [
     {
       "id": "mount-fixed-01",
       "market_source_url": "https://market.example.invalid/card/mount-fixed-01/100001",
+      "compliance_mode": "advertising",
+      "clid": "12345678",
+      "vid": "krepitvfixture01",
       "status": "ok",
-      "affiliate_href": "https://affiliate.example.invalid/offer/mount-fixed-01?erid=eridFixture123",
+      "affiliate_href": "https://affiliate.example.invalid/card/mount-fixed-01/100001?clid=12345678&vid=krepitvfixture01&distr_type=7&utm_source=partner_network&utm_campaign=12345678&erid=eridFixture123",
       "page_name": "POKUPKI_PRODUCT",
       "title": "Кронштейн Fixture Fixed",
       "product_photo": "https://images.example.invalid/mount-fixed-01.jpg",
@@ -19,8 +22,11 @@
     {
       "id": "mount-tilt-02",
       "market_source_url": "https://market.example.invalid/card/mount-tilt-02/100002",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "12345678",
+      "vid": "krepitvfixture02",
       "status": "ok",
-      "affiliate_href": "https://affiliate.example.invalid/offer/mount-tilt-02",
+      "affiliate_href": "https://affiliate.example.invalid/card/mount-tilt-02/100002?clid=12345678&vid=krepitvfixture02&distr_type=7&utm_source=partner_network&utm_campaign=12345678",
       "page_name": "POKUPKI_PRODUCT",
       "title": "Кронштейн Fixture Tilt",
       "product_photo": "https://images.example.invalid/mount-tilt-02.jpg",

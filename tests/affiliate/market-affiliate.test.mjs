@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   AffiliateValidationError,
+  buildMarketAffiliateRequestUrl,
   buildSnapshot,
   marketTitleMatchesExpected,
   readJson,
@@ -36,6 +37,48 @@ const root = path.resolve(
 const fixtures = path.join(root, "tests/fixtures/affiliate");
 const fixtureOptions = { allowExampleHosts: true };
 
+function advertisingOffer(overrides = {}) {
+  return {
+    publishable: true,
+    eligibility: "publishable",
+    market_source_url: "https://market.yandex.ru/card/kronshteyn/123",
+    affiliate_href:
+      "https://market.yandex.ru/card/kronshteyn/123?clid=12345678&vid=krepitvfixture&distr_type=7&utm_source=partner_network&utm_campaign=12345678&erid=eridFixture123",
+    page_path: "/kronshteyny/test/",
+    entity_kind: "mount",
+    entity_id: "test",
+    compliance_mode: "advertising",
+    clid: "12345678",
+    vid: "krepitvfixture",
+    page_name: "POKUPKI_PRODUCT",
+    title: "Кронштейн Test",
+    product_photo: "https://avatars.mds.yandex.net/get-mpic/test/300x300",
+    price: 2500,
+    stock: 8,
+    checked_at: "2026-07-30T09:00:00Z",
+    creative: {
+      erid: "eridFixture123",
+      disclosure: {
+        label: "Реклама",
+        advertiser_name: "ООО «Яндекс Маркет»",
+        advertiser_inn: "9704254424",
+      },
+    },
+    ...overrides,
+  };
+}
+
+function nonAdOffer(overrides = {}) {
+  return {
+    ...advertisingOffer(),
+    compliance_mode: "non_ad_storefront",
+    affiliate_href:
+      "https://market.yandex.ru/card/kronshteyn/123?clid=12345678&vid=krepitvfixture&distr_type=7&utm_source=partner_network&utm_campaign=12345678",
+    creative: null,
+    ...overrides,
+  };
+}
+
 test("validates example.invalid source, batch and snapshot fixtures", async () => {
   const [source, batch, snapshot] = await Promise.all([
     readJson(path.join(fixtures, "source.valid.json")),
@@ -48,7 +91,7 @@ test("validates example.invalid source, batch and snapshot fixtures", async () =
   assert.equal(validateSnapshot(snapshot, fixtureOptions), snapshot);
 });
 
-test("builds the expected snapshot and strips an unmarked href", async () => {
+test("builds advertising and explicit non-ad storefront offers", async () => {
   const [source, batch, expected] = await Promise.all([
     readJson(path.join(fixtures, "source.valid.json")),
     readJson(path.join(fixtures, "batch.valid.json")),
@@ -57,6 +100,32 @@ test("builds the expected snapshot and strips an unmarked href", async () => {
 
   const actual = buildSnapshot(source, batch, fixtureOptions);
   assert.deepEqual(actual, expected);
+  assert.equal(actual.offers[0].publishable, true);
+  assert.equal(actual.offers[1].publishable, true);
+  assert.equal(actual.offers[1].creative, null);
+});
+
+test("strips an unmarked advertising draft href", async () => {
+  const [source, batch] = await Promise.all([
+    readJson(path.join(fixtures, "source.valid.json")),
+    readJson(path.join(fixtures, "batch.valid.json")),
+  ]);
+  source.cards[1].compliance_mode = "advertising";
+  source.cards[1].creative = {
+    form: "text-block",
+    content_revision: "fixture-draft-v1",
+    erid: null,
+    registered_at: null,
+    disclosure: {
+      label: "Реклама",
+      advertiser_name: "ООО «Яндекс Маркет»",
+      advertiser_inn: "9704254424",
+    },
+  };
+  batch.checks[1].compliance_mode = "advertising";
+
+  const actual = buildSnapshot(source, batch, fixtureOptions);
+  assert.equal(actual.offers[1].eligibility, "unmarked");
   assert.equal(actual.offers[1].publishable, false);
   assert.equal(actual.offers[1].affiliate_href, null);
 });
@@ -71,6 +140,9 @@ test("updates healthy cards while retaining only fresh matching offers on API er
   batch.checks[0] = {
     id: source.cards[0].id,
     market_source_url: source.cards[0].market_source_url,
+    compliance_mode: source.cards[0].compliance_mode,
+    clid: source.cards[0].clid,
+    vid: source.cards[0].vid,
     status: "error",
     affiliate_href: null,
     page_name: null,
@@ -117,7 +189,7 @@ test("rejects sensitive keys before a snapshot can be written", async () => {
 test("rejects a publishable href whose ERID does not match", async () => {
   const snapshot = await readJson(path.join(fixtures, "snapshot.valid.json"));
   snapshot.offers[0].affiliate_href =
-    "https://affiliate.example.invalid/offer/mount-fixed-01?erid=wrongFixture999";
+    "https://affiliate.example.invalid/card/mount-fixed-01/100001?clid=12345678&vid=krepitvfixture01&distr_type=7&utm_source=partner_network&utm_campaign=12345678&erid=wrongFixture999";
 
   assert.throws(
     () => validateSnapshot(snapshot, fixtureOptions),
@@ -133,6 +205,37 @@ test("requires the explicit Yandex Market advertising disclosure", async () => {
     () => validateSource(source, fixtureOptions),
     /must equal 9704254424/,
   );
+});
+
+test("requires an explicit non-ad storefront classification with CLID and no creative", async () => {
+  const source = await readJson(path.join(fixtures, "source.valid.json"));
+  assert.equal(validateSource(source, fixtureOptions), source);
+
+  source.cards[1].creative = source.cards[0].creative;
+  assert.throws(
+    () => validateSource(source, fixtureOptions),
+    /must have creative set to null/,
+  );
+
+  source.cards[1].creative = null;
+  source.cards[1].clid = "0";
+  assert.throws(
+    () => validateSource(source, fixtureOptions),
+    /must contain 5-20 digits/,
+  );
+});
+
+test("builds a CLID request without place_id or ERID for non-ad storefronts", async () => {
+  const source = await readJson(path.join(fixtures, "source.valid.json"));
+  const nonAdUrl = buildMarketAffiliateRequestUrl(source.cards[1]);
+  assert.equal(nonAdUrl.searchParams.get("clid"), "12345678");
+  assert.equal(nonAdUrl.searchParams.get("vid"), "krepitvfixture02");
+  assert.equal(nonAdUrl.searchParams.has("place_id"), false);
+  assert.equal(nonAdUrl.searchParams.has("erid"), false);
+
+  const advertisingUrl = buildMarketAffiliateRequestUrl(source.cards[0]);
+  assert.equal(advertisingUrl.searchParams.get("erid"), "eridFixture123");
+  assert.equal(advertisingUrl.searchParams.has("place_id"), false);
 });
 
 test("requires the configured product identity in the Market title", () => {
@@ -186,34 +289,14 @@ test("binds every source card to the exact catalog brand and model", async () =>
 
 test("publishes a direct sponsored link with the visible disclosure data", () => {
   const now = Date.parse("2026-07-30T09:30:00Z");
-  const offer = {
-    publishable: true,
-    eligibility: "publishable",
-    affiliate_href:
-      "https://market.yandex.ru/card/kronshteyn/123?erid=eridFixture123",
-    page_path: "/kronshteyny/test/",
-    entity_kind: "mount",
-    entity_id: "test",
-    page_name: "POKUPKI_PRODUCT",
-    title: "Кронштейн Test",
-    product_photo: "https://avatars.mds.yandex.net/get-mpic/test/300x300",
-    checked_at: "2026-07-30T09:00:00Z",
-    creative: {
-      erid: "eridFixture123",
-      disclosure: {
-        label: "Реклама",
-        advertiser_name: "ООО «Яндекс Маркет»",
-        advertiser_inn: "9704254424",
-      },
-    },
-  };
+  const offer = advertisingOffer();
 
   const presentation = getAffiliatePresentation(offer, { now });
-  assert.equal(
-    presentation.href,
-    "https://market.yandex.ru/card/kronshteyn/123?erid=eridFixture123",
-  );
+  assert.equal("price" in presentation, false);
+  assert.equal("stock" in presentation, false);
+  assert.equal(presentation.href, offer.affiliate_href);
   assert.equal(presentation.rel, AFFILIATE_LINK_REL);
+  assert.equal(presentation.mode, "advertising");
   assert.equal(presentation.label, "Реклама");
   assert.equal(presentation.advertiserInn, "9704254424");
   assert.equal(presentation.productTitle, "Кронштейн Test");
@@ -225,6 +308,50 @@ test("publishes a direct sponsored link with the visible disclosure data", () =>
     ),
     offer,
   );
+});
+
+test("publishes a transparent non-ad storefront link without ad markers", () => {
+  const offer = nonAdOffer();
+  const presentation = getAffiliatePresentation(offer, {
+    now: Date.parse("2026-07-30T09:30:00Z"),
+  });
+
+  assert.equal(presentation.href, offer.affiliate_href);
+  assert.equal(presentation.mode, "non_ad_storefront");
+  assert.equal(presentation.erid, null);
+  assert.equal(presentation.advertiserInn, null);
+  assert.match(presentation.notice, /может получить вознаграждение/);
+  assert.equal(presentation.rel, AFFILIATE_LINK_REL);
+});
+
+test("rejects missing, wrong, duplicate or ERID-bearing CLID storefront links", () => {
+  const valid = new URL(nonAdOffer().affiliate_href);
+  const invalidLinks = [];
+
+  const missing = new URL(valid);
+  missing.searchParams.delete("clid");
+  invalidLinks.push(missing.toString());
+
+  const wrong = new URL(valid);
+  wrong.searchParams.set("clid", "87654321");
+  invalidLinks.push(wrong.toString());
+
+  const duplicate = new URL(valid);
+  duplicate.searchParams.append("clid", "12345678");
+  invalidLinks.push(duplicate.toString());
+
+  const marked = new URL(valid);
+  marked.searchParams.set("erid", "eridFixture123");
+  invalidLinks.push(marked.toString());
+
+  for (const affiliate_href of invalidLinks) {
+    assert.equal(
+      getAffiliatePresentation(nonAdOffer({ affiliate_href }), {
+        now: Date.parse("2026-07-30T09:30:00Z"),
+      }),
+      null,
+    );
+  }
 });
 
 test("emits one sanitized affiliate-click payload for every Market CTA", () => {
@@ -270,26 +397,7 @@ test("affiliate-click emitter fails closed without a browser event API", () => {
 
 test("hides stale offers and falls back to a fresh offer for the same page", () => {
   const now = Date.parse("2026-07-30T12:00:00Z");
-  const base = {
-    publishable: true,
-    eligibility: "publishable",
-    page_path: "/kronshteyny/test/",
-    entity_kind: "mount",
-    entity_id: "test",
-    page_name: "POKUPKI_PRODUCT",
-    title: "Кронштейн Test",
-    product_photo: "https://avatars.mds.yandex.net/get-mpic/test/300x300",
-    affiliate_href:
-      "https://market.yandex.ru/card/kronshteyn/123?erid=eridFixture123",
-    creative: {
-      erid: "eridFixture123",
-      disclosure: {
-        label: "Реклама",
-        advertiser_name: "ООО «Яндекс Маркет»",
-        advertiser_inn: "9704254424",
-      },
-    },
-  };
+  const base = advertisingOffer();
   const stale = {
     ...base,
     id: "stale",
@@ -313,25 +421,7 @@ test("hides stale offers and falls back to a fresh offer for the same page", () 
 });
 
 test("refuses same-site, redirect and unmarked affiliate destinations", () => {
-  const base = {
-    publishable: true,
-    eligibility: "publishable",
-    page_path: "/kronshteyny/test/",
-    entity_kind: "mount",
-    entity_id: "test",
-    page_name: "POKUPKI_PRODUCT",
-    title: "Кронштейн Test",
-    product_photo: "https://avatars.mds.yandex.net/get-mpic/test/300x300",
-    checked_at: "2026-07-30T09:00:00Z",
-    creative: {
-      erid: "eridFixture123",
-      disclosure: {
-        label: "Реклама",
-        advertiser_name: "ООО «Яндекс Маркет»",
-        advertiser_inn: "9704254424",
-      },
-    },
-  };
+  const base = advertisingOffer();
 
   for (const affiliate_href of [
     "https://krepitv.ru/go/mount-fixed-01/?erid=eridFixture123",
@@ -359,6 +449,49 @@ test("requires one sanitized check for every source card", async () => {
     () => buildSnapshot(source, batch, fixtureOptions),
     /missing check result/,
   );
+});
+
+test("does not retain an old offer after CLID or compliance mode changes", async () => {
+  const [baseSource, baseBatch, previous] = await Promise.all([
+    readJson(path.join(fixtures, "source.valid.json")),
+    readJson(path.join(fixtures, "batch.valid.json")),
+    readJson(path.join(fixtures, "snapshot.valid.json")),
+  ]);
+
+  for (const change of ["clid", "mode"]) {
+    const source = structuredClone(baseSource);
+    const batch = structuredClone(baseBatch);
+    const card = source.cards[0];
+    const check = batch.checks[0];
+    if (change === "clid") {
+      card.clid = "87654321";
+      check.clid = card.clid;
+    } else {
+      card.compliance_mode = "non_ad_storefront";
+      card.creative = null;
+      check.compliance_mode = card.compliance_mode;
+    }
+    Object.assign(check, {
+      status: "error",
+      affiliate_href: null,
+      page_name: null,
+      title: null,
+      product_photo: null,
+      promise: null,
+      price: null,
+      stock: null,
+      checked_at: "2026-07-30T09:05:00Z",
+      error_code: "api_error",
+    });
+    batch.generated_at = "2026-07-30T09:06:00Z";
+
+    const actual = buildSnapshot(source, batch, {
+      ...fixtureOptions,
+      previousSnapshot: previous,
+    });
+    assert.equal(actual.offers[0].eligibility, "error");
+    assert.equal(actual.offers[0].affiliate_href, null);
+  }
 });
 
 test("writes generated snapshots with owner-only permissions", async () => {

@@ -1,5 +1,48 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-07-30T00:00:00Z",
-  "offers": []
+  "schema_version": 2,
+  "generated_at": "2026-07-30T20:11:51.289Z",
+  "offers": [
+    {
+      "id": "market-onkron-tm6-5720427358",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358",
+      "page_path": "/kronshteyny/onkron-tm6/",
+      "entity_kind": "mount",
+      "entity_id": "onkron-tm6",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvOnkronTM6",
+      "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=80756kalb79l311dwfbedsvi3bbzx1dc&utm_referral_context=ssQi-HiNCDp3hgZT3L_4mN9xBYPfqWk6T5TbHxsiI0NjDlfQv6_84oPejGBeHfmODiOhkTxLgQ75CDV9yJPeaRWlaygCMCmWJRn79Rx8pDIuXpaKDYyXXOK29urAeQ2ilMF_sHxFTHN4rFFAdLXBNEuWLOI1PQsCfMDOjejWmv0MO1GnSvOkzsbOpuyoD-U_MTs7bCnFWEL_gb6Kh3s7mXoPzyzxEmEB&clid=15238076&vid=krepitvOnkronTM6&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+      "page_name": "POKUPKI_PRODUCT",
+      "title": "Кронштейн для телевизоров Onkron TM6 черный",
+      "product_photo": "https://avatars.mds.yandex.net/get-mpic/6439030/img_id775215085841904914.jpeg/optimize",
+      "promise": 320,
+      "price": 2531,
+      "stock": 65,
+      "checked_at": "2026-07-30T20:11:47.509Z",
+      "eligibility": "publishable",
+      "publishable": true,
+      "creative": null
+    },
+    {
+      "id": "market-onkron-tm5-bw-4559285774",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-tm5-bw/4559285774",
+      "page_path": "/kronshteyny/onkron-tm5-bw/",
+      "entity_kind": "mount",
+      "entity_id": "onkron-tm5-bw",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvOnkronTM5BW",
+      "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-tm5-bw/4559285774?refid=pp6gln1r67uf955mjte8b5vg2wqr39x7&utm_referral_context=S1LbnchZaw7lqpLlOWxept37udOMIPOFRqPOMki8A8OgYdnDOY1qu6F201AMEhdjz1lEeQHo3lXFJhNi2xIVXXaep7og9vVvoFZbANObo5PEYount7vHNiyCzJG7MmrqlX62_B9niQlfw5d4o5u5NA2kog2imx3rnsSyZXWjRA5TH0COE5Sww0-e6tyi71ZfEY3lpB2T0iNupD7gaC_LfQn13ZWyCKAM&clid=15238076&vid=krepitvOnkronTM5BW&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+      "page_name": "POKUPKI_PRODUCT",
+      "title": "Кронштейн для телевизора Onkron TM5-BW",
+      "product_photo": "https://avatars.mds.yandex.net/get-mpic/16233762/2a000001986183e604e76ed10f90115aebfb/optimize",
+      "promise": 612,
+      "price": 2606,
+      "stock": 1,
+      "checked_at": "2026-07-30T20:11:50.411Z",
+      "eligibility": "publishable",
+      "publishable": true,
+      "creative": null
+    }
+  ]
 }

@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "generated_at", "checks"],
   "properties": {
-    "schema_version": { "const": 1 },
+    "schema_version": { "const": 2 },
     "generated_at": { "type": "string", "format": "date-time" },
     "checks": {
       "type": "array",
@@ -20,6 +20,9 @@
       "required": [
         "id",
         "market_source_url",
+        "compliance_mode",
+        "clid",
+        "vid",
         "status",
         "affiliate_href",
         "page_name",
@@ -40,6 +43,17 @@
           "type": "string",
           "format": "uri",
           "pattern": "^https://"
+        },
+        "compliance_mode": {
+          "enum": ["advertising", "non_ad_storefront"]
+        },
+        "clid": {
+          "type": "string",
+          "pattern": "^[0-9]{5,20}$"
+        },
+        "vid": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]{1,150}$"
         },
         "status": { "enum": ["ok", "unavailable", "error"] },
         "affiliate_href": {

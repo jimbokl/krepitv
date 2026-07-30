@@ -9,7 +9,9 @@ export function AffiliateLink({ children, className = "primary-button", offer })
   return (
     <a
       className={className}
-      data-erid={presentation.erid}
+      data-affiliate-mode={presentation.mode}
+      data-clid={presentation.clid}
+      data-erid={presentation.erid ?? undefined}
       href={presentation.href}
       onClick={() => emitAffiliateClick(window, offer)}
       rel={presentation.rel}
@@ -27,9 +29,15 @@ export default function AffiliateOffer({ offer, children }) {
 
   return (
     <aside
-      aria-label="Рекламное предложение"
+      aria-label={
+        presentation.mode === "advertising"
+          ? "Рекламное предложение"
+          : "Партнёрское предложение"
+      }
       className="grid gap-5 border-2 border-ink bg-white p-5 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center"
-      data-erid={presentation.erid}
+      data-affiliate-mode={presentation.mode}
+      data-clid={presentation.clid}
+      data-erid={presentation.erid ?? undefined}
     >
       {imageFailed ? (
         <p className="text-sm leading-relaxed text-muted">
@@ -49,8 +57,7 @@ export default function AffiliateOffer({ offer, children }) {
       )}
       <div>
         <p className="font-mono text-[0.68rem] uppercase leading-relaxed text-muted">
-          {presentation.label} · {presentation.advertiserName} · ИНН{" "}
-          {presentation.advertiserInn} · erid: {presentation.erid}
+          {presentation.notice}
         </p>
         <h2 className="mt-2 font-display text-2xl font-extrabold">
           {presentation.productTitle}

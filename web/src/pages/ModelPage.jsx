@@ -156,7 +156,7 @@ function MountMatches({ affiliateOffers, matches }) {
               <article className="flex flex-col border border-line p-4" key={mount.id}>
                 <h3 className="font-display text-xl font-bold">{mount.title}</h3>
                 <p className="mt-2 flex-1 font-mono text-[0.62rem] leading-relaxed text-muted">
-                  {market.label} · {market.advertiserName} · ИНН {market.advertiserInn} · erid: {market.erid}
+                  {market.notice}
                 </p>
                 <AffiliateLink className="primary-button mt-4" offer={offer}>
                   Проверить цену <ArrowRight aria-hidden="true" />
@@ -216,7 +216,7 @@ function MountMatches({ affiliateOffers, matches }) {
                   На Яндекс Маркет <ArrowRight aria-hidden="true" />
                 </AffiliateLink>
                 <span className="max-w-64 text-left font-mono text-[0.62rem] leading-relaxed text-muted sm:text-right">
-                  {market.label} · {market.advertiserName} · ИНН {market.advertiserInn} · erid: {market.erid}
+                  {market.notice}
                 </span>
               </>
             ) : null}

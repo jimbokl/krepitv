@@ -1,8 +1,6 @@
 name: Проверка предложений Яндекс Маркета
 
 on:
-  schedule:
-    - cron: "17 4,16 * * *"
   workflow_dispatch:
 
 permissions:
@@ -49,16 +47,11 @@ jobs:
         if: steps.manifest.outputs.count != '0'
         env:
           YANDEX_MARKET_AFFILIATE_OAUTH: ${{ secrets.YANDEX_MARKET_AFFILIATE_OAUTH }}
-          YANDEX_MARKET_PLACE_ID: ${{ vars.YANDEX_MARKET_PLACE_ID }}
         shell: bash
         run: |
           set -euo pipefail
           if [ -z "${YANDEX_MARKET_AFFILIATE_OAUTH:-}" ]; then
             echo "::error::Не настроен секрет YANDEX_MARKET_AFFILIATE_OAUTH"
-            exit 1
-          fi
-          if [[ ! "${YANDEX_MARKET_PLACE_ID:-}" =~ ^[0-9]+$ ]]; then
-            echo "::error::Не настроена переменная YANDEX_MARKET_PLACE_ID"
             exit 1
           fi
 
@@ -67,7 +60,6 @@ jobs:
         id: check
         env:
           YANDEX_MARKET_AFFILIATE_OAUTH: ${{ secrets.YANDEX_MARKET_AFFILIATE_OAUTH }}
-          YANDEX_MARKET_PLACE_ID: ${{ vars.YANDEX_MARKET_PLACE_ID }}
         shell: bash
         run: |
           set -euo pipefail

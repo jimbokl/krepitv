@@ -19,6 +19,7 @@ const FORMS = new Set([
   "live-video",
   "live-audio",
 ]);
+const COMPLIANCE_MODES = new Set(["advertising", "non_ad_storefront"]);
 const BATCH_STATUSES = new Set(["ok", "unavailable", "error"]);
 const ERROR_CODES = new Set([
   "http_error",
@@ -44,6 +45,8 @@ const FORBIDDEN_VALUE_PATTERNS = [
 ];
 const MARKET_IMAGE_HOST = "avatars.mds.yandex.net";
 const MAX_PREVIOUS_OFFER_AGE_MS = 48 * 60 * 60 * 1000;
+export const MARKET_AFFILIATE_ENDPOINT =
+  "https://api.content.market.yandex.ru/v3/affiliate/partner/link/create";
 
 export class AffiliateValidationError extends Error {
   constructor(issues) {
@@ -73,6 +76,18 @@ export function marketTitleMatchesExpected(title, expectedTokens) {
       return normalizedToken.length >= 2 && normalizedTitle.includes(` ${normalizedToken} `);
     })
   );
+}
+
+export function buildMarketAffiliateRequestUrl(card) {
+  const url = new URL(MARKET_AFFILIATE_ENDPOINT);
+  url.searchParams.set("url", card.market_source_url);
+  url.searchParams.set("clid", card.clid);
+  url.searchParams.set("vid", card.vid);
+  url.searchParams.set("format", "json");
+  if (card.compliance_mode === "advertising" && card.creative?.erid) {
+    url.searchParams.set("erid", card.creative.erid);
+  }
+  return url;
 }
 
 function isObject(value) {
@@ -210,7 +225,13 @@ function scanForSecrets(value, location, issues) {
   }
 }
 
-function validateCreative(creative, location, issues) {
+function validateCreative(creative, complianceMode, location, issues) {
+  if (complianceMode === "non_ad_storefront") {
+    if (creative !== null) {
+      add(issues, location, "non-ad storefront placement must have creative set to null");
+    }
+    return;
+  }
   const keys = [
     "form",
     "content_revision",
@@ -243,22 +264,74 @@ function validateCreative(creative, location, issues) {
   if (!exactKeys(creative.disclosure, disclosureKeys, disclosureLocation, issues)) {
     return;
   }
-  if (creative.disclosure.label !== AD_LABEL) {
-    add(issues, `${disclosureLocation}.label`, `must equal ${AD_LABEL}`);
+  if (complianceMode === "advertising") {
+    if (creative.disclosure.label !== AD_LABEL) {
+      add(issues, `${disclosureLocation}.label`, `must equal ${AD_LABEL}`);
+    }
+    if (creative.disclosure.advertiser_name !== ADVERTISER_NAME) {
+      add(
+        issues,
+        `${disclosureLocation}.advertiser_name`,
+        `must equal ${ADVERTISER_NAME}`,
+      );
+    }
+    if (creative.disclosure.advertiser_inn !== ADVERTISER_INN) {
+      add(
+        issues,
+        `${disclosureLocation}.advertiser_inn`,
+        `must equal ${ADVERTISER_INN}`,
+      );
+    }
   }
-  if (creative.disclosure.advertiser_name !== ADVERTISER_NAME) {
-    add(
-      issues,
-      `${disclosureLocation}.advertiser_name`,
-      `must equal ${ADVERTISER_NAME}`,
-    );
+}
+
+function validateAffiliateBinding(
+  affiliateUrl,
+  sourceUrl,
+  offer,
+  allowExampleHosts,
+  location,
+  issues,
+) {
+  if (!affiliateUrl || !sourceUrl) return;
+  if (affiliateUrl.hash) {
+    add(issues, location, "affiliate URL must not contain a fragment");
   }
-  if (creative.disclosure.advertiser_inn !== ADVERTISER_INN) {
-    add(
-      issues,
-      `${disclosureLocation}.advertiser_inn`,
-      `must equal ${ADVERTISER_INN}`,
-    );
+  if (affiliateUrl.pathname !== sourceUrl.pathname) {
+    add(issues, location, "affiliate path must match the configured Market card");
+  }
+  const clidValues = affiliateUrl.searchParams.getAll("clid");
+  if (clidValues.length !== 1 || clidValues[0] !== offer.clid) {
+    add(issues, location, "CLID query must match the configured clid");
+  }
+  const vidValues = affiliateUrl.searchParams.getAll("vid");
+  if (vidValues.length !== 1 || vidValues[0] !== offer.vid) {
+    add(issues, location, "VID query must match the configured vid");
+  }
+  if (affiliateUrl.searchParams.get("distr_type") !== "7") {
+    add(issues, location, "distr_type query must equal 7");
+  }
+  if (affiliateUrl.searchParams.get("utm_source") !== "partner_network") {
+    add(issues, location, "utm_source query must equal partner_network");
+  }
+  if (affiliateUrl.searchParams.get("utm_campaign") !== offer.clid) {
+    add(issues, location, "utm_campaign query must match the configured clid");
+  }
+
+  const linkErids = affiliateUrl.searchParams.getAll("erid");
+  if (offer.compliance_mode === "non_ad_storefront" && linkErids.length !== 0) {
+    add(issues, location, "non-ad storefront link must not contain ERID");
+  }
+  if (
+    offer.compliance_mode === "advertising" &&
+    offer.creative?.erid &&
+    (linkErids.length !== 1 || linkErids[0] !== offer.creative.erid)
+  ) {
+    add(issues, location, "ERID query must match creative.erid");
+  }
+
+  if (!allowExampleHosts && affiliateUrl.hostname !== sourceUrl.hostname) {
+    add(issues, location, "affiliate destination must remain on the Market card host");
   }
 }
 
@@ -273,7 +346,7 @@ export function validateSource(source, options = {}) {
   if (!exactKeys(source, ["schema_version", "cards"], "$", issues)) {
     finish(issues);
   }
-  if (source.schema_version !== 1) add(issues, "$.schema_version", "must equal 1");
+  if (source.schema_version !== 2) add(issues, "$.schema_version", "must equal 2");
   if (!Array.isArray(source.cards)) {
     add(issues, "$.cards", "must be an array");
     finish(issues);
@@ -290,6 +363,8 @@ export function validateSource(source, options = {}) {
       "page_path",
       "entity_kind",
       "entity_id",
+      "compliance_mode",
+      "clid",
       "vid",
       "expected_title_tokens",
       "creative",
@@ -330,6 +405,12 @@ export function validateSource(source, options = {}) {
     } else if (card.page_path !== `/kronshteyny/${card.entity_id}/`) {
       add(issues, `${location}.page_path`, "must match the mount entity ID");
     }
+    if (!COMPLIANCE_MODES.has(card.compliance_mode)) {
+      add(issues, `${location}.compliance_mode`, "unsupported compliance mode");
+    }
+    if (typeof card.clid !== "string" || !/^\d{5,20}$/.test(card.clid)) {
+      add(issues, `${location}.clid`, "must contain 5-20 digits");
+    }
     if (typeof card.vid !== "string" || !VID_RE.test(card.vid)) {
       add(issues, `${location}.vid`, "must contain 1-150 Latin letters or digits");
     } else if (vids.has(card.vid)) add(issues, `${location}.vid`, "duplicate VID");
@@ -359,7 +440,12 @@ export function validateSource(source, options = {}) {
         } else normalizedTokens.add(normalized);
       });
     }
-    validateCreative(card.creative, `${location}.creative`, issues);
+    validateCreative(
+      card.creative,
+      card.compliance_mode,
+      `${location}.creative`,
+      issues,
+    );
   });
   finish(issues);
   return source;
@@ -430,7 +516,7 @@ export function validateBatch(batch, options = {}) {
   if (!exactKeys(batch, ["schema_version", "generated_at", "checks"], "$", issues)) {
     finish(issues);
   }
-  if (batch.schema_version !== 1) add(issues, "$.schema_version", "must equal 1");
+  if (batch.schema_version !== 2) add(issues, "$.schema_version", "must equal 2");
   if (!isIsoDate(batch.generated_at)) {
     add(issues, "$.generated_at", "must be an ISO UTC timestamp");
   }
@@ -445,6 +531,9 @@ export function validateBatch(batch, options = {}) {
     const keys = [
       "id",
       "market_source_url",
+      "compliance_mode",
+      "clid",
+      "vid",
       "status",
       "affiliate_href",
       "page_name",
@@ -461,6 +550,16 @@ export function validateBatch(batch, options = {}) {
       add(issues, `${location}.id`, "invalid stable ID");
     } else if (ids.has(check.id)) add(issues, `${location}.id`, "duplicate ID");
     else ids.add(check.id);
+
+    if (!COMPLIANCE_MODES.has(check.compliance_mode)) {
+      add(issues, `${location}.compliance_mode`, "unsupported compliance mode");
+    }
+    if (typeof check.clid !== "string" || !/^\d{5,20}$/.test(check.clid)) {
+      add(issues, `${location}.clid`, "must contain 5-20 digits");
+    }
+    if (typeof check.vid !== "string" || !VID_RE.test(check.vid)) {
+      add(issues, `${location}.vid`, "invalid VID");
+    }
 
     const sourceUrl = parseHttpsUrl(
       check.market_source_url,
@@ -566,7 +665,9 @@ function expectedEligibility(offer) {
   if (offer.eligibility === "error" || offer.eligibility === "unavailable") {
     return offer.eligibility;
   }
-  if (!offer.creative.erid) return "unmarked";
+  if (offer.compliance_mode === "advertising" && !offer.creative?.erid) {
+    return "unmarked";
+  }
   if (!Number.isInteger(offer.promise) || offer.promise <= 0) return "no_reward";
   if (!Number.isInteger(offer.stock) || offer.stock <= 0) return "out_of_stock";
   return "publishable";
@@ -591,6 +692,8 @@ function canRetainPreviousOffer(card, offer, generatedAt) {
     offer.page_path === card.page_path &&
     offer.entity_kind === card.entity_kind &&
     offer.entity_id === card.entity_id &&
+    offer.compliance_mode === card.compliance_mode &&
+    offer.clid === card.clid &&
     offer.vid === card.vid &&
     sameCreative(offer.creative, card.creative)
   );
@@ -603,7 +706,7 @@ export function validateSnapshot(snapshot, options = {}) {
   if (!exactKeys(snapshot, ["schema_version", "generated_at", "offers"], "$", issues)) {
     finish(issues);
   }
-  if (snapshot.schema_version !== 1) add(issues, "$.schema_version", "must equal 1");
+  if (snapshot.schema_version !== 2) add(issues, "$.schema_version", "must equal 2");
   if (!isIsoDate(snapshot.generated_at)) {
     add(issues, "$.generated_at", "must be an ISO UTC timestamp");
   }
@@ -621,6 +724,8 @@ export function validateSnapshot(snapshot, options = {}) {
       "page_path",
       "entity_kind",
       "entity_id",
+      "compliance_mode",
+      "clid",
       "vid",
       "affiliate_href",
       "page_name",
@@ -690,6 +795,12 @@ export function validateSnapshot(snapshot, options = {}) {
     } else if (offer.page_path !== `/kronshteyny/${offer.entity_id}/`) {
       add(issues, `${location}.page_path`, "must match the mount entity ID");
     }
+    if (!COMPLIANCE_MODES.has(offer.compliance_mode)) {
+      add(issues, `${location}.compliance_mode`, "unsupported compliance mode");
+    }
+    if (typeof offer.clid !== "string" || !/^\d{5,20}$/.test(offer.clid)) {
+      add(issues, `${location}.clid`, "must contain 5-20 digits");
+    }
     if (typeof offer.vid !== "string" || !VID_RE.test(offer.vid)) {
       add(issues, `${location}.vid`, "invalid VID");
     }
@@ -707,7 +818,12 @@ export function validateSnapshot(snapshot, options = {}) {
     if (typeof offer.publishable !== "boolean") {
       add(issues, `${location}.publishable`, "must be boolean");
     }
-    validateCreative(offer.creative, `${location}.creative`, issues);
+    validateCreative(
+      offer.creative,
+      offer.compliance_mode,
+      `${location}.creative`,
+      issues,
+    );
 
     const expected = expectedEligibility(offer);
     if (ELIGIBILITY.has(offer.eligibility) && offer.eligibility !== expected) {
@@ -719,8 +835,15 @@ export function validateSnapshot(snapshot, options = {}) {
     if (offer.publishable) {
       if (!affiliateUrl) {
         add(issues, `${location}.affiliate_href`, "required for publishable offer");
-      } else if (affiliateUrl.searchParams.get("erid") !== offer.creative.erid) {
-        add(issues, `${location}.affiliate_href`, "ERID query must match creative.erid");
+      } else {
+        validateAffiliateBinding(
+          affiliateUrl,
+          sourceUrl,
+          offer,
+          allowExampleHosts,
+          `${location}.affiliate_href`,
+          issues,
+        );
       }
       if (
         offer.page_name !== "POKUPKI_PRODUCT" ||
@@ -758,16 +881,51 @@ export function buildSnapshot(source, batch, options = {}) {
 
   const offers = source.cards.map((card) => {
     const check = checks.get(card.id);
-    if (check.market_source_url !== card.market_source_url) {
-      throw new AffiliateValidationError([
-        `$.checks.${card.id}.market_source_url: does not match source manifest`,
-      ]);
+    const bindingIssues = [];
+    for (const field of ["market_source_url", "compliance_mode", "clid", "vid"]) {
+      if (check[field] !== card[field]) {
+        add(
+          bindingIssues,
+          `$.checks.${card.id}.${field}`,
+          "does not match source manifest",
+        );
+      }
     }
+    if (check.status === "ok") {
+      const sourceUrl = parseHttpsUrl(
+        card.market_source_url,
+        `$.cards.${card.id}.market_source_url`,
+        bindingIssues,
+      );
+      const affiliateUrl = parseHttpsUrl(
+        check.affiliate_href,
+        `$.checks.${card.id}.affiliate_href`,
+        bindingIssues,
+      );
+      validateAffiliateBinding(
+        affiliateUrl,
+        sourceUrl,
+        card,
+        options.allowExampleHosts ?? false,
+        `$.checks.${card.id}.affiliate_href`,
+        bindingIssues,
+      );
+      if (!marketTitleMatchesExpected(check.title, card.expected_title_tokens)) {
+        add(
+          bindingIssues,
+          `$.checks.${card.id}.title`,
+          "does not match the configured catalog identity",
+        );
+      }
+    }
+    finish(bindingIssues);
 
     let eligibility;
     if (check.status === "error") eligibility = "error";
     else if (check.status === "unavailable") eligibility = "unavailable";
-    else if (!card.creative.erid) eligibility = "unmarked";
+    else if (card.compliance_mode === "advertising" && !card.creative?.erid) {
+      eligibility = "unmarked";
+    }
     else if (check.promise <= 0) eligibility = "no_reward";
     else if (check.stock <= 0) eligibility = "out_of_stock";
     else eligibility = "publishable";
@@ -779,6 +937,8 @@ export function buildSnapshot(source, batch, options = {}) {
       page_path: card.page_path,
       entity_kind: card.entity_kind,
       entity_id: card.entity_id,
+      compliance_mode: card.compliance_mode,
+      clid: card.clid,
       vid: card.vid,
       affiliate_href: publishable ? check.affiliate_href : null,
       page_name: check.page_name,
@@ -790,12 +950,12 @@ export function buildSnapshot(source, batch, options = {}) {
       checked_at: check.checked_at,
       eligibility,
       publishable,
-      creative: { ...card.creative },
+      creative: card.creative === null ? null : { ...card.creative },
     };
   });
 
   let snapshot = {
-    schema_version: 1,
+    schema_version: 2,
     generated_at: batch.generated_at,
     offers,
   };
@@ -814,7 +974,7 @@ export function buildSnapshot(source, batch, options = {}) {
       mergedOffers.length === previous.offers.length &&
       JSON.stringify(mergedOffers) === JSON.stringify(previous.offers);
     snapshot = {
-      schema_version: 1,
+      schema_version: 2,
       generated_at: unchanged ? previous.generated_at : batch.generated_at,
       offers: mergedOffers,
     };
