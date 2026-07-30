@@ -467,6 +467,101 @@ for (const page of seoPages) {
   }
 }
 
+function hasVerifiedModel(modelId) {
+  return compatibilityEdges.some(
+    (edge) => edge.tv_id === modelId && edge.compatible && edge.fit_status === "verified-fit",
+  );
+}
+
+function hasVerifiedMount(mountId) {
+  return compatibilityEdges.some(
+    (edge) => edge.mount_id === mountId && edge.compatible && edge.fit_status === "verified-fit",
+  );
+}
+
+function seoCatalogExpectation(page) {
+  if (page.kind === "mechanism") {
+    const mechanism = {
+      "fixed-mount": "fixed",
+      "tilt-mount": "tilt",
+      "full-motion-mount": "full-motion",
+    }[page.id];
+    return mechanism
+      ? {
+          label: "кронштейнов",
+          routes: mounts
+            .filter((mount) => mount.mechanism === mechanism && hasVerifiedMount(mount.id))
+            .map((mount) => `/kronshteyny/${mount.id}/`),
+        }
+      : null;
+  }
+
+  if (page.kind === "vesa") {
+    const match = page.id.match(/^vesa-(\d+)x(\d+)$/);
+    if (!match) return null;
+    const [, width, height] = match;
+    return {
+      label: "моделей",
+      routes: models
+        .filter(
+          (model) =>
+            model.vesa_width_mm === Number(width) &&
+            model.vesa_height_mm === Number(height) &&
+            hasVerifiedModel(model.id),
+        )
+        .map((model) => `/modeli/${model.id}/`),
+    };
+  }
+
+  if (page.kind === "diagonal") {
+    const diagonal = Number(page.id.replace(/^diagonal-/, ""));
+    if (!Number.isFinite(diagonal)) return null;
+    return {
+      label: "моделей",
+      routes: models
+        .filter(
+          (model) =>
+            Math.abs(model.diagonal_inches - diagonal) < 0.05 && hasVerifiedModel(model.id),
+        )
+        .map((model) => `/modeli/${model.id}/`),
+    };
+  }
+
+  if (page.kind === "brand") {
+    const brand = page.id.replace(/^brand-/, "").toLocaleLowerCase("ru-RU");
+    return {
+      label: "моделей",
+      routes: models
+        .filter(
+          (model) =>
+            String(model.brand).trim().toLocaleLowerCase("ru-RU") === brand &&
+            hasVerifiedModel(model.id),
+        )
+        .map((model) => `/modeli/${model.id}/`),
+    };
+  }
+
+  return null;
+}
+
+for (const page of seoPages) {
+  const expected = seoCatalogExpectation(page);
+  if (!expected) continue;
+  const html = htmlByRoute.get(page.path);
+  if (!html.includes("Данные проверенного каталога") || !html.includes("<details")) {
+    throw new Error(`SEO-страница не содержит статический каталог ${expected.label}: ${page.path}`);
+  }
+  for (const route of expected.routes) {
+    if (!html.includes(`href="${route}"`)) {
+      throw new Error(`Статический каталог на ${page.path} не содержит ${route}`);
+    }
+  }
+  const outsideDetails = html.replace(/<details\b[\s\S]*?<\/details>/gi, "");
+  if (expected.routes.some((route) => outsideDetails.includes(`href="${route}"`))) {
+    throw new Error(`Длинный каталог на ${page.path} выведен вне сворачиваемых групп`);
+  }
+}
+
 const sitemap = await readFile(path.join(docs, "sitemap.xml"), "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 assertMinimum(sitemapUrls, 15, "URL в sitemap");

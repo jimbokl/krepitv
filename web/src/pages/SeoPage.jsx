@@ -26,6 +26,7 @@ const kindLabels = {
   guide: "Практическое руководство",
   vesa: "Справочник VESA",
   diagonal: "Подбор по диагонали",
+  brand: "Подбор по бренду",
   mechanism: "Типы кронштейнов",
   calculator: "Расчёт установки",
 };
@@ -395,6 +396,16 @@ function getCatalogItems(page, catalog) {
     return {
       type: "models",
       values: catalog.models.filter((model) => model.diagonal_inches === diagonal),
+    };
+  }
+
+  if (page.kind === "brand") {
+    const brand = page.id.replace(/^brand-/i, "").toLocaleLowerCase("ru-RU");
+    return {
+      type: "models",
+      values: catalog.models.filter(
+        (model) => String(model.brand ?? "").trim().toLocaleLowerCase("ru-RU") === brand,
+      ),
     };
   }
 

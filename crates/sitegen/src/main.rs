@@ -905,8 +905,36 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ],
         "tv-zone-sockets" => &["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
         "vesa" => &["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
-        "vesa-200x200" | "vesa-300x200" => &["vesa", "how-to-find-vesa", "diagonal-55"],
-        "diagonal-55" => &["wall-mounted-tv", "mounting-height", "vesa"],
+        "vesa-200x200" | "vesa-300x200" => &[
+            "vesa",
+            "how-to-find-vesa",
+            "diagonal-55",
+            "brand-lg",
+            "brand-samsung",
+        ],
+        "diagonal-43" | "diagonal-55" | "diagonal-65" => &[
+            "wall-mounted-tv",
+            "mounting-height",
+            "vesa",
+            "brand-lg",
+            "brand-samsung",
+        ],
+        "brand-lg" => &[
+            "diagonal-43",
+            "diagonal-55",
+            "diagonal-65",
+            "vesa-200x200",
+            "vesa-300x200",
+            "brand-samsung",
+        ],
+        "brand-samsung" => &[
+            "diagonal-43",
+            "diagonal-55",
+            "diagonal-65",
+            "vesa-200x200",
+            "vesa-300x200",
+            "brand-lg",
+        ],
         "fixed-mount" => &[
             "wall-mounted-tv",
             "tilt-mount",
@@ -985,7 +1013,282 @@ fn seo_calculator_note(page_id: &str) -> &'static str {
     }
 }
 
-fn seo_page_body(page: &SeoPage, pages: &[SeoPage]) -> String {
+fn verified_mount_count(model_id: &str, graph: &[CompatibilityEdge]) -> usize {
+    graph
+        .iter()
+        .filter(|edge| {
+            edge.compatible && edge.fit_status == "verified-fit" && edge.tv_id == model_id
+        })
+        .count()
+}
+
+fn verified_model_count(mount_id: &str, graph: &[CompatibilityEdge]) -> usize {
+    graph
+        .iter()
+        .filter(|edge| {
+            edge.compatible && edge.fit_status == "verified-fit" && edge.mount_id == mount_id
+        })
+        .count()
+}
+
+fn seo_model_card(tv: &TvModel, graph: &[CompatibilityEdge]) -> String {
+    format!(
+        "<article class=\"border border-line bg-white p-5\"><a class=\"font-display text-xl font-extrabold underline decoration-action decoration-2 underline-offset-4\" href=\"/modeli/{id}/\">{title}</a><p class=\"mt-3 text-sm leading-relaxed text-muted\">{year} год · {diagonal}″ · VESA {vesa_width}×{vesa_height} мм · {weight} кг без подставки</p><p class=\"mt-3 font-mono text-xs uppercase text-technical\">Подтверждённых кронштейнов: {mount_count}</p></article>",
+        id = escape_html(&tv.id),
+        title = escape_html(&tv.title),
+        year = tv.model_year,
+        diagonal = tv.diagonal_inches,
+        vesa_width = tv.vesa_width_mm,
+        vesa_height = tv.vesa_height_mm,
+        weight = tv.weight_kg,
+        mount_count = verified_mount_count(&tv.id, graph),
+    )
+}
+
+fn mount_extension_label(mount: &Mount) -> String {
+    if (mount.wall_distance_min_mm - mount.wall_distance_max_mm).abs() < f64::EPSILON {
+        format!("{} мм", mount.wall_distance_min_mm)
+    } else {
+        format!(
+            "{}–{} мм",
+            mount.wall_distance_min_mm, mount.wall_distance_max_mm
+        )
+    }
+}
+
+fn seo_mount_card(mount: &Mount, graph: &[CompatibilityEdge]) -> String {
+    format!(
+        "<article class=\"border border-line bg-white p-5\"><a class=\"font-display text-xl font-extrabold underline decoration-action decoration-2 underline-offset-4\" href=\"/kronshteyny/{id}/\">{title}</a><p class=\"mt-3 text-sm leading-relaxed text-muted\">{mechanism} механизм · нагрузка до {load} кг · диагональ {min_diagonal}–{max_diagonal}″ · вылет {extension}</p><p class=\"mt-3 font-mono text-xs uppercase text-technical\">Схем VESA: {vesa_count} · подтверждённых моделей: {model_count}</p></article>",
+        id = escape_html(&mount.id),
+        title = escape_html(&mount.title),
+        mechanism = escape_html(mechanism_label(&mount.mechanism)),
+        load = mount.max_load_kg,
+        min_diagonal = mount.min_diagonal_in,
+        max_diagonal = mount.max_diagonal_in,
+        extension = escape_html(&mount_extension_label(mount)),
+        vesa_count = mount.vesa.len(),
+        model_count = verified_model_count(&mount.id, graph),
+    )
+}
+
+fn seo_model_catalog_html(
+    page: &SeoPage,
+    models: &[TvModel],
+    graph: &[CompatibilityEdge],
+) -> String {
+    let selection = match page.kind.as_str() {
+        "vesa" => page
+            .id
+            .strip_prefix("vesa-")
+            .and_then(|value| value.split_once('x'))
+            .and_then(|(width, height)| {
+                Some((width.parse::<u32>().ok()?, height.parse::<u32>().ok()?))
+            })
+            .map(|(width, height)| {
+                let selected = models
+                    .iter()
+                    .filter(|tv| {
+                        tv.vesa_width_mm == width
+                            && tv.vesa_height_mm == height
+                            && is_indexable_model(&tv.id, graph)
+                    })
+                    .collect::<Vec<_>>();
+                (
+                    format!("Телевизоры с VESA {width}×{height} мм"),
+                    format!(
+                        "Ниже только модели с точной горизонтальной и вертикальной парой {width}×{height} мм. Совпадение VESA — первый фильтр: запас нагрузки, диагональ, винты и основание стены всё равно проверяются отдельно."
+                    ),
+                    selected,
+                )
+            }),
+        "diagonal" => page
+            .id
+            .strip_prefix("diagonal-")
+            .and_then(|value| value.parse::<f64>().ok())
+            .map(|diagonal| {
+                let selected = models
+                    .iter()
+                    .filter(|tv| {
+                        (tv.diagonal_inches - diagonal).abs() < 0.05
+                            && is_indexable_model(&tv.id, graph)
+                    })
+                    .collect::<Vec<_>>();
+                (
+                    format!("Проверенные телевизоры с диагональю {diagonal}″"),
+                    format!(
+                        "Диагональ {diagonal}″ помогает отсеять неподходящий паспортный диапазон кронштейна, но не заменяет сверку точной модели. В карточках сохранены VESA, масса без подставки и число подтверждённых кронштейнов."
+                    ),
+                    selected,
+                )
+            }),
+        "brand" => page.id.strip_prefix("brand-").and_then(|brand_key| {
+            if brand_key.is_empty() {
+                return None;
+            }
+            let selected = models
+                .iter()
+                .filter(|tv| {
+                    tv.brand.eq_ignore_ascii_case(brand_key)
+                        && is_indexable_model(&tv.id, graph)
+                })
+                .collect::<Vec<_>>();
+            let display_brand = selected
+                .first()
+                .map(|tv| tv.brand.as_str())
+                .unwrap_or(brand_key);
+            Some((
+                format!("Проверенные телевизоры {display_brand}"),
+                format!(
+                    "Каталог {display_brand} собран по точным обозначениям моделей, а не только по серии. Для каждой модели показаны VESA, масса без подставки, диагональ и число кронштейнов, прошедших все три проверки."
+                ),
+                selected,
+            ))
+        }),
+        _ => None,
+    };
+
+    let Some((heading, explanation, mut selected)) = selection else {
+        return String::new();
+    };
+    selected.sort_by(|left, right| {
+        left.brand
+            .to_lowercase()
+            .cmp(&right.brand.to_lowercase())
+            .then_with(|| left.diagonal_inches.total_cmp(&right.diagonal_inches))
+            .then_with(|| left.title.to_lowercase().cmp(&right.title.to_lowercase()))
+    });
+
+    let selected_ids = selected
+        .iter()
+        .map(|tv| tv.id.as_str())
+        .collect::<HashSet<_>>();
+    let verified_pairs = graph
+        .iter()
+        .filter(|edge| {
+            edge.compatible
+                && edge.fit_status == "verified-fit"
+                && selected_ids.contains(edge.tv_id.as_str())
+        })
+        .count();
+    let brand_count = selected
+        .iter()
+        .map(|tv| tv.brand.to_lowercase())
+        .collect::<HashSet<_>>()
+        .len();
+    let diagonals = selected
+        .iter()
+        .map(|tv| tv.diagonal_inches.to_string())
+        .collect::<HashSet<_>>()
+        .len();
+    let (context_label, context_count) = if page.kind == "brand" {
+        ("Диагоналей", diagonals)
+    } else {
+        ("Брендов", brand_count)
+    };
+    let rows = selected
+        .iter()
+        .map(|tv| (tv.brand.clone(), seo_model_card(tv, graph)))
+        .collect::<Vec<_>>();
+    let catalog = if rows.is_empty() {
+        "<p class=\"mt-6 border border-line bg-white p-5 leading-relaxed text-muted\">В проверенном каталоге пока нет моделей для этого фильтра. Страница остаётся справочной и не обещает совместимость без точной модели.</p>".to_string()
+    } else {
+        brand_catalog_html(
+            rows,
+            "Моделей",
+            "div",
+            "grid gap-3 border-t border-line py-4 sm:grid-cols-2",
+        )
+    };
+
+    format!(
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"seo-catalog-heading\"><p class=\"font-mono text-xs uppercase text-action\">Данные проверенного каталога</p><h2 id=\"seo-catalog-heading\" class=\"mt-2 font-display text-3xl font-extrabold\">{heading}</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">{explanation}</p><dl class=\"mt-6 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">{context_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{context_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённых пар</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{verified_pairs}</dd></div></dl><div class=\"mt-6\">{catalog}</div><p class=\"mt-5 text-sm leading-relaxed text-muted\">«Подтверждённая пара» означает совпадение точной VESA, паспортного диапазона диагонали и нагрузки с запасом 25%. Тип стены, анкеры, винты и кабельные зазоры в этот счётчик не входят.</p></section>",
+        heading = escape_html(&heading),
+        explanation = escape_html(&explanation),
+        model_count = selected.len(),
+        context_label = escape_html(context_label),
+    )
+}
+
+fn seo_mechanism_catalog_html(
+    page: &SeoPage,
+    mounts: &[Mount],
+    graph: &[CompatibilityEdge],
+) -> String {
+    let mechanism = match page.id.as_str() {
+        "fixed-mount" => "fixed",
+        "tilt-mount" => "tilt",
+        "full-motion-mount" => "full-motion",
+        _ => return String::new(),
+    };
+    let mut selected = mounts
+        .iter()
+        .filter(|mount| mount.mechanism == mechanism && is_indexable_mount(&mount.id, graph))
+        .collect::<Vec<_>>();
+    selected.sort_by(|left, right| {
+        left.brand
+            .to_lowercase()
+            .cmp(&right.brand.to_lowercase())
+            .then_with(|| left.title.to_lowercase().cmp(&right.title.to_lowercase()))
+    });
+
+    let selected_ids = selected
+        .iter()
+        .map(|mount| mount.id.as_str())
+        .collect::<HashSet<_>>();
+    let verified_pairs = graph
+        .iter()
+        .filter(|edge| {
+            edge.compatible
+                && edge.fit_status == "verified-fit"
+                && selected_ids.contains(edge.mount_id.as_str())
+        })
+        .count();
+    let brand_count = selected
+        .iter()
+        .map(|mount| mount.brand.to_lowercase())
+        .collect::<HashSet<_>>()
+        .len();
+    let rows = selected
+        .iter()
+        .map(|mount| (mount.brand.clone(), seo_mount_card(mount, graph)))
+        .collect::<Vec<_>>();
+    let catalog = if rows.is_empty() {
+        "<p class=\"mt-6 border border-line bg-white p-5 leading-relaxed text-muted\">В проверенном каталоге пока нет кронштейнов этого типа. До появления точных карточек страница остаётся техническим руководством.</p>".to_string()
+    } else {
+        brand_catalog_html(
+            rows,
+            "Кронштейнов",
+            "div",
+            "grid gap-3 border-t border-line py-4 sm:grid-cols-2",
+        )
+    };
+
+    format!(
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"seo-catalog-heading\"><p class=\"font-mono text-xs uppercase text-action\">Данные проверенного каталога</p><h2 id=\"seo-catalog-heading\" class=\"mt-2 font-display text-3xl font-extrabold\">Кронштейны этого типа в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Изделия отобраны по механизму из карточек с проверенными характеристиками. Вылет — расстояние от стены до телевизора по данным производителя; для конкретной модели отдельно проверяются VESA, масса и паспортная диагональ.</p><dl class=\"mt-6 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Кронштейнов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mount_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённых пар</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{verified_pairs}</dd></div></dl><div class=\"mt-6\">{catalog}</div><p class=\"mt-5 text-sm leading-relaxed text-muted\">Число подтверждённых моделей учитывает только пары со статусом полной проверки: точная VESA, диапазон диагонали и нагрузка с запасом 25%. Крепёж и несущая способность стены проверяются на месте.</p></section>",
+        mount_count = selected.len(),
+    )
+}
+
+fn seo_catalog_html(
+    page: &SeoPage,
+    models: &[TvModel],
+    mounts: &[Mount],
+    graph: &[CompatibilityEdge],
+) -> String {
+    match page.kind.as_str() {
+        "mechanism" => seo_mechanism_catalog_html(page, mounts, graph),
+        "vesa" | "diagonal" | "brand" => seo_model_catalog_html(page, models, graph),
+        _ => String::new(),
+    }
+}
+
+fn seo_page_body(
+    page: &SeoPage,
+    pages: &[SeoPage],
+    models: &[TvModel],
+    mounts: &[Mount],
+    graph: &[CompatibilityEdge],
+) -> String {
     let facts = page
         .facts
         .iter()
@@ -1005,6 +1308,7 @@ fn seo_page_body(page: &SeoPage, pages: &[SeoPage]) -> String {
         .collect::<Vec<_>>()
         .join("\n");
     let calculator_note = seo_calculator_note(&page.id);
+    let catalog = seo_catalog_html(page, models, mounts, graph);
     let related_links = related_seo_pages(page, pages)
         .iter()
         .map(|related| {
@@ -1018,7 +1322,7 @@ fn seo_page_body(page: &SeoPage, pages: &[SeoPage]) -> String {
         .join("\n");
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>{calculator_note}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section><p><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>{catalog}{calculator_note}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section><p><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
         h1 = escape_html(&page.h1),
         lead = escape_html(&page.lead),
     ))
@@ -1471,7 +1775,7 @@ fn main() {
 
     for page in &seo_pages {
         let relative = page.path.trim_matches('/');
-        let static_body = seo_page_body(page, &seo_pages);
+        let static_body = seo_page_body(page, &seo_pages, &models, &mounts, &compatibility_graph);
         let canonical = format!("https://krepitv.ru{}", page.path);
         let breadcrumb = if page.path.starts_with("/vesa/") && page.path != "/vesa/" {
             breadcrumb_json_ld(&[
@@ -1582,7 +1886,7 @@ mod tests {
         build_compatibility_graph, escape_html, is_indexable_model, is_indexable_mount,
         is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
         mount_page_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
-        seo_calculator_note, workspace_root,
+        seo_calculator_note, seo_catalog_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -1692,6 +1996,111 @@ mod tests {
             "space-y-4",
         );
         assert!(semantic_list.contains("<ul class=\"space-y-4\"><li>1</li>\n<li>2</li></ul>"));
+    }
+
+    #[test]
+    fn seo_catalog_renders_verified_models_mounts_and_case_insensitive_brand() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let graph = build_compatibility_graph(&models, &mounts);
+        let page = |id: &str, kind: &str| SeoPage {
+            id: id.into(),
+            path: format!("/{id}/"),
+            kind: kind.into(),
+            indexable: true,
+            title: "Тест".into(),
+            description: "Тест".into(),
+            h1: "Тест".into(),
+            lead: "Тест".into(),
+            facts: vec![],
+            faq: vec![],
+        };
+
+        let diagonal_html =
+            seo_catalog_html(&page("diagonal-55", "diagonal"), &models, &mounts, &graph);
+        assert!(diagonal_html.contains("Проверенные телевизоры с диагональю 55″"));
+        assert!(diagonal_html.contains("/modeli/"));
+        assert!(diagonal_html.contains("VESA"));
+        assert!(diagonal_html.contains("кг без подставки"));
+        assert!(diagonal_html.contains("<details"));
+
+        let mechanism_html = seo_catalog_html(
+            &page("full-motion-mount", "mechanism"),
+            &models,
+            &mounts,
+            &graph,
+        );
+        assert!(mechanism_html.contains("/kronshteyny/"));
+        assert!(mechanism_html.contains("поворотный механизм"));
+        assert!(mechanism_html.contains("нагрузка до"));
+        assert!(mechanism_html.contains("вылет"));
+        assert!(!mechanism_html.contains("market.yandex"));
+
+        let lg_model = models
+            .iter()
+            .find(|tv| tv.brand == "LG")
+            .expect("В тестовом каталоге нужна модель LG");
+        let non_lg_model = models
+            .iter()
+            .find(|tv| tv.brand != "LG")
+            .expect("В тестовом каталоге нужен второй бренд");
+        let brand_html = seo_catalog_html(&page("brand-lg", "brand"), &models, &mounts, &graph);
+        assert!(brand_html.contains(&format!("/modeli/{}/", lg_model.id)));
+        assert!(!brand_html.contains(&format!("/modeli/{}/", non_lg_model.id)));
+        assert!(brand_html.contains("Проверенные телевизоры LG"));
+        assert!(brand_html.contains("Диагоналей"));
+    }
+
+    #[test]
+    fn brand_and_diagonal_pages_have_reciprocal_static_links() {
+        let page = |id: &str, kind: &str| SeoPage {
+            id: id.into(),
+            path: format!("/{id}/"),
+            kind: kind.into(),
+            indexable: true,
+            title: id.into(),
+            description: id.into(),
+            h1: id.into(),
+            lead: id.into(),
+            facts: vec![],
+            faq: vec![],
+        };
+        let pages = vec![
+            page("diagonal-43", "diagonal"),
+            page("diagonal-55", "diagonal"),
+            page("diagonal-65", "diagonal"),
+            page("brand-lg", "brand"),
+            page("brand-samsung", "brand"),
+            page("vesa-200x200", "vesa"),
+            page("vesa-300x200", "vesa"),
+        ];
+
+        for diagonal_id in ["diagonal-43", "diagonal-55", "diagonal-65"] {
+            let diagonal = pages
+                .iter()
+                .find(|page| page.id == diagonal_id)
+                .expect("Нет страницы диагонали");
+            let related = related_seo_pages(diagonal, &pages);
+            assert!(related.iter().any(|page| page.id == "brand-lg"));
+            assert!(related.iter().any(|page| page.id == "brand-samsung"));
+        }
+
+        for brand_id in ["brand-lg", "brand-samsung"] {
+            let brand = pages
+                .iter()
+                .find(|page| page.id == brand_id)
+                .expect("Нет страницы бренда");
+            let related = related_seo_pages(brand, &pages);
+            assert!(related.iter().any(|page| page.id == "diagonal-43"));
+            assert!(related.iter().any(|page| page.id == "diagonal-55"));
+            assert!(related.iter().any(|page| page.id == "diagonal-65"));
+            assert!(
+                related
+                    .iter()
+                    .any(|page| page.id != brand_id && page.kind == "brand")
+            );
+        }
     }
 
     #[test]
