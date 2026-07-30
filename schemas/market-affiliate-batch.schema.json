@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.example.invalid/krepitv/market-affiliate-batch.schema.json",
+  "title": "KREPI TV sanitized private affiliate check batch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "checks"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "checks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/check" }
+    }
+  },
+  "$defs": {
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "market_source_url",
+        "status",
+        "affiliate_href",
+        "promise",
+        "price",
+        "stock",
+        "checked_at",
+        "error_code"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{2,79}$"
+        },
+        "market_source_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "status": { "enum": ["ok", "unavailable", "error"] },
+        "affiliate_href": {
+          "type": ["string", "null"],
+          "format": "uri"
+        },
+        "promise": { "type": ["integer", "null"], "minimum": 0 },
+        "price": { "type": ["integer", "null"], "minimum": 0 },
+        "stock": { "type": ["integer", "null"], "minimum": 0 },
+        "checked_at": { "type": "string", "format": "date-time" },
+        "error_code": {
+          "type": ["string", "null"],
+          "enum": [
+            null,
+            "http_error",
+            "api_error",
+            "invalid_payload",
+            "not_rewarded",
+            "not_in_stock"
+          ]
+        }
+      }
+    }
+  }
+}

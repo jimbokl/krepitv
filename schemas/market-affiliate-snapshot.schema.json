@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.example.invalid/krepitv/market-affiliate-snapshot.schema.json",
+  "title": "KREPI TV publish decision snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "offers"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "offers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/offer" }
+    }
+  },
+  "$defs": {
+    "offer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "market_source_url",
+        "page_path",
+        "vid",
+        "affiliate_href",
+        "promise",
+        "price",
+        "stock",
+        "checked_at",
+        "eligibility",
+        "publishable",
+        "creative"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{2,79}$"
+        },
+        "market_source_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "page_path": {
+          "type": "string",
+          "pattern": "^/[a-z0-9][a-z0-9/-]*/$"
+        },
+        "vid": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]{1,150}$"
+        },
+        "affiliate_href": {
+          "type": ["string", "null"],
+          "format": "uri"
+        },
+        "promise": { "type": ["integer", "null"], "minimum": 0 },
+        "price": { "type": ["integer", "null"], "minimum": 0 },
+        "stock": { "type": ["integer", "null"], "minimum": 0 },
+        "checked_at": { "type": "string", "format": "date-time" },
+        "eligibility": {
+          "enum": [
+            "publishable",
+            "unmarked",
+            "no_reward",
+            "out_of_stock",
+            "unavailable",
+            "error"
+          ]
+        },
+        "publishable": { "type": "boolean" },
+        "creative": { "$ref": "#/$defs/creative" }
+      }
+    },
+    "creative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "form",
+        "content_revision",
+        "erid",
+        "registered_at",
+        "disclosure"
+      ],
+      "properties": {
+        "form": {
+          "enum": [
+            "banner",
+            "text-block",
+            "text-graphic-block",
+            "video",
+            "audio-rec",
+            "live-video",
+            "live-audio"
+          ]
+        },
+        "content_revision": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{1,80}$"
+        },
+        "erid": {
+          "type": ["string", "null"],
+          "pattern": "^[A-Za-z0-9._:-]{6,256}$"
+        },
+        "registered_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "disclosure": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "advertiser_name", "advertiser_inn"],
+          "properties": {
+            "label": { "const": "Реклама" },
+            "advertiser_name": { "const": "ООО «Яндекс Маркет»" },
+            "advertiser_inn": { "const": "9704254424" }
+          }
+        }
+      }
+    }
+  }
+}

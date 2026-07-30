@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-30T09:00:00Z",
+  "checks": [
+    {
+      "id": "mount-fixed-01",
+      "market_source_url": "https://market.example.invalid/card/mount-fixed-01/100001",
+      "status": "ok",
+      "affiliate_href": "https://affiliate.example.invalid/offer/mount-fixed-01?erid=eridFixture123",
+      "promise": 120,
+      "price": 2500,
+      "stock": 8,
+      "checked_at": "2026-07-30T08:59:00Z",
+      "error_code": null
+    },
+    {
+      "id": "mount-tilt-02",
+      "market_source_url": "https://market.example.invalid/card/mount-tilt-02/100002",
+      "status": "ok",
+      "affiliate_href": "https://affiliate.example.invalid/offer/mount-tilt-02",
+      "promise": 90,
+      "price": 3100,
+      "stock": 3,
+      "checked_at": "2026-07-30T08:59:30Z",
+      "error_code": null
+    }
+  ]
+}

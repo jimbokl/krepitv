@@ -4,9 +4,9 @@ import { Brand } from "./Brand.jsx";
 
 const links = [
   { href: "/podbor/", label: "Подбор по модели" },
-  { href: "/#vesa", label: "Справочник VESA" },
+  { href: "/vesa/", label: "Справочник VESA" },
   { href: "/#kak-vybrat", label: "Как выбрать" },
-  { href: "/#proverka", label: "Проверка данных" },
+  { href: "/metodika/", label: "Проверка данных" },
 ];
 
 export function SiteHeader({ active = "" }) {
@@ -18,7 +18,7 @@ export function SiteHeader({ active = "" }) {
         <div className="flex items-center gap-6">
           <Brand compact />
           <p className="hidden max-w-[17rem] border-l border-line pl-6 font-mono text-xs uppercase leading-tight lg:block">
-            Независимое техническое издание о совместимости кронштейнов и телевизоров
+            Независимый сервис проверки совместимости кронштейнов и телевизоров
           </p>
         </div>
 

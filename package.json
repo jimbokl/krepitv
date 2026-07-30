@@ -8,8 +8,10 @@
     "build:web": "npm --prefix web run build",
     "build:publish": "node scripts/copy-dist.mjs",
     "build": "node scripts/clean.mjs && npm run build:content && npm run build:wasm && npm run build:web && npm run build:publish && npm run verify",
+    "affiliate:validate": "node scripts/affiliate/validate.mjs --kind source data/affiliate/market-products.json",
+    "affiliate:test": "node --test tests/affiliate/*.test.mjs",
     "dev:prepare": "npm run build:content && npm run build:wasm",
     "dev": "npm run dev:prepare && npm --prefix web run dev",
-    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && node scripts/verify.mjs"
+    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:test"
   }
 }

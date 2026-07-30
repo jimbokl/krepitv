@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "cards": [
+    {
+      "id": "mount-fixed-01",
+      "market_source_url": "https://market.example.invalid/card/mount-fixed-01/100001",
+      "page_path": "/fixtures/mount-fixed-01/",
+      "vid": "krepitvfixture01",
+      "creative": {
+        "form": "text-block",
+        "content_revision": "fixture-v1",
+        "erid": "eridFixture123",
+        "registered_at": "2026-07-30T08:00:00Z",
+        "disclosure": {
+          "label": "Реклама",
+          "advertiser_name": "ООО «Яндекс Маркет»",
+          "advertiser_inn": "9704254424"
+        }
+      }
+    },
+    {
+      "id": "mount-tilt-02",
+      "market_source_url": "https://market.example.invalid/card/mount-tilt-02/100002",
+      "page_path": "/fixtures/mount-tilt-02/",
+      "vid": "krepitvfixture02",
+      "creative": {
+        "form": "text-block",
+        "content_revision": "fixture-v1",
+        "erid": null,
+        "registered_at": null,
+        "disclosure": {
+          "label": "Реклама",
+          "advertiser_name": "ООО «Яндекс Маркет»",
+          "advertiser_inn": "9704254424"
+        }
+      }
+    }
+  ]
+}

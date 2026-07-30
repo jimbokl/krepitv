@@ -1,12 +1,21 @@
 import { CircleNotch, Warning } from "@phosphor-icons/react";
+import trustPages from "../../data/trust_pages.json";
+import { SiteFooter } from "./components/SiteFooter.jsx";
 import { useCatalog } from "./hooks/useCatalog.js";
 import { GuidedSelectionPage } from "./pages/GuidedSelectionPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { ModelPage } from "./pages/ModelPage.jsx";
 import { SeoPage } from "./pages/SeoPage.jsx";
+import { TrustPage } from "./pages/TrustPage.jsx";
 
 export function App() {
   const catalog = useCatalog();
+  const path = normalizePath(window.location.pathname);
+  const trustPage = trustPages.find((page) => normalizePath(page.path) === path);
+
+  if (trustPage) {
+    return withSiteFooter(<TrustPage page={trustPage} />);
+  }
 
   if (catalog.status === "loading") {
     return (
@@ -34,22 +43,30 @@ export function App() {
     );
   }
 
-  const path = normalizePath(window.location.pathname);
   if (path === "/podbor" || path.startsWith("/podbor/")) {
-    return <GuidedSelectionPage catalog={catalog} />;
+    return withSiteFooter(<GuidedSelectionPage catalog={catalog} />);
   }
 
   const modelMatch = path.match(/^\/modeli\/([^/]+)\/?/);
   if (modelMatch) {
-    return <ModelPage catalog={catalog} modelId={decodeURIComponent(modelMatch[1])} />;
+    return withSiteFooter(<ModelPage catalog={catalog} modelId={decodeURIComponent(modelMatch[1])} />);
   }
 
   if (path === "/" || path === "/index.html/") {
-    return <HomePage catalog={catalog} />;
+    return withSiteFooter(<HomePage catalog={catalog} />);
   }
 
   const seoPage = catalog.seoPages.find((page) => seoPageMatchesPath(page, path));
-  return <SeoPage catalog={catalog} page={seoPage} requestedPath={path} />;
+  return withSiteFooter(<SeoPage catalog={catalog} page={seoPage} requestedPath={path} />);
+}
+
+function withSiteFooter(page) {
+  return (
+    <>
+      {page}
+      <SiteFooter />
+    </>
+  );
 }
 
 function normalizePath(value) {

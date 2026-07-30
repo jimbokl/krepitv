@@ -10,6 +10,7 @@ import {
   Wrench,
 } from "@phosphor-icons/react";
 import { ModelSearch } from "../components/ModelSearch.jsx";
+import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { modelHref } from "../lib/catalog.js";
 
@@ -76,6 +77,8 @@ function SeoArticle({ catalog, page }) {
             </article>
           ))}
         </section>
+
+        {page.id === "mounting-height" ? <HeightCalculator /> : null}
 
         <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
           <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-end">

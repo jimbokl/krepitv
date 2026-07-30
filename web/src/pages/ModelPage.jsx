@@ -11,10 +11,10 @@ import {
 } from "@phosphor-icons/react";
 import { ModelFacts, formatNumber } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
+import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TrustMark, formatCheckedDate } from "../components/TrustMark.jsx";
 import { useCompatibility } from "../hooks/useCompatibility.js";
-import { calculateHeight } from "../lib/catalog.js";
 
 export function ModelPage({ catalog, modelId }) {
   const model = catalog.models.find((item) => item.id === modelId);
@@ -39,7 +39,7 @@ export function ModelPage({ catalog, modelId }) {
       <div className="mx-auto max-w-[1440px] px-5 pb-14 pt-6 sm:px-8">
         <section>
           <h1 className="font-display text-[clamp(2.5rem,4.7vw,4.7rem)] font-extrabold leading-none tracking-[-0.025em]">
-            Подбор кронштейна по модели телевизора
+            Кронштейн для {model.title}
           </h1>
           <div className="mt-4 grid gap-2 border-y border-ink py-3 font-mono text-xs text-muted sm:grid-cols-3">
             <span>Источник: база Крепи ТВ · {model.brand} · {model.model}</span>
@@ -70,7 +70,7 @@ export function ModelPage({ catalog, modelId }) {
             <div className="mt-5 flex items-start gap-4 border border-ink bg-white/60 p-4">
               <Info aria-hidden="true" className="size-8 shrink-0" weight="regular" />
               <div className="text-sm leading-relaxed">
-                <p>Эти данные получены из официальной документации производителя и проверены нашей редакцией.</p>
+                <p>Эти данные сверены KREPI TV с указанным официальным источником производителя.</p>
                 <a
                   className="mt-2 inline-flex items-center gap-2 font-semibold text-technical underline underline-offset-4"
                   href={model.source_url}
@@ -90,10 +90,10 @@ export function ModelPage({ catalog, modelId }) {
               </span>
               <div>
                 <h2 className="font-display text-3xl font-extrabold text-verified sm:text-4xl lg:text-5xl">
-                  Совместимость подтверждена
+                  Ключевые параметры совпадают
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed sm:text-base">
-                  Все показанные варианты проходят проверку VESA и запаса нагрузки для {model.title}.
+                  Показанные варианты проходят проверку VESA, диагонали и запаса нагрузки для {model.title}. Стену и крепёж нужно проверить отдельно.
                 </p>
               </div>
             </div>
@@ -166,127 +166,6 @@ function MountMatches({ state, matches }) {
           </a>
         </article>
       ))}
-    </div>
-  );
-}
-
-function HeightCalculator({ model }) {
-  const [values, setValues] = useState({
-    eyeHeight: "110",
-    viewingDistance: "250",
-    viewingAngle: "0",
-    furnitureHeight: "70",
-    clearance: "10",
-  });
-  const [result, setResult] = useState(null);
-  const [status, setStatus] = useState("idle");
-  const [error, setError] = useState(null);
-
-  function update(name, value) {
-    setValues((current) => ({ ...current, [name]: value }));
-  }
-
-  async function submit(event) {
-    event.preventDefault();
-    setStatus("loading");
-    setError(null);
-    try {
-      const plan = await calculateHeight(model, {
-        eyeHeight: Number(values.eyeHeight),
-        viewingDistance: Number(values.viewingDistance),
-        viewingAngle: Number(values.viewingAngle),
-        furnitureHeight: Number(values.furnitureHeight),
-        clearance: Number(values.clearance),
-      });
-      setResult(plan);
-      setStatus("ready");
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Не удалось выполнить расчёт");
-      setStatus("error");
-    }
-  }
-
-  return (
-    <section className="py-7" id="калькулятор-высоты">
-      <div className="grid gap-7 lg:grid-cols-[25rem_minmax(0,1fr)] lg:items-start">
-        <div className="flex items-start gap-4">
-          <Ruler aria-hidden="true" className="size-14 shrink-0 text-action" weight="regular" />
-          <div>
-            <h2 className="font-display text-3xl font-bold">Рассчитать высоту установки</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              Укажите положение глаз, расстояние просмотра и мебель под экраном. Расчёт выполняется для диагонали {model.diagonal_inches}″.
-            </p>
-          </div>
-        </div>
-
-        <form className="grid gap-4" onSubmit={submit}>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-            <NumberField label="Высота глаз" name="eyeHeight" onChange={update} value={values.eyeHeight} />
-            <NumberField label="До экрана" name="viewingDistance" onChange={update} value={values.viewingDistance} />
-            <label className="grid gap-2 text-sm font-medium">
-              Угол просмотра
-              <select
-                aria-label="Угол просмотра"
-                className="input-control"
-                onChange={(event) => update("viewingAngle", event.target.value)}
-                value={values.viewingAngle}
-              >
-                <option value="-5">Ниже уровня глаз</option>
-                <option value="0">Прямо</option>
-                <option value="5">Выше уровня глаз</option>
-              </select>
-            </label>
-            <NumberField label="Высота мебели" name="furnitureHeight" onChange={update} value={values.furnitureHeight} />
-            <NumberField label="Зазор над мебелью" name="clearance" onChange={update} value={values.clearance} />
-          </div>
-          <button className="primary-button justify-self-start" disabled={status === "loading"} type="submit">
-            {status === "loading" ? "Рассчитываем…" : "Рассчитать высоту установки"}
-            <ArrowRight aria-hidden="true" />
-          </button>
-        </form>
-      </div>
-
-      {error ? <p className="mt-5 border border-danger p-4 text-danger">{error}</p> : null}
-      {result ? (
-        <div className="mt-6 grid gap-4 border-y-2 border-ink py-5 sm:grid-cols-3">
-          <ResultMetric label="Центр экрана" value={`${formatNumber(result.center_height_cm)} см`} />
-          <ResultMetric label="Нижний край" value={`${formatNumber(result.bottom_height_cm)} см`} />
-          <ResultMetric label="Верхний край" value={`${formatNumber(result.top_height_cm)} см`} />
-          {result.warnings.length ? (
-            <p className="flex gap-3 text-sm text-muted sm:col-span-3">
-              <Info aria-hidden="true" className="size-5 shrink-0 text-action" />
-              {result.warnings.join(" ")}
-            </p>
-          ) : null}
-        </div>
-      ) : null}
-    </section>
-  );
-}
-
-function NumberField({ label, name, value, onChange }) {
-  return (
-    <label className="grid gap-2 text-sm font-medium">
-      {label}, см
-      <input
-        aria-label={`${label}, сантиметры`}
-        className="input-control"
-        min="0"
-        onChange={(event) => onChange(name, event.target.value)}
-        required
-        step="1"
-        type="number"
-        value={value}
-      />
-    </label>
-  );
-}
-
-function ResultMetric({ label, value }) {
-  return (
-    <div>
-      <p className="font-mono text-xs uppercase text-muted">{label}</p>
-      <p className="mt-1 font-display text-4xl font-bold text-verified">{value}</p>
     </div>
   );
 }

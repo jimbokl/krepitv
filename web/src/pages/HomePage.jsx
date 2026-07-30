@@ -31,7 +31,7 @@ export function HomePage({ catalog }) {
       selectedModel
         ? catalog.mounts.filter(
             (mount) =>
-              mount.max_load_kg >= selectedModel.weight_kg * 1.2 &&
+              mount.max_load_kg >= selectedModel.weight_kg * 1.25 &&
               mount.min_diagonal_in <= selectedModel.diagonal_inches &&
               mount.max_diagonal_in >= selectedModel.diagonal_inches &&
               mount.vesa.includes(`${selectedModel.vesa_width_mm}x${selectedModel.vesa_height_mm}`),
@@ -59,7 +59,7 @@ export function HomePage({ catalog }) {
           <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-3 lg:max-w-[560px]">
             <HeaderTrust Icon={ShieldCheck} text="Точные данные от производителей" />
             <HeaderTrust Icon={Medal} text="Сверено по источникам" />
-            <HeaderTrust Icon={LockKey} text="Покупайте без ошибок" />
+            <HeaderTrust Icon={LockKey} text="Проверка вместо догадок" />
           </div>
         </header>
 
@@ -78,10 +78,10 @@ export function HomePage({ catalog }) {
         </div>
 
         <section className="grid items-center gap-6 pt-1 lg:grid-cols-[minmax(0,1.75fr)_minmax(26rem,1fr)]">
-          <h1 className="max-w-[930px] font-display text-[clamp(3.25rem,6vw,5.8rem)] font-extrabold uppercase leading-[0.89] tracking-[-0.04em]">
-            Кронштейн точно
+          <h1 className="max-w-[1000px] font-display text-[clamp(3.8rem,6.1vw,6.2rem)] font-extrabold uppercase leading-[0.89] tracking-[-0.04em]">
+            Кронштейн для
             <br />
-            под ваш телевизор
+            вашего телевизора
           </h1>
           <div className="hidden min-h-64 items-center justify-center border-l border-dashed border-line lg:flex">
             <img
@@ -141,15 +141,15 @@ export function HomePage({ catalog }) {
             Сверим VESA, массу и диагональ.
           </Step>
           <Step number="3" Icon={Wrench} title="Совместимые варианты">
-            Покажем только подходящие кронштейны.
+            Покажем варианты, прошедшие технический фильтр.
           </Step>
         </section>
 
         <section className="grid gap-4 border-b border-line py-6 sm:grid-cols-2 lg:grid-cols-4" id="proverka">
-          <Benefit Icon={Crosshair}>Точность до миллиметра</Benefit>
-          <Benefit Icon={Wrench}>Подходит к вашему телевизору</Benefit>
+          <Benefit Icon={Crosshair}>VESA в миллиметрах</Benefit>
+          <Benefit Icon={Wrench}>Проверка ключевых параметров</Benefit>
           <Benefit Icon={CheckCircle}>Проверка по источнику</Benefit>
-          <Benefit Icon={ShieldCheck}>Покупайте уверенно</Benefit>
+          <Benefit Icon={ShieldCheck}>Стену проверяйте отдельно</Benefit>
         </section>
 
         <div className="mt-6 flex justify-center">
