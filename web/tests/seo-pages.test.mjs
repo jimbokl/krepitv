@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  getModelContextPages,
   getRelatedPages,
   isIndexableSeoPage,
 } from "../src/lib/seoPages.mjs";
@@ -24,6 +25,39 @@ test("related pages exclude current and noindex pages", () => {
     getRelatedPages(pages[0], pages).map((page) => page.id),
     ["same-kind", "other-kind"],
   );
+});
+
+test("model context links only to existing indexable brand, diagonal and VESA hubs", () => {
+  const model = {
+    brand: "LG",
+    diagonal_inches: 55,
+    vesa_width_mm: 300,
+    vesa_height_mm: 200,
+  };
+  const catalog = [
+    { id: "brand-lg", path: "/kronshteyn-dlya-televizora-lg/", indexable: true },
+    { id: "diagonal-55", path: "/kronshteyn-dlya-televizora-55-dyuyma/", indexable: true },
+    { id: "vesa-300x200", path: "/vesa/300x200/", indexable: true },
+    { id: "vesa-200x200", path: "/vesa/200x200/", indexable: false },
+  ];
+
+  assert.deepEqual(getModelContextPages(model, catalog), [
+    {
+      id: "brand-lg",
+      label: "Кронштейны для телевизоров LG",
+      path: "/kronshteyn-dlya-televizora-lg/",
+    },
+    {
+      id: "diagonal-55",
+      label: "Кронштейны для телевизоров 55″",
+      path: "/kronshteyn-dlya-televizora-55-dyuyma/",
+    },
+    {
+      id: "vesa-300x200",
+      label: "Модели с VESA 300×200",
+      path: "/vesa/300x200/",
+    },
+  ]);
 });
 
 test("master page leads to the compatibility chain before generic calculators", () => {

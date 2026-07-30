@@ -159,6 +159,7 @@ const required = [
   "data/compatibility-graph.json",
   "data/catalog-coverage.json",
   "data/affiliate-offers.json",
+  "favicon.svg",
   "robots.txt",
   "sitemap.xml",
   "CNAME",
@@ -317,8 +318,12 @@ for (const file of pageHtmlFiles) {
   if (/\blang=["']en["']|\bPrototype\b|lorem ipsum/i.test(html)) {
     throw new Error(`Найдена служебная английская строка: ${path.relative(root, file)}`);
   }
-  if (!metaContent(html, "description")) {
+  const description = metaContent(html, "description");
+  if (!description) {
     throw new Error(`Нет описания страницы: ${path.relative(root, file)}`);
+  }
+  if (/data-page-kind=["']mount["']/.test(html) && description.length > 160) {
+    throw new Error(`Слишком длинное описание кронштейна: ${path.relative(root, file)}`);
   }
   if (!/<h1(?:\s|>)/.test(html)) {
     throw new Error(`В HTML нет самостоятельного H1: ${path.relative(root, file)}`);
@@ -373,6 +378,39 @@ for (const file of pageHtmlFiles) {
     }
   }
 }
+
+let modelContextLinkCount = 0;
+for (const model of models) {
+  const route = `/modeli/${model.id}/`;
+  const html = htmlByRoute.get(route);
+  if (!html) throw new Error(`Нет страницы модели для проверки перелинковки: ${model.id}`);
+
+  const candidateIds = [
+    `brand-${String(model.brand).trim().toLocaleLowerCase("ru-RU")}`,
+    `diagonal-${Number(model.diagonal_inches)}`,
+    `vesa-${model.vesa_width_mm}x${model.vesa_height_mm}`,
+  ];
+  const expectedPages = candidateIds
+    .map((id) => seoPages.find((page) => page.id === id && page.indexable))
+    .filter(Boolean);
+  const contextNav = html.match(
+    /<nav\b[^>]*aria-label=["']Связанные подборы["'][^>]*>([\s\S]*?)<\/nav>/i,
+  )?.[1] ?? "";
+
+  for (const page of expectedPages) {
+    if (!new RegExp(`href=["']${page.path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`).test(contextNav)) {
+      throw new Error(`Модель ${model.id} не ссылается на контекстный хаб ${page.id}`);
+    }
+    modelContextLinkCount += 1;
+  }
+  const contextHrefs = [...contextNav.matchAll(/href=["']([^"']+)["']/g)].map((match) => match[1]);
+  for (const href of contextHrefs) {
+    if (!seoPages.some((page) => page.path === href && page.indexable)) {
+      throw new Error(`Модель ${model.id} ссылается на noindex или неизвестный хаб ${href}`);
+    }
+  }
+}
+assertMinimum(modelContextLinkCount, 100, "Контекстные ссылки модель → SEO-хаб");
 
 for (const offer of publishableAffiliateOffers) {
   const html = htmlByRoute.get(offer.page_path);

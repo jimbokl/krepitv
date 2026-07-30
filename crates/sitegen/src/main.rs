@@ -478,7 +478,7 @@ fn html_shell(
         })
         .unwrap_or_default();
     format!(
-        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
+        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n<link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\">\n{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
         head.json_ld,
     )
 }
@@ -729,6 +729,7 @@ fn model_page_body(
     matches: &[MountMatch],
     affiliate_offers: &[PublicAffiliateOffer],
     affiliate_now_seconds: i64,
+    seo_pages: &[SeoPage],
 ) -> String {
     let compatible = matches
         .iter()
@@ -772,9 +773,44 @@ fn model_page_body(
             "<section class=\"border-b-2 border-ink py-8\" aria-label=\"Предложения Яндекс Маркета\"><h2 class=\"font-display text-3xl font-extrabold\">Сейчас доступны на Яндекс Маркете</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны только свежие предложения точных кронштейнов, прошедших проверку совместимости с этой моделью телевизора.</p><div class=\"mt-5 grid gap-5\">{affiliate_cards}</div></section>"
         )
     };
+    let context_candidates = [
+        (
+            format!("brand-{}", tv.brand.to_lowercase()),
+            format!("Кронштейны для телевизоров {}", tv.brand),
+        ),
+        (
+            format!("diagonal-{}", tv.diagonal_inches),
+            format!("Кронштейны для телевизоров {}″", tv.diagonal_inches),
+        ),
+        (
+            format!("vesa-{}x{}", tv.vesa_width_mm, tv.vesa_height_mm),
+            format!("Модели с VESA {}×{}", tv.vesa_width_mm, tv.vesa_height_mm),
+        ),
+    ];
+    let context_links = context_candidates
+        .iter()
+        .filter_map(|(id, label)| {
+            let page = seo_pages
+                .iter()
+                .find(|page| page.id == *id && is_indexable_seo_page(page))?;
+            Some(format!(
+                "<a class=\"flex min-h-12 items-center justify-between gap-3 border-t border-line py-3 font-display font-bold first:border-t-0\" href=\"{}\">{} <span aria-hidden=\"true\">→</span></a>",
+                escape_html(&page.path),
+                escape_html(label),
+            ))
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    let context_section = if context_links.is_empty() {
+        String::new()
+    } else {
+        format!(
+            "<nav class=\"mt-5 border-y border-line\" aria-label=\"Связанные подборы\">{context_links}</nav>"
+        )
+    };
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl>{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl>{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = tv.model_year,
@@ -789,6 +825,7 @@ fn model_page_body(
         source = escape_html(&tv.source_url),
         source_label = escape_html(&tv.source_label),
         affiliate_section = affiliate_section,
+        context_section = context_section,
     ))
 }
 
@@ -1692,6 +1729,7 @@ fn main() {
             &matches,
             &affiliate_snapshot.offers,
             affiliate_now_seconds,
+            &seo_pages,
         );
         let canonical = format!("https://krepitv.ru/modeli/{}/", tv.id);
         let structured_data = format!(
@@ -1730,10 +1768,12 @@ fn main() {
             mount.title
         );
         let description = format!(
-            "{}: VESA {}, нагрузка до {} кг и список подходящих моделей телевизоров с объяснением проверки.",
+            "{}: {} кронштейн, нагрузка до {} кг, диагонали {}–{}″. Проверка совместимости с моделями телевизоров.",
             mount.title,
-            formatted_vesa_list(mount),
-            mount.max_load_kg
+            mechanism_label(&mount.mechanism),
+            mount.max_load_kg,
+            mount.min_diagonal_in,
+            mount.max_diagonal_in,
         );
         let static_body = mount_page_body(
             mount,

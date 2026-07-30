@@ -18,6 +18,30 @@ export function getRelatedPages(page, pages, limit = 6) {
     .map(({ item }) => item);
 }
 
+export function getModelContextPages(model, pages) {
+  if (!model) return [];
+
+  const candidates = [
+    {
+      id: `brand-${String(model.brand ?? "").trim().toLocaleLowerCase("ru-RU")}`,
+      label: `Кронштейны для телевизоров ${model.brand}`,
+    },
+    {
+      id: `diagonal-${Number(model.diagonal_inches)}`,
+      label: `Кронштейны для телевизоров ${Number(model.diagonal_inches)}″`,
+    },
+    {
+      id: `vesa-${model.vesa_width_mm}x${model.vesa_height_mm}`,
+      label: `Модели с VESA ${model.vesa_width_mm}×${model.vesa_height_mm}`,
+    },
+  ];
+
+  return candidates.flatMap((candidate) => {
+    const page = pages.find((item) => item.id === candidate.id && isIndexableSeoPage(item));
+    return page ? [{ ...candidate, path: page.path }] : [];
+  });
+}
+
 function preferredRelatedIds(pageId) {
   const groups = {
     "wall-mounted-tv": ["mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height"],

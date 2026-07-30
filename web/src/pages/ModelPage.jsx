@@ -17,6 +17,7 @@ import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TrustMark, formatCheckedDate } from "../components/TrustMark.jsx";
 import { mountHref } from "../lib/catalog.js";
 import { getAffiliatePresentation, selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
+import { getModelContextPages } from "../lib/seoPages.mjs";
 
 export function ModelPage({ catalog, modelId }) {
   const model = catalog.models.find((item) => item.id === modelId);
@@ -30,6 +31,10 @@ export function ModelPage({ catalog, modelId }) {
       }))
       .filter((edge) => edge.mount),
     [catalog.compatibilityEdges, catalog.mounts, modelId],
+  );
+  const contextPages = useMemo(
+    () => getModelContextPages(model, catalog.seoPages),
+    [catalog.seoPages, model],
   );
   if (!model) {
     return <MissingModel catalog={catalog} />;
@@ -72,6 +77,20 @@ export function ModelPage({ catalog, modelId }) {
               Технические характеристики телевизора
             </h2>
             <ModelFacts detailed model={model} />
+
+            {contextPages.length ? (
+              <nav className="mt-5 border-y border-line" aria-label="Связанные подборы">
+                {contextPages.map((page) => (
+                  <a
+                    className="flex min-h-12 items-center justify-between gap-3 border-t border-line py-3 font-display font-bold first:border-t-0 hover:text-action"
+                    href={page.path}
+                    key={page.id}
+                  >
+                    {page.label} <ArrowRight aria-hidden="true" className="size-5 shrink-0" />
+                  </a>
+                ))}
+              </nav>
+            ) : null}
 
             <div className="mt-5 flex items-start gap-4 border border-ink bg-white/60 p-4">
               <Info aria-hidden="true" className="size-8 shrink-0" weight="regular" />
