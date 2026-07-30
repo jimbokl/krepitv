@@ -56,9 +56,11 @@ export default function AffiliateOffer({ offer, children }) {
         />
       )}
       <div>
-        <p className="font-mono text-[0.68rem] uppercase leading-relaxed text-muted">
-          {presentation.notice}
-        </p>
+        {presentation.notice ? (
+          <p className="font-mono text-[0.68rem] uppercase leading-relaxed text-muted">
+            {presentation.notice}
+          </p>
+        ) : null}
         <h2 className="mt-2 font-display text-2xl font-extrabold">
           {presentation.productTitle}
         </h2>

@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MagnifyingGlass, X } from "@phosphor-icons/react";
-import { normalizeSearch } from "../lib/catalog.js";
+import {
+  filterModelSearchResults,
+  findExactModelSearchResult,
+} from "../lib/catalog.js";
 
 export function ModelSearch({
   search,
@@ -8,20 +11,21 @@ export function ModelSearch({
   onChange,
   onSelect,
   onSubmit,
-  placeholder = "Введите модель телевизора",
+  placeholder = "Введите модель ТВ",
   buttonLabel = "Найти совместимые",
   compact = false,
   autoFocus = false,
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
-  const normalized = normalizeSearch(value);
-  const results = useMemo(() => {
-    if (!normalized) return search.slice(0, 5);
-    return search
-      .filter((item) => normalizeSearch(item.search).includes(normalized))
-      .slice(0, 5);
-  }, [normalized, search]);
+  const results = useMemo(
+    () => filterModelSearchResults(search, value),
+    [search, value],
+  );
+  const exactSelection = useMemo(
+    () => findExactModelSearchResult(search, value),
+    [search, value],
+  );
 
   useEffect(() => {
     function close(event) {
@@ -39,13 +43,9 @@ export function ModelSearch({
 
   function submit(event) {
     event.preventDefault();
-    const exact = search.find(
-      (item) => normalizeSearch(item.title) === normalizeSearch(value),
-    );
-    const selection = exact ?? results[0];
-    if (selection) {
-      choose(selection);
-      onSubmit?.(selection);
+    if (exactSelection) {
+      choose(exactSelection);
+      onSubmit?.(exactSelection);
     } else {
       setOpen(true);
     }
@@ -127,7 +127,7 @@ export function ModelSearch({
 
       <button
         className={`inline-flex items-center justify-center rounded-md bg-action px-7 font-display font-bold text-white transition hover:bg-[#d94108] focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${compact ? "h-[4.4rem] text-xl" : "h-[5rem] text-2xl"}`}
-        disabled={!results.length && !value}
+        disabled={!exactSelection}
         type="submit"
       >
         {buttonLabel}

@@ -74,6 +74,16 @@ export function MountPage({ catalog, mountId }) {
           </div>
         </header>
 
+        {affiliateOffer ? (
+          <section className="border-b-2 border-ink py-7">
+            <AffiliateOffer offer={affiliateOffer}>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                Ссылка ведёт прямо на карточку этого кронштейна, а не на похожую модель.
+              </p>
+            </AffiliateOffer>
+          </section>
+        ) : null}
+
         <section className="grid border-b-2 border-ink lg:grid-cols-[minmax(21rem,0.85fr)_minmax(0,1.15fr)]">
           <div className="border-b border-ink py-7 lg:border-b-0 lg:border-r lg:pr-8">
             <h2 className="font-display text-3xl font-extrabold">Характеристики изделия</h2>
@@ -92,16 +102,6 @@ export function MountPage({ catalog, mountId }) {
             >
               Источник характеристик <LinkSimple aria-hidden="true" />
             </a>
-
-            {affiliateOffer ? (
-              <div className="mt-7 border-t-2 border-ink pt-7">
-                <AffiliateOffer offer={affiliateOffer}>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
-                    Ссылка ведёт прямо на карточку этого кронштейна, а не на похожую модель.
-                  </p>
-                </AffiliateOffer>
-              </div>
-            ) : null}
           </div>
 
           <div className="py-7 lg:pl-8">

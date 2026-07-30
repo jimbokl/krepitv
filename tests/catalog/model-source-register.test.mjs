@@ -27,7 +27,7 @@ const mountOperationalFields = [
 ];
 
 test("verified source register is the exact operational catalog source", () => {
-  assert.equal(register.length, 67);
+  assert.equal(register.length, 80);
   assert.equal(new Set(register.map((row) => row.id)).size, register.length);
   assert.equal(new Set(register.map((row) => row.model)).size, register.length);
   assert.deepEqual(
@@ -35,6 +35,23 @@ test("verified source register is the exact operational catalog source", () => {
     register.map((row) => Object.fromEntries(operationalFields.map((field) => [field, row[field]]))),
   );
   assert.ok(register.every((row) => row.source_fact?.trim()));
+  for (const id of [
+    "tcl-55p6k",
+    "tcl-55p7k",
+    "tcl-43s5k",
+    "hisense-65u7q",
+    "hisense-55u8q",
+    "tcl-32a400-pro",
+    "tcl-55c755",
+    "tcl-55c745",
+    "hisense-75u7q",
+    "tcl-55c765",
+    "lg-oled55b5rla",
+    "lg-65qned80a6a",
+    "samsung-qe77s85faexru",
+  ]) {
+    assert.ok(register.some((row) => row.id === id), `missing demand-backed model ${id}`);
+  }
 });
 
 test("verified mount register excludes unresolved identities and drives the catalog", () => {
@@ -143,7 +160,7 @@ test("measured exact demand is preserved without inflating zero-frequency SKU", 
   }
   assert.equal(
     coverage.demand_snapshot.target_models.filter((row) => row.catalog_verified).length,
-    45,
+    50,
   );
   assert.ok(coverage.demand_snapshot.target_models.every((row) => row.monthly_exact_searches > 0));
 });

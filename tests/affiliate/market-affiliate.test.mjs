@@ -333,6 +333,8 @@ test("publishes a direct sponsored link with the visible disclosure data", () =>
   assert.equal(presentation.rel, AFFILIATE_LINK_REL);
   assert.equal(presentation.mode, "advertising");
   assert.equal(presentation.label, "Реклама");
+  assert.match(presentation.notice, /Реклама/);
+  assert.match(presentation.notice, /erid:/);
   assert.equal(presentation.advertiserInn, "9704254424");
   assert.equal(presentation.productTitle, "Кронштейн Test");
   assert.equal(
@@ -355,7 +357,7 @@ test("publishes a transparent non-ad storefront link without ad markers", () => 
   assert.equal(presentation.mode, "non_ad_storefront");
   assert.equal(presentation.erid, null);
   assert.equal(presentation.advertiserInn, null);
-  assert.match(presentation.notice, /может получить вознаграждение/);
+  assert.equal(presentation.notice, null);
   assert.equal(presentation.rel, AFFILIATE_LINK_REL);
 });
 

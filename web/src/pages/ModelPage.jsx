@@ -104,6 +104,8 @@ export function ModelPage({ catalog, modelId }) {
               </div>
             </div>
 
+            <MountMatches affiliateOffers={catalog.affiliateOffers} matches={compatible} />
+
             <figure className="mt-4 border-b border-line">
               <picture>
                 <source srcSet="/assets/images/mount-mechanisms.avif" type="image/avif" />
@@ -122,8 +124,6 @@ export function ModelPage({ catalog, modelId }) {
                 Справочное сравнение механизмов — не фотография конкретного товара
               </figcaption>
             </figure>
-
-            <MountMatches affiliateOffers={catalog.affiliateOffers} matches={compatible} />
           </div>
         </section>
 
@@ -155,12 +155,30 @@ function MountMatches({ affiliateOffers, matches }) {
             {featuredOffers.map(({ market, mount, offer }) => (
               <article className="flex flex-col border border-line p-4" key={mount.id}>
                 <h3 className="font-display text-xl font-bold">{mount.title}</h3>
-                <p className="mt-2 flex-1 font-mono text-[0.62rem] leading-relaxed text-muted">
-                  {market.notice}
-                </p>
-                <AffiliateLink className="primary-button mt-4" offer={offer}>
-                  Проверить цену <ArrowRight aria-hidden="true" />
-                </AffiliateLink>
+                <dl className="mt-3 grid gap-1 border-y border-line py-3 text-sm">
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted">Механизм</dt>
+                    <dd className="font-semibold">{mechanismLabel(mount.mechanism)}</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted">От стены</dt>
+                    <dd className="font-semibold">{formatDistance(mount)}</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted">Нагрузка</dt>
+                    <dd className="font-semibold">до {formatNumber(mount.max_load_kg)} кг</dd>
+                  </div>
+                </dl>
+                {market.notice ? (
+                  <p className="mt-2 font-mono text-[0.62rem] leading-relaxed text-muted">
+                    {market.notice}
+                  </p>
+                ) : null}
+                <div className="mt-auto pt-4">
+                  <AffiliateLink className="primary-button" offer={offer}>
+                    Открыть на Маркете <ArrowRight aria-hidden="true" />
+                  </AffiliateLink>
+                </div>
               </article>
             ))}
           </div>
@@ -215,9 +233,11 @@ function MountMatches({ affiliateOffers, matches }) {
                 <AffiliateLink className="primary-button" offer={offer}>
                   На Яндекс Маркет <ArrowRight aria-hidden="true" />
                 </AffiliateLink>
-                <span className="max-w-64 text-left font-mono text-[0.62rem] leading-relaxed text-muted sm:text-right">
-                  {market.notice}
-                </span>
+                {market.notice ? (
+                  <span className="max-w-64 text-left font-mono text-[0.62rem] leading-relaxed text-muted sm:text-right">
+                    {market.notice}
+                  </span>
+                ) : null}
               </>
             ) : null}
             <a className="secondary-button" href={mountHref(mount)}>

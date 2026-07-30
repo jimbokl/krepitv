@@ -98,7 +98,7 @@ export function getAffiliatePresentation(
     label: isAdvertising ? offer.creative.disclosure.label : "Партнёрская ссылка",
     notice: isAdvertising
       ? `${offer.creative.disclosure.label} · ${offer.creative.disclosure.advertiser_name} · ИНН ${offer.creative.disclosure.advertiser_inn} · erid: ${offer.creative.erid}`
-      : "Партнёрская ссылка на Яндекс Маркет. Если вы оформите заказ, Крепи ТВ может получить вознаграждение. Цена для вас не меняется.",
+      : null,
     advertiserName: isAdvertising
       ? offer.creative.disclosure.advertiser_name
       : null,

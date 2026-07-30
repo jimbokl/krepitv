@@ -316,16 +316,16 @@ fn is_publishable_affiliate_offer(offer: &PublicAffiliateOffer, now_seconds: i64
     }
 }
 
-fn affiliate_notice(offer: &PublicAffiliateOffer) -> String {
+fn affiliate_notice_html(offer: &PublicAffiliateOffer) -> String {
     match &offer.creative {
         Some(creative) => format!(
-            "{} · {} · ИНН {} · erid: {}",
-            creative.disclosure.label,
-            creative.disclosure.advertiser_name,
-            creative.disclosure.advertiser_inn,
-            creative.erid,
+            "<p class=\"font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">{} · {} · ИНН {} · erid: {}</p>",
+            escape_html(&creative.disclosure.label),
+            escape_html(&creative.disclosure.advertiser_name),
+            escape_html(&creative.disclosure.advertiser_inn),
+            escape_html(&creative.erid),
         ),
-        None => "Партнёрская ссылка на Яндекс Маркет. Если вы оформите заказ, Крепи ТВ может получить вознаграждение. Цена для вас не меняется.".to_string(),
+        None => String::new(),
     }
 }
 
@@ -343,14 +343,14 @@ fn affiliate_offer_card_html(offer: &PublicAffiliateOffer, heading_level: u8) ->
     };
 
     format!(
-        "<aside aria-label=\"{aria_label}\" class=\"grid gap-5 border-2 border-ink bg-white p-5 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center\" data-affiliate-mode=\"{mode}\" data-clid=\"{clid}\"{erid_attribute}><img alt=\"{title}\" class=\"aspect-square w-full object-contain\" height=\"300\" loading=\"lazy\" referrerpolicy=\"no-referrer\" src=\"{photo}\" width=\"300\"><div><p class=\"font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">{notice}</p><{heading} class=\"mt-2 font-display text-2xl font-extrabold\">{title}</{heading}><p class=\"mt-2 text-sm leading-relaxed text-muted\">Ссылка ведёт прямо на карточку этого кронштейна, а не на похожую модель.</p><a class=\"primary-button mt-4\" data-affiliate-offer-id=\"{offer_id}\" data-affiliate-mode=\"{mode}\" data-clid=\"{clid}\"{erid_attribute} href=\"{href}\" rel=\"{rel}\" target=\"_blank\">Проверить цену на Яндекс Маркете</a><p class=\"mt-3 text-xs leading-relaxed text-muted\">Цена и наличие уточняются на стороне Яндекс Маркета с учётом региона.</p></div></aside>",
+        "<aside aria-label=\"{aria_label}\" class=\"grid gap-5 border-2 border-ink bg-white p-5 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center\" data-affiliate-mode=\"{mode}\" data-clid=\"{clid}\"{erid_attribute}><img alt=\"{title}\" class=\"aspect-square w-full object-contain\" height=\"300\" loading=\"lazy\" referrerpolicy=\"no-referrer\" src=\"{photo}\" width=\"300\"><div>{notice_html}<{heading} class=\"mt-2 font-display text-2xl font-extrabold\">{title}</{heading}><p class=\"mt-2 text-sm leading-relaxed text-muted\">Ссылка ведёт прямо на карточку этого кронштейна, а не на похожую модель.</p><a class=\"primary-button mt-4\" data-affiliate-offer-id=\"{offer_id}\" data-affiliate-mode=\"{mode}\" data-clid=\"{clid}\"{erid_attribute} href=\"{href}\" rel=\"{rel}\" target=\"_blank\">Проверить цену на Яндекс Маркете</a><p class=\"mt-3 text-xs leading-relaxed text-muted\">Цена и наличие уточняются на стороне Яндекс Маркета с учётом региона.</p></div></aside>",
         aria_label = escape_html(aria_label),
         mode = escape_html(&offer.compliance_mode),
         clid = escape_html(&offer.clid),
         erid_attribute = erid_attribute,
         title = escape_html(&offer.title),
         photo = escape_html(&offer.product_photo),
-        notice = escape_html(&affiliate_notice(offer)),
+        notice_html = affiliate_notice_html(offer),
         heading = heading,
         offer_id = escape_html(&offer.id),
         href = escape_html(&offer.affiliate_href),
@@ -870,7 +870,7 @@ fn mount_page_body(
         .unwrap_or_default();
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section>{affiliate_section}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -1658,6 +1658,7 @@ mod tests {
         assert!(html.contains("data-clid="));
         assert!(html.contains("sponsored nofollow noopener noreferrer"));
         assert!(html.contains("Проверить цену на Яндекс Маркете"));
+        assert!(!html.contains("может получить вознаграждение"));
         assert!(!html.contains("promise"));
         assert!(!html.contains("stock"));
     }
@@ -1911,8 +1912,12 @@ mod tests {
         let models_position = body
             .find("Подтверждённые популярные телевизоры")
             .expect("Список телевизоров отсутствует");
+        let vesa_position = body
+            .find("Поддерживаемые VESA")
+            .expect("Технический блок VESA отсутствует");
 
         assert!(cta_position < models_position);
+        assert!(cta_position < vesa_position);
         assert!(body.contains(&escape_html(&offer.affiliate_href)));
     }
 }

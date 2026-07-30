@@ -19,38 +19,34 @@ function copy(value) {
   return structuredClone(value);
 }
 
-test("current manifest reports the real growing catalog and blocks a premature full claim", () => {
+test("current manifest reports a growing catalog that now passes the measured completion gate", () => {
   const result = validateCoverageManifest(manifest, models);
 
   assert.equal(result.catalog_status, "growing");
   assert.equal(result.full_catalog_claim, false);
-  assert.equal(result.full_catalog_ready, false);
-  assert.equal(result.actual.verified_models, 67);
+  assert.equal(result.full_catalog_ready, true);
+  assert.equal(result.actual.verified_models, 80);
   assert.deepEqual(result.actual.brands, ["Hisense", "LG", "Samsung", "TCL", "Xiaomi"]);
-  assert.equal(result.actual.series.length, 35);
-  assert.deepEqual(result.actual.diagonals_inches, [32, 42, 43, 48, 50, 55, 65, 75, 85]);
-  assert.deepEqual(result.actual.model_years, [2024, 2025, 2026]);
+  assert.equal(result.actual.series.length, 43);
+  assert.deepEqual(result.actual.diagonals_inches, [32, 42, 43, 48, 50, 55, 65, 75, 77, 85]);
+  assert.deepEqual(result.actual.model_years, [2023, 2024, 2025, 2026]);
   assert.equal(result.target.demand_status, "measured");
   assert.equal(result.target.models, 50);
-  assert.equal(result.target.covered_models, 45);
-  assert.equal(result.target.coverage_percent, 90);
-  assert.ok(result.blockers.some((blocker) => blocker.includes("target coverage 90.0%/100%")));
-  assert.ok(result.blockers.some((blocker) => blocker.includes("TCL 55P6K")));
+  assert.equal(result.target.covered_models, 50);
+  assert.equal(result.target.coverage_percent, 100);
+  assert.deepEqual(result.blockers, []);
 });
 
-test("the growing catalog cannot be relabelled as complete", () => {
+test("the measured completion gate permits a full claim without changing the operational status", () => {
   const candidate = copy(manifest);
   candidate.catalog_status = "complete";
   candidate.full_catalog_claim = true;
 
-  assert.throws(
-    () => validateCoverageManifest(candidate, models),
-    (error) =>
-      error instanceof CatalogCoverageError &&
-      error.issues.some(
-        (issue) => issue.includes("full_catalog_claim") && issue.includes("target coverage 90.0%/100%"),
-      ),
-  );
+  const result = validateCoverageManifest(candidate, models);
+  assert.equal(result.full_catalog_ready, true);
+  assert.equal(result.full_catalog_claim, true);
+  assert.equal(manifest.catalog_status, "growing");
+  assert.equal(manifest.full_catalog_claim, false);
 });
 
 test("the completion threshold cannot be lowered to make a demo pass", () => {

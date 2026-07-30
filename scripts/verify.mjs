@@ -340,6 +340,9 @@ for (const file of pageHtmlFiles) {
   const marketLinks = html.match(
     /<a\b[^>]*href=["']https:\/\/market\.yandex\.ru\/[^"']*["'][^>]*>/gi,
   ) ?? [];
+  if (html.includes("Если вы оформите заказ, Крепи ТВ может получить вознаграждение")) {
+    throw new Error(`Удалённый партнёрский дисклеймер вернулся: ${path.relative(root, file)}`);
+  }
   for (const link of marketLinks) {
     if (!/\brel=["'][^"']*\bsponsored\b[^"']*["']/i.test(link)) {
       throw new Error(`Партнёрская ссылка без rel=sponsored: ${path.relative(root, file)}`);
@@ -364,9 +367,6 @@ for (const file of pageHtmlFiles) {
     } else if (mode === "non_ad_storefront") {
       if (/\bdata-erid=/i.test(link) || !/\bdata-clid=["']\d{5,20}["']/i.test(link)) {
         throw new Error(`Нерекламная витринная ссылка с неверной атрибуцией: ${path.relative(root, file)}`);
-      }
-      if (!html.includes("Партнёрская ссылка на Яндекс Маркет")) {
-        throw new Error(`Партнёрская ссылка без пояснения: ${path.relative(root, file)}`);
       }
     } else {
       throw new Error(`Партнёрская ссылка без режима размещения: ${path.relative(root, file)}`);

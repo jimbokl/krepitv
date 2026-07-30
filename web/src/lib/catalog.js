@@ -9,6 +9,24 @@ export function normalizeSearch(value) {
     .trim();
 }
 
+export function filterModelSearchResults(search, value, limit = 5) {
+  const normalized = normalizeSearch(value);
+  if (!normalized) return [];
+
+  return search
+    .filter((item) => normalizeSearch(item.search).includes(normalized))
+    .slice(0, limit);
+}
+
+export function findExactModelSearchResult(search, value) {
+  const normalized = normalizeSearch(value);
+  if (!normalized) return null;
+
+  return search.find(
+    (item) => normalizeSearch(item.title) === normalized,
+  ) ?? null;
+}
+
 export function loadCatalog() {
   if (!catalogPromise) {
     catalogPromise = Promise.all([

@@ -22,9 +22,7 @@ export function HomePage({ catalog }) {
   const [query, setQuery] = useState("");
   const [selectedSearch, setSelectedSearch] = useState(null);
   const selectedModel = useMemo(
-    () =>
-      catalog.models.find((model) => model.id === selectedSearch?.id) ??
-      catalog.models[0],
+    () => catalog.models.find((model) => model.id === selectedSearch?.id),
     [catalog.models, selectedSearch],
   );
   const compatibleMountCount = useMemo(
