@@ -4,19 +4,22 @@
 
 ## Production
 
-- Релиз монтажной карты: `3ceb6119ed94dddd0eec5b3eda0811de1377ccec`.
-- GitHub Pages workflow `30542956582` завершён успешно 30 июля 2026 года.
-- Страницы `/kronshteyn-dlya-televizora-na-stenu/` и
-  `/kak-povesit-televizor-na-stenu/`, основной JavaScript, WASM glue,
+- Текущий релиз: `599a1778816ff05030b3d7f24143c71c746fa535` — добавлена
+  самостоятельная карта розеток ТВ-зоны на
+  `/rozetki-pod-televizor-na-stene/`.
+- GitHub Pages workflow `30546413213` и deployment `5675465388` завершены
+  успешно 30 июля 2026 года.
+- Новая страница, `krepitv-engine-loader.js`, WASM glue,
   `krepitv_engine_bg.wasm` и sitemap отдаются через основной домен с HTTP 200.
-- MIME WASM корректный: `application/wasm`.
+  MIME WASM корректный: `application/wasm`; sitemap содержит новый URL.
+- Production E2E по HTTP подтвердил успешный расчёт и конфликт при экране ниже
+  чистого пола. Полный CI: 24 Rust-теста движка, 7 тестов генератора, 12 тестов
+  web-сборки и 10 тестов безопасной партнёрской интеграции; всего 53.
 - Авторитетные DNS-серверы REG.RU и публичные резолверы отдают четыре адреса
   GitHub Pages; `www` указывает CNAME на `jimbokl.github.io`.
 - Сертификат для `krepitv.ru` ещё не выпущен. На edge 30 июля после релиза
   по-прежнему возвращается сертификат `*.github.io`, поэтому HTTPS нельзя
   считать рабочим.
-- Локальный системный резолвер macOS ещё может видеть старый парковочный A-record;
-  это не совпадает с актуальным авторитетным DNS и должно исчезнуть после TTL.
 
 ## Google Search Console
 
