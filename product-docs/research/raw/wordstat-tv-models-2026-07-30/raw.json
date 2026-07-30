@@ -1,0 +1,3992 @@
+[
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "QE43Q7FAAUXRU",
+      "series": "Q7F",
+      "diagonal_inches": 43
+    },
+    "operator_query": "\"[QE43Q7FAAUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5924",
+          "text": "ue4ss"
+        },
+        {
+          "isAssociations": true,
+          "value": "3575",
+          "text": "ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1125",
+          "text": "as25hsl1hra w 1u25hsl1fra"
+        },
+        {
+          "isAssociations": true,
+          "value": "573",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "1573",
+          "text": "samsung ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "861",
+          "text": "qe65qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2346",
+          "text": "qe50q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "768",
+          "text": "qe50qn90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2131",
+          "text": "lg 32lq63506la"
+        },
+        {
+          "isAssociations": true,
+          "value": "662",
+          "text": "as20hsl1hra w 1u20hsl1fra"
+        },
+        {
+          "isAssociations": true,
+          "value": "139",
+          "text": "телевизор general electronics ge50lqy2"
+        },
+        {
+          "isAssociations": true,
+          "value": "1300",
+          "text": "qe43q8faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "736",
+          "text": "qe43qn90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "673",
+          "text": "qe85q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "422",
+          "text": "qe50q8faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1508",
+          "text": "qe43qef1auxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "853",
+          "text": "qe75q7faauxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2686",
+          "text": "qe43q7faauxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "QE50Q7FAAUXRU",
+      "series": "Q7F",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[QE50Q7FAAUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1550",
+          "text": "офз26238"
+        },
+        {
+          "isAssociations": true,
+          "value": "3680",
+          "text": "ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1067",
+          "text": "as25hsl1hra w 1u25hsl1fra"
+        },
+        {
+          "isAssociations": true,
+          "value": "2480",
+          "text": "qe43q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "874",
+          "text": "qe65qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "263",
+          "text": "офз26238 что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "3224",
+          "text": "ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "578",
+          "text": "iffalcon 55u85"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "802",
+          "text": "qe50qn90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1399",
+          "text": "qe55qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "371",
+          "text": "qled что это такое в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1096",
+          "text": "qe55q7f5auxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "633",
+          "text": "as20hsl1hra w 1u20hsl1fra"
+        },
+        {
+          "isAssociations": true,
+          "value": "14797",
+          "text": "ue5"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "g12e050a2"
+        },
+        {
+          "isAssociations": true,
+          "value": "903",
+          "text": "qe55q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "848",
+          "text": "qe55s90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "661",
+          "text": "qe85q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "417",
+          "text": "qe50q8faauxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2437",
+          "text": "qe50q7faauxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "QE55Q7F5AUXRU",
+      "series": "Q7F5",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[QE55Q7F5AUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "15963",
+          "text": "tcl 55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4198",
+          "text": "tcl 55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "701",
+          "text": "муз тв ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "7216",
+          "text": "tcl 55c7l"
+        },
+        {
+          "isAssociations": true,
+          "value": "1568",
+          "text": "qled что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "6003",
+          "text": "ue4ss"
+        },
+        {
+          "isAssociations": true,
+          "value": "556",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "4280",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1569",
+          "text": "какой телевизор выбрать в 2026 году"
+        },
+        {
+          "isAssociations": true,
+          "value": "2432",
+          "text": "qe50q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "578",
+          "text": "iffalcon 55u85"
+        },
+        {
+          "isAssociations": true,
+          "value": "802",
+          "text": "qe50qn90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1399",
+          "text": "qe55qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "903",
+          "text": "qe55q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "848",
+          "text": "qe55s90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "795",
+          "text": "qe55q8faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "qe55qn80fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "418",
+          "text": "qe55qn90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "qe55qef1auxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1157",
+          "text": "qe55q7f5auxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "QE65Q7FAAUXRU",
+      "series": "Q7F",
+      "diagonal_inches": 65
+    },
+    "operator_query": "\"[QE65Q7FAAUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1568",
+          "text": "qled что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "6003",
+          "text": "ue4ss"
+        },
+        {
+          "isAssociations": true,
+          "value": "3680",
+          "text": "ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2480",
+          "text": "qe43q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "556",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "874",
+          "text": "qe65qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2432",
+          "text": "qe50q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "292",
+          "text": "салют тв что это такое в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1221",
+          "text": "oled65c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "857",
+          "text": "ue65u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "850",
+          "text": "samsung qe55qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "669",
+          "text": "iffalcon 55u75a"
+        },
+        {
+          "isAssociations": true,
+          "value": "779",
+          "text": "qe65q7f5auxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "249",
+          "text": "qe65q8faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "661",
+          "text": "qe85q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "380",
+          "text": "qe65qn80fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "627",
+          "text": "qe65s95fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "606",
+          "text": "qe65qn90fauxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "897",
+          "text": "qe65q7faauxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "UE32F6000FUXRU",
+      "series": "F6000F",
+      "diagonal_inches": 32
+    },
+    "operator_query": "\"[UE32F6000FUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3680",
+          "text": "ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "556",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "4280",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "874",
+          "text": "qe65qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2432",
+          "text": "qe50q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "511",
+          "text": "tcl 32r84"
+        },
+        {
+          "isAssociations": true,
+          "value": "3224",
+          "text": "ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "ue75u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1399",
+          "text": "qe55qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "371",
+          "text": "qled что это такое в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "857",
+          "text": "ue65u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1096",
+          "text": "qe55q7f5auxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "788",
+          "text": "ue32h5000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "601",
+          "text": "ue85u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "633",
+          "text": "ue98du9000uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "qe32ls03cbuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "358",
+          "text": "ue65du7100uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "931",
+          "text": "ue32t5300au"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2241",
+          "text": "ue32f6000fuxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "UE43U8000FUXRU",
+      "series": "U8000F",
+      "diagonal_inches": 43
+    },
+    "operator_query": "\"[UE43U8000FUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "469",
+          "text": "438509239"
+        },
+        {
+          "isAssociations": true,
+          "value": "6003",
+          "text": "ue4ss"
+        },
+        {
+          "isAssociations": true,
+          "value": "6095",
+          "text": "43 дюйма в см телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "2480",
+          "text": "qe43q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "556",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "4280",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "3224",
+          "text": "ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "ue75u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "371",
+          "text": "qled что это такое в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "390",
+          "text": "yaos что это в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "857",
+          "text": "ue65u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "788",
+          "text": "ue32h5000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2635",
+          "text": "ue40d5000pw"
+        },
+        {
+          "isAssociations": true,
+          "value": "408",
+          "text": "телевизор hi ht 24h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "601",
+          "text": "ue85u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1213",
+          "text": "ue43f6000fuxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3694",
+          "text": "ue43u8000fuxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "UE50U8000FUXRU",
+      "series": "U8000F",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[UE50U8000FUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1550",
+          "text": "офз26238"
+        },
+        {
+          "isAssociations": true,
+          "value": "3680",
+          "text": "ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2480",
+          "text": "qe43q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "4280",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1569",
+          "text": "какой телевизор выбрать в 2026 году"
+        },
+        {
+          "isAssociations": true,
+          "value": "2432",
+          "text": "qe50q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "263",
+          "text": "офз26238 что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "ue75u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1352",
+          "text": "руфильмтв ру смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "2170",
+          "text": "ue32f6000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "802",
+          "text": "qe50qn90fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "371",
+          "text": "qled что это такое в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "390",
+          "text": "yaos что это в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1186",
+          "text": "mo32u24"
+        },
+        {
+          "isAssociations": true,
+          "value": "857",
+          "text": "ue65u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "601",
+          "text": "ue85u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "934",
+          "text": "ue50au8000u"
+        },
+        {
+          "isAssociations": true,
+          "value": "393",
+          "text": "ue50du7100uxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3321",
+          "text": "ue50u8000fuxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "UE55U8000FUXRU",
+      "series": "U8000F",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[UE55U8000FUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "15963",
+          "text": "tcl 55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4198",
+          "text": "tcl 55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "7216",
+          "text": "tcl 55c7l"
+        },
+        {
+          "isAssociations": true,
+          "value": "3680",
+          "text": "ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2751",
+          "text": "телевизорус ру смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "1569",
+          "text": "какой телевизор выбрать в 2026 году"
+        },
+        {
+          "isAssociations": true,
+          "value": "874",
+          "text": "qe65qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "3224",
+          "text": "ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "ue75u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1352",
+          "text": "руфильмтв ру смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "3917",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1399",
+          "text": "qe55qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "857",
+          "text": "ue65u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1096",
+          "text": "qe55q7f5auxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "903",
+          "text": "qe55q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "966",
+          "text": "qe55s85faexru"
+        },
+        {
+          "isAssociations": true,
+          "value": "601",
+          "text": "ue85u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "341",
+          "text": "ue55du7100uxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4507",
+          "text": "ue55u8000fuxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "UE65U8000FUXRU",
+      "series": "U8000F",
+      "diagonal_inches": 65
+    },
+    "operator_query": "\"[UE65U8000FUXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3680",
+          "text": "ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "4280",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "874",
+          "text": "qe65qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2432",
+          "text": "qe50q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "263",
+          "text": "офз26238 что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "3224",
+          "text": "ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "ue75u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "3917",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "1221",
+          "text": "oled65c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "2170",
+          "text": "ue32f6000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1399",
+          "text": "qe55qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "371",
+          "text": "qled что это такое в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1186",
+          "text": "mo32u24"
+        },
+        {
+          "isAssociations": true,
+          "value": "1096",
+          "text": "qe55q7f5auxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "788",
+          "text": "ue32h5000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "601",
+          "text": "ue85u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "633",
+          "text": "ue98du9000uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "358",
+          "text": "ue65du7100uxru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "912",
+          "text": "ue65u8000fuxru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Samsung",
+      "model": "QE65S85FAEXRU",
+      "series": "S85F",
+      "diagonal_inches": 65
+    },
+    "operator_query": "\"[QE65S85FAEXRU]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "15828",
+          "text": "фа ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "13914",
+          "text": "ан нас"
+        },
+        {
+          "isAssociations": true,
+          "value": "280064",
+          "text": "а ну ка"
+        },
+        {
+          "isAssociations": true,
+          "value": "1550",
+          "text": "офз26238"
+        },
+        {
+          "isAssociations": true,
+          "value": "4280",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "874",
+          "text": "qe65qn70fauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "2432",
+          "text": "qe50q7faauxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "263",
+          "text": "офз26238 что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "3224",
+          "text": "ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "3496",
+          "text": "zqs8210"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "ue75u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "3917",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "2170",
+          "text": "ue32f6000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "857",
+          "text": "ue65u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "966",
+          "text": "qe55s85faexru"
+        },
+        {
+          "isAssociations": true,
+          "value": "915",
+          "text": "qe65s90faexru"
+        },
+        {
+          "isAssociations": true,
+          "value": "704",
+          "text": "qe48s90faexru"
+        },
+        {
+          "isAssociations": true,
+          "value": "319",
+          "text": "qe77s85faexru"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1419",
+          "text": "qe65s85faexru"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "50QNED85B6A",
+      "series": "QNED85",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[50QNED85B6A]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "3121",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "638",
+          "text": "wh4t 1 w0uldnt d0"
+        },
+        {
+          "isAssociations": true,
+          "value": "1815",
+          "text": "gw4b15l"
+        },
+        {
+          "isAssociations": true,
+          "value": "2463",
+          "text": "gw4b15d"
+        },
+        {
+          "isAssociations": true,
+          "value": "2752",
+          "text": "d4dj"
+        },
+        {
+          "isAssociations": true,
+          "value": "382",
+          "text": "с6н12о6"
+        },
+        {
+          "isAssociations": true,
+          "value": "1857",
+          "text": "mo27q28g"
+        },
+        {
+          "isAssociations": true,
+          "value": "1414",
+          "text": "55qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "1334",
+          "text": "65qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "448",
+          "text": "43qned70a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "450",
+          "text": "50qned82a6b"
+        },
+        {
+          "isAssociations": true,
+          "value": "381",
+          "text": "65qned80a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "817",
+          "text": "43qned82a6b"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2063",
+          "text": "50qned85b6a"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "43QNED80B6B",
+      "series": "QNED80",
+      "diagonal_inches": 43
+    },
+    "operator_query": "\"[43QNED80B6B]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3121",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1497",
+          "text": "pa66gf30"
+        },
+        {
+          "isAssociations": true,
+          "value": "638",
+          "text": "wh4t 1 w0uldnt d0"
+        },
+        {
+          "isAssociations": true,
+          "value": "1815",
+          "text": "gw4b15l"
+        },
+        {
+          "isAssociations": true,
+          "value": "2752",
+          "text": "d4dj"
+        },
+        {
+          "isAssociations": true,
+          "value": "174",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "356",
+          "text": "c12h22o11"
+        },
+        {
+          "isAssociations": true,
+          "value": "1857",
+          "text": "mo27q28g"
+        },
+        {
+          "isAssociations": true,
+          "value": "9248",
+          "text": "qned"
+        },
+        {
+          "isAssociations": true,
+          "value": "1414",
+          "text": "55qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "1334",
+          "text": "65qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "448",
+          "text": "43qned70a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "450",
+          "text": "50qned82a6b"
+        },
+        {
+          "isAssociations": true,
+          "value": "817",
+          "text": "43qned82a6b"
+        },
+        {
+          "isAssociations": true,
+          "value": "611",
+          "text": "43qned80a6a"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1980",
+          "text": "43qned80b6b"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "OLED55C5RLA",
+      "series": "OLED C5",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[OLED55C5RLA]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "73492",
+          "text": "let me be"
+        },
+        {
+          "isAssociations": true,
+          "value": "16090",
+          "text": "tcl 55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "58745",
+          "text": "жди меня 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "5657",
+          "text": "all make su"
+        },
+        {
+          "isAssociations": true,
+          "value": "295828",
+          "text": "oled"
+        },
+        {
+          "isAssociations": true,
+          "value": "6796",
+          "text": "верни меня назад хоть на 5"
+        },
+        {
+          "isAssociations": true,
+          "value": "19034",
+          "text": "let me in"
+        },
+        {
+          "isAssociations": true,
+          "value": "28950",
+          "text": "all of me"
+        },
+        {
+          "isAssociations": true,
+          "value": "1290",
+          "text": "быть а не казаться 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "1579",
+          "text": "qled что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "4366",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "17383",
+          "text": "55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "1220",
+          "text": "oled65c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "769",
+          "text": "oled48c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "881",
+          "text": "oled55g5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "890",
+          "text": "oled42c5rla"
+        },
+        {
+          "isAssociations": true,
+          "value": "390",
+          "text": "oled55b5rla"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1987",
+          "text": "oled55c5rla"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "55QNED83B6A",
+      "series": "QNED83",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[55QNED83B6A]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "3131",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "412",
+          "text": "тв24ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "2740",
+          "text": "d4dj"
+        },
+        {
+          "isAssociations": true,
+          "value": "17226",
+          "text": "55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "395",
+          "text": "с6н12о6"
+        },
+        {
+          "isAssociations": true,
+          "value": "663",
+          "text": "д2ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "812",
+          "text": "mu2075"
+        },
+        {
+          "isAssociations": true,
+          "value": "1401",
+          "text": "55qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "1359",
+          "text": "65qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "468",
+          "text": "43qned70a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "472",
+          "text": "50qned82a6b"
+        },
+        {
+          "isAssociations": true,
+          "value": "390",
+          "text": "65qned80a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "457",
+          "text": "55qned93a6a"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1547",
+          "text": "55qned83b6a"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "65QNED86A6A",
+      "series": "QNED86",
+      "diagonal_inches": 65
+    },
+    "operator_query": "\"[65QNED86A6A]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "3131",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "412",
+          "text": "тв24ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "612",
+          "text": "wh4t 1 w0uldnt d0"
+        },
+        {
+          "isAssociations": true,
+          "value": "315",
+          "text": "c2h4o2"
+        },
+        {
+          "isAssociations": true,
+          "value": "261",
+          "text": "c2h6o2"
+        },
+        {
+          "isAssociations": true,
+          "value": "161",
+          "text": "kv35yl"
+        },
+        {
+          "isAssociations": true,
+          "value": "1401",
+          "text": "55qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "468",
+          "text": "43qned70a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "472",
+          "text": "50qned82a6b"
+        },
+        {
+          "isAssociations": true,
+          "value": "390",
+          "text": "65qned80a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "457",
+          "text": "55qned93a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "805",
+          "text": "43qned82a6b"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1400",
+          "text": "65qned86a6a"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "55QNED86A6A",
+      "series": "QNED86",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[55QNED86A6A]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "221411",
+          "text": "there is there are"
+        },
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "3131",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "412",
+          "text": "тв24ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "315",
+          "text": "c2h4o2"
+        },
+        {
+          "isAssociations": true,
+          "value": "2740",
+          "text": "d4dj"
+        },
+        {
+          "isAssociations": true,
+          "value": "395",
+          "text": "с6н12о6"
+        },
+        {
+          "isAssociations": true,
+          "value": "3917",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "161",
+          "text": "kv35yl"
+        },
+        {
+          "isAssociations": true,
+          "value": "1186",
+          "text": "mo32u24"
+        },
+        {
+          "isAssociations": true,
+          "value": "1359",
+          "text": "65qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "468",
+          "text": "43qned70a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "472",
+          "text": "50qned82a6b"
+        },
+        {
+          "isAssociations": true,
+          "value": "390",
+          "text": "65qned80a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "457",
+          "text": "55qned93a6a"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1480",
+          "text": "55qned86a6a"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "55QNED85B6C",
+      "series": "QNED85",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[55QNED85B6C]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "3121",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "638",
+          "text": "wh4t 1 w0uldnt d0"
+        },
+        {
+          "isAssociations": true,
+          "value": "2752",
+          "text": "d4dj"
+        },
+        {
+          "isAssociations": true,
+          "value": "17383",
+          "text": "55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "382",
+          "text": "с6н12о6"
+        },
+        {
+          "isAssociations": true,
+          "value": "1857",
+          "text": "mo27q28g"
+        },
+        {
+          "isAssociations": true,
+          "value": "1214",
+          "text": "mo32u24"
+        },
+        {
+          "isAssociations": true,
+          "value": "833",
+          "text": "3u70s2sr5fa"
+        },
+        {
+          "isAssociations": true,
+          "value": "1414",
+          "text": "55qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "1334",
+          "text": "65qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "448",
+          "text": "43qned70a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "450",
+          "text": "50qned82a6b"
+        },
+        {
+          "isAssociations": true,
+          "value": "470",
+          "text": "55qned93a6a"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1223",
+          "text": "55qned85b6c"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "LG",
+      "model": "50QNED80B6B",
+      "series": "QNED80",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[50QNED80B6B]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "3131",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1453",
+          "text": "pa66gf30"
+        },
+        {
+          "isAssociations": true,
+          "value": "612",
+          "text": "wh4t 1 w0uldnt d0"
+        },
+        {
+          "isAssociations": true,
+          "value": "1787",
+          "text": "gw4b15l"
+        },
+        {
+          "isAssociations": true,
+          "value": "2740",
+          "text": "d4dj"
+        },
+        {
+          "isAssociations": true,
+          "value": "395",
+          "text": "с6н12о6"
+        },
+        {
+          "isAssociations": true,
+          "value": "1846",
+          "text": "mo27q28g"
+        },
+        {
+          "isAssociations": true,
+          "value": "1401",
+          "text": "55qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "1359",
+          "text": "65qned86a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "468",
+          "text": "43qned70a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "472",
+          "text": "50qned82a6b"
+        },
+        {
+          "isAssociations": true,
+          "value": "390",
+          "text": "65qned80a6a"
+        },
+        {
+          "isAssociations": true,
+          "value": "805",
+          "text": "43qned82a6b"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1057",
+          "text": "50qned80b6b"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Hisense",
+      "model": "55U7S",
+      "series": "U7S",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[55U7S]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "681903",
+          "text": "смотреть телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "52",
+          "text": "е өтініш"
+        },
+        {
+          "isAssociations": true,
+          "value": "1434576",
+          "text": "все тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "10766",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "14726",
+          "text": "хочу тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "18596",
+          "text": "т 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "83793",
+          "text": "все каналы телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "45352",
+          "text": "после 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "4113",
+          "text": "что сейчас идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "7899",
+          "text": "что идет по тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "137",
+          "text": "w tv что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "4366",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "17383",
+          "text": "55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "3883",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "4572",
+          "text": "55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "911",
+          "text": "55u8q"
+        },
+        {
+          "isAssociations": true,
+          "value": "4876",
+          "text": "55u7q"
+        },
+        {
+          "isAssociations": true,
+          "value": "6888",
+          "text": "55u77sl"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "12870",
+          "text": "55u7s"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Hisense",
+      "model": "65U7S",
+      "series": "U7S",
+      "diagonal_inches": 65
+    },
+    "operator_query": "\"[65U7S]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "682116",
+          "text": "смотреть телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "10876",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "11037",
+          "text": "televizo"
+        },
+        {
+          "isAssociations": true,
+          "value": "83902",
+          "text": "все каналы телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "4137",
+          "text": "что сейчас идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "23812",
+          "text": "диагональ телевизора в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "131",
+          "text": "w tv что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "3131",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "6003",
+          "text": "ue4ss"
+        },
+        {
+          "isAssociations": true,
+          "value": "1289",
+          "text": "ка 65"
+        },
+        {
+          "isAssociations": true,
+          "value": "34029",
+          "text": "едим тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "315",
+          "text": "c2h4o2"
+        },
+        {
+          "isAssociations": true,
+          "value": "3917",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "1943",
+          "text": "65ur9s"
+        },
+        {
+          "isAssociations": true,
+          "value": "12698",
+          "text": "55u7s"
+        },
+        {
+          "isAssociations": true,
+          "value": "3262",
+          "text": "65c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "2560",
+          "text": "65u8q"
+        },
+        {
+          "isAssociations": true,
+          "value": "1962",
+          "text": "65u7q"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "7798",
+          "text": "65u7s"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Hisense",
+      "model": "55U7S PRO",
+      "series": "U7S PRO",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[55U7S PRO]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "27",
+          "text": "91pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "2134",
+          "text": "edpro"
+        },
+        {
+          "isAssociations": true,
+          "value": "318",
+          "text": "я проф рф"
+        },
+        {
+          "isAssociations": true,
+          "value": "4275",
+          "text": "я проф"
+        },
+        {
+          "isAssociations": true,
+          "value": "14797",
+          "text": "ue5"
+        },
+        {
+          "isAssociations": true,
+          "value": "669",
+          "text": "iffalcon 55u75a"
+        },
+        {
+          "isAssociations": true,
+          "value": "9204",
+          "text": "the professional"
+        },
+        {
+          "isAssociations": true,
+          "value": "13448",
+          "text": "17pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "3933",
+          "text": "проф тех"
+        },
+        {
+          "isAssociations": true,
+          "value": "4505",
+          "text": "55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "1152",
+          "text": "f3pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "875",
+          "text": "h2pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "7510",
+          "text": "16pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "2998",
+          "text": "55p6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "2519",
+          "text": "55p7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4793",
+          "text": "55u7q"
+        },
+        {
+          "isAssociations": true,
+          "value": "5336",
+          "text": "15pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "79",
+          "text": "ex24pro"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "5907",
+          "text": "55u7s pro"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Hisense",
+      "model": "55E77SL",
+      "series": "E77SL",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[55E77SL]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "186155",
+          "text": "ту ту ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "15750",
+          "text": "эл д"
+        },
+        {
+          "isAssociations": true,
+          "value": "29495",
+          "text": "ту ту ру билеты"
+        },
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "4767",
+          "text": "чс4т"
+        },
+        {
+          "isAssociations": true,
+          "value": "178",
+          "text": "1f41c"
+        },
+        {
+          "isAssociations": true,
+          "value": "131",
+          "text": "w tv что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "1929",
+          "text": "5hg"
+        },
+        {
+          "isAssociations": true,
+          "value": "3019",
+          "text": "ма л"
+        },
+        {
+          "isAssociations": true,
+          "value": "656",
+          "text": "ту 95м"
+        },
+        {
+          "isAssociations": true,
+          "value": "1434",
+          "text": "все для меня читать"
+        },
+        {
+          "isAssociations": true,
+          "value": "1088",
+          "text": "tv8"
+        },
+        {
+          "isAssociations": true,
+          "value": "17226",
+          "text": "55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "395",
+          "text": "с6н12о6"
+        },
+        {
+          "isAssociations": true,
+          "value": "3917",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1186",
+          "text": "mo32u24"
+        },
+        {
+          "isAssociations": true,
+          "value": "797",
+          "text": "3u70s2sr5fa"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "5816",
+          "text": "55e77sl"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Hisense",
+      "model": "50E7S",
+      "series": "E7S",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[50E7S]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4973",
+          "text": "и2и"
+        },
+        {
+          "isAssociations": true,
+          "value": "1622",
+          "text": "тть"
+        },
+        {
+          "isAssociations": true,
+          "value": "4128",
+          "text": "s2b"
+        },
+        {
+          "isAssociations": true,
+          "value": "714",
+          "text": "ln1"
+        },
+        {
+          "isAssociations": true,
+          "value": "20804",
+          "text": "мк2"
+        },
+        {
+          "isAssociations": true,
+          "value": "5326",
+          "text": "2с4"
+        },
+        {
+          "isAssociations": true,
+          "value": "3107",
+          "text": "т64"
+        },
+        {
+          "isAssociations": true,
+          "value": "7925",
+          "text": "k8s"
+        },
+        {
+          "isAssociations": true,
+          "value": "558",
+          "text": "льь"
+        },
+        {
+          "isAssociations": true,
+          "value": "445",
+          "text": "c2h6o"
+        },
+        {
+          "isAssociations": true,
+          "value": "4386",
+          "text": "mo2"
+        },
+        {
+          "isAssociations": true,
+          "value": "16",
+          "text": "51cn"
+        },
+        {
+          "isAssociations": true,
+          "value": "4229",
+          "text": "n55b30"
+        },
+        {
+          "isAssociations": true,
+          "value": "23974",
+          "text": "f40"
+        },
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "1108",
+          "text": "g59"
+        },
+        {
+          "isAssociations": true,
+          "value": "6829",
+          "text": "к27"
+        },
+        {
+          "isAssociations": true,
+          "value": "3354",
+          "text": "k2s"
+        },
+        {
+          "isAssociations": true,
+          "value": "1443",
+          "text": "б29"
+        },
+        {
+          "isAssociations": true,
+          "value": "797",
+          "text": "3u70s2sr5fa"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3976",
+          "text": "50e7s"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Hisense",
+      "model": "50U77SL",
+      "series": "U77SL",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[50U77SL]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10876",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "11037",
+          "text": "televizo"
+        },
+        {
+          "isAssociations": true,
+          "value": "83902",
+          "text": "все каналы телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "131",
+          "text": "w tv что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "3131",
+          "text": "jx1dx1"
+        },
+        {
+          "isAssociations": true,
+          "value": "6003",
+          "text": "ue4ss"
+        },
+        {
+          "isAssociations": true,
+          "value": "2740",
+          "text": "d4dj"
+        },
+        {
+          "isAssociations": true,
+          "value": "26167",
+          "text": "television"
+        },
+        {
+          "isAssociations": true,
+          "value": "3224",
+          "text": "ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "608",
+          "text": "lcn в телевизоре что это такое"
+        },
+        {
+          "isAssociations": true,
+          "value": "3917",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "3130",
+          "text": "тв ц"
+        },
+        {
+          "isAssociations": true,
+          "value": "1186",
+          "text": "mo32u24"
+        },
+        {
+          "isAssociations": true,
+          "value": "797",
+          "text": "3u70s2sr5fa"
+        },
+        {
+          "isAssociations": true,
+          "value": "3262",
+          "text": "65c7k"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4633",
+          "text": "50u77sl"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Hisense",
+      "model": "43E7S",
+      "series": "E7S",
+      "diagonal_inches": 43
+    },
+    "operator_query": "\"[43E7S]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "34167",
+          "text": "ык"
+        },
+        {
+          "isAssociations": true,
+          "value": "39457",
+          "text": "jei"
+        },
+        {
+          "isAssociations": true,
+          "value": "15171",
+          "text": "ьь"
+        },
+        {
+          "isAssociations": true,
+          "value": "6695",
+          "text": "ыу"
+        },
+        {
+          "isAssociations": true,
+          "value": "15564",
+          "text": "тв1"
+        },
+        {
+          "isAssociations": true,
+          "value": "5143",
+          "text": "щя"
+        },
+        {
+          "isAssociations": true,
+          "value": "4373",
+          "text": "щщ"
+        },
+        {
+          "isAssociations": true,
+          "value": "5347",
+          "text": "ьб"
+        },
+        {
+          "isAssociations": true,
+          "value": "3353",
+          "text": "ыс"
+        },
+        {
+          "isAssociations": true,
+          "value": "3865",
+          "text": "ййй"
+        },
+        {
+          "isAssociations": true,
+          "value": "4228",
+          "text": "ьа"
+        },
+        {
+          "isAssociations": true,
+          "value": "10001",
+          "text": "juq"
+        },
+        {
+          "isAssociations": true,
+          "value": "5287",
+          "text": "ьо"
+        },
+        {
+          "isAssociations": true,
+          "value": "6585",
+          "text": "жю"
+        },
+        {
+          "isAssociations": true,
+          "value": "22638",
+          "text": "π"
+        },
+        {
+          "isAssociations": true,
+          "value": "4893",
+          "text": "фй"
+        },
+        {
+          "isAssociations": true,
+          "value": "4462",
+          "text": "зж"
+        },
+        {
+          "isAssociations": true,
+          "value": "7240",
+          "text": "чь"
+        },
+        {
+          "isAssociations": true,
+          "value": "4584",
+          "text": "чя"
+        },
+        {
+          "isAssociations": true,
+          "value": "98029",
+          "text": "い"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4457",
+          "text": "43e7s"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Hisense",
+      "model": "55E7S",
+      "series": "E7S",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[55E7S]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4937771",
+          "text": "летов"
+        },
+        {
+          "isAssociations": true,
+          "value": "29276",
+          "text": "ту ту ру билеты"
+        },
+        {
+          "isAssociations": true,
+          "value": "1434576",
+          "text": "все тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "15749",
+          "text": "тв1"
+        },
+        {
+          "isAssociations": true,
+          "value": "14726",
+          "text": "хочу тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19034",
+          "text": "let me in"
+        },
+        {
+          "isAssociations": true,
+          "value": "1",
+          "text": "b0k3p"
+        },
+        {
+          "isAssociations": true,
+          "value": "4770",
+          "text": "чс4т"
+        },
+        {
+          "isAssociations": true,
+          "value": "137",
+          "text": "w tv что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "3098",
+          "text": "т64"
+        },
+        {
+          "isAssociations": true,
+          "value": "3099",
+          "text": "ма л"
+        },
+        {
+          "isAssociations": true,
+          "value": "673",
+          "text": "ту 95м"
+        },
+        {
+          "isAssociations": true,
+          "value": "1037",
+          "text": "tv8"
+        },
+        {
+          "isAssociations": true,
+          "value": "219392",
+          "text": "let me"
+        },
+        {
+          "isAssociations": true,
+          "value": "17383",
+          "text": "55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "382",
+          "text": "с6н12о6"
+        },
+        {
+          "isAssociations": true,
+          "value": "608",
+          "text": "lcn в телевизоре что это такое"
+        },
+        {
+          "isAssociations": true,
+          "value": "964",
+          "text": "l96a1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1214",
+          "text": "mo32u24"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3852",
+          "text": "55e7s"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Яндекс",
+      "model": "YNDX-00074",
+      "series": "ТВ Станция Бейсик LED",
+      "diagonal_inches": 43
+    },
+    "operator_query": "\"[YNDX-00074]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "174",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "155",
+          "text": "ru000a10enp1"
+        },
+        {
+          "isAssociations": true,
+          "value": "269",
+          "text": "ru000a10db16"
+        },
+        {
+          "isAssociations": true,
+          "value": "531",
+          "text": "ао нзл"
+        },
+        {
+          "isAssociations": true,
+          "value": "507",
+          "text": "ru000a10bb75"
+        },
+        {
+          "isAssociations": true,
+          "value": "93",
+          "text": "ru000a10e747"
+        },
+        {
+          "isAssociations": true,
+          "value": "135341",
+          "text": "яндекс им"
+        },
+        {
+          "isAssociations": true,
+          "value": "1601",
+          "text": "yandex com tr"
+        },
+        {
+          "isAssociations": true,
+          "value": "168",
+          "text": "ru000a10bw96"
+        },
+        {
+          "isAssociations": true,
+          "value": "152",
+          "text": "ru000a10c8h9"
+        },
+        {
+          "isAssociations": true,
+          "value": "235",
+          "text": "ru000a10e4x3"
+        },
+        {
+          "isAssociations": true,
+          "value": "124",
+          "text": "ru000a10ea08"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1643",
+          "text": "yndx 00074"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Яндекс",
+      "model": "YNDX-00075",
+      "series": "ТВ Станция Бейсик LED",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[YNDX-00075]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "7526",
+          "text": "where are you from"
+        },
+        {
+          "isAssociations": true,
+          "value": "37934",
+          "text": "к он смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "1029",
+          "text": "ym ozon что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "586392",
+          "text": "поиск яндекса"
+        },
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "115",
+          "text": "эд2т 0050"
+        },
+        {
+          "isAssociations": true,
+          "value": "174",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "403046",
+          "text": "ты со мной"
+        },
+        {
+          "isAssociations": true,
+          "value": "14932",
+          "text": "яндекс т"
+        },
+        {
+          "isAssociations": true,
+          "value": "269",
+          "text": "ru000a10db16"
+        },
+        {
+          "isAssociations": true,
+          "value": "531",
+          "text": "ао нзл"
+        },
+        {
+          "isAssociations": true,
+          "value": "405",
+          "text": "ozon select что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "507",
+          "text": "ru000a10bb75"
+        },
+        {
+          "isAssociations": true,
+          "value": "135341",
+          "text": "яндекс им"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1383",
+          "text": "yndx 00075"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Яндекс",
+      "model": "YNDX-00076",
+      "series": "ТВ Станция Бейсик LED",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[YNDX-00076]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4087",
+          "text": "нфт это"
+        },
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "172",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "262",
+          "text": "ru000a10db16"
+        },
+        {
+          "isAssociations": true,
+          "value": "501",
+          "text": "ао нзл"
+        },
+        {
+          "isAssociations": true,
+          "value": "506",
+          "text": "ru000a10bb75"
+        },
+        {
+          "isAssociations": true,
+          "value": "134143",
+          "text": "яндекс им"
+        },
+        {
+          "isAssociations": true,
+          "value": "435",
+          "text": "эд4м 0091"
+        },
+        {
+          "isAssociations": true,
+          "value": "1588",
+          "text": "yandex com tr"
+        },
+        {
+          "isAssociations": true,
+          "value": "710",
+          "text": "в ч 00991"
+        },
+        {
+          "isAssociations": true,
+          "value": "633",
+          "text": "ue98du9000uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "165",
+          "text": "ru000a10bw96"
+        },
+        {
+          "isAssociations": true,
+          "value": "150",
+          "text": "ru000a10c8h9"
+        },
+        {
+          "isAssociations": true,
+          "value": "217",
+          "text": "ru000a10e4x3"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "490",
+          "text": "yndx 00076"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Яндекс",
+      "model": "YNDX-00077",
+      "series": "ТВ Станция Бейсик LED",
+      "diagonal_inches": 65
+    },
+    "operator_query": "\"[YNDX-00077]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "218",
+          "text": "www av4 us"
+        },
+        {
+          "isAssociations": true,
+          "value": "1010",
+          "text": "ym ozon что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "172",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "402880",
+          "text": "ты со мной"
+        },
+        {
+          "isAssociations": true,
+          "value": "262",
+          "text": "ru000a10db16"
+        },
+        {
+          "isAssociations": true,
+          "value": "501",
+          "text": "ао нзл"
+        },
+        {
+          "isAssociations": true,
+          "value": "403",
+          "text": "ozon select что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "506",
+          "text": "ru000a10bb75"
+        },
+        {
+          "isAssociations": true,
+          "value": "2320",
+          "text": "in в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "134143",
+          "text": "яндекс им"
+        },
+        {
+          "isAssociations": true,
+          "value": "1588",
+          "text": "yandex com tr"
+        },
+        {
+          "isAssociations": true,
+          "value": "165",
+          "text": "ru000a10bw96"
+        },
+        {
+          "isAssociations": true,
+          "value": "217",
+          "text": "ru000a10e4x3"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "408",
+          "text": "yndx 00077"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Яндекс",
+      "model": "YNDX-00078",
+      "series": "ТВ Станция Бейсик QLED",
+      "diagonal_inches": 43
+    },
+    "operator_query": "\"[YNDX-00078]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "645",
+          "text": "эд4м 0054"
+        },
+        {
+          "isAssociations": true,
+          "value": "838",
+          "text": "ncs s 0500 n"
+        },
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "172",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "109",
+          "text": "pih 006"
+        },
+        {
+          "isAssociations": true,
+          "value": "262",
+          "text": "ru000a10db16"
+        },
+        {
+          "isAssociations": true,
+          "value": "506",
+          "text": "ru000a10bb75"
+        },
+        {
+          "isAssociations": true,
+          "value": "134143",
+          "text": "яндекс им"
+        },
+        {
+          "isAssociations": true,
+          "value": "435",
+          "text": "эд4м 0091"
+        },
+        {
+          "isAssociations": true,
+          "value": "1588",
+          "text": "yandex com tr"
+        },
+        {
+          "isAssociations": true,
+          "value": "710",
+          "text": "в ч 00991"
+        },
+        {
+          "isAssociations": true,
+          "value": "633",
+          "text": "ue98du9000uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "165",
+          "text": "ru000a10bw96"
+        },
+        {
+          "isAssociations": true,
+          "value": "150",
+          "text": "ru000a10c8h9"
+        },
+        {
+          "isAssociations": true,
+          "value": "217",
+          "text": "ru000a10e4x3"
+        },
+        {
+          "isAssociations": true,
+          "value": "87",
+          "text": "can t run zlorigin2 06000902 00000007"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1213",
+          "text": "yndx 00078"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Яндекс",
+      "model": "YNDX-00079",
+      "series": "ТВ Станция Бейсик QLED",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[YNDX-00079]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5070",
+          "text": "yandex by"
+        },
+        {
+          "isAssociations": true,
+          "value": "1123",
+          "text": "уа ру яндекс"
+        },
+        {
+          "isAssociations": true,
+          "value": "582",
+          "text": "настройка портала яндекс поиск"
+        },
+        {
+          "isAssociations": true,
+          "value": "489",
+          "text": "яндекс быстрый поиск в интернете ya ru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1504",
+          "text": "яндекс пробки москва и область"
+        },
+        {
+          "isAssociations": true,
+          "value": "869",
+          "text": "ncs s 0500 n"
+        },
+        {
+          "isAssociations": true,
+          "value": "1029",
+          "text": "ym ozon что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "586392",
+          "text": "поиск яндекса"
+        },
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "174",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "30903",
+          "text": "поисковик яндекса"
+        },
+        {
+          "isAssociations": true,
+          "value": "14932",
+          "text": "яндекс т"
+        },
+        {
+          "isAssociations": true,
+          "value": "1601",
+          "text": "yandex com tr"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1007",
+          "text": "yndx 00079"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Яндекс",
+      "model": "YNDX-00080",
+      "series": "ТВ Станция Бейсик QLED",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[YNDX-00080]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "381366",
+          "text": "яндекс войти"
+        },
+        {
+          "isAssociations": true,
+          "value": "838",
+          "text": "ncs s 0500 n"
+        },
+        {
+          "isAssociations": true,
+          "value": "1010",
+          "text": "ym ozon что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "172",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "514",
+          "text": "пароли в яндексе где они находятся"
+        },
+        {
+          "isAssociations": true,
+          "value": "14808",
+          "text": "яндекс т"
+        },
+        {
+          "isAssociations": true,
+          "value": "262",
+          "text": "ru000a10db16"
+        },
+        {
+          "isAssociations": true,
+          "value": "402",
+          "text": "яндекс пробки москва и область онлайн сейчас"
+        },
+        {
+          "isAssociations": true,
+          "value": "621",
+          "text": "ncs s 0502 y"
+        },
+        {
+          "isAssociations": true,
+          "value": "506",
+          "text": "ru000a10bb75"
+        },
+        {
+          "isAssociations": true,
+          "value": "479",
+          "text": "яндекс гоу что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "704",
+          "text": "яндекс go что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "1588",
+          "text": "yandex com tr"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "487",
+          "text": "yndx 00080"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Яндекс",
+      "model": "YNDX-00081",
+      "series": "ТВ Станция Бейсик QLED",
+      "diagonal_inches": 65
+    },
+    "operator_query": "\"[YNDX-00081]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "687",
+          "text": "69x me"
+        },
+        {
+          "isAssociations": true,
+          "value": "107",
+          "text": "ru000a10ew51"
+        },
+        {
+          "isAssociations": true,
+          "value": "172",
+          "text": "ru000a10es32"
+        },
+        {
+          "isAssociations": true,
+          "value": "262",
+          "text": "ru000a10db16"
+        },
+        {
+          "isAssociations": true,
+          "value": "501",
+          "text": "ао нзл"
+        },
+        {
+          "isAssociations": true,
+          "value": "506",
+          "text": "ru000a10bb75"
+        },
+        {
+          "isAssociations": true,
+          "value": "2320",
+          "text": "in в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "134143",
+          "text": "яндекс им"
+        },
+        {
+          "isAssociations": true,
+          "value": "435",
+          "text": "эд4м 0091"
+        },
+        {
+          "isAssociations": true,
+          "value": "1588",
+          "text": "yandex com tr"
+        },
+        {
+          "isAssociations": true,
+          "value": "710",
+          "text": "в ч 00991"
+        },
+        {
+          "isAssociations": true,
+          "value": "633",
+          "text": "ue98du9000uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "1600",
+          "text": "us browser"
+        },
+        {
+          "isAssociations": true,
+          "value": "165",
+          "text": "ru000a10bw96"
+        },
+        {
+          "isAssociations": true,
+          "value": "150",
+          "text": "ru000a10c8h9"
+        },
+        {
+          "isAssociations": true,
+          "value": "217",
+          "text": "ru000a10e4x3"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "431",
+          "text": "yndx 00081"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi TV A 43 2025",
+      "series": "TV A 2025",
+      "diagonal_inches": 43
+    },
+    "operator_query": "\"[Xiaomi TV A 43 2025]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3680",
+          "text": "ue43u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "556",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "408",
+          "text": "телевизор hi ht 24h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "1862",
+          "text": "tcl 43s5k"
+        },
+        {
+          "isAssociations": true,
+          "value": "1213",
+          "text": "ue43f6000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "283",
+          "text": "vidaa что это в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "179",
+          "text": "телевизор hi hx 65u01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "1515",
+          "text": "витязь 32lh0202"
+        },
+        {
+          "isAssociations": true,
+          "value": "197",
+          "text": "телевизор lg 32lq63806lc arub"
+        },
+        {
+          "isAssociations": true,
+          "value": "619",
+          "text": "redmi g24 240hz"
+        },
+        {
+          "isAssociations": true,
+          "value": "129",
+          "text": "мтс телепрограмма всех каналов москва"
+        },
+        {
+          "isAssociations": true,
+          "value": "431",
+          "text": "телевизор hi hs 43u01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "177",
+          "text": "mi router 4c характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "491",
+          "text": "ue43nu7170u"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "915",
+          "text": "xiaomi tv a 43 2025"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi TV A 50 2025",
+      "series": "TV A 2025",
+      "diagonal_inches": 50
+    },
+    "operator_query": "\"[Xiaomi TV A 50 2025]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "8",
+          "text": "indonesia 2025 b k3p sma"
+        },
+        {
+          "isAssociations": true,
+          "value": "769",
+          "text": "toyota rav4 2025 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "3224",
+          "text": "ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "572",
+          "text": "tcl 50c655"
+        },
+        {
+          "isAssociations": true,
+          "value": "1358",
+          "text": "samsung ue50u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "169",
+          "text": "samsung ue50du7100uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "275",
+          "text": "onkyo a50"
+        },
+        {
+          "isAssociations": true,
+          "value": "95",
+          "text": "redmi a5 antutu"
+        },
+        {
+          "isAssociations": true,
+          "value": "243",
+          "text": "tcl 50c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "275",
+          "text": "аватар 5 мл как разводить"
+        },
+        {
+          "isAssociations": true,
+          "value": "161",
+          "text": "samsung ue50cu8000uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "315",
+          "text": "стерилизатор воздушный гп 80 мо"
+        },
+        {
+          "isAssociations": true,
+          "value": "216",
+          "text": "телевизор hi hy 50u01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "294",
+          "text": "hi hx 50u01fb"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "331",
+          "text": "xiaomi tv a 50 2025"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi TV A 55 2025",
+      "series": "TV A 2025",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[Xiaomi TV A 55 2025]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "15963",
+          "text": "tcl 55c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4198",
+          "text": "tcl 55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "7216",
+          "text": "tcl 55c7l"
+        },
+        {
+          "isAssociations": true,
+          "value": "556",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "60",
+          "text": "қазақша хит әндер 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "4280",
+          "text": "ue55u8000fuxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "408",
+          "text": "телевизор hi ht 24h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "373",
+          "text": "tcl 55c765"
+        },
+        {
+          "isAssociations": true,
+          "value": "415",
+          "text": "lexus is 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "492",
+          "text": "tcl 55c745"
+        },
+        {
+          "isAssociations": true,
+          "value": "179",
+          "text": "телевизор hi hx 65u01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "489",
+          "text": "tcl 55c755"
+        },
+        {
+          "isAssociations": true,
+          "value": "305",
+          "text": "только жирные хиты муз тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "372",
+          "text": "samsung ue55tu7100uxru"
+        },
+        {
+          "isAssociations": true,
+          "value": "431",
+          "text": "телевизор hi hs 43u01fb"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "697",
+          "text": "xiaomi tv a 55 2025"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi TV A Pro 43 2025",
+      "series": "TV A Pro 2025",
+      "diagonal_inches": 43
+    },
+    "operator_query": "\"[Xiaomi TV A Pro 43 2025]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "772",
+          "text": "asrock b450m pro4 f"
+        },
+        {
+          "isAssociations": true,
+          "value": "716",
+          "text": "хайпер ос 3 на редми"
+        },
+        {
+          "isAssociations": true,
+          "value": "431",
+          "text": "телевизор hi hs 43u01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "177",
+          "text": "mi router 4c характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "309",
+          "text": "rokid ai glasses style"
+        },
+        {
+          "isAssociations": true,
+          "value": "653",
+          "text": "bmai shock 3.0 turbo"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "319",
+          "text": "xiaomi tv a pro 43 2025"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi TV A Pro 55 2025",
+      "series": "TV A Pro 2025",
+      "diagonal_inches": 55
+    },
+    "operator_query": "\"[Xiaomi TV A Pro 55 2025]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "769",
+          "text": "toyota rav4 2025 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "9626",
+          "text": "хиты 2025 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "3750",
+          "text": "roborock f25 ace pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "1987",
+          "text": "премия муз тв 2025"
+        },
+        {
+          "isAssociations": true,
+          "value": "6986",
+          "text": "хиты 2025 года"
+        },
+        {
+          "isAssociations": true,
+          "value": "8429",
+          "text": "redmi pad pro 5g"
+        },
+        {
+          "isAssociations": true,
+          "value": "3526",
+          "text": "хиты 2024 2025"
+        },
+        {
+          "isAssociations": true,
+          "value": "640",
+          "text": "redmi a7 pro характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "415",
+          "text": "lexus is 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "305",
+          "text": "только жирные хиты муз тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "292",
+          "text": "хит парад муз тв 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "309",
+          "text": "rokid ai glasses style"
+        },
+        {
+          "isAssociations": true,
+          "value": "73",
+          "text": "lexus is 500 f sport performance"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "469",
+          "text": "xiaomi tv a pro 55 2025"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi TV A Pro 65 2025",
+      "series": "TV A Pro 2025",
+      "diagonal_inches": 65
+    },
+    "operator_query": "\"[Xiaomi TV A Pro 65 2025]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "7",
+          "text": "indonesia 2025 b k3p sma"
+        },
+        {
+          "isAssociations": true,
+          "value": "8692",
+          "text": "xiaomi smart air fryer 6.5 l"
+        },
+        {
+          "isAssociations": true,
+          "value": "2218",
+          "text": "trimui smart pro s"
+        },
+        {
+          "isAssociations": true,
+          "value": "5872",
+          "text": "redmi pad 2 pro 5g"
+        },
+        {
+          "isAssociations": true,
+          "value": "8608",
+          "text": "redmi pad pro 5g"
+        },
+        {
+          "isAssociations": true,
+          "value": "745",
+          "text": "tcl 32a400 pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "2900",
+          "text": "xiaomi mi smart air fryer 6.5 l"
+        },
+        {
+          "isAssociations": true,
+          "value": "1064",
+          "text": "виа 65 все песни"
+        },
+        {
+          "isAssociations": true,
+          "value": "976",
+          "text": "tcl a400 pro"
+        },
+        {
+          "isAssociations": true,
+          "value": "659",
+          "text": "redmi a7 pro характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "15758",
+          "text": "там где раки поют 2022"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "299",
+          "text": "xiaomi tv a pro 65 2025"
+        }
+      ]
+    }
+  }
+]

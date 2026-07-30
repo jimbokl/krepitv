@@ -47,8 +47,8 @@ export function ModelPage({ catalog, modelId }) {
           </h1>
           <div className="mt-4 grid gap-2 border-y border-ink py-3 font-mono text-xs text-muted sm:grid-cols-3">
             <span>Источник: база Крепи ТВ · {model.brand} · {model.model}</span>
-            <span className="sm:text-center">Данные проверены: {formatCheckedDate(model.checked_at)}</span>
-            <span className="sm:text-right">Проверка выполняется локально</span>
+            <span className="sm:text-center">{model.series} · {model.model_year}</span>
+            <span className="sm:text-right">Данные проверены: {formatCheckedDate(model.checked_at)}</span>
           </div>
         </section>
 
@@ -102,19 +102,24 @@ export function ModelPage({ catalog, modelId }) {
               </div>
             </div>
 
-            <picture className="contents">
-              <source srcSet="/assets/images/mount-mechanisms.avif" type="image/avif" />
-              <source srcSet="/assets/images/mount-mechanisms.webp" type="image/webp" />
-              <img
-                alt="Фиксированный, наклонный и поворотный механизмы кронштейнов"
-                className="mt-4 aspect-[2.11/1] w-full border-b border-line object-contain"
-                decoding="async"
-                height="663"
-                loading="lazy"
-                src="/assets/images/mount-mechanisms.png"
-                width="1400"
-              />
-            </picture>
+            <figure className="mt-4 border-b border-line">
+              <picture>
+                <source srcSet="/assets/images/mount-mechanisms.avif" type="image/avif" />
+                <source srcSet="/assets/images/mount-mechanisms.webp" type="image/webp" />
+                <img
+                  alt="Фиксированный, наклонный и поворотный механизмы кронштейнов"
+                  className="aspect-[2.11/1] w-full object-contain"
+                  decoding="async"
+                  height="663"
+                  loading="lazy"
+                  src="/assets/images/mount-mechanisms.png"
+                  width="1400"
+                />
+              </picture>
+              <figcaption className="px-2 py-2 font-mono text-[0.68rem] uppercase text-muted">
+                Справочное сравнение механизмов — не фотография конкретного товара
+              </figcaption>
+            </figure>
 
             <MountMatches affiliateOffers={catalog.affiliateOffers} matches={compatible} />
           </div>

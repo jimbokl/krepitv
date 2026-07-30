@@ -9,7 +9,12 @@ export default function AffiliateOffer({ offer, children }) {
   function trackClick() {
     window.dispatchEvent(
       new CustomEvent("krepitv:affiliate-click", {
-        detail: { offerId: offer.id },
+        detail: {
+          entityId: offer.entity_id,
+          offerId: offer.id,
+          pagePath: offer.page_path,
+          vid: offer.vid,
+        },
       }),
     );
   }

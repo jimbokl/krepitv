@@ -11,6 +11,8 @@ struct TvModel {
     brand: String,
     model: String,
     title: String,
+    series: String,
+    model_year: u32,
     diagonal_inches: f64,
     weight_kg: f64,
     width_mm: f64,
@@ -194,6 +196,8 @@ fn tv_product_json_ld(tv: &TvModel, canonical: &str) -> String {
         "brand": { "@type": "Brand", "name": tv.brand },
         "additionalProperty": [
             { "@type": "PropertyValue", "name": "VESA", "value": format!("{}×{} мм", tv.vesa_width_mm, tv.vesa_height_mm) },
+            { "@type": "PropertyValue", "name": "Серия", "value": tv.series },
+            { "@type": "PropertyValue", "name": "Модельный год", "value": tv.model_year },
             { "@type": "PropertyValue", "name": "Диагональ", "value": format!("{} дюймов", tv.diagonal_inches) },
             { "@type": "PropertyValue", "name": "Масса без подставки", "value": format!("{} кг", tv.weight_kg) }
         ]
@@ -351,9 +355,11 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
         .iter()
         .map(|tv| {
             format!(
-                "<a class=\"border border-line bg-white p-5\" href=\"/modeli/{}/\"><strong class=\"font-display text-xl\">{}</strong><span class=\"mt-2 block text-sm text-muted\">VESA {}×{} мм · {}″ · {} кг без подставки</span></a>",
+                "<a class=\"border border-line bg-white p-5\" href=\"/modeli/{}/\"><strong class=\"font-display text-xl\">{}</strong><span class=\"mt-2 block text-sm text-muted\">{} · {} · VESA {}×{} мм · {}″ · {} кг без подставки</span></a>",
                 escape_html(&tv.id),
                 escape_html(&tv.title),
+                escape_html(&tv.series),
+                tv.model_year,
                 tv.vesa_width_mm,
                 tv.vesa_height_mm,
                 tv.diagonal_inches,
@@ -406,9 +412,11 @@ fn models_catalog_body(models: &[TvModel]) -> String {
         .iter()
         .map(|tv| {
             format!(
-                "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/modeli/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">VESA {vesa_w}×{vesa_h} мм · {diagonal}″ · {weight} кг без подставки</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
+                "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/modeli/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{series} · {year} · VESA {vesa_w}×{vesa_h} мм · {diagonal}″ · {weight} кг без подставки</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
                 id = escape_html(&tv.id),
                 title = escape_html(&tv.title),
+                series = escape_html(&tv.series),
+                year = tv.model_year,
                 vesa_w = tv.vesa_width_mm,
                 vesa_h = tv.vesa_height_mm,
                 diagonal = tv.diagonal_inches,
@@ -466,8 +474,10 @@ fn model_page_body(tv: &TvModel, matches: &[MountMatch]) -> String {
     };
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">{width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
+        series = escape_html(&tv.series),
+        year = tv.model_year,
         vesa_w = tv.vesa_width_mm,
         vesa_h = tv.vesa_height_mm,
         diagonal = tv.diagonal_inches,
@@ -759,7 +769,9 @@ fn validate_models(models: &[TvModel]) {
             tv.id
         );
         assert!(
-            tv.source_url.starts_with("https://")
+            !tv.series.trim().is_empty()
+                && (2000..=2100).contains(&tv.model_year)
+                && tv.source_url.starts_with("https://")
                 && !tv.source_label.trim().is_empty()
                 && is_valid_iso_date(&tv.checked_at),
             "Некорректный источник или дата проверки у {}",
@@ -910,6 +922,11 @@ fn main() {
     .expect("Не удалось скопировать модели телевизоров");
     fs::copy(data.join("mounts.json"), public_data.join("mounts.json"))
         .expect("Не удалось скопировать кронштейны");
+    fs::copy(
+        data.join("catalog-coverage.json"),
+        public_data.join("catalog-coverage.json"),
+    )
+    .expect("Не удалось скопировать manifest покрытия каталога");
     let compatibility_graph = build_compatibility_graph(&models, &mounts);
     write(
         &public_data.join("compatibility-graph.json"),

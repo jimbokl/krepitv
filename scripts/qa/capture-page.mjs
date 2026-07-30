@@ -1,0 +1,141 @@
+#!/usr/bin/env node
+
+import { spawn } from "node:child_process";
+import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+
+function argument(name, fallback) {
+  const index = process.argv.indexOf(name);
+  return index === -1 ? fallback : process.argv[index + 1];
+}
+
+const url = argument("--url", "http://127.0.0.1:4173/");
+const output = path.resolve(argument("--output", "product-docs/design-qa/page.png"));
+const width = Number(argument("--width", "1440"));
+const height = Number(argument("--height", "1100"));
+const chromePath = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+
+if (!Number.isInteger(width) || width < 320 || width > 3840) throw new Error("Invalid viewport width");
+if (!Number.isInteger(height) || height < 480 || height > 5000) throw new Error("Invalid viewport height");
+new URL(url);
+
+const profile = await mkdtemp(path.join(os.tmpdir(), "krepitv-cdp-"));
+const chrome = spawn(
+  chromePath,
+  [
+    "--headless=new",
+    "--disable-gpu",
+    "--hide-scrollbars",
+    "--no-first-run",
+    "--remote-debugging-port=0",
+    `--user-data-dir=${profile}`,
+    "about:blank",
+  ],
+  { stdio: ["ignore", "ignore", "pipe"] },
+);
+
+function devtoolsEndpoint() {
+  return new Promise((resolve, reject) => {
+    let stderr = "";
+    const timer = setTimeout(() => reject(new Error("Chrome DevTools endpoint timed out")), 10_000);
+    chrome.stderr.setEncoding("utf8");
+    chrome.stderr.on("data", (chunk) => {
+      stderr += chunk;
+      const match = stderr.match(/DevTools listening on (ws:\/\/[^\s]+)/);
+      if (!match) return;
+      clearTimeout(timer);
+      resolve(match[1]);
+    });
+    chrome.once("exit", (code) => {
+      clearTimeout(timer);
+      reject(new Error(`Chrome exited before DevTools was ready: ${code}`));
+    });
+  });
+}
+
+let socket;
+try {
+  const browserEndpoint = await devtoolsEndpoint();
+  const browserUrl = new URL(browserEndpoint);
+  const target = await fetch(
+    `http://${browserUrl.hostname}:${browserUrl.port}/json/new?${encodeURIComponent("about:blank")}`,
+    { method: "PUT" },
+  ).then((response) => {
+    if (!response.ok) throw new Error(`Cannot create Chrome target: ${response.status}`);
+    return response.json();
+  });
+
+  socket = new WebSocket(target.webSocketDebuggerUrl);
+  await new Promise((resolve, reject) => {
+    socket.addEventListener("open", resolve, { once: true });
+    socket.addEventListener("error", reject, { once: true });
+  });
+
+  let id = 0;
+  const pending = new Map();
+  const events = new Map();
+  socket.addEventListener("message", ({ data }) => {
+    const message = JSON.parse(data);
+    if (message.id) {
+      const waiter = pending.get(message.id);
+      if (!waiter) return;
+      pending.delete(message.id);
+      if (message.error) waiter.reject(new Error(message.error.message));
+      else waiter.resolve(message.result);
+      return;
+    }
+    const waiters = events.get(message.method) ?? [];
+    events.delete(message.method);
+    waiters.forEach((resolve) => resolve(message.params));
+  });
+
+  const send = (method, params = {}) => new Promise((resolve, reject) => {
+    id += 1;
+    pending.set(id, { resolve, reject });
+    socket.send(JSON.stringify({ id, method, params }));
+  });
+  const once = (method) => new Promise((resolve) => {
+    events.set(method, [...(events.get(method) ?? []), resolve]);
+  });
+
+  await send("Page.enable");
+  await send("Emulation.setDeviceMetricsOverride", {
+    width,
+    height,
+    deviceScaleFactor: 1,
+    mobile: false,
+    screenWidth: width,
+    screenHeight: height,
+  });
+  const loaded = once("Page.loadEventFired");
+  await send("Page.navigate", { url });
+  await loaded;
+  await send("Runtime.evaluate", {
+    expression: "document.fonts.ready.then(() => new Promise((resolve) => setTimeout(resolve, 700)))",
+    awaitPromise: true,
+  });
+  await send("Runtime.evaluate", {
+    expression: "window.scrollTo(0, 0); new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))",
+    awaitPromise: true,
+  });
+  const dimensions = await send("Runtime.evaluate", {
+    expression: "({ innerWidth, innerHeight, scrollX, scrollY, scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight })",
+    returnByValue: true,
+  });
+  if (dimensions.result.value.innerWidth !== width || dimensions.result.value.scrollWidth > width) {
+    throw new Error(`Viewport overflow: ${JSON.stringify(dimensions.result.value)}`);
+  }
+  const screenshot = await send("Page.captureScreenshot", {
+    format: "png",
+    fromSurface: true,
+    captureBeyondViewport: false,
+  });
+  await mkdir(path.dirname(output), { recursive: true });
+  await writeFile(output, Buffer.from(screenshot.data, "base64"));
+  process.stdout.write(`${output}\n${JSON.stringify(dimensions.result.value)}\n`);
+} finally {
+  socket?.close();
+  chrome.kill("SIGTERM");
+  await rm(profile, { recursive: true, force: true });
+}

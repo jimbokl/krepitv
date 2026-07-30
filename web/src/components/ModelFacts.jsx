@@ -5,6 +5,7 @@ import {
   CalendarDots,
   Monitor,
   ShieldCheck,
+  Tag,
 } from "@phosphor-icons/react";
 
 export function ModelFacts({ model, detailed = false }) {
@@ -28,6 +29,11 @@ export function ModelFacts({ model, detailed = false }) {
 
   if (detailed) {
     facts.push(
+      {
+        label: "Серия и модельный год",
+        value: `${model.series} · ${model.model_year}`,
+        Icon: Tag,
+      },
       {
         label: "Размер корпуса",
         value: `${formatNumber(model.width_mm)}×${formatNumber(model.height_mm)}×${formatNumber(model.depth_mm)} мм`,

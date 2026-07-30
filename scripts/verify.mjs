@@ -1,6 +1,7 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { validateCoverageManifest } from "./catalog/coverage-lib.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const docs = path.join(root, "docs");
@@ -126,6 +127,7 @@ const required = [
   "pkg/krepitv_engine_bg.wasm",
   "pkg/krepitv_engine.js",
   "data/compatibility-graph.json",
+  "data/catalog-coverage.json",
   "data/affiliate-offers.json",
   "robots.txt",
   "sitemap.xml",
@@ -147,6 +149,9 @@ const mounts = JSON.parse(await readFile(path.join(docs, "data/mounts.json"), "u
 const compatibilityEdges = JSON.parse(
   await readFile(path.join(docs, "data/compatibility-graph.json"), "utf8"),
 );
+const coverageManifest = JSON.parse(
+  await readFile(path.join(docs, "data/catalog-coverage.json"), "utf8"),
+);
 const seoPages = JSON.parse(await readFile(path.join(docs, "data/seo-pages.json"), "utf8"));
 const trustPages = JSON.parse(await readFile(path.join(docs, "data/trust-pages.json"), "utf8"));
 
@@ -154,6 +159,7 @@ assertMinimum(models, 2, "Проверенные модели телевизор
 assertMinimum(mounts, 3, "Проверенные кронштейны");
 assertMinimum(seoPages, 12, "SEO-материалы");
 assertMinimum(trustPages, 4, "Доверительные страницы");
+const coverageSummary = validateCoverageManifest(coverageManifest, models);
 
 for (const [items, label] of [
   [models, "Модели телевизоров"],
@@ -254,6 +260,16 @@ for (const file of htmlFiles) {
   }
   if (/href=["']\/go\//i.test(html)) {
     throw new Error(`Запрещён скрывающий назначение редирект: ${path.relative(root, file)}`);
+  }
+  if (
+    !coverageSummary.full_catalog_claim &&
+    /(?:все\s+популярные\s+(?:модели|телевизоры)|полный\s+каталог\s+(?:моделей|телевизоров))/i.test(
+      html,
+    )
+  ) {
+    throw new Error(
+      `Пилотный каталог нельзя публично называть полным: ${path.relative(root, file)}`,
+    );
   }
 
   const marketLinks = html.match(
@@ -449,5 +465,5 @@ if (!robotsTxt.includes("Sitemap: https://krepitv.ru/sitemap.xml")) {
 }
 
 console.log(
-  `Проверено: ${htmlFiles.length} HTML-страниц (минимум 25), ${models.length} модели ТВ, ${mounts.length} кронштейна, ${compatibilityEdges.length} рёбер графа, ${seoPages.length} SEO-материалов; в sitemap ${sitemapUrls.length} индексируемых URL`,
+  `Проверено: ${htmlFiles.length} HTML-страниц (минимум 25), ${models.length} модели ТВ, ${mounts.length} кронштейна, ${compatibilityEdges.length} рёбер графа, ${seoPages.length} SEO-материалов; в sitemap ${sitemapUrls.length} индексируемых URL; полнота каталога: ${coverageSummary.catalog_status}, полный=${coverageSummary.full_catalog_ready}`,
 );

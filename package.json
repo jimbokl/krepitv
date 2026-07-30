@@ -8,6 +8,11 @@
     "build:web": "npm --prefix web run build",
     "build:publish": "node scripts/copy-dist.mjs",
     "build": "node scripts/clean.mjs && npm run build:content && npm run build:wasm && npm run build:web && npm run build:publish && npm run verify",
+    "catalog:verify": "node scripts/catalog/verify-coverage.mjs",
+    "catalog:sync": "node scripts/catalog/sync-model-catalog.mjs && node scripts/catalog/sync-mount-catalog.mjs",
+    "catalog:test": "node --test tests/catalog/*.test.mjs",
+    "research:tv-demand": "node scripts/research/collect-tv-model-demand.mjs",
+    "qa:screenshot": "node scripts/qa/capture-page.mjs",
     "affiliate:validate": "node scripts/affiliate/validate.mjs --kind source data/affiliate/market-products.json",
     "affiliate:validate-public": "node scripts/affiliate/validate.mjs --kind snapshot data/affiliate/public-offers.json",
     "affiliate:check-market": "node scripts/affiliate/check-market-links.mjs",
@@ -16,6 +21,6 @@
     "affiliate:test": "node --test tests/affiliate/*.test.mjs",
     "dev:prepare": "npm run build:content && npm run build:wasm",
     "dev": "npm run dev:prepare && npm --prefix web run dev",
-    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:test"
+    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:test"
   }
 }
