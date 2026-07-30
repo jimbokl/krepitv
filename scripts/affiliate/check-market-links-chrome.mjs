@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { spawnSync } from "node:child_process";
-import { stat } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import path, { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -46,11 +46,11 @@ function failedCheck(card, checkedAt, status, errorCode) {
   };
 }
 
-function browserRequest(endpoint, oauthFile, appleScriptFile) {
+function browserRequest(endpoint, oauthFile, appleScriptFile, chromeWindowId, chromeTabIndex) {
   const encodedEndpoint = Buffer.from(endpoint.toString(), "utf8").toString("base64");
   const result = spawnSync(
     "/usr/bin/osascript",
-    [appleScriptFile, encodedEndpoint, oauthFile],
+    [appleScriptFile, encodedEndpoint, oauthFile, String(chromeWindowId), String(chromeTabIndex)],
     {
       encoding: "utf8",
       maxBuffer: 2 * 1024 * 1024,
@@ -65,7 +65,13 @@ function browserRequest(endpoint, oauthFile, appleScriptFile) {
   return JSON.parse(envelope.body);
 }
 
-async function checkCard(card, oauthFile, appleScriptFile) {
+async function checkCard(
+  card,
+  oauthFile,
+  appleScriptFile,
+  chromeWindowId,
+  chromeTabIndex,
+) {
   const checkedAt = new Date().toISOString();
   let payload;
   try {
@@ -73,6 +79,8 @@ async function checkCard(card, oauthFile, appleScriptFile) {
       buildMarketAffiliateRequestUrl(card),
       oauthFile,
       appleScriptFile,
+      chromeWindowId,
+      chromeTabIndex,
     );
   } catch {
     return failedCheck(card, checkedAt, "error", "http_error");
@@ -124,10 +132,22 @@ async function checkCard(card, oauthFile, appleScriptFile) {
   };
 }
 
-async function checkCardWithRetries(card, oauthFile, appleScriptFile) {
+async function checkCardWithRetries(
+  card,
+  oauthFile,
+  appleScriptFile,
+  chromeWindowId,
+  chromeTabIndex,
+) {
   let result = null;
   for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt += 1) {
-    result = await checkCard(card, oauthFile, appleScriptFile);
+    result = await checkCard(
+      card,
+      oauthFile,
+      appleScriptFile,
+      chromeWindowId,
+      chromeTabIndex,
+    );
     if (result.status !== "error") return result;
     if (attempt < RETRY_DELAYS_MS.length) {
       await new Promise((resolveDelay) =>
@@ -150,6 +170,10 @@ const outFile = resolve(
 const oauthFile = resolve(
   valueAfter(args, "--oauth-file") ?? ".private/yandex-market-affiliate-oauth",
 );
+const chromeWindowIdFile = resolve(
+  valueAfter(args, "--chrome-window-id-file") ?? ".private/chrome-window-id",
+);
+const chromeTabIndex = Number(valueAfter(args, "--chrome-tab-index") ?? 5);
 const appleScriptFile = path.join(
   root,
   "scripts/affiliate/chrome-market-request.applescript",
@@ -157,6 +181,7 @@ const appleScriptFile = path.join(
 
 for (const [label, file] of [
   ["OAuth file", oauthFile],
+  ["Chrome window ID file", chromeWindowIdFile],
   ["output", outFile],
 ]) {
   if (file !== privateRoot && !file.startsWith(`${privateRoot}${path.sep}`)) {
@@ -165,6 +190,13 @@ for (const [label, file] of [
 }
 if (((await stat(oauthFile)).mode & 0o077) !== 0) {
   throw new Error("OAuth file permissions must be owner-only");
+}
+const chromeWindowId = Number((await readFile(chromeWindowIdFile, "utf8")).trim());
+if (!Number.isSafeInteger(chromeWindowId) || chromeWindowId <= 0) {
+  throw new Error("Chrome window ID must be a positive integer");
+}
+if (!Number.isSafeInteger(chromeTabIndex) || chromeTabIndex <= 0) {
+  throw new Error("Chrome tab index must be a positive integer");
 }
 
 const [sourceData, catalogMounts] = await Promise.all([
@@ -179,7 +211,15 @@ for (const [index, card] of source.cards.entries()) {
   if (index > 0) {
     await new Promise((resolveDelay) => setTimeout(resolveDelay, REQUEST_INTERVAL_MS));
   }
-  checks.push(await checkCardWithRetries(card, oauthFile, appleScriptFile));
+  checks.push(
+    await checkCardWithRetries(
+      card,
+      oauthFile,
+      appleScriptFile,
+      chromeWindowId,
+      chromeTabIndex,
+    ),
+  );
 }
 
 const batch = {

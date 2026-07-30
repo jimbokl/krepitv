@@ -15,7 +15,7 @@ jobs:
   refresh:
     if: github.repository == 'jimbokl/krepitv' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 45
     steps:
       - name: Получить репозиторий
         uses: actions/checkout@v4
@@ -24,6 +24,32 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Установить зависимости интерфейса
+        run: npm --prefix web ci --no-audit --no-fund
+
+      - name: Настроить Rust и WASM target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.93.1
+          targets: wasm32-unknown-unknown
+
+      - name: Восстановить кэш Rust
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+          shared-key: affiliate-health
+
+      - name: Установить wasm-pack
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$(wasm-pack --version 2>/dev/null || true)" != "wasm-pack 0.13.1" ]; then
+            cargo install wasm-pack --version 0.13.1 --locked
+          fi
+          wasm-pack --version
 
       - name: Проверить манифест
         run: npm run affiliate:validate
@@ -73,7 +99,7 @@ jobs:
             echo "::warning::Часть карточек не проверена после персональных повторов; их CTA будет снят по fail-closed правилу."
           fi
 
-      - name: Собрать и проверить публичный снимок
+      - name: Собрать публичный снимок и полный production
         if: steps.manifest.outputs.count != '0'
         shell: bash
         run: |
@@ -82,24 +108,35 @@ jobs:
           npm run affiliate:publish-snapshot
           npm run affiliate:validate-public
           npm run affiliate:test
-          install -m 0644 data/affiliate/public-offers.json docs/data/affiliate-offers.json
-          node scripts/affiliate/validate.mjs --kind public docs/data/affiliate-offers.json
+          npm run build
 
-      - name: Зафиксировать обновление
+      - name: Зафиксировать весь проверенный public build
         if: steps.manifest.outputs.count != '0'
         id: commit
         shell: bash
         run: |
           set -euo pipefail
-          git add -- data/affiliate/public-offers.json docs/data/affiliate-offers.json
+          git add -A -- \
+            data/affiliate/public-offers.json \
+            docs \
+            web/index.html \
+            web/public
+
+          if ! git diff --quiet; then
+            echo "::error::Production build изменил tracked-файлы вне разрешённых public artifacts"
+            git diff --name-only
+            exit 1
+          fi
+          git diff --cached --check
+
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Публичный снимок не изменился."
+            echo "Публичный production не изменился."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: refresh Market offers [skip ci]"
+          git commit -m "chore: rebuild verified Market offers [skip ci]"
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
@@ -111,7 +148,7 @@ jobs:
           gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds" \
             -H "X-GitHub-Api-Version: 2022-11-28"
 
-      - name: Дождаться Pages и проверить production-снимок
+      - name: Дождаться Pages и проверить production build
         if: steps.commit.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -120,7 +157,7 @@ jobs:
           set -euo pipefail
           target_sha="$(git rev-parse HEAD)"
           built=false
-          for attempt in $(seq 1 30); do
+          for _ in $(seq 1 30); do
             payload="$(gh api "repos/${GITHUB_REPOSITORY}/pages/builds/latest" \
               -H "X-GitHub-Api-Version: 2022-11-28")"
             status="$(jq -r '.status // "unknown"' <<<"$payload")"
@@ -140,22 +177,62 @@ jobs:
             exit 1
           fi
 
-          expected_hash="$(sha256sum docs/data/affiliate-offers.json | cut -d' ' -f1)"
+          node <<'NODE' > /tmp/krepitv-production-artifacts.ndjson
+          const fs = require("node:fs");
+          const snapshot = JSON.parse(
+            fs.readFileSync("data/affiliate/public-offers.json", "utf8"),
+          );
+          const artifacts = new Map([
+            [
+              "data/affiliate-offers.json",
+              {
+                file: "docs/data/affiliate-offers.json",
+                url: "https://krepitv.ru/data/affiliate-offers.json",
+              },
+            ],
+          ]);
+          for (const offer of snapshot.offers) {
+            const relative = `${offer.page_path.replace(/^\//, "")}index.html`;
+            artifacts.set(relative, {
+              file: `docs/${relative}`,
+              url: `https://krepitv.ru${offer.page_path}`,
+            });
+          }
+          for (const artifact of artifacts.values()) {
+            if (!fs.existsSync(artifact.file)) {
+              throw new Error(`Нет локального production artifact: ${artifact.file}`);
+            }
+            process.stdout.write(`${JSON.stringify(artifact)}\n`);
+          }
+          NODE
+
           deployed=false
-          for attempt in $(seq 1 30); do
-            if curl --fail --silent --show-error --location --max-time 15 \
-              "https://krepitv.ru/data/affiliate-offers.json" \
-              --output /tmp/krepitv-affiliate-offers.json; then
-              actual_hash="$(sha256sum /tmp/krepitv-affiliate-offers.json | cut -d' ' -f1)"
-              if [ "$actual_hash" = "$expected_hash" ]; then
-                deployed=true
-                break
+          for _ in $(seq 1 30); do
+            all_match=true
+            while IFS= read -r artifact; do
+              file="$(jq -r '.file' <<<"$artifact")"
+              url="$(jq -r '.url' <<<"$artifact")"
+              output="/tmp/krepitv-$(printf '%s' "$file" | sha256sum | cut -d' ' -f1)"
+              if ! curl --fail --silent --show-error --location --max-time 15 \
+                -H "Cache-Control: no-cache" \
+                "${url}?release=${target_sha}" \
+                --output "$output"; then
+                all_match=false
+                continue
               fi
+              if ! cmp --silent "$file" "$output"; then
+                all_match=false
+              fi
+            done < /tmp/krepitv-production-artifacts.ndjson
+
+            if [ "$all_match" = "true" ]; then
+              deployed=true
+              break
             fi
             sleep 10
           done
           if [ "$deployed" != "true" ]; then
-            echo "::error::Production не отдал ожидаемый партнёрский снимок"
+            echo "::error::Production не отдал ожидаемые JSON и статические affiliate-страницы"
             exit 1
           fi
 

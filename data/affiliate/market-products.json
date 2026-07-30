@@ -134,6 +134,66 @@
       "creative": null
     },
     {
+      "id": "market-kromax-dix-18-103730426851",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851",
+      "page_path": "/kronshteyny/kromax-dix-18/",
+      "entity_kind": "mount",
+      "entity_id": "kromax-dix-18",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvKromaxDIX18",
+      "expected_title_tokens": ["KROMAX", "DIX-18"],
+      "creative": null
+    },
+    {
+      "id": "market-kromax-corbel-4-103730423153",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-corbel-4--do-42-dyuymov--vesa-200x200/103730423153",
+      "page_path": "/kronshteyny/kromax-corbel-4/",
+      "entity_kind": "mount",
+      "entity_id": "kromax-corbel-4",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvKromaxCORBEL4",
+      "expected_title_tokens": ["KROMAX", "CORBEL-4"],
+      "creative": null
+    },
+    {
+      "id": "market-kromax-flat-4-103196138017",
+      "market_source_url": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017",
+      "page_path": "/kronshteyny/kromax-flat-4/",
+      "entity_kind": "mount",
+      "entity_id": "kromax-flat-4",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvKromaxFLAT4",
+      "expected_title_tokens": ["KROMAX", "FLAT-4"],
+      "creative": null
+    },
+    {
+      "id": "market-holder-lcds-5036-102216674458",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458",
+      "page_path": "/kronshteyny/holder-lcds-5036/",
+      "entity_kind": "mount",
+      "entity_id": "holder-lcds-5036",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvHolderLCDS5036",
+      "expected_title_tokens": ["Holder", "LCDS-5036"],
+      "creative": null
+    },
+    {
+      "id": "market-holder-lcds-5066-103193855557",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+      "page_path": "/kronshteyny/holder-lcds-5066/",
+      "entity_kind": "mount",
+      "entity_id": "holder-lcds-5066",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvHolderLCDS5066",
+      "expected_title_tokens": ["Holder", "LCDS-5066"],
+      "creative": null
+    },
+    {
       "id": "market-onkron-m4s-b-103581060220",
       "market_source_url": "https://market.yandex.ru/card/kronshteyn-na-stenu-m4s-dlya-televizora-17-43-naklonno-povorotnyy-do-35-kg-chernyy/103581060220",
       "page_path": "/kronshteyny/onkron-m4s/",
