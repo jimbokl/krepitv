@@ -76,6 +76,24 @@ export async function calculateHeight(model, values) {
   );
 }
 
+export async function calculateMountingMap(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.mounting_map_json(
+      values.diagonal,
+      values.eyeHeight,
+      values.viewingDistance,
+      values.viewingAngle,
+      values.furnitureHeight,
+      values.clearance,
+      values.vesaVerticalOffset,
+      values.wallPlateOffset,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateViewingGeometry(mode, value, horizontalAngle) {
   const engine = await loadEngine();
   const response = JSON.parse(

@@ -50,3 +50,27 @@ select {
     @apply h-12 w-full rounded-sm border border-ink bg-white px-3 text-base text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  [data-print-map],
+  [data-print-map] * {
+    visibility: visible !important;
+  }
+
+  [data-print-map] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: #151412;
+    background: #ffffff;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

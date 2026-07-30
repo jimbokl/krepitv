@@ -67,8 +67,10 @@ export function ModelSearch({
           autoComplete="off"
           autoFocus={autoFocus}
           aria-label="Модель телевизора"
+          aria-autocomplete="list"
           aria-expanded={open}
           aria-controls="варианты-моделей"
+          role="combobox"
           className={`w-full border-2 bg-white pl-16 pr-14 font-sans text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 ${compact ? "h-[4.4rem] rounded-md border-ink text-xl" : "h-[5rem] rounded-md border-action text-2xl sm:text-3xl"}`}
           onChange={(event) => {
             onChange(event.target.value);

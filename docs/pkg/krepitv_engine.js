@@ -57,6 +57,34 @@ export function match_mounts_json(tv_weight_kg, diagonal_inches, vesa_width_mm, 
 }
 
 /**
+ * @param {number} diagonal_inches
+ * @param {number} eye_height_cm
+ * @param {number} viewing_distance_cm
+ * @param {number} viewing_angle_deg
+ * @param {number} furniture_height_cm
+ * @param {number} requested_clearance_cm
+ * @param {number} vesa_vertical_offset_cm
+ * @param {number} wall_plate_offset_cm
+ * @returns {string}
+ */
+export function mounting_map_json(diagonal_inches, eye_height_cm, viewing_distance_cm, viewing_angle_deg, furniture_height_cm, requested_clearance_cm, vesa_vertical_offset_cm, wall_plate_offset_cm) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.mounting_map_json(retptr, diagonal_inches, eye_height_cm, viewing_distance_cm, viewing_angle_deg, furniture_height_cm, requested_clearance_cm, vesa_vertical_offset_cm, wall_plate_offset_cm);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred1_0 = r0;
+        deferred1_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * @param {number} tv_width_cm
  * @param {number} vesa_offset_cm
  * @param {number} target_angle_degrees

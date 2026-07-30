@@ -264,14 +264,30 @@ fn model_page_body(tv: &TvModel) -> String {
 
 fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPage> {
     let preferred_ids: &[&str] = match page.id.as_str() {
-        "wall-mounted-tv" => &["vesa", "full-motion-mount", "mounting-height"],
+        "wall-mounted-tv" => &[
+            "mounting-map",
+            "vesa",
+            "full-motion-mount",
+            "mounting-height",
+        ],
+        "mounting-map" => &[
+            "wall-mounted-tv",
+            "mounting-height",
+            "vesa",
+            "how-to-find-vesa",
+        ],
         "vesa" => &["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
         "vesa-200x200" | "vesa-300x200" => &["vesa", "how-to-find-vesa", "diagonal-55"],
         "diagonal-55" => &["wall-mounted-tv", "mounting-height", "vesa"],
         "fixed-mount" => &["wall-mounted-tv", "full-motion-mount", "mounting-height"],
         "full-motion-mount" => &["wall-mounted-tv", "fixed-mount", "mounting-height"],
         "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
-        "mounting-height" => &["wall-mounted-tv", "viewing-distance", "diagonal-55"],
+        "mounting-height" => &[
+            "mounting-map",
+            "wall-mounted-tv",
+            "viewing-distance",
+            "diagonal-55",
+        ],
         "viewing-distance" => &["mounting-height", "diagonal-55", "full-motion-mount"],
         _ => &["vesa", "how-to-find-vesa", "mounting-height"],
     };
@@ -299,6 +315,9 @@ fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
         "wall-mounted-tv" => {
             "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Проект настенного монтажа</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент сводит в одну проверку точный VESA, массу телевизора, расчётный запас нагрузки, ширину корпуса и вылет кронштейна. Для поворотной конструкции он оценивает предельный угол по зазору до стены, а не только повторяет число на упаковке.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Паспортный предел и кинематика механизма проверяются отдельно. Результат не назначает анкеры и не подтверждает несущую способность стены: основание, скрытые коммуникации и крепёж проверяются на месте.</p></section>"
+        }
+        "mounting-map" => {
+            "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельный расчёт без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Монтажная карта до сверления</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент рассчитывает нижний край, центр и верх экрана, затем переносит вертикальное смещение VESA и контрольной линии настенной пластины. Все значения даны от чистого пола и выполняются локально в браузере.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Карта не определяет координаты отверстий, анкеры, прочность основания и скрытые коммуникации. Отверстия переносят только по штатному шаблону или самой пластине после проверки стены.</p></section>"
         }
         "mounting-height" => {
             "<section class=\"border-y-2 border-ink py-7\"><h2 class=\"font-display text-3xl font-extrabold\">Калькулятор высоты установки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Интерактивный расчёт учитывает диагональ экрана, высоту глаз, расстояние просмотра, вертикальный угол, высоту мебели и обязательный зазор.</p></section>"
@@ -781,7 +800,12 @@ mod tests {
             .collect::<Vec<_>>();
         assert_eq!(
             related_ids,
-            ["vesa", "full-motion-mount", "mounting-height"]
+            [
+                "mounting-map",
+                "vesa",
+                "full-motion-mount",
+                "mounting-height"
+            ]
         );
 
         let full_motion = pages
@@ -792,6 +816,30 @@ mod tests {
             related_seo_pages(full_motion, &pages)
                 .iter()
                 .any(|page| page.id == master.id)
+        );
+    }
+
+    #[test]
+    fn mounting_map_page_is_indexable_and_sets_safe_boundaries() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let page = pages
+            .iter()
+            .find(|page| page.id == "mounting-map")
+            .expect("Нет страницы монтажной карты");
+
+        assert_eq!(page.path, "/kak-povesit-televizor-na-stenu/");
+        assert_eq!(page.kind, "guide");
+        assert!(page.indexable);
+        assert!(page.facts.len() >= 5);
+        assert!(page.faq.len() >= 5);
+
+        let calculator_copy = seo_calculator_note(&page.id);
+        assert!(calculator_copy.contains("Монтажная карта до сверления"));
+        assert!(calculator_copy.contains("не определяет координаты отверстий"));
+        assert!(
+            related_seo_pages(page, &pages)
+                .iter()
+                .any(|related| related.id == "wall-mounted-tv")
         );
     }
 }

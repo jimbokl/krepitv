@@ -13,6 +13,14 @@ const MAX_TV_WIDTH_CM: f64 = 500.0;
 const MAX_TURN_ANGLE_DEG: f64 = 90.0;
 const MAX_MOUNT_EXTENSION_CM: f64 = 300.0;
 const MAX_SAFETY_CLEARANCE_CM: f64 = 50.0;
+const MIN_EYE_HEIGHT_CM: f64 = 50.0;
+const MAX_EYE_HEIGHT_CM: f64 = 220.0;
+const MIN_VERTICAL_VIEWING_ANGLE_DEG: f64 = -30.0;
+const MAX_VERTICAL_VIEWING_ANGLE_DEG: f64 = 30.0;
+const MAX_FURNITURE_HEIGHT_CM: f64 = 200.0;
+const MAX_FURNITURE_CLEARANCE_CM: f64 = 100.0;
+const MAX_WALL_PLATE_OFFSET_CM: f64 = 100.0;
+const MAX_REFERENCE_HEIGHT_CM: f64 = 350.0;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Mount {
@@ -50,6 +58,24 @@ pub struct HeightPlan {
     pub center_height_cm: f64,
     pub bottom_height_cm: f64,
     pub top_height_cm: f64,
+    pub viewing_angle_deg: f64,
+    pub clearance_cm: f64,
+    pub adjusted_for_furniture: bool,
+    pub warnings: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct MountingMapPlan {
+    pub diagonal_inches: f64,
+    pub screen_width_cm: f64,
+    pub screen_height_cm: f64,
+    pub center_height_cm: f64,
+    pub bottom_height_cm: f64,
+    pub top_height_cm: f64,
+    pub vesa_vertical_offset_cm: f64,
+    pub vesa_center_height_cm: f64,
+    pub wall_plate_offset_cm: f64,
+    pub wall_plate_reference_height_cm: f64,
     pub viewing_angle_deg: f64,
     pub clearance_cm: f64,
     pub adjusted_for_furniture: bool,
@@ -438,6 +464,121 @@ pub fn calculate_height_plan(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
+pub fn calculate_mounting_map(
+    diagonal_inches: f64,
+    eye_height_cm: f64,
+    viewing_distance_cm: f64,
+    viewing_angle_deg: f64,
+    furniture_height_cm: f64,
+    requested_clearance_cm: f64,
+    vesa_vertical_offset_cm: f64,
+    wall_plate_offset_cm: f64,
+) -> Result<MountingMapPlan, String> {
+    validate_range(
+        diagonal_inches,
+        MIN_TV_DIAGONAL_INCHES,
+        MAX_TV_DIAGONAL_INCHES,
+        "Диагональ",
+        "дюймов",
+    )?;
+    validate_range(
+        eye_height_cm,
+        MIN_EYE_HEIGHT_CM,
+        MAX_EYE_HEIGHT_CM,
+        "Высота глаз",
+        "см",
+    )?;
+    validate_range(
+        viewing_distance_cm,
+        MIN_VIEWING_DISTANCE_CM,
+        MAX_VIEWING_DISTANCE_CM,
+        "Расстояние до экрана",
+        "см",
+    )?;
+    validate_range(
+        viewing_angle_deg,
+        MIN_VERTICAL_VIEWING_ANGLE_DEG,
+        MAX_VERTICAL_VIEWING_ANGLE_DEG,
+        "Вертикальный угол просмотра",
+        "градусов",
+    )?;
+    validate_range(
+        furniture_height_cm,
+        0.0,
+        MAX_FURNITURE_HEIGHT_CM,
+        "Высота мебели",
+        "см",
+    )?;
+    validate_range(
+        requested_clearance_cm,
+        0.0,
+        MAX_FURNITURE_CLEARANCE_CM,
+        "Зазор над мебелью",
+        "см",
+    )?;
+    validate_range(
+        wall_plate_offset_cm,
+        -MAX_WALL_PLATE_OFFSET_CM,
+        MAX_WALL_PLATE_OFFSET_CM,
+        "Смещение контрольной линии пластины",
+        "см",
+    )?;
+
+    let height_plan = calculate_height_plan(
+        diagonal_inches,
+        eye_height_cm,
+        viewing_distance_cm,
+        viewing_angle_deg,
+        furniture_height_cm,
+        requested_clearance_cm,
+    );
+    validate_range(
+        vesa_vertical_offset_cm,
+        -height_plan.screen_height_cm / 2.0,
+        height_plan.screen_height_cm / 2.0,
+        "Смещение центра VESA",
+        "см",
+    )?;
+
+    let vesa_center_height_cm = height_plan.center_height_cm + vesa_vertical_offset_cm;
+    let wall_plate_reference_height_cm = vesa_center_height_cm + wall_plate_offset_cm;
+    validate_range(
+        wall_plate_reference_height_cm,
+        0.0,
+        MAX_REFERENCE_HEIGHT_CM,
+        "Контрольная линия пластины от пола",
+        "см",
+    )?;
+
+    let mut warnings = height_plan.warnings.clone();
+    if wall_plate_reference_height_cm < height_plan.bottom_height_cm
+        || wall_plate_reference_height_cm > height_plan.top_height_cm
+    {
+        warnings.push(
+            "Контрольная линия пластины выходит за габарит экрана: перепроверьте знак и размер смещения по инструкции кронштейна"
+                .to_string(),
+        );
+    }
+
+    Ok(MountingMapPlan {
+        diagonal_inches: height_plan.diagonal_inches,
+        screen_width_cm: height_plan.screen_width_cm,
+        screen_height_cm: height_plan.screen_height_cm,
+        center_height_cm: height_plan.center_height_cm,
+        bottom_height_cm: height_plan.bottom_height_cm,
+        top_height_cm: height_plan.top_height_cm,
+        vesa_vertical_offset_cm: rounded(vesa_vertical_offset_cm),
+        vesa_center_height_cm: rounded(vesa_center_height_cm),
+        wall_plate_offset_cm: rounded(wall_plate_offset_cm),
+        wall_plate_reference_height_cm: rounded(wall_plate_reference_height_cm),
+        viewing_angle_deg: height_plan.viewing_angle_deg,
+        clearance_cm: height_plan.clearance_cm,
+        adjusted_for_furniture: height_plan.adjusted_for_furniture,
+        warnings,
+    })
+}
+
 #[wasm_bindgen]
 pub fn match_mounts_json(
     tv_weight_kg: f64,
@@ -484,6 +625,33 @@ pub fn height_plan_json(
         requested_clearance_cm,
     ))
     .expect("height plan is serializable")
+}
+
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn mounting_map_json(
+    diagonal_inches: f64,
+    eye_height_cm: f64,
+    viewing_distance_cm: f64,
+    viewing_angle_deg: f64,
+    furniture_height_cm: f64,
+    requested_clearance_cm: f64,
+    vesa_vertical_offset_cm: f64,
+    wall_plate_offset_cm: f64,
+) -> String {
+    match calculate_mounting_map(
+        diagonal_inches,
+        eye_height_cm,
+        viewing_distance_cm,
+        viewing_angle_deg,
+        furniture_height_cm,
+        requested_clearance_cm,
+        vesa_vertical_offset_cm,
+        wall_plate_offset_cm,
+    ) {
+        Ok(plan) => serde_json::to_string(&plan).expect("mounting map is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
 }
 
 #[wasm_bindgen]
@@ -559,6 +727,76 @@ mod tests {
         let plan = calculate_height_plan(65.0, 105.0, 300.0, 0.0, 85.0, 10.0);
         assert!(plan.bottom_height_cm >= 95.0);
         assert!(plan.adjusted_for_furniture);
+    }
+
+    #[test]
+    fn mounting_map_calculates_vesa_and_plate_reference_heights() {
+        let plan = calculate_mounting_map(55.0, 110.0, 250.0, 0.0, 70.0, 10.0, 5.0, -2.0).unwrap();
+
+        assert_eq!(plan.screen_height_cm, 68.5);
+        assert_eq!(plan.center_height_cm, 114.2);
+        assert_eq!(plan.bottom_height_cm, 80.0);
+        assert_eq!(plan.top_height_cm, 148.5);
+        assert_eq!(plan.vesa_center_height_cm, 119.2);
+        assert_eq!(plan.wall_plate_reference_height_cm, 117.2);
+        assert!(plan.adjusted_for_furniture);
+    }
+
+    #[test]
+    fn mounting_map_respects_signed_offsets() {
+        let above = calculate_mounting_map(55.0, 110.0, 250.0, 0.0, 0.0, 0.0, 8.0, 4.0).unwrap();
+        let below = calculate_mounting_map(55.0, 110.0, 250.0, 0.0, 0.0, 0.0, -8.0, -4.0).unwrap();
+
+        assert_eq!(above.vesa_center_height_cm - above.center_height_cm, 8.0);
+        assert_eq!(
+            above.wall_plate_reference_height_cm - above.vesa_center_height_cm,
+            4.0
+        );
+        assert_eq!(below.vesa_center_height_cm - below.center_height_cm, -8.0);
+        assert_eq!(
+            below.wall_plate_reference_height_cm - below.vesa_center_height_cm,
+            -4.0
+        );
+    }
+
+    #[test]
+    fn mounting_map_rejects_impossible_or_non_finite_inputs() {
+        assert!(
+            calculate_mounting_map(55.0, f64::NAN, 250.0, 0.0, 70.0, 10.0, 0.0, 0.0)
+                .unwrap_err()
+                .contains("конечное число")
+        );
+        assert!(
+            calculate_mounting_map(55.0, 110.0, 250.0, 0.0, 70.0, 10.0, 40.0, 0.0)
+                .unwrap_err()
+                .contains("Смещение центра VESA")
+        );
+        assert!(
+            calculate_mounting_map(55.0, 110.0, 250.0, 0.0, 70.0, 10.0, 0.0, 120.0)
+                .unwrap_err()
+                .contains("контрольной линии пластины")
+        );
+    }
+
+    #[test]
+    fn mounting_map_wasm_json_has_stable_shape_and_errors() {
+        let response = mounting_map_json(55.0, 110.0, 250.0, 0.0, 70.0, 10.0, 5.0, -2.0);
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "center_height_cm",
+            "bottom_height_cm",
+            "top_height_cm",
+            "vesa_center_height_cm",
+            "wall_plate_reference_height_cm",
+            "warnings",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert!(value.get("error").is_none());
+
+        let invalid = mounting_map_json(10.0, 110.0, 250.0, 0.0, 70.0, 10.0, 0.0, 0.0);
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
     }
 
     #[test]

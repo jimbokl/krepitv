@@ -5,6 +5,8 @@ export function height_plan_json(diagonal_inches: number, eye_height_cm: number,
 
 export function match_mounts_json(tv_weight_kg: number, diagonal_inches: number, vesa_width_mm: number, vesa_height_mm: number, requested_mechanism: string, mounts_json: string): string;
 
+export function mounting_map_json(diagonal_inches: number, eye_height_cm: number, viewing_distance_cm: number, viewing_angle_deg: number, furniture_height_cm: number, requested_clearance_cm: number, vesa_vertical_offset_cm: number, wall_plate_offset_cm: number): string;
+
 export function turn_clearance_plan_json(tv_width_cm: number, vesa_offset_cm: number, target_angle_degrees: number, available_extension_cm: number, safety_clearance_cm: number): string;
 
 export function viewing_geometry_json(mode: string, value: number, horizontal_angle_deg: number): string;
@@ -15,6 +17,7 @@ export interface InitOutput {
     readonly memory: WebAssembly.Memory;
     readonly height_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly match_mounts_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
+    readonly mounting_map_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly turn_clearance_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
     readonly viewing_geometry_json: (a: number, b: number, c: number, d: number, e: number) => void;
     readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
