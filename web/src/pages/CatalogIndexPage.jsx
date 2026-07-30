@@ -1,4 +1,5 @@
 import { ArrowRight, BracketsSquare, TelevisionSimple } from "@phosphor-icons/react";
+import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { modelHref, mountHref } from "../lib/catalog.js";
@@ -23,8 +24,12 @@ export function CatalogIndexPage({ catalog, kind }) {
             : "Точные изделия с явными VESA, нагрузкой, механизмом и списком подходящих популярных телевизоров."}
         </p>
 
-        <nav className="mt-9 border-b border-line" aria-label={models ? "Модели телевизоров" : "Кронштейны"}>
-          {items.map((item) => (
+        <nav className="mt-9" aria-label={models ? "Модели телевизоров" : "Кронштейны"}>
+          <CatalogBrandGroups
+            countLabel={models ? "Моделей" : "Кронштейнов"}
+            items={items}
+            listClassName="border-b border-line"
+            renderItem={(item) => (
             <a
               className="group grid gap-4 border-t border-line py-5 sm:grid-cols-[3rem_minmax(0,1fr)_auto] sm:items-center"
               href={models ? modelHref(item) : mountHref(item)}
@@ -47,7 +52,8 @@ export function CatalogIndexPage({ catalog, kind }) {
                 Открыть <ArrowRight aria-hidden="true" />
               </span>
             </a>
-          ))}
+            )}
+          />
         </nav>
       </article>
     </main>

@@ -151,7 +151,7 @@ export function TvZoneSocketCalculator() {
               />
               <NumberField
                 hint="Плюс — вправо, минус — влево от центра ТВ."
-                label="Смещение блока по горизонтали"
+                label="Сдвиг блока по горизонтали"
                 max="250"
                 min="-250"
                 name="socketHorizontalOffset"
@@ -161,7 +161,7 @@ export function TvZoneSocketCalculator() {
               />
               <NumberField
                 hint="Плюс — вверх, минус — вниз от центра ТВ."
-                label="Смещение блока по вертикали"
+                label="Сдвиг блока по вертикали"
                 max="250"
                 min="-250"
                 name="socketVerticalOffset"
@@ -217,7 +217,7 @@ export function TvZoneSocketCalculator() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <NumberField
                   hint="Плюс — вправо, минус — влево от центра ТВ."
-                  label="Смещение пластины по горизонтали"
+                  label="Сдвиг пластины по горизонтали"
                   max="250"
                   min="-250"
                   name="plateHorizontalOffset"
@@ -227,7 +227,7 @@ export function TvZoneSocketCalculator() {
                 />
                 <NumberField
                   hint="Плюс — вверх, минус — вниз от центра ТВ."
-                  label="Смещение пластины по вертикали"
+                  label="Сдвиг пластины по вертикали"
                   max="250"
                   min="-250"
                   name="plateVerticalOffset"

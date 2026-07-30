@@ -8,6 +8,7 @@ import {
   Ruler,
   ShieldCheck,
 } from "@phosphor-icons/react";
+import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { ModelFacts, formatNumber } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
@@ -136,8 +137,12 @@ function MountMatches({ affiliateOffers, matches }) {
     return <p className="py-6 text-muted">В проверенном каталоге пока нет совместимых вариантов.</p>;
   }
   return (
-    <div className="divide-y divide-line border-b border-line">
-      {matches.map(({ mount, reasons, warnings, required_load_kg: requiredLoad, fit_status: fitStatus }) => {
+    <CatalogBrandGroups
+      countLabel="Кронштейнов"
+      getBrand={(item) => item.mount.brand}
+      items={matches}
+      listClassName="border-b border-line"
+      renderItem={({ mount, reasons, warnings, required_load_kg: requiredLoad, fit_status: fitStatus }) => {
         const offer = selectAffiliateOffer(
           affiliateOffers,
           {
@@ -148,7 +153,7 @@ function MountMatches({ affiliateOffers, matches }) {
         );
         const market = getAffiliatePresentation(offer);
         return (
-        <article className="grid gap-4 py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" key={mount.id}>
+        <article className="grid gap-4 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" key={mount.id}>
           <div>
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
               <h3 className="font-display text-2xl font-bold">{mount.title}</h3>
@@ -204,8 +209,8 @@ function MountMatches({ affiliateOffers, matches }) {
           </div>
         </article>
         );
-      })}
-    </div>
+      }}
+    />
   );
 }
 

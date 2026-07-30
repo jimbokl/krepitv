@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   Wrench,
 } from "@phosphor-icons/react";
+import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
@@ -237,8 +238,12 @@ function CatalogEvidence({ items, page }) {
       </div>
 
       {items.values.length ? (
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          {items.values.map((item) =>
+        <div className="mt-5">
+          <CatalogBrandGroups
+            countLabel={isMountList ? "Кронштейнов" : "Моделей"}
+            items={items.values}
+            listClassName="grid gap-3 sm:grid-cols-2"
+            renderItem={(item) =>
             isMountList ? (
               <article className="border border-line bg-white/70 p-5" key={item.id}>
                 <h3 className="font-display text-xl font-bold">{item.title}</h3>
@@ -281,8 +286,8 @@ function CatalogEvidence({ items, page }) {
                   Проверить совместимость <ArrowRight aria-hidden="true" />
                 </span>
               </a>
-            ),
-          )}
+            )}
+          />
         </div>
       ) : (
         <div className="mt-5 flex items-start gap-3 border border-line bg-white/60 p-5">

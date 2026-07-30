@@ -10,6 +10,7 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import AffiliateOffer from "../components/AffiliateOffer.jsx";
+import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
@@ -151,9 +152,22 @@ export function MountPage({ catalog, mountId }) {
 }
 
 function ModelRows({ conditional = false, items }) {
+  if (!items.length) {
+    return (
+      <div className="mt-5 border-b border-line">
+        <p className="border-t border-line py-5 text-muted">В проверенной базе пока нет подтверждённых моделей.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="mt-5 border-b border-line">
-      {items.length ? items.map(({ model, warnings = [] }) => (
+    <div className="mt-5">
+      <CatalogBrandGroups
+        countLabel="Моделей"
+        getBrand={(item) => item.model.brand}
+        items={items}
+        listClassName="border-b border-line"
+        renderItem={({ model, warnings = [] }) => (
                 <article className="grid gap-4 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" key={model.id}>
                   <div>
                     <h3 className="font-display text-2xl font-extrabold">{model.title}</h3>
@@ -169,10 +183,9 @@ function ModelRows({ conditional = false, items }) {
                     Страница телевизора <ArrowRight aria-hidden="true" />
                   </a>
                 </article>
-              )) : (
-                <p className="border-t border-line py-5 text-muted">В проверенной базе пока нет подтверждённых моделей.</p>
-              )}
-            </div>
+        )}
+      />
+    </div>
   );
 }
 

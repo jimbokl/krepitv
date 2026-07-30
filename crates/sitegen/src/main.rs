@@ -280,6 +280,39 @@ fn static_layout(content: &str) -> String {
     )
 }
 
+fn brand_catalog_html(
+    rows: Vec<(String, String)>,
+    count_label: &str,
+    list_tag: &str,
+    list_class: &str,
+) -> String {
+    let list_tag = if list_tag == "ul" { "ul" } else { "div" };
+    let mut groups: Vec<(String, Vec<String>)> = Vec::new();
+    for (brand, row) in rows {
+        if let Some((_, brand_rows)) = groups.iter_mut().find(|(name, _)| name == &brand) {
+            brand_rows.push(row);
+        } else {
+            groups.push((brand, vec![row]));
+        }
+    }
+    let groups = groups
+        .into_iter()
+        .map(|(brand, rows)| {
+            format!(
+                "<details class=\"group border-t border-line\"><summary class=\"grid min-h-16 cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-4 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-action\"><span class=\"font-display text-2xl font-extrabold\">{brand}</span><span class=\"font-mono text-xs uppercase text-muted\">{count_label}: {count}</span><span class=\"text-action transition group-open:rotate-180\" aria-hidden=\"true\">⌄</span></summary><{list_tag} class=\"{list_class}\">{rows}</{list_tag}></details>",
+                brand = escape_html(&brand),
+                count_label = escape_html(count_label),
+                count = rows.len(),
+                list_class = escape_html(list_class),
+                rows = rows.join("\n"),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    format!("<div class=\"border-b border-line\">{groups}</div>")
+}
+
 fn model_mount_matches(tv: &TvModel, mounts: &[Mount]) -> Vec<MountMatch> {
     match_mounts(
         tv.weight_kg,
@@ -354,20 +387,28 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
     let model_links = models
         .iter()
         .map(|tv| {
-            format!(
-                "<a class=\"border border-line bg-white p-5\" href=\"/modeli/{}/\"><strong class=\"font-display text-xl\">{}</strong><span class=\"mt-2 block text-sm text-muted\">{} · {} · VESA {}×{} мм · {}″ · {} кг без подставки</span></a>",
-                escape_html(&tv.id),
-                escape_html(&tv.title),
-                escape_html(&tv.series),
-                tv.model_year,
-                tv.vesa_width_mm,
-                tv.vesa_height_mm,
-                tv.diagonal_inches,
-                tv.weight_kg,
+            (
+                tv.brand.clone(),
+                format!(
+                    "<a class=\"border border-line bg-white p-5\" href=\"/modeli/{}/\"><strong class=\"font-display text-xl\">{}</strong><span class=\"mt-2 block text-sm text-muted\">{} · {} · VESA {}×{} мм · {}″ · {} кг без подставки</span></a>",
+                    escape_html(&tv.id),
+                    escape_html(&tv.title),
+                    escape_html(&tv.series),
+                    tv.model_year,
+                    tv.vesa_width_mm,
+                    tv.vesa_height_mm,
+                    tv.diagonal_inches,
+                    tv.weight_kg,
+                ),
             )
         })
-        .collect::<Vec<_>>()
-        .join("\n");
+        .collect::<Vec<_>>();
+    let model_links = brand_catalog_html(
+        model_links,
+        "Моделей",
+        "div",
+        "grid gap-3 border-t border-line py-4 sm:grid-cols-2",
+    );
     let seo_links = seo_pages
         .iter()
         .filter(|page| is_indexable_seo_page(page))
@@ -382,7 +423,7 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
         .join("\n");
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Модели с проверенными источниками</h2><div class=\"mt-5 grid gap-3 sm:grid-cols-2\">{model_links}</div></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте размер VESA, механизм и высоту установки до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3\" aria-label=\"Справочники и калькуляторы\">{seo_links}</nav></section></div>"
+        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Модели с проверенными источниками</h2><div class=\"mt-5\">{model_links}</div></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте размер VESA, механизм и высоту установки до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3\" aria-label=\"Справочники и калькуляторы\">{seo_links}</nav></section></div>"
     ))
 }
 
@@ -390,20 +431,28 @@ fn matcher_page_body(models: &[TvModel]) -> String {
     let model_links = models
         .iter()
         .map(|tv| {
-            format!(
-                "<li><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{}/\">{}</a> — VESA {}×{}, масса {} кг</li>",
-                escape_html(&tv.id),
-                escape_html(&tv.title),
-                tv.vesa_width_mm,
-                tv.vesa_height_mm,
-                tv.weight_kg,
+            (
+                tv.brand.clone(),
+                format!(
+                    "<li><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{}/\">{}</a> — VESA {}×{}, масса {} кг</li>",
+                    escape_html(&tv.id),
+                    escape_html(&tv.title),
+                    tv.vesa_width_mm,
+                    tv.vesa_height_mm,
+                    tv.weight_kg,
+                ),
             )
         })
-        .collect::<Vec<_>>()
-        .join("\n");
+        .collect::<Vec<_>>();
+    let model_links = brand_catalog_html(
+        model_links,
+        "Моделей",
+        "ul",
+        "space-y-4 border-t border-line py-5",
+    );
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Локальная проверка совместимости</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Подбор кронштейна по модели телевизора</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Выберите точную модель, затем укажите основание стены и нужный механизм. Сервис проверит VESA, диапазон диагоналей и запас нагрузки; решение о крепеже принимается после осмотра стены.</p><h2 class=\"mt-10 font-display text-3xl font-extrabold\">Проверенные модели</h2><ul class=\"mt-5 space-y-4 border-y border-line py-5\">{model_links}</ul><p class=\"mt-8\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Как устроена проверка и где её границы</a></p></div>"
+        "<div class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Локальная проверка совместимости</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Подбор кронштейна по модели телевизора</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Выберите точную модель, затем укажите основание стены и нужный механизм. Сервис проверит VESA, диапазон диагоналей и запас нагрузки; решение о крепеже принимается после осмотра стены.</p><h2 class=\"mt-10 font-display text-3xl font-extrabold\">Проверенные модели</h2><div class=\"mt-5\">{model_links}</div><p class=\"mt-8\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Как устроена проверка и где её границы</a></p></div>"
     ))
 }
 
@@ -411,22 +460,25 @@ fn models_catalog_body(models: &[TvModel]) -> String {
     let items = models
         .iter()
         .map(|tv| {
-            format!(
-                "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/modeli/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{series} · {year} · VESA {vesa_w}×{vesa_h} мм · {diagonal}″ · {weight} кг без подставки</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
-                id = escape_html(&tv.id),
-                title = escape_html(&tv.title),
-                series = escape_html(&tv.series),
-                year = tv.model_year,
-                vesa_w = tv.vesa_width_mm,
-                vesa_h = tv.vesa_height_mm,
-                diagonal = tv.diagonal_inches,
-                weight = tv.weight_kg,
+            (
+                tv.brand.clone(),
+                format!(
+                    "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/modeli/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{series} · {year} · VESA {vesa_w}×{vesa_h} мм · {diagonal}″ · {weight} кг без подставки</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
+                    id = escape_html(&tv.id),
+                    title = escape_html(&tv.title),
+                    series = escape_html(&tv.series),
+                    year = tv.model_year,
+                    vesa_w = tv.vesa_width_mm,
+                    vesa_h = tv.vesa_height_mm,
+                    diagonal = tv.diagonal_inches,
+                    weight = tv.weight_kg,
+                ),
             )
         })
-        .collect::<Vec<_>>()
-        .join("\n");
+        .collect::<Vec<_>>();
+    let items = brand_catalog_html(items, "Моделей", "div", "border-b border-line");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные модели с подтверждёнными VESA, массой без подставки и источником. На каждой странице показаны кронштейны, прошедшие единый Rust-расчёт.</p><nav class=\"mt-9 border-b border-line\" aria-label=\"Модели телевизоров\">{items}</nav></article>"
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные модели с подтверждёнными VESA, массой без подставки и источником. На каждой странице показаны кронштейны, прошедшие единый Rust-расчёт.</p><nav class=\"mt-9\" aria-label=\"Модели телевизоров\">{items}</nav></article>"
     ))
 }
 
@@ -434,19 +486,22 @@ fn mounts_catalog_body(mounts: &[Mount]) -> String {
     let items = mounts
         .iter()
         .map(|mount| {
-            format!(
-                "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/kronshteyny/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{mechanism} · до {load} кг · VESA: {vesa}</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
-                id = escape_html(&mount.id),
-                title = escape_html(&mount.title),
-                mechanism = mechanism_label(&mount.mechanism),
-                load = mount.max_load_kg,
-                vesa = escape_html(&formatted_vesa_list(mount)),
+            (
+                mount.brand.clone(),
+                format!(
+                    "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/kronshteyny/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{mechanism} · до {load} кг · VESA: {vesa}</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
+                    id = escape_html(&mount.id),
+                    title = escape_html(&mount.title),
+                    mechanism = mechanism_label(&mount.mechanism),
+                    load = mount.max_load_kg,
+                    vesa = escape_html(&formatted_vesa_list(mount)),
+                ),
             )
         })
-        .collect::<Vec<_>>()
-        .join("\n");
+        .collect::<Vec<_>>();
+    let items = brand_catalog_html(items, "Кронштейнов", "div", "border-b border-line");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейны для телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные изделия с явными парами VESA, нагрузкой, диапазоном диагоналей и датой проверки. Партнёрская кнопка появляется только у свежего подтверждённого предложения Маркета.</p><nav class=\"mt-9 border-b border-line\" aria-label=\"Кронштейны\">{items}</nav></article>"
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейны для телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные изделия с явными парами VESA, нагрузкой, диапазоном диагоналей и датой проверки. Партнёрская кнопка появляется только у свежего подтверждённого предложения Маркета.</p><nav class=\"mt-9\" aria-label=\"Кронштейны\">{items}</nav></article>"
     ))
 }
 
@@ -455,22 +510,24 @@ fn model_page_body(tv: &TvModel, matches: &[MountMatch]) -> String {
         .iter()
         .filter(|matched| matched.compatible)
         .map(|matched| {
-            format!(
-                "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · {mechanism} · нагрузка до {load} кг</p><p class=\"mt-2 text-sm\">{reasons}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/{id}/\">Страница кронштейна</a></article>",
-                title = escape_html(&matched.mount.title),
-                fit = fit_label(&matched.fit_status),
-                mechanism = mechanism_label(&matched.mount.mechanism),
-                load = matched.mount.max_load_kg,
-                reasons = escape_html(&matched.reasons.join(" · ")),
-                id = escape_html(&matched.mount.id),
+            (
+                matched.mount.brand.clone(),
+                format!(
+                    "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · {mechanism} · нагрузка до {load} кг</p><p class=\"mt-2 text-sm\">{reasons}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/{id}/\">Страница кронштейна</a></article>",
+                    title = escape_html(&matched.mount.title),
+                    fit = fit_label(&matched.fit_status),
+                    mechanism = mechanism_label(&matched.mount.mechanism),
+                    load = matched.mount.max_load_kg,
+                    reasons = escape_html(&matched.reasons.join(" · ")),
+                    id = escape_html(&matched.mount.id),
+                ),
             )
         })
-        .collect::<Vec<_>>()
-        .join("\n");
+        .collect::<Vec<_>>();
     let compatible = if compatible.is_empty() {
         "<p class=\"border-y border-line py-5 text-muted\">В проверенном каталоге пока нет подходящих вариантов.</p>".to_string()
     } else {
-        format!("<div class=\"border-b border-line\">{compatible}</div>")
+        brand_catalog_html(compatible, "Кронштейнов", "div", "border-b border-line")
     };
 
     static_layout(&format!(
@@ -501,39 +558,42 @@ fn mount_page_body(mount: &Mount, models: &[TvModel], graph: &[CompatibilityEdge
             .map(|message| escape_html(message))
             .collect::<Vec<_>>()
             .join(" · ");
-        Some(format!(
-            "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · VESA {vesa_w}×{vesa_h} мм · {weight} кг без подставки</p><p class=\"mt-2 text-sm\">{evidence}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">Страница телевизора</a></article>",
-            title = escape_html(&tv.title),
-            fit = fit_label(&edge.fit_status),
-            vesa_w = tv.vesa_width_mm,
-            vesa_h = tv.vesa_height_mm,
-            weight = tv.weight_kg,
-            evidence = evidence,
-            id = escape_html(&tv.id),
+        Some((
+            tv.brand.clone(),
+            format!(
+                "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · VESA {vesa_w}×{vesa_h} мм · {weight} кг без подставки</p><p class=\"mt-2 text-sm\">{evidence}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">Страница телевизора</a></article>",
+                title = escape_html(&tv.title),
+                fit = fit_label(&edge.fit_status),
+                vesa_w = tv.vesa_width_mm,
+                vesa_h = tv.vesa_height_mm,
+                weight = tv.weight_kg,
+                evidence = evidence,
+                id = escape_html(&tv.id),
+            ),
         ))
     };
     let verified_rows = graph
         .iter()
         .filter(|edge| edge.mount_id == mount.id && edge.fit_status == "verified-fit")
         .filter_map(&television_row)
-        .collect::<Vec<_>>()
-        .join("\n");
+        .collect::<Vec<_>>();
     let conditional_rows = graph
         .iter()
         .filter(|edge| edge.mount_id == mount.id && edge.fit_status == "conditional-fit")
         .filter_map(&television_row)
-        .collect::<Vec<_>>()
-        .join("\n");
+        .collect::<Vec<_>>();
     let verified_rows = if verified_rows.is_empty() {
         "<p class=\"border-y border-line py-5 text-muted\">В проверенной базе пока нет подтверждённых моделей.</p>".to_string()
     } else {
-        format!("<div class=\"border-b border-line\">{verified_rows}</div>")
+        brand_catalog_html(verified_rows, "Моделей", "div", "border-b border-line")
     };
     let conditional_section = if conditional_rows.is_empty() {
         String::new()
     } else {
+        let conditional_rows =
+            brand_catalog_html(conditional_rows, "Моделей", "div", "border-b border-line");
         format!(
-            "<section class=\"mt-7 border-y-2 border-action py-5\"><h3 class=\"font-display text-2xl font-extrabold text-action\">Кандидаты после проверки диагонали</h3><p class=\"mt-2 max-w-3xl text-muted\">VESA и нагрузка совпали, но паспортный диапазон диагонали требует ручной проверки геометрии пластины.</p><div class=\"mt-4 border-b border-line\">{conditional_rows}</div></section>"
+            "<section class=\"mt-7 border-y-2 border-action py-5\"><h3 class=\"font-display text-2xl font-extrabold text-action\">Кандидаты после проверки диагонали</h3><p class=\"mt-2 max-w-3xl text-muted\">VESA и нагрузка совпали, но паспортный диапазон диагонали требует ручной проверки геометрии пластины.</p><div class=\"mt-4\">{conditional_rows}</div></section>"
         )
     };
     let distance = if (mount.wall_distance_min_mm - mount.wall_distance_max_mm).abs() < f64::EPSILON
@@ -1232,9 +1292,10 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        SeoPage, TvModel, build_compatibility_graph, escape_html, is_indexable_model,
-        is_indexable_mount, is_indexable_seo_page, is_valid_iso_date, json_ld_script,
-        mount_page_body, read_json, related_seo_pages, seo_calculator_note, workspace_root,
+        SeoPage, TvModel, brand_catalog_html, build_compatibility_graph, escape_html,
+        is_indexable_model, is_indexable_mount, is_indexable_seo_page, is_valid_iso_date,
+        json_ld_script, mount_page_body, read_json, related_seo_pages, seo_calculator_note,
+        workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -1280,6 +1341,37 @@ mod tests {
         let script = json_ld_script(json!({ "name": "</script><script>" }));
         assert!(!script.contains("</script><script>"));
         assert!(script.contains("\\u003c/script\\u003e\\u003cscript\\u003e"));
+    }
+
+    #[test]
+    fn catalog_groups_every_link_by_brand_under_native_details() {
+        let html = brand_catalog_html(
+            vec![
+                ("Samsung".into(), "<a href=\"/1/\">1</a>".into()),
+                ("LG".into(), "<a href=\"/2/\">2</a>".into()),
+                ("Samsung".into(), "<a href=\"/3/\">3</a>".into()),
+            ],
+            "Моделей",
+            "div",
+            "grid",
+        );
+
+        assert_eq!(html.matches("<details").count(), 2);
+        assert!(html.contains("Samsung"));
+        assert!(html.contains("Моделей: 2"));
+        assert!(html.contains("href=\"/1/\""));
+        assert!(html.contains("href=\"/3/\""));
+
+        let semantic_list = brand_catalog_html(
+            vec![
+                ("TCL".into(), "<li>1</li>".into()),
+                ("TCL".into(), "<li>2</li>".into()),
+            ],
+            "Моделей",
+            "ul",
+            "space-y-4",
+        );
+        assert!(semantic_list.contains("<ul class=\"space-y-4\"><li>1</li>\n<li>2</li></ul>"));
     }
 
     #[test]

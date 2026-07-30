@@ -51,7 +51,8 @@ select {
   }
 
   .field-label {
-    @apply block leading-5 sm:min-h-10;
+    @apply block leading-5 sm:flex sm:h-10 sm:items-end;
+    text-wrap: pretty;
   }
 }
 
