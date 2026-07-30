@@ -9,15 +9,19 @@ import { fileURLToPath } from "node:url";
 import {
   AffiliateValidationError,
   buildSnapshot,
+  marketTitleMatchesExpected,
   readJson,
   validateBatch,
   validateSnapshot,
   validateSource,
+  validateSourceAgainstMounts,
   writeJson,
 } from "../../scripts/affiliate/lib.mjs";
 import {
   AFFILIATE_LINK_REL,
+  MAX_AFFILIATE_AGE_MS,
   getAffiliatePresentation,
+  selectAffiliateOffer,
 } from "../../web/src/lib/affiliateOffer.mjs";
 
 const root = path.resolve(
@@ -50,6 +54,47 @@ test("builds the expected snapshot and strips an unmarked href", async () => {
   assert.deepEqual(actual, expected);
   assert.equal(actual.offers[1].publishable, false);
   assert.equal(actual.offers[1].affiliate_href, null);
+});
+
+test("updates healthy cards while retaining only fresh matching offers on API error", async () => {
+  const [source, batch, previous] = await Promise.all([
+    readJson(path.join(fixtures, "source.valid.json")),
+    readJson(path.join(fixtures, "batch.valid.json")),
+    readJson(path.join(fixtures, "snapshot.valid.json")),
+  ]);
+  batch.generated_at = "2026-07-30T20:00:00Z";
+  batch.checks[0] = {
+    id: source.cards[0].id,
+    market_source_url: source.cards[0].market_source_url,
+    status: "error",
+    affiliate_href: null,
+    page_name: null,
+    title: null,
+    product_photo: null,
+    promise: null,
+    price: null,
+    stock: null,
+    checked_at: "2026-07-30T19:59:00Z",
+    error_code: "api_error",
+  };
+  batch.checks[1].promise = 95;
+  batch.checks[1].checked_at = "2026-07-30T19:59:30Z";
+
+  const actual = buildSnapshot(source, batch, {
+    ...fixtureOptions,
+    previousSnapshot: previous,
+  });
+  assert.deepEqual(actual.offers[0], previous.offers[0]);
+  assert.equal(actual.offers[1].promise, 95);
+  assert.equal(actual.generated_at, batch.generated_at);
+
+  batch.generated_at = "2026-08-02T20:00:00Z";
+  const stale = buildSnapshot(source, batch, {
+    ...fixtureOptions,
+    previousSnapshot: previous,
+  });
+  assert.equal(stale.offers[0].eligibility, "error");
+  assert.equal(stale.offers[0].affiliate_href, null);
 });
 
 test("rejects sensitive keys before a snapshot can be written", async () => {
@@ -85,10 +130,109 @@ test("requires the explicit Yandex Market advertising disclosure", async () => {
   );
 });
 
+test("requires the configured product identity in the Market title", () => {
+  assert.equal(
+    marketTitleMatchesExpected("Кронштейн iTECHmount SLT-460 чёрный", ["SLT-460"]),
+    true,
+  );
+  assert.equal(
+    marketTitleMatchesExpected("Кронштейн iTECHmount SLT-460X чёрный", ["SLT-460"]),
+    false,
+  );
+  assert.equal(
+    marketTitleMatchesExpected("Кронштейн другой модели", ["SLT-460"]),
+    false,
+  );
+});
+
+test("rejects a Market card mapped to another catalog entity", async () => {
+  const source = await readJson(path.join(fixtures, "source.valid.json"));
+  source.cards[0].entity_id = "another-mount";
+
+  assert.throws(
+    () => validateSource(source, fixtureOptions),
+    /must match the mount entity ID/,
+  );
+});
+
+test("binds every source card to the exact catalog brand and model", async () => {
+  const source = await readJson(path.join(fixtures, "source.valid.json"));
+  const mounts = [
+    { id: "mount-fixed-01", brand: "Fixture", model: "Fixed" },
+    { id: "mount-tilt-02", brand: "Fixture", model: "Tilt" },
+  ];
+
+  assert.equal(validateSourceAgainstMounts(source, mounts, fixtureOptions), source);
+
+  source.cards[0].expected_title_tokens = ["Fixture", "Tilt"];
+  assert.throws(
+    () => validateSourceAgainstMounts(source, mounts, fixtureOptions),
+    /must include the exact catalog model token "Fixed"/,
+  );
+
+  source.cards[0].expected_title_tokens = ["Fixture", "Fixed"];
+  source.cards[0].entity_id = "missing-mount";
+  source.cards[0].page_path = "/kronshteyny/missing-mount/";
+  assert.throws(
+    () => validateSourceAgainstMounts(source, mounts, fixtureOptions),
+    /mount does not exist in data\/mounts\.json/,
+  );
+});
+
 test("publishes a direct sponsored link with the visible disclosure data", () => {
+  const now = Date.parse("2026-07-30T09:30:00Z");
   const offer = {
     publishable: true,
     eligibility: "publishable",
+    affiliate_href:
+      "https://market.yandex.ru/card/kronshteyn/123?erid=eridFixture123",
+    page_path: "/kronshteyny/test/",
+    entity_kind: "mount",
+    entity_id: "test",
+    page_name: "POKUPKI_PRODUCT",
+    title: "Кронштейн Test",
+    product_photo: "https://avatars.mds.yandex.net/get-mpic/test/300x300",
+    checked_at: "2026-07-30T09:00:00Z",
+    creative: {
+      erid: "eridFixture123",
+      disclosure: {
+        label: "Реклама",
+        advertiser_name: "ООО «Яндекс Маркет»",
+        advertiser_inn: "9704254424",
+      },
+    },
+  };
+
+  const presentation = getAffiliatePresentation(offer, { now });
+  assert.equal(
+    presentation.href,
+    "https://market.yandex.ru/card/kronshteyn/123?erid=eridFixture123",
+  );
+  assert.equal(presentation.rel, AFFILIATE_LINK_REL);
+  assert.equal(presentation.label, "Реклама");
+  assert.equal(presentation.advertiserInn, "9704254424");
+  assert.equal(presentation.productTitle, "Кронштейн Test");
+  assert.equal(
+    selectAffiliateOffer(
+      [offer],
+      { pagePath: "/kronshteyny/test/", entityKind: "mount", entityId: "test" },
+      { now },
+    ),
+    offer,
+  );
+});
+
+test("hides stale offers and falls back to a fresh offer for the same page", () => {
+  const now = Date.parse("2026-07-30T12:00:00Z");
+  const base = {
+    publishable: true,
+    eligibility: "publishable",
+    page_path: "/kronshteyny/test/",
+    entity_kind: "mount",
+    entity_id: "test",
+    page_name: "POKUPKI_PRODUCT",
+    title: "Кронштейн Test",
+    product_photo: "https://avatars.mds.yandex.net/get-mpic/test/300x300",
     affiliate_href:
       "https://market.yandex.ru/card/kronshteyn/123?erid=eridFixture123",
     creative: {
@@ -100,21 +244,39 @@ test("publishes a direct sponsored link with the visible disclosure data", () =>
       },
     },
   };
+  const stale = {
+    ...base,
+    id: "stale",
+    checked_at: new Date(now - MAX_AFFILIATE_AGE_MS - 1).toISOString(),
+  };
+  const fresh = {
+    ...base,
+    id: "fresh",
+    checked_at: new Date(now - 60_000).toISOString(),
+  };
 
-  const presentation = getAffiliatePresentation(offer);
+  assert.equal(getAffiliatePresentation(stale, { now }), null);
   assert.equal(
-    presentation.href,
-    "https://market.yandex.ru/card/kronshteyn/123?erid=eridFixture123",
+    selectAffiliateOffer(
+      [stale, fresh],
+      { pagePath: "/kronshteyny/test/", entityKind: "mount", entityId: "test" },
+      { now },
+    ),
+    fresh,
   );
-  assert.equal(presentation.rel, AFFILIATE_LINK_REL);
-  assert.equal(presentation.label, "Реклама");
-  assert.equal(presentation.advertiserInn, "9704254424");
 });
 
 test("refuses same-site, redirect and unmarked affiliate destinations", () => {
   const base = {
     publishable: true,
     eligibility: "publishable",
+    page_path: "/kronshteyny/test/",
+    entity_kind: "mount",
+    entity_id: "test",
+    page_name: "POKUPKI_PRODUCT",
+    title: "Кронштейн Test",
+    product_photo: "https://avatars.mds.yandex.net/get-mpic/test/300x300",
+    checked_at: "2026-07-30T09:00:00Z",
     creative: {
       erid: "eridFixture123",
       disclosure: {
@@ -130,7 +292,13 @@ test("refuses same-site, redirect and unmarked affiliate destinations", () => {
     "https://redirect.example/offer?erid=eridFixture123",
     "https://market.yandex.ru/card/kronshteyn/123",
   ]) {
-    assert.equal(getAffiliatePresentation({ ...base, affiliate_href }), null);
+    assert.equal(
+      getAffiliatePresentation(
+        { ...base, affiliate_href },
+        { now: Date.parse("2026-07-30T09:30:00Z") },
+      ),
+      null,
+    );
   }
 });
 

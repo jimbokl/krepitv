@@ -1,0 +1,174 @@
+name: Проверка предложений Яндекс Маркета
+
+on:
+  schedule:
+    - cron: "17 4,16 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: krepitv-affiliate-health
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.repository == 'jimbokl/krepitv' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Получить репозиторий
+        uses: actions/checkout@v4
+
+      - name: Настроить Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Проверить манифест
+        run: npm run affiliate:validate
+
+      - name: Определить количество карточек
+        id: manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          count="$(node -e '
+            const fs = require("node:fs");
+            const data = JSON.parse(fs.readFileSync("data/affiliate/market-products.json", "utf8"));
+            process.stdout.write(String(data.cards.length));
+          ')"
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          if [ "$count" = "0" ]; then
+            echo "Манифест пуст: безопасный запуск без сетевых запросов и публикации."
+          fi
+
+      - name: Проверить настройки API
+        if: steps.manifest.outputs.count != '0'
+        env:
+          YANDEX_MARKET_AFFILIATE_OAUTH: ${{ secrets.YANDEX_MARKET_AFFILIATE_OAUTH }}
+          YANDEX_MARKET_PLACE_ID: ${{ vars.YANDEX_MARKET_PLACE_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${YANDEX_MARKET_AFFILIATE_OAUTH:-}" ]; then
+            echo "::error::Не настроен секрет YANDEX_MARKET_AFFILIATE_OAUTH"
+            exit 1
+          fi
+          if [[ ! "${YANDEX_MARKET_PLACE_ID:-}" =~ ^[0-9]+$ ]]; then
+            echo "::error::Не настроена переменная YANDEX_MARKET_PLACE_ID"
+            exit 1
+          fi
+
+      - name: Проверить карточки с повторами
+        if: steps.manifest.outputs.count != '0'
+        id: check
+        env:
+          YANDEX_MARKET_AFFILIATE_OAUTH: ${{ secrets.YANDEX_MARKET_AFFILIATE_OAUTH }}
+          YANDEX_MARKET_PLACE_ID: ${{ vars.YANDEX_MARKET_PLACE_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run affiliate:check-market
+          has_error="$(node -e '
+            const batch = require("./.private/market-affiliate-batch.json");
+            process.stdout.write(batch.checks.some((item) => item.status === "error") ? "true" : "false");
+          ')"
+          echo "has_error=$has_error" >> "$GITHUB_OUTPUT"
+          if [ "$has_error" = "true" ]; then
+            echo "::warning::Часть карточек не проверена после персональных повторов; для них сохраняется только свежий last-known-good."
+          fi
+
+      - name: Собрать и проверить публичный снимок
+        if: steps.manifest.outputs.count != '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run affiliate:build-snapshot
+          npm run affiliate:publish-snapshot
+          npm run affiliate:validate-public
+          npm run affiliate:test
+          install -m 0644 data/affiliate/public-offers.json docs/data/affiliate-offers.json
+          node scripts/affiliate/validate.mjs --kind snapshot docs/data/affiliate-offers.json
+
+      - name: Зафиксировать обновление
+        if: steps.manifest.outputs.count != '0'
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- data/affiliate/public-offers.json docs/data/affiliate-offers.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Публичный снимок не изменился."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh Market offers [skip ci]"
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Запросить сборку GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds" \
+            -H "X-GitHub-Api-Version: 2022-11-28"
+
+      - name: Дождаться Pages и проверить production-снимок
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          target_sha="$(git rev-parse HEAD)"
+          built=false
+          for attempt in $(seq 1 30); do
+            payload="$(gh api "repos/${GITHUB_REPOSITORY}/pages/builds/latest" \
+              -H "X-GitHub-Api-Version: 2022-11-28")"
+            status="$(jq -r '.status // "unknown"' <<<"$payload")"
+            commit="$(jq -r '.commit // ""' <<<"$payload")"
+            if [ "$status" = "built" ] && [ "$commit" = "$target_sha" ]; then
+              built=true
+              break
+            fi
+            if [ "$status" = "errored" ] && [ "$commit" = "$target_sha" ]; then
+              echo "::error::GitHub Pages не собрал обновлённый снимок"
+              exit 1
+            fi
+            sleep 10
+          done
+          if [ "$built" != "true" ]; then
+            echo "::error::GitHub Pages не подтвердил сборку нужного коммита"
+            exit 1
+          fi
+
+          expected_hash="$(sha256sum docs/data/affiliate-offers.json | cut -d' ' -f1)"
+          deployed=false
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error --location --max-time 15 \
+              "https://krepitv.ru/data/affiliate-offers.json" \
+              --output /tmp/krepitv-affiliate-offers.json; then
+              actual_hash="$(sha256sum /tmp/krepitv-affiliate-offers.json | cut -d' ' -f1)"
+              if [ "$actual_hash" = "$expected_hash" ]; then
+                deployed=true
+                break
+              fi
+            fi
+            sleep 10
+          done
+          if [ "$deployed" != "true" ]; then
+            echo "::error::Production не отдал ожидаемый партнёрский снимок"
+            exit 1
+          fi
+
+      - name: Сообщить о частичном отказе API
+        if: steps.check.outputs.has_error == 'true'
+        run: |
+          echo "::error::Одна или несколько карточек не прошли техническую проверку после повторов"
+          exit 1

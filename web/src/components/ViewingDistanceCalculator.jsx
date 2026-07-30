@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowRight, Info, Monitor } from "@phosphor-icons/react";
 import { formatNumber } from "./ModelFacts.jsx";
 import { calculateViewingGeometry } from "../lib/catalog.js";
+import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 
 const MODES = {
   "diagonal-to-distance": {
@@ -141,7 +142,7 @@ export function ViewingDistanceCalculator() {
 function ViewingNumberField({ label, max, min, onChange, unit, value }) {
   return (
     <label className="grid gap-2 text-sm font-medium">
-      {label}, {unit}
+      <span>{formatFieldLabel(label, unit)}</span>
       <input
         aria-label={`${label}, ${unit}`}
         className="input-control"

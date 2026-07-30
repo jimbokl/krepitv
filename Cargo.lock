@@ -33,6 +33,7 @@ dependencies = [
 name = "krepitv-sitegen"
 version = "0.1.0"
 dependencies = [
+ "krepitv-engine",
  "serde",
  "serde_json",
 ]

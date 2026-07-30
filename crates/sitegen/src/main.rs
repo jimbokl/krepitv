@@ -1,3 +1,4 @@
+use krepitv_engine::{Mount, MountMatch, match_mounts};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::HashSet;
@@ -30,6 +31,18 @@ struct SearchItem<'a> {
     model: &'a str,
     href: String,
     search: String,
+}
+
+#[derive(Debug, Serialize)]
+struct CompatibilityEdge {
+    tv_id: String,
+    mount_id: String,
+    fit_status: String,
+    compatible: bool,
+    score: i32,
+    reasons: Vec<String>,
+    warnings: Vec<String>,
+    required_load_kg: f64,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -93,6 +106,37 @@ fn escape_html(value: &str) -> String {
         .replace('\'', "&#39;")
 }
 
+fn is_valid_iso_date(value: &str) -> bool {
+    if value.len() != 10 {
+        return false;
+    }
+    let mut parts = value.split('-');
+    let (Some(year), Some(month), Some(day), None) =
+        (parts.next(), parts.next(), parts.next(), parts.next())
+    else {
+        return false;
+    };
+    if year.len() != 4 || month.len() != 2 || day.len() != 2 {
+        return false;
+    }
+    let (Ok(year), Ok(month), Ok(day)) = (
+        year.parse::<u32>(),
+        month.parse::<u32>(),
+        day.parse::<u32>(),
+    ) else {
+        return false;
+    };
+    let leap = year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
+    let maximum = match month {
+        1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
+        4 | 6 | 9 | 11 => 30,
+        2 if leap => 29,
+        2 => 28,
+        _ => return false,
+    };
+    (1..=maximum).contains(&day)
+}
+
 fn is_indexable_seo_page(page: &SeoPage) -> bool {
     page.indexable
 }
@@ -139,6 +183,40 @@ fn breadcrumb_json_ld(items: &[(&str, &str)]) -> String {
     }))
 }
 
+fn tv_product_json_ld(tv: &TvModel, canonical: &str) -> String {
+    json_ld_script(json!({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": tv.title,
+        "sku": tv.model,
+        "url": canonical,
+        "category": "Телевизоры",
+        "brand": { "@type": "Brand", "name": tv.brand },
+        "additionalProperty": [
+            { "@type": "PropertyValue", "name": "VESA", "value": format!("{}×{} мм", tv.vesa_width_mm, tv.vesa_height_mm) },
+            { "@type": "PropertyValue", "name": "Диагональ", "value": format!("{} дюймов", tv.diagonal_inches) },
+            { "@type": "PropertyValue", "name": "Масса без подставки", "value": format!("{} кг", tv.weight_kg) }
+        ]
+    }))
+}
+
+fn mount_product_json_ld(mount: &Mount, canonical: &str) -> String {
+    json_ld_script(json!({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": mount.title,
+        "sku": mount.model,
+        "url": canonical,
+        "category": "Кронштейны для телевизоров",
+        "brand": { "@type": "Brand", "name": mount.brand },
+        "additionalProperty": [
+            { "@type": "PropertyValue", "name": "VESA", "value": formatted_vesa_list(mount) },
+            { "@type": "PropertyValue", "name": "Максимальная нагрузка", "value": format!("{} кг", mount.max_load_kg) },
+            { "@type": "PropertyValue", "name": "Диапазон диагоналей", "value": format!("{}–{} дюймов", mount.min_diagonal_in, mount.max_diagonal_in) }
+        ]
+    }))
+}
+
 struct HeadExtras<'a> {
     robots: Option<&'a str>,
     json_ld: &'a str,
@@ -157,7 +235,14 @@ fn html_shell(
     let description = escape_html(description);
     let canonical = escape_html(canonical);
     let model_attribute = model_id
-        .map(|id| format!(" data-model-id=\"{}\"", escape_html(id)))
+        .map(|id| {
+            let attribute = if page_kind == "mount" {
+                "data-mount-id"
+            } else {
+                "data-model-id"
+            };
+            format!(" {attribute}=\"{}\"", escape_html(id))
+        })
         .unwrap_or_default();
     let static_body = static_body.unwrap_or_default();
     let robots_meta = head
@@ -176,11 +261,11 @@ fn html_shell(
 }
 
 fn static_header() -> &'static str {
-    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/podbor/\">Подбор</a><a href=\"/vesa/\">VESA</a><a href=\"/metodika/\">Методика</a></nav></div></header>"
+    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/vesa/\">VESA</a><a href=\"/metodika/\">Методика</a></nav></div></header>"
 }
 
 fn static_footer() -> &'static str {
-    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/podbor/\">Подбор</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
+    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
 }
 
 fn static_layout(content: &str) -> String {
@@ -189,6 +274,76 @@ fn static_layout(content: &str) -> String {
         static_header(),
         static_footer(),
     )
+}
+
+fn model_mount_matches(tv: &TvModel, mounts: &[Mount]) -> Vec<MountMatch> {
+    match_mounts(
+        tv.weight_kg,
+        tv.diagonal_inches,
+        tv.vesa_width_mm,
+        tv.vesa_height_mm,
+        "any",
+        mounts.to_vec(),
+    )
+}
+
+fn build_compatibility_graph(models: &[TvModel], mounts: &[Mount]) -> Vec<CompatibilityEdge> {
+    models
+        .iter()
+        .flat_map(|tv| {
+            model_mount_matches(tv, mounts)
+                .into_iter()
+                .filter(|matched| matched.compatible)
+                .map(move |matched| CompatibilityEdge {
+                    tv_id: tv.id.clone(),
+                    mount_id: matched.mount.id,
+                    fit_status: matched.fit_status,
+                    compatible: matched.compatible,
+                    score: matched.score,
+                    reasons: matched.reasons,
+                    warnings: matched.warnings,
+                    required_load_kg: matched.required_load_kg,
+                })
+        })
+        .collect()
+}
+
+fn is_indexable_model(model_id: &str, graph: &[CompatibilityEdge]) -> bool {
+    graph
+        .iter()
+        .any(|edge| edge.tv_id == model_id && edge.fit_status == "verified-fit")
+}
+
+fn is_indexable_mount(mount_id: &str, graph: &[CompatibilityEdge]) -> bool {
+    graph
+        .iter()
+        .any(|edge| edge.mount_id == mount_id && edge.fit_status == "verified-fit")
+}
+
+fn mechanism_label(value: &str) -> &'static str {
+    match value {
+        "fixed" => "фиксированный",
+        "tilt" => "наклонный",
+        "full-motion" => "поворотный",
+        _ => "механизм не указан",
+    }
+}
+
+fn fit_label(value: &str) -> &'static str {
+    match value {
+        "verified-fit" => "подходит по трём проверкам",
+        "conditional-fit" => "подходит условно",
+        _ => "не подходит",
+    }
+}
+
+fn formatted_vesa_list(mount: &Mount) -> String {
+    mount
+        .vesa
+        .iter()
+        .map(|pair| pair.replace('x', "×"))
+        .collect::<Vec<_>>()
+        .join(" · ")
 }
 
 fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
@@ -246,9 +401,72 @@ fn matcher_page_body(models: &[TvModel]) -> String {
     ))
 }
 
-fn model_page_body(tv: &TvModel) -> String {
+fn models_catalog_body(models: &[TvModel]) -> String {
+    let items = models
+        .iter()
+        .map(|tv| {
+            format!(
+                "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/modeli/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">VESA {vesa_w}×{vesa_h} мм · {diagonal}″ · {weight} кг без подставки</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
+                id = escape_html(&tv.id),
+                title = escape_html(&tv.title),
+                vesa_w = tv.vesa_width_mm,
+                vesa_h = tv.vesa_height_mm,
+                diagonal = tv.diagonal_inches,
+                weight = tv.weight_kg,
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры корпуса</h2><p class=\"mt-3 text-lg text-muted\">{width}×{height}×{depth} мм без подставки. Для безопасного подбора нагрузка кронштейна должна иметь запас не менее 25% относительно указанной массы.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Официальный источник: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные модели с подтверждёнными VESA, массой без подставки и источником. На каждой странице показаны кронштейны, прошедшие единый Rust-расчёт.</p><nav class=\"mt-9 border-b border-line\" aria-label=\"Модели телевизоров\">{items}</nav></article>"
+    ))
+}
+
+fn mounts_catalog_body(mounts: &[Mount]) -> String {
+    let items = mounts
+        .iter()
+        .map(|mount| {
+            format!(
+                "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/kronshteyny/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{mechanism} · до {load} кг · VESA: {vesa}</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
+                id = escape_html(&mount.id),
+                title = escape_html(&mount.title),
+                mechanism = mechanism_label(&mount.mechanism),
+                load = mount.max_load_kg,
+                vesa = escape_html(&formatted_vesa_list(mount)),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    static_layout(&format!(
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейны для телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные изделия с явными парами VESA, нагрузкой, диапазоном диагоналей и датой проверки. Партнёрская кнопка появляется только у свежего подтверждённого предложения Маркета.</p><nav class=\"mt-9 border-b border-line\" aria-label=\"Кронштейны\">{items}</nav></article>"
+    ))
+}
+
+fn model_page_body(tv: &TvModel, matches: &[MountMatch]) -> String {
+    let compatible = matches
+        .iter()
+        .filter(|matched| matched.compatible)
+        .map(|matched| {
+            format!(
+                "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · {mechanism} · нагрузка до {load} кг</p><p class=\"mt-2 text-sm\">{reasons}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/{id}/\">Страница кронштейна</a></article>",
+                title = escape_html(&matched.mount.title),
+                fit = fit_label(&matched.fit_status),
+                mechanism = mechanism_label(&matched.mount.mechanism),
+                load = matched.mount.max_load_kg,
+                reasons = escape_html(&matched.reasons.join(" · ")),
+                id = escape_html(&matched.mount.id),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    let compatible = if compatible.is_empty() {
+        "<p class=\"border-y border-line py-5 text-muted\">В проверенном каталоге пока нет подходящих вариантов.</p>".to_string()
+    } else {
+        format!("<div class=\"border-b border-line\">{compatible}</div>")
+    };
+
+    static_layout(&format!(
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">{width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         vesa_w = tv.vesa_width_mm,
         vesa_h = tv.vesa_height_mm,
@@ -257,8 +475,81 @@ fn model_page_body(tv: &TvModel) -> String {
         width = tv.width_mm,
         height = tv.height_mm,
         depth = tv.depth_mm,
+        checked_at = escape_html(&tv.checked_at),
         source = escape_html(&tv.source_url),
         source_label = escape_html(&tv.source_label),
+    ))
+}
+
+fn mount_page_body(mount: &Mount, models: &[TvModel], graph: &[CompatibilityEdge]) -> String {
+    let television_row = |edge: &CompatibilityEdge| {
+        let tv = models.iter().find(|tv| tv.id == edge.tv_id)?;
+        let evidence = edge
+            .reasons
+            .iter()
+            .chain(edge.warnings.iter())
+            .map(|message| escape_html(message))
+            .collect::<Vec<_>>()
+            .join(" · ");
+        Some(format!(
+            "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · VESA {vesa_w}×{vesa_h} мм · {weight} кг без подставки</p><p class=\"mt-2 text-sm\">{evidence}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">Страница телевизора</a></article>",
+            title = escape_html(&tv.title),
+            fit = fit_label(&edge.fit_status),
+            vesa_w = tv.vesa_width_mm,
+            vesa_h = tv.vesa_height_mm,
+            weight = tv.weight_kg,
+            evidence = evidence,
+            id = escape_html(&tv.id),
+        ))
+    };
+    let verified_rows = graph
+        .iter()
+        .filter(|edge| edge.mount_id == mount.id && edge.fit_status == "verified-fit")
+        .filter_map(&television_row)
+        .collect::<Vec<_>>()
+        .join("\n");
+    let conditional_rows = graph
+        .iter()
+        .filter(|edge| edge.mount_id == mount.id && edge.fit_status == "conditional-fit")
+        .filter_map(&television_row)
+        .collect::<Vec<_>>()
+        .join("\n");
+    let verified_rows = if verified_rows.is_empty() {
+        "<p class=\"border-y border-line py-5 text-muted\">В проверенной базе пока нет подтверждённых моделей.</p>".to_string()
+    } else {
+        format!("<div class=\"border-b border-line\">{verified_rows}</div>")
+    };
+    let conditional_section = if conditional_rows.is_empty() {
+        String::new()
+    } else {
+        format!(
+            "<section class=\"mt-7 border-y-2 border-action py-5\"><h3 class=\"font-display text-2xl font-extrabold text-action\">Кандидаты после проверки диагонали</h3><p class=\"mt-2 max-w-3xl text-muted\">VESA и нагрузка совпали, но паспортный диапазон диагонали требует ручной проверки геометрии пластины.</p><div class=\"mt-4 border-b border-line\">{conditional_rows}</div></section>"
+        )
+    };
+    let distance = if (mount.wall_distance_min_mm - mount.wall_distance_max_mm).abs() < f64::EPSILON
+    {
+        format!("{} мм", mount.wall_distance_min_mm)
+    } else {
+        format!(
+            "{}–{} мм",
+            mount.wall_distance_min_mm, mount.wall_distance_max_mm
+        )
+    };
+
+    static_layout(&format!(
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        title = escape_html(&mount.title),
+        mechanism = mechanism_label(&mount.mechanism),
+        load = mount.max_load_kg,
+        min_diagonal = mount.min_diagonal_in,
+        max_diagonal = mount.max_diagonal_in,
+        vesa = escape_html(&formatted_vesa_list(mount)),
+        distance = escape_html(&distance),
+        checked_at = escape_html(&mount.checked_at),
+        source = escape_html(&mount.source_url),
+        source_label = escape_html(&mount.source_label),
+        verified_rows = verified_rows,
+        conditional_section = conditional_section,
     ))
 }
 
@@ -468,11 +759,18 @@ fn validate_models(models: &[TvModel]) {
             tv.id
         );
         assert!(
-            tv.source_url.starts_with("https://"),
-            "Источник должен использовать HTTPS"
+            tv.source_url.starts_with("https://")
+                && !tv.source_label.trim().is_empty()
+                && is_valid_iso_date(&tv.checked_at),
+            "Некорректный источник или дата проверки у {}",
+            tv.id
         );
         assert!(
-            tv.weight_kg > 0.0 && tv.diagonal_inches > 0.0,
+            tv.weight_kg > 0.0
+                && tv.diagonal_inches > 0.0
+                && tv.width_mm > 0.0
+                && tv.height_mm > 0.0
+                && tv.depth_mm > 0.0,
             "Некорректные характеристики {}",
             tv.id
         );
@@ -481,6 +779,51 @@ fn validate_models(models: &[TvModel]) {
             "Не указан VESA для {}",
             tv.id
         );
+    }
+}
+
+fn validate_mounts(mounts: &[Mount]) {
+    let mut ids = HashSet::new();
+    for mount in mounts {
+        assert!(
+            ids.insert(&mount.id),
+            "Повторяется идентификатор кронштейна {}",
+            mount.id
+        );
+        assert!(
+            !mount.brand.trim().is_empty()
+                && !mount.model.trim().is_empty()
+                && !mount.source_label.trim().is_empty(),
+            "Нет идентичности или подписи источника у {}",
+            mount.id
+        );
+        assert!(
+            mount.source_url.starts_with("https://") && is_valid_iso_date(&mount.checked_at),
+            "Некорректный источник или дата проверки у {}",
+            mount.id
+        );
+        assert!(
+            mount.max_load_kg > 0.0
+                && mount.min_diagonal_in > 0.0
+                && mount.max_diagonal_in >= mount.min_diagonal_in
+                && !mount.vesa.is_empty(),
+            "Некорректные характеристики кронштейна {}",
+            mount.id
+        );
+        let mut vesa_pairs = HashSet::new();
+        for value in &mount.vesa {
+            let Some((width, height)) = value.split_once('x') else {
+                panic!("Некорректная VESA-пара {value} у {}", mount.id);
+            };
+            let (Ok(width), Ok(height)) = (width.parse::<u32>(), height.parse::<u32>()) else {
+                panic!("Некорректная VESA-пара {value} у {}", mount.id);
+            };
+            assert!(
+                width > 0 && height > 0 && vesa_pairs.insert((width, height)),
+                "Пустая или повторная VESA-пара {value} у {}",
+                mount.id
+            );
+        }
     }
 }
 
@@ -552,9 +895,11 @@ fn main() {
     fs::create_dir_all(&public_data).expect("Не удалось создать каталог публичных данных");
 
     let models: Vec<TvModel> = read_json(&data.join("tv_models.json"));
+    let mounts: Vec<Mount> = read_json(&data.join("mounts.json"));
     let seo_pages: Vec<SeoPage> = read_json(&data.join("seo_pages.json"));
     let trust_pages: Vec<TrustPage> = read_json(&data.join("trust_pages.json"));
     validate_models(&models);
+    validate_mounts(&mounts);
     validate_seo_pages(&seo_pages);
     validate_trust_pages(&trust_pages);
 
@@ -565,6 +910,12 @@ fn main() {
     .expect("Не удалось скопировать модели телевизоров");
     fs::copy(data.join("mounts.json"), public_data.join("mounts.json"))
         .expect("Не удалось скопировать кронштейны");
+    let compatibility_graph = build_compatibility_graph(&models, &mounts);
+    write(
+        &public_data.join("compatibility-graph.json"),
+        &serde_json::to_string_pretty(&compatibility_graph)
+            .expect("Граф совместимости сериализуется"),
+    );
     fs::copy(
         data.join("seo_pages.json"),
         public_data.join("seo-pages.json"),
@@ -575,6 +926,11 @@ fn main() {
         public_data.join("trust-pages.json"),
     )
     .expect("Не удалось скопировать доверительные страницы");
+    fs::copy(
+        data.join("affiliate/public-offers.json"),
+        public_data.join("affiliate-offers.json"),
+    )
+    .expect("Не удалось скопировать публичный снимок предложений");
 
     let search = models
         .iter()
@@ -627,6 +983,44 @@ fn main() {
         ),
     );
 
+    write(
+        &web.join("modeli/index.html"),
+        &html_shell(
+            "Модели телевизоров и совместимые кронштейны — KREPI TV",
+            "Проверенные модели телевизоров с точными VESA, массой без подставки и двусторонним списком совместимых кронштейнов.",
+            "https://krepitv.ru/modeli/",
+            "models-catalog",
+            None,
+            Some(&models_catalog_body(&models)),
+            HeadExtras {
+                robots: None,
+                json_ld: &breadcrumb_json_ld(&[
+                    ("Главная", "https://krepitv.ru/"),
+                    ("Модели телевизоров", "https://krepitv.ru/modeli/"),
+                ]),
+            },
+        ),
+    );
+
+    write(
+        &web.join("kronshteyny/index.html"),
+        &html_shell(
+            "Кронштейны для телевизоров с проверкой совместимости — KREPI TV",
+            "Проверенные кронштейны: явные VESA, нагрузка, механизм и список подходящих популярных телевизоров.",
+            "https://krepitv.ru/kronshteyny/",
+            "mounts-catalog",
+            None,
+            Some(&mounts_catalog_body(&mounts)),
+            HeadExtras {
+                robots: None,
+                json_ld: &breadcrumb_json_ld(&[
+                    ("Главная", "https://krepitv.ru/"),
+                    ("Кронштейны", "https://krepitv.ru/kronshteyny/"),
+                ]),
+            },
+        ),
+    );
+
     for tv in &models {
         let title = format!(
             "Кронштейн для {}: VESA {}×{} — KREPI TV",
@@ -636,8 +1030,18 @@ fn main() {
             "Совместимые кронштейны для {}: VESA {}×{}, масса без подставки {} кг. Проверка по данным производителя.",
             tv.title, tv.vesa_width_mm, tv.vesa_height_mm, tv.weight_kg
         );
-        let static_body = model_page_body(tv);
+        let matches = model_mount_matches(tv, &mounts);
+        let static_body = model_page_body(tv, &matches);
         let canonical = format!("https://krepitv.ru/modeli/{}/", tv.id);
+        let structured_data = format!(
+            "{}{}",
+            breadcrumb_json_ld(&[
+                ("Главная", "https://krepitv.ru/"),
+                ("Модели телевизоров", "https://krepitv.ru/modeli/"),
+                (&tv.title, &canonical),
+            ]),
+            tv_product_json_ld(tv, &canonical)
+        );
         write(
             &web.join(format!("modeli/{}/index.html", tv.id)),
             &html_shell(
@@ -648,12 +1052,55 @@ fn main() {
                 Some(&tv.id),
                 Some(&static_body),
                 HeadExtras {
-                    robots: None,
-                    json_ld: &breadcrumb_json_ld(&[
-                        ("Главная", "https://krepitv.ru/"),
-                        ("Подбор по модели", "https://krepitv.ru/podbor/"),
-                        (&tv.title, &canonical),
-                    ]),
+                    robots: if is_indexable_model(&tv.id, &compatibility_graph) {
+                        None
+                    } else {
+                        Some("noindex,follow")
+                    },
+                    json_ld: &structured_data,
+                },
+            ),
+        );
+    }
+
+    for mount in &mounts {
+        let title = format!(
+            "Кронштейн {}: совместимые телевизоры — KREPI TV",
+            mount.title
+        );
+        let description = format!(
+            "{}: VESA {}, нагрузка до {} кг и список подходящих моделей телевизоров с объяснением проверки.",
+            mount.title,
+            formatted_vesa_list(mount),
+            mount.max_load_kg
+        );
+        let static_body = mount_page_body(mount, &models, &compatibility_graph);
+        let canonical = format!("https://krepitv.ru/kronshteyny/{}/", mount.id);
+        let structured_data = format!(
+            "{}{}",
+            breadcrumb_json_ld(&[
+                ("Главная", "https://krepitv.ru/"),
+                ("Кронштейны", "https://krepitv.ru/kronshteyny/"),
+                (&mount.title, &canonical),
+            ]),
+            mount_product_json_ld(mount, &canonical)
+        );
+        write(
+            &web.join(format!("kronshteyny/{}/index.html", mount.id)),
+            &html_shell(
+                &title,
+                &description,
+                &canonical,
+                "mount",
+                Some(&mount.id),
+                Some(&static_body),
+                HeadExtras {
+                    robots: if is_indexable_mount(&mount.id, &compatibility_graph) {
+                        None
+                    } else {
+                        Some("noindex,follow")
+                    },
+                    json_ld: &structured_data,
                 },
             ),
         );
@@ -720,11 +1167,20 @@ fn main() {
     let mut urls = vec![
         "https://krepitv.ru/".to_string(),
         "https://krepitv.ru/podbor/".to_string(),
+        "https://krepitv.ru/modeli/".to_string(),
+        "https://krepitv.ru/kronshteyny/".to_string(),
     ];
     urls.extend(
         models
             .iter()
+            .filter(|tv| is_indexable_model(&tv.id, &compatibility_graph))
             .map(|tv| format!("https://krepitv.ru/modeli/{}/", tv.id)),
+    );
+    urls.extend(
+        mounts
+            .iter()
+            .filter(|mount| is_indexable_mount(&mount.id, &compatibility_graph))
+            .map(|mount| format!("https://krepitv.ru/kronshteyny/{}/", mount.id)),
     );
     urls.extend(
         seo_pages
@@ -759,9 +1215,11 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        SeoPage, escape_html, is_indexable_seo_page, json_ld_script, read_json, related_seo_pages,
-        seo_calculator_note, workspace_root,
+        SeoPage, TvModel, build_compatibility_graph, escape_html, is_indexable_model,
+        is_indexable_mount, is_indexable_seo_page, is_valid_iso_date, json_ld_script,
+        mount_page_body, read_json, related_seo_pages, seo_calculator_note, workspace_root,
     };
+    use krepitv_engine::Mount;
     use serde_json::json;
 
     #[test]
@@ -770,6 +1228,15 @@ mod tests {
             escape_html("<ТВ & \"стена\">"),
             "&lt;ТВ &amp; &quot;стена&quot;&gt;"
         );
+    }
+
+    #[test]
+    fn validates_real_calendar_dates() {
+        assert!(is_valid_iso_date("2026-07-30"));
+        assert!(is_valid_iso_date("2024-02-29"));
+        assert!(!is_valid_iso_date("2026-02-29"));
+        assert!(!is_valid_iso_date("9999-99-99"));
+        assert!(!is_valid_iso_date("30.07.2026"));
     }
 
     #[test]
@@ -960,5 +1427,34 @@ mod tests {
                 .iter()
                 .any(|related| related.id == "how-to-find-vesa")
         );
+    }
+
+    #[test]
+    fn compatibility_graph_contains_only_useful_edges_and_mount_pages_are_reciprocal() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let graph = build_compatibility_graph(&models, &mounts);
+
+        assert!(!graph.is_empty());
+        assert!(graph.len() < models.len() * mounts.len());
+        assert!(graph.iter().all(|edge| edge.compatible));
+        assert!(graph.iter().any(|edge| edge.fit_status == "verified-fit"));
+        assert!(models.iter().all(|tv| is_indexable_model(&tv.id, &graph)));
+        assert!(
+            mounts
+                .iter()
+                .all(|mount| is_indexable_mount(&mount.id, &graph))
+        );
+
+        for mount in &mounts {
+            let body = mount_page_body(mount, &models, &graph);
+            for edge in graph.iter().filter(|edge| edge.mount_id == mount.id) {
+                assert!(body.contains(&format!("/modeli/{}/", edge.tv_id)));
+                for warning in &edge.warnings {
+                    assert!(body.contains(&escape_html(warning)));
+                }
+            }
+        }
     }
 }

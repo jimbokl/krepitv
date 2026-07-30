@@ -35,6 +35,10 @@ const VESA_NEAR_TOLERANCE_MM: f64 = 3.0;
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Mount {
     pub id: String,
+    #[serde(default)]
+    pub brand: String,
+    #[serde(default)]
+    pub model: String,
     pub title: String,
     pub mechanism: String,
     pub min_diagonal_in: f64,
@@ -45,6 +49,10 @@ pub struct Mount {
     pub wall_distance_max_mm: f64,
     pub source_url: String,
     #[serde(default)]
+    pub source_label: String,
+    #[serde(default)]
+    pub checked_at: String,
+    #[serde(default)]
     pub market_url: Option<String>,
     #[serde(default)]
     pub reward_rub_snapshot: Option<f64>,
@@ -54,6 +62,7 @@ pub struct Mount {
 pub struct MountMatch {
     pub mount: Mount,
     pub compatible: bool,
+    pub fit_status: String,
     pub score: i32,
     pub reasons: Vec<String>,
     pub warnings: Vec<String>,
@@ -537,22 +546,21 @@ pub fn calculate_tilt_angle_plan(
     // red "15.0° of 15.0°" result caused only by hidden float precision.
     let center_sightline_angle_degrees = rounded(center_sightline_angle_degrees);
     let required_tilt_degrees = center_sightline_angle_degrees.abs();
-    let (required_direction, available_tilt_degrees) =
-        if center_sightline_angle_degrees > 0.0 {
-            ("вниз", rounded(maximum_down_tilt_degrees))
-        } else if center_sightline_angle_degrees < 0.0 {
-            ("вверх", rounded(maximum_up_tilt_degrees))
-        } else {
-            ("без наклона", 0.0)
-        };
+    let (required_direction, available_tilt_degrees) = if center_sightline_angle_degrees > 0.0 {
+        ("вниз", rounded(maximum_down_tilt_degrees))
+    } else if center_sightline_angle_degrees < 0.0 {
+        ("вверх", rounded(maximum_up_tilt_degrees))
+    } else {
+        ("без наклона", 0.0)
+    };
     let tilt_margin_degrees = if required_direction == "без наклона" {
         0.0
     } else {
         rounded(available_tilt_degrees - required_tilt_degrees)
     };
     let screen_clears_floor = screen_bottom_height_cm >= 0.0;
-    let mount_covers_required_tilt = screen_clears_floor
-        && (required_direction == "без наклона" || tilt_margin_degrees >= 0.0);
+    let mount_covers_required_tilt =
+        screen_clears_floor && (required_direction == "без наклона" || tilt_margin_degrees >= 0.0);
 
     let mut warnings = Vec::new();
     if !screen_clears_floor {
@@ -671,26 +679,28 @@ pub fn calculate_vesa_match(
                 VESA_EXACT_TOLERANCE_MM,
             )
     });
-    let candidate_pair = parsed_pairs
-        .iter()
-        .copied()
-        .filter(|pair| {
-            !pair_is_within(
-                *pair,
-                measured_width_mm,
-                measured_height_mm,
-                VESA_EXACT_TOLERANCE_MM,
-            ) && pair_is_within(
-                *pair,
-                measured_width_mm,
-                measured_height_mm,
-                VESA_NEAR_TOLERANCE_MM,
-            )
-        })
-        .min_by(|left, right| {
-            pair_distance(*left, measured_width_mm, measured_height_mm)
-                .total_cmp(&pair_distance(*right, measured_width_mm, measured_height_mm))
-        });
+    let candidate_pair =
+        parsed_pairs
+            .iter()
+            .copied()
+            .filter(|pair| {
+                !pair_is_within(
+                    *pair,
+                    measured_width_mm,
+                    measured_height_mm,
+                    VESA_EXACT_TOLERANCE_MM,
+                ) && pair_is_within(
+                    *pair,
+                    measured_width_mm,
+                    measured_height_mm,
+                    VESA_NEAR_TOLERANCE_MM,
+                )
+            })
+            .min_by(|left, right| {
+                pair_distance(*left, measured_width_mm, measured_height_mm).total_cmp(
+                    &pair_distance(*right, measured_width_mm, measured_height_mm),
+                )
+            });
 
     let measured_pair = format_vesa_pair(measured_width_mm, measured_height_mm);
     let mut warnings = Vec::new();
@@ -709,10 +719,8 @@ pub fn calculate_vesa_match(
                 None,
             )
         } else if parsed_pairs.is_empty() {
-            warnings.push(
-                "Не удалось распознать ни одной пары вида 200×200 или 20×20 см"
-                    .to_string(),
-            );
+            warnings
+                .push("Не удалось распознать ни одной пары вида 200×200 или 20×20 см".to_string());
             (
                 "недостаточно-данных",
                 "Вставьте точные размеры из характеристик кронштейна".to_string(),
@@ -889,9 +897,9 @@ fn parse_vesa_pairs(spec: &str) -> Vec<ParsedVesaPair> {
         let dimensions_are_valid = (MIN_VESA_DIMENSION_MM..=MAX_VESA_DIMENSION_MM)
             .contains(&pair.width_mm)
             && (MIN_VESA_DIMENSION_MM..=MAX_VESA_DIMENSION_MM).contains(&pair.height_mm);
-        let duplicate = pairs.iter().any(|existing| {
-            pair_is_within(*existing, pair.width_mm, pair.height_mm, 0.05)
-        });
+        let duplicate = pairs
+            .iter()
+            .any(|existing| pair_is_within(*existing, pair.width_mm, pair.height_mm, 0.05));
         if dimensions_are_valid && !duplicate {
             pairs.push(pair);
         }
@@ -919,12 +927,18 @@ fn parse_decimal(chars: &[char], start: usize) -> Option<(f64, usize)> {
         }
         break;
     }
-    let raw = chars[start..end].iter().collect::<String>().replace(',', ".");
+    let raw = chars[start..end]
+        .iter()
+        .collect::<String>()
+        .replace(',', ".");
     raw.parse::<f64>().ok().map(|value| (value, end))
 }
 
 fn skip_whitespace(chars: &[char], mut index: usize) -> usize {
-    while chars.get(index).is_some_and(|character| character.is_whitespace()) {
+    while chars
+        .get(index)
+        .is_some_and(|character| character.is_whitespace())
+    {
         index += 1;
     }
     index
@@ -963,8 +977,7 @@ fn contains_range_only_claim(spec: &str, pair_count: usize) -> bool {
 }
 
 fn pair_is_within(pair: ParsedVesaPair, width: f64, height: f64, tolerance: f64) -> bool {
-    (pair.width_mm - width).abs() <= tolerance
-        && (pair.height_mm - height).abs() <= tolerance
+    (pair.width_mm - width).abs() <= tolerance && (pair.height_mm - height).abs() <= tolerance
 }
 
 fn pair_distance(pair: ParsedVesaPair, width: f64, height: f64) -> f64 {
@@ -1045,20 +1058,30 @@ pub fn match_mounts(
                 ));
             }
 
-            if mechanism_is_acceptable(&mount.mechanism, requested_mechanism) {
-                reasons.push("Подходит выбранный тип регулировки".to_string());
-                if mount.mechanism == requested_mechanism {
-                    score += 8;
+            let mechanism_requested = !matches!(requested_mechanism, "any" | "");
+            if mechanism_requested {
+                if mechanism_is_acceptable(&mount.mechanism, requested_mechanism) {
+                    reasons.push("Подходит выбранный тип регулировки".to_string());
+                    if mount.mechanism == requested_mechanism {
+                        score += 8;
+                    }
+                } else {
+                    compatible = false;
+                    score -= 80;
+                    warnings.push("Не подходит выбранный тип регулировки".to_string());
                 }
-            } else {
-                compatible = false;
-                score -= 80;
-                warnings.push("Не подходит выбранный тип регулировки".to_string());
             }
 
-            if diagonal_inches < mount.min_diagonal_in
-                || diagonal_inches > mount.max_diagonal_in
-            {
+            let diagonal_in_range = diagonal_inches >= mount.min_diagonal_in
+                && diagonal_inches <= mount.max_diagonal_in;
+            if diagonal_in_range {
+                reasons.push(format!(
+                    "Диагональ {}″ входит в диапазон {}–{}″",
+                    rounded(diagonal_inches),
+                    rounded(mount.min_diagonal_in),
+                    rounded(mount.max_diagonal_in)
+                ));
+            } else {
                 score -= 12;
                 warnings.push(format!(
                     "Диагональ вне рекомендованного диапазона {}–{}″; перепроверьте геометрию пластины",
@@ -1070,6 +1093,14 @@ pub fn match_mounts(
             MountMatch {
                 mount,
                 compatible,
+                fit_status: if !compatible {
+                    "incompatible"
+                } else if diagonal_in_range {
+                    "verified-fit"
+                } else {
+                    "conditional-fit"
+                }
+                .to_string(),
                 score,
                 reasons,
                 warnings,
@@ -1699,6 +1730,8 @@ mod tests {
     fn test_mount() -> Mount {
         Mount {
             id: "mount".into(),
+            brand: "Test".into(),
+            model: "M1".into(),
             title: "Test mount".into(),
             mechanism: "full-motion".into(),
             min_diagonal_in: 37.0,
@@ -1708,6 +1741,8 @@ mod tests {
             wall_distance_min_mm: 67.0,
             wall_distance_max_mm: 355.0,
             source_url: "https://example.com".into(),
+            source_label: "Test source".into(),
+            checked_at: "2026-07-30".into(),
             market_url: None,
             reward_rub_snapshot: None,
         }
@@ -1717,13 +1752,47 @@ mod tests {
     fn accepts_exact_vesa_with_load_reserve() {
         let result = match_mounts(15.3, 55.0, 200, 200, "full-motion", vec![test_mount()]);
         assert!(result[0].compatible);
+        assert_eq!(result[0].fit_status, "verified-fit");
         assert_eq!(result[0].required_load_kg, 19.1);
+        assert!(
+            result[0]
+                .reasons
+                .iter()
+                .any(|reason| reason.contains("Диагональ 55″ входит в диапазон 37–80″"))
+        );
+    }
+
+    #[test]
+    fn any_mechanism_reports_three_real_catalog_checks() {
+        let result = match_mounts(15.3, 55.0, 200, 200, "any", vec![test_mount()]);
+        assert_eq!(result[0].fit_status, "verified-fit");
+        assert_eq!(result[0].reasons.len(), 3);
+        assert!(
+            result[0]
+                .reasons
+                .iter()
+                .all(|reason| !reason.contains("тип регулировки"))
+        );
     }
 
     #[test]
     fn rejects_wrong_vesa() {
         let result = match_mounts(15.3, 55.0, 400, 400, "full-motion", vec![test_mount()]);
         assert!(!result[0].compatible);
+        assert_eq!(result[0].fit_status, "incompatible");
+    }
+
+    #[test]
+    fn marks_out_of_range_diagonal_as_conditional_fit() {
+        let result = match_mounts(15.3, 85.0, 200, 200, "full-motion", vec![test_mount()]);
+        assert!(result[0].compatible);
+        assert_eq!(result[0].fit_status, "conditional-fit");
+        assert!(
+            result[0]
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("Диагональ"))
+        );
     }
 
     #[test]
@@ -2063,13 +2132,8 @@ mod tests {
 
     #[test]
     fn vesa_match_parses_explicit_pairs_symbols_and_units() {
-        let plan = calculate_vesa_match(
-            20.0,
-            20.0,
-            "см",
-            "75x75; 100 х 100; 200×200 мм; 40*40 см",
-        )
-        .unwrap();
+        let plan = calculate_vesa_match(20.0, 20.0, "см", "75x75; 100 х 100; 200×200 мм; 40*40 см")
+            .unwrap();
 
         assert_eq!(plan.status, "совпадает");
         assert_eq!(plan.measured_pair, "200×200 мм");
@@ -2080,8 +2144,7 @@ mod tests {
 
     #[test]
     fn vesa_match_rejects_maximum_only_claim() {
-        let plan = calculate_vesa_match(200.0, 200.0, "мм", "Максимальный VESA 400×400")
-            .unwrap();
+        let plan = calculate_vesa_match(200.0, 200.0, "мм", "Максимальный VESA 400×400").unwrap();
 
         assert_eq!(plan.status, "недостаточно-данных");
         assert!(plan.range_only_claim);
@@ -2102,36 +2165,26 @@ mod tests {
 
     #[test]
     fn vesa_match_ignores_unrelated_dimensions_and_dimension_triples() {
-        let plate = calculate_vesa_match(
-            665.0,
-            430.0,
-            "мм",
-            "VESA 200×200; габариты 665×430×100 мм",
-        )
-        .unwrap();
+        let plate =
+            calculate_vesa_match(665.0, 430.0, "мм", "VESA 200×200; габариты 665×430×100 мм")
+                .unwrap();
         assert_eq!(plate.status, "не-совпадает");
         assert_eq!(plate.recognized_pairs, ["200×200 мм"]);
 
-        let centimetres = calculate_vesa_match(
-            750.0,
-            750.0,
-            "мм",
-            "VESA 75×75; размер пластины 40×20 см",
-        )
-        .unwrap();
+        let centimetres =
+            calculate_vesa_match(750.0, 750.0, "мм", "VESA 75×75; размер пластины 40×20 см")
+                .unwrap();
         assert_eq!(centimetres.status, "не-совпадает");
         assert_eq!(centimetres.recognized_pairs, ["75×75 мм"]);
 
-        let bare_triple = calculate_vesa_match(665.0, 430.0, "мм", "665×430×100 мм")
-            .unwrap();
+        let bare_triple = calculate_vesa_match(665.0, 430.0, "мм", "665×430×100 мм").unwrap();
         assert_eq!(bare_triple.status, "недостаточно-данных");
         assert!(bare_triple.recognized_pairs.is_empty());
     }
 
     #[test]
     fn vesa_match_reports_near_measurement_as_candidate() {
-        let plan = calculate_vesa_match(198.0, 201.0, "мм", "100×100, 200×200, 300×200")
-            .unwrap();
+        let plan = calculate_vesa_match(198.0, 201.0, "мм", "100×100, 200×200, 300×200").unwrap();
 
         assert_eq!(plan.status, "недостаточно-данных");
         assert_eq!(plan.candidate_pair.as_deref(), Some("200×200 мм"));
@@ -2140,14 +2193,12 @@ mod tests {
 
     #[test]
     fn vesa_match_keeps_axes_order_and_reports_mismatch() {
-        let reversed = calculate_vesa_match(200.0, 300.0, "мм", "300×200, 400×400")
-            .unwrap();
+        let reversed = calculate_vesa_match(200.0, 300.0, "мм", "300×200, 400×400").unwrap();
         assert_eq!(reversed.status, "не-совпадает");
         assert_eq!(reversed.reversed_pair.as_deref(), Some("300×200 мм"));
         assert_eq!(reversed.mount_supports_measured_pair, Some(false));
 
-        let absent = calculate_vesa_match(200.0, 200.0, "мм", "100×100, 300×200")
-            .unwrap();
+        let absent = calculate_vesa_match(200.0, 200.0, "мм", "100×100, 300×200").unwrap();
         assert_eq!(absent.status, "не-совпадает");
         assert!(absent.reversed_pair.is_none());
         assert_eq!(absent.mount_supports_measured_pair, Some(false));

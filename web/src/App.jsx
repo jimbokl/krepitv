@@ -1,8 +1,10 @@
 import trustPages from "../../data/trust_pages.json";
 import { SiteFooter } from "./components/SiteFooter.jsx";
+import { CatalogIndexPage } from "./pages/CatalogIndexPage.jsx";
 import { GuidedSelectionPage } from "./pages/GuidedSelectionPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { ModelPage } from "./pages/ModelPage.jsx";
+import { MountPage } from "./pages/MountPage.jsx";
 import { SeoPage } from "./pages/SeoPage.jsx";
 import { TrustPage } from "./pages/TrustPage.jsx";
 
@@ -18,9 +20,22 @@ export function App({ catalog }) {
     return withSiteFooter(<GuidedSelectionPage catalog={catalog} />);
   }
 
+  if (path === "/modeli/") {
+    return withSiteFooter(<CatalogIndexPage catalog={catalog} kind="models" />);
+  }
+
+  if (path === "/kronshteyny/") {
+    return withSiteFooter(<CatalogIndexPage catalog={catalog} kind="mounts" />);
+  }
+
   const modelMatch = path.match(/^\/modeli\/([^/]+)\/?/);
   if (modelMatch) {
     return withSiteFooter(<ModelPage catalog={catalog} modelId={decodeURIComponent(modelMatch[1])} />);
+  }
+
+  const mountMatch = path.match(/^\/kronshteyny\/([^/]+)\/?/);
+  if (mountMatch) {
+    return withSiteFooter(<MountPage catalog={catalog} mountId={decodeURIComponent(mountMatch[1])} />);
   }
 
   if (path === "/" || path === "/index.html/") {

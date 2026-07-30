@@ -22,6 +22,9 @@
         "market_source_url",
         "status",
         "affiliate_href",
+        "page_name",
+        "title",
+        "product_photo",
         "promise",
         "price",
         "stock",
@@ -43,6 +46,16 @@
           "type": ["string", "null"],
           "format": "uri"
         },
+        "page_name": {
+          "type": ["string", "null"],
+          "enum": [null, "POKUPKI_PRODUCT"]
+        },
+        "title": { "type": ["string", "null"], "minLength": 1 },
+        "product_photo": {
+          "type": ["string", "null"],
+          "format": "uri",
+          "pattern": "^https://"
+        },
         "promise": { "type": ["integer", "null"], "minimum": 0 },
         "price": { "type": ["integer", "null"], "minimum": 0 },
         "stock": { "type": ["integer", "null"], "minimum": 0 },
@@ -55,7 +68,8 @@
             "api_error",
             "invalid_payload",
             "not_rewarded",
-            "not_in_stock"
+            "not_in_stock",
+            "wrong_product"
           ]
         }
       }

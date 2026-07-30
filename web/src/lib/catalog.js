@@ -16,11 +16,15 @@ export function loadCatalog() {
       fetch("/data/mounts.json").then(assertResponse),
       fetch("/data/model-search.json").then(assertResponse),
       fetch("/data/seo-pages.json").then(assertResponse),
-    ]).then(async ([models, mounts, search, seoPages]) => ({
+      fetch("/data/compatibility-graph.json").then(assertResponse),
+      fetch("/data/affiliate-offers.json").then(assertResponse),
+    ]).then(async ([models, mounts, search, seoPages, compatibilityEdges, affiliateSnapshot]) => ({
       models: await models.json(),
       mounts: await mounts.json(),
       search: await search.json(),
       seoPages: await seoPages.json(),
+      compatibilityEdges: await compatibilityEdges.json(),
+      affiliateOffers: (await affiliateSnapshot.json()).offers,
     }));
   }
   return catalogPromise;
@@ -199,4 +203,8 @@ export async function calculateVesaMatch(values) {
 
 export function modelHref(model) {
   return `/modeli/${model.id}/`;
+}
+
+export function mountHref(mount) {
+  return `/kronshteyny/${mount.id}/`;
 }

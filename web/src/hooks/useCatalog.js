@@ -8,6 +8,8 @@ export function useCatalog() {
     mounts: [],
     search: [],
     seoPages: [],
+    compatibilityEdges: [],
+    affiliateOffers: [],
     error: null,
   });
 

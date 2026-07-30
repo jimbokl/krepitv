@@ -21,8 +21,13 @@
         "id",
         "market_source_url",
         "page_path",
+        "entity_kind",
+        "entity_id",
         "vid",
         "affiliate_href",
+        "page_name",
+        "title",
+        "product_photo",
         "promise",
         "price",
         "stock",
@@ -45,6 +50,11 @@
           "type": "string",
           "pattern": "^/[a-z0-9][a-z0-9/-]*/$"
         },
+        "entity_kind": { "const": "mount" },
+        "entity_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{2,79}$"
+        },
         "vid": {
           "type": "string",
           "pattern": "^[A-Za-z0-9]{1,150}$"
@@ -52,6 +62,16 @@
         "affiliate_href": {
           "type": ["string", "null"],
           "format": "uri"
+        },
+        "page_name": {
+          "type": ["string", "null"],
+          "enum": [null, "POKUPKI_PRODUCT"]
+        },
+        "title": { "type": ["string", "null"], "minLength": 1 },
+        "product_photo": {
+          "type": ["string", "null"],
+          "format": "uri",
+          "pattern": "^https://"
         },
         "promise": { "type": ["integer", "null"], "minimum": 0 },
         "price": { "type": ["integer", "null"], "minimum": 0 },

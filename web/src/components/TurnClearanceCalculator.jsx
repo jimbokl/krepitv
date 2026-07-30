@@ -7,6 +7,7 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import { calculateTurnClearance } from "../lib/catalog.js";
+import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 import { formatNumber } from "./ModelFacts.jsx";
 
 const INITIAL_VALUES = {
@@ -218,7 +219,7 @@ function NumberField({ help, label, max, min, name, onChange, step, unit = "см
   const helpId = `${name}-help`;
   return (
     <label className="grid content-start gap-2 text-sm font-medium">
-      {label}, {unit}
+      <span>{formatFieldLabel(label, unit)}</span>
       <input
         aria-describedby={helpId}
         aria-label={`${label}, ${unit}`}

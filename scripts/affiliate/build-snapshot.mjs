@@ -50,11 +50,18 @@ if (allowExampleHosts) {
   throw new Error("Production affiliate batches must be read from .private/");
 }
 
-const [source, batch] = await Promise.all([
+const previousSnapshotFile = path.join(root, "data/affiliate/public-offers.json");
+const [source, batch, catalogMounts, previousSnapshot] = await Promise.all([
   readJson(resolvedSource),
   readJson(resolvedBatch),
+  allowExampleHosts ? Promise.resolve(null) : readJson(path.join(root, "data/mounts.json")),
+  allowExampleHosts ? Promise.resolve(null) : readJson(previousSnapshotFile),
 ]);
-const snapshot = buildSnapshot(source, batch, { allowExampleHosts });
+const snapshot = buildSnapshot(source, batch, {
+  allowExampleHosts,
+  catalogMounts,
+  previousSnapshot,
+});
 await writeJson(resolvedOut, snapshot);
 console.log(
   `Built ${snapshot.offers.length} affiliate checks (${snapshot.offers.filter((offer) => offer.publishable).length} publishable) -> ${resolvedOut}`,

@@ -8,6 +8,7 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import { calculateTiltAngle } from "../lib/catalog.js";
+import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 import { formatNumber } from "./ModelFacts.jsx";
 
 const INITIAL_VALUES = {
@@ -271,7 +272,7 @@ function NumberField({ hint, label, max, min = "0", name, onChange, step = "1", 
   const hintId = `${name}-tilt-hint`;
   return (
     <label className="grid content-start gap-2 text-sm font-medium">
-      {label}, {unit}
+      <span>{formatFieldLabel(label, unit)}</span>
       <input
         aria-describedby={hintId}
         aria-label={`${label}, ${unit}`}

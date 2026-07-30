@@ -110,11 +110,13 @@ function assertHttpsSource(item, label) {
 
 const files = await walk(docs);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
-assertMinimum(htmlFiles, 20, "HTML-страницы");
+assertMinimum(htmlFiles, 25, "HTML-страницы");
 
 const required = [
   "index.html",
   "podbor/index.html",
+  "modeli/index.html",
+  "kronshteyny/index.html",
   "o-proekte/index.html",
   "metodika/index.html",
   "kontakty/index.html",
@@ -123,6 +125,8 @@ const required = [
   "krepitv-engine-loader.js",
   "pkg/krepitv_engine_bg.wasm",
   "pkg/krepitv_engine.js",
+  "data/compatibility-graph.json",
+  "data/affiliate-offers.json",
   "robots.txt",
   "sitemap.xml",
   "CNAME",
@@ -140,6 +144,9 @@ if (files.includes(path.join(docs, "pkg/.gitignore"))) {
 
 const models = JSON.parse(await readFile(path.join(docs, "data/tv-models.json"), "utf8"));
 const mounts = JSON.parse(await readFile(path.join(docs, "data/mounts.json"), "utf8"));
+const compatibilityEdges = JSON.parse(
+  await readFile(path.join(docs, "data/compatibility-graph.json"), "utf8"),
+);
 const seoPages = JSON.parse(await readFile(path.join(docs, "data/seo-pages.json"), "utf8"));
 const trustPages = JSON.parse(await readFile(path.join(docs, "data/trust-pages.json"), "utf8"));
 
@@ -169,7 +176,40 @@ for (const model of models) {
     throw new Error(`Модель ${model.id}: нет подписи источника или даты проверки`);
   }
 }
-for (const mount of mounts) assertHttpsSource(mount, `Кронштейн ${mount.id}`);
+for (const mount of mounts) {
+  assertHttpsSource(mount, `Кронштейн ${mount.id}`);
+  if (
+    !mount.brand?.trim() ||
+    !mount.model?.trim() ||
+    !mount.source_label?.trim() ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(mount.checked_at ?? "") ||
+    !Array.isArray(mount.vesa) ||
+    mount.vesa.length === 0
+  ) {
+    throw new Error(`Кронштейн ${mount.id}: неполная идентичность, VESA или источник`);
+  }
+}
+
+assertMinimum(
+  compatibilityEdges,
+  Math.max(models.length, mounts.length),
+  "Полезные рёбра совместимости",
+);
+assertUnique(
+  compatibilityEdges.map((edge) => `${edge.tv_id}:${edge.mount_id}`),
+  "Граф совместимости, пары",
+);
+for (const edge of compatibilityEdges) {
+  if (!models.some((model) => model.id === edge.tv_id)) {
+    throw new Error(`Граф ссылается на неизвестный телевизор ${edge.tv_id}`);
+  }
+  if (!mounts.some((mount) => mount.id === edge.mount_id)) {
+    throw new Error(`Граф ссылается на неизвестный кронштейн ${edge.mount_id}`);
+  }
+  if (!edge.compatible || !["verified-fit", "conditional-fit"].includes(edge.fit_status)) {
+    throw new Error(`Граф содержит неизвестный статус ${edge.fit_status}`);
+  }
+}
 for (const page of seoPages) {
   if (typeof page.indexable !== "boolean") {
     throw new Error(`SEO-материал ${page.id}: поле indexable должно быть boolean`);
@@ -180,8 +220,12 @@ const sourceFiles = (await walk(path.join(root, "web/src"))).filter((file) =>
   /\.(?:[cm]?js|jsx|[cm]?ts|tsx)$/.test(file),
 );
 const affiliateComponent = path.join(root, "web/src/components/AffiliateOffer.jsx");
+const affiliateConsumers = new Set([
+  path.join(root, "web/src/pages/ModelPage.jsx"),
+  path.join(root, "web/src/pages/MountPage.jsx"),
+]);
 for (const file of sourceFiles) {
-  if (file === affiliateComponent) continue;
+  if (file === affiliateComponent || affiliateConsumers.has(file)) continue;
   const source = await readFile(file, "utf8");
   if (/\bAffiliateOffer\b/.test(source)) {
     throw new Error(
@@ -248,6 +292,25 @@ for (const model of models) {
   if (!html || !html.includes(model.title) || !html.includes(model.source_url)) {
     throw new Error(`Нет статической страницы модели с источником: ${route}`);
   }
+  const compatibleMountIds = compatibilityEdges
+    .filter((edge) => edge.tv_id === model.id && edge.compatible)
+    .map((edge) => edge.mount_id);
+  if (!compatibleMountIds.every((id) => html.includes(`/kronshteyny/${id}/`))) {
+    throw new Error(`Страница модели не содержит все взаимные ссылки: ${route}`);
+  }
+}
+for (const mount of mounts) {
+  const route = `/kronshteyny/${mount.id}/`;
+  const html = htmlByRoute.get(route);
+  if (!html || !html.includes(mount.title) || !html.includes(mount.source_url)) {
+    throw new Error(`Нет статической страницы кронштейна с источником: ${route}`);
+  }
+  const compatibleModelIds = compatibilityEdges
+    .filter((edge) => edge.mount_id === mount.id && edge.compatible)
+    .map((edge) => edge.tv_id);
+  if (!compatibleModelIds.every((id) => html.includes(`/modeli/${id}/`))) {
+    throw new Error(`Страница кронштейна не содержит все взаимные ссылки: ${route}`);
+  }
 }
 for (const page of trustPages) {
   const html = htmlByRoute.get(dataPageRoute(page));
@@ -279,6 +342,34 @@ for (const urlValue of sitemapUrls) {
   }
 }
 const sitemapPaths = new Set(sitemapUrls.map((value) => new URL(value).pathname));
+
+for (const model of models) {
+  const route = `/modeli/${model.id}/`;
+  const indexable = compatibilityEdges.some(
+    (edge) => edge.tv_id === model.id && edge.fit_status === "verified-fit",
+  );
+  const robots = metaContent(htmlByRoute.get(route), "robots");
+  if (indexable && (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(route))) {
+    throw new Error(`Модель с подтверждённым совпадением закрыта от индекса: ${route}`);
+  }
+  if (!indexable && (!/\bnoindex\b/i.test(robots) || sitemapPaths.has(route))) {
+    throw new Error(`Модель без подтверждённого совпадения должна быть noindex: ${route}`);
+  }
+}
+
+for (const mount of mounts) {
+  const route = `/kronshteyny/${mount.id}/`;
+  const indexable = compatibilityEdges.some(
+    (edge) => edge.mount_id === mount.id && edge.fit_status === "verified-fit",
+  );
+  const robots = metaContent(htmlByRoute.get(route), "robots");
+  if (indexable && (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(route))) {
+    throw new Error(`Кронштейн с подтверждённым совпадением закрыт от индекса: ${route}`);
+  }
+  if (!indexable && (!/\bnoindex\b/i.test(robots) || sitemapPaths.has(route))) {
+    throw new Error(`Кронштейн без подтверждённого совпадения должен быть noindex: ${route}`);
+  }
+}
 
 const indexableSeoPages = seoPages.filter((page) => page.indexable);
 const noindexSeoPages = seoPages.filter((page) => !page.indexable);
@@ -358,5 +449,5 @@ if (!robotsTxt.includes("Sitemap: https://krepitv.ru/sitemap.xml")) {
 }
 
 console.log(
-  `Проверено: ${htmlFiles.length} HTML-страниц (минимум 20), ${models.length} модели ТВ, ${mounts.length} кронштейна, ${seoPages.length} SEO-материалов; в sitemap ${sitemapUrls.length} индексируемых URL`,
+  `Проверено: ${htmlFiles.length} HTML-страниц (минимум 25), ${models.length} модели ТВ, ${mounts.length} кронштейна, ${compatibilityEdges.length} рёбер графа, ${seoPages.length} SEO-материалов; в sitemap ${sitemapUrls.length} индексируемых URL`,
 );

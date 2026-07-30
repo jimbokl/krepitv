@@ -8,6 +8,7 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import { calculateVesaMatch } from "../lib/catalog.js";
+import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 
 const INITIAL_VALUES = {
   width: "200",
@@ -242,7 +243,7 @@ function NumberField({ hint, label, name, onChange, unit, value }) {
   const hintId = `${name}-vesa-hint`;
   return (
     <label className="grid content-start gap-2 text-sm font-medium">
-      {label}, {unit}
+      <span>{formatFieldLabel(label, unit)}</span>
       <input
         aria-describedby={hintId}
         aria-label={`${label}, ${unit}`}

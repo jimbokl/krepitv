@@ -2,6 +2,8 @@ import { Brand } from "./Brand.jsx";
 
 const footerLinks = [
   { href: "/podbor/", label: "Подбор" },
+  { href: "/modeli/", label: "Телевизоры" },
+  { href: "/kronshteyny/", label: "Кронштейны" },
   { href: "/na-kakoy-vysote-veshat-televizor/", label: "Высота установки" },
   { href: "/rasstoyanie-do-televizora-i-diagonal/", label: "Расстояние и диагональ" },
   { href: "/vesa/", label: "VESA" },

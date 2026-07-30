@@ -26,6 +26,7 @@ const ERROR_CODES = new Set([
   "invalid_payload",
   "not_rewarded",
   "not_in_stock",
+  "wrong_product",
 ]);
 const ELIGIBILITY = new Set([
   "publishable",
@@ -41,6 +42,8 @@ const FORBIDDEN_VALUE_PATTERNS = [
   /\by0_[A-Za-z0-9_-]{12,}\b/,
   /\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b/,
 ];
+const MARKET_IMAGE_HOST = "avatars.mds.yandex.net";
+const MAX_PREVIOUS_OFFER_AGE_MS = 48 * 60 * 60 * 1000;
 
 export class AffiliateValidationError extends Error {
   constructor(issues) {
@@ -48,6 +51,28 @@ export class AffiliateValidationError extends Error {
     this.name = "AffiliateValidationError";
     this.issues = issues;
   }
+}
+
+function normalizeIdentityText(value) {
+  return String(value ?? "")
+    .normalize("NFKC")
+    .toLocaleLowerCase("ru-RU")
+    .replaceAll("ё", "е")
+    .replace(/[^a-zа-я0-9]+/gi, " ")
+    .trim();
+}
+
+export function marketTitleMatchesExpected(title, expectedTokens) {
+  const normalizedTitle = ` ${normalizeIdentityText(title)} `;
+  return (
+    normalizedTitle.trim().length > 0 &&
+    Array.isArray(expectedTokens) &&
+    expectedTokens.length > 0 &&
+    expectedTokens.every((token) => {
+      const normalizedToken = normalizeIdentityText(token);
+      return normalizedToken.length >= 2 && normalizedTitle.includes(` ${normalizedToken} `);
+    })
+  );
 }
 
 function isObject(value) {
@@ -143,6 +168,20 @@ function validateHost(url, kind, allowExampleHosts, location, issues) {
     }
     if (url.hash) add(issues, location, "source URL must not contain a fragment");
   }
+}
+
+function validateProductPhoto(value, allowExampleHosts, location, issues) {
+  if (value === null) return null;
+  const url = parseHttpsUrl(value, location, issues);
+  if (!url) return null;
+  if (allowExampleHosts) {
+    if (!isExampleHost(url.hostname)) {
+      add(issues, location, "fixture mode accepts only example.invalid image hosts");
+    }
+  } else if (url.hostname !== MARKET_IMAGE_HOST) {
+    add(issues, location, `image host must be ${MARKET_IMAGE_HOST}`);
+  }
+  return url;
 }
 
 function scanForSecrets(value, location, issues) {
@@ -245,7 +284,16 @@ export function validateSource(source, options = {}) {
   const urls = new Set();
   source.cards.forEach((card, index) => {
     const location = `$.cards[${index}]`;
-    const keys = ["id", "market_source_url", "page_path", "vid", "creative"];
+    const keys = [
+      "id",
+      "market_source_url",
+      "page_path",
+      "entity_kind",
+      "entity_id",
+      "vid",
+      "expected_title_tokens",
+      "creative",
+    ];
     if (!exactKeys(card, keys, location, issues)) return;
     if (typeof card.id !== "string" || !ID_RE.test(card.id)) {
       add(issues, `${location}.id`, "invalid stable ID");
@@ -274,12 +322,103 @@ export function validateSource(source, options = {}) {
     if (typeof card.page_path !== "string" || !PAGE_PATH_RE.test(card.page_path)) {
       add(issues, `${location}.page_path`, "must be a lowercase trailing-slash path");
     }
+    if (card.entity_kind !== "mount") {
+      add(issues, `${location}.entity_kind`, "must equal mount");
+    }
+    if (typeof card.entity_id !== "string" || !ID_RE.test(card.entity_id)) {
+      add(issues, `${location}.entity_id`, "invalid mount entity ID");
+    } else if (card.page_path !== `/kronshteyny/${card.entity_id}/`) {
+      add(issues, `${location}.page_path`, "must match the mount entity ID");
+    }
     if (typeof card.vid !== "string" || !VID_RE.test(card.vid)) {
       add(issues, `${location}.vid`, "must contain 1-150 Latin letters or digits");
     } else if (vids.has(card.vid)) add(issues, `${location}.vid`, "duplicate VID");
     else vids.add(card.vid);
+    if (
+      !Array.isArray(card.expected_title_tokens) ||
+      card.expected_title_tokens.length < 1 ||
+      card.expected_title_tokens.length > 6
+    ) {
+      add(issues, `${location}.expected_title_tokens`, "must contain 1-6 identity tokens");
+    } else {
+      const normalizedTokens = new Set();
+      card.expected_title_tokens.forEach((token, tokenIndex) => {
+        const normalized = normalizeIdentityText(token);
+        if (typeof token !== "string" || token.trim().length > 80 || normalized.length < 2) {
+          add(
+            issues,
+            `${location}.expected_title_tokens[${tokenIndex}]`,
+            "must be a 2-80 character identity token",
+          );
+        } else if (normalizedTokens.has(normalized)) {
+          add(
+            issues,
+            `${location}.expected_title_tokens[${tokenIndex}]`,
+            "duplicate normalized identity token",
+          );
+        } else normalizedTokens.add(normalized);
+      });
+    }
     validateCreative(card.creative, `${location}.creative`, issues);
   });
+  finish(issues);
+  return source;
+}
+
+export function validateSourceAgainstMounts(source, mounts, options = {}) {
+  validateSource(source, options);
+  const issues = [];
+  if (!Array.isArray(mounts)) {
+    add(issues, "$.mounts", "must be an array");
+    finish(issues);
+  }
+
+  const catalog = new Map();
+  mounts.forEach((mount, index) => {
+    const location = `$.mounts[${index}]`;
+    if (!isObject(mount) || typeof mount.id !== "string" || !ID_RE.test(mount.id)) {
+      add(issues, `${location}.id`, "invalid mount entity ID");
+      return;
+    }
+    if (catalog.has(mount.id)) {
+      add(issues, `${location}.id`, "duplicate catalog mount ID");
+      return;
+    }
+    if (typeof mount.brand !== "string" || normalizeIdentityText(mount.brand).length < 2) {
+      add(issues, `${location}.brand`, "catalog mount must have a stable brand");
+    }
+    if (typeof mount.model !== "string" || normalizeIdentityText(mount.model).length < 2) {
+      add(issues, `${location}.model`, "catalog mount must have a stable model");
+    }
+    catalog.set(mount.id, mount);
+  });
+
+  source.cards.forEach((card, index) => {
+    const location = `$.cards[${index}]`;
+    const mount = catalog.get(card.entity_id);
+    if (!mount) {
+      add(issues, `${location}.entity_id`, "mount does not exist in data/mounts.json");
+      return;
+    }
+
+    const configuredTokens = new Set(
+      card.expected_title_tokens.map((token) => normalizeIdentityText(token)),
+    );
+    for (const [field, value] of [
+      ["brand", mount.brand],
+      ["model", mount.model],
+    ]) {
+      const requiredToken = normalizeIdentityText(value);
+      if (!configuredTokens.has(requiredToken)) {
+        add(
+          issues,
+          `${location}.expected_title_tokens`,
+          `must include the exact catalog ${field} token ${JSON.stringify(value)}`,
+        );
+      }
+    }
+  });
+
   finish(issues);
   return source;
 }
@@ -308,6 +447,9 @@ export function validateBatch(batch, options = {}) {
       "market_source_url",
       "status",
       "affiliate_href",
+      "page_name",
+      "title",
+      "product_photo",
       "promise",
       "price",
       "stock",
@@ -347,6 +489,19 @@ export function validateBatch(batch, options = {}) {
         issues,
       );
     }
+    const productPhoto = validateProductPhoto(
+      check.product_photo,
+      allowExampleHosts,
+      `${location}.product_photo`,
+      issues,
+    );
+
+    if (check.page_name !== null && check.page_name !== "POKUPKI_PRODUCT") {
+      add(issues, `${location}.page_name`, "must be POKUPKI_PRODUCT or null");
+    }
+    if (check.title !== null && (typeof check.title !== "string" || !check.title.trim())) {
+      add(issues, `${location}.title`, "must be a non-empty string or null");
+    }
 
     if (!BATCH_STATUSES.has(check.status)) {
       add(issues, `${location}.status`, "unsupported status");
@@ -365,6 +520,13 @@ export function validateBatch(batch, options = {}) {
 
     if (check.status === "ok") {
       if (!affiliateUrl) add(issues, `${location}.affiliate_href`, "required for ok status");
+      if (check.page_name !== "POKUPKI_PRODUCT") {
+        add(issues, `${location}.page_name`, "required for ok status");
+      }
+      if (typeof check.title !== "string" || !check.title.trim()) {
+        add(issues, `${location}.title`, "required for ok status");
+      }
+      if (!productPhoto) add(issues, `${location}.product_photo`, "required for ok status");
       for (const field of ["promise", "price", "stock"]) {
         if (!Number.isInteger(check[field])) {
           add(issues, `${location}.${field}`, "required for ok status");
@@ -381,7 +543,14 @@ export function validateBatch(batch, options = {}) {
         add(issues, `${location}.error_code`, "required when status is not ok");
       }
       if (check.status === "error") {
-        for (const field of ["promise", "price", "stock"]) {
+        for (const field of [
+          "promise",
+          "price",
+          "stock",
+          "page_name",
+          "title",
+          "product_photo",
+        ]) {
           if (check[field] !== null) {
             add(issues, `${location}.${field}`, "must be null for error status");
           }
@@ -401,6 +570,30 @@ function expectedEligibility(offer) {
   if (!Number.isInteger(offer.promise) || offer.promise <= 0) return "no_reward";
   if (!Number.isInteger(offer.stock) || offer.stock <= 0) return "out_of_stock";
   return "publishable";
+}
+
+function sameCreative(left, right) {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function canRetainPreviousOffer(card, offer, generatedAt) {
+  if (!offer) return false;
+  const generatedMs = Date.parse(generatedAt);
+  const checkedMs = Date.parse(offer.checked_at);
+  const age = generatedMs - checkedMs;
+  return (
+    Number.isFinite(generatedMs) &&
+    Number.isFinite(checkedMs) &&
+    age >= -5 * 60 * 1000 &&
+    age <= MAX_PREVIOUS_OFFER_AGE_MS &&
+    offer.id === card.id &&
+    offer.market_source_url === card.market_source_url &&
+    offer.page_path === card.page_path &&
+    offer.entity_kind === card.entity_kind &&
+    offer.entity_id === card.entity_id &&
+    offer.vid === card.vid &&
+    sameCreative(offer.creative, card.creative)
+  );
 }
 
 export function validateSnapshot(snapshot, options = {}) {
@@ -426,8 +619,13 @@ export function validateSnapshot(snapshot, options = {}) {
       "id",
       "market_source_url",
       "page_path",
+      "entity_kind",
+      "entity_id",
       "vid",
       "affiliate_href",
+      "page_name",
+      "title",
+      "product_photo",
       "promise",
       "price",
       "stock",
@@ -469,8 +667,28 @@ export function validateSnapshot(snapshot, options = {}) {
         issues,
       );
     }
+    validateProductPhoto(
+      offer.product_photo,
+      allowExampleHosts,
+      `${location}.product_photo`,
+      issues,
+    );
+    if (offer.page_name !== null && offer.page_name !== "POKUPKI_PRODUCT") {
+      add(issues, `${location}.page_name`, "must be POKUPKI_PRODUCT or null");
+    }
+    if (offer.title !== null && (typeof offer.title !== "string" || !offer.title.trim())) {
+      add(issues, `${location}.title`, "must be a non-empty string or null");
+    }
     if (typeof offer.page_path !== "string" || !PAGE_PATH_RE.test(offer.page_path)) {
       add(issues, `${location}.page_path`, "invalid page path");
+    }
+    if (offer.entity_kind !== "mount") {
+      add(issues, `${location}.entity_kind`, "must equal mount");
+    }
+    if (typeof offer.entity_id !== "string" || !ID_RE.test(offer.entity_id)) {
+      add(issues, `${location}.entity_id`, "invalid mount entity ID");
+    } else if (offer.page_path !== `/kronshteyny/${offer.entity_id}/`) {
+      add(issues, `${location}.page_path`, "must match the mount entity ID");
     }
     if (typeof offer.vid !== "string" || !VID_RE.test(offer.vid)) {
       add(issues, `${location}.vid`, "invalid VID");
@@ -504,6 +722,14 @@ export function validateSnapshot(snapshot, options = {}) {
       } else if (affiliateUrl.searchParams.get("erid") !== offer.creative.erid) {
         add(issues, `${location}.affiliate_href`, "ERID query must match creative.erid");
       }
+      if (
+        offer.page_name !== "POKUPKI_PRODUCT" ||
+        typeof offer.title !== "string" ||
+        !offer.title.trim() ||
+        typeof offer.product_photo !== "string"
+      ) {
+        add(issues, location, "publishable offer requires product identity and photo");
+      }
     } else if (offer.affiliate_href !== null) {
       add(issues, `${location}.affiliate_href`, "must be null for non-publishable offer");
     }
@@ -514,6 +740,9 @@ export function validateSnapshot(snapshot, options = {}) {
 
 export function buildSnapshot(source, batch, options = {}) {
   validateSource(source, options);
+  if (!options.allowExampleHosts) {
+    validateSourceAgainstMounts(source, options.catalogMounts, options);
+  }
   validateBatch(batch, options);
 
   const checks = new Map(batch.checks.map((check) => [check.id, check]));
@@ -548,8 +777,13 @@ export function buildSnapshot(source, batch, options = {}) {
       id: card.id,
       market_source_url: card.market_source_url,
       page_path: card.page_path,
+      entity_kind: card.entity_kind,
+      entity_id: card.entity_id,
       vid: card.vid,
       affiliate_href: publishable ? check.affiliate_href : null,
+      page_name: check.page_name,
+      title: check.title,
+      product_photo: check.product_photo,
       promise: check.promise,
       price: check.price,
       stock: check.stock,
@@ -560,11 +794,31 @@ export function buildSnapshot(source, batch, options = {}) {
     };
   });
 
-  const snapshot = {
+  let snapshot = {
     schema_version: 1,
     generated_at: batch.generated_at,
     offers,
   };
+  if (options.previousSnapshot) {
+    const previous = validateSnapshot(options.previousSnapshot, options);
+    const previousById = new Map(previous.offers.map((offer) => [offer.id, offer]));
+    const mergedOffers = snapshot.offers.map((offer, index) => {
+      if (offer.eligibility !== "error") return offer;
+      const card = source.cards[index];
+      const previousOffer = previousById.get(card.id);
+      return canRetainPreviousOffer(card, previousOffer, batch.generated_at)
+        ? structuredClone(previousOffer)
+        : offer;
+    });
+    const unchanged =
+      mergedOffers.length === previous.offers.length &&
+      JSON.stringify(mergedOffers) === JSON.stringify(previous.offers);
+    snapshot = {
+      schema_version: 1,
+      generated_at: unchanged ? previous.generated_at : batch.generated_at,
+      offers: mergedOffers,
+    };
+  }
   validateSnapshot(snapshot, options);
   return snapshot;
 }

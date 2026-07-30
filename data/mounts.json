@@ -1,6 +1,8 @@
 [
   {
     "id": "itech-slt-460",
+    "brand": "iTECHmount",
+    "model": "SLT-460",
     "title": "iTECHmount SLT-460",
     "mechanism": "full-motion",
     "min_diagonal_in": 37.0,
@@ -26,10 +28,14 @@
     ],
     "wall_distance_min_mm": 67.0,
     "wall_distance_max_mm": 355.0,
-    "source_url": "https://itechmount.ru/products/58350326"
+    "source_url": "https://itechmount.ru/products/58350326",
+    "source_label": "Официальные характеристики iTECHmount",
+    "checked_at": "2026-07-30"
   },
   {
     "id": "itech-ptrb460ln",
+    "brand": "iTECHmount",
+    "model": "PTRB460LN",
     "title": "iTECHmount PTRB460LN",
     "mechanism": "full-motion",
     "min_diagonal_in": 37.0,
@@ -38,10 +44,14 @@
     "vesa": ["200x200", "300x300", "400x200", "400x400", "600x400"],
     "wall_distance_min_mm": 56.0,
     "wall_distance_max_mm": 464.0,
-    "source_url": "https://itechmount.ru/products/43001082"
+    "source_url": "https://itechmount.ru/products/43001082",
+    "source_label": "Официальные характеристики iTECHmount",
+    "checked_at": "2026-07-30"
   },
   {
     "id": "itech-p4f",
+    "brand": "iTECHmount",
+    "model": "P4F",
     "title": "iTECHmount P4F",
     "mechanism": "fixed",
     "min_diagonal_in": 32.0,
@@ -68,6 +78,8 @@
     ],
     "wall_distance_min_mm": 22.0,
     "wall_distance_max_mm": 22.0,
-    "source_url": "https://itechmount.ru/products/43001104"
+    "source_url": "https://itechmount.ru/products/43001104",
+    "source_label": "Официальные характеристики iTECHmount",
+    "checked_at": "2026-07-30"
   }
 ]

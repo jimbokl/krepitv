@@ -4,8 +4,11 @@
     {
       "id": "mount-fixed-01",
       "market_source_url": "https://market.example.invalid/card/mount-fixed-01/100001",
-      "page_path": "/fixtures/mount-fixed-01/",
+      "page_path": "/kronshteyny/mount-fixed-01/",
+      "entity_kind": "mount",
+      "entity_id": "mount-fixed-01",
       "vid": "krepitvfixture01",
+      "expected_title_tokens": ["Fixture", "Fixed"],
       "creative": {
         "form": "text-block",
         "content_revision": "fixture-v1",
@@ -21,8 +24,11 @@
     {
       "id": "mount-tilt-02",
       "market_source_url": "https://market.example.invalid/card/mount-tilt-02/100002",
-      "page_path": "/fixtures/mount-tilt-02/",
+      "page_path": "/kronshteyny/mount-tilt-02/",
+      "entity_kind": "mount",
+      "entity_id": "mount-tilt-02",
       "vid": "krepitvfixture02",
+      "expected_title_tokens": ["Fixture", "Tilt"],
       "creative": {
         "form": "text-block",
         "content_revision": "fixture-v1",

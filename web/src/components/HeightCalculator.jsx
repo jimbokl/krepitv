@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowRight, Info, Ruler } from "@phosphor-icons/react";
 import { formatNumber } from "./ModelFacts.jsx";
 import { calculateHeight } from "../lib/catalog.js";
+import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 
 export function HeightCalculator({ model = null }) {
   const [values, setValues] = useState({
@@ -108,7 +109,7 @@ export function HeightCalculator({ model = null }) {
 function NumberField({ label, max, min = "0", name, value, onChange, unit = "см" }) {
   return (
     <label className="grid gap-2 text-sm font-medium">
-      {label}, {unit}
+      <span>{formatFieldLabel(label, unit)}</span>
       <input
         aria-label={`${label}, ${unit}`}
         className="input-control"

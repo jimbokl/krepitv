@@ -7,6 +7,7 @@ import {
   validateBatch,
   validateSnapshot,
   validateSource,
+  validateSourceAgainstMounts,
 } from "./lib.mjs";
 
 function usage() {
@@ -50,4 +51,8 @@ if (
 }
 const data = await readJson(file);
 validators[kind](data, { allowExampleHosts });
+if (kind === "source" && !allowExampleHosts) {
+  const mounts = await readJson(path.join(root, "data/mounts.json"));
+  validateSourceAgainstMounts(data, mounts);
+}
 console.log(`Valid ${kind}: ${file}`);

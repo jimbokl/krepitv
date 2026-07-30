@@ -9,6 +9,7 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import { calculateMountingMap } from "../lib/catalog.js";
+import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 import { formatNumber } from "./ModelFacts.jsx";
 
 const initialValues = {
@@ -258,7 +259,7 @@ function MountingMapResult({ result }) {
 function NumberField({ hint, label, max, min = "0", name, onChange, step = "1", unit = "см", value }) {
   return (
     <label className="grid content-start gap-2 text-sm font-medium">
-      {label}, {unit}
+      <span>{formatFieldLabel(label, unit)}</span>
       <input
         aria-label={`${label}, ${unit}`}
         className="input-control"

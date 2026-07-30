@@ -4,9 +4,10 @@ import { Brand } from "./Brand.jsx";
 
 const links = [
   { href: "/podbor/", label: "Подбор по модели" },
-  { href: "/vesa/", label: "Справочник VESA" },
-  { href: "/#kak-vybrat", label: "Как выбрать" },
-  { href: "/metodika/", label: "Проверка данных" },
+  { href: "/modeli/", label: "Телевизоры" },
+  { href: "/kronshteyny/", label: "Кронштейны" },
+  { href: "/vesa/", label: "VESA" },
+  { href: "/metodika/", label: "Методика" },
 ];
 
 export function SiteHeader({ active = "" }) {

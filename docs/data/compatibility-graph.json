@@ -1,0 +1,72 @@
+[
+  {
+    "tv_id": "samsung-qe55q70dauxru",
+    "mount_id": "itech-p4f",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 45 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 19.1
+  },
+  {
+    "tv_id": "samsung-qe55q70dauxru",
+    "mount_id": "itech-ptrb460ln",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 40 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 37–70″"
+    ],
+    "warnings": [],
+    "required_load_kg": 19.1
+  },
+  {
+    "tv_id": "samsung-qe55q70dauxru",
+    "mount_id": "itech-slt-460",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 40 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 37–80″"
+    ],
+    "warnings": [],
+    "required_load_kg": 19.1
+  },
+  {
+    "tv_id": "lg-oled55c4rla",
+    "mount_id": "itech-p4f",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 45 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.6
+  },
+  {
+    "tv_id": "lg-oled55c4rla",
+    "mount_id": "itech-slt-460",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 40 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 37–80″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.6
+  }
+]
