@@ -3,8 +3,9 @@
 import path, { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  buildMarketAffiliateFailure,
   buildMarketAffiliateRequestUrl,
-  marketTitleMatchesExpected,
+  classifyMarketAffiliatePayload,
   readJson,
   validateBatch,
   validateSource,
@@ -30,30 +31,6 @@ function usage() {
   ].join("\n");
 }
 
-function nullableInteger(value) {
-  return Number.isInteger(value) && value >= 0 ? value : null;
-}
-
-function failedCheck(card, checkedAt, status, errorCode) {
-  return {
-    id: card.id,
-    market_source_url: card.market_source_url,
-    compliance_mode: card.compliance_mode,
-    clid: card.clid,
-    vid: card.vid,
-    status,
-    affiliate_href: null,
-    page_name: null,
-    title: null,
-    product_photo: null,
-    promise: null,
-    price: null,
-    stock: null,
-    checked_at: checkedAt,
-    error_code: errorCode,
-  };
-}
-
 async function checkCard(card, token) {
   const checkedAt = new Date().toISOString();
   const url = buildMarketAffiliateRequestUrl(card);
@@ -65,12 +42,12 @@ async function checkCard(card, token) {
       signal: AbortSignal.timeout(15_000),
     });
   } catch {
-    return failedCheck(card, checkedAt, "error", "http_error");
+    return buildMarketAffiliateFailure(card, checkedAt, "error", "http_error");
   }
 
   if (!response.ok) {
     const unavailable = response.status === 404 || response.status === 410;
-    return failedCheck(
+    return buildMarketAffiliateFailure(
       card,
       checkedAt,
       unavailable ? "unavailable" : "error",
@@ -82,53 +59,14 @@ async function checkCard(card, token) {
   try {
     payload = await response.json();
   } catch {
-    return failedCheck(card, checkedAt, "error", "invalid_payload");
+    return buildMarketAffiliateFailure(
+      card,
+      checkedAt,
+      "error",
+      "invalid_payload",
+    );
   }
-
-  if (payload?.status !== "OK") {
-    return failedCheck(card, checkedAt, "error", "api_error");
-  }
-
-  const promise = nullableInteger(payload.promise);
-  const price = nullableInteger(payload.price);
-  const stock = nullableInteger(payload.stockAmount);
-  const affiliateHref = payload.link?.url;
-  const pageName = payload.link?.pageName;
-  const title = payload.link?.title;
-  const productPhoto = payload.link?.productPhoto;
-  if (
-    typeof affiliateHref !== "string" ||
-    pageName !== "POKUPKI_PRODUCT" ||
-    typeof title !== "string" ||
-    !title.trim() ||
-    typeof productPhoto !== "string" ||
-    promise === null ||
-    price === null ||
-    stock === null
-  ) {
-    return failedCheck(card, checkedAt, "error", "invalid_payload");
-  }
-  if (!marketTitleMatchesExpected(title, card.expected_title_tokens)) {
-    return failedCheck(card, checkedAt, "unavailable", "wrong_product");
-  }
-
-  return {
-    id: card.id,
-    market_source_url: card.market_source_url,
-    compliance_mode: card.compliance_mode,
-    clid: card.clid,
-    vid: card.vid,
-    status: "ok",
-    affiliate_href: affiliateHref,
-    page_name: pageName,
-    title,
-    product_photo: productPhoto,
-    promise,
-    price,
-    stock,
-    checked_at: checkedAt,
-    error_code: null,
-  };
+  return classifyMarketAffiliatePayload(card, payload, checkedAt);
 }
 
 async function checkCardWithRetries(card, token) {

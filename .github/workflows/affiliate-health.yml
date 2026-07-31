@@ -2,6 +2,9 @@ name: Проверка предложений Яндекс Маркета
 
 on:
   workflow_dispatch:
+  schedule:
+    # Два запуска в сутки оставляют запас относительно жёсткого TTL 48 часов.
+    - cron: "17 4,16 * * *"
 
 permissions:
   contents: write
@@ -18,38 +21,16 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Получить репозиторий
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
 
       - name: Настроить Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: web/package-lock.json
-
-      - name: Установить зависимости интерфейса
-        run: npm --prefix web ci --no-audit --no-fund
-
-      - name: Настроить Rust и WASM target
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: 1.93.1
-          targets: wasm32-unknown-unknown
-
-      - name: Восстановить кэш Rust
-        uses: Swatinem/rust-cache@v2
-        with:
-          cache-on-failure: true
-          shared-key: affiliate-health
-
-      - name: Установить wasm-pack
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ "$(wasm-pack --version 2>/dev/null || true)" != "wasm-pack 0.13.1" ]; then
-            cargo install wasm-pack --version 0.13.1 --locked
-          fi
-          wasm-pack --version
 
       - name: Проверить манифест
         run: npm run affiliate:validate
@@ -69,8 +50,9 @@ jobs:
             echo "Манифест пуст: безопасный запуск без сетевых запросов и публикации."
           fi
 
-      - name: Проверить настройки API
+      - name: Проверить карточки с повторами
         if: steps.manifest.outputs.count != '0'
+        id: check
         env:
           YANDEX_MARKET_AFFILIATE_OAUTH: ${{ secrets.YANDEX_MARKET_AFFILIATE_OAUTH }}
         shell: bash
@@ -80,15 +62,6 @@ jobs:
             echo "::error::Не настроен секрет YANDEX_MARKET_AFFILIATE_OAUTH"
             exit 1
           fi
-
-      - name: Проверить карточки с повторами
-        if: steps.manifest.outputs.count != '0'
-        id: check
-        env:
-          YANDEX_MARKET_AFFILIATE_OAUTH: ${{ secrets.YANDEX_MARKET_AFFILIATE_OAUTH }}
-        shell: bash
-        run: |
-          set -euo pipefail
           npm run affiliate:check-market
           has_error="$(node -e '
             const batch = require("./.private/market-affiliate-batch.json");
@@ -98,6 +71,34 @@ jobs:
           if [ "$has_error" = "true" ]; then
             echo "::warning::Часть карточек не проверена после персональных повторов; их CTA будет снят по fail-closed правилу."
           fi
+
+      - name: Установить зависимости интерфейса
+        if: steps.manifest.outputs.count != '0'
+        run: npm --prefix web ci --no-audit --no-fund
+
+      - name: Настроить Rust и WASM target
+        if: steps.manifest.outputs.count != '0'
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4
+        with:
+          toolchain: 1.93.1
+          targets: wasm32-unknown-unknown
+
+      - name: Восстановить кэш Rust
+        if: steps.manifest.outputs.count != '0'
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          cache-on-failure: true
+          shared-key: affiliate-health
+
+      - name: Установить wasm-pack
+        if: steps.manifest.outputs.count != '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$(wasm-pack --version 2>/dev/null || true)" != "wasm-pack 0.13.1" ]; then
+            cargo install wasm-pack --version 0.13.1 --locked
+          fi
+          wasm-pack --version
 
       - name: Собрать публичный снимок и полный production
         if: steps.manifest.outputs.count != '0'
@@ -113,6 +114,8 @@ jobs:
       - name: Зафиксировать весь проверенный public build
         if: steps.manifest.outputs.count != '0'
         id: commit
+        env:
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
@@ -137,6 +140,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: rebuild verified Market offers [skip ci]"
+          gh auth setup-git
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 

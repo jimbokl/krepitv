@@ -14,7 +14,8 @@ KREPI TV остаётся полезным без коммерческого с�
 - `scripts/affiliate/check-market-links.mjs` — приватный запрос к официальному
   `GET /partner/link/create`;
 - `scripts/affiliate/check-market-links-chrome.mjs` — тот же запрос через уже
-  открытый внешний Chrome, когда терминальный маршрут блокируется Яндексом;
+  открытый внешний Chrome только как ручной резервный путь; текущий production-
+  цикл его не использует;
 - `scripts/affiliate/build-snapshot.mjs` — fail-closed решение о публикации;
 - `scripts/affiliate/publish-snapshot.mjs` — единственный разрешённый путь из
   `.private/` в `data/affiliate/public-offers.json`; он отбрасывает все
@@ -24,8 +25,9 @@ KREPI TV остаётся полезным без коммерческого с�
 - статический HTML содержит только нейтральный `data-affiliate-slot` без
   `href`; клиент загружает снимок только с собственного origin без кеша и
   показывает кнопку после повторной проверки снимка и оффера;
-- `.github/workflows/affiliate-health.yml` — ручной CI-прогон. Расписание
-  отключено до подтверждения, что GitHub runner не получает VPN-блок;
+- `.github/workflows/affiliate-health.yml` — автоматический CI-прогон в 04:17 и
+  16:17 UTC плюс ручной запуск. Действия закреплены SHA, checkout не сохраняет
+  write-credential, а OAuth доступен только шагу официального API;
 - JSON Schema, исполняемые валидаторы и негативные тесты.
 
 В браузер, `docs/`, git и логи не попадают OAuth, заголовки авторизации, сырые
@@ -96,6 +98,12 @@ KREPI TV остаётся полезным без коммерческого с�
 Workflow после безопасной публикации здоровых карточек всё равно завершается
 ошибкой, чтобы технический отказ не остался без уведомления.
 
+31 июля реальный GitHub runner проверил непустой манифест: 17 карточек,
+12 publishable-офферов. Затем прошли полный build, commit, Pages deploy и
+побайтовая production-проверка. Красный итог первого запуска был вызван только
+старыми правилами, считавшими отсутствие reward/stock технической ошибкой;
+непубликуемые карточки теперь отделяются от настоящего сетевого отказа.
+
 После получения нового снимка workflow устанавливает зафиксированные Node-
 зависимости, Rust 1.93.1, WASM target и `wasm-pack` 0.13.1, затем запускает полный
 `npm run build`. Поэтому партнёрские карточки проходят не только JSON-
@@ -127,7 +135,9 @@ build. Job ждёт сборку точного коммита, затем по�
 Локальный эквивалент:
 
 ```bash
-npm run affiliate:check-market-chrome
+token="$(tr -d '\r\n' < .private/yandex-market-affiliate-oauth)"
+YANDEX_MARKET_AFFILIATE_OAUTH="$token" npm run affiliate:check-market
+unset token
 npm run affiliate:build-snapshot
 npm run affiliate:publish-snapshot
 npm run build

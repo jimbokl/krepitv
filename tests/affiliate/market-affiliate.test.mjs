@@ -11,6 +11,7 @@ import {
   buildMarketAffiliateRequestUrl,
   buildPublicSnapshot,
   buildSnapshot,
+  classifyMarketAffiliatePayload,
   marketTitleMatchesExpected,
   readJson,
   validateBatch,
@@ -83,6 +84,50 @@ function nonAdOffer(overrides = {}) {
   };
 }
 
+function marketCard(overrides = {}) {
+  return {
+    id: "market-itech-slt-460",
+    market_source_url:
+      "https://market.yandex.ru/card/kronshteyn-itechmount-slt-460/123",
+    compliance_mode: "non_ad_storefront",
+    clid: "12345678",
+    vid: "krepitvItechSLT460",
+    expected_title_tokens: ["iTECHmount", "SLT-460"],
+    ...overrides,
+  };
+}
+
+function marketPayload(overrides = {}) {
+  return {
+    status: "OK",
+    link: {
+      url: "https://market.yandex.ru/card/kronshteyn-itechmount-slt-460/123?clid=12345678",
+      pageName: "POKUPKI_PRODUCT",
+      title: "Кронштейн iTECHmount SLT-460 чёрный",
+      productPhoto:
+        "https://avatars.mds.yandex.net/get-mpic/fixture/optimize",
+    },
+    promise: 120,
+    price: 2500,
+    stockAmount: 8,
+    ...overrides,
+  };
+}
+
+function assertRedacted(check) {
+  for (const field of [
+    "affiliate_href",
+    "page_name",
+    "title",
+    "product_photo",
+    "promise",
+    "price",
+    "stock",
+  ]) {
+    assert.equal(check[field], null, `${field} must be redacted`);
+  }
+}
+
 test("validates example.invalid source, batch, private and public snapshot fixtures", async () => {
   const [source, batch, snapshot, publicSnapshot] = await Promise.all([
     readJson(path.join(fixtures, "source.valid.json")),
@@ -102,7 +147,12 @@ test("publishes only eligible offers without private decision numbers", async ()
   snapshot.offers[1] = {
     ...snapshot.offers[1],
     affiliate_href: null,
-    stock: 0,
+    page_name: null,
+    title: null,
+    product_photo: null,
+    promise: null,
+    price: null,
+    stock: null,
     eligibility: "out_of_stock",
     publishable: false,
   };
@@ -288,6 +338,157 @@ test("requires the configured product identity in the Market title", () => {
     marketTitleMatchesExpected("Кронштейн другой модели", ["SLT-460"]),
     false,
   );
+});
+
+test("classifies a structurally valid rewarded Market payload as ok", () => {
+  const checkedAt = "2026-07-31T10:00:00Z";
+  const result = classifyMarketAffiliatePayload(
+    marketCard(),
+    marketPayload(),
+    checkedAt,
+  );
+
+  assert.equal(result.status, "ok");
+  assert.equal(result.error_code, null);
+  assert.equal(result.promise, 120);
+  assert.equal(result.price, 2500);
+  assert.equal(result.stock, 8);
+  assert.equal(result.checked_at, checkedAt);
+  assert.match(result.affiliate_href, /^https:\/\/market\.yandex\.ru\//);
+});
+
+test("maps nullable Market business signals to sanitized unavailable checks", () => {
+  const cases = [
+    {
+      payload: marketPayload({
+        promise: null,
+        price: null,
+        stockAmount: null,
+      }),
+      errorCode: "not_rewarded",
+    },
+    {
+      payload: marketPayload({ promise: null }),
+      errorCode: "not_rewarded",
+    },
+    {
+      payload: marketPayload({ price: null }),
+      errorCode: "not_in_stock",
+    },
+    {
+      payload: marketPayload({ stockAmount: null }),
+      errorCode: "not_in_stock",
+    },
+    {
+      payload: marketPayload({ price: 0 }),
+      errorCode: "not_in_stock",
+    },
+  ];
+
+  for (const { payload, errorCode } of cases) {
+    const result = classifyMarketAffiliatePayload(
+      marketCard(),
+      payload,
+      "2026-07-31T10:00:00Z",
+    );
+    assert.equal(result.status, "unavailable");
+    assert.equal(result.error_code, errorCode);
+    assertRedacted(result);
+  }
+});
+
+test("maps a valid but wrong Market title to a sanitized unavailable check", () => {
+  const result = classifyMarketAffiliatePayload(
+    marketCard(),
+    marketPayload({
+      link: {
+        ...marketPayload().link,
+        title: "Кронштейн другой модели",
+      },
+    }),
+    "2026-07-31T10:00:00Z",
+  );
+
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.error_code, "wrong_product");
+  assertRedacted(result);
+});
+
+test("rejects structurally corrupted Market payload fields", () => {
+  const payloads = [
+    null,
+    marketPayload({ promise: "120" }),
+    marketPayload({ price: -1 }),
+    marketPayload({ stockAmount: 1.5 }),
+    marketPayload({ link: { ...marketPayload().link, url: 123 } }),
+    marketPayload({ link: { ...marketPayload().link, pageName: "OTHER" } }),
+  ];
+
+  for (const payload of payloads) {
+    const result = classifyMarketAffiliatePayload(
+      marketCard(),
+      payload,
+      "2026-07-31T10:00:00Z",
+    );
+    assert.equal(result.status, "error");
+    assert.equal(result.error_code, "invalid_payload");
+    assertRedacted(result);
+  }
+});
+
+test("keeps integer zero reward and stock as ok before eligibility redaction", async () => {
+  const [source, baseBatch] = await Promise.all([
+    readJson(path.join(fixtures, "source.valid.json")),
+    readJson(path.join(fixtures, "batch.valid.json")),
+  ]);
+  const zeroChecks = [
+    {
+      payloadField: "promise",
+      batchField: "promise",
+      expectedEligibility: "no_reward",
+    },
+    {
+      payloadField: "stockAmount",
+      batchField: "stock",
+      expectedEligibility: "out_of_stock",
+    },
+  ];
+
+  for (const {
+    payloadField,
+    batchField,
+    expectedEligibility,
+  } of zeroChecks) {
+    const classified = classifyMarketAffiliatePayload(
+      marketCard(),
+      marketPayload({ [payloadField]: 0 }),
+      "2026-07-31T10:00:00Z",
+    );
+    assert.equal(classified.status, "ok");
+    assert.equal(classified.error_code, null);
+
+    const batch = structuredClone(baseBatch);
+    batch.checks[0][batchField] = 0;
+    assert.equal(batch.checks[0].status, "ok");
+
+    const snapshot = buildSnapshot(source, batch, fixtureOptions);
+    assert.equal(snapshot.offers[0].eligibility, expectedEligibility);
+    assert.equal(snapshot.offers[0].publishable, false);
+    assertRedacted(snapshot.offers[0]);
+  }
+});
+
+test("never publishes a zero-price ok check", async () => {
+  const [source, batch] = await Promise.all([
+    readJson(path.join(fixtures, "source.valid.json")),
+    readJson(path.join(fixtures, "batch.valid.json")),
+  ]);
+  batch.checks[0].price = 0;
+
+  const snapshot = buildSnapshot(source, batch, fixtureOptions);
+  assert.equal(snapshot.offers[0].eligibility, "out_of_stock");
+  assert.equal(snapshot.offers[0].publishable, false);
+  assertRedacted(snapshot.offers[0]);
 });
 
 test("rejects a Market card mapped to another catalog entity", async () => {

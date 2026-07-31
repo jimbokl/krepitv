@@ -78,6 +78,116 @@ export function marketTitleMatchesExpected(title, expectedTokens) {
   );
 }
 
+function marketCheckIdentity(card, checkedAt) {
+  return {
+    id: card.id,
+    market_source_url: card.market_source_url,
+    compliance_mode: card.compliance_mode,
+    clid: card.clid,
+    vid: card.vid,
+    checked_at: checkedAt,
+  };
+}
+
+export function buildMarketAffiliateFailure(
+  card,
+  checkedAt,
+  status,
+  errorCode,
+) {
+  return {
+    ...marketCheckIdentity(card, checkedAt),
+    status,
+    affiliate_href: null,
+    page_name: null,
+    title: null,
+    product_photo: null,
+    promise: null,
+    price: null,
+    stock: null,
+    error_code: errorCode,
+  };
+}
+
+export function classifyMarketAffiliatePayload(card, payload, checkedAt) {
+  if (!isObject(payload) || typeof payload.status !== "string") {
+    return buildMarketAffiliateFailure(
+      card,
+      checkedAt,
+      "error",
+      "invalid_payload",
+    );
+  }
+  if (payload.status !== "OK") {
+    return buildMarketAffiliateFailure(card, checkedAt, "error", "api_error");
+  }
+
+  const link = payload.link;
+  const metrics = ["promise", "price", "stockAmount"];
+  const structurallyValid =
+    isObject(link) &&
+    typeof link.url === "string" &&
+    Boolean(link.url.trim()) &&
+    link.pageName === "POKUPKI_PRODUCT" &&
+    typeof link.title === "string" &&
+    Boolean(link.title.trim()) &&
+    typeof link.productPhoto === "string" &&
+    Boolean(link.productPhoto.trim()) &&
+    metrics.every(
+      (field) =>
+        Object.hasOwn(payload, field) && isNullableInteger(payload[field]),
+    );
+  if (!structurallyValid) {
+    return buildMarketAffiliateFailure(
+      card,
+      checkedAt,
+      "error",
+      "invalid_payload",
+    );
+  }
+  if (!marketTitleMatchesExpected(link.title, card.expected_title_tokens)) {
+    return buildMarketAffiliateFailure(
+      card,
+      checkedAt,
+      "unavailable",
+      "wrong_product",
+    );
+  }
+  if (payload.promise === null) {
+    return buildMarketAffiliateFailure(
+      card,
+      checkedAt,
+      "unavailable",
+      "not_rewarded",
+    );
+  }
+  if (
+    payload.price === null ||
+    payload.price <= 0 ||
+    payload.stockAmount === null
+  ) {
+    return buildMarketAffiliateFailure(
+      card,
+      checkedAt,
+      "unavailable",
+      "not_in_stock",
+    );
+  }
+
+  return {
+    ...marketCheckIdentity(card, checkedAt),
+    status: "ok",
+    affiliate_href: link.url,
+    page_name: link.pageName,
+    title: link.title,
+    product_photo: link.productPhoto,
+    promise: payload.promise,
+    price: payload.price,
+    stock: payload.stockAmount,
+    error_code: null,
+  };
+}
+
 export function buildMarketAffiliateRequestUrl(card) {
   const url = new URL(MARKET_AFFILIATE_ENDPOINT);
   url.searchParams.set("url", card.market_source_url);
@@ -641,18 +751,16 @@ export function validateBatch(batch, options = {}) {
       if (check.error_code === null) {
         add(issues, `${location}.error_code`, "required when status is not ok");
       }
-      if (check.status === "error") {
-        for (const field of [
-          "promise",
-          "price",
-          "stock",
-          "page_name",
-          "title",
-          "product_photo",
-        ]) {
-          if (check[field] !== null) {
-            add(issues, `${location}.${field}`, "must be null for error status");
-          }
+      for (const field of [
+        "promise",
+        "price",
+        "stock",
+        "page_name",
+        "title",
+        "product_photo",
+      ]) {
+        if (check[field] !== null) {
+          add(issues, `${location}.${field}`, "must be null unless status is ok");
         }
       }
     }
@@ -662,14 +770,26 @@ export function validateBatch(batch, options = {}) {
 }
 
 function expectedEligibility(offer) {
-  if (offer.eligibility === "error" || offer.eligibility === "unavailable") {
+  if (
+    offer.eligibility === "error" ||
+    offer.eligibility === "unavailable" ||
+    offer.eligibility === "no_reward" ||
+    offer.eligibility === "out_of_stock"
+  ) {
     return offer.eligibility;
   }
   if (offer.compliance_mode === "advertising" && !offer.creative?.erid) {
     return "unmarked";
   }
   if (!Number.isInteger(offer.promise) || offer.promise <= 0) return "no_reward";
-  if (!Number.isInteger(offer.stock) || offer.stock <= 0) return "out_of_stock";
+  if (
+    !Number.isInteger(offer.price) ||
+    offer.price <= 0 ||
+    !Number.isInteger(offer.stock) ||
+    offer.stock <= 0
+  ) {
+    return "out_of_stock";
+  }
   return "publishable";
 }
 
@@ -853,8 +973,20 @@ export function validateSnapshot(snapshot, options = {}) {
       ) {
         add(issues, location, "publishable offer requires product identity and photo");
       }
-    } else if (offer.affiliate_href !== null) {
-      add(issues, `${location}.affiliate_href`, "must be null for non-publishable offer");
+    } else {
+      for (const field of [
+        "affiliate_href",
+        "page_name",
+        "title",
+        "product_photo",
+        "promise",
+        "price",
+        "stock",
+      ]) {
+        if (offer[field] !== null) {
+          add(issues, `${location}.${field}`, "must be null for non-publishable offer");
+        }
+      }
     }
   });
   finish(issues);
@@ -912,7 +1044,7 @@ export function validatePublicSnapshot(snapshot, options = {}) {
       offers: snapshot.offers.map((offer) => ({
         ...offer,
         promise: 1,
-        price: 0,
+        price: 1,
         stock: 1,
       })),
     },
@@ -1005,7 +1137,7 @@ export function buildSnapshot(source, batch, options = {}) {
       eligibility = "unmarked";
     }
     else if (check.promise <= 0) eligibility = "no_reward";
-    else if (check.stock <= 0) eligibility = "out_of_stock";
+    else if (check.price <= 0 || check.stock <= 0) eligibility = "out_of_stock";
     else eligibility = "publishable";
 
     const publishable = eligibility === "publishable";
@@ -1019,12 +1151,12 @@ export function buildSnapshot(source, batch, options = {}) {
       clid: card.clid,
       vid: card.vid,
       affiliate_href: publishable ? check.affiliate_href : null,
-      page_name: check.page_name,
-      title: check.title,
-      product_photo: check.product_photo,
-      promise: check.promise,
-      price: check.price,
-      stock: check.stock,
+      page_name: publishable ? check.page_name : null,
+      title: publishable ? check.title : null,
+      product_photo: publishable ? check.product_photo : null,
+      promise: publishable ? check.promise : null,
+      price: publishable ? check.price : null,
+      stock: publishable ? check.stock : null,
       checked_at: check.checked_at,
       eligibility,
       publishable,
