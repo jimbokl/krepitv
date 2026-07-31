@@ -1,4 +1,5 @@
 import { LinkSimple, WarningCircle, Wrench } from "@phosphor-icons/react";
+import { ScrewLengthCalculator } from "./ScrewLengthCalculator.jsx";
 import { formatCheckedDate } from "./TrustMark.jsx";
 
 function formatMm(value) {
@@ -21,7 +22,7 @@ export function screwMeasurement(group) {
   return group.thread;
 }
 
-export function WallMountScrews({ model, showCatalogLink = true }) {
+export function WallMountScrews({ model, showCatalogLink = true, showLengthCalculator = false }) {
   const hardware = model?.wall_mount_screws;
   if (!hardware?.groups?.length) return null;
 
@@ -100,6 +101,14 @@ export function WallMountScrews({ model, showCatalogLink = true }) {
             : "Это паспортный размер винта, а не глубина резьбового отверстия. Не увеличивайте длину по аналогии; учитывайте только схему и проставки из руководств телевизора и кронштейна."}
         </p>
       </div>
+      {showLengthCalculator ? (
+        <ScrewLengthCalculator
+          groups={hardware.groups}
+          requiresSpacerMeasurement={Boolean(
+            hardware.requires_adapters || hardware.required_parts_note,
+          )}
+        />
+      ) : null}
       <div className="mt-4 grid gap-2">
         <a
           className="inline-flex items-center gap-2 text-sm font-semibold text-technical underline underline-offset-4"

@@ -15,6 +15,8 @@ export function tv_zone_socket_plan_json(diagonal_inches: number, screen_center_
 
 export function vesa_match_plan_json(measured_width: number, measured_height: number, measurement_unit: string, mount_spec: string): string;
 
+export function vesa_screw_length_plan_json(engagement_min_mm: number | null | undefined, engagement_max_mm: number | null | undefined, bracket_plate_thickness_mm: number, washer_stack_thickness_mm: number, required_spacer_thickness_mm: number): string;
+
 export function viewing_geometry_json(mode: string, value: number, horizontal_angle_deg: number): string;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -28,6 +30,7 @@ export interface InitOutput {
     readonly turn_clearance_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
     readonly tv_zone_socket_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number, p: number, q: number, r: number) => void;
     readonly vesa_match_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
+    readonly vesa_screw_length_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number) => void;
     readonly viewing_geometry_json: (a: number, b: number, c: number, d: number, e: number) => void;
     readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
     readonly __wbindgen_export: (a: number, b: number, c: number) => void;

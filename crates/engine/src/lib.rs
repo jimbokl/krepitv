@@ -31,6 +31,7 @@ const MAX_VESA_DIMENSION_MM: f64 = 1_000.0;
 const MAX_VESA_SPEC_CHARS: usize = 600;
 const VESA_EXACT_TOLERANCE_MM: f64 = 0.5;
 const VESA_NEAR_TOLERANCE_MM: f64 = 3.0;
+const MAX_VESA_SCREW_LENGTH_MM: f64 = 200.0;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Mount {
@@ -258,6 +259,23 @@ pub struct VesaMatchPlan {
     pub range_only_claim: bool,
     pub mount_supports_measured_pair: Option<bool>,
     pub warnings: Vec<String>,
+}
+
+/// Неразрывный диапазон полной длины VESA-винта без подбора товарного размера.
+///
+/// Расчёт допустим только при наличии обеих подтверждённых паспортных границ
+/// зацепления. Результат сохраняет исходную точность: ядро не округляет границы
+/// и не выбирает ближайшую стандартную длину винта.
+#[derive(Clone, Debug, Serialize)]
+pub struct VesaScrewLengthPlan {
+    pub engagement_min_mm: f64,
+    pub engagement_max_mm: f64,
+    pub bracket_plate_thickness_mm: f64,
+    pub washer_stack_thickness_mm: f64,
+    pub required_spacer_thickness_mm: f64,
+    pub external_stack_thickness_mm: f64,
+    pub total_length_min_mm: f64,
+    pub total_length_max_mm: f64,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -797,6 +815,100 @@ pub fn calculate_vesa_match(
         range_only_claim,
         mount_supports_measured_pair,
         warnings,
+    })
+}
+
+fn validate_vesa_screw_measurement(
+    value: f64,
+    field: &str,
+    allow_zero: bool,
+) -> Result<(), String> {
+    if !value.is_finite() {
+        return Err(format!("{field}: введите конечное число"));
+    }
+    if value < 0.0 || (!allow_zero && value == 0.0) {
+        let requirement = if allow_zero {
+            "неотрицательное число"
+        } else {
+            "число больше нуля"
+        };
+        return Err(format!("{field}: введите {requirement}"));
+    }
+    if value > MAX_VESA_SCREW_LENGTH_MM {
+        return Err(format!(
+            "{field}: значение не должно превышать {MAX_VESA_SCREW_LENGTH_MM} мм"
+        ));
+    }
+    Ok(())
+}
+
+/// Рассчитывает только допустимый диапазон полной длины VESA-винта.
+///
+/// `engagement_min_mm` и `engagement_max_mm` должны быть подтверждены паспортом
+/// точной модели телевизора. Толщина планки обязательна и положительна; суммарная
+/// толщина шайб и обязательной проставки может быть явно равна нулю. Функция не
+/// округляет результат и не выбирает товарный размер винта.
+pub fn calculate_vesa_screw_length_plan(
+    engagement_min_mm: Option<f64>,
+    engagement_max_mm: Option<f64>,
+    bracket_plate_thickness_mm: f64,
+    washer_stack_thickness_mm: f64,
+    required_spacer_thickness_mm: f64,
+) -> Result<VesaScrewLengthPlan, String> {
+    let engagement_min_mm = engagement_min_mm.ok_or_else(|| {
+        "Паспортный диапазон зацепления: отсутствует минимальная граница".to_string()
+    })?;
+    let engagement_max_mm = engagement_max_mm.ok_or_else(|| {
+        "Паспортный диапазон зацепления: отсутствует максимальная граница".to_string()
+    })?;
+
+    validate_vesa_screw_measurement(
+        engagement_min_mm,
+        "Минимальное паспортное зацепление",
+        false,
+    )?;
+    validate_vesa_screw_measurement(
+        engagement_max_mm,
+        "Максимальное паспортное зацепление",
+        false,
+    )?;
+    if engagement_min_mm > engagement_max_mm {
+        return Err(
+            "Паспортный диапазон зацепления: минимальная граница больше максимальной".to_string(),
+        );
+    }
+
+    validate_vesa_screw_measurement(
+        bracket_plate_thickness_mm,
+        "Толщина планки кронштейна",
+        false,
+    )?;
+    validate_vesa_screw_measurement(washer_stack_thickness_mm, "Суммарная толщина шайб", true)?;
+    validate_vesa_screw_measurement(
+        required_spacer_thickness_mm,
+        "Толщина обязательной проставки",
+        true,
+    )?;
+
+    let external_stack_thickness_mm =
+        bracket_plate_thickness_mm + washer_stack_thickness_mm + required_spacer_thickness_mm;
+    let total_length_min_mm = engagement_min_mm + external_stack_thickness_mm;
+    let total_length_max_mm = engagement_max_mm + external_stack_thickness_mm;
+    if total_length_max_mm > MAX_VESA_SCREW_LENGTH_MM {
+        return Err(format!(
+            "Полная длина винта: расчётная верхняя граница не должна превышать {MAX_VESA_SCREW_LENGTH_MM} мм"
+        ));
+    }
+
+    Ok(VesaScrewLengthPlan {
+        engagement_min_mm,
+        engagement_max_mm,
+        bracket_plate_thickness_mm,
+        washer_stack_thickness_mm,
+        required_spacer_thickness_mm,
+        external_stack_thickness_mm,
+        total_length_min_mm,
+        total_length_max_mm,
     })
 }
 
@@ -1723,6 +1835,26 @@ pub fn vesa_match_plan_json(
     }
 }
 
+#[wasm_bindgen]
+pub fn vesa_screw_length_plan_json(
+    engagement_min_mm: Option<f64>,
+    engagement_max_mm: Option<f64>,
+    bracket_plate_thickness_mm: f64,
+    washer_stack_thickness_mm: f64,
+    required_spacer_thickness_mm: f64,
+) -> String {
+    match calculate_vesa_screw_length_plan(
+        engagement_min_mm,
+        engagement_max_mm,
+        bracket_plate_thickness_mm,
+        washer_stack_thickness_mm,
+        required_spacer_thickness_mm,
+    ) {
+        Ok(plan) => serde_json::to_string(&plan).expect("VESA screw length plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2202,6 +2334,105 @@ mod tests {
         assert_eq!(absent.status, "не-совпадает");
         assert!(absent.reversed_pair.is_none());
         assert_eq!(absent.mount_supports_measured_pair, Some(false));
+    }
+
+    #[test]
+    fn vesa_screw_length_plan_adds_confirmed_range_without_selecting_a_size() {
+        let plan = calculate_vesa_screw_length_plan(Some(19.0), Some(21.0), 3.0, 1.0, 0.0).unwrap();
+
+        assert_eq!(plan.external_stack_thickness_mm, 4.0);
+        assert_eq!(plan.total_length_min_mm, 23.0);
+        assert_eq!(plan.total_length_max_mm, 25.0);
+
+        let fractional =
+            calculate_vesa_screw_length_plan(Some(9.5), Some(11.5), 2.35, 0.4, 1.2).unwrap();
+        assert!((fractional.total_length_min_mm - 13.45).abs() < 1e-12);
+        assert!((fractional.total_length_max_mm - 15.45).abs() < 1e-12);
+    }
+
+    #[test]
+    fn vesa_screw_length_plan_requires_both_passport_bounds() {
+        let missing_min =
+            calculate_vesa_screw_length_plan(None, Some(21.0), 3.0, 1.0, 0.0).unwrap_err();
+        assert!(missing_min.contains("минимальная граница"));
+
+        let missing_max =
+            calculate_vesa_screw_length_plan(Some(19.0), None, 3.0, 1.0, 0.0).unwrap_err();
+        assert!(missing_max.contains("максимальная граница"));
+    }
+
+    #[test]
+    fn vesa_screw_length_plan_rejects_reversed_passport_range() {
+        let error =
+            calculate_vesa_screw_length_plan(Some(21.0), Some(19.0), 3.0, 1.0, 0.0).unwrap_err();
+        assert!(error.contains("минимальная граница больше максимальной"));
+    }
+
+    #[test]
+    fn vesa_screw_length_plan_rejects_negative_measurements() {
+        for (engagement_min, plate, washers, spacer) in [
+            (-1.0, 3.0, 1.0, 0.0),
+            (19.0, -3.0, 1.0, 0.0),
+            (19.0, 3.0, -1.0, 0.0),
+            (19.0, 3.0, 1.0, -1.0),
+        ] {
+            assert!(
+                calculate_vesa_screw_length_plan(
+                    Some(engagement_min),
+                    Some(21.0),
+                    plate,
+                    washers,
+                    spacer,
+                )
+                .is_err()
+            );
+        }
+    }
+
+    #[test]
+    fn vesa_screw_length_plan_rejects_non_finite_and_out_of_range_values() {
+        let non_finite =
+            calculate_vesa_screw_length_plan(Some(f64::NAN), Some(21.0), 3.0, 1.0, 0.0)
+                .unwrap_err();
+        assert!(non_finite.contains("конечное число"));
+
+        let oversized_component = calculate_vesa_screw_length_plan(
+            Some(19.0),
+            Some(21.0),
+            MAX_VESA_SCREW_LENGTH_MM + 0.1,
+            1.0,
+            0.0,
+        )
+        .unwrap_err();
+        assert!(oversized_component.contains("не должно превышать"));
+
+        let oversized_total =
+            calculate_vesa_screw_length_plan(Some(150.0), Some(150.0), 49.0, 1.0, 1.0).unwrap_err();
+        assert!(oversized_total.contains("Полная длина винта"));
+    }
+
+    #[test]
+    fn vesa_screw_length_wasm_json_has_stable_shape_and_errors() {
+        let response = vesa_screw_length_plan_json(Some(19.0), Some(21.0), 3.0, 1.0, 0.0);
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "engagement_min_mm",
+            "engagement_max_mm",
+            "bracket_plate_thickness_mm",
+            "washer_stack_thickness_mm",
+            "required_spacer_thickness_mm",
+            "external_stack_thickness_mm",
+            "total_length_min_mm",
+            "total_length_max_mm",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert!(value.get("selected_length_mm").is_none());
+        assert!(value.get("error").is_none());
+
+        let invalid = vesa_screw_length_plan_json(None, Some(21.0), 3.0, 1.0, 0.0);
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
     }
 
     #[test]

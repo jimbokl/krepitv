@@ -201,6 +201,31 @@ export function vesa_match_plan_json(measured_width, measured_height, measuremen
 }
 
 /**
+ * @param {number | null | undefined} engagement_min_mm
+ * @param {number | null | undefined} engagement_max_mm
+ * @param {number} bracket_plate_thickness_mm
+ * @param {number} washer_stack_thickness_mm
+ * @param {number} required_spacer_thickness_mm
+ * @returns {string}
+ */
+export function vesa_screw_length_plan_json(engagement_min_mm, engagement_max_mm, bracket_plate_thickness_mm, washer_stack_thickness_mm, required_spacer_thickness_mm) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.vesa_screw_length_plan_json(retptr, !isLikeNone(engagement_min_mm), isLikeNone(engagement_min_mm) ? 0 : engagement_min_mm, !isLikeNone(engagement_max_mm), isLikeNone(engagement_max_mm) ? 0 : engagement_max_mm, bracket_plate_thickness_mm, washer_stack_thickness_mm, required_spacer_thickness_mm);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred1_0 = r0;
+        deferred1_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * @param {string} mode
  * @param {number} value
  * @param {number} horizontal_angle_deg
@@ -252,6 +277,10 @@ function getUint8ArrayMemory0() {
         cachedUint8ArrayMemory0 = new Uint8Array(wasm.memory.buffer);
     }
     return cachedUint8ArrayMemory0;
+}
+
+function isLikeNone(x) {
+    return x === undefined || x === null;
 }
 
 function passStringToWasm0(arg, malloc, realloc) {

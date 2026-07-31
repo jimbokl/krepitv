@@ -231,6 +231,21 @@ export async function calculateHeight(model, values) {
   );
 }
 
+export async function calculateVesaScrewLength(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.vesa_screw_length_plan_json(
+      values.engagementMin,
+      values.engagementMax,
+      values.plate,
+      values.washers,
+      values.spacer,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateMountingMap(values) {
   const engine = await loadEngine();
   const response = JSON.parse(

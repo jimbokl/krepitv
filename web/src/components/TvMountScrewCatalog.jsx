@@ -133,7 +133,12 @@ export function TvMountScrewCatalog({ models, search }) {
 
       {selectedModel?.wall_mount_screws?.groups?.length ? (
         <div className="mt-7" data-selected-screw-model={selectedModel.id}>
-          <WallMountScrews model={selectedModel} showCatalogLink={false} />
+          <WallMountScrews
+            key={selectedModel.id}
+            model={selectedModel}
+            showCatalogLink={false}
+            showLengthCalculator
+          />
           <a
             className="primary-button mt-4"
             href={modelHref(selectedModel)}
