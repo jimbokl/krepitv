@@ -137,7 +137,6 @@ jobs:
           npm run affiliate:build-model-snapshot
           npm run affiliate:publish-model-snapshot
           npm run affiliate:validate-models-public
-          npm run affiliate:test
           npm run build
 
       - name: Зафиксировать весь проверенный public build

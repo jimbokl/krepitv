@@ -396,7 +396,7 @@ test("real catalog produces deterministic top-three placements for all 80 models
     readFile(new URL("../../data/affiliate/market-products.json", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../../data/tv_models.json", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../../data/mounts.json", import.meta.url), "utf8").then(JSON.parse),
-    readFile(new URL("../../web/public/data/compatibility-graph.json", import.meta.url), "utf8").then(JSON.parse),
+    readFile(new URL("../../docs/data/compatibility-graph.json", import.meta.url), "utf8").then(JSON.parse),
   ]);
   const generated = generateModelPlacementManifest({
     source: realSource,
