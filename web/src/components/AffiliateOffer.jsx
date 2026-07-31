@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { emitAffiliateClick } from "../lib/affiliateClick.mjs";
 import { getAffiliatePresentation } from "../lib/affiliateOffer.mjs";
+import { MountDetailLink } from "./MountDetailLink.jsx";
 
 export function AffiliateLink({ children, className = "primary-button", offer }) {
   const presentation = getAffiliatePresentation(offer);
@@ -62,9 +63,13 @@ export default function AffiliateOffer({ offer, children, compact = false, detai
           </h3>
           {children}
           {safeDetailsHref ? (
-            <a className="mt-3 inline-flex text-sm font-semibold text-action underline underline-offset-4" href={safeDetailsHref}>
+            <MountDetailLink
+              className="mt-3 inline-flex text-sm font-semibold text-action underline underline-offset-4"
+              href={safeDetailsHref}
+              placement="compatibility_result"
+            >
               Проверить VESA и нагрузку
-            </a>
+            </MountDetailLink>
           ) : null}
         </div>
         <AffiliateLink

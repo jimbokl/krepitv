@@ -38,8 +38,11 @@
     "affiliate:test": "node --test tests/affiliate/*.test.mjs",
     "indexnow:submit": "node scripts/indexnow/submit.mjs",
     "indexnow:test": "node --test tests/indexnow/*.test.mjs",
+    "analytics:goals:check": "node scripts/analytics/manage-metrika-goals.mjs",
+    "analytics:goals:apply": "node scripts/analytics/manage-metrika-goals.mjs --apply",
+    "analytics:test": "node --test tests/analytics/*.test.mjs",
     "dev:prepare": "npm run build:content && npm run build:wasm",
     "dev": "npm run dev:prepare && npm --prefix web run dev",
-    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test"
+    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test"
   }
 }

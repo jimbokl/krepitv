@@ -213,6 +213,7 @@ test("ONKRON hub shows comparison and internal verification before Market exit",
     assert.ok(html.indexOf("data-affiliate-hub") < html.indexOf("id=\"seo-model-search\""));
     assert.equal((html.match(/data-mount-comparison-item=/g) ?? []).length, 5);
     assert.equal((html.match(/Проверить VESA и нагрузку/g) ?? []).length, 2);
+    assert.equal((html.match(/data-mount-detail-placement="compatibility_result"/g) ?? []).length, 2);
     assert.equal((html.match(/href=\"\/kronshteyny\/onkron-/g) ?? []).length >= 7, true);
     assert.equal((html.match(/href=\"https:\/\/market\.yandex\.ru\/card\//g) ?? []).length, 2);
     assert.equal(html.includes("100×100 · 200×200 · 300×300 · 400×400"), true);

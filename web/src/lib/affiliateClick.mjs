@@ -26,10 +26,14 @@ export function emitAffiliateClick(windowObject, offer) {
     return false;
   }
 
-  windowObject.dispatchEvent(
-    new windowObject.CustomEvent(AFFILIATE_CLICK_EVENT, {
-      detail: affiliateClickDetail(offer, windowObject.location?.pathname),
-    }),
-  );
+  try {
+    windowObject.dispatchEvent(
+      new windowObject.CustomEvent(AFFILIATE_CLICK_EVENT, {
+        detail: affiliateClickDetail(offer, windowObject.location?.pathname),
+      }),
+    );
+  } catch {
+    return false;
+  }
   return true;
 }

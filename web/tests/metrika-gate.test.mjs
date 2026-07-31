@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { AFFILIATE_CLICK_EVENT } from "../src/lib/affiliateClick.mjs";
 import { MOUNT_DETAIL_CLICK_EVENT } from "../src/lib/mountDetailClick.mjs";
+import { RESULT_COMPLETED_EVENT } from "../src/lib/resultCompleted.mjs";
 import { installConsentGatedMetrika } from "../src/lib/metrikaGate.mjs";
 import {
   METRIKA_CONSENT_DENIED,
@@ -96,5 +98,59 @@ test("сохранённое согласие включает Метрику с
     detail: { value: METRIKA_CONSENT_GRANTED },
   });
   assert.equal(browser.windowObject.ym.a.length, 1);
+  gate.dispose();
+});
+
+test("после согласия три ступени воронки передаются в точном порядке, прошлые события не воспроизводятся", () => {
+  const browser = browserDouble();
+  const gate = installConsentGatedMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    readConsent: () => METRIKA_CONSENT_DENIED,
+    windowObject: browser.windowObject,
+  });
+
+  browser.windowObject.dispatchEvent({
+    type: RESULT_COMPLETED_EVENT,
+    detail: { toolId: "guided-selection", resultType: "compatible-mounts", resultCount: 3 },
+  });
+  browser.windowObject.dispatchEvent({
+    type: MOUNT_DETAIL_CLICK_EVENT,
+    detail: { placement: "featured_result" },
+  });
+  browser.windowObject.dispatchEvent({
+    type: AFFILIATE_CLICK_EVENT,
+    detail: { entityId: "onkron-nn24", offerId: "offer01", pagePath: "/kronshteyny/onkron-nn24/", vid: "safeVID01" },
+  });
+  assert.equal(browser.windowObject.ym, undefined);
+
+  browser.windowObject.dispatchEvent({
+    type: METRIKA_CONSENT_EVENT,
+    detail: { value: METRIKA_CONSENT_GRANTED },
+  });
+  assert.equal(browser.windowObject.ym.a.length, 1);
+
+  browser.windowObject.dispatchEvent({
+    type: RESULT_COMPLETED_EVENT,
+    detail: { toolId: "guided-selection", resultType: "compatible-mounts", resultCount: 3 },
+  });
+  browser.windowObject.dispatchEvent({
+    type: MOUNT_DETAIL_CLICK_EVENT,
+    detail: { placement: "featured_result" },
+  });
+  browser.windowObject.dispatchEvent({
+    type: AFFILIATE_CLICK_EVENT,
+    detail: { entityId: "onkron-nn24", offerId: "offer01", pagePath: "/kronshteyny/onkron-nn24/", vid: "safeVID01" },
+  });
+
+  assert.deepEqual(browser.windowObject.ym.a.slice(1).map((call) => call.slice(0, 3)), [
+    [123456, "reachGoal", "result_completed"],
+    [123456, "reachGoal", "mount_detail_click"],
+    [123456, "reachGoal", "market_click"],
+  ]);
+  assert.equal(browser.windowObject.ym.a[1][3].result_count, 3);
+  assert.deepEqual(browser.windowObject.ym.a[2][3], { placement: "featured_result" });
+  assert.equal(browser.windowObject.ym.a[3][3].entity_id, "onkron-nn24");
+
   gate.dispose();
 });

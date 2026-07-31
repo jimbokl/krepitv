@@ -642,6 +642,11 @@ test("emits one sanitized affiliate-click payload for every Market CTA", () => {
 test("affiliate-click emitter fails closed without a browser event API", () => {
   assert.equal(emitAffiliateClick(null, {}), false);
   assert.equal(emitAffiliateClick({}, {}), false);
+  assert.equal(emitAffiliateClick({
+    CustomEvent: class CustomEvent {},
+    dispatchEvent() { throw new Error("analytics is unavailable"); },
+    location: { pathname: "/" },
+  }, {}), false);
 });
 
 test("hides stale offers and falls back to a fresh offer for the same page", () => {
