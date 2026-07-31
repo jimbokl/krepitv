@@ -1,0 +1,61 @@
+[
+  { "candidate_id": "tcl-55c6k-mount", "candidate_path": "/modeli/tcl-55c6k/", "query": "кронштейн для телевизора TCL 55C6K", "variant": "mount" },
+  { "candidate_id": "tcl-55c6k-vesa", "candidate_path": "/modeli/tcl-55c6k/", "query": "vesa TCL 55C6K", "variant": "vesa" },
+  { "candidate_id": "tcl-55c6k-screws", "candidate_path": "/modeli/tcl-55c6k/", "query": "винты для TCL 55C6K", "variant": "screws" },
+  { "candidate_id": "tcl-55c6k-how-to", "candidate_path": "/modeli/tcl-55c6k/", "query": "как повесить TCL 55C6K на стену", "variant": "how-to" },
+  { "candidate_id": "tcl-55c6k-wall", "candidate_path": "/modeli/tcl-55c6k/", "query": "крепление на стену TCL 55C6K", "variant": "wall" },
+
+  { "candidate_id": "hisense-55u7s-mount", "candidate_path": "/modeli/hisense-55u7s/", "query": "кронштейн для телевизора Hisense 55U7S", "variant": "mount" },
+  { "candidate_id": "hisense-55u7s-vesa", "candidate_path": "/modeli/hisense-55u7s/", "query": "vesa Hisense 55U7S", "variant": "vesa" },
+  { "candidate_id": "hisense-55u7s-screws", "candidate_path": "/modeli/hisense-55u7s/", "query": "винты для Hisense 55U7S", "variant": "screws" },
+  { "candidate_id": "hisense-55u7s-how-to", "candidate_path": "/modeli/hisense-55u7s/", "query": "как повесить Hisense 55U7S на стену", "variant": "how-to" },
+  { "candidate_id": "hisense-55u7s-wall", "candidate_path": "/modeli/hisense-55u7s/", "query": "крепление на стену Hisense 55U7S", "variant": "wall" },
+
+  { "candidate_id": "tcl-55c7l-mount", "candidate_path": "/modeli/tcl-55c7l/", "query": "кронштейн для телевизора TCL 55C7L", "variant": "mount" },
+  { "candidate_id": "tcl-55c7l-vesa", "candidate_path": "/modeli/tcl-55c7l/", "query": "vesa TCL 55C7L", "variant": "vesa" },
+  { "candidate_id": "tcl-55c7l-screws", "candidate_path": "/modeli/tcl-55c7l/", "query": "винты для TCL 55C7L", "variant": "screws" },
+  { "candidate_id": "tcl-55c7l-how-to", "candidate_path": "/modeli/tcl-55c7l/", "query": "как повесить TCL 55C7L на стену", "variant": "how-to" },
+  { "candidate_id": "tcl-55c7l-wall", "candidate_path": "/modeli/tcl-55c7l/", "query": "крепление на стену TCL 55C7L", "variant": "wall" },
+
+  { "candidate_id": "hisense-65u7s-mount", "candidate_path": "/modeli/hisense-65u7s/", "query": "кронштейн для телевизора Hisense 65U7S", "variant": "mount" },
+  { "candidate_id": "hisense-65u7s-vesa", "candidate_path": "/modeli/hisense-65u7s/", "query": "vesa Hisense 65U7S", "variant": "vesa" },
+  { "candidate_id": "hisense-65u7s-screws", "candidate_path": "/modeli/hisense-65u7s/", "query": "винты для Hisense 65U7S", "variant": "screws" },
+  { "candidate_id": "hisense-65u7s-how-to", "candidate_path": "/modeli/hisense-65u7s/", "query": "как повесить Hisense 65U7S на стену", "variant": "how-to" },
+  { "candidate_id": "hisense-65u7s-wall", "candidate_path": "/modeli/hisense-65u7s/", "query": "крепление на стену Hisense 65U7S", "variant": "wall" },
+
+  { "candidate_id": "hisense-55u7s-pro-mount", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "кронштейн для телевизора Hisense 55U7S PRO", "variant": "mount" },
+  { "candidate_id": "hisense-55u7s-pro-vesa", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "vesa Hisense 55U7S PRO", "variant": "vesa" },
+  { "candidate_id": "hisense-55u7s-pro-screws", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "винты для Hisense 55U7S PRO", "variant": "screws" },
+  { "candidate_id": "hisense-55u7s-pro-how-to", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "как повесить Hisense 55U7S PRO на стену", "variant": "how-to" },
+  { "candidate_id": "hisense-55u7s-pro-wall", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "крепление на стену Hisense 55U7S PRO", "variant": "wall" },
+
+  { "candidate_id": "hisense-55e77sl-mount", "candidate_path": "/modeli/hisense-55e77sl/", "query": "кронштейн для телевизора Hisense 55E77SL", "variant": "mount" },
+  { "candidate_id": "hisense-55e77sl-vesa", "candidate_path": "/modeli/hisense-55e77sl/", "query": "vesa Hisense 55E77SL", "variant": "vesa" },
+  { "candidate_id": "hisense-55e77sl-screws", "candidate_path": "/modeli/hisense-55e77sl/", "query": "винты для Hisense 55E77SL", "variant": "screws" },
+  { "candidate_id": "hisense-55e77sl-how-to", "candidate_path": "/modeli/hisense-55e77sl/", "query": "как повесить Hisense 55E77SL на стену", "variant": "how-to" },
+  { "candidate_id": "hisense-55e77sl-wall", "candidate_path": "/modeli/hisense-55e77sl/", "query": "крепление на стену Hisense 55E77SL", "variant": "wall" },
+
+  { "candidate_id": "hisense-55u7q-mount", "candidate_path": "/modeli/hisense-55u7q/", "query": "кронштейн для телевизора Hisense 55U7Q", "variant": "mount" },
+  { "candidate_id": "hisense-55u7q-vesa", "candidate_path": "/modeli/hisense-55u7q/", "query": "vesa Hisense 55U7Q", "variant": "vesa" },
+  { "candidate_id": "hisense-55u7q-screws", "candidate_path": "/modeli/hisense-55u7q/", "query": "винты для Hisense 55U7Q", "variant": "screws" },
+  { "candidate_id": "hisense-55u7q-how-to", "candidate_path": "/modeli/hisense-55u7q/", "query": "как повесить Hisense 55U7Q на стену", "variant": "how-to" },
+  { "candidate_id": "hisense-55u7q-wall", "candidate_path": "/modeli/hisense-55u7q/", "query": "крепление на стену Hisense 55U7Q", "variant": "wall" },
+
+  { "candidate_id": "tcl-55c7k-mount", "candidate_path": "/modeli/tcl-55c7k/", "query": "кронштейн для телевизора TCL 55C7K", "variant": "mount" },
+  { "candidate_id": "tcl-55c7k-vesa", "candidate_path": "/modeli/tcl-55c7k/", "query": "vesa TCL 55C7K", "variant": "vesa" },
+  { "candidate_id": "tcl-55c7k-screws", "candidate_path": "/modeli/tcl-55c7k/", "query": "винты для TCL 55C7K", "variant": "screws" },
+  { "candidate_id": "tcl-55c7k-how-to", "candidate_path": "/modeli/tcl-55c7k/", "query": "как повесить TCL 55C7K на стену", "variant": "how-to" },
+  { "candidate_id": "tcl-55c7k-wall", "candidate_path": "/modeli/tcl-55c7k/", "query": "крепление на стену TCL 55C7K", "variant": "wall" },
+
+  { "candidate_id": "hisense-50u77sl-mount", "candidate_path": "/modeli/hisense-50u77sl/", "query": "кронштейн для телевизора Hisense 50U77SL", "variant": "mount" },
+  { "candidate_id": "hisense-50u77sl-vesa", "candidate_path": "/modeli/hisense-50u77sl/", "query": "vesa Hisense 50U77SL", "variant": "vesa" },
+  { "candidate_id": "hisense-50u77sl-screws", "candidate_path": "/modeli/hisense-50u77sl/", "query": "винты для Hisense 50U77SL", "variant": "screws" },
+  { "candidate_id": "hisense-50u77sl-how-to", "candidate_path": "/modeli/hisense-50u77sl/", "query": "как повесить Hisense 50U77SL на стену", "variant": "how-to" },
+  { "candidate_id": "hisense-50u77sl-wall", "candidate_path": "/modeli/hisense-50u77sl/", "query": "крепление на стену Hisense 50U77SL", "variant": "wall" },
+
+  { "candidate_id": "samsung-ue55u8000fuxru-mount", "candidate_path": "/modeli/samsung-ue55u8000fuxru/", "query": "кронштейн для телевизора Samsung UE55U8000FUXRU", "variant": "mount" },
+  { "candidate_id": "samsung-ue55u8000fuxru-vesa", "candidate_path": "/modeli/samsung-ue55u8000fuxru/", "query": "vesa Samsung UE55U8000FUXRU", "variant": "vesa" },
+  { "candidate_id": "samsung-ue55u8000fuxru-screws", "candidate_path": "/modeli/samsung-ue55u8000fuxru/", "query": "винты для Samsung UE55U8000FUXRU", "variant": "screws" },
+  { "candidate_id": "samsung-ue55u8000fuxru-how-to", "candidate_path": "/modeli/samsung-ue55u8000fuxru/", "query": "как повесить Samsung UE55U8000FUXRU на стену", "variant": "how-to" },
+  { "candidate_id": "samsung-ue55u8000fuxru-wall", "candidate_path": "/modeli/samsung-ue55u8000fuxru/", "query": "крепление на стену Samsung UE55U8000FUXRU", "variant": "wall" }
+]

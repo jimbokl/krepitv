@@ -14,9 +14,12 @@ concurrency:
 
 jobs:
   refresh:
+    environment:
+      name: github-pages
     permissions:
       contents: write
       pages: write
+      id-token: write
     if: github.repository == 'jimbokl/krepitv' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -175,42 +178,27 @@ jobs:
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Запросить сборку GitHub Pages
+      - name: Настроить GitHub Pages
         if: steps.commit.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds" \
-            -H "X-GitHub-Api-Version: 2022-11-28"
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
 
-      - name: Дождаться Pages и проверить production build
+      - name: Загрузить изменившийся production artifact
         if: steps.commit.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: docs
+
+      - name: Опубликовать изменившийся production artifact
+        if: steps.commit.outputs.changed == 'true'
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+
+      - name: Проверить production build
+        if: steps.commit.outputs.changed == 'true'
         shell: bash
         run: |
           set -euo pipefail
           target_sha="$(git rev-parse HEAD)"
-          built=false
-          for _ in $(seq 1 30); do
-            payload="$(gh api "repos/${GITHUB_REPOSITORY}/pages/builds/latest" \
-              -H "X-GitHub-Api-Version: 2022-11-28")"
-            status="$(jq -r '.status // "unknown"' <<<"$payload")"
-            commit="$(jq -r '.commit // ""' <<<"$payload")"
-            if [ "$status" = "built" ] && [ "$commit" = "$target_sha" ]; then
-              built=true
-              break
-            fi
-            if [ "$status" = "errored" ] && [ "$commit" = "$target_sha" ]; then
-              echo "::warning::Pages сообщил о неудачной попытке; ждём возможную повторную сборку того же коммита"
-            fi
-            sleep 10
-          done
-          if [ "$built" != "true" ]; then
-            echo "::error::GitHub Pages не подтвердил сборку нужного коммита"
-            exit 1
-          fi
-
           node <<'NODE' > /tmp/krepitv-production-artifacts.ndjson
           const fs = require("node:fs");
           const snapshot = JSON.parse(

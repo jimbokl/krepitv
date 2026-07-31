@@ -1,0 +1,521 @@
+[
+  {
+    "seed": {
+      "candidate_id": "tcl-55c6k-short-brand-first",
+      "candidate_path": "/modeli/tcl-55c6k/",
+      "query": "кронштейн TCL 55C6K",
+      "variant": "short-brand-first"
+    },
+    "operator_query": "\"[кронштейн TCL 55C6K]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c6k-for-brand",
+      "candidate_path": "/modeli/tcl-55c6k/",
+      "query": "кронштейн для TCL 55C6K",
+      "variant": "for-brand"
+    },
+    "operator_query": "\"[кронштейн для TCL 55C6K]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "8085",
+          "text": "tcl c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4198",
+          "text": "tcl 55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "12152",
+          "text": "tcl c8l"
+        },
+        {
+          "isAssociations": true,
+          "value": "12490",
+          "text": "tcl c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "9440",
+          "text": "tcl 65c6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "3046",
+          "text": "tcl 65c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4489",
+          "text": "tcl 43p7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "2321",
+          "text": "tcl 55p7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "3938",
+          "text": "tcl 55c8l"
+        },
+        {
+          "isAssociations": true,
+          "value": "2757",
+          "text": "tcl 55p6k"
+        },
+        {
+          "isAssociations": true,
+          "value": "3666",
+          "text": "xiaomi tv s mini led 55 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "10612",
+          "text": "xiaomi tv s mini led 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "1234",
+          "text": "polarline 32pl12tc"
+        },
+        {
+          "isAssociations": true,
+          "value": "505",
+          "text": "xiaomi tv s mini led 55 2025"
+        },
+        {
+          "isAssociations": true,
+          "value": "480",
+          "text": "tefal x force flex 15.60 pro ty99f1wo"
+        },
+        {
+          "isAssociations": true,
+          "value": "355",
+          "text": "телевизор iffalcon 55u75a"
+        },
+        {
+          "isAssociations": true,
+          "value": "178",
+          "text": "телевизор iffalcon 55u85"
+        },
+        {
+          "isAssociations": true,
+          "value": "108",
+          "text": "polarline 55pu11tc sm подсветка купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "411",
+          "text": "телевизор тсл 55 с6к"
+        },
+        {
+          "isAssociations": true,
+          "value": "146",
+          "text": "держатель полосы заземления 40х4"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "63",
+          "text": "кронштейн для tcl 55c6k"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c6k-model-first",
+      "candidate_path": "/modeli/tcl-55c6k/",
+      "query": "TCL 55C6K кронштейн",
+      "variant": "model-first"
+    },
+    "operator_query": "\"[TCL 55C6K кронштейн]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4281",
+          "text": "tcl 55c7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4565",
+          "text": "tcl 43p7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "2318",
+          "text": "tcl 55p7k"
+        },
+        {
+          "isAssociations": true,
+          "value": "4335",
+          "text": "tsl телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "6565",
+          "text": "xiaomi tv s mini led 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "10943",
+          "text": "xiaomi tv s mini led 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "654",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "1193",
+          "text": "polarline 32pl12tc"
+        },
+        {
+          "isAssociations": true,
+          "value": "352",
+          "text": "телевизор iffalcon 55u75a"
+        },
+        {
+          "isAssociations": true,
+          "value": "174",
+          "text": "телевизор iffalcon 55u85"
+        },
+        {
+          "isAssociations": true,
+          "value": "105",
+          "text": "polarline 55pu11tc sm подсветка купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "1068",
+          "text": "телевизор тсл 65 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "1681",
+          "text": "телевизор тсл 55 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "157",
+          "text": "телевизор dreame vivid qled 4k tv 43q100"
+        },
+        {
+          "isAssociations": true,
+          "value": "442",
+          "text": "телевизор тсл 55 с6к"
+        },
+        {
+          "isAssociations": true,
+          "value": "147",
+          "text": "держатель полосы заземления 40х4"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "107",
+          "text": "tcl 55c6k кронштейн"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c6k-code-only",
+      "candidate_path": "/modeli/tcl-55c6k/",
+      "query": "55C6K кронштейн",
+      "variant": "code-only"
+    },
+    "operator_query": "\"[55C6K кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c6k-vesa-code",
+      "candidate_path": "/modeli/tcl-55c6k/",
+      "query": "55C6K vesa",
+      "variant": "vesa-code"
+    },
+    "operator_query": "\"[55C6K vesa]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-short-brand-first",
+      "candidate_path": "/modeli/hisense-55u7s/",
+      "query": "кронштейн Hisense 55U7S",
+      "variant": "short-brand-first"
+    },
+    "operator_query": "\"[кронштейн Hisense 55U7S]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-for-brand",
+      "candidate_path": "/modeli/hisense-55u7s/",
+      "query": "кронштейн для Hisense 55U7S",
+      "variant": "for-brand"
+    },
+    "operator_query": "\"[кронштейн для Hisense 55U7S]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-model-first",
+      "candidate_path": "/modeli/hisense-55u7s/",
+      "query": "Hisense 55U7S кронштейн",
+      "variant": "model-first"
+    },
+    "operator_query": "\"[Hisense 55U7S кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-code-only",
+      "candidate_path": "/modeli/hisense-55u7s/",
+      "query": "55U7S кронштейн",
+      "variant": "code-only"
+    },
+    "operator_query": "\"[55U7S кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-vesa-code",
+      "candidate_path": "/modeli/hisense-55u7s/",
+      "query": "55U7S vesa",
+      "variant": "vesa-code"
+    },
+    "operator_query": "\"[55U7S vesa]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c7l-short-brand-first",
+      "candidate_path": "/modeli/tcl-55c7l/",
+      "query": "кронштейн TCL 55C7L",
+      "variant": "short-brand-first"
+    },
+    "operator_query": "\"[кронштейн TCL 55C7L]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c7l-for-brand",
+      "candidate_path": "/modeli/tcl-55c7l/",
+      "query": "кронштейн для TCL 55C7L",
+      "variant": "for-brand"
+    },
+    "operator_query": "\"[кронштейн для TCL 55C7L]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c7l-model-first",
+      "candidate_path": "/modeli/tcl-55c7l/",
+      "query": "TCL 55C7L кронштейн",
+      "variant": "model-first"
+    },
+    "operator_query": "\"[TCL 55C7L кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c7l-code-only",
+      "candidate_path": "/modeli/tcl-55c7l/",
+      "query": "55C7L кронштейн",
+      "variant": "code-only"
+    },
+    "operator_query": "\"[55C7L кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tcl-55c7l-vesa-code",
+      "candidate_path": "/modeli/tcl-55c7l/",
+      "query": "55C7L vesa",
+      "variant": "vesa-code"
+    },
+    "operator_query": "\"[55C7L vesa]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-65u7s-short-brand-first",
+      "candidate_path": "/modeli/hisense-65u7s/",
+      "query": "кронштейн Hisense 65U7S",
+      "variant": "short-brand-first"
+    },
+    "operator_query": "\"[кронштейн Hisense 65U7S]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-65u7s-for-brand",
+      "candidate_path": "/modeli/hisense-65u7s/",
+      "query": "кронштейн для Hisense 65U7S",
+      "variant": "for-brand"
+    },
+    "operator_query": "\"[кронштейн для Hisense 65U7S]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-65u7s-model-first",
+      "candidate_path": "/modeli/hisense-65u7s/",
+      "query": "Hisense 65U7S кронштейн",
+      "variant": "model-first"
+    },
+    "operator_query": "\"[Hisense 65U7S кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-65u7s-code-only",
+      "candidate_path": "/modeli/hisense-65u7s/",
+      "query": "65U7S кронштейн",
+      "variant": "code-only"
+    },
+    "operator_query": "\"[65U7S кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-65u7s-vesa-code",
+      "candidate_path": "/modeli/hisense-65u7s/",
+      "query": "65U7S vesa",
+      "variant": "vesa-code"
+    },
+    "operator_query": "\"[65U7S vesa]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-pro-short-brand-first",
+      "candidate_path": "/modeli/hisense-55u7s-pro/",
+      "query": "кронштейн Hisense 55U7S PRO",
+      "variant": "short-brand-first"
+    },
+    "operator_query": "\"[кронштейн Hisense 55U7S PRO]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-pro-for-brand",
+      "candidate_path": "/modeli/hisense-55u7s-pro/",
+      "query": "кронштейн для Hisense 55U7S PRO",
+      "variant": "for-brand"
+    },
+    "operator_query": "\"[кронштейн для Hisense 55U7S PRO]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-pro-model-first",
+      "candidate_path": "/modeli/hisense-55u7s-pro/",
+      "query": "Hisense 55U7S PRO кронштейн",
+      "variant": "model-first"
+    },
+    "operator_query": "\"[Hisense 55U7S PRO кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-pro-code-only",
+      "candidate_path": "/modeli/hisense-55u7s-pro/",
+      "query": "55U7S PRO кронштейн",
+      "variant": "code-only"
+    },
+    "operator_query": "\"[55U7S PRO кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hisense-55u7s-pro-vesa-code",
+      "candidate_path": "/modeli/hisense-55u7s-pro/",
+      "query": "55U7S PRO vesa",
+      "variant": "vesa-code"
+    },
+    "operator_query": "\"[55U7S PRO vesa]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  }
+]

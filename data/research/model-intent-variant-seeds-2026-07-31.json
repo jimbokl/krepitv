@@ -1,0 +1,31 @@
+[
+  { "candidate_id": "tcl-55c6k-short-brand-first", "candidate_path": "/modeli/tcl-55c6k/", "query": "кронштейн TCL 55C6K", "variant": "short-brand-first" },
+  { "candidate_id": "tcl-55c6k-for-brand", "candidate_path": "/modeli/tcl-55c6k/", "query": "кронштейн для TCL 55C6K", "variant": "for-brand" },
+  { "candidate_id": "tcl-55c6k-model-first", "candidate_path": "/modeli/tcl-55c6k/", "query": "TCL 55C6K кронштейн", "variant": "model-first" },
+  { "candidate_id": "tcl-55c6k-code-only", "candidate_path": "/modeli/tcl-55c6k/", "query": "55C6K кронштейн", "variant": "code-only" },
+  { "candidate_id": "tcl-55c6k-vesa-code", "candidate_path": "/modeli/tcl-55c6k/", "query": "55C6K vesa", "variant": "vesa-code" },
+
+  { "candidate_id": "hisense-55u7s-short-brand-first", "candidate_path": "/modeli/hisense-55u7s/", "query": "кронштейн Hisense 55U7S", "variant": "short-brand-first" },
+  { "candidate_id": "hisense-55u7s-for-brand", "candidate_path": "/modeli/hisense-55u7s/", "query": "кронштейн для Hisense 55U7S", "variant": "for-brand" },
+  { "candidate_id": "hisense-55u7s-model-first", "candidate_path": "/modeli/hisense-55u7s/", "query": "Hisense 55U7S кронштейн", "variant": "model-first" },
+  { "candidate_id": "hisense-55u7s-code-only", "candidate_path": "/modeli/hisense-55u7s/", "query": "55U7S кронштейн", "variant": "code-only" },
+  { "candidate_id": "hisense-55u7s-vesa-code", "candidate_path": "/modeli/hisense-55u7s/", "query": "55U7S vesa", "variant": "vesa-code" },
+
+  { "candidate_id": "tcl-55c7l-short-brand-first", "candidate_path": "/modeli/tcl-55c7l/", "query": "кронштейн TCL 55C7L", "variant": "short-brand-first" },
+  { "candidate_id": "tcl-55c7l-for-brand", "candidate_path": "/modeli/tcl-55c7l/", "query": "кронштейн для TCL 55C7L", "variant": "for-brand" },
+  { "candidate_id": "tcl-55c7l-model-first", "candidate_path": "/modeli/tcl-55c7l/", "query": "TCL 55C7L кронштейн", "variant": "model-first" },
+  { "candidate_id": "tcl-55c7l-code-only", "candidate_path": "/modeli/tcl-55c7l/", "query": "55C7L кронштейн", "variant": "code-only" },
+  { "candidate_id": "tcl-55c7l-vesa-code", "candidate_path": "/modeli/tcl-55c7l/", "query": "55C7L vesa", "variant": "vesa-code" },
+
+  { "candidate_id": "hisense-65u7s-short-brand-first", "candidate_path": "/modeli/hisense-65u7s/", "query": "кронштейн Hisense 65U7S", "variant": "short-brand-first" },
+  { "candidate_id": "hisense-65u7s-for-brand", "candidate_path": "/modeli/hisense-65u7s/", "query": "кронштейн для Hisense 65U7S", "variant": "for-brand" },
+  { "candidate_id": "hisense-65u7s-model-first", "candidate_path": "/modeli/hisense-65u7s/", "query": "Hisense 65U7S кронштейн", "variant": "model-first" },
+  { "candidate_id": "hisense-65u7s-code-only", "candidate_path": "/modeli/hisense-65u7s/", "query": "65U7S кронштейн", "variant": "code-only" },
+  { "candidate_id": "hisense-65u7s-vesa-code", "candidate_path": "/modeli/hisense-65u7s/", "query": "65U7S vesa", "variant": "vesa-code" },
+
+  { "candidate_id": "hisense-55u7s-pro-short-brand-first", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "кронштейн Hisense 55U7S PRO", "variant": "short-brand-first" },
+  { "candidate_id": "hisense-55u7s-pro-for-brand", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "кронштейн для Hisense 55U7S PRO", "variant": "for-brand" },
+  { "candidate_id": "hisense-55u7s-pro-model-first", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "Hisense 55U7S PRO кронштейн", "variant": "model-first" },
+  { "candidate_id": "hisense-55u7s-pro-code-only", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "55U7S PRO кронштейн", "variant": "code-only" },
+  { "candidate_id": "hisense-55u7s-pro-vesa-code", "candidate_path": "/modeli/hisense-55u7s-pro/", "query": "55U7S PRO vesa", "variant": "vesa-code" }
+]

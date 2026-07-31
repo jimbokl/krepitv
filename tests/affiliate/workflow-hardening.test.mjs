@@ -9,6 +9,10 @@ const ordersWorkflowUrl = new URL(
   "../../.github/workflows/affiliate-orders.yml",
   import.meta.url,
 );
+const pagesWorkflowUrl = new URL(
+  "../../.github/workflows/pages.yml",
+  import.meta.url,
+);
 
 test("affiliate workflow is scheduled with pinned actions and one scoped OAuth step", async () => {
   const workflow = await readFile(workflowUrl, "utf8");
@@ -50,6 +54,35 @@ test("affiliate workflow is scheduled with pinned actions and one scoped OAuth s
   assert.match(workflow, /data\/affiliate\/public-model-offers\.json/);
   assert.match(workflow, /data\/affiliate-model-offers\.json/);
   assert.match(workflow, /placement\.model_path/);
+  assert.match(workflow, /actions\/configure-pages@[0-9a-f]{40}/);
+  assert.match(workflow, /actions\/upload-pages-artifact@[0-9a-f]{40}/);
+  assert.match(workflow, /actions\/deploy-pages@[0-9a-f]{40}/);
+  assert.doesNotMatch(workflow, /pages\/builds/);
+});
+
+test("Pages deploys only the committed production artifact", async () => {
+  const workflow = await readFile(pagesWorkflowUrl, "utf8");
+  const actions = [...workflow.matchAll(/^\s*uses:\s*([^\s#]+)/gm)].map(
+    (match) => match[1],
+  );
+
+  assert.equal(actions.length, 4);
+  for (const action of actions) {
+    assert.match(action, /^[^@\s]+@[0-9a-f]{40}$/);
+  }
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(
+    workflow,
+    /push:[\s\S]*?branches:[\s\S]*?- main[\s\S]*?paths:[\s\S]*?- "docs\/\*\*"/,
+  );
+  assert.doesNotMatch(workflow, /schedule:|\.private|secrets\.|npm run|cargo|wasm/);
+  assert.match(workflow, /permissions:\s*\{\}/);
+  assert.match(
+    workflow,
+    /permissions:[\s\S]*?contents:\s*read[\s\S]*?pages:\s*write[\s\S]*?id-token:\s*write/,
+  );
+  assert.match(workflow, /persist-credentials:\s*false/);
+  assert.match(workflow, /actions\/upload-pages-artifact@[0-9a-f]{40}[\s\S]*?path:\s*docs/);
 });
 
 test("orders workflow keeps raw ledger ephemeral and retains only a safe aggregate", async () => {
