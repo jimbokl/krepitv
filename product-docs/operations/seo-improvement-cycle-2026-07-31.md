@@ -2,8 +2,7 @@
 
 Дата решения: 31 июля 2026 года.
 
-Статус: **локальный release candidate прошёл полный gate; до отдельной
-production-проверки изменения не считаются опубликованными**.
+Статус: **опубликовано и проверено в production**.
 
 ## Решение цикла
 
@@ -132,9 +131,11 @@ Evidence сохранён в `data/research/vesa-dataset-demand.json` и
    длинных простыней, числовых региональных цен или возвращённого длинного
    дисклеймера.
 
-После публикации остаётся доказать отдельно: Pages построен из точного
-проверенного коммита, а изменённые HTML/JS/CSS/sitemap побайтно совпадают с
-локальным artifact.
+Production также доказан: GitHub Pages run `30625470841` успешно опубликовал
+source commit `5f8c17758f4e1c87c9f64cf61a9946b1ec155fcf`. Страницы `/vesa/` и
+`/rozetki-pod-televizor-na-stene/`, текущие JS/CSS, sitemap и robots побайтно
+совпали с локальным artifact. HTTPS отвечает 200, TLS verify равен 0, HTTP и
+`www` перенаправляют на apex HTTPS.
 
 Полный `npm run build` прошёл 31 июля: 37 Rust engine, 21 Rust sitegen,
 90 browser/SSR unit, 10 catalog, 69 affiliate, 10 IndexNow и 9 analytics
@@ -143,6 +144,10 @@ Evidence сохранён в `data/research/vesa-dataset-demand.json` и
 errors; видимый `VERIFIED-FIT` заменён на русский статус и закреплён тестом.
 Скриншоты и точный QA-отчёт сохранены в
 `product-docs/design-qa/2026-07-31-seo-improvements/`.
+Повторный production E2E на тех же двух viewport прошёл оба интерактивных
+маршрута: обычный и конфликтный VESA-поиск, SVG-результат розеток и три
+внутренние карточки. На production также нет overflow, console/page errors,
+числовых цен или прямого Market CTA внутри технических инструментов.
 
 ## Критерии следующего решения
 
