@@ -21,7 +21,7 @@ function usage() {
     "    --backfill-start 2026-07-30T00:00:00+03:00",
     "",
     "--backfill-start is mandatory only for the first successful sync.",
-    "Optional: --manifest, --hub-placements, --state, --snapshot.",
+    "Optional: --manifest, --hub-placements, --model-placements, --state, --snapshot.",
   ].join("\n");
 }
 
@@ -31,6 +31,7 @@ function parseArgs(args) {
     "--backfill-start",
     "--manifest",
     "--hub-placements",
+    "--model-placements",
     "--state",
     "--snapshot",
   ]);
@@ -85,6 +86,10 @@ const manifestFile = path.resolve(
 const hubPlacementsFile = path.resolve(
   args.hub_placements ?? path.join(root, "data/affiliate/seo-hub-placements.json"),
 );
+const modelPlacementsFile = path.resolve(
+  args.model_placements ??
+    path.join(root, "data/affiliate/model-page-placements.json"),
+);
 const stateFile = assertPrivatePath(
   root,
   args.state ?? path.join(root, ".private/affiliate-orders/state.json"),
@@ -94,12 +99,17 @@ const snapshotFile = assertPrivatePath(
   args.snapshot ?? path.join(root, ".private/affiliate-orders/latest.json"),
 );
 
-const [manifest, hubPlacements, state] = await Promise.all([
+const [manifest, hubPlacements, modelPlacements, state] = await Promise.all([
   readJson(manifestFile),
   readJson(hubPlacementsFile),
+  readJson(modelPlacementsFile),
   readOptionalJson(stateFile),
 ]);
-const knownVids = collectKnownVids(manifest, hubPlacements, clid);
+const knownVids = collectKnownVids(
+  manifest,
+  [hubPlacements, modelPlacements],
+  clid,
+);
 
 // The library fixes runEnd before its first request. The existing state is not
 // mutated, so a failed page or retry can never advance the persisted cursor.

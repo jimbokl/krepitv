@@ -1,6 +1,7 @@
 import { getFreshAffiliateOffers } from "./affiliateOffer.mjs";
 import { parseCommercialProfiles } from "./commercialProfiles.mjs";
 import { getFreshHubAffiliateOffers } from "./hubAffiliateOffers.mjs";
+import { getFreshModelAffiliateOffers } from "./modelAffiliateOffers.mjs";
 
 let catalogPromise;
 let enginePromise;
@@ -33,6 +34,7 @@ export function findExactModelSearchResult(search, value) {
 
 export function loadCatalog() {
   if (!catalogPromise) {
+    const activeModelId = modelIdFromPath(globalThis.location?.pathname);
     catalogPromise = Promise.all([
       fetch("/data/tv-models.json").then(assertResponse),
       fetch("/data/mounts.json").then(assertResponse),
@@ -42,6 +44,9 @@ export function loadCatalog() {
       fetch("/data/commercial-profiles.json").then(assertResponse),
       loadFreshAffiliateOffers(),
       loadFreshHubAffiliateOffers(),
+      activeModelId
+        ? loadFreshModelAffiliateOffers({ modelId: activeModelId })
+        : Promise.resolve([]),
     ]).then(async ([
       models,
       mounts,
@@ -51,6 +56,7 @@ export function loadCatalog() {
       commercialProfiles,
       affiliateOffers,
       hubAffiliateOffers,
+      modelAffiliateOffers,
     ]) => ({
       models: await models.json(),
       mounts: await mounts.json(),
@@ -60,6 +66,7 @@ export function loadCatalog() {
       commercialProfiles: parseCommercialProfiles(await commercialProfiles.json()),
       affiliateOffers,
       hubAffiliateOffers,
+      modelAffiliateOffers,
     }));
   }
   return catalogPromise;
@@ -91,6 +98,30 @@ export async function loadFreshHubAffiliateOffers({
     path: "/data/affiliate-hub-offers.json",
     parse: getFreshHubAffiliateOffers,
   });
+}
+
+export async function loadFreshModelAffiliateOffers({
+  fetchImpl = globalThis.fetch,
+  modelId,
+  now = Date.now(),
+  origin = globalThis.location?.origin,
+} = {}) {
+  return loadSameOriginSnapshot({
+    fetchImpl,
+    now,
+    origin,
+    path: "/data/affiliate-model-offers.json",
+    parse: (snapshot, options) => getFreshModelAffiliateOffers(snapshot, {
+      ...options,
+      modelId,
+    }),
+  });
+}
+
+export function modelIdFromPath(value) {
+  if (typeof value !== "string") return null;
+  const match = value.match(/^\/modeli\/([a-z0-9][a-z0-9-]{2,79})\/?$/i);
+  return match ? match[1].toLocaleLowerCase("ru-RU") : null;
 }
 
 async function loadSameOriginSnapshot({ fetchImpl, now, origin, path, parse }) {

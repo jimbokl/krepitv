@@ -38,6 +38,16 @@ test("affiliate workflow is scheduled with pinned actions and one scoped OAuth s
   assert.match(workflow, /affiliate:publish-hub-snapshot/);
   assert.match(workflow, /data\/affiliate\/public-hub-offers\.json/);
   assert.match(workflow, /data\/affiliate-hub-offers\.json/);
+  assert.match(workflow, /affiliate:check-model-manifest/);
+  assert.match(workflow, /affiliate:validate-models/);
+  assert.match(workflow, /affiliate:check-models/);
+  assert.match(workflow, /\.private\/market-affiliate-model-batch\.json/);
+  assert.match(workflow, /affiliate:build-model-snapshot/);
+  assert.match(workflow, /affiliate:publish-model-snapshot/);
+  assert.match(workflow, /affiliate:validate-models-public/);
+  assert.match(workflow, /data\/affiliate\/public-model-offers\.json/);
+  assert.match(workflow, /data\/affiliate-model-offers\.json/);
+  assert.match(workflow, /placement\.model_path/);
 });
 
 test("orders workflow keeps the ledger ephemeral and uses only pinned actions", async () => {
@@ -58,6 +68,12 @@ test("orders workflow keeps the ledger ephemeral and uses only pinned actions", 
   assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/);
   assert.match(workflow, /affiliate:orders-sync[\s\S]*?> \/dev\/null/);
   assert.match(workflow, /affiliate:orders-report[\s\S]*?> \/dev\/null/);
+  assert.match(workflow, /affiliate:check-model-manifest/);
+  assert.match(workflow, /affiliate:validate-models/);
+  assert.match(
+    workflow,
+    /--model-placements\s+data\/affiliate\/model-page-placements\.json/,
+  );
   assert.match(workflow, /if:\s*always\(\)[\s\S]*?rm -rf \.private\/affiliate-orders/);
   assert.doesNotMatch(
     workflow,

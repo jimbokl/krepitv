@@ -1,0 +1,2240 @@
+{
+  "schema_version": 1,
+  "clid": "15238076",
+  "expected_offer_count": 239,
+  "models": [
+    {
+      "model_id": "hisense-43e7s",
+      "model_path": "/modeli/hisense-43e7s/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-43e7s-r01-holder-lcds-5066",
+          "rank": 1,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelhisense43e7sr01holderlcds5066b85101beba06"
+        },
+        {
+          "placement_id": "model-hisense-43e7s-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelhisense43e7sr02kromaxdix182d4b6f2bda97"
+        },
+        {
+          "placement_id": "model-hisense-43e7s-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense43e7sr03onkrontm5bw9841504b954f"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-50e7s",
+      "model_path": "/modeli/hisense-50e7s/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-50e7s-r01-onkron-tm5-bw",
+          "rank": 1,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense50e7sr01onkrontm5bwc2f82f286bdd"
+        },
+        {
+          "placement_id": "model-hisense-50e7s-r02-onkron-tm6",
+          "rank": 2,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelhisense50e7sr02onkrontm6c33763119dba"
+        },
+        {
+          "placement_id": "model-hisense-50e7s-r03-itech-p4f",
+          "rank": 3,
+          "entity_id": "itech-p4f",
+          "source_card_id": "market-itech-p4f-103201123450",
+          "vid": "krepitvmodelhisense50e7sr03itechp4f56b9bb22d25d"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-50u77sl",
+      "model_path": "/modeli/hisense-50u77sl/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-50u77sl-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhisense50u77slr01kromaxatlantis4543b71ee16442"
+        },
+        {
+          "placement_id": "model-hisense-50u77sl-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelhisense50u77slr02kromaxdix185c409e6aeab1"
+        },
+        {
+          "placement_id": "model-hisense-50u77sl-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense50u77slr03kromaxflat470935e35c542"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-55e77sl",
+      "model_path": "/modeli/hisense-55e77sl/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-55e77sl-r01-onkron-tm5-bw",
+          "rank": 1,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense55e77slr01onkrontm5bw2615a9d0c61f"
+        },
+        {
+          "placement_id": "model-hisense-55e77sl-r02-onkron-tm6",
+          "rank": 2,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelhisense55e77slr02onkrontm6c1cbc9ea62d9"
+        },
+        {
+          "placement_id": "model-hisense-55e77sl-r03-itech-p4f",
+          "rank": 3,
+          "entity_id": "itech-p4f",
+          "source_card_id": "market-itech-p4f-103201123450",
+          "vid": "krepitvmodelhisense55e77slr03itechp4fefe0b7fbfe36"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-55e7s",
+      "model_path": "/modeli/hisense-55e7s/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-55e7s-r01-onkron-tm5-bw",
+          "rank": 1,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense55e7sr01onkrontm5bwc3066137b8dd"
+        },
+        {
+          "placement_id": "model-hisense-55e7s-r02-onkron-tm6",
+          "rank": 2,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelhisense55e7sr02onkrontm69c2336c30d50"
+        },
+        {
+          "placement_id": "model-hisense-55e7s-r03-itech-p4f",
+          "rank": 3,
+          "entity_id": "itech-p4f",
+          "source_card_id": "market-itech-p4f-103201123450",
+          "vid": "krepitvmodelhisense55e7sr03itechp4f45f9659f05ff"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-55u7q",
+      "model_path": "/modeli/hisense-55u7q/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-55u7q-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhisense55u7qr01kromaxatlantis45941013cec6e2"
+        },
+        {
+          "placement_id": "model-hisense-55u7q-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelhisense55u7qr02kromaxdix18e136c1e54328"
+        },
+        {
+          "placement_id": "model-hisense-55u7q-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense55u7qr03kromaxflat45c208fd39650"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-55u7s",
+      "model_path": "/modeli/hisense-55u7s/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-55u7s-r01-kromax-dix-18",
+          "rank": 1,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelhisense55u7sr01kromaxdix189197b53b8dfa"
+        },
+        {
+          "placement_id": "model-hisense-55u7s-r02-onkron-tm5-bw",
+          "rank": 2,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense55u7sr02onkrontm5bw230e2561f20e"
+        },
+        {
+          "placement_id": "model-hisense-55u7s-r03-onkron-tm6",
+          "rank": 3,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelhisense55u7sr03onkrontm65142b2bb3fc6"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-55u7s-pro",
+      "model_path": "/modeli/hisense-55u7s-pro/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-55u7s-pro-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhisense55u7spror01kromaxatlantis45d49038a772fe"
+        },
+        {
+          "placement_id": "model-hisense-55u7s-pro-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelhisense55u7spror02kromaxdix18914d9a085f51"
+        },
+        {
+          "placement_id": "model-hisense-55u7s-pro-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense55u7spror03kromaxflat4ab3779ab39fa"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-55u8q",
+      "model_path": "/modeli/hisense-55u8q/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-55u8q-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhisense55u8qr01kromaxatlantis45dab2b59fd3d7"
+        },
+        {
+          "placement_id": "model-hisense-55u8q-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense55u8qr02kromaxflat4b8ed30fbdef9"
+        },
+        {
+          "placement_id": "model-hisense-55u8q-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense55u8qr03onkrontm5bw6028b00858cf"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-65u77sl",
+      "model_path": "/modeli/hisense-65u77sl/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-65u77sl-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhisense65u77slr01kromaxatlantis456f5e23f8b378"
+        },
+        {
+          "placement_id": "model-hisense-65u77sl-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense65u77slr02kromaxflat4b2b1762364ae"
+        },
+        {
+          "placement_id": "model-hisense-65u77sl-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense65u77slr03onkrontm5bw822430916eec"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-65u7q",
+      "model_path": "/modeli/hisense-65u7q/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-65u7q-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhisense65u7qr01kromaxatlantis45c44d6288a3e9"
+        },
+        {
+          "placement_id": "model-hisense-65u7q-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense65u7qr02kromaxflat4888c0e47fc01"
+        },
+        {
+          "placement_id": "model-hisense-65u7q-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense65u7qr03onkrontm5bw9a7a990d68b4"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-65u7s",
+      "model_path": "/modeli/hisense-65u7s/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-65u7s-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhisense65u7sr01kromaxatlantis45e5244f4bde4c"
+        },
+        {
+          "placement_id": "model-hisense-65u7s-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense65u7sr02kromaxflat4d0f9015e1627"
+        },
+        {
+          "placement_id": "model-hisense-65u7s-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense65u7sr03onkrontm5bw0172a8ba12b5"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-65u8q",
+      "model_path": "/modeli/hisense-65u8q/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-65u8q-r01-kromax-flat-4",
+          "rank": 1,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense65u8qr01kromaxflat490e33996bf80"
+        },
+        {
+          "placement_id": "model-hisense-65u8q-r02-onkron-tm5-bw",
+          "rank": 2,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense65u8qr02onkrontm5bw5f4dc978def1"
+        },
+        {
+          "placement_id": "model-hisense-65u8q-r03-onkron-tm6",
+          "rank": 3,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelhisense65u8qr03onkrontm64279f70311cf"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-65ur9s",
+      "model_path": "/modeli/hisense-65ur9s/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-65ur9s-r01-kromax-flat-4",
+          "rank": 1,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense65ur9sr01kromaxflat41dc6e429275d"
+        },
+        {
+          "placement_id": "model-hisense-65ur9s-r02-onkron-tm5-bw",
+          "rank": 2,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense65ur9sr02onkrontm5bw0a2bcbabb2ff"
+        },
+        {
+          "placement_id": "model-hisense-65ur9s-r03-onkron-tm6",
+          "rank": 3,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelhisense65ur9sr03onkrontm6aee444f27f53"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-75u7q",
+      "model_path": "/modeli/hisense-75u7q/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-75u7q-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelhisense75u7qr01onkrontm61dda80ab9dc7"
+        },
+        {
+          "placement_id": "model-hisense-75u7q-r02-itech-plb640nt",
+          "rank": 2,
+          "entity_id": "itech-plb640nt",
+          "source_card_id": "market-itech-plb640nt-102190438184",
+          "vid": "krepitvmodelhisense75u7qr02itechplb640nt5183d5d68f99"
+        },
+        {
+          "placement_id": "model-hisense-75u7q-r03-itech-slt-460",
+          "rank": 3,
+          "entity_id": "itech-slt-460",
+          "source_card_id": "market-itech-slt-460-102594180340",
+          "vid": "krepitvmodelhisense75u7qr03itechslt460188d8fb0fc72"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-43qned70a6a",
+      "model_path": "/modeli/lg-43qned70a6a/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-43qned70a6a-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodellg43qned70a6ar01holderlcds5036762e86bfe9c6"
+        },
+        {
+          "placement_id": "model-lg-43qned70a6a-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodellg43qned70a6ar02holderlcds5066714fe158409d"
+        },
+        {
+          "placement_id": "model-lg-43qned70a6a-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg43qned70a6ar03kromaxatlantis45f7c87dc12c40"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-43qned80a6a",
+      "model_path": "/modeli/lg-43qned80a6a/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-43qned80a6a-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg43qned80a6ar01kromaxatlantis45027c79681dc3"
+        },
+        {
+          "placement_id": "model-lg-43qned80a6a-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg43qned80a6ar02kromaxdix18ff04869a486d"
+        },
+        {
+          "placement_id": "model-lg-43qned80a6a-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg43qned80a6ar03kromaxflat4ac145e8669b1"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-43qned80b6b",
+      "model_path": "/modeli/lg-43qned80b6b/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-43qned80b6b-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodellg43qned80b6br01holderlcds50360de234f2f93a"
+        },
+        {
+          "placement_id": "model-lg-43qned80b6b-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodellg43qned80b6br02holderlcds50667ea61493d94a"
+        },
+        {
+          "placement_id": "model-lg-43qned80b6b-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg43qned80b6br03kromaxatlantis45e2b71ed31b79"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-43qned82a6b",
+      "model_path": "/modeli/lg-43qned82a6b/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-43qned82a6b-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg43qned82a6br01kromaxatlantis45c70155cb334e"
+        },
+        {
+          "placement_id": "model-lg-43qned82a6b-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg43qned82a6br02kromaxdix183bc83d3b5502"
+        },
+        {
+          "placement_id": "model-lg-43qned82a6b-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg43qned82a6br03kromaxflat4407d777e46f9"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-50qned80b6b",
+      "model_path": "/modeli/lg-50qned80b6b/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-50qned80b6b-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg50qned80b6br01kromaxatlantis4579b5f5f435e5"
+        },
+        {
+          "placement_id": "model-lg-50qned80b6b-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg50qned80b6br02kromaxdix18470819c3fa3a"
+        },
+        {
+          "placement_id": "model-lg-50qned80b6b-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg50qned80b6br03kromaxflat476f66d3cdd38"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-50qned82a6b",
+      "model_path": "/modeli/lg-50qned82a6b/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-50qned82a6b-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg50qned82a6br01kromaxatlantis4534efa8f89a28"
+        },
+        {
+          "placement_id": "model-lg-50qned82a6b-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg50qned82a6br02kromaxdix1885e7cb522de4"
+        },
+        {
+          "placement_id": "model-lg-50qned82a6b-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg50qned82a6br03kromaxflat403bd55a42a37"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-50qned85b6a",
+      "model_path": "/modeli/lg-50qned85b6a/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-50qned85b6a-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg50qned85b6ar01kromaxatlantis4502f935ce5fd2"
+        },
+        {
+          "placement_id": "model-lg-50qned85b6a-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg50qned85b6ar02kromaxdix18a78d8966719b"
+        },
+        {
+          "placement_id": "model-lg-50qned85b6a-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg50qned85b6ar03kromaxflat4f0461d396b96"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-55qned83b6a",
+      "model_path": "/modeli/lg-55qned83b6a/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-55qned83b6a-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg55qned83b6ar01kromaxatlantis450e456bc752b8"
+        },
+        {
+          "placement_id": "model-lg-55qned83b6a-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg55qned83b6ar02kromaxdix189f19d8fa893a"
+        },
+        {
+          "placement_id": "model-lg-55qned83b6a-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg55qned83b6ar03kromaxflat4ba65333d7fb4"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-55qned85b6c",
+      "model_path": "/modeli/lg-55qned85b6c/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-55qned85b6c-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg55qned85b6cr01kromaxatlantis45499f303d0db7"
+        },
+        {
+          "placement_id": "model-lg-55qned85b6c-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg55qned85b6cr02kromaxdix18d50bba1194e3"
+        },
+        {
+          "placement_id": "model-lg-55qned85b6c-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg55qned85b6cr03kromaxflat4dbcdf82fe2f6"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-55qned86a6a",
+      "model_path": "/modeli/lg-55qned86a6a/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-55qned86a6a-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg55qned86a6ar01kromaxatlantis4503eb66304de8"
+        },
+        {
+          "placement_id": "model-lg-55qned86a6a-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg55qned86a6ar02kromaxdix18dd0dac13e4ec"
+        },
+        {
+          "placement_id": "model-lg-55qned86a6a-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg55qned86a6ar03kromaxflat4002cabb1ea58"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-55qned93a6a",
+      "model_path": "/modeli/lg-55qned93a6a/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-55qned93a6a-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellg55qned93a6ar01kromaxatlantis451cc1ff85b345"
+        },
+        {
+          "placement_id": "model-lg-55qned93a6a-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellg55qned93a6ar02kromaxdix18fab0f8529de5"
+        },
+        {
+          "placement_id": "model-lg-55qned93a6a-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg55qned93a6ar03kromaxflat45b529c2b347b"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-65qned80a6a",
+      "model_path": "/modeli/lg-65qned80a6a/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-65qned80a6a-r01-kromax-flat-4",
+          "rank": 1,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg65qned80a6ar01kromaxflat4d83637c70d86"
+        },
+        {
+          "placement_id": "model-lg-65qned80a6a-r02-onkron-tm5-bw",
+          "rank": 2,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodellg65qned80a6ar02onkrontm5bw4e9e49cc22c9"
+        },
+        {
+          "placement_id": "model-lg-65qned80a6a-r03-onkron-tm6",
+          "rank": 3,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodellg65qned80a6ar03onkrontm6d30cb0ad8c51"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-65qned86a6a",
+      "model_path": "/modeli/lg-65qned86a6a/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-65qned86a6a-r01-kromax-flat-4",
+          "rank": 1,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellg65qned86a6ar01kromaxflat46522fef44644"
+        },
+        {
+          "placement_id": "model-lg-65qned86a6a-r02-onkron-tm5-bw",
+          "rank": 2,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodellg65qned86a6ar02onkrontm5bw237e1f176806"
+        },
+        {
+          "placement_id": "model-lg-65qned86a6a-r03-onkron-tm6",
+          "rank": 3,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodellg65qned86a6ar03onkrontm64f8e28240532"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-oled42c5rla",
+      "model_path": "/modeli/lg-oled42c5rla/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-oled42c5rla-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellgoled42c5rlar01kromaxatlantis45041415a05849"
+        },
+        {
+          "placement_id": "model-lg-oled42c5rla-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellgoled42c5rlar02kromaxdix18d386e07b9d05"
+        },
+        {
+          "placement_id": "model-lg-oled42c5rla-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellgoled42c5rlar03kromaxflat41e87fcaeae19"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-oled48c5rla",
+      "model_path": "/modeli/lg-oled48c5rla/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-oled48c5rla-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellgoled48c5rlar01kromaxatlantis455c5798b272df"
+        },
+        {
+          "placement_id": "model-lg-oled48c5rla-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellgoled48c5rlar02kromaxdix18dccd5a961f70"
+        },
+        {
+          "placement_id": "model-lg-oled48c5rla-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellgoled48c5rlar03kromaxflat411033044198c"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-oled55b5rla",
+      "model_path": "/modeli/lg-oled55b5rla/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-oled55b5rla-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellgoled55b5rlar01kromaxatlantis455fec3a128094"
+        },
+        {
+          "placement_id": "model-lg-oled55b5rla-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellgoled55b5rlar02kromaxdix1855e6204a0f7b"
+        },
+        {
+          "placement_id": "model-lg-oled55b5rla-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellgoled55b5rlar03kromaxflat4f91e04ae67f9"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-oled55c4rla",
+      "model_path": "/modeli/lg-oled55c4rla/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-oled55c4rla-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellgoled55c4rlar01kromaxatlantis4575cd9bb515ac"
+        },
+        {
+          "placement_id": "model-lg-oled55c4rla-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellgoled55c4rlar02kromaxdix18781e8f236c8d"
+        },
+        {
+          "placement_id": "model-lg-oled55c4rla-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellgoled55c4rlar03kromaxflat47881563e09cd"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-oled55c5rla",
+      "model_path": "/modeli/lg-oled55c5rla/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-oled55c5rla-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellgoled55c5rlar01kromaxatlantis4579f417db6b0c"
+        },
+        {
+          "placement_id": "model-lg-oled55c5rla-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodellgoled55c5rlar02kromaxdix18e5279d0c7716"
+        },
+        {
+          "placement_id": "model-lg-oled55c5rla-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellgoled55c5rlar03kromaxflat43669eb6c7328"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-oled55g5rla",
+      "model_path": "/modeli/lg-oled55g5rla/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-oled55g5rla-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellgoled55g5rlar01kromaxatlantis458c87c7b540cc"
+        },
+        {
+          "placement_id": "model-lg-oled55g5rla-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellgoled55g5rlar02kromaxflat40250d4d76f26"
+        },
+        {
+          "placement_id": "model-lg-oled55g5rla-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodellgoled55g5rlar03onkrontm5bwbb47ddafa6b3"
+        }
+      ]
+    },
+    {
+      "model_id": "lg-oled65c5rla",
+      "model_path": "/modeli/lg-oled65c5rla/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-lg-oled65c5rla-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodellgoled65c5rlar01kromaxatlantis45c0b8b323ff7b"
+        },
+        {
+          "placement_id": "model-lg-oled65c5rla-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodellgoled65c5rlar02kromaxflat411d24eaebe0f"
+        },
+        {
+          "placement_id": "model-lg-oled65c5rla-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodellgoled65c5rlar03onkrontm5bw7d61d9c9bbad"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe43q7faauxru",
+      "model_path": "/modeli/samsung-qe43q7faauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe43q7faauxru-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsamsungqe43q7faauxrur01holderlcds5036eab899f903ff"
+        },
+        {
+          "placement_id": "model-samsung-qe43q7faauxru-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsamsungqe43q7faauxrur02holderlcds506609826ab583ae"
+        },
+        {
+          "placement_id": "model-samsung-qe43q7faauxru-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe43q7faauxrur03kromaxatlantis457dc7e253145f"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe43q8faauxru",
+      "model_path": "/modeli/samsung-qe43q8faauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe43q8faauxru-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsamsungqe43q8faauxrur01holderlcds503625afaaf04eef"
+        },
+        {
+          "placement_id": "model-samsung-qe43q8faauxru-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsamsungqe43q8faauxrur02holderlcds506623b12e2edd27"
+        },
+        {
+          "placement_id": "model-samsung-qe43q8faauxru-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe43q8faauxrur03kromaxatlantis45cde150d29114"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe43qef1auxru",
+      "model_path": "/modeli/samsung-qe43qef1auxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe43qef1auxru-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsamsungqe43qef1auxrur01holderlcds503650bdbf173ee9"
+        },
+        {
+          "placement_id": "model-samsung-qe43qef1auxru-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsamsungqe43qef1auxrur02holderlcds50660bf4467c233f"
+        },
+        {
+          "placement_id": "model-samsung-qe43qef1auxru-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe43qef1auxrur03kromaxatlantis4573440e9df122"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe43qn90fauxru",
+      "model_path": "/modeli/samsung-qe43qn90fauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe43qn90fauxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe43qn90fauxrur01kromaxatlantis45703503f739bd"
+        },
+        {
+          "placement_id": "model-samsung-qe43qn90fauxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe43qn90fauxrur02kromaxdix18d43724b88092"
+        },
+        {
+          "placement_id": "model-samsung-qe43qn90fauxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe43qn90fauxrur03kromaxflat44c45e28f608f"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe50q7faauxru",
+      "model_path": "/modeli/samsung-qe50q7faauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe50q7faauxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe50q7faauxrur01kromaxatlantis45ad4311f340d7"
+        },
+        {
+          "placement_id": "model-samsung-qe50q7faauxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe50q7faauxrur02kromaxdix1892855921c273"
+        },
+        {
+          "placement_id": "model-samsung-qe50q7faauxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe50q7faauxrur03kromaxflat45ea3fbcd2604"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe50qn90fauxru",
+      "model_path": "/modeli/samsung-qe50qn90fauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe50qn90fauxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe50qn90fauxrur01kromaxatlantis45bda7c4469936"
+        },
+        {
+          "placement_id": "model-samsung-qe50qn90fauxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe50qn90fauxrur02kromaxdix18e162bf2338b8"
+        },
+        {
+          "placement_id": "model-samsung-qe50qn90fauxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe50qn90fauxrur03kromaxflat42878b1ebcce4"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe55q70dauxru",
+      "model_path": "/modeli/samsung-qe55q70dauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe55q70dauxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe55q70dauxrur01kromaxatlantis45515545a39ab1"
+        },
+        {
+          "placement_id": "model-samsung-qe55q70dauxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe55q70dauxrur02kromaxdix189b2870ba881c"
+        },
+        {
+          "placement_id": "model-samsung-qe55q70dauxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe55q70dauxrur03kromaxflat4c2d4662b1259"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe55q7f5auxru",
+      "model_path": "/modeli/samsung-qe55q7f5auxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe55q7f5auxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe55q7f5auxrur01kromaxatlantis45dc85da9ffd72"
+        },
+        {
+          "placement_id": "model-samsung-qe55q7f5auxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe55q7f5auxrur02kromaxdix1800f0d1fee426"
+        },
+        {
+          "placement_id": "model-samsung-qe55q7f5auxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe55q7f5auxrur03kromaxflat4095822c3fb5c"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe55q7faauxru",
+      "model_path": "/modeli/samsung-qe55q7faauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe55q7faauxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe55q7faauxrur01kromaxatlantis45c7ab132f2d2e"
+        },
+        {
+          "placement_id": "model-samsung-qe55q7faauxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe55q7faauxrur02kromaxdix18cf92724677f2"
+        },
+        {
+          "placement_id": "model-samsung-qe55q7faauxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe55q7faauxrur03kromaxflat49b0cd36f9134"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe55qn70fauxru",
+      "model_path": "/modeli/samsung-qe55qn70fauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe55qn70fauxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe55qn70fauxrur01kromaxatlantis4571c402429dd5"
+        },
+        {
+          "placement_id": "model-samsung-qe55qn70fauxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe55qn70fauxrur02kromaxdix18482346bdbd6b"
+        },
+        {
+          "placement_id": "model-samsung-qe55qn70fauxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe55qn70fauxrur03kromaxflat4a174728bf051"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe55s85faexru",
+      "model_path": "/modeli/samsung-qe55s85faexru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe55s85faexru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe55s85faexrur01kromaxatlantis45b5a402f22890"
+        },
+        {
+          "placement_id": "model-samsung-qe55s85faexru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe55s85faexrur02kromaxdix18fd85640dfbef"
+        },
+        {
+          "placement_id": "model-samsung-qe55s85faexru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe55s85faexrur03kromaxflat4bdfa7bbbc596"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe55s90fauxru",
+      "model_path": "/modeli/samsung-qe55s90fauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe55s90fauxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe55s90fauxrur01kromaxatlantis45a6e59114f1c3"
+        },
+        {
+          "placement_id": "model-samsung-qe55s90fauxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungqe55s90fauxrur02kromaxdix183780cca92cc4"
+        },
+        {
+          "placement_id": "model-samsung-qe55s90fauxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe55s90fauxrur03kromaxflat4771b11d937aa"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe65q7faauxru",
+      "model_path": "/modeli/samsung-qe65q7faauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe65q7faauxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe65q7faauxrur01kromaxatlantis456a08b0be4356"
+        },
+        {
+          "placement_id": "model-samsung-qe65q7faauxru-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe65q7faauxrur02kromaxflat4f3863598e27e"
+        },
+        {
+          "placement_id": "model-samsung-qe65q7faauxru-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelsamsungqe65q7faauxrur03onkrontm5bwf41d403f5507"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe65qn70fauxru",
+      "model_path": "/modeli/samsung-qe65qn70fauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe65qn70fauxru-r01-kromax-flat-4",
+          "rank": 1,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe65qn70fauxrur01kromaxflat418ca81842a34"
+        },
+        {
+          "placement_id": "model-samsung-qe65qn70fauxru-r02-onkron-tm5-bw",
+          "rank": 2,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelsamsungqe65qn70fauxrur02onkrontm5bw8644f1e42597"
+        },
+        {
+          "placement_id": "model-samsung-qe65qn70fauxru-r03-onkron-tm6",
+          "rank": 3,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelsamsungqe65qn70fauxrur03onkrontm6b9c115bf5cd2"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe65s85faexru",
+      "model_path": "/modeli/samsung-qe65s85faexru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe65s85faexru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe65s85faexrur01kromaxatlantis4511d20e39f69d"
+        },
+        {
+          "placement_id": "model-samsung-qe65s85faexru-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe65s85faexrur02kromaxflat48db582f93fa6"
+        },
+        {
+          "placement_id": "model-samsung-qe65s85faexru-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelsamsungqe65s85faexrur03onkrontm5bw209c696a6d6b"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe65s90faexru",
+      "model_path": "/modeli/samsung-qe65s90faexru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe65s90faexru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungqe65s90faexrur01kromaxatlantis4557a74fb29abb"
+        },
+        {
+          "placement_id": "model-samsung-qe65s90faexru-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungqe65s90faexrur02kromaxflat47bc553da6ead"
+        },
+        {
+          "placement_id": "model-samsung-qe65s90faexru-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelsamsungqe65s90faexrur03onkrontm5bw42c808f798f7"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe75q7faauxru",
+      "model_path": "/modeli/samsung-qe75q7faauxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe75q7faauxru-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelsamsungqe75q7faauxrur01onkrontm6c6e5e87af926"
+        },
+        {
+          "placement_id": "model-samsung-qe75q7faauxru-r02-itech-p4f",
+          "rank": 2,
+          "entity_id": "itech-p4f",
+          "source_card_id": "market-itech-p4f-103201123450",
+          "vid": "krepitvmodelsamsungqe75q7faauxrur02itechp4f97e34389d734"
+        },
+        {
+          "placement_id": "model-samsung-qe75q7faauxru-r03-itech-plb440nt",
+          "rank": 3,
+          "entity_id": "itech-plb440nt",
+          "source_card_id": "market-itech-plb440nt-103195508438",
+          "vid": "krepitvmodelsamsungqe75q7faauxrur03itechplb440ntecf71370a2eb"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe77s85faexru",
+      "model_path": "/modeli/samsung-qe77s85faexru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe77s85faexru-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelsamsungqe77s85faexrur01onkrontm6568d7f65019f"
+        },
+        {
+          "placement_id": "model-samsung-qe77s85faexru-r02-itech-plb640nt",
+          "rank": 2,
+          "entity_id": "itech-plb640nt",
+          "source_card_id": "market-itech-plb640nt-102190438184",
+          "vid": "krepitvmodelsamsungqe77s85faexrur02itechplb640nt928ce9133577"
+        },
+        {
+          "placement_id": "model-samsung-qe77s85faexru-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelsamsungqe77s85faexrur03onkrontm5bw945c4148789e"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe85q7faauxru",
+      "model_path": "/modeli/samsung-qe85q7faauxru/",
+      "expected_offer_count": 2,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe85q7faauxru-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelsamsungqe85q7faauxrur01onkrontm643e06e24d409"
+        },
+        {
+          "placement_id": "model-samsung-qe85q7faauxru-r02-itech-plb640nt",
+          "rank": 2,
+          "entity_id": "itech-plb640nt",
+          "source_card_id": "market-itech-plb640nt-102190438184",
+          "vid": "krepitvmodelsamsungqe85q7faauxrur02itechplb640nt4f7d11f1581f"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-ue32f6000fuxru",
+      "model_path": "/modeli/samsung-ue32f6000fuxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-ue32f6000fuxru-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsamsungue32f6000fuxrur01holderlcds5036c532337af280"
+        },
+        {
+          "placement_id": "model-samsung-ue32f6000fuxru-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsamsungue32f6000fuxrur02holderlcds5066be2168c58ddd"
+        },
+        {
+          "placement_id": "model-samsung-ue32f6000fuxru-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungue32f6000fuxrur03kromaxatlantis45999e95fbf241"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-ue43f6000fuxru",
+      "model_path": "/modeli/samsung-ue43f6000fuxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-ue43f6000fuxru-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsamsungue43f6000fuxrur01holderlcds5036b3ad41183234"
+        },
+        {
+          "placement_id": "model-samsung-ue43f6000fuxru-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsamsungue43f6000fuxrur02holderlcds5066fe0ec9d3ce0c"
+        },
+        {
+          "placement_id": "model-samsung-ue43f6000fuxru-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungue43f6000fuxrur03kromaxatlantis4536783105beb8"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-ue43u8000fuxru",
+      "model_path": "/modeli/samsung-ue43u8000fuxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-ue43u8000fuxru-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsamsungue43u8000fuxrur01holderlcds5036b09b050fa77a"
+        },
+        {
+          "placement_id": "model-samsung-ue43u8000fuxru-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsamsungue43u8000fuxrur02holderlcds50665f2fe7325b31"
+        },
+        {
+          "placement_id": "model-samsung-ue43u8000fuxru-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungue43u8000fuxrur03kromaxatlantis457d5fa2e25d45"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-ue50u8000fuxru",
+      "model_path": "/modeli/samsung-ue50u8000fuxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-ue50u8000fuxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungue50u8000fuxrur01kromaxatlantis450388f736f185"
+        },
+        {
+          "placement_id": "model-samsung-ue50u8000fuxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungue50u8000fuxrur02kromaxdix1856f38ba7036d"
+        },
+        {
+          "placement_id": "model-samsung-ue50u8000fuxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungue50u8000fuxrur03kromaxflat4fdd3f4d1894e"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-ue55u8000fuxru",
+      "model_path": "/modeli/samsung-ue55u8000fuxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-ue55u8000fuxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungue55u8000fuxrur01kromaxatlantis45deccaee80a3d"
+        },
+        {
+          "placement_id": "model-samsung-ue55u8000fuxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungue55u8000fuxrur02kromaxdix185a3a38637d38"
+        },
+        {
+          "placement_id": "model-samsung-ue55u8000fuxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungue55u8000fuxrur03kromaxflat407c35469ab09"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-ue65u8000fuxru",
+      "model_path": "/modeli/samsung-ue65u8000fuxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-ue65u8000fuxru-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsamsungue65u8000fuxrur01kromaxatlantis45d8137bbc4252"
+        },
+        {
+          "placement_id": "model-samsung-ue65u8000fuxru-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelsamsungue65u8000fuxrur02kromaxdix187e20f31c7cb5"
+        },
+        {
+          "placement_id": "model-samsung-ue65u8000fuxru-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelsamsungue65u8000fuxrur03kromaxflat4b6e4882d2652"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-ue75u8000fuxru",
+      "model_path": "/modeli/samsung-ue75u8000fuxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-ue75u8000fuxru-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelsamsungue75u8000fuxrur01onkrontm6ccbe2e6249f9"
+        },
+        {
+          "placement_id": "model-samsung-ue75u8000fuxru-r02-itech-p4f",
+          "rank": 2,
+          "entity_id": "itech-p4f",
+          "source_card_id": "market-itech-p4f-103201123450",
+          "vid": "krepitvmodelsamsungue75u8000fuxrur02itechp4fa2bd03899098"
+        },
+        {
+          "placement_id": "model-samsung-ue75u8000fuxru-r03-itech-plb440nt",
+          "rank": 3,
+          "entity_id": "itech-plb440nt",
+          "source_card_id": "market-itech-plb440nt-103195508438",
+          "vid": "krepitvmodelsamsungue75u8000fuxrur03itechplb440nt9b88781399a2"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-ue85u8000fuxru",
+      "model_path": "/modeli/samsung-ue85u8000fuxru/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-samsung-ue85u8000fuxru-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelsamsungue85u8000fuxrur01onkrontm67fa6b5a7bac2"
+        },
+        {
+          "placement_id": "model-samsung-ue85u8000fuxru-r02-itech-plb640nt",
+          "rank": 2,
+          "entity_id": "itech-plb640nt",
+          "source_card_id": "market-itech-plb640nt-102190438184",
+          "vid": "krepitvmodelsamsungue85u8000fuxrur02itechplb640ntd470de99d8a7"
+        },
+        {
+          "placement_id": "model-samsung-ue85u8000fuxru-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelsamsungue85u8000fuxrur03onkrontm5bw25afc6cb7162"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-32a400-pro",
+      "model_path": "/modeli/tcl-32a400-pro/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-32a400-pro-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodeltcl32a400pror01holderlcds5036e8d23802a30e"
+        },
+        {
+          "placement_id": "model-tcl-32a400-pro-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodeltcl32a400pror02holderlcds50660e15103bffb9"
+        },
+        {
+          "placement_id": "model-tcl-32a400-pro-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl32a400pror03kromaxatlantis45d2ef75000424"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-43s5k",
+      "model_path": "/modeli/tcl-43s5k/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-43s5k-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodeltcl43s5kr01holderlcds50363bffbf50f6d4"
+        },
+        {
+          "placement_id": "model-tcl-43s5k-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodeltcl43s5kr02holderlcds5066f4825cf4ee64"
+        },
+        {
+          "placement_id": "model-tcl-43s5k-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl43s5kr03kromaxatlantis458c8f7ed20db8"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55c6k",
+      "model_path": "/modeli/tcl-55c6k/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55c6k-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55c6kr01kromaxatlantis45ad6c94cad8f5"
+        },
+        {
+          "placement_id": "model-tcl-55c6k-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55c6kr02kromaxdix18e80f590071f2"
+        },
+        {
+          "placement_id": "model-tcl-55c6k-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55c6kr03kromaxflat472098e0baae2"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55c745",
+      "model_path": "/modeli/tcl-55c745/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55c745-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55c745r01kromaxatlantis45060287eb24f1"
+        },
+        {
+          "placement_id": "model-tcl-55c745-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55c745r02kromaxdix1843167d1a858b"
+        },
+        {
+          "placement_id": "model-tcl-55c745-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55c745r03kromaxflat4ec2b1b6408c1"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55c755",
+      "model_path": "/modeli/tcl-55c755/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55c755-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55c755r01kromaxatlantis45817897a6744d"
+        },
+        {
+          "placement_id": "model-tcl-55c755-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55c755r02kromaxdix1828fb09a453fe"
+        },
+        {
+          "placement_id": "model-tcl-55c755-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55c755r03kromaxflat44ca9b46246e3"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55c765",
+      "model_path": "/modeli/tcl-55c765/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55c765-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55c765r01kromaxatlantis4568122ffea256"
+        },
+        {
+          "placement_id": "model-tcl-55c765-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55c765r02kromaxdix18d7097b2789ea"
+        },
+        {
+          "placement_id": "model-tcl-55c765-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55c765r03kromaxflat4437d1d8d0a86"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55c7k",
+      "model_path": "/modeli/tcl-55c7k/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55c7k-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55c7kr01kromaxatlantis4562c5ca10f028"
+        },
+        {
+          "placement_id": "model-tcl-55c7k-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55c7kr02kromaxdix181414479de8a9"
+        },
+        {
+          "placement_id": "model-tcl-55c7k-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55c7kr03kromaxflat4fe1fdfae3873"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55c7l",
+      "model_path": "/modeli/tcl-55c7l/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55c7l-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55c7lr01kromaxatlantis452ad6b5cd45ca"
+        },
+        {
+          "placement_id": "model-tcl-55c7l-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55c7lr02kromaxdix182f38fdbeb337"
+        },
+        {
+          "placement_id": "model-tcl-55c7l-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55c7lr03kromaxflat404128317aa26"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55p6k",
+      "model_path": "/modeli/tcl-55p6k/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55p6k-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55p6kr01kromaxatlantis45fc961f9c0496"
+        },
+        {
+          "placement_id": "model-tcl-55p6k-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55p6kr02kromaxdix18be6cc0b82de1"
+        },
+        {
+          "placement_id": "model-tcl-55p6k-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55p6kr03kromaxflat448e370d076c8"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55p7k",
+      "model_path": "/modeli/tcl-55p7k/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55p7k-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55p7kr01kromaxatlantis45bf07c8fa73e8"
+        },
+        {
+          "placement_id": "model-tcl-55p7k-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55p7kr02kromaxdix1844ab618edeaa"
+        },
+        {
+          "placement_id": "model-tcl-55p7k-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55p7kr03kromaxflat433523dc2c5e9"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-65c7k",
+      "model_path": "/modeli/tcl-65c7k/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-65c7k-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl65c7kr01kromaxatlantis45cd724424a6e0"
+        },
+        {
+          "placement_id": "model-tcl-65c7k-r02-kromax-flat-4",
+          "rank": 2,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl65c7kr02kromaxflat4ad91ddf0bdcc"
+        },
+        {
+          "placement_id": "model-tcl-65c7k-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodeltcl65c7kr03onkrontm5bw2e78c072147c"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-75c6k",
+      "model_path": "/modeli/tcl-75c6k/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-75c6k-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodeltcl75c6kr01onkrontm689b0a2476a44"
+        },
+        {
+          "placement_id": "model-tcl-75c6k-r02-itech-p4f",
+          "rank": 2,
+          "entity_id": "itech-p4f",
+          "source_card_id": "market-itech-p4f-103201123450",
+          "vid": "krepitvmodeltcl75c6kr02itechp4f39a78372aa1e"
+        },
+        {
+          "placement_id": "model-tcl-75c6k-r03-itech-plb440nt",
+          "rank": 3,
+          "entity_id": "itech-plb440nt",
+          "source_card_id": "market-itech-plb440nt-103195508438",
+          "vid": "krepitvmodeltcl75c6kr03itechplb440ntf165c262661c"
+        }
+      ]
+    },
+    {
+      "model_id": "xiaomi-tv-a-43-2025",
+      "model_path": "/modeli/xiaomi-tv-a-43-2025/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-xiaomi-tv-a-43-2025-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelxiaomitva432025r01holderlcds503671d8d969fc87"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-43-2025-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelxiaomitva432025r02holderlcds506652a4fb6bbe90"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-43-2025-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelxiaomitva432025r03kromaxatlantis453e5f957fa112"
+        }
+      ]
+    },
+    {
+      "model_id": "xiaomi-tv-a-50-2025",
+      "model_path": "/modeli/xiaomi-tv-a-50-2025/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-xiaomi-tv-a-50-2025-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelxiaomitva502025r01holderlcds5036906313cdc2bf"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-50-2025-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelxiaomitva502025r02holderlcds50664317696c3e01"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-50-2025-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelxiaomitva502025r03kromaxatlantis45ff6d3d9c1e88"
+        }
+      ]
+    },
+    {
+      "model_id": "xiaomi-tv-a-55-2025",
+      "model_path": "/modeli/xiaomi-tv-a-55-2025/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-xiaomi-tv-a-55-2025-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelxiaomitva552025r01kromaxatlantis453f708c36870c"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-55-2025-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelxiaomitva552025r02kromaxdix186a9755d15baf"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-55-2025-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelxiaomitva552025r03kromaxflat4fc1cbc365aa3"
+        }
+      ]
+    },
+    {
+      "model_id": "xiaomi-tv-a-pro-43-2025",
+      "model_path": "/modeli/xiaomi-tv-a-pro-43-2025/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-43-2025-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelxiaomitvapro432025r01kromaxatlantis45467b53fd4fcb"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-43-2025-r02-onkron-m4s",
+          "rank": 2,
+          "entity_id": "onkron-m4s",
+          "source_card_id": "market-onkron-m4s-b-103581060220",
+          "vid": "krepitvmodelxiaomitvapro432025r02onkronm4se6da54afe1df"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-43-2025-r03-onkron-tm5-bw",
+          "rank": 3,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelxiaomitvapro432025r03onkrontm5bw57b3c58103dc"
+        }
+      ]
+    },
+    {
+      "model_id": "xiaomi-tv-a-pro-55-2025",
+      "model_path": "/modeli/xiaomi-tv-a-pro-55-2025/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-55-2025-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelxiaomitvapro552025r01kromaxatlantis45419ecb503f87"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-55-2025-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelxiaomitvapro552025r02kromaxdix181fecfdf0fb02"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-55-2025-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelxiaomitvapro552025r03kromaxflat4f1f7c00addb2"
+        }
+      ]
+    },
+    {
+      "model_id": "xiaomi-tv-a-pro-65-2025",
+      "model_path": "/modeli/xiaomi-tv-a-pro-65-2025/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-65-2025-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelxiaomitvapro652025r01kromaxatlantis458a35345b2cd6"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-65-2025-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelxiaomitvapro652025r02kromaxdix187a60e8285c89"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-65-2025-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelxiaomitvapro652025r03kromaxflat4a6d224c2419f"
+        }
+      ]
+    }
+  ]
+}

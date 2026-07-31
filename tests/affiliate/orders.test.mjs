@@ -6,6 +6,7 @@ import test from "node:test";
 import {
   assertPrivatePath,
   buildMonthlyOrdersReport,
+  buildPlacementAttributionIndex,
   CANCELLATION_REASON_ENUM,
   collectKnownVids,
   computeSyncWindow,
@@ -568,6 +569,40 @@ test("collects exact manifest/base VIDs and rejects non-private ledger paths", (
     "krepitvOne",
     "krepitvSeoHubOne",
   ]);
+
+  const modelPlacements = {
+    clid,
+    models: [
+      {
+        model_id: "tcl-55c7k",
+        model_path: "/modeli/tcl-55c7k/",
+        placements: [
+          {
+            placement_id: "model-tcl-55c7k-r01-onkron-tm6",
+            rank: 1,
+            entity_id: "onkron-tm6",
+            vid: "krepitvModelTcl55c7kOne",
+          },
+        ],
+      },
+    ],
+  };
+  const withAllPlacementManifests = collectKnownVids(
+    { cards: [{ clid, vid: "krepitvOne" }] },
+    [
+      {
+        clid,
+        hubs: [{ placements: [{ vid: "krepitvSeoHubOne" }] }],
+      },
+      modelPlacements,
+    ],
+    clid,
+  );
+  assert.deepEqual([...withAllPlacementManifests].sort(), [
+    "krepitvModelTcl55c7kOne",
+    "krepitvOne",
+    "krepitvSeoHubOne",
+  ]);
   assert.throws(
     () => collectKnownVids(
       { cards: [{ clid, vid: "krepitvOne" }] },
@@ -584,6 +619,14 @@ test("collects exact manifest/base VIDs and rejects non-private ledger paths", (
     ),
     /duplicate/,
   );
+  assert.throws(
+    () => collectKnownVids(
+      { cards: [{ clid, vid: "krepitvOne" }] },
+      [{ ...modelPlacements, clid: "99999999" }],
+      clid,
+    ),
+    /another clid/,
+  );
 
   const root = "/tmp/krepitv-fixture";
   assert.equal(
@@ -594,4 +637,128 @@ test("collects exact manifest/base VIDs and rejects non-private ledger paths", (
     () => assertPrivatePath(root, `${root}/data/orders.json`),
     /under \.private/,
   );
+});
+
+test("aggregates private placement attribution without exposing order keys", () => {
+  const baseManifest = {
+    cards: [
+      {
+        id: "market-onkron-tm6",
+        page_path: "/kronshteyny/onkron-tm6/",
+        entity_kind: "mount",
+        entity_id: "onkron-tm6",
+        clid,
+        vid: "krepitvOnkronTM6",
+      },
+    ],
+  };
+  const hubManifest = {
+    clid,
+    hubs: [
+      {
+        hub_path: "/kronshteyny-onkron/",
+        placements: [
+          {
+            placement_id: "seo-hub-onkron-r01",
+            rank: 1,
+            entity_id: "onkron-tm6",
+            vid: "krepitvSeoHubOne",
+          },
+        ],
+      },
+    ],
+  };
+  const modelManifest = {
+    clid,
+    models: [
+      {
+        model_path: "/modeli/tcl-55c7k/",
+        placements: [
+          {
+            placement_id: "model-tcl-55c7k-r01-onkron-tm6",
+            rank: 1,
+            entity_id: "onkron-tm6",
+            vid: "krepitvModelTcl55c7kOne",
+          },
+        ],
+      },
+    ],
+  };
+  const placementIndex = buildPlacementAttributionIndex(
+    baseManifest,
+    [hubManifest, modelManifest],
+    clid,
+  );
+  assert.deepEqual(placementIndex.get("krepitvModelTcl55c7kOne"), {
+    vid: "krepitvModelTcl55c7kOne",
+    surface: "model_page",
+    landing_path: "/modeli/tcl-55c7k/",
+    placement_id: "model-tcl-55c7k-r01-onkron-tm6",
+    rank: 1,
+    entity_id: "onkron-tm6",
+  });
+
+  const state = {
+    cursor: { last_successful_update_end: "2026-08-01T00:00:00.000Z" },
+    orders: {
+      private_approved_order_key: {
+        vid: "krepitvModelTcl55c7kOne",
+        status: "APPROVED",
+        updated_at: "2026-07-31T12:00:00.000Z",
+        payment_kopecks: 12_345,
+      },
+      private_pending_order_key: {
+        vid: "krepitvModelTcl55c7kOne",
+        status: "ON_HOLD",
+        updated_at: "2026-08-01T00:00:00.000Z",
+        payment_kopecks: 2_500,
+      },
+      private_cancelled_order_key: {
+        vid: "krepitvSeoHubOne",
+        status: "CANCELLED",
+        updated_at: "2026-07-20T00:00:00.000Z",
+        payment_kopecks: 0,
+      },
+      private_unattributed_order_key: {
+        vid: "krepitvLegacyKnownVid",
+        status: "NEW",
+        updated_at: "2026-08-01T00:00:00.000Z",
+        payment_kopecks: 500,
+      },
+    },
+    quarantine: {},
+  };
+  const report = buildMonthlyOrdersReport(
+    state,
+    "2026-07",
+    "2026-08-01T01:00:00Z",
+    placementIndex,
+  );
+  const modelRow = report.attribution.placements.find(
+    (row) => row.vid === "krepitvModelTcl55c7kOne",
+  );
+  assert.deepEqual(modelRow.approved_in_month, {
+    orders: 1,
+    payment_kopecks: 12_345,
+  });
+  assert.deepEqual(modelRow.pending_current, {
+    new_orders: 0,
+    on_hold_orders: 1,
+    payment_kopecks: 2_500,
+  });
+  assert.equal(
+    report.attribution.placements.find(
+      (row) => row.vid === "krepitvSeoHubOne",
+    ).cancelled_in_month.orders,
+    1,
+  );
+  assert.deepEqual(report.attribution.unattributed.pending_current, {
+    new_orders: 1,
+    on_hold_orders: 0,
+    payment_kopecks: 500,
+  });
+  const serialized = JSON.stringify(report);
+  for (const forbidden of Object.keys(state.orders)) {
+    assert.equal(serialized.includes(forbidden), false, forbidden);
+  }
 });

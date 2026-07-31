@@ -28,10 +28,14 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Проверить VID-манифесты
+      - name: Проверить генерацию и VID-манифесты
+        shell: bash
         run: |
+          set -euo pipefail
           npm run affiliate:validate
           npm run affiliate:validate-hubs
+          npm run affiliate:check-model-manifest
+          npm run affiliate:validate-models
 
       - name: Синхронизировать обезличенные статусы
         env:
@@ -49,6 +53,7 @@ jobs:
             exit 1
           fi
           npm run affiliate:orders-sync -- \
+            --model-placements data/affiliate/model-page-placements.json \
             --backfill-start 2026-07-30T00:00:00+03:00 \
             > /dev/null
 

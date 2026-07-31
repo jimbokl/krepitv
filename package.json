@@ -26,6 +26,13 @@
     "affiliate:build-hub-snapshot": "node scripts/affiliate/build-hub-snapshot.mjs",
     "affiliate:publish-hub-snapshot": "node scripts/affiliate/publish-hub-snapshot.mjs",
     "affiliate:validate-hubs-public": "node scripts/affiliate/validate-hub-placements.mjs --kind public data/affiliate/public-hub-offers.json",
+    "affiliate:generate-models": "node scripts/affiliate/generate-model-placements.mjs --out",
+    "affiliate:check-model-manifest": "node scripts/affiliate/generate-model-placements.mjs --check",
+    "affiliate:validate-models": "node scripts/affiliate/validate-model-placements.mjs --kind manifest data/affiliate/model-page-placements.json",
+    "affiliate:check-models": "node scripts/affiliate/check-model-placements.mjs",
+    "affiliate:build-model-snapshot": "node scripts/affiliate/build-model-snapshot.mjs",
+    "affiliate:publish-model-snapshot": "node scripts/affiliate/publish-model-snapshot.mjs",
+    "affiliate:validate-models-public": "node scripts/affiliate/validate-model-placements.mjs --kind public data/affiliate/public-model-offers.json",
     "affiliate:orders-sync": "node scripts/affiliate/sync-orders.mjs --clid 15238076",
     "affiliate:orders-report": "node scripts/affiliate/report-orders.mjs",
     "affiliate:test": "node --test tests/affiliate/*.test.mjs",
@@ -33,6 +40,6 @@
     "indexnow:test": "node --test tests/indexnow/*.test.mjs",
     "dev:prepare": "npm run build:content && npm run build:wasm",
     "dev": "npm run dev:prepare && npm --prefix web run dev",
-    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:test && npm run indexnow:test"
+    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test"
   }
 }

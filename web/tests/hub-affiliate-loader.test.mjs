@@ -127,7 +127,7 @@ test("catalog загружает product и hub affiliate snapshots в разн�
 
   Object.defineProperty(globalThis, "location", {
     configurable: true,
-    value: { origin: "https://krepitv.ru" },
+    value: { origin: "https://krepitv.ru", pathname: "/" },
   });
   globalThis.fetch = async (input) => {
     const url = String(input);
@@ -151,8 +151,10 @@ test("catalog загружает product и hub affiliate snapshots в разн�
     assert.equal(catalog.hubAffiliateOffers.length, 1);
     assert.equal(catalog.hubAffiliateOffers[0].entity_id, "itech-plb440nt");
     assert.equal(catalog.hubAffiliateOffers[0].hub_id, "buy-tv-mount");
+    assert.deepEqual(catalog.modelAffiliateOffers, []);
     assert.ok(requested.includes("https://krepitv.ru/data/affiliate-offers.json"));
     assert.ok(requested.includes("https://krepitv.ru/data/affiliate-hub-offers.json"));
+    assert.ok(!requested.includes("https://krepitv.ru/data/affiliate-model-offers.json"));
   } finally {
     globalThis.fetch = originalFetch;
     if (originalLocation) {

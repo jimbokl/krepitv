@@ -12,6 +12,7 @@ export function useCatalog() {
     commercialProfiles: [],
     affiliateOffers: [],
     hubAffiliateOffers: [],
+    modelAffiliateOffers: [],
     error: null,
   });
 

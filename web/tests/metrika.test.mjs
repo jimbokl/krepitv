@@ -112,3 +112,24 @@ test("параметры цели фильтруются до безопасны
 
   assert.deepEqual(calls[1][3], { vid: "validVID01" });
 });
+
+test("корневая SEO-страница сохраняется в обезличенном событии", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  metrika.trackMarketClick({
+    entityId: "onkron-tm6",
+    offerId: "offer01",
+    pagePath: "/kronshteyny/onkron-tm6/",
+    sourcePath: "/",
+    vid: "validVID01",
+  });
+
+  assert.equal(calls[1][3].source_path, "/");
+});

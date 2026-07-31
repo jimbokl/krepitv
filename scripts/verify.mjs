@@ -28,6 +28,9 @@ const expectedCommercialProfiles = new Set([
   "model:hisense-65u7s:/modeli/hisense-65u7s/",
   "model:hisense-55u7s-pro:/modeli/hisense-55u7s-pro/",
   "model:hisense-55e77sl:/modeli/hisense-55e77sl/",
+  "model:tcl-55c7k:/modeli/tcl-55c7k/",
+  "model:tcl-65c7k:/modeli/tcl-65c7k/",
+  "model:tcl-75c6k:/modeli/tcl-75c6k/",
 ]);
 const seoHubAffiliatePaths = new Set([
   "/kronshteyny-onkron/",

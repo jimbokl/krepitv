@@ -1,0 +1,151 @@
+import assert from "node:assert/strict";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import test from "node:test";
+import { createServer } from "vite";
+
+function modelOffer(entityId, rank) {
+  const modelId = "tcl-55c7k";
+  const placementId = `model-${modelId}-r0${rank}-${entityId}`;
+  const vid = `krepitvmodel${modelId.replaceAll("-", "")}r0${rank}${entityId.replaceAll("-", "")}`;
+  const pathname = `/card/kronshteyn-${entityId}/123`;
+  const clid = "12345678";
+  const destination = new URL(`https://market.yandex.ru${pathname}`);
+  destination.searchParams.set("clid", clid);
+  destination.searchParams.set("vid", vid);
+  destination.searchParams.set("distr_type", "7");
+  destination.searchParams.set("utm_source", "partner_network");
+  destination.searchParams.set("utm_campaign", clid);
+  return {
+    id: placementId,
+    placement_id: placementId,
+    model_id: modelId,
+    model_path: `/modeli/${modelId}/`,
+    rank,
+    market_source_url: `https://market.yandex.ru${pathname}`,
+    page_path: `/kronshteyny/${entityId}/`,
+    entity_kind: "mount",
+    entity_id: entityId,
+    compliance_mode: "non_ad_storefront",
+    clid,
+    vid,
+    affiliate_href: destination.toString(),
+    page_name: "POKUPKI_PRODUCT",
+    title: `Кронштейн ${entityId}`,
+    product_photo: "https://avatars.mds.yandex.net/get-mpic/1/example.jpeg/optimize",
+    checked_at: new Date().toISOString(),
+    eligibility: "publishable",
+    publishable: true,
+    creative: null,
+  };
+}
+
+function mount(id, brand, mechanism) {
+  return {
+    id,
+    brand,
+    title: `${brand} ${id}`,
+    mechanism,
+    vesa: ["300x300"],
+    max_load_kg: 50,
+    min_diagonal_in: 43,
+    max_diagonal_in: 75,
+    wall_distance_min_mm: 45,
+    wall_distance_max_mm: mechanism === "full-motion" ? 420 : 45,
+    source_url: `https://example.com/${id}`,
+    checked_at: "2026-07-30",
+  };
+}
+
+test("карточка модели выводит только три model-specific CTA, а полный список остаётся внутренним", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({
+    root,
+    logLevel: "silent",
+    server: { middlewareMode: true },
+    appType: "custom",
+  });
+
+  try {
+    const { ModelPage } = await vite.ssrLoadModule("/src/pages/ModelPage.jsx");
+    const model = {
+      id: "tcl-55c7k",
+      brand: "TCL",
+      model: "55C7K",
+      title: "TCL 55C7K",
+      series: "C7K",
+      model_year: 2025,
+      diagonal_inches: 55,
+      weight_kg: 13.3,
+      vesa_width_mm: 300,
+      vesa_height_mm: 300,
+      width_mm: 1226,
+      height_mm: 710,
+      depth_mm: 55.9,
+      source_url: "https://www.tcl.com/ru/ru/tvs/55c7k",
+      checked_at: "2026-07-30",
+    };
+    const mounts = [
+      mount("kromax-atlantis-45", "KROMAX", "full-motion"),
+      mount("kromax-dix-18", "KROMAX", "full-motion"),
+      mount("kromax-flat-4", "KROMAX", "fixed"),
+      mount("onkron-tm6", "ONKRON", "tilt"),
+    ];
+    const compatibilityEdges = mounts.map((item) => ({
+      tv_id: model.id,
+      mount_id: item.id,
+      compatible: true,
+      fit_status: "verified-fit",
+      reasons: ["VESA совпадает", "Запас нагрузки достаточен"],
+      warnings: [],
+      required_load_kg: 16.7,
+    }));
+    const catalog = {
+      models: [model],
+      mounts,
+      search: [],
+      seoPages: [],
+      commercialProfiles: [],
+      compatibilityEdges,
+      affiliateOffers: [{
+        ...modelOffer("onkron-tm6", 1),
+        id: "market-onkron-tm6",
+        placement_id: undefined,
+        model_id: undefined,
+        model_path: undefined,
+      }],
+      hubAffiliateOffers: [],
+      modelAffiliateOffers: [
+        modelOffer("kromax-dix-18", 2),
+        modelOffer("kromax-atlantis-45", 1),
+        modelOffer("kromax-flat-4", 3),
+      ],
+    };
+    const html = renderToStaticMarkup(
+      React.createElement(ModelPage, { catalog, modelId: model.id }),
+    );
+
+    assert.equal((html.match(/href="https:\/\/market\.yandex\.ru\/card\//g) ?? []).length, 3);
+    assert.equal((html.match(/data-affiliate-placement-id="model-tcl-55c7k-/g) ?? []).length, 3);
+    assert.deepEqual(
+      [...html.matchAll(/data-affiliate-rank="(\d)"/g)].map((match) => Number(match[1])),
+      [1, 2, 3],
+    );
+    assert.equal((html.match(/rel="sponsored nofollow noopener noreferrer"/g) ?? []).length, 3);
+    assert.equal((html.match(/Подробнее о совместимости/g) ?? []).length, mounts.length);
+    assert.equal(html.includes("data-affiliate-placement-id=\"market-onkron-tm6\""), false);
+    for (const fragment of [
+      "Партнёрская ссылка на Яндекс Маркет",
+      "Если вы оформите заказ",
+      "Крепи ТВ может получить вознаграждение",
+      "Цена для вас не меняется",
+    ]) {
+      assert.equal(html.includes(fragment), false);
+    }
+    assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
+  } finally {
+    await vite.close();
+  }
+});

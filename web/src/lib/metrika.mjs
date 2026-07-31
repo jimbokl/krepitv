@@ -6,7 +6,7 @@ export const AFFILIATE_CLICK_GOAL = "market_click";
 const METRIKA_SCRIPT_ID = "krepitv-yandex-metrika";
 const METRIKA_SCRIPT_URL = "https://mc.yandex.ru/metrika/tag.js";
 const SAFE_TOKEN = /^[A-Za-z0-9_-]{1,150}$/;
-const SAFE_PAGE_PATH = /^\/[A-Za-z0-9/_-]{1,240}$/;
+const SAFE_PAGE_PATH = /^(?:\/|\/[A-Za-z0-9/_-]{1,240})$/;
 
 function normalizeCounterId(value) {
   const counterId = Number(value);

@@ -32,10 +32,14 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
 
-      - name: Проверить манифест
+      - name: Проверить генерацию и манифесты
+        shell: bash
         run: |
+          set -euo pipefail
           npm run affiliate:validate
           npm run affiliate:validate-hubs
+          npm run affiliate:check-model-manifest
+          npm run affiliate:validate-models
 
       - name: Определить количество карточек
         id: manifest
@@ -52,7 +56,12 @@ jobs:
             const data = JSON.parse(fs.readFileSync("data/affiliate/seo-hub-placements.json", "utf8"));
             process.stdout.write(String(data.hubs.reduce((sum, hub) => sum + hub.placements.length, 0)));
           ')"
-          count="$((base_count + hub_count))"
+          model_count="$(node -e '
+            const fs = require("node:fs");
+            const data = JSON.parse(fs.readFileSync("data/affiliate/model-page-placements.json", "utf8"));
+            process.stdout.write(String(data.expected_offer_count));
+          ')"
+          count="$((base_count + hub_count + model_count))"
           echo "count=$count" >> "$GITHUB_OUTPUT"
           if [ "$count" = "0" ]; then
             echo "Манифест пуст: безопасный запуск без сетевых запросов и публикации."
@@ -72,10 +81,13 @@ jobs:
           fi
           npm run affiliate:check-market
           npm run affiliate:check-hubs
+          npm run affiliate:check-models
           has_error="$(node -e '
             const base = require("./.private/market-affiliate-batch.json");
             const hubs = require("./.private/market-affiliate-hub-batch.json");
-            const failed = [...base.checks, ...hubs.checks].some((item) => item.status === "error");
+            const models = require("./.private/market-affiliate-model-batch.json");
+            const failed = [...base.checks, ...hubs.checks, ...models.checks]
+              .some((item) => item.status === "error");
             process.stdout.write(failed ? "true" : "false");
           ')"
           echo "has_error=$has_error" >> "$GITHUB_OUTPUT"
@@ -122,6 +134,9 @@ jobs:
           npm run affiliate:build-hub-snapshot
           npm run affiliate:publish-hub-snapshot
           npm run affiliate:validate-hubs-public
+          npm run affiliate:build-model-snapshot
+          npm run affiliate:publish-model-snapshot
+          npm run affiliate:validate-models-public
           npm run affiliate:test
           npm run build
 
@@ -136,6 +151,7 @@ jobs:
           git add -A -- \
             data/affiliate/public-offers.json \
             data/affiliate/public-hub-offers.json \
+            data/affiliate/public-model-offers.json \
             docs \
             web/index.html \
             web/public
@@ -215,6 +231,13 @@ jobs:
                 url: "https://krepitv.ru/data/affiliate-hub-offers.json",
               },
             ],
+            [
+              "data/affiliate-model-offers.json",
+              {
+                file: "docs/data/affiliate-model-offers.json",
+                url: "https://krepitv.ru/data/affiliate-model-offers.json",
+              },
+            ],
           ]);
           for (const offer of snapshot.offers) {
             const relative = `${offer.page_path.replace(/^\//, "")}index.html`;
@@ -231,6 +254,16 @@ jobs:
             artifacts.set(relative, {
               file: `docs/${relative}`,
               url: `https://krepitv.ru${placement.hub_path}`,
+            });
+          }
+          const modelSnapshot = JSON.parse(
+            fs.readFileSync("data/affiliate/public-model-offers.json", "utf8"),
+          );
+          for (const placement of modelSnapshot.placements) {
+            const relative = `${placement.model_path.replace(/^\//, "")}index.html`;
+            artifacts.set(relative, {
+              file: `docs/${relative}`,
+              url: `https://krepitv.ru${placement.model_path}`,
             });
           }
           for (const artifact of artifacts.values()) {

@@ -15,6 +15,9 @@ export function AffiliateLink({ children, className = "primary-button", offer })
       data-clid={presentation.clid}
       data-erid={presentation.erid ?? undefined}
       href={presentation.href}
+      onAuxClick={(event) => {
+        if (event.button === 1) emitAffiliateClick(window, offer);
+      }}
       onClick={() => emitAffiliateClick(window, offer)}
       rel={presentation.rel}
       target={presentation.target}

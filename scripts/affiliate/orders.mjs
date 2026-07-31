@@ -744,7 +744,94 @@ function collectVid(value, output) {
   output.add(value);
 }
 
-export function collectKnownVids(manifest, supplementalVids = null, expectedClid = null) {
+function optionalPlacementText(value) {
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function visitSupplementalVids(value, output, expectedClid, visitor) {
+  if (Array.isArray(value)) {
+    const stringsOnly = value.every((item) => typeof item === "string");
+    const objectsOnly = value.every((item) => isObject(item));
+    if (!stringsOnly && !objectsOnly) {
+      throw new Error(
+        "supplemental VID array must contain only VIDs or placement manifests",
+      );
+    }
+    for (const item of value) {
+      if (typeof item === "string") {
+        collectVid(item, output);
+        visitor(item, {
+          surface: "supplemental",
+          landing_path: null,
+          placement_id: null,
+          rank: null,
+          entity_id: null,
+        });
+      } else {
+        visitSupplementalVids(item, output, expectedClid, visitor);
+      }
+    }
+    return;
+  }
+
+  if (isObject(value) && Array.isArray(value.vids)) {
+    visitSupplementalVids(value.vids, output, expectedClid, visitor);
+    return;
+  }
+
+  const isHubManifest = isObject(value) && Array.isArray(value.hubs);
+  const isModelManifest = isObject(value) && Array.isArray(value.models);
+  if (!isHubManifest && !isModelManifest) {
+    throw new Error(
+      "supplemental VID file must be an array, { vids: [] }, a hub placement manifest, or a model placement manifest",
+    );
+  }
+  if (isHubManifest && isModelManifest) {
+    throw new Error("supplemental placement manifest has an ambiguous schema");
+  }
+  if (
+    expectedClid !== null &&
+    String(value.clid ?? "") !== requireClid(expectedClid)
+  ) {
+    throw new Error(
+      `${isModelManifest ? "model" : "hub"} placement manifest belongs to another clid`,
+    );
+  }
+
+  const groups = isModelManifest ? value.models : value.hubs;
+  const kind = isModelManifest ? "model" : "hub";
+  for (const group of groups) {
+    if (!isObject(group) || !Array.isArray(group.placements)) {
+      throw new Error(`${kind} placement manifest is malformed`);
+    }
+    const landingPath = optionalPlacementText(
+      isModelManifest ? group.model_path : group.hub_path,
+    );
+    for (const placement of group.placements) {
+      if (!isObject(placement)) {
+        throw new Error(`${kind} placement manifest is malformed`);
+      }
+      collectVid(placement.vid, output);
+      visitor(placement.vid, {
+        surface: isModelManifest ? "model_page" : "seo_hub",
+        landing_path: landingPath,
+        placement_id: optionalPlacementText(placement.placement_id),
+        rank:
+          Number.isSafeInteger(placement.rank) && placement.rank > 0
+            ? placement.rank
+            : null,
+        entity_id: optionalPlacementText(placement.entity_id),
+      });
+    }
+  }
+}
+
+function visitAffiliateVids(
+  manifest,
+  supplementalVids,
+  expectedClid,
+  visitor = () => {},
+) {
   const output = new Set();
   if (!isObject(manifest) || !Array.isArray(manifest.cards)) {
     throw new Error("affiliate manifest must contain cards[]");
@@ -755,42 +842,48 @@ export function collectKnownVids(manifest, supplementalVids = null, expectedClid
       throw new Error("affiliate manifest contains a card for another clid");
     }
     collectVid(card.vid, output);
+    visitor(card.vid, {
+      surface: card.entity_kind === "mount" ? "mount_page" : "product_page",
+      landing_path: optionalPlacementText(card.page_path),
+      placement_id: optionalPlacementText(card.id),
+      rank: null,
+      entity_id: optionalPlacementText(card.entity_id),
+    });
   }
 
   if (supplementalVids !== null && supplementalVids !== undefined) {
-    const values = Array.isArray(supplementalVids)
-      ? supplementalVids
-      : isObject(supplementalVids) && Array.isArray(supplementalVids.vids)
-        ? supplementalVids.vids
-        : null;
-    if (values) {
-      for (const vid of values) collectVid(vid, output);
-    } else if (isObject(supplementalVids) && Array.isArray(supplementalVids.hubs)) {
-      if (
-        expectedClid !== null &&
-        String(supplementalVids.clid ?? "") !== requireClid(expectedClid)
-      ) {
-        throw new Error("hub placement manifest belongs to another clid");
-      }
-      for (const hub of supplementalVids.hubs) {
-        if (!isObject(hub) || !Array.isArray(hub.placements)) {
-          throw new Error("hub placement manifest is malformed");
-        }
-        for (const placement of hub.placements) {
-          if (!isObject(placement)) {
-            throw new Error("hub placement manifest is malformed");
-          }
-          collectVid(placement.vid, output);
-        }
-      }
-    } else {
-      throw new Error(
-        "supplemental VID file must be an array, { vids: [] }, or a hub placement manifest",
-      );
-    }
+    visitSupplementalVids(
+      supplementalVids,
+      output,
+      expectedClid,
+      visitor,
+    );
   }
   if (output.size === 0) throw new Error("known VID set must not be empty");
   return output;
+}
+
+export function collectKnownVids(
+  manifest,
+  supplementalVids = null,
+  expectedClid = null,
+) {
+  return visitAffiliateVids(manifest, supplementalVids, expectedClid);
+}
+
+export function buildPlacementAttributionIndex(
+  manifest,
+  supplementalVids = null,
+  expectedClid = null,
+) {
+  const placements = new Map();
+  visitAffiliateVids(
+    manifest,
+    supplementalVids,
+    expectedClid,
+    (vid, placement) => placements.set(vid, Object.freeze({ vid, ...placement })),
+  );
+  return placements;
 }
 
 export function assertPrivatePath(root, file) {
@@ -827,7 +920,101 @@ function inMonth(isoDate, month) {
     .slice(0, 7) === month;
 }
 
-export function buildMonthlyOrdersReport(state, month, generatedAt = new Date()) {
+function emptyAttributionCounters() {
+  return {
+    approved_in_month: { orders: 0, payment_kopecks: 0 },
+    pending_current: {
+      new_orders: 0,
+      on_hold_orders: 0,
+      payment_kopecks: 0,
+    },
+    cancelled_in_month: { orders: 0 },
+  };
+}
+
+function addOrderToAttribution(counters, order, month) {
+  let active = false;
+  if (order.status === "APPROVED" && inMonth(order.updated_at, month)) {
+    counters.approved_in_month.orders += 1;
+    counters.approved_in_month.payment_kopecks += order.payment_kopecks;
+    active = true;
+  }
+  if (order.status === "CANCELLED" && inMonth(order.updated_at, month)) {
+    counters.cancelled_in_month.orders += 1;
+    active = true;
+  }
+  if (order.status === "NEW") {
+    counters.pending_current.new_orders += 1;
+    counters.pending_current.payment_kopecks += order.payment_kopecks;
+    active = true;
+  }
+  if (order.status === "ON_HOLD") {
+    counters.pending_current.on_hold_orders += 1;
+    counters.pending_current.payment_kopecks += order.payment_kopecks;
+    active = true;
+  }
+  return active;
+}
+
+function validateAttributionTotals(counters) {
+  if (
+    !Number.isSafeInteger(counters.approved_in_month.payment_kopecks) ||
+    !Number.isSafeInteger(counters.pending_current.payment_kopecks)
+  ) {
+    throw new Error("orders attribution total exceeds the safe integer range");
+  }
+}
+
+function buildPlacementAttribution(state, month, placementIndex) {
+  if (!(placementIndex instanceof Map)) {
+    throw new Error("placementIndex must be a Map");
+  }
+  const rows = new Map();
+  const unattributed = emptyAttributionCounters();
+  for (const order of Object.values(state.orders)) {
+    const placement = placementIndex.get(order.vid);
+    if (!placement) {
+      addOrderToAttribution(unattributed, order, month);
+      continue;
+    }
+    if (!isObject(placement) || placement.vid !== order.vid) {
+      throw new Error("placementIndex contains a malformed entry");
+    }
+    const row = rows.get(order.vid) ?? {
+      vid: placement.vid,
+      surface: placement.surface,
+      landing_path: placement.landing_path,
+      placement_id: placement.placement_id,
+      rank: placement.rank,
+      entity_id: placement.entity_id,
+      ...emptyAttributionCounters(),
+    };
+    if (addOrderToAttribution(row, order, month)) rows.set(order.vid, row);
+  }
+
+  for (const row of rows.values()) validateAttributionTotals(row);
+  validateAttributionTotals(unattributed);
+  return {
+    placements: [...rows.values()].sort(
+      (left, right) =>
+        left.surface.localeCompare(right.surface) ||
+        String(left.landing_path ?? "").localeCompare(
+          String(right.landing_path ?? ""),
+        ) ||
+        (left.rank ?? Number.MAX_SAFE_INTEGER) -
+          (right.rank ?? Number.MAX_SAFE_INTEGER) ||
+        left.vid.localeCompare(right.vid),
+    ),
+    unattributed,
+  };
+}
+
+export function buildMonthlyOrdersReport(
+  state,
+  month,
+  generatedAt = new Date(),
+  placementIndex = null,
+) {
   if (!MONTH_RE.test(month)) throw new Error("month must use YYYY-MM format");
   if (!isObject(state) || !isObject(state.orders) || !isObject(state.quarantine)) {
     throw new Error("orders state is malformed");
@@ -854,7 +1041,7 @@ export function buildMonthlyOrdersReport(state, month, generatedAt = new Date())
     throw new Error("orders report total exceeds the safe integer range");
   }
 
-  return {
+  const report = {
     schema_version: ORDERS_SCHEMA_VERSION,
     month,
     generated_at: normalizeUtcDate(generatedAt, "generatedAt"),
@@ -872,4 +1059,12 @@ export function buildMonthlyOrdersReport(state, month, generatedAt = new Date())
     cancelled_in_month: { orders: cancelledOrders },
     quarantined_current: { orders: Object.keys(state.quarantine).length },
   };
+  if (placementIndex !== null && placementIndex !== undefined) {
+    report.attribution = buildPlacementAttribution(
+      state,
+      month,
+      placementIndex,
+    );
+  }
+  return report;
 }

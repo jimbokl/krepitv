@@ -17,8 +17,8 @@ import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TrustMark, formatCheckedDate } from "../components/TrustMark.jsx";
 import { mountHref } from "../lib/catalog.js";
-import { getAffiliatePresentation, selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
 import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
+import { selectModelAffiliateOffers } from "../lib/modelAffiliateOffers.mjs";
 import { getModelContextPages } from "../lib/seoPages.mjs";
 
 export function ModelPage({ catalog, modelId }) {
@@ -132,7 +132,11 @@ export function ModelPage({ catalog, modelId }) {
               </div>
             </div>
 
-            <MountMatches affiliateOffers={catalog.affiliateOffers} matches={compatible} />
+            <MountMatches
+              matches={compatible}
+              model={model}
+              modelAffiliateOffers={catalog.modelAffiliateOffers}
+            />
 
             <figure className="mt-4 border-b border-line">
               <picture>
@@ -161,15 +165,15 @@ export function ModelPage({ catalog, modelId }) {
   );
 }
 
-function MountMatches({ affiliateOffers, matches }) {
+function MountMatches({ matches, model, modelAffiliateOffers }) {
   if (!matches.length) {
     return <p className="py-6 text-muted">В проверенном каталоге пока нет совместимых вариантов.</p>;
   }
-  const matchesWithOffers = matches
-    .map((match) => ({ ...match, ...marketOfferForMatch(affiliateOffers, match.mount) }))
-    .filter(({ market }) => market);
-  const featuredOffers = matchesWithOffers.slice(0, 3);
-  const featuredMountIds = new Set(featuredOffers.map(({ mount }) => mount.id));
+  const featuredOffers = selectModelAffiliateOffers(
+    model,
+    matches,
+    modelAffiliateOffers,
+  );
 
   return (
     <>
@@ -218,9 +222,7 @@ function MountMatches({ affiliateOffers, matches }) {
         getBrand={(item) => item.mount.brand}
         items={matches}
         listClassName="border-b border-line"
-        renderItem={({ mount, reasons, warnings, required_load_kg: requiredLoad, fit_status: fitStatus }) => {
-          const { market, offer } = marketOfferForMatch(affiliateOffers, mount);
-          return (
+        renderItem={({ mount, reasons, warnings, required_load_kg: requiredLoad, fit_status: fitStatus }) => (
         <article className="grid gap-4 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" key={mount.id}>
           <div>
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
@@ -256,40 +258,15 @@ function MountMatches({ affiliateOffers, matches }) {
             </ul>
           </div>
           <div className="flex flex-col items-start gap-2 sm:items-end">
-            {market && !featuredMountIds.has(mount.id) ? (
-              <>
-                <AffiliateLink className="primary-button" offer={offer}>
-                  На Яндекс Маркет <ArrowRight aria-hidden="true" />
-                </AffiliateLink>
-                {market.notice ? (
-                  <span className="max-w-64 text-left font-mono text-[0.62rem] leading-relaxed text-muted sm:text-right">
-                    {market.notice}
-                  </span>
-                ) : null}
-              </>
-            ) : null}
             <a className="secondary-button" href={mountHref(mount)}>
               Подробнее о совместимости <ArrowRight aria-hidden="true" />
             </a>
           </div>
         </article>
-          );
-        }}
+        )}
       />
     </>
   );
-}
-
-function marketOfferForMatch(affiliateOffers, mount) {
-  const offer = selectAffiliateOffer(
-    affiliateOffers,
-    {
-      pagePath: `/kronshteyny/${mount.id}/`,
-      entityKind: "mount",
-      entityId: mount.id,
-    },
-  );
-  return { offer, market: getAffiliatePresentation(offer) };
 }
 
 function MissingModel({ catalog }) {

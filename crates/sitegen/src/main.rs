@@ -1789,8 +1789,8 @@ fn validate_commercial_profiles(
     );
     assert_eq!(
         file.profiles.len(),
-        11,
-        "SEO-серия должна содержать ровно 11 проверенных профилей"
+        14,
+        "SEO-серия должна содержать ровно 14 проверенных профилей"
     );
 
     let expected = [
@@ -1805,6 +1805,9 @@ fn validate_commercial_profiles(
         "model:hisense-65u7s",
         "model:hisense-55u7s-pro",
         "model:hisense-55e77sl",
+        "model:tcl-55c7k",
+        "model:tcl-75c6k",
+        "model:tcl-65c7k",
     ]
     .into_iter()
     .collect::<HashSet<_>>();
@@ -1981,6 +1984,11 @@ fn main() {
         public_data.join("affiliate-hub-offers.json"),
     )
     .expect("Не удалось скопировать публичный снимок размещений SEO-хабов");
+    fs::copy(
+        data.join("affiliate/public-model-offers.json"),
+        public_data.join("affiliate-model-offers.json"),
+    )
+    .expect("Не удалось скопировать публичный снимок размещений модельных страниц");
 
     let search = models
         .iter()
@@ -2667,7 +2675,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
 
         validate_commercial_profiles(&profiles, &models, &mounts, &graph);
-        assert_eq!(profiles.profiles.len(), 11);
+        assert_eq!(profiles.profiles.len(), 14);
 
         for profile in &profiles.profiles {
             let marker = format!(
