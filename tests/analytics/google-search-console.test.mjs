@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { generateKeyPairSync, createVerify } from "node:crypto";
-import { mkdtemp, mkdir, rm, symlink } from "node:fs/promises";
+import { chmod, mkdtemp, mkdir, rm, symlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -473,6 +473,7 @@ test("private report writer rejects a symlinked output parent", async () => {
   const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
   const privateRoot = path.join(projectRoot, ".private");
   await mkdir(privateRoot, { recursive: true, mode: 0o700 });
+  await chmod(privateRoot, 0o700);
   const external = await mkdtemp(path.join(tmpdir(), "krepitv-gsc-report-"));
   const name = `symlink-test-${process.pid}-${Date.now()}`;
   const link = path.join(privateRoot, name);

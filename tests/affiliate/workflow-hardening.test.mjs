@@ -37,6 +37,10 @@ test("affiliate workflow is scheduled with pinned actions and one scoped OAuth s
     workflow.indexOf("Проверить карточки с повторами") <
       workflow.indexOf("Установить зависимости интерфейса"),
   );
+  assert.match(
+    workflow,
+    /install -d -m 700 \.private[\s\S]*?affiliate:check-market/,
+  );
   assert.match(workflow, /GH_TOKEN:\s*\$\{\{\s*github\.token\s*\}\}/);
   assert.match(workflow, /gh auth setup-git\s*\n\s*git push origin HEAD:main/);
   assert.match(workflow, /affiliate:validate-hubs/);
