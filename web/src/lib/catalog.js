@@ -1,5 +1,6 @@
 import { getFreshAffiliateOffers } from "./affiliateOffer.mjs";
 import { parseCommercialProfiles } from "./commercialProfiles.mjs";
+import { getFreshHubAffiliateOffers } from "./hubAffiliateOffers.mjs";
 
 let catalogPromise;
 let enginePromise;
@@ -40,7 +41,17 @@ export function loadCatalog() {
       fetch("/data/compatibility-graph.json").then(assertResponse),
       fetch("/data/commercial-profiles.json").then(assertResponse),
       loadFreshAffiliateOffers(),
-    ]).then(async ([models, mounts, search, seoPages, compatibilityEdges, commercialProfiles, affiliateOffers]) => ({
+      loadFreshHubAffiliateOffers(),
+    ]).then(async ([
+      models,
+      mounts,
+      search,
+      seoPages,
+      compatibilityEdges,
+      commercialProfiles,
+      affiliateOffers,
+      hubAffiliateOffers,
+    ]) => ({
       models: await models.json(),
       mounts: await mounts.json(),
       search: await search.json(),
@@ -48,6 +59,7 @@ export function loadCatalog() {
       compatibilityEdges: await compatibilityEdges.json(),
       commercialProfiles: parseCommercialProfiles(await commercialProfiles.json()),
       affiliateOffers,
+      hubAffiliateOffers,
     }));
   }
   return catalogPromise;
@@ -58,13 +70,43 @@ export async function loadFreshAffiliateOffers({
   now = Date.now(),
   origin = globalThis.location?.origin,
 } = {}) {
-  if (typeof fetchImpl !== "function" || typeof origin !== "string") return [];
+  return loadSameOriginSnapshot({
+    fetchImpl,
+    now,
+    origin,
+    path: "/data/affiliate-offers.json",
+    parse: getFreshAffiliateOffers,
+  });
+}
+
+export async function loadFreshHubAffiliateOffers({
+  fetchImpl = globalThis.fetch,
+  now = Date.now(),
+  origin = globalThis.location?.origin,
+} = {}) {
+  return loadSameOriginSnapshot({
+    fetchImpl,
+    now,
+    origin,
+    path: "/data/affiliate-hub-offers.json",
+    parse: getFreshHubAffiliateOffers,
+  });
+}
+
+async function loadSameOriginSnapshot({ fetchImpl, now, origin, path, parse }) {
+  if (
+    typeof fetchImpl !== "function" ||
+    typeof origin !== "string" ||
+    typeof parse !== "function"
+  ) {
+    return [];
+  }
 
   let allowedOrigin;
   let snapshotUrl;
   try {
     allowedOrigin = new URL(origin).origin;
-    snapshotUrl = new URL("/data/affiliate-offers.json", allowedOrigin);
+    snapshotUrl = new URL(path, allowedOrigin);
   } catch {
     return [];
   }
@@ -80,7 +122,7 @@ export async function loadFreshAffiliateOffers({
     const responseUrl = new URL(response.url || snapshotUrl.toString(), allowedOrigin);
     if (responseUrl.origin !== allowedOrigin) return [];
 
-    return getFreshAffiliateOffers(await response.json(), { now });
+    return parse(await response.json(), { now });
   } catch {
     return [];
   }

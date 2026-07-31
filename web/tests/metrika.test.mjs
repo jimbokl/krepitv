@@ -69,6 +69,8 @@ test("счётчик грузится один раз и получает обе
       entityId: "itech-slt-460",
       offerId: "offer01",
       pagePath: "/kronshteyny/itech-slt-460/",
+      placementId: "seo-hub-buy-tv-mount-r03-itech-slt-460",
+      placementRank: 3,
       sourcePath: "/modeli/tcl-55c6k/",
       vid: "krepitvsl46001",
       ignored: "персональные данные не передаются",
@@ -78,6 +80,8 @@ test("счётчик грузится один раз и получает обе
     entity_id: "itech-slt-460",
     offer_id: "offer01",
     page_path: "/kronshteyny/itech-slt-460/",
+    placement_id: "seo-hub-buy-tv-mount-r03-itech-slt-460",
+    placement_rank: 3,
     source_path: "/modeli/tcl-55c6k/",
     vid: "krepitvsl46001",
   }]);
@@ -100,6 +104,8 @@ test("параметры цели фильтруются до безопасны
     entityId: "телефон:+79990000000",
     offerId: "offer 01",
     pagePath: "https://example.test/?email=user@example.test",
+    placementId: "bad placement id",
+    placementRank: 9,
     sourcePath: "mailto:user@example.test",
     vid: "validVID01",
   });

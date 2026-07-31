@@ -21,11 +21,18 @@
     "affiliate:check-market-chrome": "node scripts/affiliate/check-market-links-chrome.mjs",
     "affiliate:build-snapshot": "node scripts/affiliate/build-snapshot.mjs --source data/affiliate/market-products.json --batch .private/market-affiliate-batch.json --out .private/market-affiliate-snapshot.json",
     "affiliate:publish-snapshot": "node scripts/affiliate/publish-snapshot.mjs",
+    "affiliate:validate-hubs": "node scripts/affiliate/validate-hub-placements.mjs --kind manifest data/affiliate/seo-hub-placements.json",
+    "affiliate:check-hubs": "node scripts/affiliate/check-hub-placements.mjs",
+    "affiliate:build-hub-snapshot": "node scripts/affiliate/build-hub-snapshot.mjs",
+    "affiliate:publish-hub-snapshot": "node scripts/affiliate/publish-hub-snapshot.mjs",
+    "affiliate:validate-hubs-public": "node scripts/affiliate/validate-hub-placements.mjs --kind public data/affiliate/public-hub-offers.json",
+    "affiliate:orders-sync": "node scripts/affiliate/sync-orders.mjs --clid 15238076",
+    "affiliate:orders-report": "node scripts/affiliate/report-orders.mjs",
     "affiliate:test": "node --test tests/affiliate/*.test.mjs",
     "indexnow:submit": "node scripts/indexnow/submit.mjs",
     "indexnow:test": "node --test tests/indexnow/*.test.mjs",
     "dev:prepare": "npm run build:content && npm run build:wasm",
     "dev": "npm run dev:prepare && npm --prefix web run dev",
-    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:test && npm run indexnow:test"
+    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:test && npm run indexnow:test"
   }
 }

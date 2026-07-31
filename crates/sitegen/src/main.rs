@@ -1976,6 +1976,11 @@ fn main() {
         public_data.join("affiliate-offers.json"),
     )
     .expect("Не удалось скопировать публичный снимок предложений");
+    fs::copy(
+        data.join("affiliate/public-hub-offers.json"),
+        public_data.join("affiliate-hub-offers.json"),
+    )
+    .expect("Не удалось скопировать публичный снимок размещений SEO-хабов");
 
     let search = models
         .iter()

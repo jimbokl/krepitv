@@ -33,18 +33,26 @@ jobs:
           cache-dependency-path: web/package-lock.json
 
       - name: Проверить манифест
-        run: npm run affiliate:validate
+        run: |
+          npm run affiliate:validate
+          npm run affiliate:validate-hubs
 
       - name: Определить количество карточек
         id: manifest
         shell: bash
         run: |
           set -euo pipefail
-          count="$(node -e '
+          base_count="$(node -e '
             const fs = require("node:fs");
             const data = JSON.parse(fs.readFileSync("data/affiliate/market-products.json", "utf8"));
             process.stdout.write(String(data.cards.length));
           ')"
+          hub_count="$(node -e '
+            const fs = require("node:fs");
+            const data = JSON.parse(fs.readFileSync("data/affiliate/seo-hub-placements.json", "utf8"));
+            process.stdout.write(String(data.hubs.reduce((sum, hub) => sum + hub.placements.length, 0)));
+          ')"
+          count="$((base_count + hub_count))"
           echo "count=$count" >> "$GITHUB_OUTPUT"
           if [ "$count" = "0" ]; then
             echo "Манифест пуст: безопасный запуск без сетевых запросов и публикации."
@@ -63,9 +71,12 @@ jobs:
             exit 1
           fi
           npm run affiliate:check-market
+          npm run affiliate:check-hubs
           has_error="$(node -e '
-            const batch = require("./.private/market-affiliate-batch.json");
-            process.stdout.write(batch.checks.some((item) => item.status === "error") ? "true" : "false");
+            const base = require("./.private/market-affiliate-batch.json");
+            const hubs = require("./.private/market-affiliate-hub-batch.json");
+            const failed = [...base.checks, ...hubs.checks].some((item) => item.status === "error");
+            process.stdout.write(failed ? "true" : "false");
           ')"
           echo "has_error=$has_error" >> "$GITHUB_OUTPUT"
           if [ "$has_error" = "true" ]; then
@@ -108,6 +119,9 @@ jobs:
           npm run affiliate:build-snapshot
           npm run affiliate:publish-snapshot
           npm run affiliate:validate-public
+          npm run affiliate:build-hub-snapshot
+          npm run affiliate:publish-hub-snapshot
+          npm run affiliate:validate-hubs-public
           npm run affiliate:test
           npm run build
 
@@ -121,6 +135,7 @@ jobs:
           set -euo pipefail
           git add -A -- \
             data/affiliate/public-offers.json \
+            data/affiliate/public-hub-offers.json \
             docs \
             web/index.html \
             web/public
@@ -194,12 +209,29 @@ jobs:
                 url: "https://krepitv.ru/data/affiliate-offers.json",
               },
             ],
+            [
+              "data/affiliate-hub-offers.json",
+              {
+                file: "docs/data/affiliate-hub-offers.json",
+                url: "https://krepitv.ru/data/affiliate-hub-offers.json",
+              },
+            ],
           ]);
           for (const offer of snapshot.offers) {
             const relative = `${offer.page_path.replace(/^\//, "")}index.html`;
             artifacts.set(relative, {
               file: `docs/${relative}`,
               url: `https://krepitv.ru${offer.page_path}`,
+            });
+          }
+          const hubSnapshot = JSON.parse(
+            fs.readFileSync("data/affiliate/public-hub-offers.json", "utf8"),
+          );
+          for (const placement of hubSnapshot.placements) {
+            const relative = `${placement.hub_path.replace(/^\//, "")}index.html`;
+            artifacts.set(relative, {
+              file: `docs/${relative}`,
+              url: `https://krepitv.ru${placement.hub_path}`,
             });
           }
           for (const artifact of artifacts.values()) {

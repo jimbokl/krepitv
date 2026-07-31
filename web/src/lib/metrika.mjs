@@ -64,6 +64,11 @@ export function installMetrika({
       entity_id: safeToken(detail.entityId),
       offer_id: safeToken(detail.offerId),
       page_path: safePagePath(detail.pagePath),
+      placement_id: safeToken(detail.placementId),
+      placement_rank: Number.isInteger(detail.placementRank) &&
+        detail.placementRank >= 1 && detail.placementRank <= 3
+        ? detail.placementRank
+        : undefined,
       source_path: safePagePath(detail.sourcePath),
       vid: safeToken(detail.vid),
     };

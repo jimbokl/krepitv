@@ -10,6 +10,8 @@ export function AffiliateLink({ children, className = "primary-button", offer })
     <a
       className={className}
       data-affiliate-mode={presentation.mode}
+      data-affiliate-placement-id={offer.placement_id ?? undefined}
+      data-affiliate-rank={offer.rank ?? undefined}
       data-clid={presentation.clid}
       data-erid={presentation.erid ?? undefined}
       href={presentation.href}
@@ -38,6 +40,8 @@ export default function AffiliateOffer({ offer, children, compact = false }) {
         className="grid gap-4 border-2 border-ink bg-white p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
         data-affiliate-compact="true"
         data-affiliate-mode={presentation.mode}
+        data-affiliate-placement-id={offer.placement_id ?? undefined}
+        data-affiliate-rank={offer.rank ?? undefined}
         data-clid={presentation.clid}
         data-erid={presentation.erid ?? undefined}
       >

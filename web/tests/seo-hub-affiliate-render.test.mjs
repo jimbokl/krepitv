@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import test from "node:test";
 import { createServer } from "vite";
 
-function offer(entityId) {
+function offer(entityId, rank) {
   const pathname = `/card/kronshteyn-${entityId}/123`;
   const clid = "12345678";
   const vid = `hub${entityId.replaceAll("-", "")}`;
@@ -17,7 +17,11 @@ function offer(entityId) {
   destination.searchParams.set("utm_source", "partner_network");
   destination.searchParams.set("utm_campaign", clid);
   return {
-    id: `market-${entityId}`,
+    id: `market-hub-${entityId}`,
+    placement_id: `seo-hub-buy-tv-mount-r0${rank}-${entityId}`,
+    hub_id: "buy-tv-mount",
+    hub_path: "/kupit-kronshteyn-dlya-televizora/",
+    rank,
     market_source_url: `https://market.yandex.ru${pathname}`,
     page_path: `/kronshteyny/${entityId}/`,
     entity_kind: "mount",
@@ -79,12 +83,13 @@ test("финальный React DOM ставит проверенный ката�
       seoPages: [page],
       compatibilityEdges: [],
       commercialProfiles: [],
-      affiliateOffers: ids.map(offer),
+      affiliateOffers: [offer("foreign-product-offer", 1)],
+      hubAffiliateOffers: ids.map((id, index) => offer(id, index + 1)),
     };
-    const advertisingOffer = catalog.affiliateOffers[0];
+    const advertisingOffer = catalog.hubAffiliateOffers[0];
     const advertisingHref = new URL(advertisingOffer.affiliate_href);
     advertisingHref.searchParams.set("erid", "eridHubFixture123");
-    catalog.affiliateOffers[0] = {
+    catalog.hubAffiliateOffers[0] = {
       ...advertisingOffer,
       affiliate_href: advertisingHref.toString(),
       compliance_mode: "advertising",

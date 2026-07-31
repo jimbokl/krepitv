@@ -11,6 +11,7 @@ export function useCatalog() {
     compatibilityEdges: [],
     commercialProfiles: [],
     affiliateOffers: [],
+    hubAffiliateOffers: [],
     error: null,
   });
 

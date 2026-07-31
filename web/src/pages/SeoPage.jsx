@@ -63,9 +63,9 @@ function SeoArticle({ catalog, page }) {
     () => selectSeoHubAffiliateOffers(
       page,
       catalogItems,
-      catalog.affiliateOffers,
+      catalog.hubAffiliateOffers,
     ),
-    [catalog.affiliateOffers, catalogItems, page],
+    [catalog.hubAffiliateOffers, catalogItems, page],
   );
 
   usePageMetadata(page.title, page.description, page.path);
@@ -264,7 +264,7 @@ function SeoHubOffers({ offers, page }) {
       </p>
       <div className="mt-5 grid gap-4">
         {offers.map((offer) => (
-          <AffiliateOffer compact key={offer.id} offer={offer} />
+          <AffiliateOffer compact key={offer.placement_id} offer={offer} />
         ))}
       </div>
     </section>

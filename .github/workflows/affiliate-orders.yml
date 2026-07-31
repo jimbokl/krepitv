@@ -1,0 +1,67 @@
+name: Приватная проверка заказов Яндекс Маркета
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 3 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: krepitv-affiliate-orders
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.repository == 'jimbokl/krepitv' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Получить репозиторий
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Настроить Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+
+      - name: Проверить VID-манифесты
+        run: |
+          npm run affiliate:validate
+          npm run affiliate:validate-hubs
+
+      - name: Синхронизировать обезличенные статусы
+        env:
+          KREPITV_ORDER_HMAC_SECRET: ${{ secrets.KREPITV_ORDER_HMAC_SECRET }}
+          YANDEX_MARKET_AFFILIATE_OAUTH: ${{ secrets.YANDEX_MARKET_AFFILIATE_OAUTH }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${YANDEX_MARKET_AFFILIATE_OAUTH:-}" ]; then
+            echo "::error::Не настроен секрет YANDEX_MARKET_AFFILIATE_OAUTH"
+            exit 1
+          fi
+          if [ "${#KREPITV_ORDER_HMAC_SECRET}" -lt 32 ]; then
+            echo "::error::Не настроен секрет KREPITV_ORDER_HMAC_SECRET"
+            exit 1
+          fi
+          npm run affiliate:orders-sync -- \
+            --backfill-start 2026-07-30T00:00:00+03:00 \
+            > /dev/null
+
+      - name: Собрать приватный отчёт подтверждённых начислений
+        shell: bash
+        run: |
+          set -euo pipefail
+          month="$(node -e 'process.stdout.write(new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString().slice(0, 7))')"
+          npm run affiliate:orders-report -- --month "$month" > /dev/null
+          chmod -R go-rwx .private/affiliate-orders
+          echo "Приватная синхронизация заказов завершена без публикации заказов и вознаграждения." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Уничтожить временный реестр
+        if: always()
+        shell: bash
+        run: rm -rf .private/affiliate-orders

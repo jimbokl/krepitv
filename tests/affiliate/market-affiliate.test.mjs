@@ -614,6 +614,8 @@ test("emits one sanitized affiliate-click payload for every Market CTA", () => {
     entity_id: "onkron-tm5-bw",
     id: "market-onkron-tm5-bw",
     page_path: "/kronshteyny/onkron-tm5-bw/",
+    placement_id: "seo-hub-mount-brand-onkron-r02-onkron-tm5-bw",
+    rank: 2,
     vid: "krepitv-mount",
     affiliate_href: "https://market.yandex.ru/card/example?erid=fixture",
   };
@@ -622,6 +624,8 @@ test("emits one sanitized affiliate-click payload for every Market CTA", () => {
     entityId: "onkron-tm5-bw",
     offerId: "market-onkron-tm5-bw",
     pagePath: "/kronshteyny/onkron-tm5-bw/",
+    placementId: "seo-hub-mount-brand-onkron-r02-onkron-tm5-bw",
+    placementRank: 2,
     sourcePath: "/modeli/samsung-qe55s90fauxru/",
     vid: "krepitv-mount",
   });

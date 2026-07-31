@@ -1,14 +1,5 @@
 import { selectAffiliateOffer } from "./affiliateOffer.mjs";
 
-export const SEO_HUB_OFFER_PRIORITIES = Object.freeze({
-  "mount-brand-onkron": ["onkron-tm6", "onkron-tm5-bw"],
-  "buy-tv-mount": ["itech-plb440nt", "itech-ptrb440ln", "itech-slt-460"],
-  "mount-brand-kromax": ["kromax-dix-18", "kromax-atlantis-45", "kromax-flat-4"],
-  "extendable-mount": ["itech-ptrb440ln", "itech-slt-460", "kromax-dix-18"],
-  "mount-brand-holder": ["holder-lcds-5066", "holder-lcds-5036"],
-  "mount-brand-itechmount": ["itech-plb440nt", "itech-ptrb440ln", "itech-slt-460"],
-});
-
 export function getCatalogItems(page, catalog) {
   if (page.kind === "mechanism") {
     const mechanism = {
@@ -71,34 +62,55 @@ export function getCatalogItems(page, catalog) {
 export function selectSeoHubAffiliateOffers(
   page,
   catalogItems,
-  affiliateOffers,
+  hubAffiliateOffers,
   options,
 ) {
-  const priorities = SEO_HUB_OFFER_PRIORITIES[page?.id];
   if (
     page?.indexable !== true ||
+    typeof page.id !== "string" ||
+    typeof page.path !== "string" ||
     catalogItems?.type !== "mounts" ||
     !Array.isArray(catalogItems.values) ||
-    !priorities
+    !Array.isArray(hubAffiliateOffers)
   ) {
     return [];
   }
 
   const catalogMountIds = new Set(catalogItems.values.map((mount) => mount?.id));
+  const placements = hubAffiliateOffers
+    .filter(
+      (offer) => offer?.hub_id === page.id && offer?.hub_path === page.path,
+    )
+    .sort((left, right) => left.rank - right.rank);
+  const placementIds = new Set();
+  const ranks = new Set();
+  const entities = new Set();
   const selected = [];
-  const seen = new Set();
 
-  for (const entityId of priorities) {
-    if (selected.length >= 3) break;
-    if (seen.has(entityId) || !catalogMountIds.has(entityId)) continue;
-    seen.add(entityId);
+  for (const placement of placements) {
+    if (
+      typeof placement.placement_id !== "string" ||
+      !Number.isInteger(placement.rank) ||
+      placement.rank < 1 ||
+      placement.rank > 3 ||
+      placementIds.has(placement.placement_id) ||
+      ranks.has(placement.rank) ||
+      entities.has(placement.entity_id)
+    ) {
+      return [];
+    }
+    placementIds.add(placement.placement_id);
+    ranks.add(placement.rank);
+    entities.add(placement.entity_id);
+
+    if (selected.length >= 3 || !catalogMountIds.has(placement.entity_id)) continue;
 
     const offer = selectAffiliateOffer(
-      affiliateOffers,
+      [placement],
       {
-        pagePath: `/kronshteyny/${entityId}/`,
+        pagePath: `/kronshteyny/${placement.entity_id}/`,
         entityKind: "mount",
-        entityId,
+        entityId: placement.entity_id,
       },
       options,
     );

@@ -3,6 +3,10 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const workflowUrl = new URL("../../.github/workflows/affiliate-health.yml", import.meta.url);
+const ordersWorkflowUrl = new URL(
+  "../../.github/workflows/affiliate-orders.yml",
+  import.meta.url,
+);
 
 test("affiliate workflow is scheduled with pinned actions and one scoped OAuth step", async () => {
   const workflow = await readFile(workflowUrl, "utf8");
@@ -29,4 +33,43 @@ test("affiliate workflow is scheduled with pinned actions and one scoped OAuth s
   );
   assert.match(workflow, /GH_TOKEN:\s*\$\{\{\s*github\.token\s*\}\}/);
   assert.match(workflow, /gh auth setup-git\s*\n\s*git push origin HEAD:main/);
+  assert.match(workflow, /affiliate:validate-hubs/);
+  assert.match(workflow, /affiliate:check-hubs/);
+  assert.match(workflow, /affiliate:publish-hub-snapshot/);
+  assert.match(workflow, /data\/affiliate\/public-hub-offers\.json/);
+  assert.match(workflow, /data\/affiliate-hub-offers\.json/);
+});
+
+test("orders workflow keeps the ledger ephemeral and uses only pinned actions", async () => {
+  const workflow = await readFile(ordersWorkflowUrl, "utf8");
+  const actions = [...workflow.matchAll(/^\s*uses:\s*([^\s#]+)/gm)].map(
+    (match) => match[1],
+  );
+
+  assert.match(workflow, /cron:\s*["']41 3 \* \* \*["']/);
+  assert.equal(actions.length, 2);
+  for (const action of actions) {
+    assert.match(action, /^[^@\s]+@[0-9a-f]{40}$/);
+  }
+  assert.match(
+    workflow,
+    /actions\/checkout@[0-9a-f]{40}[\s\S]*?persist-credentials:\s*false/,
+  );
+  assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/);
+  assert.match(workflow, /affiliate:orders-sync[\s\S]*?> \/dev\/null/);
+  assert.match(workflow, /affiliate:orders-report[\s\S]*?> \/dev\/null/);
+  assert.match(workflow, /if:\s*always\(\)[\s\S]*?rm -rf \.private\/affiliate-orders/);
+  assert.doesNotMatch(
+    workflow,
+    /actions\/cache|upload-artifact|git push|contents:\s*write/,
+  );
+
+  const oauthReferences = workflow.match(
+    /\$\{\{\s*secrets\.YANDEX_MARKET_AFFILIATE_OAUTH\s*\}\}/g,
+  ) ?? [];
+  const hmacReferences = workflow.match(
+    /\$\{\{\s*secrets\.KREPITV_ORDER_HMAC_SECRET\s*\}\}/g,
+  ) ?? [];
+  assert.equal(oauthReferences.length, 1);
+  assert.equal(hmacReferences.length, 1);
 });

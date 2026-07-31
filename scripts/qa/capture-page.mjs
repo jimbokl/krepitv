@@ -17,11 +17,15 @@ const height = Number(argument("--height", "1100"));
 const selector = argument("--selector", null);
 const consent = argument("--consent", "denied");
 const affiliateReportEnabled = process.argv.includes("--affiliate-report");
+const placementAttributionRequired = process.argv.includes("--require-placement-attribution");
 const chromePath = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 if (!Number.isInteger(width) || width < 320 || width > 3840) throw new Error("Invalid viewport width");
 if (!Number.isInteger(height) || height < 480 || height > 5000) throw new Error("Invalid viewport height");
 if (!["denied", "granted", "prompt"].includes(consent)) throw new Error("Invalid consent mode");
+if (placementAttributionRequired && !affiliateReportEnabled) {
+  throw new Error("--require-placement-attribution requires --affiliate-report");
+}
 new URL(url);
 
 const profile = await mkdtemp(path.join(os.tmpdir(), "krepitv-cdp-"));
@@ -169,6 +173,8 @@ try {
             rel: link?.rel ?? "",
             target: link?.target ?? "",
             mode: link?.getAttribute("data-affiliate-mode") ?? "",
+            placementId: link?.getAttribute("data-affiliate-placement-id") ?? "",
+            rank: Number(link?.getAttribute("data-affiliate-rank") ?? 0),
             erid: link?.getAttribute("data-erid") ?? "",
             notice: card.querySelector("p")?.innerText ?? "",
           };
@@ -195,7 +201,13 @@ try {
         const complianceIsValid = offer.mode === "advertising"
           ? Boolean(offer.erid && href.searchParams.get("erid") === offer.erid && offer.notice.includes("Реклама"))
           : offer.mode === "non_ad_storefront" && !offer.erid && !href.searchParams.has("erid");
-        if (!commonIsValid || !complianceIsValid) {
+        const placementIsValid = !placementAttributionRequired || (
+          /^[a-z0-9][a-z0-9-]{2,79}$/.test(offer.placementId) &&
+          Number.isInteger(offer.rank) &&
+          offer.rank >= 1 &&
+          offer.rank <= 3
+        );
+        if (!commonIsValid || !complianceIsValid || !placementIsValid) {
           throw new Error(`Invalid affiliate offer in hub ${hub.hub}: ${offer.title}`);
         }
       }
@@ -217,6 +229,8 @@ try {
         host: href.hostname,
         path: href.pathname,
         mode: offer.mode,
+        placementId: offer.placementId || null,
+        rank: offer.rank || null,
         rel: offer.rel,
         target: offer.target,
         hasClid: href.searchParams.has("clid"),

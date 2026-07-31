@@ -255,6 +255,7 @@ const required = [
   "data/compatibility-graph.json",
   "data/catalog-coverage.json",
   "data/affiliate-offers.json",
+  "data/affiliate-hub-offers.json",
   "data/commercial-profiles.json",
   "favicon.svg",
   "robots.txt",
@@ -294,9 +295,33 @@ const commercialProfilesManifest = JSON.parse(publicCommercialProfilesRaw);
 const affiliateSnapshot = JSON.parse(
   await readFile(path.join(docs, "data/affiliate-offers.json"), "utf8"),
 );
+const sourceHubAffiliateRaw = await readFile(
+  path.join(root, "data/affiliate/public-hub-offers.json"),
+  "utf8",
+);
+const publicHubAffiliateRaw = await readFile(
+  path.join(docs, "data/affiliate-hub-offers.json"),
+  "utf8",
+);
+const hubAffiliateSnapshot = JSON.parse(publicHubAffiliateRaw);
 
 if (sourceCommercialProfilesRaw !== publicCommercialProfilesRaw) {
   throw new Error("Публичная копия commercial-profiles.json отличается от исходного файла");
+}
+if (sourceHubAffiliateRaw !== publicHubAffiliateRaw) {
+  throw new Error("Публичная копия affiliate-hub-offers.json отличается от исходного файла");
+}
+assertExactKeys(
+  hubAffiliateSnapshot,
+  ["schema_version", "generated_at", "placements"],
+  "Публичный снимок размещений SEO-хабов",
+);
+if (
+  hubAffiliateSnapshot.schema_version !== 1 ||
+  !Number.isFinite(Date.parse(hubAffiliateSnapshot.generated_at ?? "")) ||
+  !Array.isArray(hubAffiliateSnapshot.placements)
+) {
+  throw new Error("Некорректный публичный снимок размещений SEO-хабов");
 }
 assertExactKeys(
   commercialProfilesManifest,
@@ -431,8 +456,15 @@ assertUnique(
 const publishableAffiliateOffers = (affiliateSnapshot.offers ?? []).filter(
   (offer) => offer.publishable && offer.eligibility === "publishable",
 );
+const publishableHubAffiliateOffers = (hubAffiliateSnapshot.placements ?? [])
+  .map((placement) => placement.offer)
+  .filter((offer) => offer?.publishable && offer.eligibility === "publishable");
+const publishableMarketOffers = [
+  ...publishableAffiliateOffers,
+  ...publishableHubAffiliateOffers,
+];
 const publishableAffiliateHrefs = new Set(
-  publishableAffiliateOffers.map((offer) => offer.affiliate_href),
+  publishableMarketOffers.map((offer) => offer.affiliate_href),
 );
 
 assertMinimum(models, 2, "Проверенные модели телевизоров");
@@ -466,7 +498,7 @@ assertUnique(
 );
 
 const affiliateNow = Date.now();
-for (const offer of publishableAffiliateOffers) {
+for (const offer of publishableMarketOffers) {
   const checkedAt = Date.parse(offer.checked_at ?? "");
   const age = affiliateNow - checkedAt;
   if (

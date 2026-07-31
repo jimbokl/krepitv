@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "clid": "15238076",
+  "expected_offer_count": 16,
+  "hubs": [
+    {
+      "hub_id": "mount-brand-onkron",
+      "hub_path": "/kronshteyny-onkron/",
+      "expected_offer_count": 2,
+      "placements": [
+        {
+          "placement_id": "seo-hub-mount-brand-onkron-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvseohubonkronr01onkrontm6"
+        },
+        {
+          "placement_id": "seo-hub-mount-brand-onkron-r02-onkron-tm5-bw",
+          "rank": 2,
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvseohubonkronr02onkrontm5bw"
+        }
+      ]
+    },
+    {
+      "hub_id": "buy-tv-mount",
+      "hub_path": "/kupit-kronshteyn-dlya-televizora/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "seo-hub-buy-tv-mount-r01-itech-plb440nt",
+          "rank": 1,
+          "entity_id": "itech-plb440nt",
+          "source_card_id": "market-itech-plb440nt-103195508438",
+          "vid": "krepitvseohubbuyr01itechplb440nt"
+        },
+        {
+          "placement_id": "seo-hub-buy-tv-mount-r02-itech-ptrb440ln",
+          "rank": 2,
+          "entity_id": "itech-ptrb440ln",
+          "source_card_id": "market-itech-ptrb440ln-103201123444",
+          "vid": "krepitvseohubbuyr02itechptrb440ln"
+        },
+        {
+          "placement_id": "seo-hub-buy-tv-mount-r03-itech-slt-460",
+          "rank": 3,
+          "entity_id": "itech-slt-460",
+          "source_card_id": "market-itech-slt-460-102594180340",
+          "vid": "krepitvseohubbuyr03itechslt460"
+        }
+      ]
+    },
+    {
+      "hub_id": "mount-brand-kromax",
+      "hub_path": "/kronshteyny-kromax/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "seo-hub-mount-brand-kromax-r01-kromax-dix-18",
+          "rank": 1,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvseohubkromaxr01kromaxdix18"
+        },
+        {
+          "placement_id": "seo-hub-mount-brand-kromax-r02-kromax-atlantis-45",
+          "rank": 2,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvseohubkromaxr02kromaxatlantis45"
+        },
+        {
+          "placement_id": "seo-hub-mount-brand-kromax-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvseohubkromaxr03kromaxflat4"
+        }
+      ]
+    },
+    {
+      "hub_id": "extendable-mount",
+      "hub_path": "/tipy-kronshteynov/vydvizhnoy/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "seo-hub-extendable-mount-r01-itech-ptrb440ln",
+          "rank": 1,
+          "entity_id": "itech-ptrb440ln",
+          "source_card_id": "market-itech-ptrb440ln-103201123444",
+          "vid": "krepitvseohubextendabler01itechptrb440ln"
+        },
+        {
+          "placement_id": "seo-hub-extendable-mount-r02-itech-slt-460",
+          "rank": 2,
+          "entity_id": "itech-slt-460",
+          "source_card_id": "market-itech-slt-460-102594180340",
+          "vid": "krepitvseohubextendabler02itechslt460"
+        },
+        {
+          "placement_id": "seo-hub-extendable-mount-r03-kromax-dix-18",
+          "rank": 3,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvseohubextendabler03kromaxdix18"
+        }
+      ]
+    },
+    {
+      "hub_id": "mount-brand-holder",
+      "hub_path": "/kronshteyny-holder/",
+      "expected_offer_count": 2,
+      "placements": [
+        {
+          "placement_id": "seo-hub-mount-brand-holder-r01-holder-lcds-5066",
+          "rank": 1,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvseohubholderr01holderlcds5066"
+        },
+        {
+          "placement_id": "seo-hub-mount-brand-holder-r02-holder-lcds-5036",
+          "rank": 2,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvseohubholderr02holderlcds5036"
+        }
+      ]
+    },
+    {
+      "hub_id": "mount-brand-itechmount",
+      "hub_path": "/kronshteyny-itechmount/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "seo-hub-mount-brand-itechmount-r01-itech-plb440nt",
+          "rank": 1,
+          "entity_id": "itech-plb440nt",
+          "source_card_id": "market-itech-plb440nt-103195508438",
+          "vid": "krepitvseohubitechmountr01itechplb440nt"
+        },
+        {
+          "placement_id": "seo-hub-mount-brand-itechmount-r02-itech-ptrb440ln",
+          "rank": 2,
+          "entity_id": "itech-ptrb440ln",
+          "source_card_id": "market-itech-ptrb440ln-103201123444",
+          "vid": "krepitvseohubitechmountr02itechptrb440ln"
+        },
+        {
+          "placement_id": "seo-hub-mount-brand-itechmount-r03-itech-slt-460",
+          "rank": 3,
+          "entity_id": "itech-slt-460",
+          "source_card_id": "market-itech-slt-460-102594180340",
+          "vid": "krepitvseohubitechmountr03itechslt460"
+        }
+      ]
+    }
+  ]
+}
