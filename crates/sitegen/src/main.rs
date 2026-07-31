@@ -43,7 +43,8 @@ struct TvModel {
 #[serde(deny_unknown_fields)]
 struct WallMountScrews {
     groups: Vec<WallMountScrewGroup>,
-    requires_adapters: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    requires_adapters: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     required_parts_note: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -66,6 +67,8 @@ struct WallMountScrewGroup {
     engagement_min_mm: Option<f64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     engagement_max_mm: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    range_label: Option<String>,
     quantity: u32,
 }
 
@@ -464,9 +467,11 @@ fn wall_mount_screw_measurement(group: &WallMountScrewGroup) -> String {
     let (Some(minimum), Some(maximum)) = (group.engagement_min_mm, group.engagement_max_mm) else {
         return group.thread.clone();
     };
+    let range_label = group.range_label.as_deref().unwrap_or("L");
     format!(
-        "{} · диапазон L {}–{} мм",
+        "{} · диапазон {} {}–{} мм",
         group.thread,
+        range_label,
         format_mm(minimum),
         format_mm(maximum)
     )
@@ -902,10 +907,14 @@ fn wall_mount_screws_html(tv: &TvModel) -> String {
         })
         .collect::<Vec<_>>()
         .join("\n");
-    let adapters = if hardware.requires_adapters {
-        "<p class=\"mt-4 border-l-2 border-action pl-4 font-semibold\">Для этой модели руководство требует использовать показанные адаптеры VESA.</p>"
-    } else {
-        ""
+    let adapters = match hardware.requires_adapters {
+        Some(true) => {
+            "<p class=\"mt-4 border-l-2 border-action pl-4 font-semibold\">Для этой модели руководство требует использовать показанные адаптеры VESA.</p>"
+        }
+        Some(false) => "",
+        None => {
+            "<p class=\"mt-4 border-l-2 border-line pl-4 font-semibold\" data-adapter-status=\"unknown\">Проставки и адаптеры: руководство не указывает их наличие. Сверьте комплект кронштейна и бумажную инструкцию телевизора.</p>"
+        }
     };
     let required_parts = hardware
         .required_parts_note
@@ -929,12 +938,22 @@ fn wall_mount_screws_html(tv: &TvModel) -> String {
             )
         })
         .unwrap_or_default();
+    let range_label = hardware
+        .groups
+        .iter()
+        .find(|group| group.engagement_min_mm.is_some())
+        .and_then(|group| group.range_label.as_deref())
+        .unwrap_or("L");
     let warning = if hardware
         .groups
         .iter()
         .any(|group| group.engagement_min_mm.is_some())
     {
-        "Диапазон L взят из схемы руководства. Это не готовая полная длина винта: она зависит от толщины планки, шайбы и предусмотренной вставки."
+        if range_label == "C" {
+            "Диапазон C измеряется после монтажной пластины до конца винта. Это не готовая полная длина покупаемого винта: добавьте толщину пластины кронштейна."
+        } else {
+            "Диапазон L взят из схемы руководства. Это не готовая полная длина винта: она зависит от толщины планки, шайбы и предусмотренной вставки."
+        }
     } else {
         "Это паспортный размер винта, а не глубина резьбового отверстия. Не увеличивайте длину по аналогии; учитывайте только схему и проставки из руководств телевизора и кронштейна."
     };
@@ -1964,6 +1983,11 @@ fn validate_models(models: &[TvModel]) {
                         (None, None) => true,
                         _ => false,
                     };
+                let valid_range_label = match group.range_label.as_deref() {
+                    None => true,
+                    Some("L" | "C") => has_engagement_range,
+                    Some(_) => false,
+                };
                 assert!(
                     !group.location.trim().is_empty()
                         && locations.insert(group.location.to_lowercase())
@@ -1973,6 +1997,7 @@ fn validate_models(models: &[TvModel]) {
                         && has_exact_length != has_engagement_range
                         && valid_exact_length
                         && valid_engagement_range
+                        && valid_range_label
                         && (1..=4).contains(&group.quantity),
                     "Некорректная группа винтов у {}",
                     tv.id
@@ -2135,8 +2160,8 @@ fn validate_commercial_profiles(
     );
     assert_eq!(
         file.profiles.len(),
-        14,
-        "SEO-серия должна содержать ровно 14 проверенных профилей"
+        21,
+        "SEO-серия должна содержать ровно 21 проверенный профиль"
     );
 
     let expected = [
@@ -2151,6 +2176,13 @@ fn validate_commercial_profiles(
         "model:hisense-65u7s",
         "model:hisense-55u7s-pro",
         "model:hisense-55e77sl",
+        "model:hisense-50u77sl",
+        "model:hisense-65u77sl",
+        "model:hisense-50e7s",
+        "model:hisense-55e7s",
+        "model:samsung-ue43u8000fuxru",
+        "model:samsung-ue50u8000fuxru",
+        "model:samsung-ue55u8000fuxru",
         "model:tcl-55c7k",
         "model:tcl-75c6k",
         "model:tcl-65c7k",
@@ -2828,7 +2860,7 @@ mod tests {
             .iter()
             .filter(|model| model.wall_mount_screws.is_some())
             .collect::<Vec<_>>();
-        assert_eq!(sourced.len(), 11);
+        assert_eq!(sourced.len(), 18);
 
         let model = |id: &str| {
             models
@@ -2881,6 +2913,15 @@ mod tests {
         let e77_html = wall_mount_screws_html(model("hisense-55e77sl"));
         assert!(e77_html.contains("4 шт. · M6 · диапазон L 8–10 мм"));
         assert!(e77_html.contains("две комплектные монтажные детали"));
+
+        let samsung_html = wall_mount_screws_html(model("samsung-ue55u8000fuxru"));
+        assert!(samsung_html.contains("4 шт. · M8 · диапазон C 23–25 мм"));
+        assert!(samsung_html.contains("data-adapter-status=\"unknown\""));
+        assert!(samsung_html.contains("после монтажной пластины"));
+        assert!(!samsung_html.contains("M8×23"));
+
+        let u77sl_html = wall_mount_screws_html(model("hisense-65u77sl"));
+        assert!(u77sl_html.contains("код 65U77SL на страницах PDF отсутствует"));
 
         let pro = model("hisense-55u7s-pro");
         let pro_html = wall_mount_screws_html(pro);
@@ -3137,7 +3178,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
 
         validate_commercial_profiles(&profiles, &models, &mounts, &graph);
-        assert_eq!(profiles.profiles.len(), 14);
+        assert_eq!(profiles.profiles.len(), 21);
 
         for profile in &profiles.profiles {
             let marker = format!(

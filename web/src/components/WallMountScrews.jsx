@@ -13,7 +13,7 @@ function screwMeasurement(group) {
     Number.isFinite(group.engagement_min_mm)
     && Number.isFinite(group.engagement_max_mm)
   ) {
-    return `${group.thread} · диапазон L ${formatMm(group.engagement_min_mm)}–${formatMm(group.engagement_max_mm)} мм`;
+    return `${group.thread} · диапазон ${group.range_label || "L"} ${formatMm(group.engagement_min_mm)}–${formatMm(group.engagement_max_mm)} мм`;
   }
   return group.thread;
 }
@@ -71,6 +71,12 @@ export function WallMountScrews({ model }) {
         </p>
       ) : null}
 
+      {hardware.requires_adapters == null ? (
+        <p className="mt-4 border-l-2 border-line pl-4 font-semibold" data-adapter-status="unknown">
+          Проставки и адаптеры: руководство не указывает их наличие. Сверьте комплект кронштейна и бумажную инструкцию телевизора.
+        </p>
+      ) : null}
+
       {hardware.required_parts_note ? (
         <p className="mt-4 border-l-2 border-technical pl-4 font-semibold">
           {hardware.required_parts_note}
@@ -83,7 +89,9 @@ export function WallMountScrews({ model }) {
         <p>
           <strong className="text-ink">Важно:</strong>{" "}
           {hardware.groups.some((group) => Number.isFinite(group.engagement_min_mm))
-            ? "Диапазон L взят из схемы руководства. Это не готовая полная длина винта: она зависит от толщины планки, шайбы и предусмотренной вставки."
+            ? hardware.groups.some((group) => group.range_label === "C")
+              ? "Диапазон C измеряется после монтажной пластины до конца винта. Это не готовая полная длина покупаемого винта: добавьте толщину пластины кронштейна."
+              : "Диапазон L взят из схемы руководства. Это не готовая полная длина винта: она зависит от толщины планки, шайбы и предусмотренной вставки."
             : "Это паспортный размер винта, а не глубина резьбового отверстия. Не увеличивайте длину по аналогии; учитывайте только схему и проставки из руководств телевизора и кронштейна."}
         </p>
       </div>

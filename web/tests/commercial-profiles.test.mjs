@@ -45,7 +45,7 @@ test("публичный набор коммерческих профилей п
   );
   const profiles = parseCommercialProfiles(source);
 
-  assert.equal(profiles.length, 14);
+  assert.equal(profiles.length, 21);
   assert.equal(new Set(profiles.map((item) => item.path)).size, profiles.length);
 });
 

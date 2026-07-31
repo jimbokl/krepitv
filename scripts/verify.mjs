@@ -28,6 +28,13 @@ const expectedCommercialProfiles = new Set([
   "model:hisense-65u7s:/modeli/hisense-65u7s/",
   "model:hisense-55u7s-pro:/modeli/hisense-55u7s-pro/",
   "model:hisense-55e77sl:/modeli/hisense-55e77sl/",
+  "model:hisense-50u77sl:/modeli/hisense-50u77sl/",
+  "model:hisense-65u77sl:/modeli/hisense-65u77sl/",
+  "model:hisense-50e7s:/modeli/hisense-50e7s/",
+  "model:hisense-55e7s:/modeli/hisense-55e7s/",
+  "model:samsung-ue43u8000fuxru:/modeli/samsung-ue43u8000fuxru/",
+  "model:samsung-ue50u8000fuxru:/modeli/samsung-ue50u8000fuxru/",
+  "model:samsung-ue55u8000fuxru:/modeli/samsung-ue55u8000fuxru/",
   "model:tcl-55c7k:/modeli/tcl-55c7k/",
   "model:tcl-65c7k:/modeli/tcl-65c7k/",
   "model:tcl-75c6k:/modeli/tcl-75c6k/",
@@ -554,12 +561,17 @@ for (const model of models) {
             group.engagement_min_mm !== undefined
             || group.engagement_max_mm !== undefined
           ))
+          || (group.range_label !== undefined && (
+            !hasEngagementRange
+            || !["L", "C"].includes(group.range_label)
+          ))
           || !Number.isInteger(group.quantity)
           || group.quantity < 1
           || group.quantity > 4
         );
       }) ||
-      typeof hardware.requires_adapters !== "boolean" ||
+      (hardware.requires_adapters !== undefined
+        && typeof hardware.requires_adapters !== "boolean") ||
       (hardware.required_parts_note !== undefined && !hardware.required_parts_note?.trim()) ||
       (hardware.vesa_conflict !== undefined && (
         !hardware.vesa_conflict?.catalog_value?.trim()

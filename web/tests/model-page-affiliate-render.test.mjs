@@ -214,6 +214,33 @@ test("паспорт Hisense отличает диапазон L от полно
     assert.equal(passport.includes("Установите промежуточные вставки"), true);
     assert.equal(facts.includes("Проверить: 400×300 мм / 400×400 мм"), true);
     assert.equal(passport.includes("M6×9"), false);
+    const samsung = {
+      title: "Samsung UE55U8000FUXRU",
+      wall_mount_screws: {
+        groups: [{
+          location: "Четыре точки VESA",
+          thread: "M8",
+          engagement_min_mm: 23,
+          engagement_max_mm: 25,
+          range_label: "C",
+          quantity: 4,
+        }],
+        source_region: "Россия",
+        source_url: "https://org.downloadcenter.samsung.com/manual.pdf",
+        source_label: "Руководство Samsung U8000F",
+        checked_at: "2026-07-31",
+        note: "Полная длина и наличие проставок не указаны.",
+      },
+    };
+    const samsungPassport = renderToStaticMarkup(
+      React.createElement(WallMountScrews, { model: samsung }),
+    );
+
+    assert.equal(samsungPassport.includes("4 шт. · M8 · диапазон C 23–25 мм"), true);
+    assert.equal(samsungPassport.includes("data-adapter-status=\"unknown\""), true);
+    assert.equal(samsungPassport.includes("после монтажной пластины"), true);
+    assert.equal(samsungPassport.includes("M8×23"), false);
+    assert.equal(samsungPassport.includes("адаптеры VESA.</p>"), false);
   } finally {
     await vite.close();
   }
