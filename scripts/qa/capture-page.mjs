@@ -15,6 +15,7 @@ const output = path.resolve(argument("--output", "product-docs/design-qa/page.pn
 const width = Number(argument("--width", "1440"));
 const height = Number(argument("--height", "1100"));
 const selector = argument("--selector", null);
+const modelQuery = argument("--model-query", null);
 const consent = argument("--consent", "denied");
 const affiliateReportEnabled = process.argv.includes("--affiliate-report");
 const placementAttributionRequired = process.argv.includes("--require-placement-attribution");
@@ -128,6 +129,77 @@ try {
     expression: "document.fonts.ready.then(() => new Promise((resolve) => setTimeout(resolve, 700)))",
     awaitPromise: true,
   });
+  let modelInteractionReport = null;
+  if (modelQuery) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(() => {
+        const query = ${JSON.stringify(modelQuery)};
+        const root = document.querySelector("[data-brand-mount-matcher]");
+        const input = root?.querySelector('input[aria-label="Модель телевизора"]');
+        if (!root || !input) return Promise.reject(new Error("Brand matcher input not found"));
+        const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+        if (!setter) return Promise.reject(new Error("Native input setter not found"));
+        input.focus();
+        setter.call(input, query);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+
+        return new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          let submitted = false;
+          const timer = setInterval(() => {
+            const button = root.querySelector('form button[type="submit"]');
+            if (!submitted && button && !button.disabled) {
+              submitted = true;
+              button.click();
+            }
+
+            const live = root.querySelector('[aria-live="polite"]');
+            const shortlist = root.querySelector('[data-result-shortlist="true"]');
+            const noMatch = live?.innerText.includes("пока нет подходящего варианта");
+            const failure = live?.querySelector(".text-danger");
+            if (failure) {
+              clearInterval(timer);
+              reject(new Error("Brand matcher returned an error"));
+              return;
+            }
+            if (submitted && live && (shortlist || noMatch)) {
+              clearInterval(timer);
+              const report = {
+                query,
+                selectedTitle: live.querySelector("p.font-display")?.innerText ?? "",
+                resultCards: shortlist?.querySelectorAll("article").length ?? 0,
+                hasVesaReason: /VESA/i.test(live.innerText),
+                hasLoadReason: /нагрузк/i.test(live.innerText),
+                incompatibleCollapsed: Boolean(root.querySelector('[data-brand-incompatible="collapsed"]:not([open])')),
+                marketLinksInsideMatcher: root.querySelectorAll('a[href*="market.yandex.ru"]').length,
+              };
+              if (!noMatch && report.resultCards < 1) {
+                reject(new Error("Brand matcher returned no result cards"));
+              } else if (!report.hasVesaReason || !report.hasLoadReason) {
+                reject(new Error("Brand matcher result lacks technical reasons"));
+              } else if (report.marketLinksInsideMatcher !== 0) {
+                reject(new Error("Brand matcher bypasses internal technical cards"));
+              } else {
+                resolve(report);
+              }
+              return;
+            }
+            if (Date.now() - startedAt > 10_000) {
+              clearInterval(timer);
+              reject(new Error(submitted ? "Brand matcher result timed out" : "Exact model did not enable submit"));
+            }
+          }, 50);
+        });
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error("Brand matcher interaction failed");
+    }
+    modelInteractionReport = interaction.result.value;
+  }
   if (selector) {
     const selected = await send("Runtime.evaluate", {
       expression: `(() => {
@@ -240,6 +312,7 @@ try {
     }),
   }));
   process.stdout.write(`${output}\n${JSON.stringify(dimensions.result.value)}\n`);
+  if (modelInteractionReport) process.stdout.write(`${JSON.stringify(modelInteractionReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();

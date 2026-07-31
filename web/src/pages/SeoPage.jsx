@@ -10,6 +10,7 @@ import {
   Wrench,
 } from "@phosphor-icons/react";
 import AffiliateOffer from "../components/AffiliateOffer.jsx";
+import { BrandMountMatcher } from "../components/BrandMountMatcher.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
@@ -126,7 +127,7 @@ function SeoArticle({ catalog, page }) {
           </p>
         </header>
 
-        {!prioritizesPrimaryLookup ? (
+        {!prioritizesPrimaryLookup && !prioritizesBrandComparison ? (
           <section
             className={`${["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
             aria-label="Ключевые факты"
@@ -142,6 +143,13 @@ function SeoArticle({ catalog, page }) {
 
         {prioritizesBrandComparison ? (
           <>
+            <BrandMountMatcher
+              affiliateOffers={catalog.affiliateOffers}
+              brand="ONKRON"
+              models={catalog.models}
+              mounts={catalog.mounts}
+              search={catalog.search}
+            />
             <CatalogEvidence items={catalogItems} page={page} />
             <SeoHubOffers offers={affiliateOffers} page={page} />
           </>
@@ -173,7 +181,7 @@ function SeoArticle({ catalog, page }) {
           <TvMountScrewCatalog models={catalog.models} search={catalog.search} />
         ) : null}
 
-        {!prioritizesPrimaryLookup ? (
+        {!prioritizesPrimaryLookup && !prioritizesBrandComparison ? (
           <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
           <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-end">
             <div>

@@ -209,8 +209,11 @@ test("ONKRON hub shows comparison and internal verification before Market exit",
       React.createElement(SeoPage, { catalog, page, requestedPath: page.path }),
     );
 
+    assert.ok(html.indexOf("data-brand-mount-matcher=\"ONKRON\"") < html.indexOf("data-mount-comparison=\"true\""));
     assert.ok(html.indexOf("data-mount-comparison=\"true\"") < html.indexOf("data-affiliate-hub"));
-    assert.ok(html.indexOf("data-affiliate-hub") < html.indexOf("id=\"seo-model-search\""));
+    assert.equal(html.includes("id=\"seo-model-search\""), false);
+    assert.equal(html.includes("Какие ONKRON подходят к вашему телевизору"), true);
+    assert.equal(html.includes("Проверить ONKRON"), true);
     assert.equal((html.match(/data-mount-comparison-item=/g) ?? []).length, 5);
     assert.equal((html.match(/Проверить VESA и нагрузку/g) ?? []).length, 2);
     assert.equal((html.match(/data-mount-detail-placement="compatibility_result"/g) ?? []).length, 2);

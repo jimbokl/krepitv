@@ -1379,6 +1379,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             ],
             "fixed-mount" => &[
                 "buy-tv-mount",
+                "mount-brand-onkron",
                 "wall-mounted-tv",
                 "tilt-mount",
                 "full-motion-mount",
@@ -1386,19 +1387,19 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             ],
             "tilt-mount" => &[
                 "buy-tv-mount",
+                "mount-brand-onkron",
                 "mounting-height",
                 "mounting-map",
                 "wall-mounted-tv",
                 "fixed-mount",
-                "full-motion-mount",
             ],
             "full-motion-mount" => &[
                 "extendable-mount",
                 "buy-tv-mount",
+                "mount-brand-onkron",
                 "wall-mounted-tv",
                 "fixed-mount",
                 "tilt-mount",
-                "mounting-height",
             ],
             "buy-tv-mount" => &[
                 "wall-mounted-tv",
@@ -2080,6 +2081,7 @@ fn seo_page_body(
         .collect::<Vec<_>>()
         .join("\n");
     let calculator_note = seo_calculator_note(&page.id);
+    let brand_matcher_note = seo_brand_mount_matcher_html(page, models, mounts, graph);
     let buy_mount_comparison = seo_buy_mount_comparison_html(page, mounts, graph);
     let catalog = seo_catalog_html(page, models, mounts, graph);
     let related_links = related_seo_pages(page, pages)
@@ -2102,7 +2104,9 @@ fn seo_page_body(
     } else if page.id == "vesa" {
         format!("{catalog}{calculator_note}{facts_section}")
     } else {
-        format!("{facts_section}{buy_mount_comparison}{catalog}{calculator_note}")
+        format!(
+            "{brand_matcher_note}{facts_section}{buy_mount_comparison}{catalog}{calculator_note}"
+        )
     };
 
     static_layout(&format!(
@@ -2111,6 +2115,38 @@ fn seo_page_body(
         lead = escape_html(&page.lead),
         answer_content = answer_content,
     ))
+}
+
+fn seo_brand_mount_matcher_html(
+    page: &SeoPage,
+    models: &[TvModel],
+    mounts: &[Mount],
+    graph: &[CompatibilityEdge],
+) -> String {
+    if page.id != "mount-brand-onkron" {
+        return String::new();
+    }
+
+    let mount_ids = mounts
+        .iter()
+        .filter(|mount| mount.brand.eq_ignore_ascii_case("ONKRON"))
+        .map(|mount| mount.id.as_str())
+        .collect::<HashSet<_>>();
+    let verified_pairs = graph
+        .iter()
+        .filter(|edge| {
+            edge.compatible
+                && edge.fit_status == "verified-fit"
+                && mount_ids.contains(edge.mount_id.as_str())
+        })
+        .count();
+
+    format!(
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"brand-mount-matcher-static-title\" data-brand-mount-matcher-static=\"ONKRON\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Подбор внутри бренда</p><h2 class=\"mt-2 max-w-4xl font-display text-4xl font-extrabold leading-tight\" id=\"brand-mount-matcher-static-title\">Какие ONKRON подходят к вашему телевизору</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Введите полный код телевизора в интерактивный поиск. Локальный Rust/WASM‑расчёт проверит каждую модель ONKRON по точной паре VESA, нагрузке с запасом 25% и паспортному диапазону диагонали. Покупка и регистрация для результата не нужны.</p><dl class=\"mt-6 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей ONKRON</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mount_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Телевизоров в поиске</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённых пар</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{verified_pairs}</dd></div></dl><p class=\"mt-4 max-w-3xl text-sm leading-relaxed text-muted\">TM5 и TM5‑BW считаются разными артикулами. При отключённом JavaScript остаются полный сравнительный каталог и <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">общий подбор по модели телевизора</a>.</p></section>",
+        mount_count = mount_ids.len(),
+        model_count = models.len(),
+        verified_pairs = verified_pairs,
+    )
 }
 
 fn trust_page_body(page: &TrustPage) -> String {
@@ -3077,9 +3113,10 @@ mod tests {
         commercial_profile_for, escape_html, html_shell, is_indexable_model, is_indexable_mount,
         is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
         model_mount_matches, model_page_body, mount_page_body, mounts_catalog_body,
-        parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_screw_catalog_html, seo_vesa_model_catalog_html,
-        tv_product_json_ld, validate_commercial_profiles, wall_mount_screws_html, workspace_root,
+        parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_brand_mount_matcher_html,
+        seo_buy_mount_comparison_html, seo_calculator_note, seo_catalog_html,
+        seo_screw_catalog_html, seo_vesa_model_catalog_html, tv_product_json_ld,
+        validate_commercial_profiles, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -3606,6 +3643,31 @@ mod tests {
         assert!(onkron_html.contains("точных схем VESA"));
         assert!(onkron_html.contains(&format!("/kronshteyny/{}/", onkron_mount.id)));
         assert!(!onkron_html.contains(&format!("/kronshteyny/{}/", other_mount.id)));
+
+        let matcher_html = seo_brand_mount_matcher_html(
+            &page("mount-brand-onkron", "mount-brand"),
+            &models,
+            &mounts,
+            &graph,
+        );
+        assert!(matcher_html.contains("data-brand-mount-matcher-static=\"ONKRON\""));
+        assert!(matcher_html.contains("Какие ONKRON подходят к вашему телевизору"));
+        assert!(matcher_html.contains(&format!(
+            "<dd class=\"mt-1 font-display text-3xl font-extrabold\">{}</dd>",
+            models.len()
+        )));
+        assert!(matcher_html.contains("Подтверждённых пар"));
+        assert!(matcher_html.contains("TM5 и TM5‑BW"));
+        assert!(!matcher_html.contains("market.yandex.ru"));
+        assert!(
+            seo_brand_mount_matcher_html(
+                &page("mount-brand-kromax", "mount-brand"),
+                &models,
+                &mounts,
+                &graph,
+            )
+            .is_empty()
+        );
 
         for (page_id, brand) in [
             ("mount-brand-kromax", "KROMAX"),

@@ -56,3 +56,13 @@ test("мастер подбора не передаёт выбранную мо�
   assert.match(eventBlock[1], /resultCount: compatible\.length/);
   assert.doesNotMatch(eventBlock[1], /model|mechanism|wall|query/i);
 });
+
+test("брендовый подбор фиксирует только тип и размер результата", async () => {
+  const code = await source("components/BrandMountMatcher.jsx");
+  const eventBlock = code.match(/emitResultCompleted\(window, \{([\s\S]*?)\n    \}\);/);
+  assert.ok(eventBlock, "brand matcher result event block is present");
+  assert.match(eventBlock[1], /toolId: "brand_mount_match"/);
+  assert.match(eventBlock[1], /resultType: compatible\.length/);
+  assert.match(eventBlock[1], /resultCount: compatible\.length/);
+  assert.doesNotMatch(eventBlock[1], /selectedModel|model\.id|query|vesa|weight/i);
+});
