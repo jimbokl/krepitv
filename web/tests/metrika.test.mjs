@@ -3,6 +3,8 @@ import test from "node:test";
 import {
   AFFILIATE_CLICK_EVENT,
   AFFILIATE_CLICK_GOAL,
+  MOUNT_DETAIL_CLICK_EVENT,
+  MOUNT_DETAIL_CLICK_GOAL,
   RESULT_COMPLETED_EVENT,
   RESULT_COMPLETED_GOAL,
   installMetrika,
@@ -162,6 +164,40 @@ test("событие готового результата отправляет 
     source_path: "/rasstoyanie-do-televizora/",
     tool_id: "viewing-distance",
   }]);
+
+  metrika.dispose();
+  assert.equal(browser.listeners.size, 0);
+});
+
+test("переход к карточке кронштейна передаёт только тип места ссылки", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  browser.listeners.get(MOUNT_DETAIL_CLICK_EVENT)({
+    detail: {
+      placement: "featured_result",
+      modelId: "tcl-55c7k",
+      mountId: "onkron-tm6",
+      href: "/kronshteyny/onkron-tm6/",
+      mechanism: "tilt",
+      rawInput: "user@example.test",
+    },
+  });
+
+  assert.deepEqual(calls[1], [
+    123456,
+    "reachGoal",
+    MOUNT_DETAIL_CLICK_GOAL,
+    { placement: "featured_result" },
+  ]);
+  assert.equal(metrika.trackMountDetailClick({ placement: "unknown" }), false);
+  assert.equal(calls.length, 2);
 
   metrika.dispose();
   assert.equal(browser.listeners.size, 0);

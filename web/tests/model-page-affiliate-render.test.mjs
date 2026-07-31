@@ -144,6 +144,8 @@ test("карточка модели выводит только три model-spe
     );
     assert.equal((html.match(/rel="sponsored nofollow noopener noreferrer"/g) ?? []).length, 3);
     assert.equal((html.match(/Подробнее о совместимости/g) ?? []).length, mounts.length);
+    assert.equal((html.match(/data-mount-detail-placement="featured_result"/g) ?? []).length, 6);
+    assert.equal((html.match(/data-mount-detail-placement="compatibility_result"/g) ?? []).length, mounts.length);
     assert.equal(html.includes("data-affiliate-placement-id=\"market-onkron-tm6\""), false);
     assert.equal(html.includes("data-wall-mount-screws=\"true\""), true);
     assert.equal(html.includes("Какие винты нужны для TCL 55C7K"), true);

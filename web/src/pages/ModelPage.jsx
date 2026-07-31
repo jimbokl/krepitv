@@ -13,6 +13,7 @@ import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { CommercialProfile } from "../components/CommercialProfile.jsx";
 import { ModelFacts, formatNumber } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
+import { MountDetailLink } from "../components/MountDetailLink.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TrustMark, formatCheckedDate } from "../components/TrustMark.jsx";
@@ -197,9 +198,13 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
             {featuredOffers.map(({ market, mount, offer }) => (
               <article className="flex flex-col border border-line p-4" key={mount.id}>
                 <h3 className="font-display text-xl font-bold">
-                  <a className="underline decoration-action decoration-2 underline-offset-4" href={mountHref(mount)}>
+                  <MountDetailLink
+                    className="underline decoration-action decoration-2 underline-offset-4"
+                    href={mountHref(mount)}
+                    placement="featured_result"
+                  >
                     {mount.title}
-                  </a>
+                  </MountDetailLink>
                 </h3>
                 <dl className="mt-3 grid gap-1 border-y border-line py-3 text-sm">
                   <div className="flex justify-between gap-3">
@@ -221,9 +226,13 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
                   </p>
                 ) : null}
                 <div className="mt-auto grid gap-3 pt-4">
-                  <a className="inline-flex text-sm font-semibold text-action underline underline-offset-4" href={mountHref(mount)}>
+                  <MountDetailLink
+                    className="inline-flex text-sm font-semibold text-action underline underline-offset-4"
+                    href={mountHref(mount)}
+                    placement="featured_result"
+                  >
                     Проверить VESA и нагрузку
-                  </a>
+                  </MountDetailLink>
                   <AffiliateLink className="primary-button" offer={offer}>
                     Открыть на Маркете <ArrowRight aria-hidden="true" />
                   </AffiliateLink>
@@ -277,9 +286,13 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
             </ul>
           </div>
           <div className="flex flex-col items-start gap-2 sm:items-end">
-            <a className="secondary-button" href={mountHref(mount)}>
+            <MountDetailLink
+              className="secondary-button"
+              href={mountHref(mount)}
+              placement="compatibility_result"
+            >
               Подробнее о совместимости <ArrowRight aria-hidden="true" />
-            </a>
+            </MountDetailLink>
           </div>
         </article>
         )}

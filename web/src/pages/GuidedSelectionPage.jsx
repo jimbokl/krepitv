@@ -4,6 +4,7 @@ import {
   ArrowRight,
   ArrowsClockwise,
   ArrowsVertical,
+  CaretDown,
   CheckCircle,
   HouseLine,
   Info,
@@ -15,9 +16,11 @@ import { Brand } from "../components/Brand.jsx";
 import { MetrikaConsent } from "../components/MetrikaConsent.jsx";
 import { ModelFacts } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
+import { MountDetailLink } from "../components/MountDetailLink.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
 import { useCompatibility } from "../hooks/useCompatibility.js";
-import { modelHref } from "../lib/catalog.js";
+import { modelHref, mountHref } from "../lib/catalog.js";
+import { groupCatalogItemsByBrand } from "../lib/catalogGroups.mjs";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 
 const wallOptions = [
@@ -348,7 +351,14 @@ function ChoiceGrid({ label, options, value, onChange }) {
   );
 }
 
-function CompatibilityResult({ compatibility, matches, model }) {
+export function CompatibilityResult({ compatibility, matches, model }) {
+  if (compatibility.status === "idle") {
+    return (
+      <p className="mt-7 text-muted">
+        Выберите механизм — после этого появятся подходящие варианты.
+      </p>
+    );
+  }
   if (compatibility.status === "loading") {
     return <p className="mt-7 text-muted">Проверяем каталог кронштейнов…</p>;
   }
@@ -359,36 +369,174 @@ function CompatibilityResult({ compatibility, matches, model }) {
       </p>
     );
   }
+  if (!matches.length) {
+    return (
+      <div className="mt-7 border-t-2 border-ink pt-5">
+        <p className="font-display text-2xl font-bold">
+          В проверенном каталоге пока нет подходящего варианта
+        </p>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+          Попробуйте другой механизм или откройте характеристики телевизора,
+          чтобы сверить VESA и нагрузку вручную.
+        </p>
+        <a className="secondary-button mt-4" href={modelHref(model)}>
+          Характеристики телевизора <ArrowRight aria-hidden="true" />
+        </a>
+      </div>
+    );
+  }
+
+  const rankedMatches = [...matches].sort((left, right) => {
+    const leftRank = left.fit_status === "verified-fit" ? 0 : 1;
+    const rightRank = right.fit_status === "verified-fit" ? 0 : 1;
+    return leftRank - rightRank;
+  });
+  const shortlist = rankedMatches.slice(0, 3);
+  const remaining = rankedMatches.slice(3);
+  const verifiedCount = rankedMatches.filter(
+    (item) => item.fit_status === "verified-fit",
+  ).length;
+  const conditionalCount = rankedMatches.length - verifiedCount;
+  const remainingSections = [
+    {
+      id: "verified",
+      title: "Полностью проверены",
+      items: remaining.filter((item) => item.fit_status === "verified-fit"),
+    },
+    {
+      id: "conditional",
+      title: "Нужно сверить диагональ",
+      items: remaining.filter((item) => item.fit_status !== "verified-fit"),
+    },
+  ]
+    .filter((section) => section.items.length)
+    .map((section) => ({
+      ...section,
+      groups: groupCatalogItemsByBrand(section.items, (item) => item.mount.brand),
+    }));
+
   return (
     <div className="mt-7 border-t-2 border-ink pt-5">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="font-display text-2xl font-bold text-verified">
-            Совместимость подтверждена
+          <p className="font-display text-2xl font-bold">
+            Найдено вариантов: {matches.length}
           </p>
-          <p className="mt-1 text-sm text-muted">
-            Для {model.title} найдено вариантов: {matches.length}
+          <p className="mt-1 text-sm leading-relaxed text-muted">
+            Полностью проверено: {verifiedCount}
+            {conditionalCount ? ` · Нужна сверка диагонали: ${conditionalCount}` : ""}.
+            Сначала показываем варианты с полной проверкой.
           </p>
         </div>
-        <a className="primary-button" href={modelHref(model)}>
-          Открыть карточку модели <ArrowRight aria-hidden="true" />
+        <a className="text-sm font-semibold text-technical underline underline-offset-4" href={modelHref(model)}>
+          Характеристики телевизора
         </a>
       </div>
-      <div className="mt-5 grid gap-3 md:grid-cols-2">
-        {matches.map(({ mount, reasons }) => (
-          <article className="border border-line bg-white p-4" key={mount.id}>
-            <h3 className="font-display text-xl font-bold">{mount.title}</h3>
-            <ul className="mt-3 space-y-1 text-sm text-muted">
-              {reasons.map((reason) => (
-                <li className="flex gap-2" key={reason}>
-                  <CheckCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-verified" weight="fill" />
-                  {reason}
-                </li>
-              ))}
-            </ul>
-          </article>
+      <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3" data-result-shortlist="true">
+        {shortlist.map((match) => (
+          <CompatibilityCard
+            key={match.mount.id}
+            match={match}
+            placement="featured_result"
+          />
         ))}
       </div>
+
+      {remaining.length ? (
+        <details className="group mt-4 border-y border-line" data-result-catalog="collapsed">
+          <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 font-display text-lg font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
+            <span>
+              Показать ещё {remaining.length} {variantWord(remaining.length)} по брендам
+            </span>
+            <CaretDown aria-hidden="true" className="size-5 shrink-0 text-action transition group-open:rotate-180" />
+          </summary>
+          <div className="border-t border-line pb-3">
+            {remainingSections.map((section) => (
+              <section className="border-b border-line py-5 last:border-b-0" key={section.id}>
+                <h3 className={`font-mono text-xs uppercase ${section.id === "verified" ? "text-verified" : "text-action"}`}>
+                  {section.title}: {section.items.length}
+                </h3>
+                {section.groups.map((group) => (
+                  <div className="mt-5 first:mt-3" key={group.brand}>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <h4 className="font-display text-2xl font-extrabold">{group.brand}</h4>
+                      <span className="font-mono text-xs uppercase text-muted">
+                        Кронштейнов: {group.items.length}
+                      </span>
+                    </div>
+                    <div className="mt-3 grid gap-3 md:grid-cols-2">
+                      {group.items.map((match) => (
+                        <CompatibilityCard
+                          compact
+                          key={match.mount.id}
+                          match={match}
+                          placement="compatibility_result"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </section>
+            ))}
+          </div>
+        </details>
+      ) : null}
     </div>
   );
+}
+
+function CompatibilityCard({ compact = false, match, placement }) {
+  const { mount, reasons = [], warnings = [], fit_status: fitStatus } = match;
+  const verified = fitStatus === "verified-fit";
+
+  return (
+    <article
+      className={`flex flex-col border bg-white ${compact ? "border-line p-4" : "border-ink p-5"}`}
+      data-fit-status={fitStatus}
+      data-result-tier={placement}
+    >
+      <p className={`font-mono text-[0.68rem] uppercase ${verified ? "text-verified" : "text-action"}`}>
+        {verified
+          ? "VESA, нагрузка и диагональ проверены"
+          : "VESA и нагрузка совпали — проверьте диагональ"}
+      </p>
+      <h3 className="mt-2 font-display text-xl font-bold">
+        <MountDetailLink href={mountHref(mount)} placement={placement}>
+          {mount.title}
+        </MountDetailLink>
+      </h3>
+      <ul className="mt-3 space-y-1 text-sm leading-relaxed text-muted">
+        {reasons.slice(0, compact ? 2 : 3).map((reason) => (
+          <li className="flex gap-2" key={reason}>
+            <CheckCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-verified" weight="fill" />
+            <span>{reason}</span>
+          </li>
+        ))}
+        {warnings.slice(0, 2).map((warning) => (
+          <li className="flex gap-2 text-action" key={warning}>
+            <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+            <span>{warning}</span>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-auto pt-4">
+        <MountDetailLink
+          className={compact ? "secondary-button" : "primary-button"}
+          href={mountHref(mount)}
+          placement={placement}
+        >
+          Проверить кронштейн <ArrowRight aria-hidden="true" />
+        </MountDetailLink>
+      </div>
+    </article>
+  );
+}
+
+function variantWord(count) {
+  const mod100 = count % 100;
+  const mod10 = count % 10;
+  if (mod100 >= 11 && mod100 <= 14) return "вариантов";
+  if (mod10 === 1) return "вариант";
+  if (mod10 >= 2 && mod10 <= 4) return "варианта";
+  return "вариантов";
 }

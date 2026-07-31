@@ -21,8 +21,9 @@
   временно закрыты `noindex,follow` и исключены из sitemap;
 - 140 индексируемых URL, статическая перелинковка, sitemap, robots и JSON-LD;
 - 12 проверяемых прямых предложений Яндекс Маркета без региональных цен;
-- consent-gated воронка `result_completed → market_click → APPROVED payment`
-  без передачи модели, параметров расчёта и текста поиска;
+- consent-gated воронка
+  `result_completed → mount_detail_click → market_click → APPROVED payment`
+  без передачи модели, кронштейна, параметров расчёта и текста поиска;
 - полностью статический production без платного сервера.
 
 ## Сборка

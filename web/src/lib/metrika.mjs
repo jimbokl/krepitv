@@ -1,8 +1,17 @@
 import { AFFILIATE_CLICK_EVENT } from "./affiliateClick.mjs";
+import {
+  MOUNT_DETAIL_CLICK_EVENT,
+  mountDetailClickDetail,
+} from "./mountDetailClick.mjs";
 import { RESULT_COMPLETED_EVENT } from "./resultCompleted.mjs";
 
-export { AFFILIATE_CLICK_EVENT, RESULT_COMPLETED_EVENT };
+export {
+  AFFILIATE_CLICK_EVENT,
+  MOUNT_DETAIL_CLICK_EVENT,
+  RESULT_COMPLETED_EVENT,
+};
 export const AFFILIATE_CLICK_GOAL = "market_click";
+export const MOUNT_DETAIL_CLICK_GOAL = "mount_detail_click";
 export const RESULT_COMPLETED_GOAL = "result_completed";
 
 const METRIKA_SCRIPT_ID = "krepitv-yandex-metrika";
@@ -57,6 +66,7 @@ export function installMetrika({
       enabled: false,
       dispose() {},
       trackMarketClick() { return false; },
+      trackMountDetailClick() { return false; },
       trackResultCompleted() { return false; },
     };
   }
@@ -101,6 +111,17 @@ export function installMetrika({
     trackMarketClick(event?.detail);
   }
 
+  function trackMountDetailClick(detail = {}) {
+    const safeDetail = mountDetailClickDetail(detail);
+    if (!safeDetail) return false;
+    ym(normalizedCounterId, "reachGoal", MOUNT_DETAIL_CLICK_GOAL, safeDetail);
+    return true;
+  }
+
+  function handleMountDetailClick(event) {
+    trackMountDetailClick(event?.detail);
+  }
+
   function trackResultCompleted(detail = {}) {
     const toolId = safeResultToken(detail.toolId);
     const resultType = safeResultToken(detail.resultType);
@@ -127,14 +148,17 @@ export function installMetrika({
   }
 
   windowObject.addEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
+  windowObject.addEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
   windowObject.addEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
   return {
     enabled: true,
     dispose() {
       windowObject.removeEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
+      windowObject.removeEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
       windowObject.removeEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
     },
     trackMarketClick,
+    trackMountDetailClick,
     trackResultCompleted,
   };
 }

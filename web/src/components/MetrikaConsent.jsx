@@ -27,8 +27,8 @@ export function MetrikaConsent() {
         <p className="max-w-4xl text-sm leading-relaxed text-muted">
           <strong className="font-display text-base text-ink">Помогите улучшить подбор.</strong>{" "}
           С разрешения Метрика посчитает посещения, обезличенные результаты расчётов и
-          подбора и переходы на Маркет. Вебвизор отключён; имена, телефоны и текст поиска
-          не передаются. Подробности — в{" "}
+          подбора, переходы к проверке кронштейна и на Маркет. Вебвизор отключён;
+          имена, телефоны и текст поиска не передаются. Подробности — в{" "}
           <a className="underline underline-offset-2" href="/politika-konfidencialnosti/">
             политике
           </a>
