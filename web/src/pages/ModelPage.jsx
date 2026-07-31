@@ -186,7 +186,11 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
           <div className="grid gap-4 pt-4 lg:grid-cols-3">
             {featuredOffers.map(({ market, mount, offer }) => (
               <article className="flex flex-col border border-line p-4" key={mount.id}>
-                <h3 className="font-display text-xl font-bold">{mount.title}</h3>
+                <h3 className="font-display text-xl font-bold">
+                  <a className="underline decoration-action decoration-2 underline-offset-4" href={mountHref(mount)}>
+                    {mount.title}
+                  </a>
+                </h3>
                 <dl className="mt-3 grid gap-1 border-y border-line py-3 text-sm">
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted">Механизм</dt>
@@ -206,7 +210,10 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
                     {market.notice}
                   </p>
                 ) : null}
-                <div className="mt-auto pt-4">
+                <div className="mt-auto grid gap-3 pt-4">
+                  <a className="inline-flex text-sm font-semibold text-action underline underline-offset-4" href={mountHref(mount)}>
+                    Проверить VESA и нагрузку
+                  </a>
                   <AffiliateLink className="primary-button" offer={offer}>
                     Открыть на Маркете <ArrowRight aria-hidden="true" />
                   </AffiliateLink>

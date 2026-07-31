@@ -48,6 +48,7 @@ export function SeoPage({ catalog, page, requestedPath }) {
 
 function SeoArticle({ catalog, page }) {
   const [query, setQuery] = useState("");
+  const prioritizesBrandComparison = page.id === "mount-brand-onkron";
   const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
@@ -114,6 +115,13 @@ function SeoArticle({ catalog, page }) {
           ))}
         </section>
 
+        {prioritizesBrandComparison ? (
+          <>
+            <CatalogEvidence items={catalogItems} page={page} />
+            <SeoHubOffers offers={affiliateOffers} page={page} />
+          </>
+        ) : null}
+
         {page.id === "mounting-height" ? <HeightCalculator /> : null}
         {page.id === "viewing-distance" ? <ViewingDistanceCalculator /> : null}
         {page.id === "wall-mounted-tv" ? <TurnClearanceCalculator /> : null}
@@ -163,9 +171,13 @@ function SeoArticle({ catalog, page }) {
               </div>
             </section>
 
-            <CatalogEvidence items={catalogItems} page={page} />
+            {!prioritizesBrandComparison ? (
+              <CatalogEvidence items={catalogItems} page={page} />
+            ) : null}
 
-            <SeoHubOffers offers={affiliateOffers} page={page} />
+            {!prioritizesBrandComparison ? (
+              <SeoHubOffers offers={affiliateOffers} page={page} />
+            ) : null}
 
             <section className="mt-10" aria-labelledby="faq-title">
               <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">
@@ -264,7 +276,12 @@ function SeoHubOffers({ offers, page }) {
       </p>
       <div className="mt-5 grid gap-4">
         {offers.map((offer) => (
-          <AffiliateOffer compact key={offer.placement_id} offer={offer} />
+          <AffiliateOffer
+            compact
+            detailsHref={offer.page_path}
+            key={offer.placement_id}
+            offer={offer}
+          />
         ))}
       </div>
     </section>
@@ -273,7 +290,12 @@ function SeoHubOffers({ offers, page }) {
 
 function CatalogEvidence({ items, page }) {
   const isMountList = items.type === "mounts";
-  const title = isMountList ? "Кронштейны из проверенного каталога" : "Модели из проверенной базы";
+  const isMountBrand = page.kind === "mount-brand";
+  const title = isMountBrand
+    ? `Сравнение кронштейнов ${items.values[0]?.brand ?? "по бренду"}`
+    : isMountList
+      ? "Кронштейны из проверенного каталога"
+      : "Модели из проверенной базы";
 
   return (
     <section className="mt-10" aria-labelledby="catalog-evidence-title">
@@ -288,59 +310,63 @@ function CatalogEvidence({ items, page }) {
 
       {items.values.length ? (
         <div className="mt-5">
-          <CatalogBrandGroups
-            countLabel={isMountList ? "Кронштейнов" : "Моделей"}
-            items={items.values}
-            listClassName="grid gap-3 sm:grid-cols-2"
-            renderItem={(item) =>
-            isMountList ? (
-              <article className="border border-line bg-white/70 p-5" key={item.id}>
-                <h3 className="font-display text-xl font-bold">
-                  <a className="underline decoration-action decoration-2 underline-offset-4" href={`/kronshteyny/${item.id}/`}>
-                    {item.title}
+          {isMountBrand ? (
+            <MountBrandComparison items={items.values} />
+          ) : (
+            <CatalogBrandGroups
+              countLabel={isMountList ? "Кронштейнов" : "Моделей"}
+              items={items.values}
+              listClassName="grid gap-3 sm:grid-cols-2"
+              renderItem={(item) =>
+              isMountList ? (
+                <article className="border border-line bg-white/70 p-5" key={item.id}>
+                  <h3 className="font-display text-xl font-bold">
+                    <a className="underline decoration-action decoration-2 underline-offset-4" href={`/kronshteyny/${item.id}/`}>
+                      {item.title}
+                    </a>
+                  </h3>
+                  <dl className="mt-3 space-y-2 text-sm">
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-muted">Нагрузка</dt>
+                      <dd className="font-semibold">до {formatNumber(item.max_load_kg)} кг</dd>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-muted">Диагональ</dt>
+                      <dd className="font-semibold">{formatNumber(item.min_diagonal_in)}–{formatNumber(item.max_diagonal_in)}″</dd>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-muted">От стены</dt>
+                      <dd className="font-semibold">{formatDistance(item)}</dd>
+                    </div>
+                  </dl>
+                  <a className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-technical underline underline-offset-4" href={item.source_url} rel="noreferrer" target="_blank">
+                    Источник характеристик <LinkSimple aria-hidden="true" />
                   </a>
-                </h3>
-                <dl className="mt-3 space-y-2 text-sm">
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-muted">Нагрузка</dt>
-                    <dd className="font-semibold">до {formatNumber(item.max_load_kg)} кг</dd>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-muted">Диагональ</dt>
-                    <dd className="font-semibold">{formatNumber(item.min_diagonal_in)}–{formatNumber(item.max_diagonal_in)}″</dd>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-muted">От стены</dt>
-                    <dd className="font-semibold">{formatDistance(item)}</dd>
-                  </div>
-                </dl>
-                <a className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-technical underline underline-offset-4" href={item.source_url} rel="noreferrer" target="_blank">
-                  Источник характеристик <LinkSimple aria-hidden="true" />
+                </article>
+              ) : (
+                <a className="border border-line bg-white/70 p-5 transition hover:border-action" href={modelHref(item)} key={item.id}>
+                  <h3 className="font-display text-xl font-bold">{item.title}</h3>
+                  <dl className="mt-3 grid grid-cols-3 gap-3 text-sm">
+                    <div>
+                      <dt className="text-muted">VESA</dt>
+                      <dd className="mt-1 font-semibold">{item.vesa_width_mm}×{item.vesa_height_mm}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted">Масса</dt>
+                      <dd className="mt-1 font-semibold">{formatNumber(item.weight_kg)} кг</dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted">Диагональ</dt>
+                      <dd className="mt-1 font-semibold">{formatNumber(item.diagonal_inches)}″</dd>
+                    </div>
+                  </dl>
+                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-action">
+                    Проверить совместимость <ArrowRight aria-hidden="true" />
+                  </span>
                 </a>
-              </article>
-            ) : (
-              <a className="border border-line bg-white/70 p-5 transition hover:border-action" href={modelHref(item)} key={item.id}>
-                <h3 className="font-display text-xl font-bold">{item.title}</h3>
-                <dl className="mt-3 grid grid-cols-3 gap-3 text-sm">
-                  <div>
-                    <dt className="text-muted">VESA</dt>
-                    <dd className="mt-1 font-semibold">{item.vesa_width_mm}×{item.vesa_height_mm}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-muted">Масса</dt>
-                    <dd className="mt-1 font-semibold">{formatNumber(item.weight_kg)} кг</dd>
-                  </div>
-                  <div>
-                    <dt className="text-muted">Диагональ</dt>
-                    <dd className="mt-1 font-semibold">{formatNumber(item.diagonal_inches)}″</dd>
-                  </div>
-                </dl>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-action">
-                  Проверить совместимость <ArrowRight aria-hidden="true" />
-                </span>
-              </a>
-            )}
-          />
+              )}
+            />
+          )}
         </div>
       ) : (
         <div className="mt-5 flex items-start gap-3 border border-line bg-white/60 p-5">
@@ -351,6 +377,54 @@ function CatalogEvidence({ items, page }) {
         </div>
       )}
     </section>
+  );
+}
+
+function MountBrandComparison({ items }) {
+  return (
+    <div className="border-b-2 border-ink" data-mount-comparison="true">
+      {items.map((item) => (
+        <article
+          className="grid gap-4 border-t border-line py-5 lg:grid-cols-[minmax(12rem,1.25fr)_minmax(8rem,0.75fr)_minmax(8rem,0.7fr)_minmax(9rem,0.85fr)_auto] lg:items-center"
+          data-mount-comparison-item={item.id}
+          key={item.id}
+        >
+          <div>
+            <h3 className="font-display text-2xl font-extrabold leading-tight">
+              <a className="underline decoration-action decoration-2 underline-offset-4" href={`/kronshteyny/${item.id}/`}>
+                {item.title}
+              </a>
+            </h3>
+            <p className="mt-1 text-sm text-muted">{mechanismLabel(item.mechanism)} механизм</p>
+          </div>
+          <ComparisonFact label="Диагональ">
+            {formatNumber(item.min_diagonal_in)}–{formatNumber(item.max_diagonal_in)}″
+          </ComparisonFact>
+          <ComparisonFact label="Нагрузка">до {formatNumber(item.max_load_kg)} кг</ComparisonFact>
+          <ComparisonFact label="От стены">{formatDistance(item)}</ComparisonFact>
+          <a className="inline-flex items-center gap-2 font-semibold text-action" href={`/kronshteyny/${item.id}/`}>
+            Открыть <ArrowRight aria-hidden="true" />
+          </a>
+          <details className="group lg:col-span-5">
+            <summary className="cursor-pointer list-none font-mono text-xs uppercase text-technical focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
+              {item.vesa.length} точных схем VESA <span aria-hidden="true" className="text-action">+</span>
+            </summary>
+            <p className="mt-3 break-words font-mono text-xs leading-6 text-muted">
+              {item.vesa.join(" · ").replaceAll("x", "×")}
+            </p>
+          </details>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function ComparisonFact({ children, label }) {
+  return (
+    <dl className="text-sm">
+      <dt className="font-mono text-[0.68rem] uppercase text-muted">{label}</dt>
+      <dd className="mt-1 font-semibold">{children}</dd>
+    </dl>
   );
 }
 
@@ -453,4 +527,11 @@ function formatDistance(mount) {
     return `${formatNumber(mount.wall_distance_min_mm)} мм`;
   }
   return `${formatNumber(mount.wall_distance_min_mm)}–${formatNumber(mount.wall_distance_max_mm)} мм`;
+}
+
+function mechanismLabel(value) {
+  if (value === "fixed") return "Фиксированный";
+  if (value === "tilt") return "Наклонный";
+  if (value === "full-motion") return "Поворотный";
+  return "Механизм не указан";
 }

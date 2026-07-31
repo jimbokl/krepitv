@@ -1,6 +1,5 @@
 import trustPages from "../../data/trust_pages.json";
 import { SiteFooter } from "./components/SiteFooter.jsx";
-import { MetrikaConsent } from "./components/MetrikaConsent.jsx";
 import { CatalogIndexPage } from "./pages/CatalogIndexPage.jsx";
 import { GuidedSelectionPage } from "./pages/GuidedSelectionPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
@@ -52,7 +51,6 @@ function withSiteFooter(page) {
     <>
       {page}
       <SiteFooter />
-      <MetrikaConsent />
     </>
   );
 }

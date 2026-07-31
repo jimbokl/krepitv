@@ -137,3 +137,77 @@ test("финальный React DOM ставит проверенный ката�
     await vite.close();
   }
 });
+
+test("ONKRON hub shows comparison and internal verification before Market exit", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({
+    root,
+    logLevel: "silent",
+    server: { middlewareMode: true },
+    appType: "custom",
+  });
+
+  try {
+    const { SeoPage } = await vite.ssrLoadModule("/src/pages/SeoPage.jsx");
+    const mounts = [
+      ["onkron-tm6", "ONKRON TM6", "tilt"],
+      ["onkron-m6l", "ONKRON M6L-B", "full-motion"],
+      ["onkron-m4s", "ONKRON M4S-B", "full-motion"],
+      ["onkron-tm4", "ONKRON TM4-B", "tilt"],
+      ["onkron-tm5-bw", "ONKRON TM5-BW", "tilt"],
+    ].map(([id, title, mechanism]) => ({
+      id,
+      brand: "ONKRON",
+      title,
+      mechanism,
+      max_load_kg: 60,
+      min_diagonal_in: 32,
+      max_diagonal_in: 75,
+      wall_distance_min_mm: 35,
+      wall_distance_max_mm: 145,
+      vesa: ["100x100", "200x200", "300x300", "400x400"],
+      source_url: `https://example.com/${id}`,
+    }));
+    const page = {
+      id: "mount-brand-onkron",
+      path: "/kronshteyny-onkron/",
+      kind: "mount-brand",
+      indexable: true,
+      title: "Кронштейны ONKRON для телевизоров",
+      description: "Сравнение проверенных кронштейнов ONKRON.",
+      h1: "Кронштейны ONKRON для телевизоров",
+      lead: "Точные модели и проверенные характеристики.",
+      facts: ["Проверить VESA", "Проверить нагрузку", "Проверить диагональ"],
+      faq: [["Как выбрать?", "Сверить точную модель телевизора."]],
+    };
+    const hubOffers = mounts.slice(0, 2).map((mount, index) => ({
+      ...offer(mount.id, index + 1),
+      placement_id: `seo-hub-mount-brand-onkron-r0${index + 1}-${mount.id}`,
+      hub_id: page.id,
+      hub_path: page.path,
+    }));
+    const catalog = {
+      models: [],
+      mounts,
+      search: [],
+      seoPages: [page],
+      compatibilityEdges: [],
+      commercialProfiles: [],
+      affiliateOffers: [],
+      hubAffiliateOffers: hubOffers,
+    };
+    const html = renderToStaticMarkup(
+      React.createElement(SeoPage, { catalog, page, requestedPath: page.path }),
+    );
+
+    assert.ok(html.indexOf("data-mount-comparison=\"true\"") < html.indexOf("data-affiliate-hub"));
+    assert.ok(html.indexOf("data-affiliate-hub") < html.indexOf("id=\"seo-model-search\""));
+    assert.equal((html.match(/data-mount-comparison-item=/g) ?? []).length, 5);
+    assert.equal((html.match(/Проверить VESA и нагрузку/g) ?? []).length, 2);
+    assert.equal((html.match(/href=\"\/kronshteyny\/onkron-/g) ?? []).length >= 7, true);
+    assert.equal((html.match(/href=\"https:\/\/market\.yandex\.ru\/card\//g) ?? []).length, 2);
+    assert.equal(html.includes("100×100 · 200×200 · 300×300 · 400×400"), true);
+  } finally {
+    await vite.close();
+  }
+});

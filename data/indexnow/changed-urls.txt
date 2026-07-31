@@ -1,7 +1,6 @@
-# Первая волна клиентских витрин: усилены шесть существующих SEO-хабов без новых URL.
+# SEO-волна 6: сравнения брендов и сильная ссылка из каталога, без новых URL.
 /kronshteyny-onkron/
-/kupit-kronshteyn-dlya-televizora/
 /kronshteyny-kromax/
-/tipy-kronshteynov/vydvizhnoy/
 /kronshteyny-holder/
 /kronshteyny-itechmount/
+/kronshteyny/

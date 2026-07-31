@@ -20,35 +20,35 @@ export function MetrikaConsent() {
   return (
     <aside
       aria-label="Настройка аналитики"
-      className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-3xl border-2 border-ink bg-paper p-5 shadow-[6px_6px_0_#151515] sm:inset-x-6 sm:flex sm:items-center sm:justify-between sm:gap-6"
+      className="border-b-2 border-ink bg-white"
+      data-consent-placement="inline"
     >
-      <div>
-        <p className="font-display text-xl font-extrabold">Помогите улучшить подбор</p>
-        <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-          С вашего разрешения Яндекс Метрика посчитает посещения и переходы на Маркет.
-          Вебвизор отключён, имена, телефоны и текст поиска мы не передаём.
-          Подробности — в {" "}
+      <div className="mx-auto grid max-w-[1440px] gap-3 px-5 py-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6 sm:px-8">
+        <p className="max-w-4xl text-sm leading-relaxed text-muted">
+          <strong className="font-display text-base text-ink">Помогите улучшить подбор.</strong>{" "}
+          С разрешения Метрика посчитает посещения и переходы на Маркет. Вебвизор отключён;
+          имена, телефоны и текст поиска не передаются. Подробности — в{" "}
           <a className="underline underline-offset-2" href="/politika-konfidencialnosti/">
-            политике конфиденциальности
+            политике
           </a>
           .
         </p>
-      </div>
-      <div className="mt-4 flex shrink-0 flex-wrap gap-3 sm:mt-0 sm:justify-end">
-        <button
-          className="secondary-button"
-          onClick={() => choose(METRIKA_CONSENT_DENIED)}
-          type="button"
-        >
-          Только необходимое
-        </button>
-        <button
-          className="primary-button"
-          onClick={() => choose(METRIKA_CONSENT_GRANTED)}
-          type="button"
-        >
-          Разрешить аналитику
-        </button>
+        <div className="flex shrink-0 flex-wrap gap-2 sm:justify-end">
+          <button
+            className="secondary-button !px-3 !py-2 text-sm"
+            onClick={() => choose(METRIKA_CONSENT_DENIED)}
+            type="button"
+          >
+            Только необходимое
+          </button>
+          <button
+            className="primary-button !px-3 !py-2 text-sm"
+            onClick={() => choose(METRIKA_CONSENT_GRANTED)}
+            type="button"
+          >
+            Разрешить
+          </button>
+        </div>
       </div>
     </aside>
   );

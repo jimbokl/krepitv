@@ -4,6 +4,13 @@ import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { modelHref, mountHref } from "../lib/catalog.js";
 
+const mountBrandHubs = [
+  { href: "/kronshteyny-onkron/", label: "ONKRON" },
+  { href: "/kronshteyny-kromax/", label: "KROMAX" },
+  { href: "/kronshteyny-holder/", label: "Holder" },
+  { href: "/kronshteyny-itechmount/", label: "iTECHmount" },
+];
+
 export function CatalogIndexPage({ catalog, kind }) {
   const models = kind === "models";
   const items = models ? catalog.models : catalog.mounts;
@@ -23,6 +30,21 @@ export function CatalogIndexPage({ catalog, kind }) {
             ? "Точные модели с подтверждёнными VESA, массой без подставки и двусторонним списком кронштейнов."
             : "Точные изделия с явными VESA, нагрузкой, механизмом и списком подходящих популярных телевизоров."}
         </p>
+
+        {!models ? (
+          <nav className="mt-7 flex flex-wrap items-center gap-2" aria-label="Сравнение кронштейнов по бренду">
+            <span className="mr-2 font-mono text-xs uppercase text-muted">Сравнить бренд</span>
+            {mountBrandHubs.map((hub) => (
+              <a
+                className="border border-ink bg-white px-3 py-2 font-display text-sm font-bold transition hover:border-action hover:text-action"
+                href={hub.href}
+                key={hub.href}
+              >
+                {hub.label}
+              </a>
+            ))}
+          </nav>
+        ) : null}
 
         <nav className="mt-9" aria-label={models ? "Модели телевизоров" : "Кронштейны"}>
           <CatalogBrandGroups

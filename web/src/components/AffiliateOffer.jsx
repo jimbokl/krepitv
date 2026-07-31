@@ -27,10 +27,13 @@ export function AffiliateLink({ children, className = "primary-button", offer })
   );
 }
 
-export default function AffiliateOffer({ offer, children, compact = false }) {
+export default function AffiliateOffer({ offer, children, compact = false, detailsHref = "" }) {
   const [imageFailed, setImageFailed] = useState(false);
   const presentation = getAffiliatePresentation(offer);
   if (!presentation) return null;
+  const safeDetailsHref = /^\/kronshteyny\/[a-z0-9-]+\/$/.test(detailsHref)
+    ? detailsHref
+    : "";
 
   const ariaLabel = presentation.mode === "advertising"
     ? "Рекламное предложение"
@@ -58,6 +61,11 @@ export default function AffiliateOffer({ offer, children, compact = false }) {
             {presentation.productTitle}
           </h3>
           {children}
+          {safeDetailsHref ? (
+            <a className="mt-3 inline-flex text-sm font-semibold text-action underline underline-offset-4" href={safeDetailsHref}>
+              Проверить VESA и нагрузку
+            </a>
+          ) : null}
         </div>
         <AffiliateLink
           className="primary-button w-full justify-center sm:w-auto"

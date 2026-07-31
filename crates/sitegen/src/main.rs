@@ -757,8 +757,24 @@ fn mounts_catalog_body(mounts: &[Mount]) -> String {
         })
         .collect::<Vec<_>>();
     let items = brand_catalog_html(items, "Кронштейнов", "div", "border-b border-line");
+    let brand_hubs = [
+        ("/kronshteyny-onkron/", "ONKRON"),
+        ("/kronshteyny-kromax/", "KROMAX"),
+        ("/kronshteyny-holder/", "Holder"),
+        ("/kronshteyny-itechmount/", "iTECHmount"),
+    ]
+    .iter()
+    .map(|(href, label)| {
+        format!(
+            "<a class=\"border border-ink bg-white px-3 py-2 font-display text-sm font-bold\" href=\"{}\">{}</a>",
+            escape_html(href),
+            escape_html(label),
+        )
+    })
+    .collect::<Vec<_>>()
+    .join("\n");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейны для телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные изделия с явными парами VESA, нагрузкой, диапазоном диагоналей и датой проверки. Партнёрская кнопка появляется только у свежего подтверждённого предложения Маркета.</p><nav class=\"mt-9\" aria-label=\"Кронштейны\">{items}</nav></article>"
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейны для телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные изделия с явными парами VESA, нагрузкой, диапазоном диагоналей и датой проверки. Партнёрская кнопка появляется только у свежего подтверждённого предложения Маркета.</p><nav class=\"mt-7 flex flex-wrap items-center gap-2\" aria-label=\"Сравнение кронштейнов по бренду\"><span class=\"mr-2 font-mono text-xs uppercase text-muted\">Сравнить бренд</span>{brand_hubs}</nav><nav class=\"mt-9\" aria-label=\"Кронштейны\">{items}</nav></article>"
     ))
 }
 
@@ -1230,6 +1246,22 @@ fn seo_mount_card(mount: &Mount, graph: &[CompatibilityEdge]) -> String {
     )
 }
 
+fn seo_mount_comparison_card(mount: &Mount, graph: &[CompatibilityEdge]) -> String {
+    format!(
+        "<article class=\"grid gap-4 border-t border-line py-5 lg:grid-cols-[minmax(12rem,1.25fr)_minmax(8rem,0.75fr)_minmax(8rem,0.7fr)_minmax(9rem,0.85fr)_auto] lg:items-center\" data-mount-comparison-item=\"{id}\"><div><a class=\"font-display text-2xl font-extrabold underline decoration-action decoration-2 underline-offset-4\" href=\"/kronshteyny/{id}/\">{title}</a><p class=\"mt-1 text-sm text-muted\">{mechanism} механизм</p></div><dl class=\"text-sm\"><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-semibold\">{min_diagonal}–{max_diagonal}″</dd></dl><dl class=\"text-sm\"><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-semibold\">до {load} кг</dd></dl><dl class=\"text-sm\"><dt class=\"font-mono text-xs uppercase text-muted\">От стены</dt><dd class=\"mt-1 font-semibold\">{extension}</dd></dl><a class=\"font-semibold text-action\" href=\"/kronshteyny/{id}/\">Открыть →</a><details class=\"lg:col-span-5\"><summary class=\"cursor-pointer font-mono text-xs uppercase text-technical\">{vesa_count} точных схем VESA +</summary><p class=\"mt-3 font-mono text-xs leading-6 text-muted\">{vesa}</p></details><p class=\"font-mono text-xs uppercase text-technical lg:col-span-5\">Подтверждённых моделей: {model_count}</p></article>",
+        id = escape_html(&mount.id),
+        title = escape_html(&mount.title),
+        mechanism = escape_html(mechanism_label(&mount.mechanism)),
+        min_diagonal = mount.min_diagonal_in,
+        max_diagonal = mount.max_diagonal_in,
+        load = mount.max_load_kg,
+        extension = escape_html(&mount_extension_label(mount)),
+        vesa_count = mount.vesa.len(),
+        vesa = escape_html(&formatted_vesa_list(mount)),
+        model_count = verified_model_count(&mount.id, graph),
+    )
+}
+
 fn seo_model_catalog_html(
     page: &SeoPage,
     models: &[TvModel],
@@ -1464,6 +1496,15 @@ fn seo_mechanism_catalog_html(
         .collect::<Vec<_>>();
     let catalog = if rows.is_empty() {
         "<p class=\"mt-6 border border-line bg-white p-5 leading-relaxed text-muted\">В проверенном каталоге пока нет кронштейнов этого типа. До появления точных карточек страница остаётся техническим руководством.</p>".to_string()
+    } else if page.kind == "mount-brand" {
+        let comparison = selected
+            .iter()
+            .map(|mount| seo_mount_comparison_card(mount, graph))
+            .collect::<Vec<_>>()
+            .join("\n");
+        format!(
+            "<div class=\"border-b-2 border-ink\" data-mount-comparison=\"true\">{comparison}</div>"
+        )
     } else {
         brand_catalog_html(
             rows,
@@ -2387,9 +2428,9 @@ mod tests {
         affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
         commercial_profile_for, escape_html, is_indexable_model, is_indexable_mount,
         is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
-        model_mount_matches, model_page_body, mount_page_body, parse_rfc3339_utc_seconds,
-        read_json, related_seo_pages, seo_calculator_note, seo_catalog_html,
-        validate_commercial_profiles, workspace_root,
+        model_mount_matches, model_page_body, mount_page_body, mounts_catalog_body,
+        parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_calculator_note,
+        seo_catalog_html, validate_commercial_profiles, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -2584,6 +2625,8 @@ mod tests {
             &graph,
         );
         assert!(onkron_html.contains("Проверенные кронштейны ONKRON"));
+        assert!(onkron_html.contains("data-mount-comparison=\"true\""));
+        assert!(onkron_html.contains("точных схем VESA"));
         assert!(onkron_html.contains(&format!("/kronshteyny/{}/", onkron_mount.id)));
         assert!(!onkron_html.contains(&format!("/kronshteyny/{}/", other_mount.id)));
 
@@ -2633,6 +2676,21 @@ mod tests {
             let html = seo_catalog_html(&page(&brand_id, "brand"), &models, &mounts, &graph);
             assert!(html.contains(&format!("/modeli/{}/", own_model.id)));
             assert!(!html.contains(&format!("/modeli/{}/", foreign_model.id)));
+        }
+    }
+
+    #[test]
+    fn mounts_catalog_links_to_existing_brand_comparisons() {
+        let mounts: Vec<Mount> = read_json(&workspace_root().join("data/mounts.json"));
+        let html = mounts_catalog_body(&mounts);
+
+        for path in [
+            "/kronshteyny-onkron/",
+            "/kronshteyny-kromax/",
+            "/kronshteyny-holder/",
+            "/kronshteyny-itechmount/",
+        ] {
+            assert!(html.contains(&format!("href=\"{path}\"")));
         }
     }
 
