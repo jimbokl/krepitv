@@ -20,10 +20,12 @@ import {
   validateSourceAgainstMounts,
   writeJson,
 } from "../../scripts/affiliate/lib.mjs";
+import { loadFreshAffiliateOffers } from "../../web/src/lib/catalog.js";
 import {
   AFFILIATE_LINK_REL,
   MAX_AFFILIATE_AGE_MS,
   getAffiliatePresentation,
+  getFreshAffiliateOffers,
   selectAffiliateOffer,
 } from "../../web/src/lib/affiliateOffer.mjs";
 import {
@@ -460,6 +462,66 @@ test("hides stale offers and falls back to a fresh offer for the same page", () 
     ),
     fresh,
   );
+});
+
+test("rejects the whole affiliate snapshot when its envelope is stale", () => {
+  const now = Date.parse("2026-07-30T12:00:00Z");
+  const offer = advertisingOffer({
+    checked_at: new Date(now - 60_000).toISOString(),
+  });
+  const fresh = {
+    schema_version: 2,
+    generated_at: new Date(now - 60_000).toISOString(),
+    offers: [offer],
+  };
+  const stale = {
+    ...fresh,
+    generated_at: new Date(now - MAX_AFFILIATE_AGE_MS - 1).toISOString(),
+  };
+
+  assert.deepEqual(getFreshAffiliateOffers(fresh, { now }), [offer]);
+  assert.deepEqual(getFreshAffiliateOffers(stale, { now }), []);
+});
+
+test("loads affiliate offers only from a fresh same-origin snapshot", async () => {
+  const now = Date.parse("2026-07-30T12:00:00Z");
+  const offer = advertisingOffer({
+    checked_at: new Date(now - 60_000).toISOString(),
+  });
+  const snapshot = {
+    schema_version: 2,
+    generated_at: new Date(now - 60_000).toISOString(),
+    offers: [offer],
+  };
+  const response = (url) => ({
+    ok: true,
+    url,
+    async json() {
+      return snapshot;
+    },
+  });
+
+  const sameOrigin = await loadFreshAffiliateOffers({
+    fetchImpl: async (url, options) => {
+      assert.equal(url, "https://krepitv.ru/data/affiliate-offers.json");
+      assert.deepEqual(options, {
+        cache: "no-store",
+        credentials: "same-origin",
+        redirect: "error",
+      });
+      return response(url);
+    },
+    now,
+    origin: "https://krepitv.ru",
+  });
+  assert.deepEqual(sameOrigin, [offer]);
+
+  const crossOrigin = await loadFreshAffiliateOffers({
+    fetchImpl: async () => response("https://example.invalid/affiliate-offers.json"),
+    now,
+    origin: "https://krepitv.ru",
+  });
+  assert.deepEqual(crossOrigin, []);
 });
 
 test("refuses same-site, redirect and unmarked affiliate destinations", () => {

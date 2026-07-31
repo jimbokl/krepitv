@@ -1,3 +1,5 @@
+import { getFreshAffiliateOffers } from "./affiliateOffer.mjs";
+
 let catalogPromise;
 let enginePromise;
 
@@ -35,17 +37,50 @@ export function loadCatalog() {
       fetch("/data/model-search.json").then(assertResponse),
       fetch("/data/seo-pages.json").then(assertResponse),
       fetch("/data/compatibility-graph.json").then(assertResponse),
-      fetch("/data/affiliate-offers.json").then(assertResponse),
-    ]).then(async ([models, mounts, search, seoPages, compatibilityEdges, affiliateSnapshot]) => ({
+      loadFreshAffiliateOffers(),
+    ]).then(async ([models, mounts, search, seoPages, compatibilityEdges, affiliateOffers]) => ({
       models: await models.json(),
       mounts: await mounts.json(),
       search: await search.json(),
       seoPages: await seoPages.json(),
       compatibilityEdges: await compatibilityEdges.json(),
-      affiliateOffers: (await affiliateSnapshot.json()).offers,
+      affiliateOffers,
     }));
   }
   return catalogPromise;
+}
+
+export async function loadFreshAffiliateOffers({
+  fetchImpl = globalThis.fetch,
+  now = Date.now(),
+  origin = globalThis.location?.origin,
+} = {}) {
+  if (typeof fetchImpl !== "function" || typeof origin !== "string") return [];
+
+  let allowedOrigin;
+  let snapshotUrl;
+  try {
+    allowedOrigin = new URL(origin).origin;
+    snapshotUrl = new URL("/data/affiliate-offers.json", allowedOrigin);
+  } catch {
+    return [];
+  }
+
+  try {
+    const response = await fetchImpl(snapshotUrl.toString(), {
+      cache: "no-store",
+      credentials: "same-origin",
+      redirect: "error",
+    });
+    if (!response?.ok) return [];
+
+    const responseUrl = new URL(response.url || snapshotUrl.toString(), allowedOrigin);
+    if (responseUrl.origin !== allowedOrigin) return [];
+
+    return getFreshAffiliateOffers(await response.json(), { now });
+  } catch {
+    return [];
+  }
 }
 
 function assertResponse(response) {

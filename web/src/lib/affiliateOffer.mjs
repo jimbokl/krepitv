@@ -24,6 +24,23 @@ function isFresh(value, now, maximumAgeMs) {
   return age >= -5 * 60 * 1000 && age <= maximumAgeMs;
 }
 
+export function getFreshAffiliateOffers(
+  snapshot,
+  { now = Date.now(), maximumAgeMs = MAX_AFFILIATE_AGE_MS } = {},
+) {
+  if (
+    snapshot?.schema_version !== 2 ||
+    !Array.isArray(snapshot.offers) ||
+    !isFresh(snapshot.generated_at, now, maximumAgeMs)
+  ) {
+    return [];
+  }
+
+  return snapshot.offers.filter((offer) =>
+    getAffiliatePresentation(offer, { now, maximumAgeMs }),
+  );
+}
+
 export function getAffiliatePresentation(
   offer,
   { now = Date.now(), maximumAgeMs = MAX_AFFILIATE_AGE_MS } = {},

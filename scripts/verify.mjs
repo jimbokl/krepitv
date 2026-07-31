@@ -191,6 +191,9 @@ const affiliateSnapshot = JSON.parse(
 const publishableAffiliateOffers = (affiliateSnapshot.offers ?? []).filter(
   (offer) => offer.publishable && offer.eligibility === "publishable",
 );
+const publishableAffiliateHrefs = new Set(
+  publishableAffiliateOffers.map((offer) => offer.affiliate_href),
+);
 
 assertMinimum(models, 2, "Проверенные модели телевизоров");
 assertMinimum(mounts, 3, "Проверенные кронштейны");
@@ -402,10 +405,16 @@ for (const file of pageHtmlFiles) {
   const marketLinks = html.match(
     /<a\b[^>]*href=["']https:\/\/market\.yandex\.ru\/[^"']*["'][^>]*>/gi,
   ) ?? [];
+  if (/\bdata-affiliate-offer-id=/i.test(html)) {
+    throw new Error(`Действующий affiliate CTA попал в статический HTML: ${path.relative(root, file)}`);
+  }
   if (/Крепи ТВ может получить вознаграждение/i.test(html)) {
     throw new Error(`Удалённый партнёрский дисклеймер вернулся: ${path.relative(root, file)}`);
   }
   for (const link of marketLinks) {
+    if (publishableAffiliateHrefs.has(decodeHtmlAttribute(matchAttribute(link, "href")))) {
+      throw new Error(`Партнёрский URL попал в статический HTML: ${path.relative(root, file)}`);
+    }
     if (!/\brel=["'][^"']*\bsponsored\b[^"']*["']/i.test(link)) {
       throw new Error(`Партнёрская ссылка без rel=sponsored: ${path.relative(root, file)}`);
     }
@@ -474,35 +483,34 @@ for (const offer of publishableAffiliateOffers) {
   if (!html) {
     throw new Error(`Нет mount page для publishable affiliate offer: ${offer.id}`);
   }
-  const matchingLinks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
-    (tag) => matchAttribute(tag, "data-affiliate-offer-id") === offer.id,
+  const matchingSlots = (html.match(/<aside\b[^>]*>/gi) ?? []).filter(
+    (tag) => matchAttribute(tag, "data-affiliate-slot") === offer.id,
   );
-  if (matchingLinks.length !== 1) {
+  if (matchingSlots.length !== 1) {
     throw new Error(
-      `Publishable affiliate offer должен иметь ровно одну статическую ссылку на своей mount page: ${offer.id}`,
+      `Publishable affiliate offer должен иметь ровно один безопасный static slot: ${offer.id}`,
     );
   }
-  const link = matchingLinks[0];
-  if (decodeHtmlAttribute(matchAttribute(link, "href")) !== offer.affiliate_href) {
-    throw new Error(`Статическая affiliate ссылка не совпадает со snapshot: ${offer.id}`);
-  }
+  const slot = matchingSlots[0];
   if (
-    matchAttribute(link, "data-affiliate-mode") !== offer.compliance_mode ||
-    matchAttribute(link, "data-clid") !== offer.clid
+    matchAttribute(slot, "data-entity-kind") !== "mount" ||
+    matchAttribute(slot, "data-entity-id") !== offer.entity_id
   ) {
-    throw new Error(`Статическая affiliate ссылка потеряла mode или CLID: ${offer.id}`);
+    throw new Error(`Статический affiliate slot потерял идентичность изделия: ${offer.id}`);
   }
-  if (offer.compliance_mode === "advertising") {
-    if (matchAttribute(link, "data-erid") !== offer.creative?.erid) {
-      throw new Error(`Статическая рекламная ссылка потеряла ERID: ${offer.id}`);
-    }
-  } else if (matchAttribute(link, "data-erid")) {
-    throw new Error(`Нерекламная статическая ссылка получила ERID: ${offer.id}`);
+  if (/\bhref\s*=/.test(slot) || html.includes(`data-affiliate-offer-id="${offer.id}"`)) {
+    throw new Error(`Статический affiliate slot не должен содержать активную ссылку: ${offer.id}`);
   }
-  const ctaPosition = html.indexOf(`data-affiliate-offer-id="${offer.id}"`);
+  const slotPosition = html.indexOf(`data-affiliate-slot="${offer.id}"`);
   const modelListPosition = html.indexOf("Подтверждённые популярные телевизоры");
-  if (ctaPosition < 0 || modelListPosition < 0 || ctaPosition > modelListPosition) {
-    throw new Error(`Affiliate CTA расположен после списка телевизоров: ${offer.id}`);
+  if (slotPosition < 0 || modelListPosition < 0 || slotPosition > modelListPosition) {
+    throw new Error(`Affiliate slot расположен после списка телевизоров: ${offer.id}`);
+  }
+  const leakedLink = (html.match(/<a\b[^>]*>/gi) ?? []).find(
+    (tag) => decodeHtmlAttribute(matchAttribute(tag, "href")) === offer.affiliate_href,
+  );
+  if (leakedLink) {
+    throw new Error(`Партнёрский URL попал в статический HTML: ${offer.id}`);
   }
 }
 
