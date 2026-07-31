@@ -30,8 +30,8 @@
 | `result_completed` organic | 0 | достижение цели, не показ калькулятора |
 | `mount_detail_click` organic | 0 | достижение цели, не наличие внутренней ссылки |
 | `market_click` organic | 0 | достижение цели, не наличие оффера |
-| Google Search Console | `unknown` | локальный service account не имеет доступа к property KREPI TV; свежего локального экспорта нет |
-| Яндекс Вебмастер | `unknown` | host подтверждён, но `host_data_status=NOT_LOADED`; summary и query API отвечают `HOST_NOT_LOADED` |
+| Google Search Console | 0 показов, 0 кликов; 6 PASS из 142 URL | authoritative final window 28–30 июля; URL Inspection — отдельный индексный baseline, не трафик |
+| Яндекс Вебмастер | `not_matured` | host подтверждён, но `host_data_status=NOT_LOADED`; summary и query API ещё не созрели, числа `null` |
 | Яндекс Маркет, июль | 0 `APPROVED`, 0 ₽ | безопасный агрегат по данным API на 31 июля 10:17 UTC; ожидающих решения нет |
 
 У обоих запросов Метрики `sampled=false`, `sample_share=1`, `data_lag=0`.
