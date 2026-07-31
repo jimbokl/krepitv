@@ -186,8 +186,7 @@ jobs:
               break
             fi
             if [ "$status" = "errored" ] && [ "$commit" = "$target_sha" ]; then
-              echo "::error::GitHub Pages не собрал обновлённый снимок"
-              exit 1
+              echo "::warning::Pages сообщил о неудачной попытке; ждём возможную повторную сборку того же коммита"
             fi
             sleep 10
           done
