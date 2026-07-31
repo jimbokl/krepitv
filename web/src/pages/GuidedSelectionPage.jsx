@@ -19,6 +19,7 @@ import { ModelSearch } from "../components/ModelSearch.jsx";
 import { MountDetailLink } from "../components/MountDetailLink.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
 import { useCompatibility } from "../hooks/useCompatibility.js";
+import { selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
 import { modelHref, mountHref } from "../lib/catalog.js";
 import { groupCatalogItemsByBrand } from "../lib/catalogGroups.mjs";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
@@ -88,6 +89,18 @@ export function GuidedSelectionPage({ catalog }) {
   const compatible = useMemo(
     () => compatibility.matches.filter((item) => item.compatible),
     [compatibility.matches],
+  );
+  const availableOfferMountIds = useMemo(
+    () => new Set(
+      catalog.mounts
+        .filter((mount) => selectAffiliateOffer(catalog.affiliateOffers, {
+          entityId: mount.id,
+          entityKind: "mount",
+          pagePath: mountHref(mount),
+        }))
+        .map((mount) => mount.id),
+    ),
+    [catalog.affiliateOffers, catalog.mounts],
   );
 
   useEffect(() => {
@@ -285,6 +298,7 @@ export function GuidedSelectionPage({ catalog }) {
 
               {step === 3 ? (
                 <CompatibilityResult
+                  availableOfferMountIds={availableOfferMountIds}
                   compatibility={compatibility}
                   matches={compatible}
                   model={selectedModel}
@@ -351,7 +365,12 @@ function ChoiceGrid({ label, options, value, onChange }) {
   );
 }
 
-export function CompatibilityResult({ compatibility, matches, model }) {
+export function CompatibilityResult({
+  availableOfferMountIds = new Set(),
+  compatibility,
+  matches,
+  model,
+}) {
   if (compatibility.status === "idle") {
     return (
       <p className="mt-7 text-muted">
@@ -386,11 +405,7 @@ export function CompatibilityResult({ compatibility, matches, model }) {
     );
   }
 
-  const rankedMatches = [...matches].sort((left, right) => {
-    const leftRank = left.fit_status === "verified-fit" ? 0 : 1;
-    const rightRank = right.fit_status === "verified-fit" ? 0 : 1;
-    return leftRank - rightRank;
-  });
+  const rankedMatches = rankCompatibilityMatches(matches, availableOfferMountIds);
   const shortlist = rankedMatches.slice(0, 3);
   const remaining = rankedMatches.slice(3);
   const verifiedCount = rankedMatches.filter(
@@ -425,7 +440,9 @@ export function CompatibilityResult({ compatibility, matches, model }) {
           <p className="mt-1 text-sm leading-relaxed text-muted">
             Полностью проверено: {verifiedCount}
             {conditionalCount ? ` · Нужна сверка диагонали: ${conditionalCount}` : ""}.
-            Сначала показываем варианты с полной проверкой.
+            Сначала показываем варианты с полной проверкой и более высокой
+            технической оценкой. При одинаковой оценке выше варианты с доступной
+            точной карточкой Маркета.
           </p>
         </div>
         <a className="text-sm font-semibold text-technical underline underline-offset-4" href={modelHref(model)}>
@@ -437,6 +454,7 @@ export function CompatibilityResult({ compatibility, matches, model }) {
           <CompatibilityCard
             key={match.mount.id}
             match={match}
+            marketCardAvailable={availableOfferMountIds.has(match.mount.id)}
             placement="featured_result"
           />
         ))}
@@ -470,6 +488,7 @@ export function CompatibilityResult({ compatibility, matches, model }) {
                           compact
                           key={match.mount.id}
                           match={match}
+                          marketCardAvailable={availableOfferMountIds.has(match.mount.id)}
                           placement="compatibility_result"
                         />
                       ))}
@@ -485,7 +504,12 @@ export function CompatibilityResult({ compatibility, matches, model }) {
   );
 }
 
-function CompatibilityCard({ compact = false, match, placement }) {
+function CompatibilityCard({
+  compact = false,
+  marketCardAvailable = false,
+  match,
+  placement,
+}) {
   const { mount, reasons = [], warnings = [], fit_status: fitStatus } = match;
   const verified = fitStatus === "verified-fit";
 
@@ -493,6 +517,7 @@ function CompatibilityCard({ compact = false, match, placement }) {
     <article
       className={`flex flex-col border bg-white ${compact ? "border-line p-4" : "border-ink p-5"}`}
       data-fit-status={fitStatus}
+      data-market-card-available={marketCardAvailable ? "true" : "false"}
       data-result-tier={placement}
     >
       <p className={`font-mono text-[0.68rem] uppercase ${verified ? "text-verified" : "text-action"}`}>
@@ -505,6 +530,11 @@ function CompatibilityCard({ compact = false, match, placement }) {
           {mount.title}
         </MountDetailLink>
       </h3>
+      {marketCardAvailable ? (
+        <p className="mt-2 text-xs font-semibold text-technical">
+          На момент проверки есть точная карточка на Маркете
+        </p>
+      ) : null}
       <ul className="mt-3 space-y-1 text-sm leading-relaxed text-muted">
         {reasons.slice(0, compact ? 2 : 3).map((reason) => (
           <li className="flex gap-2" key={reason}>
@@ -530,6 +560,28 @@ function CompatibilityCard({ compact = false, match, placement }) {
       </div>
     </article>
   );
+}
+
+export function rankCompatibilityMatches(matches, availableOfferMountIds = new Set()) {
+  return (Array.isArray(matches) ? matches : [])
+    .map((match, index) => ({ match, index }))
+    .sort((left, right) => {
+      const leftFitRank = left.match.fit_status === "verified-fit" ? 0 : 1;
+      const rightFitRank = right.match.fit_status === "verified-fit" ? 0 : 1;
+      if (leftFitRank !== rightFitRank) return leftFitRank - rightFitRank;
+
+      const leftScore = Number.isFinite(left.match.score) ? left.match.score : null;
+      const rightScore = Number.isFinite(right.match.score) ? right.match.score : null;
+      if (leftScore !== null && rightScore !== null && leftScore !== rightScore) {
+        return rightScore - leftScore;
+      }
+
+      const leftOfferRank = availableOfferMountIds.has(left.match.mount.id) ? 0 : 1;
+      const rightOfferRank = availableOfferMountIds.has(right.match.mount.id) ? 0 : 1;
+      if (leftOfferRank !== rightOfferRank) return leftOfferRank - rightOfferRank;
+      return left.index - right.index;
+    })
+    .map(({ match }) => match);
 }
 
 function variantWord(count) {
