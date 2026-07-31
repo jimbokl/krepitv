@@ -46,6 +46,23 @@ export function CatalogIndexPage({ catalog, kind }) {
           </nav>
         ) : null}
 
+        {models ? (
+          <aside className="mt-7 grid gap-4 border-2 border-ink bg-white p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+            <div>
+              <p className="font-mono text-xs uppercase text-action">Новый технический справочник</p>
+              <p className="mt-1 font-display text-2xl font-extrabold">
+                Какие винты нужны для крепления телевизора
+              </p>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+                Поиск по точной модели: M6 или M8, количество, длина либо допустимая глубина и официальное руководство.
+              </p>
+            </div>
+            <a className="primary-button" href="/vinty-dlya-krepleniya-televizora/">
+              Подобрать винты <ArrowRight aria-hidden="true" />
+            </a>
+          </aside>
+        ) : null}
+
         <nav className="mt-9" aria-label={models ? "Модели телевизоров" : "Кронштейны"}>
           <CatalogBrandGroups
             countLabel={models ? "Моделей" : "Кронштейнов"}

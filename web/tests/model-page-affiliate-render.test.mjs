@@ -152,6 +152,7 @@ test("карточка модели выводит только три model-spe
     assert.equal(html.includes("4 шт. · M6×16 мм"), true);
     assert.equal(html.includes("Это паспортный размер винта, а не глубина резьбового отверстия"), true);
     assert.equal(html.includes("Российское руководство TCL C7K, стр. 26"), true);
+    assert.equal(html.includes("href=\"/vinty-dlya-krepleniya-televizora/\""), true);
     for (const fragment of [
       "Партнёрская ссылка на Яндекс Маркет",
       "Если вы оформите заказ",

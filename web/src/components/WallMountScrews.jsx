@@ -5,7 +5,7 @@ function formatMm(value) {
   return new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 1 }).format(value);
 }
 
-function screwMeasurement(group) {
+export function screwMeasurement(group) {
   if (Number.isFinite(group.length_mm)) {
     return `${group.thread}×${group.length_mm} мм`;
   }
@@ -21,7 +21,7 @@ function screwMeasurement(group) {
   return group.thread;
 }
 
-export function WallMountScrews({ model }) {
+export function WallMountScrews({ model, showCatalogLink = true }) {
   const hardware = model?.wall_mount_screws;
   if (!hardware?.groups?.length) return null;
 
@@ -122,6 +122,15 @@ export function WallMountScrews({ model }) {
           </a>
         ) : null}
       </div>
+      {showCatalogLink ? (
+        <a
+          className="mt-4 inline-flex items-center gap-2 font-semibold text-action underline underline-offset-4"
+          href="/vinty-dlya-krepleniya-televizora/"
+        >
+          Сравнить винты VESA по моделям телевизоров
+          <LinkSimple aria-hidden="true" className="shrink-0" />
+        </a>
+      ) : null}
     </section>
   );
 }

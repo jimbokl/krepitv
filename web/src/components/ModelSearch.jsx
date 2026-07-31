@@ -53,11 +53,11 @@ export function ModelSearch({
 
   return (
     <form
-      className={`relative grid gap-3 ${compact ? "lg:grid-cols-[minmax(0,1fr)_auto]" : "md:grid-cols-[minmax(0,1fr)_22rem]"}`}
+      className={`relative grid min-w-0 gap-3 ${compact ? "lg:grid-cols-[minmax(0,1fr)_auto]" : "md:grid-cols-[minmax(0,1fr)_22rem]"}`}
       onSubmit={submit}
       ref={rootRef}
     >
-      <div className="relative">
+      <div className="relative min-w-0">
         <MagnifyingGlass
           aria-hidden="true"
           className={`pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-ink ${compact ? "size-7" : "size-9"}`}
@@ -71,7 +71,7 @@ export function ModelSearch({
           aria-expanded={open}
           aria-controls="варианты-моделей"
           role="combobox"
-          className={`w-full border-2 bg-white pl-16 pr-14 font-sans text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 ${compact ? "h-[4.4rem] rounded-md border-ink text-xl" : "h-[5rem] rounded-md border-action text-2xl sm:text-3xl"}`}
+          className={`min-w-0 w-full border-2 bg-white pl-16 pr-14 font-sans text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 ${compact ? "h-[4.4rem] rounded-md border-ink text-xl" : "h-[5rem] rounded-md border-action text-2xl sm:text-3xl"}`}
           onChange={(event) => {
             onChange(event.target.value);
             onSelect?.(null);

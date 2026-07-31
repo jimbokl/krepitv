@@ -31,6 +31,12 @@ export function getModelContextPages(model, pages) {
       label: `Кронштейны для телевизоров ${Number(model.diagonal_inches)}″`,
     },
   ];
+  if (model.wall_mount_screws?.groups?.length) {
+    candidates.push({
+      id: "tv-mount-screws",
+      label: "Винты VESA по точной модели",
+    });
+  }
   if (!model.wall_mount_screws?.vesa_conflict) {
     candidates.push({
       id: `vesa-${model.vesa_width_mm}x${model.vesa_height_mm}`,
@@ -45,6 +51,16 @@ export function getModelContextPages(model, pages) {
 }
 
 function preferredRelatedIds(pageId) {
+  if (pageId === "tv-mount-screws") {
+    return [
+      "vesa",
+      "how-to-find-vesa",
+      "mounting-map",
+      "wall-mounted-tv",
+      "buy-tv-mount",
+      "fixed-mount",
+    ];
+  }
   if (pageId.startsWith("mount-brand-")) {
     return [
       "buy-tv-mount",
@@ -98,15 +114,15 @@ function preferredRelatedIds(pageId) {
 
   const groups = {
     "wall-mounted-tv": ["mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height"],
-    "mounting-map": ["tv-zone-sockets", "wall-mounted-tv", "mounting-height", "vesa", "how-to-find-vesa"],
+    "mounting-map": ["tv-mount-screws", "tv-zone-sockets", "wall-mounted-tv", "mounting-height", "vesa", "how-to-find-vesa"],
     "tv-zone-sockets": ["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
-    vesa: ["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
+    vesa: ["tv-mount-screws", "wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
     "fixed-mount": ["buy-tv-mount", "wall-mounted-tv", "tilt-mount", "full-motion-mount", "mounting-height"],
     "tilt-mount": ["buy-tv-mount", "mounting-height", "mounting-map", "wall-mounted-tv", "fixed-mount", "full-motion-mount"],
     "full-motion-mount": ["extendable-mount", "buy-tv-mount", "wall-mounted-tv", "fixed-mount", "tilt-mount", "mounting-height"],
     "buy-tv-mount": ["wall-mounted-tv", "extendable-mount", "mount-brand-onkron", "vesa", "fixed-mount", "tilt-mount"],
     "extendable-mount": ["buy-tv-mount", "full-motion-mount", "wall-mounted-tv", "mount-brand-onkron", "vesa", "mounting-map"],
-    "how-to-find-vesa": ["vesa", "vesa-200x200", "vesa-300x200"],
+    "how-to-find-vesa": ["tv-mount-screws", "vesa", "vesa-200x200", "vesa-300x200"],
     "mounting-height": ["mounting-map", "tilt-mount", "tv-zone-sockets", "wall-mounted-tv", "viewing-distance", "diagonal-55"],
     "viewing-distance": ["mounting-height", "diagonal-55", "full-motion-mount"],
   };

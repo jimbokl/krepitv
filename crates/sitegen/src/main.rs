@@ -855,7 +855,7 @@ fn models_catalog_body(models: &[TvModel]) -> String {
         .collect::<Vec<_>>();
     let items = brand_catalog_html(items, "Моделей", "div", "border-b border-line");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные модели с подтверждёнными VESA, массой без подставки и источником. На каждой странице показаны кронштейны, прошедшие единый Rust-расчёт.</p><nav class=\"mt-9\" aria-label=\"Модели телевизоров\">{items}</nav></article>"
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные модели с подтверждёнными VESA, массой без подставки и источником. На каждой странице показаны кронштейны, прошедшие единый Rust-расчёт.</p><aside class=\"mt-7 grid gap-4 border-2 border-ink bg-white p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><p class=\"mt-1 font-display text-2xl font-extrabold\">Какие винты нужны для крепления телевизора</p><p class=\"mt-2 max-w-2xl text-sm leading-relaxed text-muted\">Поиск по точной модели: M6 или M8, количество, длина либо допустимая глубина и официальное руководство.</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/vinty-dlya-krepleniya-televizora/\">Подобрать винты →</a></aside><nav class=\"mt-9\" aria-label=\"Модели телевизоров\">{items}</nav></article>"
     ))
 }
 
@@ -985,7 +985,7 @@ fn wall_mount_screws_html(tv: &TvModel) -> String {
     };
 
     format!(
-        "<section class=\"mt-6 border-2 border-ink bg-white p-5\" aria-labelledby=\"wall-mount-screws-title\" data-wall-mount-screws=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Паспорт настенного монтажа</p><h2 id=\"wall-mount-screws-title\" class=\"mt-2 font-display text-3xl font-extrabold\">Какие винты нужны для {title}</h2>{conflict}<dl class=\"mt-4 border-b border-line\">{groups}</dl>{adapters}{required_parts}<p class=\"mt-4 text-sm leading-relaxed text-muted\">{note}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\"><strong class=\"text-ink\">Важно:</strong> {warning}</p><div class=\"mt-4 grid gap-2\"><a class=\"inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">{source_label} · регион: {source_region} · проверено {checked_at}</a>{secondary_source}</div></section>",
+        "<section class=\"mt-6 border-2 border-ink bg-white p-5\" aria-labelledby=\"wall-mount-screws-title\" data-wall-mount-screws=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Паспорт настенного монтажа</p><h2 id=\"wall-mount-screws-title\" class=\"mt-2 font-display text-3xl font-extrabold\">Какие винты нужны для {title}</h2>{conflict}<dl class=\"mt-4 border-b border-line\">{groups}</dl>{adapters}{required_parts}<p class=\"mt-4 text-sm leading-relaxed text-muted\">{note}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\"><strong class=\"text-ink\">Важно:</strong> {warning}</p><div class=\"mt-4 grid gap-2\"><a class=\"inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">{source_label} · регион: {source_region} · проверено {checked_at}</a>{secondary_source}</div><a class=\"mt-4 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/vinty-dlya-krepleniya-televizora/\">Сравнить винты VESA по моделям телевизоров →</a></section>",
         title = escape_html(&tv.title),
         conflict = conflict,
         groups = groups,
@@ -1065,6 +1065,12 @@ fn model_page_body(
             format!("Кронштейны для телевизоров {}″", tv.diagonal_inches),
         ),
     ];
+    if tv.wall_mount_screws.is_some() {
+        context_candidates.push((
+            "tv-mount-screws".to_string(),
+            "Винты VESA по точной модели".to_string(),
+        ));
+    }
     if vesa_conflict.is_none() {
         context_candidates.push((
             format!("vesa-{}x{}", tv.vesa_width_mm, tv.vesa_height_mm),
@@ -1268,7 +1274,16 @@ fn mount_page_body(
 }
 
 fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPage> {
-    let preferred_ids: &[&str] = if page.kind == "mount-brand" {
+    let preferred_ids: &[&str] = if page.id == "tv-mount-screws" {
+        &[
+            "vesa",
+            "how-to-find-vesa",
+            "mounting-map",
+            "wall-mounted-tv",
+            "buy-tv-mount",
+            "fixed-mount",
+        ]
+    } else if page.kind == "mount-brand" {
         &[
             "buy-tv-mount",
             "extendable-mount",
@@ -1324,6 +1339,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "mounting-height",
             ],
             "mounting-map" => &[
+                "tv-mount-screws",
                 "tv-zone-sockets",
                 "wall-mounted-tv",
                 "mounting-height",
@@ -1331,7 +1347,12 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "how-to-find-vesa",
             ],
             "tv-zone-sockets" => &["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
-            "vesa" => &["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
+            "vesa" => &[
+                "tv-mount-screws",
+                "wall-mounted-tv",
+                "how-to-find-vesa",
+                "vesa-200x200",
+            ],
             "fixed-mount" => &[
                 "buy-tv-mount",
                 "wall-mounted-tv",
@@ -1371,7 +1392,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "vesa",
                 "mounting-map",
             ],
-            "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
+            "how-to-find-vesa" => &["tv-mount-screws", "vesa", "vesa-200x200", "vesa-300x200"],
             "mounting-height" => &[
                 "mounting-map",
                 "tilt-mount",
@@ -1809,6 +1830,96 @@ fn seo_mechanism_catalog_html(
     )
 }
 
+fn seo_screw_catalog_html(models: &[TvModel]) -> String {
+    let screw_models = models
+        .iter()
+        .filter(|model| {
+            model
+                .wall_mount_screws
+                .as_ref()
+                .is_some_and(|hardware| !hardware.groups.is_empty())
+        })
+        .collect::<Vec<_>>();
+    let brand_count = screw_models
+        .iter()
+        .map(|model| model.brand.as_str())
+        .collect::<HashSet<_>>()
+        .len();
+    let mut threads = screw_models
+        .iter()
+        .flat_map(|model| {
+            model
+                .wall_mount_screws
+                .as_ref()
+                .into_iter()
+                .flat_map(|hardware| hardware.groups.iter())
+                .map(|group| group.thread.clone())
+        })
+        .collect::<HashSet<_>>()
+        .into_iter()
+        .collect::<Vec<_>>();
+    threads.sort();
+
+    let rows = screw_models
+        .iter()
+        .map(|model| {
+            let hardware = model
+                .wall_mount_screws
+                .as_ref()
+                .expect("Модель отфильтрована по паспорту винтов");
+            let conflict = hardware
+                .vesa_conflict
+                .as_ref()
+                .map(|_| {
+                    "<p class=\"mt-3 text-sm font-semibold text-action\">VESA расходится в официальных источниках — перед монтажом нужен замер.</p>"
+                })
+                .unwrap_or_default();
+            let adapters = if hardware.requires_adapters == Some(true) {
+                "<p class=\"mt-2 text-sm font-semibold text-technical\">Нужны показанные в руководстве адаптеры VESA.</p>"
+            } else {
+                ""
+            };
+            let required_parts = hardware
+                .required_parts_note
+                .as_ref()
+                .map(|note| {
+                    format!(
+                        "<p class=\"mt-2 text-sm leading-relaxed text-muted\">{}</p>",
+                        escape_html(note)
+                    )
+                })
+                .unwrap_or_default();
+            let summary = wall_mount_screws_summary(hardware);
+            (
+                model.brand.clone(),
+                format!(
+                    "<article class=\"grid gap-4 border-b border-line py-5 lg:grid-cols-[minmax(0,1fr)_minmax(15rem,0.7fr)] lg:items-start\"><div><a class=\"font-display text-2xl font-extrabold\" href=\"/modeli/{id}/\">{title}</a><p class=\"mt-1 text-sm text-muted\">VESA {vesa_w}×{vesa_h} мм</p><p class=\"mt-3 font-semibold leading-relaxed\">{summary}</p>{conflict}{adapters}{required_parts}</div><div class=\"grid gap-3 lg:justify-items-end lg:text-right\"><a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{source_url}\" rel=\"noreferrer\" target=\"_blank\">Официальное руководство</a><span class=\"font-mono text-xs uppercase text-muted\">{source_region} · проверено {checked_at}</span><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">Совместимые кронштейны →</a></div></article>",
+                    id = escape_html(&model.id),
+                    title = escape_html(&model.title),
+                    vesa_w = model.vesa_width_mm,
+                    vesa_h = model.vesa_height_mm,
+                    summary = escape_html(&summary),
+                    conflict = conflict,
+                    adapters = adapters,
+                    required_parts = required_parts,
+                    source_url = escape_html(&hardware.source_url),
+                    source_region = escape_html(&hardware.source_region),
+                    checked_at = escape_html(&hardware.checked_at),
+                ),
+            )
+        })
+        .collect::<Vec<_>>();
+    let catalog = brand_catalog_html(rows, "Моделей", "div", "border-t border-line");
+
+    format!(
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"screw-catalog-title\" data-screw-catalog=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатная проверка без регистрации</p><h2 id=\"screw-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Винты VESA по точной модели</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">База показывает только подтверждённые официальным руководством резьбу, количество, длину или допустимую глубину и обязательные вставки. Данные похожей серии не переносятся.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённая резьба</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{threads}</dd></div></dl><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Все проверенные модели</h3>{catalog}</div></section>",
+        model_count = screw_models.len(),
+        brand_count = brand_count,
+        threads = escape_html(&threads.join(" · ")),
+        catalog = catalog,
+    )
+}
+
 fn seo_catalog_html(
     page: &SeoPage,
     models: &[TvModel],
@@ -1820,6 +1931,7 @@ fn seo_catalog_html(
             seo_mechanism_catalog_html(page, mounts, graph)
         }
         "vesa" | "diagonal" | "brand" => seo_model_catalog_html(page, models, graph),
+        "screws" => seo_screw_catalog_html(models),
         _ => String::new(),
     }
 }
@@ -2836,8 +2948,8 @@ mod tests {
         is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
         model_mount_matches, model_page_body, mount_page_body, mounts_catalog_body,
         parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, tv_product_json_ld, validate_commercial_profiles,
-        wall_mount_screws_html, workspace_root,
+        seo_calculator_note, seo_catalog_html, seo_screw_catalog_html, tv_product_json_ld,
+        validate_commercial_profiles, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -2991,6 +3103,17 @@ mod tests {
         assert!(html.contains("2 шт. · M6×12 мм"));
         assert!(html.contains("не глубина резьбового отверстия"));
         assert!(html.contains("регион: Россия"));
+        assert!(html.contains("href=\"/vinty-dlya-krepleniya-televizora/\""));
+
+        let catalog_html = seo_screw_catalog_html(&models);
+        assert!(catalog_html.contains("data-screw-catalog=\"true\""));
+        assert!(catalog_html.contains(
+            "Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">26"
+        ));
+        assert_eq!(catalog_html.matches("<details").count(), 3);
+        assert_eq!(catalog_html.matches("Совместимые кронштейны →").count(), 26);
+        assert!(catalog_html.contains(&hardware.source_url));
+        assert!(!catalog_html.contains("market.yandex.ru"));
 
         let c7l_html = wall_mount_screws_html(model("tcl-55c7l"));
         assert!(c7l_html.contains("4 шт. · M6×20 мм"));

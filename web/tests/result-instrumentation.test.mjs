@@ -25,6 +25,16 @@ test("каждый калькулятор фиксирует ровно один
   }
 });
 
+test("подбор винтов фиксирует результат без модели и пользовательского ввода", async () => {
+  const code = await source("components/TvMountScrewCatalog.jsx");
+  const eventBlock = code.match(/emitResultCompleted\(window, \{([\s\S]*?)\n    \}\);/);
+  assert.ok(eventBlock, "screw lookup result event is present");
+  assert.match(eventBlock[1], /toolId: "screw_lookup"/);
+  assert.match(eventBlock[1], /resultType: "mount_screws_found"/);
+  assert.match(eventBlock[1], /resultCount: model\.wall_mount_screws\.groups\.length/);
+  assert.doesNotMatch(eventBlock[1], /modelId|model\.id|query|thread/i);
+});
+
 test("согласие доступно на обычных и двух нестандартных входных страницах", async () => {
   for (const pathname of [
     "components/SiteHeader.jsx",

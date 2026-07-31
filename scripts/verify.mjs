@@ -1123,6 +1123,44 @@ for (const page of seoPages) {
   }
 }
 
+const screwLookupPage = seoPages.find((page) => page.id === "tv-mount-screws");
+if (
+  !screwLookupPage
+  || screwLookupPage.path !== "/vinty-dlya-krepleniya-televizora/"
+  || screwLookupPage.kind !== "screws"
+  || screwLookupPage.indexable !== true
+) {
+  throw new Error("Нет единой индексируемой страницы подбора винтов по точной модели");
+}
+const screwModels = models.filter((model) => model.wall_mount_screws?.groups?.length);
+if (screwModels.length !== 26) {
+  throw new Error(`Ожидалось 26 официальных паспортов винтов, получено ${screwModels.length}`);
+}
+const screwLookupHtml = htmlByRoute.get(screwLookupPage.path) ?? "";
+if (!screwLookupHtml.includes('data-screw-catalog="true"') || !screwLookupHtml.includes("<details")) {
+  throw new Error("Страница подбора винтов не содержит самостоятельный сворачиваемый каталог");
+}
+for (const model of screwModels) {
+  const modelRoute = `/modeli/${model.id}/`;
+  if (
+    !screwLookupHtml.includes(`href="${modelRoute}"`)
+    || !screwLookupHtml.includes(escapeHtmlText(model.wall_mount_screws.source_url))
+  ) {
+    throw new Error(`Страница винтов не содержит модель и официальный источник: ${model.id}`);
+  }
+  const modelHtml = htmlByRoute.get(modelRoute) ?? "";
+  if (!modelHtml.includes('href="/vinty-dlya-krepleniya-televizora/"')) {
+    throw new Error(`Нет обратной ссылки из паспорта винтов модели: ${model.id}`);
+  }
+}
+const screwCatalogOutsideDetails = screwLookupHtml.replace(/<details\b[\s\S]*?<\/details>/gi, "");
+if (screwModels.some((model) => screwCatalogOutsideDetails.includes(`href="/modeli/${model.id}/"`))) {
+  throw new Error("Длинный список моделей винтов выведен вне сворачиваемых брендов");
+}
+if (screwLookupHtml.includes("market.yandex.ru")) {
+  throw new Error("Технический справочник винтов не должен быть партнёрской витриной");
+}
+
 function hasVerifiedModel(modelId) {
   return compatibilityEdges.some(
     (edge) => edge.tv_id === modelId && edge.compatible && edge.fit_status === "verified-fit",

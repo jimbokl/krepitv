@@ -85,6 +85,47 @@ test("model context suppresses a single VESA hub when official sources conflict"
   );
 });
 
+test("model with an official screw passport links to the shared screw lookup", () => {
+  const model = {
+    brand: "Samsung",
+    diagonal_inches: 43,
+    vesa_width_mm: 200,
+    vesa_height_mm: 200,
+    wall_mount_screws: {
+      groups: [{ thread: "M8", quantity: 4 }],
+    },
+  };
+  const catalog = [
+    { id: "brand-samsung", path: "/kronshteyn-dlya-televizora-samsung/", indexable: true },
+    { id: "diagonal-43", path: "/kronshteyn-dlya-televizora-43-dyuyma/", indexable: true },
+    { id: "tv-mount-screws", path: "/vinty-dlya-krepleniya-televizora/", indexable: true },
+    { id: "vesa-200x200", path: "/vesa/200x200/", indexable: true },
+  ];
+
+  assert.deepEqual(getModelContextPages(model, catalog), [
+    {
+      id: "brand-samsung",
+      label: "Кронштейны для телевизоров Samsung",
+      path: "/kronshteyn-dlya-televizora-samsung/",
+    },
+    {
+      id: "diagonal-43",
+      label: "Кронштейны для телевизоров 43″",
+      path: "/kronshteyn-dlya-televizora-43-dyuyma/",
+    },
+    {
+      id: "tv-mount-screws",
+      label: "Винты VESA по точной модели",
+      path: "/vinty-dlya-krepleniya-televizora/",
+    },
+    {
+      id: "vesa-200x200",
+      label: "Модели с VESA 200×200",
+      path: "/vesa/200x200/",
+    },
+  ]);
+});
+
 test("master page leads to the compatibility chain before generic calculators", () => {
   const catalog = [
     { id: "wall-mounted-tv", kind: "calculator", indexable: true },
@@ -161,5 +202,22 @@ test("VESA matcher stays on the VESA hub and links to measurement guidance", () 
   assert.deepEqual(
     getRelatedPages(catalog[0], catalog).map((page) => page.id),
     ["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
+  );
+});
+
+test("screw lookup leads to VESA, measurement and mounting checks", () => {
+  const catalog = [
+    { id: "tv-mount-screws", kind: "screws", indexable: true },
+    { id: "vesa", kind: "guide", indexable: true },
+    { id: "how-to-find-vesa", kind: "guide", indexable: true },
+    { id: "mounting-map", kind: "guide", indexable: true },
+    { id: "wall-mounted-tv", kind: "calculator", indexable: true },
+    { id: "buy-tv-mount", kind: "commercial", indexable: true },
+    { id: "fixed-mount", kind: "mechanism", indexable: true },
+  ];
+
+  assert.deepEqual(
+    getRelatedPages(catalog[0], catalog).map((page) => page.id),
+    ["vesa", "how-to-find-vesa", "mounting-map", "wall-mounted-tv", "buy-tv-mount", "fixed-mount"],
   );
 });

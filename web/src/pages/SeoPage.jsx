@@ -17,6 +17,7 @@ import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TiltAngleCalculator } from "../components/TiltAngleCalculator.jsx";
 import { TurnClearanceCalculator } from "../components/TurnClearanceCalculator.jsx";
+import { TvMountScrewCatalog } from "../components/TvMountScrewCatalog.jsx";
 import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx";
 import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
@@ -36,6 +37,7 @@ const kindLabels = {
   mechanism: "Типы кронштейнов",
   commercial: "Сравнение кронштейнов",
   calculator: "Расчёт установки",
+  screws: "Подбор винтов VESA",
 };
 
 const buyMountShortlist = [
@@ -56,7 +58,8 @@ function SeoArticle({ catalog, page }) {
   const [query, setQuery] = useState("");
   const prioritizesBrandComparison = page.id === "mount-brand-onkron";
   const prioritizesBuyComparison = page.id === "buy-tv-mount";
-  const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id)
+  const prioritizesScrewLookup = page.id === "tv-mount-screws";
+  const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa", "tv-mount-screws"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
   const relatedPages = useMemo(
@@ -147,8 +150,12 @@ function SeoArticle({ catalog, page }) {
         {page.id === "mounting-map" ? <MountingMapCalculator /> : null}
         {page.id === "tv-zone-sockets" ? <TvZoneSocketCalculator /> : null}
         {page.id === "vesa" ? <VesaMatchCalculator /> : null}
+        {prioritizesScrewLookup ? (
+          <TvMountScrewCatalog models={catalog.models} search={catalog.search} />
+        ) : null}
 
-        <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
+        {!prioritizesScrewLookup ? (
+          <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
           <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-end">
             <div>
               <h2 className="font-display text-3xl font-bold" id="seo-model-search">
@@ -167,7 +174,8 @@ function SeoArticle({ catalog, page }) {
               value={query}
             />
           </div>
-        </section>
+          </section>
+        ) : null}
 
         {prioritizesBuyComparison ? (
           <>
@@ -195,11 +203,11 @@ function SeoArticle({ catalog, page }) {
               </div>
             </section>
 
-            {!prioritizesBrandComparison ? (
+            {!prioritizesBrandComparison && !prioritizesScrewLookup ? (
               <CatalogEvidence items={catalogItems} page={page} />
             ) : null}
 
-            {!prioritizesBrandComparison && !prioritizesBuyComparison ? (
+            {!prioritizesBrandComparison && !prioritizesBuyComparison && !prioritizesScrewLookup ? (
               <SeoHubOffers offers={affiliateOffers} page={page} />
             ) : null}
 
