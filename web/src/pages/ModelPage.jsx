@@ -16,6 +16,7 @@ import { ModelSearch } from "../components/ModelSearch.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TrustMark, formatCheckedDate } from "../components/TrustMark.jsx";
+import { WallMountScrews } from "../components/WallMountScrews.jsx";
 import { mountHref } from "../lib/catalog.js";
 import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
 import { selectModelAffiliateOffers } from "../lib/modelAffiliateOffers.mjs";
@@ -86,6 +87,7 @@ export function ModelPage({ catalog, modelId }) {
               Технические характеристики телевизора
             </h2>
             <ModelFacts detailed model={model} />
+            <WallMountScrews model={model} />
 
             {contextPages.length ? (
               <nav className="mt-5 border-y border-line" aria-label="Связанные подборы">

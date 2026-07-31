@@ -40,7 +40,7 @@ function offer(entityId, rank) {
   };
 }
 
-test("финальный React DOM ставит проверенный каталог раньше трёх безопасных CTA", async () => {
+test("финальный React DOM ставит короткое сравнение и три CTA раньше полного каталога", async () => {
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
   const vite = await createServer({
     root,
@@ -62,6 +62,7 @@ test("финальный React DOM ставит проверенный ката�
       max_diagonal_in: 75,
       wall_distance_min_mm: 50,
       wall_distance_max_mm: 400,
+      vesa: ["100x100", "200x200", "300x300", "400x400"],
       source_url: `https://example.com/${id}`,
     }));
     const page = {
@@ -106,8 +107,16 @@ test("финальный React DOM ставит проверенный ката�
       React.createElement(SeoPage, { catalog, page, requestedPath: page.path }),
     );
 
-    assert.ok(html.indexOf("Кронштейны из проверенного каталога") < html.indexOf("data-affiliate-hub"));
-    assert.ok(html.indexOf("data-affiliate-hub") < html.indexOf("Частые вопросы"));
+    assert.ok(html.indexOf("data-buy-mount-comparison=\"true\"") < html.indexOf("data-affiliate-hub"));
+    assert.ok(html.indexOf("data-affiliate-hub") < html.indexOf("Кронштейны из проверенного каталога"));
+    assert.ok(html.indexOf("Кронштейны из проверенного каталога") < html.indexOf("Частые вопросы"));
+    assert.equal((html.match(/data-buy-mount-comparison-item=/g) ?? []).length, 3);
+    assert.equal(html.includes("Наклонный · экран ближе к стене"), true);
+    assert.equal(html.includes("Поворотно-выдвижной · для диагоналей до 55″"), true);
+    assert.equal(html.includes("Для больших диагоналей · VESA до 600×400"), true);
+    for (const id of ids) {
+      assert.equal(html.includes(`data-buy-mount-comparison-item="${id}"`), true);
+    }
     assert.equal((html.match(/data-affiliate-mode="non_ad_storefront"/g) ?? []).length, 4);
     assert.equal((html.match(/data-affiliate-mode="advertising"/g) ?? []).length, 2);
     assert.equal((html.match(/data-erid="eridHubFixture123"/g) ?? []).length, 2);

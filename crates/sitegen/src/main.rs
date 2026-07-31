@@ -9,6 +9,14 @@ use std::time::{SystemTime, UNIX_EPOCH};
 const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
 const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
 const CORE_PAGES_UPDATED_AT: &str = "2026-07-31";
+const BUY_MOUNT_SHORTLIST: [(&str, &str); 3] = [
+    ("itech-plb440nt", "Наклонный · экран ближе к стене"),
+    (
+        "itech-ptrb440ln",
+        "Поворотно-выдвижной · для диагоналей до 55″",
+    ),
+    ("itech-slt-460", "Для больших диагоналей · VESA до 600×400"),
+];
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -25,9 +33,31 @@ struct TvModel {
     depth_mm: f64,
     vesa_width_mm: u32,
     vesa_height_mm: u32,
+    wall_mount_screws: Option<WallMountScrews>,
     source_url: String,
     source_label: String,
     checked_at: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct WallMountScrews {
+    groups: Vec<WallMountScrewGroup>,
+    requires_adapters: bool,
+    source_region: String,
+    source_url: String,
+    source_label: String,
+    checked_at: String,
+    note: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct WallMountScrewGroup {
+    location: String,
+    thread: String,
+    length_mm: u32,
+    quantity: u32,
 }
 
 #[derive(Debug, Serialize)]
@@ -402,7 +432,40 @@ fn breadcrumb_json_ld(items: &[(&str, &str)]) -> String {
     }))
 }
 
+fn wall_mount_screws_summary(hardware: &WallMountScrews) -> String {
+    hardware
+        .groups
+        .iter()
+        .map(|group| {
+            if hardware.groups.len() == 1 {
+                format!("{} × {}×{}", group.quantity, group.thread, group.length_mm)
+            } else {
+                format!(
+                    "{}: {} × {}×{}",
+                    group.location, group.quantity, group.thread, group.length_mm
+                )
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("; ")
+}
+
 fn tv_product_json_ld(tv: &TvModel, canonical: &str) -> String {
+    let mut properties = vec![
+        json!({ "@type": "PropertyValue", "name": "VESA", "value": format!("{}×{} мм", tv.vesa_width_mm, tv.vesa_height_mm) }),
+        json!({ "@type": "PropertyValue", "name": "Серия", "value": tv.series }),
+        json!({ "@type": "PropertyValue", "name": "Модельный год", "value": tv.model_year }),
+        json!({ "@type": "PropertyValue", "name": "Диагональ", "value": format!("{} дюймов", tv.diagonal_inches) }),
+        json!({ "@type": "PropertyValue", "name": "Масса без подставки", "value": format!("{} кг", tv.weight_kg) }),
+    ];
+    if let Some(hardware) = &tv.wall_mount_screws {
+        properties.push(json!({
+            "@type": "PropertyValue",
+            "name": "Винты VESA по руководству",
+            "value": wall_mount_screws_summary(hardware)
+        }));
+    }
+
     json_ld_script(json!({
         "@context": "https://schema.org",
         "@type": "Product",
@@ -411,13 +474,7 @@ fn tv_product_json_ld(tv: &TvModel, canonical: &str) -> String {
         "url": canonical,
         "category": "Телевизоры",
         "brand": { "@type": "Brand", "name": tv.brand },
-        "additionalProperty": [
-            { "@type": "PropertyValue", "name": "VESA", "value": format!("{}×{} мм", tv.vesa_width_mm, tv.vesa_height_mm) },
-            { "@type": "PropertyValue", "name": "Серия", "value": tv.series },
-            { "@type": "PropertyValue", "name": "Модельный год", "value": tv.model_year },
-            { "@type": "PropertyValue", "name": "Диагональ", "value": format!("{} дюймов", tv.diagonal_inches) },
-            { "@type": "PropertyValue", "name": "Масса без подставки", "value": format!("{} кг", tv.weight_kg) }
-        ]
+        "additionalProperty": properties
     }))
 }
 
@@ -778,6 +835,42 @@ fn mounts_catalog_body(mounts: &[Mount]) -> String {
     ))
 }
 
+fn wall_mount_screws_html(tv: &TvModel) -> String {
+    let Some(hardware) = &tv.wall_mount_screws else {
+        return String::new();
+    };
+    let groups = hardware
+        .groups
+        .iter()
+        .map(|group| {
+            format!(
+                "<div class=\"border-t border-line py-3\"><dt class=\"font-mono text-xs uppercase text-muted\">{location}</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{quantity} шт. · {thread}×{length} мм</dd></div>",
+                location = escape_html(&group.location),
+                quantity = group.quantity,
+                thread = escape_html(&group.thread),
+                length = group.length_mm,
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    let adapters = if hardware.requires_adapters {
+        "<p class=\"mt-4 border-l-2 border-action pl-4 font-semibold\">Для этой модели руководство требует использовать показанные адаптеры VESA.</p>"
+    } else {
+        ""
+    };
+
+    format!(
+        "<section class=\"mt-6 border-2 border-ink bg-white p-5\" aria-labelledby=\"wall-mount-screws-title\" data-wall-mount-screws=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Паспорт настенного монтажа</p><h2 id=\"wall-mount-screws-title\" class=\"mt-2 font-display text-3xl font-extrabold\">Какие винты нужны для {title}</h2><dl class=\"mt-4 border-b border-line\">{groups}</dl>{adapters}<p class=\"mt-4 text-sm leading-relaxed text-muted\">{note}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\"><strong class=\"text-ink\">Важно:</strong> это паспортный размер винта, а не глубина резьбового отверстия. Не увеличивайте длину по аналогии; учитывайте только схему и проставки из руководств телевизора и кронштейна.</p><a class=\"mt-4 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">{source_label} · регион: {source_region}</a></section>",
+        title = escape_html(&tv.title),
+        groups = groups,
+        adapters = adapters,
+        note = escape_html(&hardware.note),
+        source = escape_html(&hardware.source_url),
+        source_label = escape_html(&hardware.source_label),
+        source_region = escape_html(&hardware.source_region),
+    )
+}
+
 fn model_page_body(
     tv: &TvModel,
     matches: &[MountMatch],
@@ -866,9 +959,10 @@ fn model_page_body(
     let commercial_section = commercial_profile
         .map(commercial_profile_html)
         .unwrap_or_default();
+    let wall_mount_screws = wall_mount_screws_html(tv);
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl>{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = tv.model_year,
@@ -1262,6 +1356,49 @@ fn seo_mount_comparison_card(mount: &Mount, graph: &[CompatibilityEdge]) -> Stri
     )
 }
 
+fn seo_buy_mount_comparison_html(
+    page: &SeoPage,
+    mounts: &[Mount],
+    graph: &[CompatibilityEdge],
+) -> String {
+    if page.id != "buy-tv-mount" {
+        return String::new();
+    }
+
+    let cards = BUY_MOUNT_SHORTLIST
+        .iter()
+        .filter_map(|(mount_id, scenario)| {
+            mounts
+                .iter()
+                .find(|mount| mount.id == *mount_id && is_indexable_mount(&mount.id, graph))
+                .map(|mount| {
+                    format!(
+                        "<article class=\"grid gap-4 border-t border-line py-5 lg:grid-cols-[minmax(12rem,1.25fr)_minmax(8rem,0.75fr)_minmax(8rem,0.7fr)_minmax(9rem,0.85fr)_auto] lg:items-center\" data-buy-mount-comparison-item=\"{id}\"><div><p class=\"font-mono text-xs uppercase leading-relaxed text-action\">{scenario}</p><a class=\"mt-1 font-display text-2xl font-extrabold underline decoration-action decoration-2 underline-offset-4\" href=\"/kronshteyny/{id}/\">{title}</a><p class=\"mt-1 text-sm text-muted\">{mechanism} механизм</p></div><dl class=\"text-sm\"><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-semibold\">{min_diagonal}–{max_diagonal}″</dd></dl><dl class=\"text-sm\"><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-semibold\">до {load} кг</dd></dl><dl class=\"text-sm\"><dt class=\"font-mono text-xs uppercase text-muted\">От стены</dt><dd class=\"mt-1 font-semibold\">{extension}</dd></dl><a class=\"font-semibold text-action\" href=\"/kronshteyny/{id}/\">Проверить VESA →</a><details class=\"lg:col-span-5\"><summary class=\"cursor-pointer font-mono text-xs uppercase text-technical\">{vesa_count} точных схем VESA +</summary><p class=\"mt-3 font-mono text-xs leading-6 text-muted\">{vesa}</p></details></article>",
+                        id = escape_html(&mount.id),
+                        scenario = escape_html(scenario),
+                        title = escape_html(&mount.title),
+                        mechanism = escape_html(mechanism_label(&mount.mechanism)),
+                        min_diagonal = mount.min_diagonal_in,
+                        max_diagonal = mount.max_diagonal_in,
+                        load = mount.max_load_kg,
+                        extension = escape_html(&mount_extension_label(mount)),
+                        vesa_count = mount.vesa.len(),
+                        vesa = escape_html(&formatted_vesa_list(mount)),
+                    )
+                })
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    if cards.is_empty() {
+        return String::new();
+    }
+
+    format!(
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"buy-mount-comparison-title\" data-buy-mount-comparison=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Короткий список перед покупкой</p><h2 id=\"buy-mount-comparison-title\" class=\"mt-2 font-display text-3xl font-extrabold\">Три разных сценария, а не три одинаковые карточки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Сначала найдите точную модель телевизора. Затем сравните подходящий механизм, расстояние от стены, нагрузку и явную пару VESA — только после этого открывайте предложение на Маркете.</p><div class=\"mt-5 border-b-2 border-ink\">{cards}</div></section>"
+    )
+}
+
 fn seo_model_catalog_html(
     page: &SeoPage,
     models: &[TvModel],
@@ -1563,6 +1700,7 @@ fn seo_page_body(
         .collect::<Vec<_>>()
         .join("\n");
     let calculator_note = seo_calculator_note(&page.id);
+    let buy_mount_comparison = seo_buy_mount_comparison_html(page, mounts, graph);
     let catalog = seo_catalog_html(page, models, mounts, graph);
     let related_links = related_seo_pages(page, pages)
         .iter()
@@ -1577,7 +1715,7 @@ fn seo_page_body(
         .join("\n");
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>{catalog}{calculator_note}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section><p><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>{buy_mount_comparison}{catalog}{calculator_note}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section><p><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
         h1 = escape_html(&page.h1),
         lead = escape_html(&page.lead),
     ))
@@ -1674,6 +1812,39 @@ fn validate_models(models: &[TvModel]) {
             "Не указан VESA для {}",
             tv.id
         );
+        if let Some(hardware) = &tv.wall_mount_screws {
+            assert!(
+                !hardware.groups.is_empty()
+                    && hardware.groups.len() <= 4
+                    && hardware
+                        .groups
+                        .iter()
+                        .map(|group| group.quantity)
+                        .sum::<u32>()
+                        == 4
+                    && !hardware.source_region.trim().is_empty()
+                    && hardware.source_url.starts_with("https://")
+                    && !hardware.source_label.trim().is_empty()
+                    && is_valid_iso_date(&hardware.checked_at)
+                    && !hardware.note.trim().is_empty(),
+                "Некорректный паспорт настенного монтажа у {}",
+                tv.id
+            );
+            let mut locations = HashSet::new();
+            for group in &hardware.groups {
+                assert!(
+                    !group.location.trim().is_empty()
+                        && locations.insert(group.location.to_lowercase())
+                        && group.thread.starts_with('M')
+                        && group.thread.len() > 1
+                        && group.thread[1..].bytes().all(|byte| byte.is_ascii_digit())
+                        && (4..=100).contains(&group.length_mm)
+                        && (1..=4).contains(&group.quantity),
+                    "Некорректная группа винтов у {}",
+                    tv.id
+                );
+            }
+        }
     }
 }
 
@@ -2429,8 +2600,9 @@ mod tests {
         commercial_profile_for, escape_html, is_indexable_model, is_indexable_mount,
         is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
         model_mount_matches, model_page_body, mount_page_body, mounts_catalog_body,
-        parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_calculator_note,
-        seo_catalog_html, validate_commercial_profiles, workspace_root,
+        parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_buy_mount_comparison_html,
+        seo_calculator_note, seo_catalog_html, tv_product_json_ld, validate_commercial_profiles,
+        wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -2509,6 +2681,58 @@ mod tests {
         assert!(!html.contains("может получить вознаграждение"));
         assert!(!html.contains("promise"));
         assert!(!html.contains("stock"));
+    }
+
+    #[test]
+    fn exact_tcl_models_keep_source_backed_wall_mount_screw_passports() {
+        let models: Vec<TvModel> = read_json(&workspace_root().join("data/tv_models.json"));
+        let sourced = models
+            .iter()
+            .filter(|model| model.wall_mount_screws.is_some())
+            .collect::<Vec<_>>();
+        assert_eq!(sourced.len(), 5);
+
+        let model = |id: &str| {
+            models
+                .iter()
+                .find(|model| model.id == id)
+                .expect("Нет точной модели с паспортом монтажа")
+        };
+        let c7k_65 = model("tcl-65c7k");
+        let hardware = c7k_65
+            .wall_mount_screws
+            .as_ref()
+            .expect("Нет данных о винтах TCL 65C7K");
+        assert_eq!(hardware.groups.len(), 2);
+        assert_eq!(hardware.groups[0].length_mm, 16);
+        assert_eq!(hardware.groups[1].length_mm, 12);
+        assert_eq!(
+            hardware
+                .groups
+                .iter()
+                .map(|group| group.quantity)
+                .sum::<u32>(),
+            4
+        );
+        let html = wall_mount_screws_html(c7k_65);
+        assert!(html.contains("Верхний ряд"));
+        assert!(html.contains("2 шт. · M6×16 мм"));
+        assert!(html.contains("Нижний ряд"));
+        assert!(html.contains("2 шт. · M6×12 мм"));
+        assert!(html.contains("не глубина резьбового отверстия"));
+        assert!(html.contains("регион: Россия"));
+
+        let c7l_html = wall_mount_screws_html(model("tcl-55c7l"));
+        assert!(c7l_html.contains("4 шт. · M6×20 мм"));
+        assert!(c7l_html.contains("требует использовать показанные адаптеры VESA"));
+
+        let international_html = wall_mount_screws_html(model("tcl-55c6k"));
+        assert!(international_html.contains("регион: Австралия"));
+        assert!(international_html.contains("сверьте руководство российского экземпляра"));
+
+        let structured = tv_product_json_ld(c7k_65, "https://krepitv.ru/modeli/tcl-65c7k/");
+        assert!(structured.contains("Винты VESA по руководству"));
+        assert!(structured.contains("Верхний ряд: 2 × M6×16; Нижний ряд: 2 × M6×12"));
     }
 
     #[test]
@@ -2609,6 +2833,27 @@ mod tests {
         for mount in &mounts {
             assert!(commercial_html.contains(&format!("/kronshteyny/{}/", mount.id)));
         }
+
+        let buy_page = page("buy-tv-mount", "commercial");
+        let shortlist_html = seo_buy_mount_comparison_html(&buy_page, &mounts, &graph);
+        assert!(shortlist_html.contains("data-buy-mount-comparison=\"true\""));
+        assert_eq!(
+            shortlist_html
+                .matches("data-buy-mount-comparison-item=")
+                .count(),
+            3
+        );
+        let mut previous_position = 0;
+        for mount_id in ["itech-plb440nt", "itech-ptrb440ln", "itech-slt-460"] {
+            let position = shortlist_html
+                .find(&format!("data-buy-mount-comparison-item=\"{mount_id}\""))
+                .expect("Кронштейн должен присутствовать в коротком сравнении");
+            assert!(position >= previous_position);
+            previous_position = position;
+        }
+        assert!(shortlist_html.contains("точных схем VESA"));
+        assert!(!shortlist_html.contains("market.yandex"));
+        assert!(seo_buy_mount_comparison_html(&page("vesa", "guide"), &mounts, &graph).is_empty());
 
         let onkron_mount = mounts
             .iter()

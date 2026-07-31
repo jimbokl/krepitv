@@ -25,6 +25,10 @@ const mountOperationalFields = [
   "max_load_kg", "vesa", "wall_distance_min_mm", "wall_distance_max_mm", "source_url",
   "source_label", "checked_at",
 ];
+const operationalModel = (row) => ({
+  ...Object.fromEntries(operationalFields.map((field) => [field, row[field]])),
+  ...(row.wall_mount_screws ? { wall_mount_screws: row.wall_mount_screws } : {}),
+});
 
 test("verified source register is the exact operational catalog source", () => {
   assert.equal(register.length, 80);
@@ -32,7 +36,7 @@ test("verified source register is the exact operational catalog source", () => {
   assert.equal(new Set(register.map((row) => row.model)).size, register.length);
   assert.deepEqual(
     catalog,
-    register.map((row) => Object.fromEntries(operationalFields.map((field) => [field, row[field]]))),
+    register.map(operationalModel),
   );
   assert.ok(register.every((row) => row.source_fact?.trim()));
   for (const id of [

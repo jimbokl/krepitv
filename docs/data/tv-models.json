@@ -823,6 +823,22 @@
     "depth_mm": 55.9,
     "vesa_width_mm": 300,
     "vesa_height_mm": 300,
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Стандартная схема VESA",
+          "thread": "M6",
+          "length_mm": 16,
+          "quantity": 4
+        }
+      ],
+      "requires_adapters": false,
+      "source_region": "Австралия",
+      "source_url": "https://www.tcl.com/content/dam/brandsite/region/australia/products/tv/c-series/c6k/downloads/55C6K_Specs.pdf",
+      "source_label": "Официальная спецификация TCL 55C6K, стр. 2",
+      "checked_at": "2026-07-31",
+      "note": "Источник относится к точной модели, но к другому региону. Перед покупкой сверьте руководство российского экземпляра."
+    },
     "source_url": "https://www.tcl.com/ru/ru/tvs/55c6k",
     "source_label": "Официальные российские характеристики TCL",
     "checked_at": "2026-07-30"
@@ -841,6 +857,22 @@
     "depth_mm": 55.9,
     "vesa_width_mm": 300,
     "vesa_height_mm": 300,
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Четыре точки VESA",
+          "thread": "M6",
+          "length_mm": 20,
+          "quantity": 4
+        }
+      ],
+      "requires_adapters": true,
+      "source_region": "Россия",
+      "source_url": "https://www.tcl.com/ru/ru/support-tv/model/55c7l",
+      "source_label": "Российское руководство TCL C7L, стр. 27",
+      "checked_at": "2026-07-31",
+      "note": "Для 55-дюймовой модели руководство требует использовать показанные адаптеры VESA."
+    },
     "source_url": "https://www.tcl.com/ru/ru/tvs/55c7l",
     "source_label": "Официальные характеристики TCL для точной модели",
     "checked_at": "2026-07-30"
@@ -859,6 +891,22 @@
     "depth_mm": 55.9,
     "vesa_width_mm": 300,
     "vesa_height_mm": 300,
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Стандартная схема VESA",
+          "thread": "M6",
+          "length_mm": 16,
+          "quantity": 4
+        }
+      ],
+      "requires_adapters": false,
+      "source_region": "Россия",
+      "source_url": "https://www.tcl.com/ru/ru/support-tv/model/55c7k",
+      "source_label": "Российское руководство TCL C7K, стр. 26",
+      "checked_at": "2026-07-31",
+      "note": "В руководстве отдельно показана альтернативная двухточечная схема шириной 700 мм. Не смешивайте её со стандартной VESA 300×300."
+    },
     "source_url": "https://www.tcl.com/ru/ru/tvs/55c7k",
     "source_label": "Официальные российские характеристики TCL",
     "checked_at": "2026-07-30"
@@ -877,6 +925,22 @@
     "depth_mm": 56.7,
     "vesa_width_mm": 300,
     "vesa_height_mm": 300,
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Стандартная схема VESA",
+          "thread": "M6",
+          "length_mm": 16,
+          "quantity": 4
+        }
+      ],
+      "requires_adapters": false,
+      "source_region": "Австралия",
+      "source_url": "https://www.tcl.com/content/dam/brandsite/region/australia/products/tv/c-series/c6k/downloads/75C6K_Specs.pdf",
+      "source_label": "Официальная спецификация TCL 75C6K, стр. 2",
+      "checked_at": "2026-07-31",
+      "note": "Источник относится к точной модели, но к другому региону. Перед покупкой сверьте руководство российского экземпляра."
+    },
     "source_url": "https://www.tcl.com/ru/ru/tvs/75c6k",
     "source_label": "Официальные российские характеристики TCL",
     "checked_at": "2026-07-30"
@@ -895,6 +959,28 @@
     "depth_mm": 56,
     "vesa_width_mm": 300,
     "vesa_height_mm": 300,
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Верхний ряд",
+          "thread": "M6",
+          "length_mm": 16,
+          "quantity": 2
+        },
+        {
+          "location": "Нижний ряд",
+          "thread": "M6",
+          "length_mm": 12,
+          "quantity": 2
+        }
+      ],
+      "requires_adapters": false,
+      "source_region": "Россия",
+      "source_url": "https://www.tcl.com/ru/ru/support-tv/model/65c7k",
+      "source_label": "Российское руководство TCL C7K, стр. 26",
+      "checked_at": "2026-07-31",
+      "note": "Длины верхнего и нижнего ряда различаются. В руководстве отдельно показана альтернативная двухточечная схема шириной 800 мм; не смешивайте схемы."
+    },
     "source_url": "https://www.tcl.com/ru/ru/tvs/65c7k",
     "source_label": "Официальные российские характеристики TCL",
     "checked_at": "2026-07-30"

@@ -38,6 +38,12 @@ const kindLabels = {
   calculator: "Расчёт установки",
 };
 
+const buyMountShortlist = [
+  ["itech-plb440nt", "Наклонный · экран ближе к стене"],
+  ["itech-ptrb440ln", "Поворотно-выдвижной · для диагоналей до 55″"],
+  ["itech-slt-460", "Для больших диагоналей · VESA до 600×400"],
+];
+
 export function SeoPage({ catalog, page, requestedPath }) {
   if (!page) {
     return <SeoNotFound catalog={catalog} requestedPath={requestedPath} />;
@@ -49,6 +55,7 @@ export function SeoPage({ catalog, page, requestedPath }) {
 function SeoArticle({ catalog, page }) {
   const [query, setQuery] = useState("");
   const prioritizesBrandComparison = page.id === "mount-brand-onkron";
+  const prioritizesBuyComparison = page.id === "buy-tv-mount";
   const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
@@ -68,6 +75,16 @@ function SeoArticle({ catalog, page }) {
     ),
     [catalog.hubAffiliateOffers, catalogItems, page],
   );
+  const buyComparisonItems = useMemo(() => {
+    if (!prioritizesBuyComparison) return [];
+    const mountsById = new Map(catalog.mounts.map((mount) => [mount.id, mount]));
+    return buyMountShortlist
+      .map(([id, scenario]) => {
+        const mount = mountsById.get(id);
+        return mount ? { ...mount, scenario } : null;
+      })
+      .filter(Boolean);
+  }, [catalog.mounts, prioritizesBuyComparison]);
 
   usePageMetadata(page.title, page.description, page.path);
 
@@ -152,6 +169,13 @@ function SeoArticle({ catalog, page }) {
           </div>
         </section>
 
+        {prioritizesBuyComparison ? (
+          <>
+            <BuyMountComparison items={buyComparisonItems} />
+            <SeoHubOffers offers={affiliateOffers} page={page} />
+          </>
+        ) : null}
+
         <div className="grid gap-8 border-t border-ink pt-7 lg:grid-cols-[minmax(0,1fr)_22rem] xl:grid-cols-[minmax(0,1fr)_27rem]">
           <div className="min-w-0">
             <section aria-labelledby="check-title">
@@ -175,7 +199,7 @@ function SeoArticle({ catalog, page }) {
               <CatalogEvidence items={catalogItems} page={page} />
             ) : null}
 
-            {!prioritizesBrandComparison ? (
+            {!prioritizesBrandComparison && !prioritizesBuyComparison ? (
               <SeoHubOffers offers={affiliateOffers} page={page} />
             ) : null}
 
@@ -250,6 +274,67 @@ function SeoArticle({ catalog, page }) {
         </section>
       </div>
     </main>
+  );
+}
+
+function BuyMountComparison({ items }) {
+  if (!items.length) return null;
+
+  return (
+    <section
+      aria-labelledby="buy-mount-comparison-title"
+      className="border-y-2 border-ink py-8"
+      data-buy-mount-comparison="true"
+    >
+      <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
+        Короткий список перед покупкой
+      </p>
+      <h2 className="mt-2 font-display text-3xl font-bold" id="buy-mount-comparison-title">
+        Три разных сценария, а не три одинаковые карточки
+      </h2>
+      <p className="mt-3 max-w-3xl leading-relaxed text-muted">
+        Сначала найдите точную модель телевизора. Затем сравните подходящий механизм,
+        расстояние от стены, нагрузку и явную пару VESA — только после этого открывайте
+        предложение на Маркете.
+      </p>
+      <div className="mt-5 border-b-2 border-ink">
+        {items.map((item) => (
+          <article
+            className="grid gap-4 border-t border-line py-5 lg:grid-cols-[minmax(12rem,1.25fr)_minmax(8rem,0.75fr)_minmax(8rem,0.7fr)_minmax(9rem,0.85fr)_auto] lg:items-center"
+            data-buy-mount-comparison-item={item.id}
+            key={item.id}
+          >
+            <div>
+              <p className="font-mono text-[0.68rem] uppercase leading-relaxed text-action">
+                {item.scenario}
+              </p>
+              <h3 className="mt-1 font-display text-2xl font-extrabold leading-tight">
+                <a className="underline decoration-action decoration-2 underline-offset-4" href={`/kronshteyny/${item.id}/`}>
+                  {item.title}
+                </a>
+              </h3>
+              <p className="mt-1 text-sm text-muted">{mechanismLabel(item.mechanism)} механизм</p>
+            </div>
+            <ComparisonFact label="Диагональ">
+              {formatNumber(item.min_diagonal_in)}–{formatNumber(item.max_diagonal_in)}″
+            </ComparisonFact>
+            <ComparisonFact label="Нагрузка">до {formatNumber(item.max_load_kg)} кг</ComparisonFact>
+            <ComparisonFact label="От стены">{formatDistance(item)}</ComparisonFact>
+            <a className="inline-flex items-center gap-2 font-semibold text-action" href={`/kronshteyny/${item.id}/`}>
+              Проверить VESA <ArrowRight aria-hidden="true" />
+            </a>
+            <details className="group lg:col-span-5">
+              <summary className="cursor-pointer list-none font-mono text-xs uppercase text-technical focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
+                {item.vesa.length} точных схем VESA <span aria-hidden="true" className="text-action">+</span>
+              </summary>
+              <p className="mt-3 break-words font-mono text-xs leading-6 text-muted">
+                {item.vesa.join(" · ").replaceAll("x", "×")}
+              </p>
+            </details>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 

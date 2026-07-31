@@ -81,6 +81,15 @@ test("карточка модели выводит только три model-spe
       weight_kg: 13.3,
       vesa_width_mm: 300,
       vesa_height_mm: 300,
+      wall_mount_screws: {
+        groups: [{ location: "Стандартная схема VESA", thread: "M6", length_mm: 16, quantity: 4 }],
+        requires_adapters: false,
+        source_region: "Россия",
+        source_url: "https://www.tcl.com/ru/ru/support-tv/model/55c7k",
+        source_label: "Российское руководство TCL C7K, стр. 26",
+        checked_at: "2026-07-31",
+        note: "Альтернативную двухточечную схему нельзя смешивать со стандартной VESA 300×300.",
+      },
       width_mm: 1226,
       height_mm: 710,
       depth_mm: 55.9,
@@ -136,6 +145,11 @@ test("карточка модели выводит только три model-spe
     assert.equal((html.match(/rel="sponsored nofollow noopener noreferrer"/g) ?? []).length, 3);
     assert.equal((html.match(/Подробнее о совместимости/g) ?? []).length, mounts.length);
     assert.equal(html.includes("data-affiliate-placement-id=\"market-onkron-tm6\""), false);
+    assert.equal(html.includes("data-wall-mount-screws=\"true\""), true);
+    assert.equal(html.includes("Какие винты нужны для TCL 55C7K"), true);
+    assert.equal(html.includes("4 шт. · M6×16 мм"), true);
+    assert.equal(html.includes("это паспортный размер винта, а не глубина резьбового отверстия"), true);
+    assert.equal(html.includes("Российское руководство TCL C7K, стр. 26"), true);
     for (const fragment of [
       "Партнёрская ссылка на Яндекс Маркет",
       "Если вы оформите заказ",

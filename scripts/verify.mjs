@@ -525,6 +525,36 @@ for (const model of models) {
   if (!model.source_label?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(model.checked_at ?? "")) {
     throw new Error(`Модель ${model.id}: нет подписи источника или даты проверки`);
   }
+  const hardware = model.wall_mount_screws;
+  if (hardware) {
+    const groups = hardware.groups;
+    const locations = new Set(groups?.map((group) => group.location?.trim().toLocaleLowerCase("ru-RU")));
+    if (
+      !Array.isArray(groups) ||
+      groups.length < 1 ||
+      groups.length > 4 ||
+      groups.reduce((total, group) => total + group.quantity, 0) !== 4 ||
+      locations.size !== groups.length ||
+      groups.some((group) =>
+        !group.location?.trim() ||
+        !/^M\d{1,2}$/.test(group.thread ?? "") ||
+        !Number.isInteger(group.length_mm) ||
+        group.length_mm < 4 ||
+        group.length_mm > 100 ||
+        !Number.isInteger(group.quantity) ||
+        group.quantity < 1 ||
+        group.quantity > 4
+      ) ||
+      typeof hardware.requires_adapters !== "boolean" ||
+      !hardware.source_region?.trim() ||
+      !hardware.source_url?.startsWith("https://") ||
+      !hardware.source_label?.trim() ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(hardware.checked_at ?? "") ||
+      !hardware.note?.trim()
+    ) {
+      throw new Error(`Модель ${model.id}: некорректный паспорт настенного монтажа`);
+    }
+  }
 }
 for (const mount of mounts) {
   assertHttpsSource(mount, `Кронштейн ${mount.id}`);

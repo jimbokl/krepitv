@@ -41,6 +41,7 @@ const catalog = register.map((row) => ({
   depth_mm: row.depth_mm,
   vesa_width_mm: row.vesa_width_mm,
   vesa_height_mm: row.vesa_height_mm,
+  ...(row.wall_mount_screws ? { wall_mount_screws: row.wall_mount_screws } : {}),
   source_url: row.source_url,
   source_label: row.source_label,
   checked_at: row.checked_at,
