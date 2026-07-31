@@ -85,6 +85,20 @@
   },
   {
     "tv_id": "samsung-qe55q70dauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 19.1
+  },
+  {
+    "tv_id": "samsung-qe55q70dauxru",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -398,6 +412,20 @@
   },
   {
     "tv_id": "lg-oled55c4rla",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.6
+  },
+  {
+    "tv_id": "lg-oled55c4rla",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -678,6 +706,20 @@
   },
   {
     "tv_id": "samsung-qe43q7faauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 8.9
+  },
+  {
+    "tv_id": "samsung-qe43q7faauxru",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -911,6 +953,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 50″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 12.0
+  },
+  {
+    "tv_id": "samsung-qe50q7faauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 12.0
@@ -1228,6 +1284,20 @@
   },
   {
     "tv_id": "samsung-qe55q7f5auxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 13.5
+  },
+  {
+    "tv_id": "samsung-qe55q7f5auxru",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -1527,6 +1597,20 @@
   },
   {
     "tv_id": "samsung-qe65q7faauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 20.9
+  },
+  {
+    "tv_id": "samsung-qe65q7faauxru",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -1745,6 +1829,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 35 кг покрывает запас 25%",
       "Диагональ 32″ входит в диапазон 17–43″"
+    ],
+    "warnings": [],
+    "required_load_kg": 4.8
+  },
+  {
+    "tv_id": "samsung-ue32f6000fuxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 32″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 4.8
@@ -2079,6 +2177,20 @@
   },
   {
     "tv_id": "samsung-ue43u8000fuxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 8.0
+  },
+  {
+    "tv_id": "samsung-ue43u8000fuxru",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -2312,6 +2424,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 50″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 10.4
+  },
+  {
+    "tv_id": "samsung-ue50u8000fuxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 10.4
@@ -2623,6 +2749,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 12.0
+  },
+  {
+    "tv_id": "samsung-ue55u8000fuxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 12.0
@@ -2942,6 +3082,20 @@
   },
   {
     "tv_id": "samsung-ue65u8000fuxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.8
+  },
+  {
+    "tv_id": "samsung-ue65u8000fuxru",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -3244,6 +3398,20 @@
   },
   {
     "tv_id": "samsung-qe65s85faexru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 21.8
+  },
+  {
+    "tv_id": "samsung-qe65s85faexru",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -3464,6 +3632,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 50″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 15.8
+  },
+  {
+    "tv_id": "lg-50qned85b6a",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 15.8
@@ -3851,6 +4033,20 @@
   },
   {
     "tv_id": "lg-43qned80b6b",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 9.1
+  },
+  {
+    "tv_id": "lg-43qned80b6b",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -4090,6 +4286,20 @@
   },
   {
     "tv_id": "lg-oled55c5rla",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.6
+  },
+  {
+    "tv_id": "lg-oled55c5rla",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -4300,6 +4510,20 @@
   },
   {
     "tv_id": "lg-55qned83b6a",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 16.0
+  },
+  {
+    "tv_id": "lg-55qned83b6a",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -4462,6 +4686,20 @@
       "Поддерживает VESA 300x300",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 65″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 28.1
+  },
+  {
+    "tv_id": "lg-65qned86a6a",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 28.1
@@ -4751,6 +4989,20 @@
   },
   {
     "tv_id": "lg-55qned86a6a",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 19.4
+  },
+  {
+    "tv_id": "lg-55qned86a6a",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -4989,6 +5241,20 @@
   },
   {
     "tv_id": "lg-55qned85b6c",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 18.1
+  },
+  {
+    "tv_id": "lg-55qned85b6c",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -5221,6 +5487,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 50″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 11.8
+  },
+  {
+    "tv_id": "lg-50qned80b6b",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 11.8
@@ -5496,6 +5776,20 @@
   },
   {
     "tv_id": "hisense-55u7s",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.0
+  },
+  {
+    "tv_id": "hisense-55u7s",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -5706,6 +6000,20 @@
   },
   {
     "tv_id": "hisense-65u7s",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 23.3
+  },
+  {
+    "tv_id": "hisense-65u7s",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -5874,6 +6182,20 @@
   },
   {
     "tv_id": "hisense-55u7s-pro",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.6
+  },
+  {
+    "tv_id": "hisense-55u7s-pro",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -5966,6 +6288,20 @@
       "Поддерживает VESA 200x400",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 11.6
+  },
+  {
+    "tv_id": "hisense-55e77sl",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x400",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 11.6
@@ -6106,6 +6442,20 @@
       "Поддерживает VESA 200x400",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 50″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 10.0
+  },
+  {
+    "tv_id": "hisense-50e7s",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x400",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 10.0
@@ -6308,6 +6658,20 @@
   },
   {
     "tv_id": "hisense-50u77sl",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 13.3
+  },
+  {
+    "tv_id": "hisense-50u77sl",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -6448,6 +6812,20 @@
   },
   {
     "tv_id": "hisense-43e7s",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 7.4
+  },
+  {
+    "tv_id": "hisense-43e7s",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -6582,6 +6960,20 @@
       "Поддерживает VESA 200x400",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 11.6
+  },
+  {
+    "tv_id": "hisense-55e7s",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x400",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 11.6
@@ -6854,6 +7246,20 @@
   },
   {
     "tv_id": "xiaomi-tv-a-43-2025",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x100",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 7.4
+  },
+  {
+    "tv_id": "xiaomi-tv-a-43-2025",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -7101,6 +7507,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 50″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 10.0
+  },
+  {
+    "tv_id": "xiaomi-tv-a-50-2025",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 10.0
@@ -7362,6 +7782,20 @@
   },
   {
     "tv_id": "xiaomi-tv-a-55-2025",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 12.6
+  },
+  {
+    "tv_id": "xiaomi-tv-a-55-2025",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -7647,6 +8081,20 @@
   },
   {
     "tv_id": "xiaomi-tv-a-pro-43-2025",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 100x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 7.5
+  },
+  {
+    "tv_id": "xiaomi-tv-a-pro-43-2025",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -7838,6 +8286,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 12.9
+  },
+  {
+    "tv_id": "xiaomi-tv-a-pro-55-2025",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 12.9
@@ -8157,6 +8619,20 @@
   },
   {
     "tv_id": "xiaomi-tv-a-pro-65-2025",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 18.4
+  },
+  {
+    "tv_id": "xiaomi-tv-a-pro-65-2025",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -8305,6 +8781,20 @@
       "Поддерживает VESA 400x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.5
+  },
+  {
+    "tv_id": "hisense-55u7q",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 17.5
@@ -8507,6 +8997,20 @@
   },
   {
     "tv_id": "hisense-65u77sl",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 23.3
+  },
+  {
+    "tv_id": "hisense-65u77sl",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -8655,6 +9159,20 @@
       "Поддерживает VESA 400x400",
       "Нагрузка до 50 кг покрывает запас 25%",
       "Диагональ 65″ входит в диапазон 22–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 30.5
+  },
+  {
+    "tv_id": "hisense-65u8q",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 109,
+    "reasons": [
+      "Поддерживает VESA 400x400",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 30.5
@@ -8866,6 +9384,20 @@
       "Поддерживает VESA 400x400",
       "Нагрузка до 50 кг покрывает запас 25%",
       "Диагональ 65″ входит в диапазон 22–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 30.5
+  },
+  {
+    "tv_id": "hisense-65ur9s",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 109,
+    "reasons": [
+      "Поддерживает VESA 400x400",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 30.5
@@ -9167,6 +9699,20 @@
   },
   {
     "tv_id": "samsung-qe43qef1auxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 8.9
+  },
+  {
+    "tv_id": "samsung-qe43qef1auxru",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -9400,6 +9946,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.8
+  },
+  {
+    "tv_id": "samsung-qe55qn70fauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 17.8
@@ -9789,6 +10349,20 @@
   },
   {
     "tv_id": "samsung-qe43q8faauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 9.9
+  },
+  {
+    "tv_id": "samsung-qe43q8faauxru",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -10098,6 +10672,20 @@
   },
   {
     "tv_id": "samsung-ue43f6000fuxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 8.1
+  },
+  {
+    "tv_id": "samsung-ue43f6000fuxru",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -10337,6 +10925,20 @@
   },
   {
     "tv_id": "samsung-qe55s85faexru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 16.3
+  },
+  {
+    "tv_id": "samsung-qe55s85faexru",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -10541,6 +11143,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 14.1
+  },
+  {
+    "tv_id": "samsung-qe55q7faauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 14.1
@@ -10846,6 +11462,20 @@
   },
   {
     "tv_id": "samsung-qe65s90faexru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 23.9
+  },
+  {
+    "tv_id": "samsung-qe65s90faexru",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -11072,6 +11702,20 @@
   },
   {
     "tv_id": "tcl-55c6k",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 15.3
+  },
+  {
+    "tv_id": "tcl-55c6k",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -11310,6 +11954,20 @@
   },
   {
     "tv_id": "tcl-55c7l",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 16.6
+  },
+  {
+    "tv_id": "tcl-55c7l",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -11542,6 +12200,20 @@
       "Поддерживает VESA 300x300",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 16.6
+  },
+  {
+    "tv_id": "tcl-55c7k",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 16.6
@@ -11830,6 +12502,21 @@
   },
   {
     "tv_id": "tcl-75c6k",
+    "mount_id": "onkron-nn24",
+    "fit_status": "conditional-fit",
+    "compatible": true,
+    "score": 98,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%"
+    ],
+    "warnings": [
+      "Диагональ вне рекомендованного диапазона 32–65″; перепроверьте геометрию пластины"
+    ],
+    "required_load_kg": 28.8
+  },
+  {
+    "tv_id": "tcl-75c6k",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "conditional-fit",
     "compatible": true,
@@ -12014,6 +12701,20 @@
       "Поддерживает VESA 300x300",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 65″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 22.5
+  },
+  {
+    "tv_id": "tcl-65c7k",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 22.5
@@ -12255,6 +12956,20 @@
       "Поддерживает VESA 300x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 65″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 20.8
+  },
+  {
+    "tv_id": "lg-oled65c5rla",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 20.8
@@ -12487,6 +13202,20 @@
   },
   {
     "tv_id": "lg-oled42c5rla",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 42″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 12.3
+  },
+  {
+    "tv_id": "lg-oled42c5rla",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -12684,6 +13413,20 @@
   },
   {
     "tv_id": "lg-oled55g5rla",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 21.0
+  },
+  {
+    "tv_id": "lg-oled55g5rla",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -12860,6 +13603,20 @@
       "Поддерживает VESA 400x300",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 65″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 26.0
+  },
+  {
+    "tv_id": "samsung-qe65qn70fauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 26.0
@@ -13056,6 +13813,20 @@
       "Поддерживает VESA 300x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 20.0
+  },
+  {
+    "tv_id": "samsung-qe55s90fauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 20.0
@@ -13331,6 +14102,21 @@
   },
   {
     "tv_id": "samsung-qe75q7faauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "conditional-fit",
+    "compatible": true,
+    "score": 97,
+    "reasons": [
+      "Поддерживает VESA 400x400",
+      "Нагрузка до 50 кг покрывает запас 25%"
+    ],
+    "warnings": [
+      "Диагональ вне рекомендованного диапазона 32–65″; перепроверьте геометрию пластины"
+    ],
+    "required_load_kg": 31.6
+  },
+  {
+    "tv_id": "samsung-qe75q7faauxru",
     "mount_id": "kromax-atlantis-45",
     "fit_status": "conditional-fit",
     "compatible": true,
@@ -13484,6 +14270,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 50″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 16.9
+  },
+  {
+    "tv_id": "samsung-qe50qn90fauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 16.9
@@ -13815,6 +14615,20 @@
   },
   {
     "tv_id": "samsung-qe43qn90fauxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 11.8
+  },
+  {
+    "tv_id": "samsung-qe43qn90fauxru",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -14140,6 +14954,21 @@
   },
   {
     "tv_id": "samsung-ue75u8000fuxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "conditional-fit",
+    "compatible": true,
+    "score": 98,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%"
+    ],
+    "warnings": [
+      "Диагональ вне рекомендованного диапазона 32–65″; перепроверьте геометрию пластины"
+    ],
+    "required_load_kg": 28.0
+  },
+  {
+    "tv_id": "samsung-ue75u8000fuxru",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "conditional-fit",
     "compatible": true,
@@ -14344,6 +15173,21 @@
   },
   {
     "tv_id": "samsung-ue85u8000fuxru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "conditional-fit",
+    "compatible": true,
+    "score": 95,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%"
+    ],
+    "warnings": [
+      "Диагональ вне рекомендованного диапазона 32–65″; перепроверьте геометрию пластины"
+    ],
+    "required_load_kg": 35.9
+  },
+  {
+    "tv_id": "samsung-ue85u8000fuxru",
     "mount_id": "kromax-atlantis-45",
     "fit_status": "conditional-fit",
     "compatible": true,
@@ -14496,6 +15340,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 43″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 11.8
+  },
+  {
+    "tv_id": "lg-43qned82a6b",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 11.8
@@ -14797,6 +15655,20 @@
   },
   {
     "tv_id": "lg-oled48c5rla",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 48″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 18.6
+  },
+  {
+    "tv_id": "lg-oled48c5rla",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -15015,6 +15887,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 43″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 11.6
+  },
+  {
+    "tv_id": "lg-43qned80a6a",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 11.6
@@ -15316,6 +16202,20 @@
   },
   {
     "tv_id": "lg-55qned93a6a",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 15.6
+  },
+  {
+    "tv_id": "lg-55qned93a6a",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -15548,6 +16448,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 50″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 15.3
+  },
+  {
+    "tv_id": "lg-50qned82a6b",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 50″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 15.3
@@ -15935,6 +16849,20 @@
   },
   {
     "tv_id": "lg-43qned70a6a",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 9.4
+  },
+  {
+    "tv_id": "lg-43qned70a6a",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -16168,6 +17096,20 @@
       "Поддерживает VESA 200x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 11.3
+  },
+  {
+    "tv_id": "tcl-55p6k",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 200x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 11.3
@@ -16487,6 +17429,20 @@
   },
   {
     "tv_id": "tcl-55p7k",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 13.1
+  },
+  {
+    "tv_id": "tcl-55p7k",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -16781,6 +17737,20 @@
   },
   {
     "tv_id": "tcl-43s5k",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 100x100",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 43″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 6.3
+  },
+  {
+    "tv_id": "tcl-43s5k",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -16958,6 +17928,20 @@
       "Поддерживает VESA 400x400",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 65″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 24.4
+  },
+  {
+    "tv_id": "hisense-65u7q",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x400",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 24.4
@@ -17169,6 +18153,20 @@
       "Поддерживает VESA 400x400",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 22.4
+  },
+  {
+    "tv_id": "hisense-55u8q",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x400",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 22.4
@@ -17441,6 +18439,20 @@
   },
   {
     "tv_id": "tcl-32a400-pro",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 100x100",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 32″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 5.8
+  },
+  {
+    "tv_id": "tcl-32a400-pro",
     "mount_id": "onkron-tm4",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -17654,6 +18666,20 @@
   },
   {
     "tv_id": "tcl-55c755",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 16.3
+  },
+  {
+    "tv_id": "tcl-55c755",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -17802,6 +18828,20 @@
       "Поддерживает VESA 400x300",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 16.5
+  },
+  {
+    "tv_id": "tcl-55c745",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 16.5
@@ -18047,6 +19087,20 @@
   },
   {
     "tv_id": "tcl-55c765",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
+    ],
+    "warnings": [],
+    "required_load_kg": 16.6
+  },
+  {
+    "tv_id": "tcl-55c765",
     "mount_id": "onkron-tm5-bw",
     "fit_status": "verified-fit",
     "compatible": true,
@@ -18195,6 +19249,20 @@
       "Поддерживает VESA 300x200",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 55″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 17.9
+  },
+  {
+    "tv_id": "lg-oled55b5rla",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x200",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 55″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 17.9
@@ -18363,6 +19431,20 @@
       "Поддерживает VESA 300x300",
       "Нагрузка до 70 кг покрывает запас 25%",
       "Диагональ 65″ входит в диапазон 40–75″"
+    ],
+    "warnings": [],
+    "required_load_kg": 28.1
+  },
+  {
+    "tv_id": "lg-65qned80a6a",
+    "mount_id": "onkron-nn24",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 300x300",
+      "Нагрузка до 50 кг покрывает запас 25%",
+      "Диагональ 65″ входит в диапазон 32–65″"
     ],
     "warnings": [],
     "required_load_kg": 28.1
@@ -18665,6 +19747,21 @@
     ],
     "warnings": [
       "Диагональ вне рекомендованного диапазона 22–65″; перепроверьте геометрию пластины"
+    ],
+    "required_load_kg": 35.1
+  },
+  {
+    "tv_id": "samsung-qe77s85faexru",
+    "mount_id": "onkron-nn24",
+    "fit_status": "conditional-fit",
+    "compatible": true,
+    "score": 95,
+    "reasons": [
+      "Поддерживает VESA 400x300",
+      "Нагрузка до 50 кг покрывает запас 25%"
+    ],
+    "warnings": [
+      "Диагональ вне рекомендованного диапазона 32–65″; перепроверьте геометрию пластины"
     ],
     "required_load_kg": 35.1
   },

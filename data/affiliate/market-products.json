@@ -204,6 +204,18 @@
       "vid": "krepitvOnkronM4SB",
       "expected_title_tokens": ["ONKRON", "M4S-B"],
       "creative": null
+    },
+    {
+      "id": "market-onkron-nn24-102126398329",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-na-stenu-dlya-televizora-32-65-onkron-nn24-fiksirovannyy-do-50-kg-chernyy/102126398329",
+      "page_path": "/kronshteyny/onkron-nn24/",
+      "entity_kind": "mount",
+      "entity_id": "onkron-nn24",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvOnkronNN24",
+      "expected_title_tokens": ["ONKRON", "NN24"],
+      "creative": null
     }
   ]
 }

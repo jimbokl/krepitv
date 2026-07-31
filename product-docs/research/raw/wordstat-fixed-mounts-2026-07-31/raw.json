@@ -1,0 +1,299 @@
+[
+  {
+    "seed": {
+      "brand": "ONKRON",
+      "model": "NN24",
+      "query": "onkron nn24",
+      "catalog_id": "onkron-nn24",
+      "reward_ui_rank": 1
+    },
+    "operator_query": "\"[onkron nn24]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3160",
+          "text": "tpm attestation is not ready faceit"
+        },
+        {
+          "isAssociations": true,
+          "value": "2122",
+          "text": "сборник лучшего бразильского фонка 2026 фонк"
+        },
+        {
+          "isAssociations": true,
+          "value": "825",
+          "text": "kra cc40"
+        },
+        {
+          "isAssociations": true,
+          "value": "1165",
+          "text": "нко ао нрд"
+        },
+        {
+          "isAssociations": true,
+          "value": "556",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "tpm 2.0 is not ready faceit"
+        },
+        {
+          "isAssociations": true,
+          "value": "1528",
+          "text": "onkyo tx rz50"
+        },
+        {
+          "isAssociations": true,
+          "value": "1346",
+          "text": "qled или mini led что лучше"
+        },
+        {
+          "isAssociations": true,
+          "value": "443",
+          "text": "сборник лучшего бразильского фонка 2026 фонк треки"
+        },
+        {
+          "isAssociations": true,
+          "value": "308",
+          "text": "the one who watches 1.20 1"
+        },
+        {
+          "isAssociations": true,
+          "value": "584",
+          "text": "msi mag 272qp qd oled x50"
+        },
+        {
+          "isAssociations": true,
+          "value": "1633",
+          "text": "neoforge 1.20 1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1241",
+          "text": "msi mag 274qp qd oled x24"
+        },
+        {
+          "isAssociations": true,
+          "value": "408",
+          "text": "телевизор hi ht 24h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "828",
+          "text": "mpg 341cqr qd oled x36"
+        },
+        {
+          "isAssociations": true,
+          "value": "1674",
+          "text": "mag 274qp qd oled x24"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "218",
+          "text": "onkron nn24"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "iTECHmount",
+      "model": "P4F",
+      "query": "itechmount p4f",
+      "catalog_id": "itech-p4f",
+      "reward_ui_rank": 2
+    },
+    "operator_query": "\"[itechmount p4f]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "brand": "ONKRON",
+      "model": "FM6",
+      "query": "onkron fm6",
+      "catalog_id": "",
+      "reward_ui_rank": 3
+    },
+    "operator_query": "\"[onkron fm6]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2168",
+          "text": "сборник лучшего бразильского фонка 2026 фонк"
+        },
+        {
+          "isAssociations": true,
+          "value": "862",
+          "text": "kra cc40"
+        },
+        {
+          "isAssociations": true,
+          "value": "271",
+          "text": "northrop grumman mq 4c triton"
+        },
+        {
+          "isAssociations": true,
+          "value": "1206",
+          "text": "нко ао нрд"
+        },
+        {
+          "isAssociations": true,
+          "value": "579",
+          "text": "телевизор hi ht 32h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "1023",
+          "text": "отрио это статин или нет"
+        },
+        {
+          "isAssociations": true,
+          "value": "220",
+          "text": "http 127.0 0.1 19575 gui index html"
+        },
+        {
+          "isAssociations": true,
+          "value": "1511",
+          "text": "onkyo tx rz50"
+        },
+        {
+          "isAssociations": true,
+          "value": "1350",
+          "text": "qled или mini led что лучше"
+        },
+        {
+          "isAssociations": true,
+          "value": "442",
+          "text": "сборник лучшего бразильского фонка 2026 фонк треки"
+        },
+        {
+          "isAssociations": true,
+          "value": "643",
+          "text": "msi mag 272qp qd oled x50"
+        },
+        {
+          "isAssociations": true,
+          "value": "1302",
+          "text": "msi mag 274qp qd oled x24"
+        },
+        {
+          "isAssociations": true,
+          "value": "415",
+          "text": "телевизор hi ht 24h01fb"
+        },
+        {
+          "isAssociations": true,
+          "value": "838",
+          "text": "mpg 341cqr qd oled x36"
+        },
+        {
+          "isAssociations": true,
+          "value": "1750",
+          "text": "mag 274qp qd oled x24"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "210",
+          "text": "onkron fm6"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "brand": "KROMAX",
+      "model": "STAR-11",
+      "query": "kromax star 11",
+      "catalog_id": "",
+      "reward_ui_rank": 4
+    },
+    "operator_query": "\"[kromax star 11]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1187",
+          "text": "lamzu atlantis mini"
+        },
+        {
+          "isAssociations": true,
+          "value": "669",
+          "text": "westlake zupereco z 108"
+        },
+        {
+          "isAssociations": true,
+          "value": "119",
+          "text": "ричард плантагенет 3 й герцог йоркский"
+        },
+        {
+          "isAssociations": true,
+          "value": "210",
+          "text": "beelink gtr9 pro ai max 395"
+        },
+        {
+          "isAssociations": true,
+          "value": "153",
+          "text": "старлайт дайнер ул коровий вал 9а меню"
+        },
+        {
+          "isAssociations": true,
+          "value": "1111",
+          "text": "gemini 3.1 flash"
+        },
+        {
+          "isAssociations": true,
+          "value": "219",
+          "text": "галерея самоцветов проспект мира 79"
+        },
+        {
+          "isAssociations": true,
+          "value": "870",
+          "text": "sharmax power max 140 mini"
+        },
+        {
+          "isAssociations": true,
+          "value": "203",
+          "text": "stark pusher pro 2025"
+        },
+        {
+          "isAssociations": true,
+          "value": "365",
+          "text": "citizen sleeper 2 starward vector"
+        },
+        {
+          "isAssociations": true,
+          "value": "126",
+          "text": "starpoint gemini 3"
+        },
+        {
+          "isAssociations": true,
+          "value": "171",
+          "text": "cubot king kong mini 3"
+        },
+        {
+          "isAssociations": true,
+          "value": "161",
+          "text": "москва проспект мира 119 парк аттракционов орион"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "19",
+          "text": "kromax star 11"
+        }
+      ]
+    }
+  }
+]

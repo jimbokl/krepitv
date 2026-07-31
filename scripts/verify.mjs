@@ -19,6 +19,7 @@ const numericCurrencyPattern = /(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)
 const expectedCommercialProfiles = new Set([
   "mount:onkron-tm6:/kronshteyny/onkron-tm6/",
   "mount:onkron-tm5-bw:/kronshteyny/onkron-tm5-bw/",
+  "mount:onkron-nn24:/kronshteyny/onkron-nn24/",
   "mount:itech-plb440nt:/kronshteyny/itech-plb440nt/",
   "mount:itech-ptrb440ln:/kronshteyny/itech-ptrb440ln/",
   "mount:itech-slt-460:/kronshteyny/itech-slt-460/",

@@ -197,7 +197,7 @@ test("селектор использует exact hub id/path, фактичес�
   );
 });
 
-test("manifest задаёт 16 уникальных placement-ссылок и порядок шести хабов", async () => {
+test("manifest задаёт 17 уникальных placement-ссылок и порядок шести хабов", async () => {
   const [manifest, pages, mounts, models, publicSnapshot] = await Promise.all([
     readFile(new URL("../../data/affiliate/seo-hub-placements.json", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../../data/seo_pages.json", import.meta.url), "utf8").then(JSON.parse),
@@ -230,9 +230,9 @@ test("manifest задаёт 16 уникальных placement-ссылок и п
   const placementIds = placements.map((item) => item.placement_id);
 
   assert.equal(placements.length, manifest.expected_offer_count);
-  assert.equal(placements.length, 16);
-  assert.equal(new Set(vids).size, 16);
-  assert.equal(new Set(placementIds).size, 16);
+  assert.equal(placements.length, 17);
+  assert.equal(new Set(vids).size, 17);
+  assert.equal(new Set(placementIds).size, 17);
   assert.ok(vids.every((vid) => /^[A-Za-z0-9]{1,150}$/.test(vid)));
   assert.ok(Math.max(...vids.map((vid) => vid.length)) <= 40);
 
@@ -242,7 +242,7 @@ test("manifest задаёт 16 уникальных placement-ссылок и п
     generated_at: publicSnapshot.generated_at,
     placements,
   }, { now: snapshotNow });
-  assert.equal(parsed.length, 16);
+  assert.equal(parsed.length, 17);
 
   const catalog = { models, mounts };
   for (const hub of manifest.hubs) {

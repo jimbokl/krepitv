@@ -372,5 +372,22 @@
     "source_label": "Официальные характеристики iTECHmount PLB640NT",
     "source_fact": "Точная карточка подтверждает перечисленные VESA до 600×400, нагрузку 45 кг, диагонали 37–86 и вылет 53 мм.",
     "checked_at": "2026-07-30"
+  },
+  {
+    "id": "onkron-nn24",
+    "brand": "ONKRON",
+    "model": "NN24",
+    "title": "ONKRON NN24",
+    "mechanism": "fixed",
+    "min_diagonal_in": 32,
+    "max_diagonal_in": 65,
+    "max_load_kg": 50,
+    "vesa": ["75x75", "100x100", "100x200", "200x100", "200x200", "200x300", "200x400", "300x100", "300x200", "300x300", "300x400", "400x200", "400x300", "400x400"],
+    "wall_distance_min_mm": 30,
+    "wall_distance_max_mm": 30,
+    "source_url": "https://onkron.ru/product-onkron-kronshtejn-dlja-televizora-32-65-phiksirovannyj-chjornyj-nn24",
+    "source_label": "Официальная русская карточка ONKRON NN24-B",
+    "source_fact": "Точная карточка NN24-B подтверждает фиксированный механизм, диагонали 32–65, нагрузку 50 кг, перечисленные VESA и вылет 30 мм.",
+    "checked_at": "2026-07-31"
   }
 ]

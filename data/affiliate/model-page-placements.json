@@ -23,11 +23,11 @@
           "vid": "krepitvmodelhisense43e7sr02kromaxdix182d4b6f2bda97"
         },
         {
-          "placement_id": "model-hisense-43e7s-r03-onkron-tm5-bw",
+          "placement_id": "model-hisense-43e7s-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense43e7sr03onkrontm5bw9841504b954f"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense43e7sr03onkronnn24af7807e660a3"
         }
       ]
     },
@@ -37,25 +37,25 @@
       "expected_offer_count": 3,
       "placements": [
         {
-          "placement_id": "model-hisense-50e7s-r01-onkron-tm5-bw",
+          "placement_id": "model-hisense-50e7s-r01-onkron-nn24",
           "rank": 1,
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense50e7sr01onkronnn2446b936e19a4c"
+        },
+        {
+          "placement_id": "model-hisense-50e7s-r02-onkron-tm5-bw",
+          "rank": 2,
           "entity_id": "onkron-tm5-bw",
           "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense50e7sr01onkrontm5bwc2f82f286bdd"
+          "vid": "krepitvmodelhisense50e7sr02onkrontm5bw1d256fe3abf2"
         },
         {
-          "placement_id": "model-hisense-50e7s-r02-onkron-tm6",
-          "rank": 2,
+          "placement_id": "model-hisense-50e7s-r03-onkron-tm6",
+          "rank": 3,
           "entity_id": "onkron-tm6",
           "source_card_id": "market-onkron-tm6-5720427358",
-          "vid": "krepitvmodelhisense50e7sr02onkrontm6c33763119dba"
-        },
-        {
-          "placement_id": "model-hisense-50e7s-r03-itech-p4f",
-          "rank": 3,
-          "entity_id": "itech-p4f",
-          "source_card_id": "market-itech-p4f-103201123450",
-          "vid": "krepitvmodelhisense50e7sr03itechp4f56b9bb22d25d"
+          "vid": "krepitvmodelhisense50e7sr03onkrontm675434d8577d1"
         }
       ]
     },
@@ -93,25 +93,25 @@
       "expected_offer_count": 3,
       "placements": [
         {
-          "placement_id": "model-hisense-55e77sl-r01-onkron-tm5-bw",
+          "placement_id": "model-hisense-55e77sl-r01-onkron-nn24",
           "rank": 1,
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense55e77slr01onkronnn24f4c6d6394af6"
+        },
+        {
+          "placement_id": "model-hisense-55e77sl-r02-onkron-tm5-bw",
+          "rank": 2,
           "entity_id": "onkron-tm5-bw",
           "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense55e77slr01onkrontm5bw2615a9d0c61f"
+          "vid": "krepitvmodelhisense55e77slr02onkrontm5bw7541cc5b270f"
         },
         {
-          "placement_id": "model-hisense-55e77sl-r02-onkron-tm6",
-          "rank": 2,
+          "placement_id": "model-hisense-55e77sl-r03-onkron-tm6",
+          "rank": 3,
           "entity_id": "onkron-tm6",
           "source_card_id": "market-onkron-tm6-5720427358",
-          "vid": "krepitvmodelhisense55e77slr02onkrontm6c1cbc9ea62d9"
-        },
-        {
-          "placement_id": "model-hisense-55e77sl-r03-itech-p4f",
-          "rank": 3,
-          "entity_id": "itech-p4f",
-          "source_card_id": "market-itech-p4f-103201123450",
-          "vid": "krepitvmodelhisense55e77slr03itechp4fefe0b7fbfe36"
+          "vid": "krepitvmodelhisense55e77slr03onkrontm6794daac971a8"
         }
       ]
     },
@@ -121,25 +121,25 @@
       "expected_offer_count": 3,
       "placements": [
         {
-          "placement_id": "model-hisense-55e7s-r01-onkron-tm5-bw",
+          "placement_id": "model-hisense-55e7s-r01-onkron-nn24",
           "rank": 1,
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense55e7sr01onkronnn24572a7f17ea1c"
+        },
+        {
+          "placement_id": "model-hisense-55e7s-r02-onkron-tm5-bw",
+          "rank": 2,
           "entity_id": "onkron-tm5-bw",
           "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense55e7sr01onkrontm5bwc3066137b8dd"
+          "vid": "krepitvmodelhisense55e7sr02onkrontm5bwa8f3d6830f80"
         },
         {
-          "placement_id": "model-hisense-55e7s-r02-onkron-tm6",
-          "rank": 2,
+          "placement_id": "model-hisense-55e7s-r03-onkron-tm6",
+          "rank": 3,
           "entity_id": "onkron-tm6",
           "source_card_id": "market-onkron-tm6-5720427358",
-          "vid": "krepitvmodelhisense55e7sr02onkrontm69c2336c30d50"
-        },
-        {
-          "placement_id": "model-hisense-55e7s-r03-itech-p4f",
-          "rank": 3,
-          "entity_id": "itech-p4f",
-          "source_card_id": "market-itech-p4f-103201123450",
-          "vid": "krepitvmodelhisense55e7sr03itechp4f45f9659f05ff"
+          "vid": "krepitvmodelhisense55e7sr03onkrontm6f92a8948600a"
         }
       ]
     },
@@ -184,18 +184,18 @@
           "vid": "krepitvmodelhisense55u7sr01kromaxdix189197b53b8dfa"
         },
         {
-          "placement_id": "model-hisense-55u7s-r02-onkron-tm5-bw",
+          "placement_id": "model-hisense-55u7s-r02-onkron-nn24",
           "rank": 2,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense55u7sr02onkrontm5bw230e2561f20e"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense55u7sr02onkronnn24a55fdb81e6cd"
         },
         {
-          "placement_id": "model-hisense-55u7s-r03-onkron-tm6",
+          "placement_id": "model-hisense-55u7s-r03-onkron-tm5-bw",
           "rank": 3,
-          "entity_id": "onkron-tm6",
-          "source_card_id": "market-onkron-tm6-5720427358",
-          "vid": "krepitvmodelhisense55u7sr03onkrontm65142b2bb3fc6"
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelhisense55u7sr03onkrontm5bwadf2b50588e9"
         }
       ]
     },
@@ -247,11 +247,11 @@
           "vid": "krepitvmodelhisense55u8qr02kromaxflat4b8ed30fbdef9"
         },
         {
-          "placement_id": "model-hisense-55u8q-r03-onkron-tm5-bw",
+          "placement_id": "model-hisense-55u8q-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense55u8qr03onkrontm5bw6028b00858cf"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense55u8qr03onkronnn24cd26db734892"
         }
       ]
     },
@@ -275,11 +275,11 @@
           "vid": "krepitvmodelhisense65u77slr02kromaxflat4b2b1762364ae"
         },
         {
-          "placement_id": "model-hisense-65u77sl-r03-onkron-tm5-bw",
+          "placement_id": "model-hisense-65u77sl-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense65u77slr03onkrontm5bw822430916eec"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense65u77slr03onkronnn244d88aa16d212"
         }
       ]
     },
@@ -303,11 +303,11 @@
           "vid": "krepitvmodelhisense65u7qr02kromaxflat4888c0e47fc01"
         },
         {
-          "placement_id": "model-hisense-65u7q-r03-onkron-tm5-bw",
+          "placement_id": "model-hisense-65u7q-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense65u7qr03onkrontm5bw9a7a990d68b4"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense65u7qr03onkronnn24200712c0ce40"
         }
       ]
     },
@@ -331,11 +331,11 @@
           "vid": "krepitvmodelhisense65u7sr02kromaxflat4d0f9015e1627"
         },
         {
-          "placement_id": "model-hisense-65u7s-r03-onkron-tm5-bw",
+          "placement_id": "model-hisense-65u7s-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelhisense65u7sr03onkrontm5bw0172a8ba12b5"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelhisense65u7sr03onkronnn24b9ee357ec0bb"
         }
       ]
     },
@@ -744,18 +744,18 @@
           "vid": "krepitvmodellg65qned80a6ar01kromaxflat4d83637c70d86"
         },
         {
-          "placement_id": "model-lg-65qned80a6a-r02-onkron-tm5-bw",
+          "placement_id": "model-lg-65qned80a6a-r02-onkron-nn24",
           "rank": 2,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodellg65qned80a6ar02onkrontm5bw4e9e49cc22c9"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodellg65qned80a6ar02onkronnn2465258300d907"
         },
         {
-          "placement_id": "model-lg-65qned80a6a-r03-onkron-tm6",
+          "placement_id": "model-lg-65qned80a6a-r03-onkron-tm5-bw",
           "rank": 3,
-          "entity_id": "onkron-tm6",
-          "source_card_id": "market-onkron-tm6-5720427358",
-          "vid": "krepitvmodellg65qned80a6ar03onkrontm6d30cb0ad8c51"
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodellg65qned80a6ar03onkrontm5bw2fff547d87a0"
         }
       ]
     },
@@ -772,18 +772,18 @@
           "vid": "krepitvmodellg65qned86a6ar01kromaxflat46522fef44644"
         },
         {
-          "placement_id": "model-lg-65qned86a6a-r02-onkron-tm5-bw",
+          "placement_id": "model-lg-65qned86a6a-r02-onkron-nn24",
           "rank": 2,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodellg65qned86a6ar02onkrontm5bw237e1f176806"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodellg65qned86a6ar02onkronnn24e14aa84cb1b5"
         },
         {
-          "placement_id": "model-lg-65qned86a6a-r03-onkron-tm6",
+          "placement_id": "model-lg-65qned86a6a-r03-onkron-tm5-bw",
           "rank": 3,
-          "entity_id": "onkron-tm6",
-          "source_card_id": "market-onkron-tm6-5720427358",
-          "vid": "krepitvmodellg65qned86a6ar03onkrontm64f8e28240532"
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodellg65qned86a6ar03onkrontm5bwc03dc83214ca"
         }
       ]
     },
@@ -947,11 +947,11 @@
           "vid": "krepitvmodellgoled55g5rlar02kromaxflat40250d4d76f26"
         },
         {
-          "placement_id": "model-lg-oled55g5rla-r03-onkron-tm5-bw",
+          "placement_id": "model-lg-oled55g5rla-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodellgoled55g5rlar03onkrontm5bwbb47ddafa6b3"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodellgoled55g5rlar03onkronnn24539072d67e46"
         }
       ]
     },
@@ -975,11 +975,11 @@
           "vid": "krepitvmodellgoled65c5rlar02kromaxflat411d24eaebe0f"
         },
         {
-          "placement_id": "model-lg-oled65c5rla-r03-onkron-tm5-bw",
+          "placement_id": "model-lg-oled65c5rla-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodellgoled65c5rlar03onkrontm5bw7d61d9c9bbad"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodellgoled65c5rlar03onkronnn2441dddce7dcbe"
         }
       ]
     },
@@ -1339,11 +1339,11 @@
           "vid": "krepitvmodelsamsungqe65q7faauxrur02kromaxflat4f3863598e27e"
         },
         {
-          "placement_id": "model-samsung-qe65q7faauxru-r03-onkron-tm5-bw",
+          "placement_id": "model-samsung-qe65q7faauxru-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelsamsungqe65q7faauxrur03onkrontm5bwf41d403f5507"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelsamsungqe65q7faauxrur03onkronnn24d7ddcaa118b4"
         }
       ]
     },
@@ -1360,18 +1360,18 @@
           "vid": "krepitvmodelsamsungqe65qn70fauxrur01kromaxflat418ca81842a34"
         },
         {
-          "placement_id": "model-samsung-qe65qn70fauxru-r02-onkron-tm5-bw",
+          "placement_id": "model-samsung-qe65qn70fauxru-r02-onkron-nn24",
           "rank": 2,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelsamsungqe65qn70fauxrur02onkrontm5bw8644f1e42597"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelsamsungqe65qn70fauxrur02onkronnn2401bd2b275836"
         },
         {
-          "placement_id": "model-samsung-qe65qn70fauxru-r03-onkron-tm6",
+          "placement_id": "model-samsung-qe65qn70fauxru-r03-onkron-tm5-bw",
           "rank": 3,
-          "entity_id": "onkron-tm6",
-          "source_card_id": "market-onkron-tm6-5720427358",
-          "vid": "krepitvmodelsamsungqe65qn70fauxrur03onkrontm6b9c115bf5cd2"
+          "entity_id": "onkron-tm5-bw",
+          "source_card_id": "market-onkron-tm5-bw-4559285774",
+          "vid": "krepitvmodelsamsungqe65qn70fauxrur03onkrontm5bwef5f19990d8b"
         }
       ]
     },
@@ -1395,11 +1395,11 @@
           "vid": "krepitvmodelsamsungqe65s85faexrur02kromaxflat48db582f93fa6"
         },
         {
-          "placement_id": "model-samsung-qe65s85faexru-r03-onkron-tm5-bw",
+          "placement_id": "model-samsung-qe65s85faexru-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelsamsungqe65s85faexrur03onkrontm5bw209c696a6d6b"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelsamsungqe65s85faexrur03onkronnn242fb53562a416"
         }
       ]
     },
@@ -1423,11 +1423,11 @@
           "vid": "krepitvmodelsamsungqe65s90faexrur02kromaxflat47bc553da6ead"
         },
         {
-          "placement_id": "model-samsung-qe65s90faexru-r03-onkron-tm5-bw",
+          "placement_id": "model-samsung-qe65s90faexru-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelsamsungqe65s90faexrur03onkrontm5bw42c808f798f7"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelsamsungqe65s90faexrur03onkronnn24298b29ac5583"
         }
       ]
     },
@@ -2032,11 +2032,11 @@
           "vid": "krepitvmodeltcl65c7kr02kromaxflat4ad91ddf0bdcc"
         },
         {
-          "placement_id": "model-tcl-65c7k-r03-onkron-tm5-bw",
+          "placement_id": "model-tcl-65c7k-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodeltcl65c7kr03onkrontm5bw2e78c072147c"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodeltcl65c7kr03onkronnn244cdbcab99e7d"
         }
       ]
     },
@@ -2172,11 +2172,11 @@
           "vid": "krepitvmodelxiaomitvapro432025r02onkronm4se6da54afe1df"
         },
         {
-          "placement_id": "model-xiaomi-tv-a-pro-43-2025-r03-onkron-tm5-bw",
+          "placement_id": "model-xiaomi-tv-a-pro-43-2025-r03-onkron-nn24",
           "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelxiaomitvapro432025r03onkrontm5bw57b3c58103dc"
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodelxiaomitvapro432025r03onkronnn24f3c1e7a492f4"
         }
       ]
     },

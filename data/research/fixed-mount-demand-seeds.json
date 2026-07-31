@@ -1,0 +1,30 @@
+[
+  {
+    "brand": "ONKRON",
+    "model": "NN24",
+    "query": "onkron nn24",
+    "catalog_id": "onkron-nn24",
+    "reward_ui_rank": 1
+  },
+  {
+    "brand": "iTECHmount",
+    "model": "P4F",
+    "query": "itechmount p4f",
+    "catalog_id": "itech-p4f",
+    "reward_ui_rank": 2
+  },
+  {
+    "brand": "ONKRON",
+    "model": "FM6",
+    "query": "onkron fm6",
+    "catalog_id": "",
+    "reward_ui_rank": 3
+  },
+  {
+    "brand": "KROMAX",
+    "model": "STAR-11",
+    "query": "kromax star 11",
+    "catalog_id": "",
+    "reward_ui_rank": 4
+  }
+]

@@ -59,7 +59,7 @@ test("verified source register is the exact operational catalog source", () => {
 });
 
 test("verified mount register excludes unresolved identities and drives the catalog", () => {
-  assert.equal(mountRegister.length, 22);
+  assert.equal(mountRegister.length, 23);
   assert.equal(new Set(mountRegister.map((row) => row.id)).size, mountRegister.length);
   assert.equal(new Set(mountRegister.map((row) => row.source_url)).size, mountRegister.length);
   assert.deepEqual(
@@ -112,6 +112,14 @@ test("revenue-weighted mount wave preserves exact verified SKUs and specificatio
       load: 45,
       distance: [53, 53],
       vesa: ["200x200", "200x300", "200x400", "300x200", "300x300", "300x400", "400x200", "400x300", "400x400", "500x300", "500x400", "600x200", "600x300", "600x400"],
+    },
+    "onkron-nn24": {
+      model: "NN24",
+      mechanism: "fixed",
+      diagonal: [32, 65],
+      load: 50,
+      distance: [30, 30],
+      vesa: ["75x75", "100x100", "100x200", "200x100", "200x200", "200x300", "200x400", "300x100", "300x200", "300x300", "300x400", "400x200", "400x300", "400x400"],
     },
   };
 

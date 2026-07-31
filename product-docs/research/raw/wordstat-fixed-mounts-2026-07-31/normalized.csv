@@ -1,0 +1,5 @@
+demand_rank,brand,model,query,catalog_id,reward_ui_rank,operator_query,seo_frequency,seo_region_id,seo_region,seo_period,seo_devices,observed_at,source_url
+"1","ONKRON","NN24","onkron nn24","onkron-nn24","1","""[onkron nn24]""","218","225","Россия","последние 30 дней на дату сбора","все устройства","2026-07-31T07:31:23.280Z","https://wordstat.yandex.ru/"
+"2","ONKRON","FM6","onkron fm6","","3","""[onkron fm6]""","210","225","Россия","последние 30 дней на дату сбора","все устройства","2026-07-31T07:31:23.280Z","https://wordstat.yandex.ru/"
+"3","KROMAX","STAR-11","kromax star 11","","4","""[kromax star 11]""","19","225","Россия","последние 30 дней на дату сбора","все устройства","2026-07-31T07:31:23.280Z","https://wordstat.yandex.ru/"
+"4","iTECHmount","P4F","itechmount p4f","itech-p4f","2","""[itechmount p4f]""","0","225","Россия","последние 30 дней на дату сбора","все устройства","2026-07-31T07:31:23.280Z","https://wordstat.yandex.ru/"
