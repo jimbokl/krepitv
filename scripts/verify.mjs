@@ -253,7 +253,11 @@ const htmlFiles = files.filter((file) => file.endsWith(".html"));
 const yandexVerificationFiles = htmlFiles.filter((file) =>
   /^yandex_[a-f0-9]+\.html$/i.test(path.basename(file)),
 );
-const pageHtmlFiles = htmlFiles.filter((file) => !yandexVerificationFiles.includes(file));
+const googleVerificationFiles = htmlFiles.filter((file) =>
+  /^google[a-z0-9_-]+\.html$/i.test(path.basename(file)),
+);
+const verificationFiles = [...yandexVerificationFiles, ...googleVerificationFiles];
+const pageHtmlFiles = htmlFiles.filter((file) => !verificationFiles.includes(file));
 assertMinimum(pageHtmlFiles, 25, "HTML-страницы");
 
 const runtimeTextFiles = files.filter((file) => /\.(?:html|js|json)$/u.test(file));
@@ -284,6 +288,21 @@ for (const file of yandexVerificationFiles) {
   }
   if (/<(?:script|iframe|form)\b|\b(?:src|href)=["']https?:/i.test(html)) {
     throw new Error(`Файл подтверждения Яндекса содержит лишний исполняемый код: ${relative}`);
+  }
+}
+
+for (const file of googleVerificationFiles) {
+  const relative = path.relative(docs, file).split(path.sep).join("/");
+  if (relative !== path.basename(file)) {
+    throw new Error(`Файл подтверждения Google должен лежать в корне: ${relative}`);
+  }
+  const html = await readFile(file, "utf8");
+  const expected = `google-site-verification: ${path.basename(file)}`;
+  if (html.trim() !== expected) {
+    throw new Error(`Неверное содержимое файла подтверждения Google: ${relative}`);
+  }
+  if (/<(?:script|iframe|form)\b|\b(?:src|href)=["']https?:/i.test(html)) {
+    throw new Error(`Файл подтверждения Google содержит лишний исполняемый код: ${relative}`);
   }
 }
 
@@ -1529,5 +1548,5 @@ if (!robotsTxt.includes("Sitemap: https://krepitv.ru/sitemap.xml")) {
 }
 
 console.log(
-  `Проверено: ${pageHtmlFiles.length} HTML-страниц (минимум 25) и ${yandexVerificationFiles.length} файл подтверждения Яндекса, ${models.length} модели ТВ, ${mounts.length} кронштейна, ${compatibilityEdges.length} рёбер графа, ${seoPages.length} SEO-материалов; в sitemap ${sitemapUrls.length} индексируемых URL; полнота каталога: ${coverageSummary.catalog_status}, полный=${coverageSummary.full_catalog_ready}`,
+  `Проверено: ${pageHtmlFiles.length} HTML-страниц (минимум 25), ${yandexVerificationFiles.length} файл подтверждения Яндекса и ${googleVerificationFiles.length} файл подтверждения Google, ${models.length} модели ТВ, ${mounts.length} кронштейна, ${compatibilityEdges.length} рёбер графа, ${seoPages.length} SEO-материалов; в sitemap ${sitemapUrls.length} индексируемых URL; полнота каталога: ${coverageSummary.catalog_status}, полный=${coverageSummary.full_catalog_ready}`,
 );
