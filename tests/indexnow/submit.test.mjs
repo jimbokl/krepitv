@@ -57,6 +57,30 @@ test("expands audited catalog groups and rejects unknown directives", () => {
   assert.throws(() => expandManifestLines(["@everything"]), /Неизвестная директива/);
 });
 
+test("expands only the entities whose static context changed in SEO wave two", () => {
+  const expanded = expandManifestLines(
+    ["@wave2-model-context", "@wave2-mount-brands"],
+    {
+      models: [
+        { id: "hisense-55", brand: "Hisense", diagonal_inches: 55, vesa_width_mm: 200, vesa_height_mm: 200 },
+        { id: "lg-50", brand: "LG", diagonal_inches: 50, vesa_width_mm: 200, vesa_height_mm: 200 },
+        { id: "lg-vesa", brand: "LG", diagonal_inches: 65, vesa_width_mm: 400, vesa_height_mm: 400 },
+        { id: "lg-other", brand: "LG", diagonal_inches: 65, vesa_width_mm: 300, vesa_height_mm: 200 },
+      ],
+      mounts: [
+        { id: "holder", brand: "Holder" },
+        { id: "onkron", brand: "ONKRON" },
+      ],
+    },
+  );
+  assert.deepEqual(expanded, [
+    "/modeli/hisense-55/",
+    "/modeli/lg-50/",
+    "/modeli/lg-vesa/",
+    "/kronshteyny/holder/",
+  ]);
+});
+
 test("refuses to notify a URL missing from the sitemap", () => {
   const sitemap = "<urlset><url><loc>https://krepitv.ru/</loc></url></urlset>";
   assert.doesNotThrow(() => assertUrlsInSitemap(["/"], sitemap));

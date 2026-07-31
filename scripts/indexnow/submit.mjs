@@ -57,6 +57,24 @@ export function expandManifestLines(lines, { models = [], mounts = [] } = {}) {
     if (!value || value.startsWith("#")) return [];
     if (value === "@models") return models.map((model) => `/modeli/${model.id}/`);
     if (value === "@mounts") return mounts.map((mount) => `/kronshteyny/${mount.id}/`);
+    if (value === "@wave2-model-context") {
+      const brands = new Set(["hisense", "tcl", "xiaomi"]);
+      const diagonals = new Set([50, 75]);
+      const vesa = new Set(["300x300", "400x400"]);
+      return models
+        .filter((model) => (
+          brands.has(String(model.brand ?? "").toLocaleLowerCase("ru-RU")) ||
+          diagonals.has(Number(model.diagonal_inches)) ||
+          vesa.has(`${model.vesa_width_mm}x${model.vesa_height_mm}`)
+        ))
+        .map((model) => `/modeli/${model.id}/`);
+    }
+    if (value === "@wave2-mount-brands") {
+      const brands = new Set(["holder", "itechmount", "kromax"]);
+      return mounts
+        .filter((mount) => brands.has(String(mount.brand ?? "").toLocaleLowerCase("ru-RU")))
+        .map((mount) => `/kronshteyny/${mount.id}/`);
+    }
     if (value.startsWith("@")) throw new Error(`Неизвестная директива IndexNow: ${value}`);
     return [value];
   });
