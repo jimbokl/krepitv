@@ -1,15 +1,11 @@
-# URL с содержательным изменением affiliate-слоя в релизе 75cecdd.
-# Все 80 карточек моделей потеряли статические партнёрские href.
-@models
-/kronshteyny/holder-lcds-5036/
-/kronshteyny/holder-lcds-5066/
+# Третья коммерческая SEO-волна: усилены существующие карточки без новых URL.
+/modeli/tcl-55c6k/
+/modeli/tcl-55c7l/
+/modeli/hisense-55u7s/
+/modeli/hisense-65u7s/
+/modeli/hisense-55u7s-pro/
+/modeli/hisense-55e77sl/
+/kronshteyny/onkron-tm5-bw/
 /kronshteyny/itech-plb440nt/
-/kronshteyny/itech-plb640nt/
 /kronshteyny/itech-ptrb440ln/
 /kronshteyny/itech-slt-460/
-/kronshteyny/kromax-atlantis-45/
-/kronshteyny/kromax-corbel-4/
-/kronshteyny/kromax-dix-18/
-/kronshteyny/kromax-flat-4/
-/kronshteyny/onkron-tm5-bw/
-/kronshteyny/onkron-tm6/

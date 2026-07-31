@@ -134,6 +134,11 @@ export async function submitIndexNow(urlList, {
 }
 
 async function main(args) {
+  if (args.includes("--help") || args.includes("-h")) {
+    console.log("Использование: node scripts/indexnow/submit.mjs [--dry-run] [--manifest файл] [URL ...]");
+    console.log("Без URL используется проверенный список data/indexnow/changed-urls.txt.");
+    return;
+  }
   const dryRun = args.includes("--dry-run");
   const manifestFlag = args.indexOf("--manifest");
   const manifest = manifestFlag === -1 ? defaultManifest : path.resolve(args[manifestFlag + 1] ?? "");
