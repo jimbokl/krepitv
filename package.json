@@ -45,6 +45,7 @@
     "analytics:goals:check": "node scripts/analytics/manage-metrika-goals.mjs",
     "analytics:goals:apply": "node scripts/analytics/manage-metrika-goals.mjs --apply",
     "analytics:funnel-report": "node scripts/analytics/report-metrika-funnel.mjs",
+    "analytics:gsc-report": "node scripts/analytics/report-google-search-console.mjs",
     "analytics:capacity-report": "node scripts/analytics/report-affiliate-revenue-capacity.mjs",
     "analytics:test": "node --test tests/analytics/*.test.mjs",
     "dev:prepare": "npm run build:content && npm run build:wasm",
