@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   Wrench,
 } from "@phosphor-icons/react";
+import AffiliateOffer from "../components/AffiliateOffer.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
@@ -20,7 +21,10 @@ import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx
 import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
-import { getCatalogItems } from "../lib/seoCatalogItems.mjs";
+import {
+  getCatalogItems,
+  selectSeoHubAffiliateOffers,
+} from "../lib/seoCatalogItems.mjs";
 import { getRelatedPages, isIndexableSeoPage } from "../lib/seoPages.mjs";
 
 const kindLabels = {
@@ -54,6 +58,14 @@ function SeoArticle({ catalog, page }) {
   const catalogItems = useMemo(
     () => getCatalogItems(page, catalog),
     [catalog, page],
+  );
+  const affiliateOffers = useMemo(
+    () => selectSeoHubAffiliateOffers(
+      page,
+      catalogItems,
+      catalog.affiliateOffers,
+    ),
+    [catalog.affiliateOffers, catalogItems, page],
   );
 
   usePageMetadata(page.title, page.description, page.path);
@@ -153,6 +165,8 @@ function SeoArticle({ catalog, page }) {
 
             <CatalogEvidence items={catalogItems} page={page} />
 
+            <SeoHubOffers offers={affiliateOffers} page={page} />
+
             <section className="mt-10" aria-labelledby="faq-title">
               <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">
                 Короткие ответы
@@ -224,6 +238,36 @@ function SeoArticle({ catalog, page }) {
         </section>
       </div>
     </main>
+  );
+}
+
+function SeoHubOffers({ offers, page }) {
+  if (!offers.length) return null;
+
+  const titleId = `market-offers-${page.id}`;
+  return (
+    <section
+      aria-labelledby={titleId}
+      className="mt-10 border-t-2 border-ink pt-7"
+      data-affiliate-hub={page.id}
+    >
+      <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
+        Точные модели из каталога выше
+      </p>
+      <h2 className="mt-2 font-display text-3xl font-bold" id={titleId}>
+        Карточки кронштейнов на Яндекс Маркете
+      </h2>
+      <p className="mt-3 max-w-3xl leading-relaxed text-muted">
+        Показываем только проверенные модели этого раздела. Перед переходом сверьте VESA,
+        нагрузку и диапазон диагонали; актуальные условия зависят от региона и уточняются
+        на стороне Маркета.
+      </p>
+      <div className="mt-5 grid gap-4">
+        {offers.map((offer) => (
+          <AffiliateOffer compact key={offer.id} offer={offer} />
+        ))}
+      </div>
+    </section>
   );
 }
 

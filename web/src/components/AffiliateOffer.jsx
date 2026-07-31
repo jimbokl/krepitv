@@ -22,18 +22,49 @@ export function AffiliateLink({ children, className = "primary-button", offer })
   );
 }
 
-export default function AffiliateOffer({ offer, children }) {
+export default function AffiliateOffer({ offer, children, compact = false }) {
   const [imageFailed, setImageFailed] = useState(false);
   const presentation = getAffiliatePresentation(offer);
   if (!presentation) return null;
 
+  const ariaLabel = presentation.mode === "advertising"
+    ? "Рекламное предложение"
+    : "Партнёрское предложение";
+
+  if (compact) {
+    return (
+      <aside
+        aria-label={ariaLabel}
+        className="grid gap-4 border-2 border-ink bg-white p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
+        data-affiliate-compact="true"
+        data-affiliate-mode={presentation.mode}
+        data-clid={presentation.clid}
+        data-erid={presentation.erid ?? undefined}
+      >
+        <div className="min-w-0">
+          {presentation.notice ? (
+            <p className="font-mono text-[0.68rem] uppercase leading-relaxed text-muted">
+              {presentation.notice}
+            </p>
+          ) : null}
+          <h3 className="font-display text-xl font-extrabold leading-tight sm:text-2xl">
+            {presentation.productTitle}
+          </h3>
+          {children}
+        </div>
+        <AffiliateLink
+          className="primary-button w-full justify-center sm:w-auto"
+          offer={offer}
+        >
+          Открыть на Яндекс Маркете
+        </AffiliateLink>
+      </aside>
+    );
+  }
+
   return (
     <aside
-      aria-label={
-        presentation.mode === "advertising"
-          ? "Рекламное предложение"
-          : "Партнёрское предложение"
-      }
+      aria-label={ariaLabel}
       className="grid gap-5 border-2 border-ink bg-white p-5 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center"
       data-affiliate-mode={presentation.mode}
       data-clid={presentation.clid}

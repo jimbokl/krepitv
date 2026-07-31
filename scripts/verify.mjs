@@ -29,6 +29,14 @@ const expectedCommercialProfiles = new Set([
   "model:hisense-55u7s-pro:/modeli/hisense-55u7s-pro/",
   "model:hisense-55e77sl:/modeli/hisense-55e77sl/",
 ]);
+const seoHubAffiliatePaths = new Set([
+  "/kronshteyny-onkron/",
+  "/kupit-kronshteyn-dlya-televizora/",
+  "/kronshteyny-kromax/",
+  "/tipy-kronshteynov/vydvizhnoy/",
+  "/kronshteyny-holder/",
+  "/kronshteyny-itechmount/",
+]);
 
 async function walk(directory) {
   const entries = await readdir(directory);
@@ -587,6 +595,7 @@ const affiliateComponent = path.join(root, "web/src/components/AffiliateOffer.js
 const affiliateConsumers = new Set([
   path.join(root, "web/src/pages/ModelPage.jsx"),
   path.join(root, "web/src/pages/MountPage.jsx"),
+  path.join(root, "web/src/pages/SeoPage.jsx"),
 ]);
 for (const file of sourceFiles) {
   if (file === affiliateComponent || affiliateConsumers.has(file)) continue;
@@ -690,6 +699,19 @@ for (const [route, html] of htmlByRoute) {
     if (!profile || profile.path !== route) {
       throw new Error(`Неожиданный SSR-маркер коммерческого профиля ${marker} на ${route}`);
     }
+  }
+}
+
+for (const route of seoHubAffiliatePaths) {
+  const html = htmlByRoute.get(route);
+  if (!html) {
+    throw new Error(`Нет статического SEO-хаба для клиентской витрины: ${route}`);
+  }
+  if (
+    /\bdata-affiliate-(?:hub|slot|offer-id|mode)=/iu.test(html) ||
+    [...publishableAffiliateHrefs].some((href) => html.includes(href))
+  ) {
+    throw new Error(`Действующая клиентская витрина попала в статический HTML: ${route}`);
   }
 }
 

@@ -14,10 +14,13 @@ const url = argument("--url", "http://127.0.0.1:4173/");
 const output = path.resolve(argument("--output", "product-docs/design-qa/page.png"));
 const width = Number(argument("--width", "1440"));
 const height = Number(argument("--height", "1100"));
+const selector = argument("--selector", null);
+const consent = argument("--consent", "denied");
 const chromePath = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 if (!Number.isInteger(width) || width < 320 || width > 3840) throw new Error("Invalid viewport width");
 if (!Number.isInteger(height) || height < 480 || height > 5000) throw new Error("Invalid viewport height");
+if (!["denied", "granted", "prompt"].includes(consent)) throw new Error("Invalid consent mode");
 new URL(url);
 
 const profile = await mkdtemp(path.join(os.tmpdir(), "krepitv-cdp-"));
@@ -100,6 +103,11 @@ try {
   });
 
   await send("Page.enable");
+  if (consent !== "prompt") {
+    await send("Page.addScriptToEvaluateOnNewDocument", {
+      source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
+    });
+  }
   await send("Emulation.setDeviceMetricsOverride", {
     width,
     height,
@@ -115,8 +123,28 @@ try {
     expression: "document.fonts.ready.then(() => new Promise((resolve) => setTimeout(resolve, 700)))",
     awaitPromise: true,
   });
+  if (selector) {
+    const selected = await send("Runtime.evaluate", {
+      expression: `(() => {
+        const element = document.querySelector(${JSON.stringify(selector)});
+        if (!element) return false;
+        const top = Math.max(0, element.getBoundingClientRect().top + window.scrollY - 24);
+        window.scrollTo({ top, left: 0, behavior: "instant" });
+        document.documentElement.scrollTop = top;
+        document.body.scrollTop = top;
+        return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve(true))));
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (selected.result.value !== true) {
+      throw new Error(`Screenshot selector not found: ${selector}`);
+    }
+  }
   await send("Runtime.evaluate", {
-    expression: "window.scrollTo(0, 0); new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))",
+    expression: selector
+      ? "new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))"
+      : "window.scrollTo(0, 0); new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))",
     awaitPromise: true,
   });
   const dimensions = await send("Runtime.evaluate", {
