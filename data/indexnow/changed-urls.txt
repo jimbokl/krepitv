@@ -1,23 +1,15 @@
-# Содержательно изменённые индексируемые URL релиза c5fd858.
-# Директивы разворачивают только сущности с новыми контекстными ссылками.
-/
-@wave2-model-context
-@wave2-mount-brands
-/kronshteyn-dlya-televizora-43-dyuyma/
-/kronshteyn-dlya-televizora-50-dyuyma/
-/kronshteyn-dlya-televizora-55-dyuyma/
-/kronshteyn-dlya-televizora-65-dyuyma/
-/kronshteyn-dlya-televizora-75-dyuyma/
-/kronshteyn-dlya-televizora-hisense/
-/kronshteyn-dlya-televizora-lg/
-/kronshteyn-dlya-televizora-samsung/
-/kronshteyn-dlya-televizora-tcl/
-/kronshteyn-dlya-televizora-xiaomi/
-/kronshteyny-holder/
-/kronshteyny-itechmount/
-/kronshteyny-kromax/
-/kronshteyny-onkron/
-/vesa/200x200/
-/vesa/300x200/
-/vesa/300x300/
-/vesa/400x400/
+# URL с содержательным изменением affiliate-слоя в релизе 75cecdd.
+# Все 80 карточек моделей потеряли статические партнёрские href.
+@models
+/kronshteyny/holder-lcds-5036/
+/kronshteyny/holder-lcds-5066/
+/kronshteyny/itech-plb440nt/
+/kronshteyny/itech-plb640nt/
+/kronshteyny/itech-ptrb440ln/
+/kronshteyny/itech-slt-460/
+/kronshteyny/kromax-atlantis-45/
+/kronshteyny/kromax-corbel-4/
+/kronshteyny/kromax-dix-18/
+/kronshteyny/kromax-flat-4/
+/kronshteyny/onkron-tm5-bw/
+/kronshteyny/onkron-tm6/
