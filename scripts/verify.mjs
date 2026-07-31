@@ -17,6 +17,7 @@ const removedAffiliateDisclaimerFragments = [
 ];
 const numericCurrencyPattern = /(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu;
 const expectedCommercialProfiles = new Set([
+  "mount:onkron-tm6:/kronshteyny/onkron-tm6/",
   "mount:onkron-tm5-bw:/kronshteyny/onkron-tm5-bw/",
   "mount:itech-plb440nt:/kronshteyny/itech-plb440nt/",
   "mount:itech-ptrb440ln:/kronshteyny/itech-ptrb440ln/",

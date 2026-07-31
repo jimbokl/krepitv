@@ -1789,11 +1789,12 @@ fn validate_commercial_profiles(
     );
     assert_eq!(
         file.profiles.len(),
-        10,
-        "SEO-серия должна содержать ровно 10 проверенных профилей"
+        11,
+        "SEO-серия должна содержать ровно 11 проверенных профилей"
     );
 
     let expected = [
+        "mount:onkron-tm6",
         "mount:onkron-tm5-bw",
         "mount:itech-plb440nt",
         "mount:itech-ptrb440ln",
@@ -2661,7 +2662,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
 
         validate_commercial_profiles(&profiles, &models, &mounts, &graph);
-        assert_eq!(profiles.profiles.len(), 10);
+        assert_eq!(profiles.profiles.len(), 11);
 
         for profile in &profiles.profiles {
             let marker = format!(
