@@ -1,0 +1,50 @@
+[
+  {
+    "candidate_id": "vesa-table",
+    "candidate_path": "/tablica-vesa-televizorov/",
+    "query": "таблица vesa телевизоров",
+    "variant": "таблица перед стандартом"
+  },
+  {
+    "candidate_id": "vesa-table",
+    "candidate_path": "/tablica-vesa-televizorov/",
+    "query": "vesa телевизоров таблица",
+    "variant": "таблица после категории"
+  },
+  {
+    "candidate_id": "vesa-by-model",
+    "candidate_path": "/tablica-vesa-televizorov/",
+    "query": "vesa по модели телевизора",
+    "variant": "поиск по модели"
+  },
+  {
+    "candidate_id": "vesa-size",
+    "candidate_path": "/tablica-vesa-televizorov/",
+    "query": "размер vesa телевизора",
+    "variant": "размер стандарта"
+  },
+  {
+    "candidate_id": "vesa-size",
+    "candidate_path": "/tablica-vesa-televizorov/",
+    "query": "какое vesa у телевизора",
+    "variant": "разговорная формулировка"
+  },
+  {
+    "candidate_id": "tv-screws",
+    "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+    "query": "винты для крепления телевизора",
+    "variant": "общая формулировка"
+  },
+  {
+    "candidate_id": "tv-screws",
+    "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+    "query": "винты для крепления телевизора к кронштейну",
+    "variant": "к кронштейну"
+  },
+  {
+    "candidate_id": "tv-screws",
+    "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+    "query": "какие болты нужны для крепления телевизора",
+    "variant": "разговорная формулировка"
+  }
+]

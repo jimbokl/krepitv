@@ -1,0 +1,489 @@
+[
+  {
+    "seed": {
+      "candidate_id": "vesa-table",
+      "candidate_path": "/tablica-vesa-televizorov/",
+      "query": "таблица vesa телевизоров",
+      "variant": "таблица перед стандартом"
+    },
+    "operator_query": "\"[таблица vesa телевизоров]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-table",
+      "candidate_path": "/tablica-vesa-televizorov/",
+      "query": "vesa телевизоров таблица",
+      "variant": "таблица после категории"
+    },
+    "operator_query": "\"[vesa телевизоров таблица]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-by-model",
+      "candidate_path": "/tablica-vesa-televizorov/",
+      "query": "vesa по модели телевизора",
+      "variant": "поиск по модели"
+    },
+    "operator_query": "\"[vesa по модели телевизора]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-size",
+      "candidate_path": "/tablica-vesa-televizorov/",
+      "query": "размер vesa телевизора",
+      "variant": "размер стандарта"
+    },
+    "operator_query": "\"[размер vesa телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5536",
+          "text": "диагональ 32 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "4906",
+          "text": "диагональ 43 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "18796",
+          "text": "диагонали тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2275",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "668",
+          "text": "диагональ 55 это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "370",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "657",
+          "text": "диагональ 43 дюйма сколько в см ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "1582",
+          "text": "диагональ 50 дюймов сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "243",
+          "text": "диагональ тв в сантиметрах таблица"
+        },
+        {
+          "isAssociations": true,
+          "value": "711",
+          "text": "диагональ 27 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "891",
+          "text": "диагональ 32 дюйма сколько в см ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "383",
+          "text": "диагональ 60 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "311",
+          "text": "диагональ 22 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "566",
+          "text": "диагональ 40 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1881",
+          "text": "диагонали тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "372",
+          "text": "диагональ 75 дюймов сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "271",
+          "text": "диагональ 27 дюймов это сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "567",
+          "text": "диагональ 55 см сколько в дюймах"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "952",
+          "text": "размер vesa телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-size",
+      "candidate_path": "/tablica-vesa-televizorov/",
+      "query": "какое vesa у телевизора",
+      "variant": "разговорная формулировка"
+    },
+    "operator_query": "\"[какое vesa у телевизора]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-screws",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "винты для крепления телевизора",
+      "variant": "общая формулировка"
+    },
+    "operator_query": "\"[винты для крепления телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "8618",
+          "text": "панель кронштейн"
+        },
+        {
+          "isAssociations": true,
+          "value": "697",
+          "text": "бест крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "16732",
+          "text": "пластина крепежная"
+        },
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2597",
+          "text": "кронштейн для полки на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "950",
+          "text": "свм крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "13864",
+          "text": "крепеж для труб"
+        },
+        {
+          "isAssociations": true,
+          "value": "697",
+          "text": "кронштейн у4"
+        },
+        {
+          "isAssociations": true,
+          "value": "4517",
+          "text": "крепеж для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "7019",
+          "text": "скоба крепежная"
+        },
+        {
+          "isAssociations": true,
+          "value": "17411",
+          "text": "крепежные элементы"
+        },
+        {
+          "isAssociations": true,
+          "value": "3025",
+          "text": "крепеж колес"
+        },
+        {
+          "isAssociations": true,
+          "value": "398",
+          "text": "кронштейн ра1"
+        },
+        {
+          "isAssociations": true,
+          "value": "333",
+          "text": "кронштейн у1"
+        },
+        {
+          "isAssociations": true,
+          "value": "1445",
+          "text": "крепеж бабочка"
+        },
+        {
+          "isAssociations": true,
+          "value": "1696",
+          "text": "крепеж для троса"
+        },
+        {
+          "isAssociations": true,
+          "value": "920",
+          "text": "савик крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "453",
+          "text": "крепеж для кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "3778",
+          "text": "кронштейн крепежный"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1095",
+          "text": "винты для крепления телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-screws",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "винты для крепления телевизора к кронштейну",
+      "variant": "к кронштейну"
+    },
+    "operator_query": "\"[винты для крепления телевизора к кронштейну]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4517",
+          "text": "крепеж для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "335",
+          "text": "крепеж для велосипеда на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "6856",
+          "text": "держатель для ножей"
+        },
+        {
+          "isAssociations": true,
+          "value": "2259",
+          "text": "болт с прессшайбой"
+        },
+        {
+          "isAssociations": true,
+          "value": "2516",
+          "text": "держатель для карниза"
+        },
+        {
+          "isAssociations": true,
+          "value": "1044",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "464",
+          "text": "крепеж для рулонных штор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1444",
+          "text": "дюбель крючок"
+        },
+        {
+          "isAssociations": true,
+          "value": "429",
+          "text": "зажим для хомутов шруса"
+        },
+        {
+          "isAssociations": true,
+          "value": "760",
+          "text": "крюк саморез"
+        },
+        {
+          "isAssociations": true,
+          "value": "2902",
+          "text": "крепеж для проводов"
+        },
+        {
+          "isAssociations": true,
+          "value": "485",
+          "text": "держатель кабеля для прямого монтажа"
+        },
+        {
+          "isAssociations": true,
+          "value": "497",
+          "text": "как крепить крылья на велосипед"
+        },
+        {
+          "isAssociations": true,
+          "value": "309",
+          "text": "как вставить крючки в потолочный карниз"
+        },
+        {
+          "isAssociations": true,
+          "value": "307",
+          "text": "крепеж для сип кабеля"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "419",
+          "text": "винты для крепления телевизора к кронштейну"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-screws",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "какие болты нужны для крепления телевизора",
+      "variant": "разговорная формулировка"
+    },
+    "operator_query": "\"[какие болты нужны для крепления телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "7497",
+          "text": "мир крепежа"
+        },
+        {
+          "isAssociations": true,
+          "value": "51919",
+          "text": "болтик"
+        },
+        {
+          "isAssociations": true,
+          "value": "697",
+          "text": "бест крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "16732",
+          "text": "пластина крепежная"
+        },
+        {
+          "isAssociations": true,
+          "value": "6203",
+          "text": "крепежная деталь"
+        },
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "5870",
+          "text": "уголок крепежный усиленный"
+        },
+        {
+          "isAssociations": true,
+          "value": "1369",
+          "text": "уголок мебельный крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "950",
+          "text": "свм крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "17411",
+          "text": "крепежные элементы"
+        },
+        {
+          "isAssociations": true,
+          "value": "3025",
+          "text": "крепеж колес"
+        },
+        {
+          "isAssociations": true,
+          "value": "30644",
+          "text": "уголок крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "1132",
+          "text": "крепеж для труб к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "6759",
+          "text": "угол крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "1696",
+          "text": "крепеж для троса"
+        },
+        {
+          "isAssociations": true,
+          "value": "629",
+          "text": "уголок крепежный 50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "3179",
+          "text": "крепеж для профиля"
+        },
+        {
+          "isAssociations": true,
+          "value": "16732",
+          "text": "крепежные пластины"
+        },
+        {
+          "isAssociations": true,
+          "value": "3778",
+          "text": "кронштейн крепежный"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "511",
+          "text": "какие болты нужны для крепления телевизора"
+        }
+      ]
+    }
+  }
+]
