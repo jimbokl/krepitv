@@ -49,6 +49,8 @@ Production формируется в `docs/` для GitHub Pages. Полная �
 SEO. Исследование и прогноз Директа сохранены в
 `product-docs/research/yadirect/` как данные для будущего решения.
 
-Последняя SEO-волна и первичные источники по креплению Samsung и Hisense
+Последняя SEO-волна и первичные источники по креплению Samsung, Hisense и TCL
 описаны в
-[`product-docs/research/seo-wave9-samsung-hisense-mounting-passports-2026-07-31.md`](product-docs/research/seo-wave9-samsung-hisense-mounting-passports-2026-07-31.md).
+[`product-docs/research/seo-wave10-high-demand-mounting-passports-2026-07-31.md`](product-docs/research/seo-wave10-high-demand-mounting-passports-2026-07-31.md).
+Решения по измерению и дальнейшему масштабированию зафиксированы в
+[`product-docs/operations/growth-playbook-application-2026-07-31.md`](product-docs/operations/growth-playbook-application-2026-07-31.md).
