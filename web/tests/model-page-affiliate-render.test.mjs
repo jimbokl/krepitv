@@ -143,7 +143,10 @@ test("карточка модели выводит только три model-spe
       [1, 2, 3],
     );
     assert.equal((html.match(/rel="sponsored nofollow noopener noreferrer"/g) ?? []).length, 3);
-    assert.equal((html.match(/Подробнее о совместимости/g) ?? []).length, mounts.length);
+    assert.equal(html.includes("Подробнее о совместимости"), false);
+    for (const item of mounts) {
+      assert.equal(html.includes(`Кронштейн ${item.title}`), true);
+    }
     assert.equal((html.match(/data-mount-detail-placement="featured_result"/g) ?? []).length, 6);
     assert.equal((html.match(/data-mount-detail-placement="compatibility_result"/g) ?? []).length, mounts.length);
     assert.equal(html.includes("data-affiliate-placement-id=\"market-onkron-tm6\""), false);

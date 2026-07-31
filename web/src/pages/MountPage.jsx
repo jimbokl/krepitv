@@ -202,7 +202,7 @@ function ModelRows({ conditional = false, items }) {
                     ) : null}
                   </div>
                   <a className="secondary-button" href={modelHref(model)}>
-                    Страница телевизора <ArrowRight aria-hidden="true" />
+                    Телевизор {model.title} <ArrowRight aria-hidden="true" />
                   </a>
                 </article>
         )}
@@ -240,6 +240,23 @@ function mountContextLinks(mount) {
       href: "/tipy-kronshteynov/vydvizhnoy/",
       label: "Выдвижные кронштейны и расчёт вылета",
     });
+  }
+  const mechanismHub = {
+    fixed: {
+      href: "/tipy-kronshteynov/fiksirovannyy/",
+      label: "Фиксированные кронштейны",
+    },
+    tilt: {
+      href: "/tipy-kronshteynov/naklonnyy/",
+      label: "Наклонные кронштейны и расчёт угла",
+    },
+    "full-motion": {
+      href: "/tipy-kronshteynov/povorotnyy/",
+      label: "Поворотные кронштейны",
+    },
+  }[mount.mechanism];
+  if (mechanismHub) {
+    links.push(mechanismHub);
   }
   const brandKey = String(mount.brand ?? "").trim().toLocaleLowerCase("ru-RU");
   const brandHub = {

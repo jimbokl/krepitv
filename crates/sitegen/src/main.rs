@@ -1016,7 +1016,7 @@ fn model_page_body(
             (
                 matched.mount.brand.clone(),
                 format!(
-                    "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · {mechanism} · нагрузка до {load} кг</p><p class=\"mt-2 text-sm\">{reasons}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/{id}/\">Страница кронштейна</a></article>",
+                    "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · {mechanism} · нагрузка до {load} кг</p><p class=\"mt-2 text-sm\">{reasons}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/{id}/\">Кронштейн {title}</a></article>",
                     title = escape_html(&matched.mount.title),
                     fit = fit_label(&matched.fit_status),
                     mechanism = mechanism_label(&matched.mount.mechanism),
@@ -1162,7 +1162,7 @@ fn mount_page_body(
         Some((
             tv.brand.clone(),
             format!(
-                "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · VESA {vesa_w}×{vesa_h} мм · {weight} кг без подставки</p><p class=\"mt-2 text-sm\">{evidence}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">Страница телевизора</a></article>",
+                "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · VESA {vesa_w}×{vesa_h} мм · {weight} кг без подставки</p><p class=\"mt-2 text-sm\">{evidence}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">Телевизор {title}</a></article>",
                 title = escape_html(&tv.title),
                 fit = fit_label(&edge.fit_status),
                 vesa_w = tv.vesa_width_mm,
@@ -1228,6 +1228,21 @@ fn mount_page_body(
             "/tipy-kronshteynov/vydvizhnoy/",
             "Выдвижные кронштейны и расчёт вылета",
         ));
+    }
+    let mechanism_hub = match mount.mechanism.as_str() {
+        "fixed" => Some((
+            "/tipy-kronshteynov/fiksirovannyy/",
+            "Фиксированные кронштейны",
+        )),
+        "tilt" => Some((
+            "/tipy-kronshteynov/naklonnyy/",
+            "Наклонные кронштейны и расчёт угла",
+        )),
+        "full-motion" => Some(("/tipy-kronshteynov/povorotnyy/", "Поворотные кронштейны")),
+        _ => None,
+    };
+    if let Some(link) = mechanism_hub {
+        context_links.push(link);
     }
     let brand_hub = match mount.brand.to_ascii_lowercase().as_str() {
         "holder" => Some(("/kronshteyny-holder/", "Все кронштейны Holder")),
@@ -3953,6 +3968,13 @@ mod tests {
         for mount in &mounts {
             let body = mount_page_body(mount, &models, &graph, &[], 0, None);
             assert!(body.contains("/kupit-kronshteyn-dlya-televizora/"));
+            let mechanism_path = match mount.mechanism.as_str() {
+                "fixed" => "/tipy-kronshteynov/fiksirovannyy/",
+                "tilt" => "/tipy-kronshteynov/naklonnyy/",
+                "full-motion" => "/tipy-kronshteynov/povorotnyy/",
+                other => panic!("Нет хаба механизма для {other}"),
+            };
+            assert!(body.contains(mechanism_path));
             if mount.mechanism == "full-motion" {
                 assert!(body.contains("/tipy-kronshteynov/vydvizhnoy/"));
             }
@@ -3966,9 +3988,23 @@ mod tests {
             assert!(body.contains(brand_path));
             for edge in graph.iter().filter(|edge| edge.mount_id == mount.id) {
                 assert!(body.contains(&format!("/modeli/{}/", edge.tv_id)));
+                let tv = models
+                    .iter()
+                    .find(|tv| tv.id == edge.tv_id)
+                    .expect("Ребро графа ссылается на неизвестный телевизор");
+                assert!(body.contains(&format!("Телевизор {}", escape_html(&tv.title))));
                 for warning in &edge.warnings {
                     assert!(body.contains(&escape_html(warning)));
                 }
+            }
+        }
+
+        let seo_pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        for tv in &models {
+            let matches = model_mount_matches(tv, &mounts);
+            let body = model_page_body(tv, &matches, &[], 0, &seo_pages, None);
+            for matched in matches.iter().filter(|matched| matched.compatible) {
+                assert!(body.contains(&format!("Кронштейн {}", escape_html(&matched.mount.title))));
             }
         }
     }

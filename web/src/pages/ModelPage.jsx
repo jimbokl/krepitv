@@ -291,7 +291,7 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
               href={mountHref(mount)}
               placement="compatibility_result"
             >
-              Подробнее о совместимости <ArrowRight aria-hidden="true" />
+              Кронштейн {mount.title} <ArrowRight aria-hidden="true" />
             </MountDetailLink>
           </div>
         </article>
