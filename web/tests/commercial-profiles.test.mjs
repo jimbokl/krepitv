@@ -44,9 +44,24 @@ test("публичный набор коммерческих профилей п
     await readFile(new URL("../../data/commercial_profiles.json", import.meta.url), "utf8"),
   );
   const profiles = parseCommercialProfiles(source);
+  const tcl55c6k = selectCommercialProfile(profiles, {
+    entityKind: "model",
+    entityId: "tcl-55c6k",
+    pagePath: "/modeli/tcl-55c6k/",
+  });
 
   assert.equal(profiles.length, 31);
   assert.equal(new Set(profiles.map((item) => item.path)).size, profiles.length);
+  assert.ok(tcl55c6k);
+  assert.ok(
+    tcl55c6k.faq.some((item) =>
+      item.question === "Какие отверстия сзади TCL 55C6K относятся к VESA?"
+    ),
+  );
+  assert.equal(
+    tcl55c6k.faq.some((item) => item.question.startsWith("Сколько кронштейнов")),
+    false,
+  );
 });
 
 test("валидатор отклоняет массив вместо версионированного объекта", () => {
