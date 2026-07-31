@@ -16,6 +16,7 @@ const width = Number(argument("--width", "1440"));
 const height = Number(argument("--height", "1100"));
 const selector = argument("--selector", null);
 const consent = argument("--consent", "denied");
+const affiliateReportEnabled = process.argv.includes("--affiliate-report");
 const chromePath = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 if (!Number.isInteger(width) || width < 320 || width > 3840) throw new Error("Invalid viewport width");
@@ -154,6 +155,52 @@ try {
   if (dimensions.result.value.innerWidth !== width || dimensions.result.value.scrollWidth > width) {
     throw new Error(`Viewport overflow: ${JSON.stringify(dimensions.result.value)}`);
   }
+  let affiliateReport = [];
+  if (affiliateReportEnabled) {
+    const evaluated = await send("Runtime.evaluate", {
+      expression: `Array.from(document.querySelectorAll("[data-affiliate-hub]")).map((hub) => ({
+        hub: hub.getAttribute("data-affiliate-hub"),
+        text: hub.innerText,
+        offers: Array.from(hub.querySelectorAll("[data-affiliate-compact]"), (card) => {
+          const link = card.querySelector("a[data-affiliate-mode]");
+          return {
+            title: card.querySelector("h3")?.innerText ?? "",
+            href: link?.href ?? "",
+            rel: link?.rel ?? "",
+            target: link?.target ?? "",
+            mode: link?.getAttribute("data-affiliate-mode") ?? "",
+            erid: link?.getAttribute("data-erid") ?? "",
+            notice: card.querySelector("p")?.innerText ?? "",
+          };
+        }),
+      }))`,
+      returnByValue: true,
+    });
+    affiliateReport = evaluated.result.value;
+    if (!affiliateReport.length) throw new Error("Affiliate hub was not rendered");
+
+    for (const hub of affiliateReport) {
+      if (!hub.offers.length || /₽|\bруб(?:\.|ля|лей)?\b/iu.test(hub.text)) {
+        throw new Error(`Invalid affiliate hub content: ${hub.hub}`);
+      }
+      for (const offer of hub.offers) {
+        const href = new URL(offer.href);
+        const commonIsValid =
+          href.protocol === "https:" &&
+          href.hostname === "market.yandex.ru" &&
+          href.searchParams.has("clid") &&
+          href.searchParams.has("vid") &&
+          offer.rel === "sponsored nofollow noopener noreferrer" &&
+          offer.target === "_blank";
+        const complianceIsValid = offer.mode === "advertising"
+          ? Boolean(offer.erid && href.searchParams.get("erid") === offer.erid && offer.notice.includes("Реклама"))
+          : offer.mode === "non_ad_storefront" && !offer.erid && !href.searchParams.has("erid");
+        if (!commonIsValid || !complianceIsValid) {
+          throw new Error(`Invalid affiliate offer in hub ${hub.hub}: ${offer.title}`);
+        }
+      }
+    }
+  }
   const screenshot = await send("Page.captureScreenshot", {
     format: "png",
     fromSurface: true,
@@ -161,9 +208,39 @@ try {
   });
   await mkdir(path.dirname(output), { recursive: true });
   await writeFile(output, Buffer.from(screenshot.data, "base64"));
+  const sanitizedAffiliateReport = affiliateReport.map((hub) => ({
+    hub: hub.hub,
+    offers: hub.offers.map((offer) => {
+      const href = new URL(offer.href);
+      return {
+        title: offer.title,
+        host: href.hostname,
+        path: href.pathname,
+        mode: offer.mode,
+        rel: offer.rel,
+        target: offer.target,
+        hasClid: href.searchParams.has("clid"),
+        hasVid: href.searchParams.has("vid"),
+        erid: offer.erid || null,
+      };
+    }),
+  }));
   process.stdout.write(`${output}\n${JSON.stringify(dimensions.result.value)}\n`);
+  if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();
-  chrome.kill("SIGTERM");
-  await rm(profile, { recursive: true, force: true });
+  if (chrome.exitCode === null && chrome.signalCode === null) {
+    const exited = new Promise((resolve) => chrome.once("exit", resolve));
+    chrome.kill("SIGTERM");
+    const stopped = await Promise.race([
+      exited.then(() => true),
+      new Promise((resolve) => setTimeout(() => resolve(false), 2_000)),
+    ]);
+    if (!stopped && chrome.exitCode === null && chrome.signalCode === null) {
+      const forcedExit = new Promise((resolve) => chrome.once("exit", resolve));
+      chrome.kill("SIGKILL");
+      await forcedExit;
+    }
+  }
+  await rm(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
 }
