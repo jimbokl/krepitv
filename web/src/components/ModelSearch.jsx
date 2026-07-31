@@ -126,7 +126,7 @@ export function ModelSearch({
       </div>
 
       <button
-        className={`inline-flex items-center justify-center rounded-md bg-action px-7 font-display font-bold text-white transition hover:bg-[#d94108] focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${compact ? "h-[4.4rem] text-xl" : "h-[5rem] text-2xl"}`}
+        className={`inline-flex items-center justify-center rounded-md bg-action px-7 font-display font-bold text-white transition hover:bg-action-hover focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${compact ? "h-[4.4rem] text-xl" : "h-[5rem] text-2xl"}`}
         disabled={!exactSelection}
         type="submit"
       >

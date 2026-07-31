@@ -26,7 +26,7 @@ function profile(overrides = {}) {
 }
 
 function payload(profiles = [profile()]) {
-  return { schema_version: 1, profiles };
+  return { schema_version: 1, updated_at: "2026-07-31", profiles };
 }
 
 test("строгая схема очищает текст и сохраняет безопасный профиль", () => {

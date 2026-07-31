@@ -39,7 +39,7 @@ select {
 
 @layer components {
   .primary-button {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-action px-5 py-3 font-display text-lg font-bold text-white transition hover:bg-[#d94108] focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-action px-5 py-3 font-display text-lg font-bold text-white transition hover:bg-action-hover focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40;
   }
 
   .secondary-button {

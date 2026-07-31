@@ -8,6 +8,14 @@ const docs = path.join(root, "docs");
 const origin = "https://krepitv.ru";
 const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
+const corePagesUpdatedAt = "2026-07-31";
+const removedAffiliateDisclaimerFragments = [
+  "Партнёрская ссылка на Яндекс Маркет",
+  "Если вы оформите заказ",
+  "Крепи ТВ может получить вознаграждение",
+  "Цена для вас не меняется",
+];
+const numericCurrencyPattern = /(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu;
 const expectedCommercialProfiles = new Set([
   "mount:onkron-tm5-bw:/kronshteyny/onkron-tm5-bw/",
   "mount:itech-plb440nt:/kronshteyny/itech-plb440nt/",
@@ -191,6 +199,22 @@ const yandexVerificationFiles = htmlFiles.filter((file) =>
 const pageHtmlFiles = htmlFiles.filter((file) => !yandexVerificationFiles.includes(file));
 assertMinimum(pageHtmlFiles, 25, "HTML-страницы");
 
+const runtimeTextFiles = files.filter((file) => /\.(?:html|js|json)$/u.test(file));
+for (const file of runtimeTextFiles) {
+  const contents = await readFile(file, "utf8");
+  const removedFragment = removedAffiliateDisclaimerFragments.find((fragment) =>
+    contents.toLocaleLowerCase("ru-RU").includes(fragment.toLocaleLowerCase("ru-RU")),
+  );
+  if (removedFragment) {
+    throw new Error(
+      `Удалённый партнёрский дисклеймер вернулся в runtime-артефакт: ${path.relative(root, file)}`,
+    );
+  }
+  if (numericCurrencyPattern.test(contents)) {
+    throw new Error(`Числовая цена попала в runtime-артефакт: ${path.relative(root, file)}`);
+  }
+}
+
 for (const file of yandexVerificationFiles) {
   const relative = path.relative(docs, file).split(path.sep).join("/");
   if (relative !== path.basename(file)) {
@@ -267,14 +291,17 @@ if (sourceCommercialProfilesRaw !== publicCommercialProfilesRaw) {
 }
 assertExactKeys(
   commercialProfilesManifest,
-  ["schema_version", "profiles"],
+  ["schema_version", "updated_at", "profiles"],
   "Манифест коммерческих профилей",
 );
 if (
   commercialProfilesManifest.schema_version !== 1 ||
+  !/^\d{4}-\d{2}-\d{2}$/u.test(commercialProfilesManifest.updated_at ?? "") ||
   !Array.isArray(commercialProfilesManifest.profiles)
 ) {
-  throw new Error("Манифест коммерческих профилей: ожидаются schema_version=1 и массив profiles");
+  throw new Error(
+    "Манифест коммерческих профилей: ожидаются schema_version=1, updated_at и массив profiles",
+  );
 }
 const commercialProfiles = commercialProfilesManifest.profiles;
 if (commercialProfiles.length !== expectedCommercialProfiles.size) {
@@ -612,9 +639,6 @@ for (const file of pageHtmlFiles) {
   if (/\bdata-affiliate-offer-id=/i.test(html)) {
     throw new Error(`Действующий affiliate CTA попал в статический HTML: ${path.relative(root, file)}`);
   }
-  if (/Крепи ТВ может получить вознаграждение/i.test(html)) {
-    throw new Error(`Удалённый партнёрский дисклеймер вернулся: ${path.relative(root, file)}`);
-  }
   for (const link of marketLinks) {
     if (publishableAffiliateHrefs.has(decodeHtmlAttribute(matchAttribute(link, "href")))) {
       throw new Error(`Партнёрский URL попал в статический HTML: ${path.relative(root, file)}`);
@@ -927,16 +951,56 @@ for (const page of seoPages) {
 }
 
 const sitemap = await readFile(path.join(docs, "sitemap.xml"), "utf8");
-const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+const sitemapEntries = [...sitemap.matchAll(
+  /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g,
+)].map((match) => ({ url: match[1], lastmod: match[2] }));
+const sitemapUrlElementCount = [...sitemap.matchAll(/<url>/g)].length;
+if (sitemapEntries.length !== sitemapUrlElementCount) {
+  throw new Error("Каждый URL sitemap должен иметь соседний точный lastmod");
+}
+const sitemapUrls = sitemapEntries.map((entry) => entry.url);
+const sitemapLastmods = new Map(sitemapEntries.map((entry) => [new URL(entry.url).pathname, entry.lastmod]));
 assertMinimum(sitemapUrls, 15, "URL в sitemap");
 assertUnique(sitemapUrls, "Sitemap URL");
-for (const urlValue of sitemapUrls) {
+assertUnique(
+  sitemapEntries.map((entry) => new URL(entry.url).pathname),
+  "Sitemap pathname",
+);
+const todayIso = new Date().toISOString().slice(0, 10);
+const newestCoreDependency = [
+  ...models.map((model) => model.checked_at),
+  ...mounts.map((mount) => mount.checked_at),
+  commercialProfilesManifest.updated_at,
+].sort().at(-1);
+if (corePagesUpdatedAt < newestCoreDependency) {
+  throw new Error("Дата основных страниц старше зависимого каталога");
+}
+for (const { url: urlValue, lastmod } of sitemapEntries) {
   const url = new URL(urlValue);
   if (url.origin !== origin || !htmlByRoute.has(url.pathname)) {
     throw new Error(`Sitemap содержит внешний или несуществующий URL: ${urlValue}`);
   }
+  const canonical = canonicalFromHtml(htmlByRoute.get(url.pathname));
+  if (url.username || url.password || url.search || url.hash || url.href !== canonical) {
+    throw new Error(`Sitemap URL не совпадает с canonical страницы: ${urlValue}`);
+  }
+  const parsedLastmod = new Date(`${lastmod}T00:00:00Z`);
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/u.test(lastmod) ||
+    Number.isNaN(parsedLastmod.valueOf()) ||
+    parsedLastmod.toISOString().slice(0, 10) !== lastmod ||
+    lastmod > todayIso
+  ) {
+    throw new Error(`Sitemap содержит неверный или будущий lastmod: ${urlValue} → ${lastmod}`);
+  }
   if (/\bnoindex\b/i.test(metaContent(htmlByRoute.get(url.pathname), "robots"))) {
     throw new Error(`Sitemap содержит noindex URL: ${urlValue}`);
+  }
+}
+
+for (const route of ["/", "/podbor/", "/modeli/", "/kronshteyny/"]) {
+  if (sitemapLastmods.get(route) !== corePagesUpdatedAt) {
+    throw new Error(`Основная страница имеет неточный sitemap lastmod: ${route}`);
   }
 }
 const sitemapPaths = new Set(sitemapUrls.map((value) => new URL(value).pathname));
@@ -953,6 +1017,17 @@ for (const model of models) {
   if (!indexable && (!/\bnoindex\b/i.test(robots) || sitemapPaths.has(route))) {
     throw new Error(`Модель без подтверждённого совпадения должна быть noindex: ${route}`);
   }
+  if (indexable) {
+    const profile = commercialProfiles.find(
+      (item) => item.entity_kind === "model" && item.entity_id === model.id,
+    );
+    const expectedLastmod = profile
+      ? [model.checked_at, commercialProfilesManifest.updated_at].sort().at(-1)
+      : model.checked_at;
+    if (sitemapLastmods.get(route) !== expectedLastmod) {
+      throw new Error(`Модель имеет неточный sitemap lastmod: ${route}`);
+    }
+  }
 }
 
 for (const mount of mounts) {
@@ -967,6 +1042,17 @@ for (const mount of mounts) {
   if (!indexable && (!/\bnoindex\b/i.test(robots) || sitemapPaths.has(route))) {
     throw new Error(`Кронштейн без подтверждённого совпадения должен быть noindex: ${route}`);
   }
+  if (indexable) {
+    const profile = commercialProfiles.find(
+      (item) => item.entity_kind === "mount" && item.entity_id === mount.id,
+    );
+    const expectedLastmod = profile
+      ? [mount.checked_at, commercialProfilesManifest.updated_at].sort().at(-1)
+      : mount.checked_at;
+    if (sitemapLastmods.get(route) !== expectedLastmod) {
+      throw new Error(`Кронштейн имеет неточный sitemap lastmod: ${route}`);
+    }
+  }
 }
 
 const indexableSeoPages = seoPages.filter((page) => page.indexable);
@@ -976,6 +1062,14 @@ for (const page of indexableSeoPages) {
   const robots = metaContent(htmlByRoute.get(page.path), "robots");
   if (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(page.path)) {
     throw new Error(`Индексируемая SEO-страница отсутствует в sitemap или закрыта: ${page.path}`);
+  }
+  if (sitemapLastmods.get(page.path) !== corePagesUpdatedAt) {
+    throw new Error(`SEO-страница имеет неточный sitemap lastmod: ${page.path}`);
+  }
+}
+for (const page of trustPages) {
+  if (sitemapLastmods.get(page.path) !== page.lastmod) {
+    throw new Error(`Доверительная страница имеет неточный sitemap lastmod: ${page.path}`);
   }
 }
 for (const page of noindexSeoPages) {

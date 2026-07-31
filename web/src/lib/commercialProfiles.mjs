@@ -102,8 +102,11 @@ export function parseCommercialProfiles(payload) {
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
     fail("root", "ожидался объект");
   }
-  assertExactKeys(payload, ["profiles", "schema_version"], "root");
+  assertExactKeys(payload, ["profiles", "schema_version", "updated_at"], "root");
   if (payload.schema_version !== 1) fail("schema_version", "поддерживается только версия 1");
+  if (!/^\d{4}-\d{2}-\d{2}$/u.test(payload.updated_at ?? "")) {
+    fail("updated_at", "ожидалась дата YYYY-MM-DD");
+  }
   if (!Array.isArray(payload.profiles)) fail("profiles", "ожидался массив");
 
   const profiles = payload.profiles.map(parseProfile);

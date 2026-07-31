@@ -8,6 +8,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
 const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
+const CORE_PAGES_UPDATED_AT: &str = "2026-07-31";
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -75,6 +76,7 @@ struct TrustPage {
     h1: String,
     lead: String,
     updated_at: String,
+    lastmod: String,
     sections: Vec<TrustSection>,
     related_links: Vec<TrustLink>,
 }
@@ -96,6 +98,7 @@ struct TrustLink {
 #[serde(deny_unknown_fields)]
 struct CommercialProfilesFile {
     schema_version: u32,
+    updated_at: String,
     profiles: Vec<CommercialProfile>,
 }
 
@@ -1726,6 +1729,11 @@ fn validate_trust_pages(pages: &[TrustPage]) {
             page.path
         );
         assert!(
+            is_valid_iso_date(&page.lastmod),
+            "Некорректная дата lastmod на {}",
+            page.path
+        );
+        assert!(
             !page.sections.is_empty(),
             "Нет содержимого на {}",
             page.path
@@ -1774,6 +1782,10 @@ fn validate_commercial_profiles(
     assert_eq!(
         file.schema_version, 1,
         "Неподдерживаемая версия коммерческих профилей"
+    );
+    assert!(
+        is_valid_iso_date(&file.updated_at),
+        "Некорректная дата обновления коммерческих профилей"
     );
     assert_eq!(
         file.profiles.len(),
@@ -2236,38 +2248,108 @@ fn main() {
         );
     }
 
+    assert!(
+        is_valid_iso_date(CORE_PAGES_UPDATED_AT),
+        "Некорректная дата обновления основных страниц"
+    );
+    for dependent_date in models
+        .iter()
+        .map(|model| model.checked_at.as_str())
+        .chain(mounts.iter().map(|mount| mount.checked_at.as_str()))
+        .chain(std::iter::once(commercial_profiles.updated_at.as_str()))
+    {
+        assert!(
+            dependent_date <= CORE_PAGES_UPDATED_AT,
+            "Дата основных страниц должна быть не старше зависимого каталога"
+        );
+    }
     let mut urls = vec![
-        "https://krepitv.ru/".to_string(),
-        "https://krepitv.ru/podbor/".to_string(),
-        "https://krepitv.ru/modeli/".to_string(),
-        "https://krepitv.ru/kronshteyny/".to_string(),
+        (
+            "https://krepitv.ru/".to_string(),
+            CORE_PAGES_UPDATED_AT.to_string(),
+        ),
+        (
+            "https://krepitv.ru/podbor/".to_string(),
+            CORE_PAGES_UPDATED_AT.to_string(),
+        ),
+        (
+            "https://krepitv.ru/modeli/".to_string(),
+            CORE_PAGES_UPDATED_AT.to_string(),
+        ),
+        (
+            "https://krepitv.ru/kronshteyny/".to_string(),
+            CORE_PAGES_UPDATED_AT.to_string(),
+        ),
     ];
     urls.extend(
         models
             .iter()
             .filter(|tv| is_indexable_model(&tv.id, &compatibility_graph))
-            .map(|tv| format!("https://krepitv.ru/modeli/{}/", tv.id)),
+            .map(|tv| {
+                let lastmod =
+                    if commercial_profile_for(&commercial_profiles.profiles, "model", &tv.id)
+                        .is_some()
+                    {
+                        tv.checked_at
+                            .as_str()
+                            .max(commercial_profiles.updated_at.as_str())
+                    } else {
+                        tv.checked_at.as_str()
+                    };
+                (
+                    format!("https://krepitv.ru/modeli/{}/", tv.id),
+                    lastmod.to_string(),
+                )
+            }),
     );
     urls.extend(
         mounts
             .iter()
             .filter(|mount| is_indexable_mount(&mount.id, &compatibility_graph))
-            .map(|mount| format!("https://krepitv.ru/kronshteyny/{}/", mount.id)),
+            .map(|mount| {
+                let lastmod =
+                    if commercial_profile_for(&commercial_profiles.profiles, "mount", &mount.id)
+                        .is_some()
+                    {
+                        mount
+                            .checked_at
+                            .as_str()
+                            .max(commercial_profiles.updated_at.as_str())
+                    } else {
+                        mount.checked_at.as_str()
+                    };
+                (
+                    format!("https://krepitv.ru/kronshteyny/{}/", mount.id),
+                    lastmod.to_string(),
+                )
+            }),
     );
     urls.extend(
         seo_pages
             .iter()
             .filter(|page| is_indexable_seo_page(page))
-            .map(|page| format!("https://krepitv.ru{}", page.path)),
+            .map(|page| {
+                (
+                    format!("https://krepitv.ru{}", page.path),
+                    CORE_PAGES_UPDATED_AT.to_string(),
+                )
+            }),
     );
-    urls.extend(
-        trust_pages
-            .iter()
-            .map(|page| format!("https://krepitv.ru{}", page.path)),
-    );
+    urls.extend(trust_pages.iter().map(|page| {
+        (
+            format!("https://krepitv.ru{}", page.path),
+            page.lastmod.clone(),
+        )
+    }));
     let sitemap_urls = urls
         .iter()
-        .map(|url| format!("  <url><loc>{}</loc></url>", escape_html(url)))
+        .map(|(url, lastmod)| {
+            format!(
+                "  <url><loc>{}</loc><lastmod>{}</lastmod></url>",
+                escape_html(url),
+                escape_html(lastmod),
+            )
+        })
         .collect::<Vec<_>>()
         .join("\n");
     write(
