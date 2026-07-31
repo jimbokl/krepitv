@@ -132,3 +132,11 @@ organic_sessions → result_completed → mount_detail_click → market_click �
 - Полный release gate прошёл 230 тестов, русскоязычный UI, 141 URL sitemap,
   80 моделей, 23 кронштейна и 1 405 verified-fit связей. Это доказывает готовый
   код измерения, но не наличие двух целей в аккаунте Метрики.
+- Source commit `b0855dfba129774aca86e0febd7c0518348155ea` опубликован успешным
+  GitHub Pages run `30616121511`. Production использует
+  `/assets/main-NG3mXria.js`; его SHA-256 побайтно совпал с локальным релизом:
+  `ce50eeabb5d08e9f01876eb4e39a79f3cfb42a1c8f1502d31b8883a44814c384`.
+- Изолированный production DOM ONKRON-хаба содержит три внутренние ссылки с
+  `data-mount-detail-placement="compatibility_result"` и три живых перехода на
+  Маркет. Старого длинного дисклеймера и runtime `TypeError`/`ReferenceError`
+  нет; главная и хаб отвечают 200 с TLS verify 0.
