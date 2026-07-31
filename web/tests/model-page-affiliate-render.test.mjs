@@ -148,7 +148,7 @@ test("карточка модели выводит только три model-spe
     assert.equal(html.includes("data-wall-mount-screws=\"true\""), true);
     assert.equal(html.includes("Какие винты нужны для TCL 55C7K"), true);
     assert.equal(html.includes("4 шт. · M6×16 мм"), true);
-    assert.equal(html.includes("это паспортный размер винта, а не глубина резьбового отверстия"), true);
+    assert.equal(html.includes("Это паспортный размер винта, а не глубина резьбового отверстия"), true);
     assert.equal(html.includes("Российское руководство TCL C7K, стр. 26"), true);
     for (const fragment of [
       "Партнёрская ссылка на Яндекс Маркет",
@@ -159,6 +159,61 @@ test("карточка модели выводит только три model-spe
       assert.equal(html.includes(fragment), false);
     }
     assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
+  } finally {
+    await vite.close();
+  }
+});
+
+test("паспорт Hisense отличает диапазон L от полной длины и показывает конфликт VESA", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({
+    root,
+    logLevel: "silent",
+    server: { middlewareMode: true },
+    appType: "custom",
+  });
+
+  try {
+    const { WallMountScrews } = await vite.ssrLoadModule("/src/components/WallMountScrews.jsx");
+    const { ModelFacts } = await vite.ssrLoadModule("/src/components/ModelFacts.jsx");
+    const model = {
+      title: "Hisense 55U7S PRO",
+      vesa_width_mm: 400,
+      vesa_height_mm: 300,
+      weight_kg: 14.1,
+      diagonal_inches: 55,
+      wall_mount_screws: {
+        groups: [{
+          location: "Четыре точки по руководству",
+          thread: "M6",
+          engagement_min_mm: 9.5,
+          engagement_max_mm: 11.5,
+          quantity: 4,
+        }],
+        requires_adapters: false,
+        required_parts_note: "Установите промежуточные вставки.",
+        vesa_conflict: {
+          catalog_value: "400×300 мм",
+          manual_value: "400×400 мм",
+          note: "Сверьте отверстия на своём экземпляре.",
+        },
+        source_region: "Россия",
+        source_url: "https://cdn.hisense.ru/manual.pdf",
+        source_label: "Российское руководство Hisense",
+        checked_at: "2026-07-31",
+        note: "Официальные источники расходятся.",
+      },
+    };
+
+    const passport = renderToStaticMarkup(React.createElement(WallMountScrews, { model }));
+    const facts = renderToStaticMarkup(React.createElement(ModelFacts, { model }));
+
+    assert.equal(passport.includes("data-vesa-source-conflict=\"true\""), true);
+    assert.equal(passport.includes("4 шт. · M6 · диапазон L 9,5–11,5 мм"), true);
+    assert.equal(passport.includes("не готовая полная длина винта"), true);
+    assert.equal(passport.includes("Установите промежуточные вставки"), true);
+    assert.equal(facts.includes("Проверить: 400×300 мм / 400×400 мм"), true);
+    assert.equal(passport.includes("M6×9"), false);
   } finally {
     await vite.close();
   }

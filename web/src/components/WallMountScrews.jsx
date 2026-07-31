@@ -1,6 +1,23 @@
 import { LinkSimple, WarningCircle, Wrench } from "@phosphor-icons/react";
 import { formatCheckedDate } from "./TrustMark.jsx";
 
+function formatMm(value) {
+  return new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 1 }).format(value);
+}
+
+function screwMeasurement(group) {
+  if (Number.isFinite(group.length_mm)) {
+    return `${group.thread}×${group.length_mm} мм`;
+  }
+  if (
+    Number.isFinite(group.engagement_min_mm)
+    && Number.isFinite(group.engagement_max_mm)
+  ) {
+    return `${group.thread} · диапазон L ${formatMm(group.engagement_min_mm)}–${formatMm(group.engagement_max_mm)} мм`;
+  }
+  return group.thread;
+}
+
 export function WallMountScrews({ model }) {
   const hardware = model?.wall_mount_screws;
   if (!hardware?.groups?.length) return null;
@@ -23,12 +40,26 @@ export function WallMountScrews({ model }) {
         </div>
       </div>
 
+      {hardware.vesa_conflict ? (
+        <div className="mt-4 border-2 border-action bg-paper p-4" data-vesa-source-conflict="true">
+          <p className="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-action">
+            Расхождение официальных источников
+          </p>
+          <p className="mt-2 font-display text-xl font-extrabold">
+            Карточка модели: {hardware.vesa_conflict.catalog_value} · руководство: {hardware.vesa_conflict.manual_value}
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-muted">
+            {hardware.vesa_conflict.note}
+          </p>
+        </div>
+      ) : null}
+
       <dl className="mt-4 border-b border-line">
         {hardware.groups.map((group) => (
           <div className="border-t border-line py-3" key={group.location}>
             <dt className="font-mono text-[0.68rem] uppercase text-muted">{group.location}</dt>
             <dd className="mt-1 font-display text-2xl font-extrabold">
-              {group.quantity} шт. · {group.thread}×{group.length_mm} мм
+              {group.quantity} шт. · {screwMeasurement(group)}
             </dd>
           </div>
         ))}
@@ -40,13 +71,20 @@ export function WallMountScrews({ model }) {
         </p>
       ) : null}
 
+      {hardware.required_parts_note ? (
+        <p className="mt-4 border-l-2 border-technical pl-4 font-semibold">
+          {hardware.required_parts_note}
+        </p>
+      ) : null}
+
       <p className="mt-4 text-sm leading-relaxed text-muted">{hardware.note}</p>
       <div className="mt-3 flex items-start gap-2 text-sm leading-relaxed text-muted">
         <WarningCircle aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-action" />
         <p>
-          <strong className="text-ink">Важно:</strong> это паспортный размер винта, а не
-          глубина резьбового отверстия. Не увеличивайте длину по аналогии; учитывайте только
-          схему и проставки из руководств телевизора и кронштейна.
+          <strong className="text-ink">Важно:</strong>{" "}
+          {hardware.groups.some((group) => Number.isFinite(group.engagement_min_mm))
+            ? "Диапазон L взят из схемы руководства. Это не готовая полная длина винта: она зависит от толщины планки, шайбы и предусмотренной вставки."
+            : "Это паспортный размер винта, а не глубина резьбового отверстия. Не увеличивайте длину по аналогии; учитывайте только схему и проставки из руководств телевизора и кронштейна."}
         </p>
       </div>
       <a

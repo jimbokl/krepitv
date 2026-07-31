@@ -60,6 +60,31 @@ test("model context links only to existing indexable brand, diagonal and VESA hu
   ]);
 });
 
+test("model context suppresses a single VESA hub when official sources conflict", () => {
+  const model = {
+    brand: "Hisense",
+    diagonal_inches: 55,
+    vesa_width_mm: 400,
+    vesa_height_mm: 300,
+    wall_mount_screws: {
+      vesa_conflict: {
+        catalog_value: "400×300 мм",
+        manual_value: "400×400 мм",
+      },
+    },
+  };
+  const catalog = [
+    { id: "brand-hisense", path: "/kronshteyn-dlya-televizora-hisense/", indexable: true },
+    { id: "diagonal-55", path: "/kronshteyn-dlya-televizora-55-dyuyma/", indexable: true },
+    { id: "vesa-400x300", path: "/vesa/400x300/", indexable: true },
+  ];
+
+  assert.deepEqual(
+    getModelContextPages(model, catalog).map((page) => page.id),
+    ["brand-hisense", "diagonal-55"],
+  );
+});
+
 test("master page leads to the compatibility chain before generic calculators", () => {
   const catalog = [
     { id: "wall-mounted-tv", kind: "calculator", indexable: true },

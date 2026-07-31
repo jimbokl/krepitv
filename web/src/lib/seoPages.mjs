@@ -30,11 +30,13 @@ export function getModelContextPages(model, pages) {
       id: `diagonal-${Number(model.diagonal_inches)}`,
       label: `Кронштейны для телевизоров ${Number(model.diagonal_inches)}″`,
     },
-    {
+  ];
+  if (!model.wall_mount_screws?.vesa_conflict) {
+    candidates.push({
       id: `vesa-${model.vesa_width_mm}x${model.vesa_height_mm}`,
       label: `Модели с VESA ${model.vesa_width_mm}×${model.vesa_height_mm}`,
-    },
-  ];
+    });
+  }
 
   return candidates.flatMap((candidate) => {
     const page = pages.find((item) => item.id === candidate.id && isIndexableSeoPage(item));

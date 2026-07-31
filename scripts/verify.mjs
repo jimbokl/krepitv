@@ -535,17 +535,38 @@ for (const model of models) {
       groups.length > 4 ||
       groups.reduce((total, group) => total + group.quantity, 0) !== 4 ||
       locations.size !== groups.length ||
-      groups.some((group) =>
-        !group.location?.trim() ||
-        !/^M\d{1,2}$/.test(group.thread ?? "") ||
-        !Number.isInteger(group.length_mm) ||
-        group.length_mm < 4 ||
-        group.length_mm > 100 ||
-        !Number.isInteger(group.quantity) ||
-        group.quantity < 1 ||
-        group.quantity > 4
-      ) ||
+      groups.some((group) => {
+        const hasExactLength = Number.isInteger(group.length_mm);
+        const hasEngagementRange =
+          Number.isFinite(group.engagement_min_mm)
+          && Number.isFinite(group.engagement_max_mm);
+        return (
+          !group.location?.trim()
+          || !/^M\d{1,2}$/.test(group.thread ?? "")
+          || hasExactLength === hasEngagementRange
+          || (hasExactLength && (group.length_mm < 4 || group.length_mm > 100))
+          || (hasEngagementRange && (
+            group.engagement_min_mm < 1
+            || group.engagement_max_mm > 100
+            || group.engagement_min_mm >= group.engagement_max_mm
+          ))
+          || (!hasEngagementRange && (
+            group.engagement_min_mm !== undefined
+            || group.engagement_max_mm !== undefined
+          ))
+          || !Number.isInteger(group.quantity)
+          || group.quantity < 1
+          || group.quantity > 4
+        );
+      }) ||
       typeof hardware.requires_adapters !== "boolean" ||
+      (hardware.required_parts_note !== undefined && !hardware.required_parts_note?.trim()) ||
+      (hardware.vesa_conflict !== undefined && (
+        !hardware.vesa_conflict?.catalog_value?.trim()
+        || !hardware.vesa_conflict?.manual_value?.trim()
+        || hardware.vesa_conflict.catalog_value === hardware.vesa_conflict.manual_value
+        || !hardware.vesa_conflict?.note?.trim()
+      )) ||
       !hardware.source_region?.trim() ||
       !hardware.source_url?.startsWith("https://") ||
       !hardware.source_label?.trim() ||
@@ -1109,9 +1130,11 @@ for (const model of models) {
     const profile = commercialProfiles.find(
       (item) => item.entity_kind === "model" && item.entity_id === model.id,
     );
-    const expectedLastmod = profile
-      ? [model.checked_at, commercialProfilesManifest.updated_at].sort().at(-1)
-      : model.checked_at;
+    const expectedLastmod = [
+      model.checked_at,
+      model.wall_mount_screws?.checked_at,
+      profile ? commercialProfilesManifest.updated_at : undefined,
+    ].filter(Boolean).sort().at(-1);
     if (sitemapLastmods.get(route) !== expectedLastmod) {
       throw new Error(`Модель имеет неточный sitemap lastmod: ${route}`);
     }

@@ -47,6 +47,7 @@ export function ModelPage({ catalog, modelId }) {
     entityId: model.id,
     pagePath: `/modeli/${model.id}/`,
   });
+  const vesaConflict = model.wall_mount_screws?.vesa_conflict;
 
   function openModel(item) {
     window.location.assign(item.href || `/modeli/${item.id}/`);
@@ -121,15 +122,19 @@ export function ModelPage({ catalog, modelId }) {
 
           <div className="py-6 lg:pl-8">
             <div className="flex items-center gap-4">
-              <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-verified text-white">
-                <Check aria-hidden="true" className="size-9" weight="bold" />
+              <span className={`flex size-14 shrink-0 items-center justify-center rounded-full text-white ${vesaConflict ? "bg-action" : "bg-verified"}`}>
+                {vesaConflict
+                  ? <Info aria-hidden="true" className="size-9" weight="bold" />
+                  : <Check aria-hidden="true" className="size-9" weight="bold" />}
               </span>
               <div>
-                <h2 className="font-display text-3xl font-extrabold text-verified sm:text-4xl lg:text-5xl">
-                  Совместимые варианты
+                <h2 className={`font-display text-3xl font-extrabold sm:text-4xl lg:text-5xl ${vesaConflict ? "text-action" : "text-verified"}`}>
+                  {vesaConflict ? "Кандидаты после проверки VESA" : "Совместимые варианты"}
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed sm:text-base">
-                  Все варианты проходят точную VESA и запас нагрузки для {model.title}. Диапазон диагонали проверяется отдельно в статусе каждой позиции.
+                  {vesaConflict
+                    ? "Официальные источники расходятся по VESA. До измерения отверстий не считайте автоматический список окончательным."
+                    : `Все варианты проходят точную VESA и запас нагрузки для ${model.title}. Диапазон диагонали проверяется отдельно в статусе каждой позиции.`}
                 </p>
               </div>
             </div>
@@ -176,6 +181,7 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
     matches,
     modelAffiliateOffers,
   );
+  const vesaConflict = Boolean(model.wall_mount_screws?.vesa_conflict);
 
   return (
     <>
@@ -183,7 +189,9 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
         <section aria-label="Предложения Яндекс Маркета" className="mt-6 border-2 border-ink bg-white p-5">
           <div className="flex flex-wrap items-end justify-between gap-2 border-b border-ink pb-3">
             <h2 className="font-display text-2xl font-extrabold">Сейчас доступны на Маркете</h2>
-            <span className="font-mono text-xs uppercase text-muted">До 3 проверенных вариантов</span>
+            <span className="font-mono text-xs uppercase text-muted">
+              {vesaConflict ? "До 3 вариантов после ручной сверки VESA" : "До 3 проверенных вариантов"}
+            </span>
           </div>
           <div className="grid gap-4 pt-4 lg:grid-cols-3">
             {featuredOffers.map(({ market, mount, offer }) => (
@@ -239,8 +247,10 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
               <span className="font-mono text-xs uppercase text-muted">
                 {mechanismLabel(mount.mechanism)}
               </span>
-              <span className={`font-mono text-xs uppercase ${fitStatus === "verified-fit" ? "text-verified" : "text-action"}`}>
-                {fitStatus === "verified-fit" ? "Три проверки пройдены" : "Нужна проверка диагонали"}
+              <span className={`font-mono text-xs uppercase ${fitStatus === "verified-fit" && !vesaConflict ? "text-verified" : "text-action"}`}>
+                {vesaConflict
+                  ? "Нужно сверить VESA"
+                  : fitStatus === "verified-fit" ? "Три проверки пройдены" : "Нужна проверка диагонали"}
               </span>
             </div>
             <ul className="mt-2 grid gap-2 text-sm sm:grid-cols-2">

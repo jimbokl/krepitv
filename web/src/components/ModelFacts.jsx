@@ -9,10 +9,13 @@ import {
 } from "@phosphor-icons/react";
 
 export function ModelFacts({ model, detailed = false }) {
+  const vesaConflict = model.wall_mount_screws?.vesa_conflict;
   const facts = [
     {
       label: "VESA",
-      value: `${model.vesa_width_mm}×${model.vesa_height_mm}`,
+      value: vesaConflict
+        ? `Проверить: ${vesaConflict.catalog_value} / ${vesaConflict.manual_value}`
+        : `${model.vesa_width_mm}×${model.vesa_height_mm}`,
       Icon: BracketsSquare,
     },
     {
