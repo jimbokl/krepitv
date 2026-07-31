@@ -113,6 +113,23 @@ async function verifyPublishedKey(fetchImpl) {
   }
 }
 
+export function parseCliArguments(args) {
+  const dryRun = args.includes("--dry-run");
+  const manifestFlag = args.indexOf("--manifest");
+  if (manifestFlag !== -1 && !args[manifestFlag + 1]) {
+    throw new Error("После --manifest нужен путь к файлу.");
+  }
+  const manifest = manifestFlag === -1
+    ? defaultManifest
+    : path.resolve(args[manifestFlag + 1]);
+  const positional = args.filter((value, index) => (
+    value !== "--dry-run" &&
+    value !== "--manifest" &&
+    !(manifestFlag !== -1 && index === manifestFlag + 1)
+  ));
+  return { dryRun, manifest, positional };
+}
+
 export async function submitIndexNow(urlList, {
   dryRun = false,
   fetchImpl = fetch,
@@ -139,14 +156,7 @@ async function main(args) {
     console.log("Без URL используется проверенный список data/indexnow/changed-urls.txt.");
     return;
   }
-  const dryRun = args.includes("--dry-run");
-  const manifestFlag = args.indexOf("--manifest");
-  const manifest = manifestFlag === -1 ? defaultManifest : path.resolve(args[manifestFlag + 1] ?? "");
-  const positional = args.filter((value, index) => (
-    value !== "--dry-run" &&
-    value !== "--manifest" &&
-    index !== manifestFlag + 1
-  ));
+  const { dryRun, manifest, positional } = parseCliArguments(args);
   const values = positional.length ? positional : await readManifest(manifest);
   const normalized = normalizeUrlList(values);
   assertUrlsInSitemap(normalized, await readFile(sitemapFile, "utf8"));

@@ -11,6 +11,7 @@ import {
   buildPayload,
   expandManifestLines,
   normalizeUrlList,
+  parseCliArguments,
   submitIndexNow,
 } from "../../scripts/indexnow/submit.mjs";
 
@@ -44,6 +45,16 @@ test("builds a Yandex-compatible batch without secrets", () => {
     keyLocation: INDEXNOW_KEY_LOCATION,
     urlList: ["https://krepitv.ru/kronshteyn-dlya-televizora-lg/"],
   });
+});
+
+test("keeps the first positional URL when no manifest flag is present", () => {
+  const url = "https://krepitv.ru/o-proekte/";
+  assert.deepEqual(parseCliArguments([url]).positional, [url]);
+  assert.deepEqual(
+    parseCliArguments(["--dry-run", url]).positional,
+    [url],
+  );
+  assert.throws(() => parseCliArguments(["--manifest"]), /нужен путь/);
 });
 
 test("expands audited catalog groups and rejects unknown directives", () => {
