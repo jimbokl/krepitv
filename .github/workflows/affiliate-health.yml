@@ -6,9 +6,7 @@ on:
     # Два запуска в сутки оставляют запас относительно жёсткого TTL 48 часов.
     - cron: "17 4,16 * * *"
 
-permissions:
-  contents: write
-  pages: write
+permissions: {}
 
 concurrency:
   group: krepitv-affiliate-health
@@ -16,6 +14,9 @@ concurrency:
 
 jobs:
   refresh:
+    permissions:
+      contents: write
+      pages: write
     if: github.repository == 'jimbokl/krepitv' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 45
