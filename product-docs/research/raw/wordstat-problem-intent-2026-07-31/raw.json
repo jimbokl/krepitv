@@ -1,0 +1,3513 @@
+[
+  {
+    "seed": {
+      "candidate_id": "wall-drywall-how",
+      "candidate_path": "/kak-povesit-televizor-na-gipsokarton/",
+      "query": "как повесить телевизор на гипсокартон",
+      "variant": "how"
+    },
+    "operator_query": "\"[как повесить телевизор на гипсокартон]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3220",
+          "text": "установка кондиционера видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "3000",
+          "text": "крепление кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "7107",
+          "text": "монтаж гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "838",
+          "text": "дюбель для гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "381",
+          "text": "как крепить кабель канал к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "2387",
+          "text": "саморез для гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "1044",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "1204",
+          "text": "клей для гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "6617",
+          "text": "перегородки из гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "321",
+          "text": "дюбель для гипрока"
+        },
+        {
+          "isAssociations": true,
+          "value": "739",
+          "text": "на какой высоте вешать тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1589",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "610",
+          "text": "монтаж пластиковых панелей на стены"
+        },
+        {
+          "isAssociations": true,
+          "value": "117",
+          "text": "клей для гкл на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "230",
+          "text": "дюбель для гвл"
+        },
+        {
+          "isAssociations": true,
+          "value": "115",
+          "text": "монтаж акустических панелей на стены"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "495",
+          "text": "как повесить телевизор на гипсокартон"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-drywall-mount",
+      "candidate_path": "/kak-povesit-televizor-na-gipsokarton/",
+      "query": "крепление телевизора на гипсокартон",
+      "variant": "mount"
+    },
+    "operator_query": "\"[крепление телевизора на гипсокартон]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "11017",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "7514",
+          "text": "кронштейн для карниза"
+        },
+        {
+          "isAssociations": true,
+          "value": "4485",
+          "text": "крепеж для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "2664",
+          "text": "подвесная тумба под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1933",
+          "text": "крепеж для пластиковых окон"
+        },
+        {
+          "isAssociations": true,
+          "value": "2371",
+          "text": "кронштейн для видеокамеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "392",
+          "text": "как крепить кабель канал к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "2450",
+          "text": "держатель для карниза"
+        },
+        {
+          "isAssociations": true,
+          "value": "178",
+          "text": "как повесить полку на гипсокартонную стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "кронштейн для саундбара"
+        },
+        {
+          "isAssociations": true,
+          "value": "493",
+          "text": "крепеж для полок к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "1233",
+          "text": "кронштейн под кондиционер"
+        },
+        {
+          "isAssociations": true,
+          "value": "1602",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "205",
+          "text": "крепеж для кабеля к потолку"
+        },
+        {
+          "isAssociations": true,
+          "value": "460",
+          "text": "крепеж провода к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "1913",
+          "text": "саморезы для гвл"
+        },
+        {
+          "isAssociations": true,
+          "value": "311",
+          "text": "как вставить крючки в потолочный карниз"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "144",
+          "text": "крепление телевизора на гипсокартон"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-drywall-can",
+      "candidate_path": "/kak-povesit-televizor-na-gipsokarton/",
+      "query": "можно ли повесить телевизор на гипсокартон",
+      "variant": "can"
+    },
+    "operator_query": "\"[можно ли повесить телевизор на гипсокартон]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1126",
+          "text": "крепеж для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "3000",
+          "text": "крепление кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "3221",
+          "text": "монтаж гипсокартона на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "7107",
+          "text": "монтаж гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "838",
+          "text": "дюбель для гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "381",
+          "text": "как крепить кабель канал к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "2387",
+          "text": "саморез для гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "1044",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "1204",
+          "text": "клей для гкл"
+        },
+        {
+          "isAssociations": true,
+          "value": "321",
+          "text": "дюбель для гипрока"
+        },
+        {
+          "isAssociations": true,
+          "value": "739",
+          "text": "на какой высоте вешать тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1589",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "230",
+          "text": "дюбель для гвл"
+        },
+        {
+          "isAssociations": true,
+          "value": "117",
+          "text": "клей для гкл на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "74",
+          "text": "гкл панели для стен для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "115",
+          "text": "монтаж акустических панелей на стены"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "118",
+          "text": "можно ли повесить телевизор на гипсокартон"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-drywall-bracket",
+      "candidate_path": "/kak-povesit-televizor-na-gipsokarton/",
+      "query": "кронштейн для телевизора на гипсокартон",
+      "variant": "bracket"
+    },
+    "operator_query": "\"[кронштейн для телевизора на гипсокартон]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3411",
+          "text": "крепление для велосипеда на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "1640",
+          "text": "крепление провода к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "крепление велосипеда к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "335",
+          "text": "крепеж для велосипеда на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "80",
+          "text": "камин видео на весь экран со звуком"
+        },
+        {
+          "isAssociations": true,
+          "value": "381",
+          "text": "как крепить кабель канал к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "2516",
+          "text": "держатель для карниза"
+        },
+        {
+          "isAssociations": true,
+          "value": "1761",
+          "text": "крючки для гардины"
+        },
+        {
+          "isAssociations": true,
+          "value": "116",
+          "text": "как повесить кухонные шкафы на гипсокартонную стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "450",
+          "text": "крепление для монитора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "6789",
+          "text": "крепление для карниза"
+        },
+        {
+          "isAssociations": true,
+          "value": "1044",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "595",
+          "text": "крепление столешницы к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "1589",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "490",
+          "text": "тумба под тв на ножках"
+        },
+        {
+          "isAssociations": true,
+          "value": "1611",
+          "text": "крепление карниза к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "309",
+          "text": "как вставить крючки в потолочный карниз"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "385",
+          "text": "кронштейн для телевизора на гипсокартон"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-drywall-fastener",
+      "candidate_path": "/kak-povesit-televizor-na-gipsokarton/",
+      "query": "крепеж для телевизора на гипсокартон",
+      "variant": "fastener"
+    },
+    "operator_query": "\"[крепеж для телевизора на гипсокартон]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "618",
+          "text": "дюбель хомут для крепления кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "4615",
+          "text": "крепление вагонки"
+        },
+        {
+          "isAssociations": true,
+          "value": "1640",
+          "text": "крепление провода к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "246",
+          "text": "крепление вагонки на кляймеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "180",
+          "text": "как повесить полку на гипсокартонную стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "7506",
+          "text": "крепление воздуховодов"
+        },
+        {
+          "isAssociations": true,
+          "value": "647",
+          "text": "крепление для проводов на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "1654",
+          "text": "как соединить антенный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "176",
+          "text": "траверса для крепления воздуховодов"
+        },
+        {
+          "isAssociations": true,
+          "value": "3315",
+          "text": "клипсы для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "11808",
+          "text": "кабель для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19556",
+          "text": "крепление для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "850",
+          "text": "крепление дымохода к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "117",
+          "text": "клей для гкл на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "1873",
+          "text": "саморезы для гвл"
+        },
+        {
+          "isAssociations": true,
+          "value": "74",
+          "text": "гкл панели для стен для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "2050",
+          "text": "кронштейн крепления глушителя"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "20",
+          "text": "крепеж для телевизора на гипсокартон"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-aerated-how",
+      "candidate_path": "/kak-povesit-televizor-na-gazobeton/",
+      "query": "как повесить телевизор на газобетон",
+      "variant": "how"
+    },
+    "operator_query": "\"[как повесить телевизор на газобетон]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3220",
+          "text": "установка кондиционера видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "6066",
+          "text": "монтаж стеновых панелей"
+        },
+        {
+          "isAssociations": true,
+          "value": "3000",
+          "text": "крепление кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "578",
+          "text": "установка подрозетников в бетонную стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "680",
+          "text": "как установить впн на смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2289",
+          "text": "подключение газового котла в частном доме"
+        },
+        {
+          "isAssociations": true,
+          "value": "151",
+          "text": "сколько стоит кладка газоблока за 1 куб"
+        },
+        {
+          "isAssociations": true,
+          "value": "460",
+          "text": "дюбель для газосиликата"
+        },
+        {
+          "isAssociations": true,
+          "value": "2373",
+          "text": "установка газовой варочной панели"
+        },
+        {
+          "isAssociations": true,
+          "value": "7810",
+          "text": "газоблоки для строительства"
+        },
+        {
+          "isAssociations": true,
+          "value": "595",
+          "text": "крепление столешницы к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "1110",
+          "text": "пороховой монтажный пистолет для дюбелей"
+        },
+        {
+          "isAssociations": true,
+          "value": "505",
+          "text": "крепление акриловой ванны к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "130",
+          "text": "чем резать газобетонные блоки"
+        },
+        {
+          "isAssociations": true,
+          "value": "731",
+          "text": "монтаж стеновых сэндвич панелей"
+        },
+        {
+          "isAssociations": true,
+          "value": "1738",
+          "text": "установка коаксиального дымохода"
+        },
+        {
+          "isAssociations": true,
+          "value": "176",
+          "text": "как крепить мягкую кровлю на стены"
+        },
+        {
+          "isAssociations": true,
+          "value": "115",
+          "text": "монтаж акустических панелей на стены"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "44",
+          "text": "как повесить телевизор на газобетон"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-aerated-mount",
+      "candidate_path": "/kak-povesit-televizor-na-gazobeton/",
+      "query": "крепление телевизора к газобетону",
+      "variant": "mount"
+    },
+    "operator_query": "\"[крепление телевизора к газобетону]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-aerated-can",
+      "candidate_path": "/kak-povesit-televizor-na-gazobeton/",
+      "query": "можно ли повесить телевизор на газобетон",
+      "variant": "can"
+    },
+    "operator_query": "\"[можно ли повесить телевизор на газобетон]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-aerated-bracket",
+      "candidate_path": "/kak-povesit-televizor-na-gazobeton/",
+      "query": "кронштейн для телевизора на газобетон",
+      "variant": "bracket"
+    },
+    "operator_query": "\"[кронштейн для телевизора на газобетон]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-aerated-fastener",
+      "candidate_path": "/kak-povesit-televizor-na-gazobeton/",
+      "query": "крепеж для телевизора в газобетон",
+      "variant": "fastener"
+    },
+    "operator_query": "\"[крепеж для телевизора в газобетон]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-concrete-how",
+      "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/",
+      "query": "как повесить телевизор на бетонную стену",
+      "variant": "how"
+    },
+    "operator_query": "\"[как повесить телевизор на бетонную стену]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1051",
+          "text": "монтажный пистолет для дюбелей по бетону"
+        },
+        {
+          "isAssociations": true,
+          "value": "6066",
+          "text": "монтаж стеновых панелей"
+        },
+        {
+          "isAssociations": true,
+          "value": "1646",
+          "text": "настенное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "381",
+          "text": "как крепить кабель канал к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "872",
+          "text": "на какой высоте вешать телевизор в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "1329",
+          "text": "стенка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3142",
+          "text": "как крепить стеновые панели"
+        },
+        {
+          "isAssociations": true,
+          "value": "4301",
+          "text": "настенный кронштейн для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "2094",
+          "text": "установка стеновых панелей"
+        },
+        {
+          "isAssociations": true,
+          "value": "284",
+          "text": "как крепить стеновую панель на кухне"
+        },
+        {
+          "isAssociations": true,
+          "value": "731",
+          "text": "монтаж стеновых сэндвич панелей"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "33",
+          "text": "как повесить телевизор на бетонную стену"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-concrete-mount",
+      "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/",
+      "query": "крепление телевизора к бетонной стене",
+      "variant": "mount"
+    },
+    "operator_query": "\"[крепление телевизора к бетонной стене]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-concrete-bracket",
+      "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/",
+      "query": "кронштейн для телевизора на бетонную стену",
+      "variant": "bracket"
+    },
+    "operator_query": "\"[кронштейн для телевизора на бетонную стену]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-concrete-dowel",
+      "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/",
+      "query": "дюбель для кронштейна телевизора",
+      "variant": "dowel"
+    },
+    "operator_query": "\"[дюбель для кронштейна телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2664",
+          "text": "подвесная тумба под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "413",
+          "text": "настенное крепление для велосипеда"
+        },
+        {
+          "isAssociations": true,
+          "value": "2900",
+          "text": "скоба для крепления кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "460",
+          "text": "крепление для монитора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "6695",
+          "text": "крепление для карниза"
+        },
+        {
+          "isAssociations": true,
+          "value": "174",
+          "text": "саморез флюгель для крепления дерева к металлу"
+        },
+        {
+          "isAssociations": true,
+          "value": "11252",
+          "text": "болт крепления суппорта"
+        },
+        {
+          "isAssociations": true,
+          "value": "887",
+          "text": "крепление на дин рейку"
+        },
+        {
+          "isAssociations": true,
+          "value": "2565",
+          "text": "крепление полки к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "408",
+          "text": "крепление монитора к столу"
+        },
+        {
+          "isAssociations": true,
+          "value": "624",
+          "text": "крепление столешницы к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "2787",
+          "text": "как повесить тюль на крючки"
+        },
+        {
+          "isAssociations": true,
+          "value": "878",
+          "text": "крепление дымохода к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "454",
+          "text": "крепление мдф панелей к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "2375",
+          "text": "хомут для крепления кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "1607",
+          "text": "крепление карниза к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "4374",
+          "text": "крепление крыла велосипеда"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "423",
+          "text": "дюбеля для кронштейна телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-concrete-fastener",
+      "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/",
+      "query": "крепеж для телевизора к стене",
+      "variant": "fastener"
+    },
+    "operator_query": "\"[крепеж для телевизора к стене]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "8839",
+          "text": "стенка под телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19957",
+          "text": "крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "191",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "3484",
+          "text": "как повесить телевизор на кронштейн"
+        },
+        {
+          "isAssociations": true,
+          "value": "27479",
+          "text": "кронштейн настенный"
+        },
+        {
+          "isAssociations": true,
+          "value": "1646",
+          "text": "настенное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1329",
+          "text": "стенка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "765",
+          "text": "как повесить кронштейн для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "3142",
+          "text": "как крепить стеновые панели"
+        },
+        {
+          "isAssociations": true,
+          "value": "1044",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "3195",
+          "text": "кронштейн стеновой"
+        },
+        {
+          "isAssociations": true,
+          "value": "4301",
+          "text": "настенный кронштейн для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "739",
+          "text": "на какой высоте вешать тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1589",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "284",
+          "text": "как крепить стеновую панель на кухне"
+        },
+        {
+          "isAssociations": true,
+          "value": "577",
+          "text": "как подключить тв розетку"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "73",
+          "text": "крепежи для телевизора к стене"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screws-needed",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "какие болты нужны для крепления телевизора",
+      "variant": "needed"
+    },
+    "operator_query": "\"[какие болты нужны для крепления телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "7497",
+          "text": "мир крепежа"
+        },
+        {
+          "isAssociations": true,
+          "value": "51919",
+          "text": "болтик"
+        },
+        {
+          "isAssociations": true,
+          "value": "697",
+          "text": "бест крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "16732",
+          "text": "пластина крепежная"
+        },
+        {
+          "isAssociations": true,
+          "value": "6203",
+          "text": "крепежная деталь"
+        },
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "5870",
+          "text": "уголок крепежный усиленный"
+        },
+        {
+          "isAssociations": true,
+          "value": "1369",
+          "text": "уголок мебельный крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "950",
+          "text": "свм крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "17411",
+          "text": "крепежные элементы"
+        },
+        {
+          "isAssociations": true,
+          "value": "3025",
+          "text": "крепеж колес"
+        },
+        {
+          "isAssociations": true,
+          "value": "30644",
+          "text": "уголок крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "1132",
+          "text": "крепеж для труб к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "6759",
+          "text": "угол крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "1696",
+          "text": "крепеж для троса"
+        },
+        {
+          "isAssociations": true,
+          "value": "629",
+          "text": "уголок крепежный 50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "3179",
+          "text": "крепеж для профиля"
+        },
+        {
+          "isAssociations": true,
+          "value": "16732",
+          "text": "крепежные пластины"
+        },
+        {
+          "isAssociations": true,
+          "value": "3778",
+          "text": "кронштейн крепежный"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "511",
+          "text": "какие болты нужны для крепления телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screws-bracket",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "болты для крепления телевизора к кронштейну",
+      "variant": "bracket"
+    },
+    "operator_query": "\"[болты для крепления телевизора к кронштейну]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4346",
+          "text": "дюбель хомут для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "4485",
+          "text": "крепеж для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "8660",
+          "text": "талреп крюк крюк"
+        },
+        {
+          "isAssociations": true,
+          "value": "2114",
+          "text": "дюбель крюк"
+        },
+        {
+          "isAssociations": true,
+          "value": "8379",
+          "text": "саморез с дюбелем"
+        },
+        {
+          "isAssociations": true,
+          "value": "344",
+          "text": "крепеж для велосипеда на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "109",
+          "text": "дюбель молли для гипсокартона как крепить"
+        },
+        {
+          "isAssociations": true,
+          "value": "1133",
+          "text": "шуруп полукольцо"
+        },
+        {
+          "isAssociations": true,
+          "value": "624",
+          "text": "анкер с крючком"
+        },
+        {
+          "isAssociations": true,
+          "value": "1273",
+          "text": "дюбель хомут для плоского кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "421",
+          "text": "зажим для хомутов шруса"
+        },
+        {
+          "isAssociations": true,
+          "value": "237",
+          "text": "как крепить переднее крыло на велосипед"
+        },
+        {
+          "isAssociations": true,
+          "value": "3012",
+          "text": "крепеж для велосипеда"
+        },
+        {
+          "isAssociations": true,
+          "value": "91",
+          "text": "крепеж для качелей на трубу"
+        },
+        {
+          "isAssociations": true,
+          "value": "311",
+          "text": "как вставить крючки в потолочный карниз"
+        },
+        {
+          "isAssociations": true,
+          "value": "301",
+          "text": "крепеж для сип кабеля"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1030",
+          "text": "болты для крепления телевизора к кронштейну"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screws-vesa",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "винты для крепления vesa",
+      "variant": "vesa"
+    },
+    "operator_query": "\"[винты для крепления vesa]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5270",
+          "text": "1001 крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "15332",
+          "text": "мдм мебельная фурнитура"
+        },
+        {
+          "isAssociations": true,
+          "value": "2195",
+          "text": "калькулятор крепежа"
+        },
+        {
+          "isAssociations": true,
+          "value": "909",
+          "text": "1001 крепеж официальный сайт"
+        },
+        {
+          "isAssociations": true,
+          "value": "697",
+          "text": "бест крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "16732",
+          "text": "пластина крепежная"
+        },
+        {
+          "isAssociations": true,
+          "value": "950",
+          "text": "свм крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "800",
+          "text": "евровинт 7х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "697",
+          "text": "кронштейн у4"
+        },
+        {
+          "isAssociations": true,
+          "value": "295",
+          "text": "мдм фурнитура для мебели"
+        },
+        {
+          "isAssociations": true,
+          "value": "17411",
+          "text": "крепежные элементы"
+        },
+        {
+          "isAssociations": true,
+          "value": "1382",
+          "text": "1001 крепеж официальный"
+        },
+        {
+          "isAssociations": true,
+          "value": "372",
+          "text": "гайка м20 вес 1 шт"
+        },
+        {
+          "isAssociations": true,
+          "value": "568",
+          "text": "калькулятор крепежа и метизов"
+        },
+        {
+          "isAssociations": true,
+          "value": "920",
+          "text": "савик крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "8669",
+          "text": "вес саморезов"
+        },
+        {
+          "isAssociations": true,
+          "value": "497",
+          "text": "svm крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "3778",
+          "text": "кронштейн крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "252",
+          "text": "как прикрутить кронштейн к телевизору"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "100",
+          "text": "винты для крепления vesa"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screws-size",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "размер болтов для крепления телевизора",
+      "variant": "size"
+    },
+    "operator_query": "\"[размер болтов для крепления телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "138",
+          "text": "крепежный трос мачты 5 букв"
+        },
+        {
+          "isAssociations": true,
+          "value": "568",
+          "text": "калькулятор крепежа и метизов"
+        },
+        {
+          "isAssociations": true,
+          "value": "924",
+          "text": "шайба м16 вес"
+        },
+        {
+          "isAssociations": true,
+          "value": "688",
+          "text": "крепежная деталь 5 букв"
+        },
+        {
+          "isAssociations": true,
+          "value": "95",
+          "text": "крепежный метиз 4 буквы"
+        },
+        {
+          "isAssociations": true,
+          "value": "587",
+          "text": "кронштейн vesa 100x100"
+        },
+        {
+          "isAssociations": true,
+          "value": "924",
+          "text": "вес шайбы м16"
+        },
+        {
+          "isAssociations": true,
+          "value": "326",
+          "text": "крепежный трос мачты"
+        },
+        {
+          "isAssociations": true,
+          "value": "3778",
+          "text": "кронштейн крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "739",
+          "text": "на какой высоте вешать тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "кронштейн vesa 300x300"
+        },
+        {
+          "isAssociations": true,
+          "value": "84",
+          "text": "машкрепеж калькулятор крепежа"
+        },
+        {
+          "isAssociations": true,
+          "value": "434",
+          "text": "кронштейн vesa 200x200"
+        },
+        {
+          "isAssociations": true,
+          "value": "53",
+          "text": "уголок крепежный усиленный 50х50х35х 2.0 мм"
+        },
+        {
+          "isAssociations": true,
+          "value": "94",
+          "text": "кронштейн для тв onkron tm6 черный"
+        },
+        {
+          "isAssociations": true,
+          "value": "136",
+          "text": "телескоп со штативом и крепежным винтом"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "267",
+          "text": "размер болтов для крепления телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screws-buy",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "купить болты для крепления телевизора",
+      "variant": "buy"
+    },
+    "operator_query": "\"[купить болты для крепления телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "5415",
+          "text": "кронштейн для антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "4517",
+          "text": "крепеж для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "305",
+          "text": "сколько весит хоккейная шайба"
+        },
+        {
+          "isAssociations": true,
+          "value": "62",
+          "text": "сколько весит шайба в хоккее"
+        },
+        {
+          "isAssociations": true,
+          "value": "503",
+          "text": "кронштейн для саундбара"
+        },
+        {
+          "isAssociations": true,
+          "value": "679",
+          "text": "игра гайки и болтики"
+        },
+        {
+          "isAssociations": true,
+          "value": "5610",
+          "text": "кронштейн vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "464",
+          "text": "крепеж для рулонных штор"
+        },
+        {
+          "isAssociations": true,
+          "value": "232",
+          "text": "глухари крепеж для бруса"
+        },
+        {
+          "isAssociations": true,
+          "value": "429",
+          "text": "зажим для хомутов шруса"
+        },
+        {
+          "isAssociations": true,
+          "value": "2902",
+          "text": "крепеж для проводов"
+        },
+        {
+          "isAssociations": true,
+          "value": "144",
+          "text": "уголок металлический крепежный с отверстиями"
+        },
+        {
+          "isAssociations": true,
+          "value": "152",
+          "text": "игра винтики и болтики скачать"
+        },
+        {
+          "isAssociations": true,
+          "value": "94",
+          "text": "кронштейн для тв onkron tm6 черный"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "99",
+          "text": "купить болты для крепления телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "height-general",
+      "candidate_path": "/na-kakoy-vysote-veshat-televizor/",
+      "query": "на какой высоте вешать телевизор",
+      "variant": "general"
+    },
+    "operator_query": "\"[на какой высоте вешать телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "107607",
+          "text": "размеры телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "2530",
+          "text": "как измерить диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1845",
+          "text": "как узнать диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "17397",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "18796",
+          "text": "диагонали тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "11017",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2275",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1113",
+          "text": "тв 55 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "243",
+          "text": "диагональ тв в сантиметрах таблица"
+        },
+        {
+          "isAssociations": true,
+          "value": "1551",
+          "text": "самая большая диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "567",
+          "text": "диагональ 55 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "13013",
+          "text": "тв 55 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "197",
+          "text": "тв 55 диагональ размеры в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1122",
+          "text": "диагональ 55 сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1113",
+          "text": "размер тв 55 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "567",
+          "text": "диагональ 55 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "385",
+          "text": "тв 55 дюймов размеры в см"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "8251",
+          "text": "на какой высоте вешать телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "height-floor",
+      "candidate_path": "/na-kakoy-vysote-veshat-televizor/",
+      "query": "высота телевизора на стене от пола",
+      "variant": "floor"
+    },
+    "operator_query": "\"[высота телевизора на стене от пола]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "17684",
+          "text": "обои для рабочего стола 1920х1080 высокого качества"
+        },
+        {
+          "isAssociations": true,
+          "value": "478",
+          "text": "существует прямоугольник диагонали которого взаимно перпендикулярны"
+        },
+        {
+          "isAssociations": true,
+          "value": "992",
+          "text": "учитель особого назначения том 1"
+        },
+        {
+          "isAssociations": true,
+          "value": "387",
+          "text": "учитель особого назначения том 9"
+        },
+        {
+          "isAssociations": true,
+          "value": "184",
+          "text": "пуи расшифровка помещения в строительстве"
+        },
+        {
+          "isAssociations": true,
+          "value": "472",
+          "text": "обои для рабочего стола 2560х1440 высокого качества"
+        },
+        {
+          "isAssociations": true,
+          "value": "931",
+          "text": "43 дюйма это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "19810",
+          "text": "обои для рабочего стола высокого качества"
+        },
+        {
+          "isAssociations": true,
+          "value": "481",
+          "text": "учитель особого назначения том 3"
+        },
+        {
+          "isAssociations": true,
+          "value": "268",
+          "text": "средняя оболочка стенки матки называется"
+        },
+        {
+          "isAssociations": true,
+          "value": "588",
+          "text": "размеры тв в дюймах и см"
+        },
+        {
+          "isAssociations": true,
+          "value": "106",
+          "text": "обои для рабочего стола 3440х1440 высокого качества"
+        },
+        {
+          "isAssociations": true,
+          "value": "307",
+          "text": "учитель особого назначения том 4"
+        },
+        {
+          "isAssociations": true,
+          "value": "277",
+          "text": "учитель особого назначения том 5"
+        },
+        {
+          "isAssociations": true,
+          "value": "2725",
+          "text": "какой ширины бывает линолеум"
+        },
+        {
+          "isAssociations": true,
+          "value": "749",
+          "text": "учитель особого назначения том 10"
+        },
+        {
+          "isAssociations": true,
+          "value": "217",
+          "text": "43 дюймов в см размеры экрана"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2627",
+          "text": "высота телевизора на стене от пола"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "height-55",
+      "candidate_path": "/na-kakoy-vysote-veshat-televizor/",
+      "query": "на какой высоте вешать телевизор 55 дюймов",
+      "variant": "55-inch"
+    },
+    "operator_query": "\"[на какой высоте вешать телевизор 55 дюймов]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "36186",
+          "text": "диагональ 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "2275",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "668",
+          "text": "диагональ 55 это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "370",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "918",
+          "text": "haier 55 smart tv s4"
+        },
+        {
+          "isAssociations": true,
+          "value": "752",
+          "text": "диагональ 75 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "286",
+          "text": "резьба 3 8 дюйма размеры в мм"
+        },
+        {
+          "isAssociations": true,
+          "value": "231",
+          "text": "диагональ телевизора и расстояние для просмотра"
+        },
+        {
+          "isAssociations": true,
+          "value": "2566",
+          "text": "диагональ 55 это сколько"
+        },
+        {
+          "isAssociations": true,
+          "value": "2080",
+          "text": "haier 55 smart tv s2"
+        },
+        {
+          "isAssociations": true,
+          "value": "1551",
+          "text": "самая большая диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "383",
+          "text": "диагональ 60 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "651",
+          "text": "тв 75 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "566",
+          "text": "диагональ 40 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1487",
+          "text": "диагональ 55 сколько в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1122",
+          "text": "диагональ 55 сколько в см"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "411",
+          "text": "на какой высоте вешать телевизор 55 дюймов"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "height-bedroom",
+      "candidate_path": "/na-kakoy-vysote-veshat-televizor/",
+      "query": "высота телевизора на стене в спальне",
+      "variant": "bedroom"
+    },
+    "operator_query": "\"[высота телевизора на стене в спальне]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "12628",
+          "text": "стеновые панели для внутренней отделки стен"
+        },
+        {
+          "isAssociations": true,
+          "value": "117177",
+          "text": "фильм стена"
+        },
+        {
+          "isAssociations": true,
+          "value": "3638",
+          "text": "стеновые панели в интерьере"
+        },
+        {
+          "isAssociations": true,
+          "value": "854",
+          "text": "бамбуковые панели для стен плюсы и минусы"
+        },
+        {
+          "isAssociations": true,
+          "value": "2475",
+          "text": "постеры на стену для интерьера"
+        },
+        {
+          "isAssociations": true,
+          "value": "1791",
+          "text": "интерьер спальни 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "297",
+          "text": "стеновые панели в интерьере гостиной фото дизайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "422",
+          "text": "зонирование однокомнатной квартиры на спальню и гостиную"
+        },
+        {
+          "isAssociations": true,
+          "value": "1602",
+          "text": "картины на стену для интерьера"
+        },
+        {
+          "isAssociations": true,
+          "value": "571",
+          "text": "мягкие стеновые панели для спальни"
+        },
+        {
+          "isAssociations": true,
+          "value": "269",
+          "text": "all wall стеновые панели"
+        },
+        {
+          "isAssociations": true,
+          "value": "195",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "640",
+          "text": "стеновые панели в интерьере гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "1485",
+          "text": "бамбуковые стеновые панели для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "620",
+          "text": "дизайн тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "114",
+          "text": "стенка стенка потолок две ступеньки дзынь звонок"
+        },
+        {
+          "isAssociations": true,
+          "value": "149",
+          "text": "стеновые панели из бамбука для внутренней отделки"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1576",
+          "text": "высота телевизора на стену в спальне"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "height-kitchen",
+      "candidate_path": "/na-kakoy-vysote-veshat-televizor/",
+      "query": "высота телевизора на стене на кухне",
+      "variant": "kitchen"
+    },
+    "operator_query": "\"[высота телевизора на стене на кухне]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "6077",
+          "text": "высота обеденного стола"
+        },
+        {
+          "isAssociations": true,
+          "value": "4057",
+          "text": "высота кухонного стола"
+        },
+        {
+          "isAssociations": true,
+          "value": "5686",
+          "text": "высота кухонной столешницы"
+        },
+        {
+          "isAssociations": true,
+          "value": "546",
+          "text": "диагональ 55 это сколько сантиметров на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "13201",
+          "text": "стеновая панель для кухни"
+        },
+        {
+          "isAssociations": true,
+          "value": "276",
+          "text": "стенка на стенку фильм 1985"
+        },
+        {
+          "isAssociations": true,
+          "value": "191",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "610",
+          "text": "стеновые панели в интерьере гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "4182",
+          "text": "стенка для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "288",
+          "text": "стандартные размеры кухонных шкафов нижних и верхних"
+        },
+        {
+          "isAssociations": true,
+          "value": "1329",
+          "text": "стенка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3678",
+          "text": "кухонная стенка"
+        },
+        {
+          "isAssociations": true,
+          "value": "4064",
+          "text": "вытяжка настенная"
+        },
+        {
+          "isAssociations": true,
+          "value": "288",
+          "text": "размеры кухонных шкафов стандартные верхние и нижние"
+        },
+        {
+          "isAssociations": true,
+          "value": "1072",
+          "text": "размер тв 55 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "61",
+          "text": "глубина кухонных шкафов нижних стандарт"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "217",
+          "text": "высота телевизора на стене на кухне"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "sockets-height",
+      "candidate_path": "/rozetki-pod-televizor-na-stene/",
+      "query": "высота розеток за телевизором",
+      "variant": "height"
+    },
+    "operator_query": "\"[высота розеток за телевизором]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "18796",
+          "text": "диагонали тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1113",
+          "text": "тв 55 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "12145",
+          "text": "тв розетка"
+        },
+        {
+          "isAssociations": true,
+          "value": "658",
+          "text": "110 см в дюймах телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "285",
+          "text": "как замерить диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "5060",
+          "text": "как подключить вайфай к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "576",
+          "text": "выдвижная розетка в столешницу на кухню"
+        },
+        {
+          "isAssociations": true,
+          "value": "347",
+          "text": "розетка выдвижная из столешницы"
+        },
+        {
+          "isAssociations": true,
+          "value": "978",
+          "text": "высота тв от пола"
+        },
+        {
+          "isAssociations": true,
+          "value": "2638",
+          "text": "розетка телевизионная"
+        },
+        {
+          "isAssociations": true,
+          "value": "1643",
+          "text": "размер рамки розетки"
+        },
+        {
+          "isAssociations": true,
+          "value": "441",
+          "text": "антенный разветвитель на 2 телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1113",
+          "text": "размер тв 55 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "811",
+          "text": "кабельное тв ростелеком"
+        },
+        {
+          "isAssociations": true,
+          "value": "572",
+          "text": "как подключить тв розетку"
+        },
+        {
+          "isAssociations": true,
+          "value": "187",
+          "text": "кабель канал для розеток и выключателей"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "211",
+          "text": "высота розеток за телевизором"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "sockets-location",
+      "candidate_path": "/rozetki-pod-televizor-na-stene/",
+      "query": "расположение розеток за телевизором",
+      "variant": "location"
+    },
+    "operator_query": "\"[расположение розеток за телевизором]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "9439",
+          "text": "зона скачать на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "5658",
+          "text": "как поменять розетку"
+        },
+        {
+          "isAssociations": true,
+          "value": "3236",
+          "text": "какой ток в розетке"
+        },
+        {
+          "isAssociations": true,
+          "value": "25310",
+          "text": "схема подключения розетки"
+        },
+        {
+          "isAssociations": true,
+          "value": "2682",
+          "text": "подключение к сети ограничено на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "25673",
+          "text": "тройная розетка"
+        },
+        {
+          "isAssociations": true,
+          "value": "2347",
+          "text": "как подключить планшет к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "424883",
+          "text": "как подключить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "3936",
+          "text": "как установить зону на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "2069",
+          "text": "обозначение розетки на схеме"
+        },
+        {
+          "isAssociations": true,
+          "value": "195",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "28569",
+          "text": "как подключиться к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "942",
+          "text": "тв зона с рейками"
+        },
+        {
+          "isAssociations": true,
+          "value": "81752",
+          "text": "подключить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "620",
+          "text": "дизайн тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "346",
+          "text": "f разъем для тв кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "1966",
+          "text": "как подключить кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "134",
+          "text": "тв зона с рейками и тумбой"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "53",
+          "text": "расположение розеток за телевизором"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "sockets-count",
+      "candidate_path": "/rozetki-pod-televizor-na-stene/",
+      "query": "сколько розеток нужно за телевизором",
+      "variant": "count"
+    },
+    "operator_query": "\"[сколько розеток нужно за телевизором]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5523",
+          "text": "как поменять розетку"
+        },
+        {
+          "isAssociations": true,
+          "value": "1835",
+          "text": "как узнать диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "3214",
+          "text": "доза тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3183",
+          "text": "какой ток в розетке"
+        },
+        {
+          "isAssociations": true,
+          "value": "5369",
+          "text": "какой телевизор лучше купить в 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "20484",
+          "text": "какой телевизор лучше купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "2667",
+          "text": "подключение к сети ограничено на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "41385",
+          "text": "розетка электрическая"
+        },
+        {
+          "isAssociations": true,
+          "value": "4193",
+          "text": "зона для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "20905",
+          "text": "как сделать розетку"
+        },
+        {
+          "isAssociations": true,
+          "value": "33434",
+          "text": "что по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "851",
+          "text": "мощность телевизора в ваттах"
+        },
+        {
+          "isAssociations": true,
+          "value": "3958",
+          "text": "тв ток"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "32",
+          "text": "сколько розеток нужно за телевизором"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "sockets-block",
+      "candidate_path": "/rozetki-pod-televizor-na-stene/",
+      "query": "блок розеток за телевизором",
+      "variant": "block"
+    },
+    "operator_query": "\"[блок розеток за телевизором]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "16452",
+          "text": "розетки легран"
+        },
+        {
+          "isAssociations": true,
+          "value": "12145",
+          "text": "тв розетка"
+        },
+        {
+          "isAssociations": true,
+          "value": "1305",
+          "text": "установка розетки в подрозетник"
+        },
+        {
+          "isAssociations": true,
+          "value": "6319",
+          "text": "юсб розетка"
+        },
+        {
+          "isAssociations": true,
+          "value": "2016",
+          "text": "как подключить розетку к выключателю"
+        },
+        {
+          "isAssociations": true,
+          "value": "3718",
+          "text": "телевизор с кинескопом"
+        },
+        {
+          "isAssociations": true,
+          "value": "2638",
+          "text": "розетка телевизионная"
+        },
+        {
+          "isAssociations": true,
+          "value": "1334",
+          "text": "обозначение розеток и выключателей"
+        },
+        {
+          "isAssociations": true,
+          "value": "1332",
+          "text": "розетка для люстры"
+        },
+        {
+          "isAssociations": true,
+          "value": "572",
+          "text": "как подключить тв розетку"
+        },
+        {
+          "isAssociations": true,
+          "value": "4201",
+          "text": "схема подключения розетки и выключателя"
+        },
+        {
+          "isAssociations": true,
+          "value": "3047",
+          "text": "накладка на розетку"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "10",
+          "text": "блок розеток за телевизором"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "sockets-55",
+      "candidate_path": "/rozetki-pod-televizor-na-stene/",
+      "query": "розетки за телевизором 55 дюймов",
+      "variant": "55-inch"
+    },
+    "operator_query": "\"[розетки за телевизором 55 дюймов]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wires-hide-wall",
+      "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+      "query": "как спрятать провода от телевизора на стене",
+      "variant": "hide-wall"
+    },
+    "operator_query": "\"[как спрятать провода от телевизора на стене]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "9712",
+          "text": "детектор скрытой проводки"
+        },
+        {
+          "isAssociations": true,
+          "value": "3638",
+          "text": "стеновые панели в интерьере"
+        },
+        {
+          "isAssociations": true,
+          "value": "20329",
+          "text": "телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "1532",
+          "text": "индикатор скрытой проводки"
+        },
+        {
+          "isAssociations": true,
+          "value": "195",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "640",
+          "text": "стеновые панели в интерьере гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "1485",
+          "text": "бамбуковые стеновые панели для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "928",
+          "text": "телевизионная антенна своими руками"
+        },
+        {
+          "isAssociations": true,
+          "value": "491",
+          "text": "как соединить телевизионный кабель между собой"
+        },
+        {
+          "isAssociations": true,
+          "value": "702",
+          "text": "декоративные стеновые панели для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "149",
+          "text": "стеновые панели из бамбука для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "3139",
+          "text": "не работает кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "1966",
+          "text": "как подключить кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "498",
+          "text": "разветвитель телевизионного кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "137",
+          "text": "подключение двойной розетки к одному кабелю"
+        },
+        {
+          "isAssociations": true,
+          "value": "768",
+          "text": "как найти скрытую проводку"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "819",
+          "text": "как спрятать провода от телевизора на стене"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wires-hide-no-chase",
+      "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+      "query": "как спрятать провода от телевизора без штробления",
+      "variant": "hide-no-chase"
+    },
+    "operator_query": "\"[как спрятать провода от телевизора без штробления]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wires-cable-channel",
+      "candidate_path": "/kabel-kanal-dlya-televizora/",
+      "query": "кабель канал для телевизора на стене",
+      "variant": "cable-channel"
+    },
+    "operator_query": "\"[кабель канал для телевизора на стене]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2455",
+          "text": "glaz tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "6488",
+          "text": "программа кабельного телевидения на сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "512",
+          "text": "новости спутникового и кабельного тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "32680",
+          "text": "кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "8650",
+          "text": "глаз тв прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "195",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "1109",
+          "text": "кабельканалы для электропроводки"
+        },
+        {
+          "isAssociations": true,
+          "value": "610",
+          "text": "телеканал вижу тв 1000"
+        },
+        {
+          "isAssociations": true,
+          "value": "33592",
+          "text": "телевизионные антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "1343",
+          "text": "стенка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "242",
+          "text": "телеканал шансон тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "141",
+          "text": "federal tv онлайн смотреть тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2410",
+          "text": "как настроить кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1602",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "811",
+          "text": "кабельное тв ростелеком"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "98",
+          "text": "кабель канал для телевизора на стену"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wires-box",
+      "candidate_path": "/kabel-kanal-dlya-televizora/",
+      "query": "короб для проводов телевизора",
+      "variant": "box"
+    },
+    "operator_query": "\"[короб для проводов телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "12016",
+          "text": "протяжка для кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "20329",
+          "text": "телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "4325",
+          "text": "шнур hdmi"
+        },
+        {
+          "isAssociations": true,
+          "value": "31277",
+          "text": "тв кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "12145",
+          "text": "тв розетка"
+        },
+        {
+          "isAssociations": true,
+          "value": "10856",
+          "text": "кабель канал пластиковый"
+        },
+        {
+          "isAssociations": true,
+          "value": "1048",
+          "text": "кабель канал под розетки"
+        },
+        {
+          "isAssociations": true,
+          "value": "19283",
+          "text": "кабель для антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "3331",
+          "text": "ростелеком тв каналы"
+        },
+        {
+          "isAssociations": true,
+          "value": "1017",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "11728",
+          "text": "кабель для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1298",
+          "text": "телевизионный кабель для антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "2355",
+          "text": "кабель для видеокамеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "1602",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1759",
+          "text": "тв кабель купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "811",
+          "text": "кабельное тв ростелеком"
+        },
+        {
+          "isAssociations": true,
+          "value": "572",
+          "text": "как подключить тв розетку"
+        },
+        {
+          "isAssociations": true,
+          "value": "318",
+          "text": "кабель для камеры видеонаблюдения с питанием"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "82",
+          "text": "короб для проводов телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wires-hide-hanging",
+      "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+      "query": "как спрятать провода от висящего телевизора",
+      "variant": "hanging"
+    },
+    "operator_query": "\"[как спрятать провода от висящего телевизора]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "selection-choose",
+      "candidate_path": "/kak-vybrat-kronshteyn-dlya-televizora/",
+      "query": "как выбрать кронштейн для телевизора",
+      "variant": "choose"
+    },
+    "operator_query": "\"[как выбрать кронштейн для телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10876",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "4965",
+          "text": "32 дюйма в см телевизор сколько"
+        },
+        {
+          "isAssociations": true,
+          "value": "42068",
+          "text": "рейтинг телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "5217",
+          "text": "кронштейн это"
+        },
+        {
+          "isAssociations": true,
+          "value": "1835",
+          "text": "как узнать диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "5369",
+          "text": "какой телевизор лучше купить в 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "20484",
+          "text": "какой телевизор лучше купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "6049",
+          "text": "крепление vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "176",
+          "text": "домашний канал телик топ"
+        },
+        {
+          "isAssociations": true,
+          "value": "248",
+          "text": "televizor tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "508",
+          "text": "кабельное тв это"
+        },
+        {
+          "isAssociations": true,
+          "value": "906",
+          "text": "24h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "86",
+          "text": "вышки тв вещания цифрового телевидения на карте"
+        },
+        {
+          "isAssociations": true,
+          "value": "163",
+          "text": "выбор тв 4pda"
+        },
+        {
+          "isAssociations": true,
+          "value": "393",
+          "text": "телевизионная антенна для цифрового телевидения купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "1820",
+          "text": "в тв топ"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "703",
+          "text": "как выбрать кронштейн для телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "selection-match",
+      "candidate_path": "/kak-vybrat-kronshteyn-dlya-televizora/",
+      "query": "как подобрать кронштейн для телевизора",
+      "variant": "match"
+    },
+    "operator_query": "\"[как подобрать кронштейн для телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10876",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "4965",
+          "text": "32 дюйма в см телевизор сколько"
+        },
+        {
+          "isAssociations": true,
+          "value": "42068",
+          "text": "рейтинг телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "17479",
+          "text": "как выбрать телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1835",
+          "text": "как узнать диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "7823",
+          "text": "антенна для телевизора своими руками"
+        },
+        {
+          "isAssociations": true,
+          "value": "11219",
+          "text": "рейтинг телевизоров 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "6095",
+          "text": "43 дюйма в см телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "7880",
+          "text": "топ телевизоров 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "5369",
+          "text": "какой телевизор лучше купить в 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "20484",
+          "text": "какой телевизор лучше купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "11724",
+          "text": "подставка для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "10100",
+          "text": "сравнение телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "6049",
+          "text": "крепление vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "176",
+          "text": "домашний канал телик топ"
+        },
+        {
+          "isAssociations": true,
+          "value": "163",
+          "text": "выбор тв 4pda"
+        },
+        {
+          "isAssociations": true,
+          "value": "393",
+          "text": "телевизионная антенна для цифрового телевидения купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "2874",
+          "text": "какую тв приставку выбрать"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "489",
+          "text": "как подобрать кронштейн для телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "selection-vesa",
+      "candidate_path": "/kak-uznat-vesa-televizora/",
+      "query": "как подобрать кронштейн по vesa",
+      "variant": "vesa"
+    },
+    "operator_query": "\"[как подобрать кронштейн по vesa]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "selection-compatible",
+      "candidate_path": "/kak-vybrat-kronshteyn-dlya-televizora/",
+      "query": "как узнать подойдет ли кронштейн к телевизору",
+      "variant": "compatible"
+    },
+    "operator_query": "\"[как узнать подойдет ли кронштейн к телевизору]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "selection-universal",
+      "candidate_path": "/kronshteyn-dlya-televizora-na-stenu/",
+      "query": "универсальный кронштейн для телевизора на стену",
+      "variant": "universal"
+    },
+    "operator_query": "\"[универсальный кронштейн для телевизора на стену]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3625",
+          "text": "kinozal tv appspot com"
+        },
+        {
+          "isAssociations": true,
+          "value": "3783",
+          "text": "антенна для цифрового тв своими руками"
+        },
+        {
+          "isAssociations": true,
+          "value": "4015",
+          "text": "шведская стенка с турником"
+        },
+        {
+          "isAssociations": true,
+          "value": "1482",
+          "text": "пзрк панцирь"
+        },
+        {
+          "isAssociations": true,
+          "value": "399",
+          "text": "гардины для штор настенные двухрядные современные"
+        },
+        {
+          "isAssociations": true,
+          "value": "195",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "265",
+          "text": "тв тюнер для пк"
+        },
+        {
+          "isAssociations": true,
+          "value": "4406",
+          "text": "комнатная антенна для цифрового тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "907",
+          "text": "узел крепления ук н 01"
+        },
+        {
+          "isAssociations": true,
+          "value": "2212",
+          "text": "антенна для цифрового телевидения своими руками"
+        },
+        {
+          "isAssociations": true,
+          "value": "500",
+          "text": "стенка над карнизом 5 букв"
+        },
+        {
+          "isAssociations": true,
+          "value": "314",
+          "text": "конструкции навесной фасадной системы с воздушным зазором"
+        },
+        {
+          "isAssociations": true,
+          "value": "305",
+          "text": "кинозал тв зеркало рабочее на сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "10494",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "985",
+          "text": "виды крепления штор"
+        },
+        {
+          "isAssociations": true,
+          "value": "583",
+          "text": "оформление тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "1965",
+          "text": "комнатная антенна для цифрового тв с усилителем"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "163",
+          "text": "универсальный кронштейн для телевизора на стену"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-200-buy",
+      "candidate_path": "/vesa/200x200/",
+      "query": "кронштейн vesa 200x200",
+      "variant": "200-buy"
+    },
+    "operator_query": "\"[кронштейн vesa 200x200]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1171",
+          "text": "саундбар hisense hs5100"
+        },
+        {
+          "isAssociations": true,
+          "value": "654",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "963",
+          "text": "шайба м16 вес"
+        },
+        {
+          "isAssociations": true,
+          "value": "392",
+          "text": "дюбель гвоздь 10х100"
+        },
+        {
+          "isAssociations": true,
+          "value": "96",
+          "text": "крепежный метиз 4 буквы"
+        },
+        {
+          "isAssociations": true,
+          "value": "202",
+          "text": "крепление для мониторов onkron g80"
+        },
+        {
+          "isAssociations": true,
+          "value": "963",
+          "text": "вес шайбы м16"
+        },
+        {
+          "isAssociations": true,
+          "value": "87",
+          "text": "машкрепеж калькулятор крепежа"
+        },
+        {
+          "isAssociations": true,
+          "value": "85",
+          "text": "уголок крепежный усиленный 100х100 для крепления стропил"
+        },
+        {
+          "isAssociations": true,
+          "value": "160",
+          "text": "дюбель гвоздь 6х100"
+        },
+        {
+          "isAssociations": true,
+          "value": "127",
+          "text": "держатель клипса быстрого монтажа диаметр 20 мм"
+        },
+        {
+          "isAssociations": true,
+          "value": "519",
+          "text": "болт м16х100"
+        },
+        {
+          "isAssociations": true,
+          "value": "142",
+          "text": "дюбель гвоздь 6х30"
+        },
+        {
+          "isAssociations": true,
+          "value": "145",
+          "text": "сколько весит морской контейнер 40 футов пустой"
+        },
+        {
+          "isAssociations": true,
+          "value": "61",
+          "text": "высота крепления телевизора на стену от пола"
+        },
+        {
+          "isAssociations": true,
+          "value": "146",
+          "text": "вес бордюра 1000 200 80"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "481",
+          "text": "кронштейн vesa 200x200"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-300-buy",
+      "candidate_path": "/vesa/300x300/",
+      "query": "кронштейн vesa 300x300",
+      "variant": "300-buy"
+    },
+    "operator_query": "\"[кронштейн vesa 300x300]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4693",
+          "text": "я вешу 300 кг телепередача"
+        },
+        {
+          "isAssociations": true,
+          "value": "1748",
+          "text": "мдм мебельная фурнитура спб"
+        },
+        {
+          "isAssociations": true,
+          "value": "6568",
+          "text": "момент затяжки колесных болтов"
+        },
+        {
+          "isAssociations": true,
+          "value": "363",
+          "text": "брус 50х50х3000 цена за штуку"
+        },
+        {
+          "isAssociations": true,
+          "value": "505",
+          "text": "крепление изофикс для автокресла что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "511",
+          "text": "траверса монтажная 20х30 3м"
+        },
+        {
+          "isAssociations": true,
+          "value": "5899",
+          "text": "уголок крепежный усиленный"
+        },
+        {
+          "isAssociations": true,
+          "value": "323",
+          "text": "изофикс крепление на автокресло что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "963",
+          "text": "свм крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "308",
+          "text": "мдм комплект мебельная фурнитура каталог"
+        },
+        {
+          "isAssociations": true,
+          "value": "963",
+          "text": "тройник канализационный 50х50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "661",
+          "text": "подъем гантелей на бицепс стоя"
+        },
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "907",
+          "text": "узел крепления ук н 01"
+        },
+        {
+          "isAssociations": true,
+          "value": "625",
+          "text": "уголок крепежный 50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "202",
+          "text": "крепление для мониторов onkron g80"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "241",
+          "text": "кронштейн vesa 300x300"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-400-buy",
+      "candidate_path": "/vesa/400x400/",
+      "query": "кронштейн vesa 400x400",
+      "variant": "400-buy"
+    },
+    "operator_query": "\"[кронштейн vesa 400x400]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "6466",
+          "text": "момент затяжки колесных болтов"
+        },
+        {
+          "isAssociations": true,
+          "value": "473",
+          "text": "траверса монтажная 20х30 3м"
+        },
+        {
+          "isAssociations": true,
+          "value": "558",
+          "text": "момент затяжки гбц змз 402"
+        },
+        {
+          "isAssociations": true,
+          "value": "641",
+          "text": "подъем гантелей на бицепс стоя"
+        },
+        {
+          "isAssociations": true,
+          "value": "2199",
+          "text": "вес гайки м16"
+        },
+        {
+          "isAssociations": true,
+          "value": "425",
+          "text": "момент затяжки гбц ямз 238"
+        },
+        {
+          "isAssociations": true,
+          "value": "5932",
+          "text": "момент затяжки ступичной гайки"
+        },
+        {
+          "isAssociations": true,
+          "value": "864",
+          "text": "вес уголка 50х5"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "955",
+          "text": "винт с крестообразным шлицем м6х10"
+        },
+        {
+          "isAssociations": true,
+          "value": "203",
+          "text": "сколько весит танк т90"
+        },
+        {
+          "isAssociations": true,
+          "value": "655",
+          "text": "вес контейнера 40 футов без груза"
+        },
+        {
+          "isAssociations": true,
+          "value": "372",
+          "text": "гайка м20 вес 1 шт"
+        },
+        {
+          "isAssociations": true,
+          "value": "642",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "1483",
+          "text": "гайка м20 вес"
+        },
+        {
+          "isAssociations": true,
+          "value": "1483",
+          "text": "вес гайки м20"
+        },
+        {
+          "isAssociations": true,
+          "value": "629",
+          "text": "уголок крепежный 50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "924",
+          "text": "шайба м16 вес"
+        },
+        {
+          "isAssociations": true,
+          "value": "198",
+          "text": "крепление для мониторов onkron g80"
+        },
+        {
+          "isAssociations": true,
+          "value": "924",
+          "text": "вес шайбы м16"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "226",
+          "text": "кронштейн vesa 400x400"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-meaning",
+      "candidate_path": "/kak-uznat-vesa-televizora/",
+      "query": "что такое vesa в телевизоре",
+      "variant": "meaning"
+    },
+    "operator_query": "\"[что такое vesa в телевизоре]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "18752",
+          "text": "оме тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "28297",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "278",
+          "text": "фгр тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2164",
+          "text": "умелое тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "10481",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1827",
+          "text": "диагонали тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "37343",
+          "text": "а тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "26",
+          "text": "вее тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "248",
+          "text": "televizor tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "906",
+          "text": "24h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "117",
+          "text": "телевизурус"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "182",
+          "text": "что такое vesa в телевизоре"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-find",
+      "candidate_path": "/kak-uznat-vesa-televizora/",
+      "query": "как узнать vesa телевизора",
+      "variant": "find"
+    },
+    "operator_query": "\"[как узнать vesa телевизора]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  }
+]

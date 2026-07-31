@@ -1,0 +1,55 @@
+[
+  { "candidate_id": "wall-drywall-how", "candidate_path": "/kak-povesit-televizor-na-gipsokarton/", "query": "как повесить телевизор на гипсокартон", "variant": "how" },
+  { "candidate_id": "wall-drywall-mount", "candidate_path": "/kak-povesit-televizor-na-gipsokarton/", "query": "крепление телевизора на гипсокартон", "variant": "mount" },
+  { "candidate_id": "wall-drywall-can", "candidate_path": "/kak-povesit-televizor-na-gipsokarton/", "query": "можно ли повесить телевизор на гипсокартон", "variant": "can" },
+  { "candidate_id": "wall-drywall-bracket", "candidate_path": "/kak-povesit-televizor-na-gipsokarton/", "query": "кронштейн для телевизора на гипсокартон", "variant": "bracket" },
+  { "candidate_id": "wall-drywall-fastener", "candidate_path": "/kak-povesit-televizor-na-gipsokarton/", "query": "крепеж для телевизора на гипсокартон", "variant": "fastener" },
+
+  { "candidate_id": "wall-aerated-how", "candidate_path": "/kak-povesit-televizor-na-gazobeton/", "query": "как повесить телевизор на газобетон", "variant": "how" },
+  { "candidate_id": "wall-aerated-mount", "candidate_path": "/kak-povesit-televizor-na-gazobeton/", "query": "крепление телевизора к газобетону", "variant": "mount" },
+  { "candidate_id": "wall-aerated-can", "candidate_path": "/kak-povesit-televizor-na-gazobeton/", "query": "можно ли повесить телевизор на газобетон", "variant": "can" },
+  { "candidate_id": "wall-aerated-bracket", "candidate_path": "/kak-povesit-televizor-na-gazobeton/", "query": "кронштейн для телевизора на газобетон", "variant": "bracket" },
+  { "candidate_id": "wall-aerated-fastener", "candidate_path": "/kak-povesit-televizor-na-gazobeton/", "query": "крепеж для телевизора в газобетон", "variant": "fastener" },
+
+  { "candidate_id": "wall-concrete-how", "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/", "query": "как повесить телевизор на бетонную стену", "variant": "how" },
+  { "candidate_id": "wall-concrete-mount", "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/", "query": "крепление телевизора к бетонной стене", "variant": "mount" },
+  { "candidate_id": "wall-concrete-bracket", "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/", "query": "кронштейн для телевизора на бетонную стену", "variant": "bracket" },
+  { "candidate_id": "wall-concrete-dowel", "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/", "query": "дюбель для кронштейна телевизора", "variant": "dowel" },
+  { "candidate_id": "wall-concrete-fastener", "candidate_path": "/kak-povesit-televizor-na-betonnuyu-stenu/", "query": "крепеж для телевизора к стене", "variant": "fastener" },
+
+  { "candidate_id": "screws-needed", "candidate_path": "/vinty-dlya-krepleniya-televizora/", "query": "какие болты нужны для крепления телевизора", "variant": "needed" },
+  { "candidate_id": "screws-bracket", "candidate_path": "/vinty-dlya-krepleniya-televizora/", "query": "болты для крепления телевизора к кронштейну", "variant": "bracket" },
+  { "candidate_id": "screws-vesa", "candidate_path": "/vinty-dlya-krepleniya-televizora/", "query": "винты для крепления vesa", "variant": "vesa" },
+  { "candidate_id": "screws-size", "candidate_path": "/vinty-dlya-krepleniya-televizora/", "query": "размер болтов для крепления телевизора", "variant": "size" },
+  { "candidate_id": "screws-buy", "candidate_path": "/vinty-dlya-krepleniya-televizora/", "query": "купить болты для крепления телевизора", "variant": "buy" },
+
+  { "candidate_id": "height-general", "candidate_path": "/na-kakoy-vysote-veshat-televizor/", "query": "на какой высоте вешать телевизор", "variant": "general" },
+  { "candidate_id": "height-floor", "candidate_path": "/na-kakoy-vysote-veshat-televizor/", "query": "высота телевизора на стене от пола", "variant": "floor" },
+  { "candidate_id": "height-55", "candidate_path": "/na-kakoy-vysote-veshat-televizor/", "query": "на какой высоте вешать телевизор 55 дюймов", "variant": "55-inch" },
+  { "candidate_id": "height-bedroom", "candidate_path": "/na-kakoy-vysote-veshat-televizor/", "query": "высота телевизора на стене в спальне", "variant": "bedroom" },
+  { "candidate_id": "height-kitchen", "candidate_path": "/na-kakoy-vysote-veshat-televizor/", "query": "высота телевизора на стене на кухне", "variant": "kitchen" },
+
+  { "candidate_id": "sockets-height", "candidate_path": "/rozetki-pod-televizor-na-stene/", "query": "высота розеток за телевизором", "variant": "height" },
+  { "candidate_id": "sockets-location", "candidate_path": "/rozetki-pod-televizor-na-stene/", "query": "расположение розеток за телевизором", "variant": "location" },
+  { "candidate_id": "sockets-count", "candidate_path": "/rozetki-pod-televizor-na-stene/", "query": "сколько розеток нужно за телевизором", "variant": "count" },
+  { "candidate_id": "sockets-block", "candidate_path": "/rozetki-pod-televizor-na-stene/", "query": "блок розеток за телевизором", "variant": "block" },
+  { "candidate_id": "sockets-55", "candidate_path": "/rozetki-pod-televizor-na-stene/", "query": "розетки за телевизором 55 дюймов", "variant": "55-inch" },
+
+  { "candidate_id": "wires-hide-wall", "candidate_path": "/kak-spryatat-provoda-ot-televizora/", "query": "как спрятать провода от телевизора на стене", "variant": "hide-wall" },
+  { "candidate_id": "wires-hide-no-chase", "candidate_path": "/kak-spryatat-provoda-ot-televizora/", "query": "как спрятать провода от телевизора без штробления", "variant": "hide-no-chase" },
+  { "candidate_id": "wires-cable-channel", "candidate_path": "/kabel-kanal-dlya-televizora/", "query": "кабель канал для телевизора на стене", "variant": "cable-channel" },
+  { "candidate_id": "wires-box", "candidate_path": "/kabel-kanal-dlya-televizora/", "query": "короб для проводов телевизора", "variant": "box" },
+  { "candidate_id": "wires-hide-hanging", "candidate_path": "/kak-spryatat-provoda-ot-televizora/", "query": "как спрятать провода от висящего телевизора", "variant": "hanging" },
+
+  { "candidate_id": "selection-choose", "candidate_path": "/kak-vybrat-kronshteyn-dlya-televizora/", "query": "как выбрать кронштейн для телевизора", "variant": "choose" },
+  { "candidate_id": "selection-match", "candidate_path": "/kak-vybrat-kronshteyn-dlya-televizora/", "query": "как подобрать кронштейн для телевизора", "variant": "match" },
+  { "candidate_id": "selection-vesa", "candidate_path": "/kak-uznat-vesa-televizora/", "query": "как подобрать кронштейн по vesa", "variant": "vesa" },
+  { "candidate_id": "selection-compatible", "candidate_path": "/kak-vybrat-kronshteyn-dlya-televizora/", "query": "как узнать подойдет ли кронштейн к телевизору", "variant": "compatible" },
+  { "candidate_id": "selection-universal", "candidate_path": "/kronshteyn-dlya-televizora-na-stenu/", "query": "универсальный кронштейн для телевизора на стену", "variant": "universal" },
+
+  { "candidate_id": "vesa-200-buy", "candidate_path": "/vesa/200x200/", "query": "кронштейн vesa 200x200", "variant": "200-buy" },
+  { "candidate_id": "vesa-300-buy", "candidate_path": "/vesa/300x300/", "query": "кронштейн vesa 300x300", "variant": "300-buy" },
+  { "candidate_id": "vesa-400-buy", "candidate_path": "/vesa/400x400/", "query": "кронштейн vesa 400x400", "variant": "400-buy" },
+  { "candidate_id": "vesa-meaning", "candidate_path": "/kak-uznat-vesa-televizora/", "query": "что такое vesa в телевизоре", "variant": "meaning" },
+  { "candidate_id": "vesa-find", "candidate_path": "/kak-uznat-vesa-televizora/", "query": "как узнать vesa телевизора", "variant": "find" }
+]
