@@ -5,7 +5,7 @@ import path from "node:path";
 export const MARKET_AFFILIATE_ORDERS_ENDPOINT =
   "https://api.content.market.yandex.ru/v3/affiliate/orders";
 export const ORDERS_SCHEMA_VERSION = 2;
-export const ORDERS_AGGREGATE_SCHEMA_VERSION = 1;
+export const ORDERS_AGGREGATE_SCHEMA_VERSION = 2;
 export const ORDER_STATUSES = Object.freeze([
   "NEW",
   "ON_HOLD",
@@ -18,6 +18,20 @@ const VID_RE = /^[A-Za-z0-9]{1,150}$/;
 const CLID_RE = /^\d{1,32}$/;
 const ORDER_ID_RE = /^\d{1,128}$/;
 const MONTH_RE = /^\d{4}-(?:0[1-9]|1[0-2])$/;
+const SAFE_LANDING_PATH_RE = /^\/[a-z0-9][a-z0-9/-]*\/$/;
+const SAFE_ENTITY_ID_RE = /^[a-z0-9][a-z0-9-]{2,79}$/;
+const SAFE_ATTRIBUTION_SURFACES = new Set([
+  "mount_page",
+  "product_page",
+  "seo_hub",
+  "model_page",
+]);
+const SAFE_ATTRIBUTION_DIMENSIONS = Object.freeze([
+  "surface",
+  "landing_path",
+  "entity_id",
+  "rank",
+]);
 const LOCAL_API_DATE_RE =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?$/;
 const ZONED_DATE_RE =
@@ -1010,6 +1024,184 @@ function buildPlacementAttribution(state, month, placementIndex) {
   };
 }
 
+function emptySafeAttributionCounters() {
+  return {
+    orders: {
+      APPROVED: 0,
+      NEW: 0,
+      ON_HOLD: 0,
+      CANCELLED: 0,
+    },
+    approved_payment_kopecks: 0,
+  };
+}
+
+function safeAttributionStatus(order, month) {
+  if (!isObject(order) || !ORDER_STATUS_SET.has(order.status)) {
+    throw new Error("orders state contains an invalid attribution record");
+  }
+  if (
+    !Number.isSafeInteger(order.payment_kopecks) ||
+    order.payment_kopecks < 0
+  ) {
+    throw new Error("orders state contains an invalid attribution payment");
+  }
+  if (order.status === "APPROVED" || order.status === "CANCELLED") {
+    return inMonth(order.updated_at, month) ? order.status : null;
+  }
+  return order.status;
+}
+
+function addOrderToSafeAttribution(counters, order, month) {
+  const status = safeAttributionStatus(order, month);
+  if (status === null) return false;
+  counters.orders[status] += 1;
+  if (status === "APPROVED") {
+    counters.approved_payment_kopecks += order.payment_kopecks;
+  }
+  return true;
+}
+
+function safeAttributionDimensions(placement) {
+  if (!isObject(placement) || !VID_RE.test(placement.vid ?? "")) {
+    throw new Error("placementIndex contains a malformed entry");
+  }
+  const surface = placement.surface;
+  const landingPath = placement.landing_path;
+  const entityId = placement.entity_id;
+  const rank = placement.rank;
+  if (
+    !SAFE_ATTRIBUTION_SURFACES.has(surface) ||
+    typeof placement.placement_id !== "string" ||
+    !SAFE_ENTITY_ID_RE.test(placement.placement_id) ||
+    typeof landingPath !== "string" ||
+    !SAFE_LANDING_PATH_RE.test(landingPath) ||
+    typeof entityId !== "string" ||
+    !SAFE_ENTITY_ID_RE.test(entityId)
+  ) {
+    throw new Error("placementIndex contains unsafe attribution dimensions");
+  }
+  const rankedSurface = surface === "seo_hub" || surface === "model_page";
+  if (
+    (rankedSurface &&
+      (!Number.isSafeInteger(rank) || rank < 1 || rank > 100)) ||
+    (!rankedSurface && rank !== null)
+  ) {
+    throw new Error("placementIndex contains an invalid attribution rank");
+  }
+  if (
+    entityId === placement.vid ||
+    landingPath === placement.vid ||
+    entityId === placement.placement_id ||
+    landingPath === placement.placement_id
+  ) {
+    throw new Error("placementIndex reuses a private placement identifier");
+  }
+  return {
+    surface,
+    landing_path: landingPath,
+    entity_id: entityId,
+    rank,
+  };
+}
+
+function safeAttributionGroupKey(dimensions) {
+  return JSON.stringify(SAFE_ATTRIBUTION_DIMENSIONS.map((key) => dimensions[key]));
+}
+
+function compareSafeAttributionRows(left, right) {
+  return (
+    right.approved_payment_kopecks - left.approved_payment_kopecks ||
+    right.orders.APPROVED - left.orders.APPROVED ||
+    right.orders.ON_HOLD - left.orders.ON_HOLD ||
+    right.orders.NEW - left.orders.NEW ||
+    right.orders.CANCELLED - left.orders.CANCELLED ||
+    left.surface.localeCompare(right.surface) ||
+    left.landing_path.localeCompare(right.landing_path) ||
+    left.entity_id.localeCompare(right.entity_id) ||
+    (left.rank ?? Number.MAX_SAFE_INTEGER) -
+      (right.rank ?? Number.MAX_SAFE_INTEGER)
+  );
+}
+
+function buildSafePlacementAttribution(state, month, placementIndex) {
+  if (!(placementIndex instanceof Map)) {
+    throw new Error("placementIndex must be a Map");
+  }
+  for (const [vid, placement] of placementIndex) {
+    if (placement?.vid !== vid) {
+      throw new Error("placementIndex contains a malformed entry");
+    }
+    safeAttributionDimensions(placement);
+  }
+  const rows = new Map();
+  const unattributed = emptySafeAttributionCounters();
+  for (const order of Object.values(state.orders)) {
+    const placement = placementIndex.get(order.vid);
+    if (!placement) {
+      addOrderToSafeAttribution(unattributed, order, month);
+      continue;
+    }
+    if (placement.vid !== order.vid) {
+      throw new Error("placementIndex contains a malformed entry");
+    }
+    const dimensions = safeAttributionDimensions(placement);
+    const key = safeAttributionGroupKey(dimensions);
+    const row = rows.get(key) ?? {
+      ...dimensions,
+      ...emptySafeAttributionCounters(),
+    };
+    if (addOrderToSafeAttribution(row, order, month)) rows.set(key, row);
+  }
+  return {
+    dimensions: [...SAFE_ATTRIBUTION_DIMENSIONS],
+    rows: [...rows.values()].sort(compareSafeAttributionRows),
+    unattributed,
+  };
+}
+
+function assertPlacementIdentifiersRedacted(value, placementIndex, state) {
+  const privateValues = new Set();
+  for (const [vid, placement] of placementIndex) {
+    privateValues.add(vid);
+    if (typeof placement?.vid === "string") privateValues.add(placement.vid);
+    if (typeof placement?.placement_id === "string") {
+      privateValues.add(placement.placement_id);
+    }
+  }
+  for (const item of [
+    state?.clid,
+    state?.hmac_key_fingerprint,
+    ...Object.keys(state?.orders ?? {}),
+    ...Object.keys(state?.quarantine ?? {}),
+    ...Object.values(state?.orders ?? {}).flatMap((order) => [
+      order?.order_key,
+      order?.vid,
+    ]),
+    ...Object.values(state?.quarantine ?? {}).flatMap((order) => [
+      order?.order_key,
+      order?.vid,
+    ]),
+  ]) {
+    if (typeof item === "string" && item) privateValues.add(item);
+  }
+  function visit(item) {
+    if (typeof item === "string") {
+      if (privateValues.has(item)) {
+        throw new Error("orders aggregate contains a private attribution identifier");
+      }
+      return;
+    }
+    if (Array.isArray(item)) {
+      for (const child of item) visit(child);
+      return;
+    }
+    if (!isObject(item)) return;
+    for (const child of Object.values(item)) visit(child);
+  }
+  visit(value);
+}
+
 export function buildMonthlyOrdersReport(
   state,
   month,
@@ -1077,6 +1269,128 @@ function requireAggregateCount(value, fieldName) {
   return value;
 }
 
+function assertSafeAttributionCounters(value, fieldName) {
+  if (
+    !hasExactKeys(value, ["orders", "approved_payment_kopecks"]) ||
+    !hasExactKeys(value.orders, ORDER_STATUSES)
+  ) {
+    throw new Error(`orders aggregate ${fieldName} counters are malformed`);
+  }
+  for (const status of ORDER_STATUSES) {
+    requireAggregateCount(value.orders[status], `${fieldName}.orders.${status}`);
+  }
+  requireAggregateCount(
+    value.approved_payment_kopecks,
+    `${fieldName}.approved_payment_kopecks`,
+  );
+  if (value.orders.APPROVED === 0 && value.approved_payment_kopecks !== 0) {
+    throw new Error(
+      `orders aggregate ${fieldName} cannot have payment without APPROVED orders`,
+    );
+  }
+  return value;
+}
+
+function assertSafeAttributionRow(value, fieldName) {
+  if (
+    !hasExactKeys(value, [
+      ...SAFE_ATTRIBUTION_DIMENSIONS,
+      "orders",
+      "approved_payment_kopecks",
+    ]) ||
+    !SAFE_ATTRIBUTION_SURFACES.has(value.surface) ||
+    typeof value.landing_path !== "string" ||
+    !SAFE_LANDING_PATH_RE.test(value.landing_path) ||
+    typeof value.entity_id !== "string" ||
+    !SAFE_ENTITY_ID_RE.test(value.entity_id)
+  ) {
+    throw new Error(`orders aggregate ${fieldName} dimensions are malformed`);
+  }
+  const rankedSurface =
+    value.surface === "seo_hub" || value.surface === "model_page";
+  if (
+    (rankedSurface &&
+      (!Number.isSafeInteger(value.rank) || value.rank < 1 || value.rank > 100)) ||
+    (!rankedSurface && value.rank !== null)
+  ) {
+    throw new Error(`orders aggregate ${fieldName} rank is malformed`);
+  }
+  assertSafeAttributionCounters(
+    {
+      orders: value.orders,
+      approved_payment_kopecks: value.approved_payment_kopecks,
+    },
+    fieldName,
+  );
+  if (ORDER_STATUSES.every((status) => value.orders[status] === 0)) {
+    throw new Error(`orders aggregate ${fieldName} has no attribution signal`);
+  }
+  return value;
+}
+
+function assertSafeAttributionWinners(value, aggregate) {
+  if (
+    !hasExactKeys(value, ["dimensions", "rows", "unattributed"]) ||
+    !Array.isArray(value.dimensions) ||
+    value.dimensions.length !== SAFE_ATTRIBUTION_DIMENSIONS.length ||
+    !value.dimensions.every(
+      (dimension, index) => dimension === SAFE_ATTRIBUTION_DIMENSIONS[index],
+    ) ||
+    !Array.isArray(value.rows)
+  ) {
+    throw new Error("orders aggregate attribution winners are malformed");
+  }
+
+  const groupKeys = new Set();
+  for (const [index, row] of value.rows.entries()) {
+    assertSafeAttributionRow(row, `attribution_winners.rows[${index}]`);
+    const groupKey = safeAttributionGroupKey(row);
+    if (groupKeys.has(groupKey)) {
+      throw new Error("orders aggregate attribution winners contain a duplicate group");
+    }
+    groupKeys.add(groupKey);
+    if (index > 0 && compareSafeAttributionRows(value.rows[index - 1], row) > 0) {
+      throw new Error("orders aggregate attribution winners are not sorted");
+    }
+  }
+  assertSafeAttributionCounters(
+    value.unattributed,
+    "attribution_winners.unattributed",
+  );
+
+  const grouped = [...value.rows, value.unattributed];
+  const totals = grouped.reduce(
+    (result, row) => {
+      for (const status of ORDER_STATUSES) {
+        result.orders[status] += row.orders[status];
+      }
+      result.approved_payment_kopecks += row.approved_payment_kopecks;
+      return result;
+    },
+    emptySafeAttributionCounters(),
+  );
+  for (const status of ORDER_STATUSES) {
+    requireAggregateCount(
+      totals.orders[status],
+      `attribution_winners.total.orders.${status}`,
+    );
+  }
+  requireAggregateCount(
+    totals.approved_payment_kopecks,
+    "attribution_winners.total.approved_payment_kopecks",
+  );
+  if (
+    totals.orders.APPROVED !== aggregate.approved.orders ||
+    totals.orders.NEW !== aggregate.pending_current.new_orders ||
+    totals.orders.ON_HOLD !== aggregate.pending_current.on_hold_orders ||
+    totals.orders.CANCELLED !== aggregate.cancelled_in_month.orders ||
+    totals.approved_payment_kopecks !== aggregate.approved.payment_kopecks
+  ) {
+    throw new Error("orders aggregate attribution totals do not reconcile");
+  }
+  return value;
+}
+
 export function assertSafeOrdersAggregate(value) {
   if (
     !hasExactKeys(value, [
@@ -1090,6 +1404,7 @@ export function assertSafeOrdersAggregate(value) {
       "pending_current",
       "cancelled_in_month",
       "quarantined_current",
+      "attribution_winners",
     ]) ||
     value.schema_version !== ORDERS_AGGREGATE_SCHEMA_VERSION ||
     value.kind !== "krepitv_affiliate_orders_monthly_aggregate" ||
@@ -1163,6 +1478,8 @@ export function assertSafeOrdersAggregate(value) {
     requireAggregateCount(counters.orders, `${fieldName}.orders`);
   }
 
+  assertSafeAttributionWinners(value.attribution_winners, value);
+
   const serialized = JSON.stringify(value);
   if (/[a-f0-9]{64}/i.test(serialized)) {
     throw new Error("orders aggregate must not contain order-key hashes");
@@ -1174,9 +1491,13 @@ export function buildSafeMonthlyOrdersAggregate(
   state,
   month,
   generatedAt = new Date(),
+  placementIndex,
 ) {
   if (!isObject(state) || !validateStoredSync(state.sync) || state.sync === null) {
     throw new Error("orders aggregate requires a completed sync");
+  }
+  if (!(placementIndex instanceof Map)) {
+    throw new Error("orders aggregate requires a placementIndex Map");
   }
   const report = buildMonthlyOrdersReport(state, month, generatedAt);
   const aggregate = {
@@ -1197,7 +1518,13 @@ export function buildSafeMonthlyOrdersAggregate(
     pending_current: report.pending_current,
     cancelled_in_month: report.cancelled_in_month,
     quarantined_current: report.quarantined_current,
+    attribution_winners: buildSafePlacementAttribution(
+      state,
+      month,
+      placementIndex,
+    ),
   };
+  assertPlacementIdentifiersRedacted(aggregate, placementIndex, state);
   return assertSafeOrdersAggregate(aggregate);
 }
 

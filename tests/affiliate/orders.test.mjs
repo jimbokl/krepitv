@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createHmac } from "node:crypto";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 
@@ -792,17 +793,44 @@ test("durable aggregate and its log cannot expose raw or hashed order identifier
     oauth_fixture: token,
     hmac_fixture: secret,
   };
+  const placementId = "market-fixture-mount";
+  const placementIndex = buildPlacementAttributionIndex(
+    {
+      cards: [
+        {
+          id: placementId,
+          page_path: "/kronshteyny/fixture-mount/",
+          entity_kind: "mount",
+          entity_id: "fixture-mount",
+          clid,
+          vid: "krepitvFixture",
+        },
+      ],
+    },
+    null,
+    clid,
+  );
 
   const aggregate = buildSafeMonthlyOrdersAggregate(
     state,
     "2026-07",
     "2026-07-31T12:01:00.000Z",
+    placementIndex,
   );
   assert.deepEqual(aggregate.approved, {
     orders: 1,
     payment_kopecks: 12_345,
   });
-  assert.equal(Object.hasOwn(aggregate, "attribution"), false);
+  assert.deepEqual(aggregate.attribution_winners.rows, [
+    {
+      surface: "mount_page",
+      landing_path: "/kronshteyny/fixture-mount/",
+      entity_id: "fixture-mount",
+      rank: null,
+      orders: { APPROVED: 1, NEW: 0, ON_HOLD: 0, CANCELLED: 0 },
+      approved_payment_kopecks: 12_345,
+    },
+  ]);
   assert.equal(Object.hasOwn(aggregate, "clid"), false);
 
   const outputs = [
@@ -816,6 +844,7 @@ test("durable aggregate and its log cannot expose raw or hashed order identifier
       token,
       secret,
       "krepitvFixture",
+      placementId,
       "order_key",
       "orderId",
       "oauth_fixture",
@@ -837,4 +866,291 @@ test("durable aggregate and its log cannot expose raw or hashed order identifier
       }),
     /unsupported schema|order-key hashes/,
   );
+});
+
+test("safe attribution winners group public dimensions and retain payment only for APPROVED", () => {
+  const privatePlacementIds = [
+    "model-fixture-r01-primary",
+    "model-fixture-r01-revision",
+  ];
+  const privateVids = ["krepitvFixturePrimary", "krepitvFixtureRevision"];
+  const placementIndex = buildPlacementAttributionIndex(
+    {
+      cards: [
+        {
+          id: "market-unused-safe-mount",
+          page_path: "/kronshteyny/unused-safe-mount/",
+          entity_kind: "mount",
+          entity_id: "unused-safe-mount",
+          clid,
+          vid: "krepitvUnusedSafeMount",
+        },
+      ],
+    },
+    [
+      {
+        clid,
+        models: [
+          {
+            model_path: "/modeli/fixture-tv/",
+            placements: privateVids.map((vid, index) => ({
+              placement_id: privatePlacementIds[index],
+              rank: 1,
+              entity_id: "fixture-mount",
+              vid,
+            })),
+          },
+        ],
+      },
+    ],
+    clid,
+  );
+  const state = createOrdersState(clid, secret);
+  state.cursor.last_successful_update_end = "2026-07-31T12:00:00.000Z";
+  state.sync = {
+    last_started_at: "2026-07-31T12:00:00.000Z",
+    last_completed_at: "2026-07-31T12:00:00.000Z",
+    window_start: "2026-07-29T00:00:00.000Z",
+    window_end: "2026-07-31T12:00:00.000Z",
+    pages: 1,
+    records: 5,
+    known_records: 5,
+    quarantined_records: 0,
+  };
+  state.orders = {
+    approved: {
+      vid: privateVids[0],
+      status: "APPROVED",
+      updated_at: "2026-07-30T12:00:00.000Z",
+      payment_kopecks: 12_345,
+    },
+    pending_new: {
+      vid: privateVids[0],
+      status: "NEW",
+      updated_at: "2026-07-30T12:00:00.000Z",
+      payment_kopecks: 888_888,
+    },
+    pending_hold: {
+      vid: privateVids[1],
+      status: "ON_HOLD",
+      updated_at: "2026-07-30T12:00:00.000Z",
+      payment_kopecks: 777_777,
+    },
+    cancelled: {
+      vid: privateVids[1],
+      status: "CANCELLED",
+      updated_at: "2026-07-30T12:00:00.000Z",
+      payment_kopecks: 666_666,
+    },
+    unattributed_new: {
+      vid: "krepitvLegacyPrivateVid",
+      status: "NEW",
+      updated_at: "2026-07-30T12:00:00.000Z",
+      payment_kopecks: 999_999,
+    },
+  };
+
+  const aggregate = buildSafeMonthlyOrdersAggregate(
+    state,
+    "2026-07",
+    "2026-07-31T12:01:00.000Z",
+    placementIndex,
+  );
+  assert.equal(aggregate.schema_version, 2);
+  assert.deepEqual(aggregate.attribution_winners.dimensions, [
+    "surface",
+    "landing_path",
+    "entity_id",
+    "rank",
+  ]);
+  assert.deepEqual(aggregate.attribution_winners.rows, [
+    {
+      surface: "model_page",
+      landing_path: "/modeli/fixture-tv/",
+      entity_id: "fixture-mount",
+      rank: 1,
+      orders: { APPROVED: 1, NEW: 1, ON_HOLD: 1, CANCELLED: 1 },
+      approved_payment_kopecks: 12_345,
+    },
+  ]);
+  assert.deepEqual(aggregate.attribution_winners.unattributed, {
+    orders: { APPROVED: 0, NEW: 1, ON_HOLD: 0, CANCELLED: 0 },
+    approved_payment_kopecks: 0,
+  });
+  assert.equal(aggregate.pending_current.payment_kopecks, 2_666_664);
+
+  const winnersJson = JSON.stringify(aggregate.attribution_winners);
+  for (const forbidden of [
+    ...privateVids,
+    ...privatePlacementIds,
+    "krepitvLegacyPrivateVid",
+    clid,
+    "888888",
+    "777777",
+    "666666",
+    "999999",
+    "vid",
+    "placement_id",
+    "order_key",
+    "oauth",
+  ]) {
+    assert.equal(winnersJson.toLowerCase().includes(forbidden.toLowerCase()), false, forbidden);
+  }
+
+  const leakedRow = structuredClone(aggregate);
+  leakedRow.attribution_winners.rows[0].vid = privateVids[0];
+  assert.throws(() => assertSafeOrdersAggregate(leakedRow), /dimensions are malformed/);
+
+  const leakedPlacement = structuredClone(aggregate);
+  leakedPlacement.attribution_winners.rows[0].placement_id = privatePlacementIds[0];
+  assert.throws(
+    () => assertSafeOrdersAggregate(leakedPlacement),
+    /dimensions are malformed/,
+  );
+
+  const leakedClid = structuredClone(aggregate);
+  leakedClid.clid = clid;
+  assert.throws(() => assertSafeOrdersAggregate(leakedClid), /unsupported schema/);
+
+  const pendingPayment = structuredClone(aggregate);
+  pendingPayment.attribution_winners.rows[0].pending_payment_kopecks = 1;
+  assert.throws(
+    () => assertSafeOrdersAggregate(pendingPayment),
+    /dimensions are malformed/,
+  );
+
+  const brokenTotals = structuredClone(aggregate);
+  brokenTotals.attribution_winners.rows[0].orders.APPROVED = 2;
+  assert.throws(
+    () => assertSafeOrdersAggregate(brokenTotals),
+    /do not reconcile/,
+  );
+
+  const brokenRank = structuredClone(aggregate);
+  brokenRank.attribution_winners.rows[0].rank = null;
+  assert.throws(() => assertSafeOrdersAggregate(brokenRank), /rank is malformed/);
+
+  const duplicateGroup = structuredClone(aggregate);
+  duplicateGroup.attribution_winners.rows.push(
+    structuredClone(duplicateGroup.attribution_winners.rows[0]),
+  );
+  assert.throws(
+    () => assertSafeOrdersAggregate(duplicateGroup),
+    /duplicate group/,
+  );
+
+  const emptyWinner = structuredClone(aggregate);
+  emptyWinner.attribution_winners.rows[0].orders = {
+    APPROVED: 0,
+    NEW: 0,
+    ON_HOLD: 0,
+    CANCELLED: 0,
+  };
+  emptyWinner.attribution_winners.rows[0].approved_payment_kopecks = 0;
+  assert.throws(
+    () => assertSafeOrdersAggregate(emptyWinner),
+    /has no attribution signal/,
+  );
+});
+
+test("safe aggregate validates every placement dimension even when it has no orders", () => {
+  const state = createOrdersState(clid, secret);
+  state.cursor.last_successful_update_end = "2026-07-31T12:00:00.000Z";
+  state.sync = {
+    last_started_at: "2026-07-31T12:00:00.000Z",
+    last_completed_at: "2026-07-31T12:00:00.000Z",
+    window_start: "2026-07-29T00:00:00.000Z",
+    window_end: "2026-07-31T12:00:00.000Z",
+    pages: 1,
+    records: 0,
+    known_records: 0,
+    quarantined_records: 0,
+  };
+  const unsafeIndex = new Map([
+    [
+      "krepitvUnsafeUnused",
+      {
+        vid: "krepitvUnsafeUnused",
+        surface: "model_page",
+        landing_path: "https://example.invalid/private",
+        placement_id: "private-placement-id",
+        rank: 1,
+        entity_id: "safe-entity",
+      },
+    ],
+  ]);
+  assert.throws(
+    () =>
+      buildSafeMonthlyOrdersAggregate(
+        state,
+        "2026-07",
+        "2026-07-31T12:01:00.000Z",
+        unsafeIndex,
+      ),
+    /unsafe attribution dimensions/,
+  );
+
+  state.orders = {
+    clid_as_entity: {
+      vid: "krepitvClidAsEntity",
+      status: "APPROVED",
+      updated_at: "2026-07-30T12:00:00.000Z",
+      payment_kopecks: 100,
+    },
+  };
+  state.sync.records = 1;
+  state.sync.known_records = 1;
+  const clidLeakingIndex = new Map([
+    [
+      "krepitvClidAsEntity",
+      {
+        vid: "krepitvClidAsEntity",
+        surface: "mount_page",
+        landing_path: "/kronshteyny/safe-entity/",
+        placement_id: "private-clid-placement",
+        rank: null,
+        entity_id: clid,
+      },
+    ],
+  ]);
+  assert.throws(
+    () =>
+      buildSafeMonthlyOrdersAggregate(
+        state,
+        "2026-07",
+        "2026-07-31T12:01:00.000Z",
+        clidLeakingIndex,
+      ),
+    /private attribution identifier/,
+  );
+});
+
+test("monthly aggregate JSON Schema closes every durable object boundary", async () => {
+  const schema = JSON.parse(
+    await readFile(
+      new URL(
+        "../../schemas/affiliate-orders-monthly-aggregate.schema.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  assert.equal(schema.properties.schema_version.const, 2);
+  assert.equal(schema.additionalProperties, false);
+  assert.equal(
+    schema.properties.attribution_winners.additionalProperties,
+    false,
+  );
+  assert.equal(schema.$defs.attributionRow.additionalProperties, false);
+  assert.equal(schema.$defs.attributionCounters.additionalProperties, false);
+  assert.equal(schema.$defs.statusCounts.additionalProperties, false);
+  assert.deepEqual(schema.$defs.statusCounts.required.sort(), [
+    "APPROVED",
+    "CANCELLED",
+    "NEW",
+    "ON_HOLD",
+  ]);
+  const rowProperties = Object.keys(schema.$defs.attributionRow.properties);
+  for (const forbidden of ["vid", "placement_id", "clid", "order_key", "oauth"])
+    assert.equal(rowProperties.includes(forbidden), false, forbidden);
 });

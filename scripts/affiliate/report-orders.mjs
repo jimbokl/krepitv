@@ -18,7 +18,7 @@ function usage() {
     "Usage:",
     "  node scripts/affiliate/report-orders.mjs --month 2026-07",
     "Optional: --state .private/affiliate-orders/state.json --out .private/affiliate-orders/reports/2026-07.json",
-    "          --aggregate-only writes an upload-safe report without order keys or VIDs",
+    "          --aggregate-only writes upload-safe totals and attribution winners without private identifiers",
     "          --manifest data/affiliate/market-products.json",
     "          --hub-placements data/affiliate/seo-hub-placements.json",
     "          --model-placements data/affiliate/model-page-placements.json",
@@ -98,21 +98,26 @@ const modelPlacementsFile = path.resolve(
   args.model_placements ??
     path.join(root, "data/affiliate/model-page-placements.json"),
 );
-const state = await readJson(stateFile);
+const [state, manifest, hubPlacements, modelPlacements] = await Promise.all([
+  readJson(stateFile),
+  readJson(manifestFile),
+  readJson(hubPlacementsFile),
+  readJson(modelPlacementsFile),
+]);
+const placementIndex = buildPlacementAttributionIndex(
+  manifest,
+  [hubPlacements, modelPlacements],
+  state.clid,
+);
 let report;
 if (args.aggregate_only) {
-  report = buildSafeMonthlyOrdersAggregate(state, month, new Date());
-} else {
-  const [manifest, hubPlacements, modelPlacements] = await Promise.all([
-    readJson(manifestFile),
-    readJson(hubPlacementsFile),
-    readJson(modelPlacementsFile),
-  ]);
-  const placementIndex = buildPlacementAttributionIndex(
-    manifest,
-    [hubPlacements, modelPlacements],
-    state.clid,
+  report = buildSafeMonthlyOrdersAggregate(
+    state,
+    month,
+    new Date(),
+    placementIndex,
   );
+} else {
   report = buildMonthlyOrdersReport(
     state,
     month,

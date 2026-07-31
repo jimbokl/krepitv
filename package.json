@@ -38,6 +38,7 @@
     "affiliate:orders-sync": "node scripts/affiliate/sync-orders.mjs --clid 15238076",
     "affiliate:orders-report": "node scripts/affiliate/report-orders.mjs",
     "affiliate:orders-aggregate": "node scripts/affiliate/report-orders.mjs --aggregate-only",
+    "affiliate:orders-winners": "node scripts/affiliate/report-orders.mjs --aggregate-only",
     "affiliate:test": "node --test tests/affiliate/*.test.mjs",
     "indexnow:submit": "node scripts/indexnow/submit.mjs",
     "indexnow:test": "node --test tests/indexnow/*.test.mjs",

@@ -64,9 +64,12 @@ jobs:
           set -euo pipefail
           month="$(node -e 'process.stdout.write(new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString().slice(0, 7))')"
           aggregate_path=".private/affiliate-orders/aggregates/${month}.json"
-          npm run affiliate:orders-aggregate -- \
+          npm run affiliate:orders-winners -- \
             --month "$month" \
-            --out "$aggregate_path"
+            --out "$aggregate_path" \
+            --manifest data/affiliate/market-products.json \
+            --hub-placements data/affiliate/seo-hub-placements.json \
+            --model-placements data/affiliate/model-page-placements.json
           chmod -R go-rwx .private/affiliate-orders
           echo "month=$month" >> "$GITHUB_OUTPUT"
           echo "path=$aggregate_path" >> "$GITHUB_OUTPUT"
@@ -78,6 +81,7 @@ jobs:
           const aggregate = assertSafeOrdersAggregate(
             JSON.parse(await readFile(process.argv[2], "utf8")),
           );
+          const winner = aggregate.attribution_winners.rows[0] ?? null;
           process.stdout.write([
             "### Яндекс Маркет — месячный агрегат",
             "",
@@ -87,6 +91,10 @@ jobs:
             `- NEW: ${aggregate.pending_current.new_orders}`,
             `- ON_HOLD: ${aggregate.pending_current.on_hold_orders}`,
             `- CANCELLED в месяце: ${aggregate.cancelled_in_month.orders}`,
+            `- Групп с сигналом: ${aggregate.attribution_winners.rows.length}`,
+            ...(winner ? [
+              `- Лидер: ${winner.surface} · ${winner.landing_path} · ${winner.entity_id} · rank ${winner.rank ?? "—"} · APPROVED ${winner.orders.APPROVED} · ${winner.approved_payment_kopecks} коп.`,
+            ] : []),
             `- Данные API по: ${aggregate.data_as_of}`,
             "",
           ].join("\n"));

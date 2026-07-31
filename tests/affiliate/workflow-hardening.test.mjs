@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const workflowUrl = new URL("../../.github/workflows/affiliate-health.yml", import.meta.url);
@@ -67,7 +69,7 @@ test("orders workflow keeps raw ledger ephemeral and retains only a safe aggrega
   );
   assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/);
   assert.match(workflow, /affiliate:orders-sync[\s\S]*?> \/dev\/null/);
-  assert.match(workflow, /affiliate:orders-aggregate/);
+  assert.match(workflow, /affiliate:orders-winners/);
   assert.match(
     workflow,
     /aggregate_path="\.private\/affiliate-orders\/aggregates\/\$\{month\}\.json"/,
@@ -86,6 +88,13 @@ test("orders workflow keeps raw ledger ephemeral and retains only a safe aggrega
     workflow,
     /--model-placements\s+data\/affiliate\/model-page-placements\.json/,
   );
+  assert.match(
+    workflow,
+    /affiliate:orders-winners[\s\S]*?--manifest\s+data\/affiliate\/market-products\.json[\s\S]*?--hub-placements\s+data\/affiliate\/seo-hub-placements\.json[\s\S]*?--model-placements\s+data\/affiliate\/model-page-placements\.json/,
+  );
+  assert.match(workflow, /echo "path=\$aggregate_path" >> "\$GITHUB_OUTPUT"/);
+  assert.match(workflow, /aggregate\.attribution_winners\.rows/);
+  assert.match(workflow, /winner\.approved_payment_kopecks/);
   assert.match(workflow, /if:\s*always\(\)[\s\S]*?rm -rf \.private\/affiliate-orders/);
   const uploadStep = workflow.match(
     /- name: Сохранить только обезличенный агрегат[\s\S]*?(?=\n\s+- name: Уничтожить временный реестр)/,
@@ -93,7 +102,11 @@ test("orders workflow keeps raw ledger ephemeral and retains only a safe aggrega
   assert.ok(uploadStep);
   assert.doesNotMatch(
     uploadStep,
-    /state\.json|latest\.json|\/reports\/|affiliate-orders\/$|\*|order_key|orderId/i,
+    /state\.json|latest\.json|\/reports\/|affiliate-orders\/$|\*|order_key|orderId|placement_id|\bvid\b|\bclid\b|oauth|hmac/i,
+  );
+  assert.match(
+    uploadStep,
+    /path:\s*\$\{\{ steps\.aggregate\.outputs\.path \}\}/,
   );
   assert.doesNotMatch(
     workflow,
@@ -108,4 +121,40 @@ test("orders workflow keeps raw ledger ephemeral and retains only a safe aggrega
   ) ?? [];
   assert.equal(oauthReferences.length, 1);
   assert.equal(hmacReferences.length, 1);
+});
+
+test("orders winners CLI is documented and keeps the legacy aggregate command", async () => {
+  const [packageJson, cliSource] = await Promise.all([
+    readFile(new URL("../../package.json", import.meta.url), "utf8").then(JSON.parse),
+    readFile(
+      new URL("../../scripts/affiliate/report-orders.mjs", import.meta.url),
+      "utf8",
+    ),
+  ]);
+  assert.equal(
+    packageJson.scripts["affiliate:orders-winners"],
+    "node scripts/affiliate/report-orders.mjs --aggregate-only",
+  );
+  assert.equal(
+    packageJson.scripts["affiliate:orders-aggregate"],
+    "node scripts/affiliate/report-orders.mjs --aggregate-only",
+  );
+  assert.match(cliSource, /upload-safe totals and attribution winners/);
+  assert.match(cliSource, /--manifest/);
+  assert.match(cliSource, /--hub-placements/);
+  assert.match(cliSource, /--model-placements/);
+
+  const cli = spawnSync(
+    process.execPath,
+    [
+      fileURLToPath(
+        new URL("../../scripts/affiliate/report-orders.mjs", import.meta.url),
+      ),
+      "--help",
+    ],
+    { encoding: "utf8" },
+  );
+  assert.equal(cli.status, 0, cli.stderr);
+  assert.match(cli.stdout, /--aggregate-only/);
+  assert.match(cli.stdout, /attribution winners without private identifiers/);
 });
