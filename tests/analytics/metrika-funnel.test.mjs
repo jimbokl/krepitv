@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  AFFILIATE_ELIGIBLE_REGION_AREAS_RU,
   buildMetrikaFunnelUrl,
   fetchMetrikaFunnel,
 } from "../../scripts/analytics/metrika-funnel.mjs";
@@ -40,6 +41,23 @@ test("organic URL has fixed full-accuracy filters and ordered goal metrics", () 
   assert.match(url.searchParams.get("filters"), /_ym_status-check/);
 });
 
+test("eligible-region organic URL is explicit and accepted as one segment", () => {
+  const url = buildMetrikaFunnelUrl({
+    affiliateEligibleRegionsOnly: true,
+    counterId: 111176777,
+    date1: "2026-07-01",
+    date2: "2026-07-31",
+    goalIds,
+  });
+  assert.equal(url.searchParams.get("lang"), "ru");
+  assert.equal(url.searchParams.get("dimensions"), "ym:s:date");
+  assert.match(url.searchParams.get("filters"), /lastTrafficSource=='organic'/);
+  for (const area of AFFILIATE_ELIGIBLE_REGION_AREAS_RU) {
+    assert.match(url.searchParams.get("filters"), new RegExp(area));
+  }
+  assert.equal(AFFILIATE_ELIGIBLE_REGION_AREAS_RU.length, 14);
+});
+
 test("report keeps authoritative users total and strips source labels and token", async () => {
   const calls = [];
   const fetchImpl = async (url, options) => {
@@ -77,7 +95,8 @@ test("report keeps authoritative users total and strips source labels and token"
     ["internal", 1],
   ]);
   assert.equal(report.organic_excluding_tests.users, 0);
-  assert.equal(calls.length, 2);
+  assert.equal(report.eligible_regions_organic_excluding_tests.users, 0);
+  assert.equal(calls.length, 3);
   assert.equal(calls.every((call) => call.options.headers.Authorization === `OAuth ${token}`), true);
   assert.equal(JSON.stringify(report).includes(token), false);
   assert.equal(JSON.stringify(report).includes("Прямые заходы"), false);

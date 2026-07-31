@@ -16,6 +16,31 @@ const SOURCE_IDS = new Set([
   "saved",
   "social",
 ]);
+export const AFFILIATE_ELIGIBLE_REGION_AREAS_RU = Object.freeze([
+  "Москва и Московская область",
+  "Санкт-Петербург и Ленинградская область",
+  "Воронежская область",
+  "Краснодарский край",
+  "Красноярский край",
+  "Нижегородская область",
+  "Новосибирская область",
+  "Пермский край",
+  "Республика Башкортостан",
+  "Республика Татарстан",
+  "Ростовская область",
+  "Самарская область",
+  "Свердловская область",
+  "Челябинская область",
+]);
+
+const ORGANIC_FILTER =
+  "ym:s:lastTrafficSource=='organic' AND ym:s:startURL!*'metrika-test' AND ym:s:startURL!*'_ym_status-check'";
+
+function eligibleRegionsFilter() {
+  return `(${AFFILIATE_ELIGIBLE_REGION_AREAS_RU
+    .map((name) => `ym:s:regionAreaName=='${name}'`)
+    .join(" OR ")})`;
+}
 
 function isIsoDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value ?? "")) return false;
@@ -40,6 +65,7 @@ export function buildMetrikaFunnelUrl({
   date2,
   goalIds,
   organicOnly = false,
+  affiliateEligibleRegionsOnly = false,
 }) {
   if (!/^\d+$/.test(String(counterId ?? ""))) throw new Error("counterId must be numeric");
   if (!isIsoDate(date1) || !isIsoDate(date2) || date1 > date2) {
@@ -59,15 +85,18 @@ export function buildMetrikaFunnelUrl({
   url.searchParams.set("limit", "10000");
   url.searchParams.set(
     "dimensions",
-    organicOnly ? "ym:s:date" : "ym:s:lastTrafficSource",
+    organicOnly || affiliateEligibleRegionsOnly ? "ym:s:date" : "ym:s:lastTrafficSource",
   );
   url.searchParams.set("metrics", metricNames(goalIds).join(","));
-  url.searchParams.set("sort", organicOnly ? "ym:s:date" : "-ym:s:visits");
-  if (organicOnly) {
-    url.searchParams.set(
-      "filters",
-      "ym:s:lastTrafficSource=='organic' AND ym:s:startURL!*'metrika-test' AND ym:s:startURL!*'_ym_status-check'",
-    );
+  url.searchParams.set(
+    "sort",
+    organicOnly || affiliateEligibleRegionsOnly ? "ym:s:date" : "-ym:s:visits",
+  );
+  if (affiliateEligibleRegionsOnly) {
+    url.searchParams.set("lang", "ru");
+    url.searchParams.set("filters", `${ORGANIC_FILTER} AND ${eligibleRegionsFilter()}`);
+  } else if (organicOnly) {
+    url.searchParams.set("filters", ORGANIC_FILTER);
   }
   return url;
 }
@@ -150,8 +179,15 @@ export async function fetchMetrikaFunnel({
   if (typeof token !== "string" || token.length < 16) throw new Error("OAuth token is missing");
   if (typeof fetchImpl !== "function") throw new Error("fetch implementation is missing");
 
-  async function load(organicOnly) {
-    const url = buildMetrikaFunnelUrl({ counterId, date1, date2, goalIds, organicOnly });
+  async function load({ affiliateEligibleRegionsOnly = false, organicOnly = false } = {}) {
+    const url = buildMetrikaFunnelUrl({
+      affiliateEligibleRegionsOnly,
+      counterId,
+      date1,
+      date2,
+      goalIds,
+      organicOnly,
+    });
     const response = await fetchImpl(url, {
       headers: {
         Accept: "application/json",
@@ -166,16 +202,24 @@ export async function fetchMetrikaFunnel({
     return payload;
   }
 
-  const [allSources, organic] = await Promise.all([load(false), load(true)]);
+  const [allSources, organic, eligibleRegionsOrganic] = await Promise.all([
+    load(),
+    load({ organicOnly: true }),
+    load({ affiliateEligibleRegionsOnly: true }),
+  ]);
   const observedAt = now instanceof Date ? now.toISOString() : new Date(now).toISOString();
   return {
-    schema_version: 1,
+    schema_version: 2,
     observed_at: observedAt,
     window: { date1, date2 },
     coverage: "Только посетители, разрешившие Яндекс Метрику",
     all_consenting: totalsObject(allSources.totals),
     source_breakdown: sourceBreakdown(allSources.data),
     organic_excluding_tests: totalsObject(organic.totals),
+    eligible_regions_organic_excluding_tests: totalsObject(
+      eligibleRegionsOrganic.totals,
+    ),
+    affiliate_eligible_region_areas_ru: [...AFFILIATE_ELIGIBLE_REGION_AREAS_RU],
     quality: {
       all_consenting: {
         sampled: Boolean(allSources.sampled),
@@ -186,6 +230,11 @@ export async function fetchMetrikaFunnel({
         sampled: Boolean(organic.sampled),
         sample_share: Number(organic.sample_share ?? 1),
         data_lag: Number(organic.data_lag ?? 0),
+      },
+      eligible_regions_organic_excluding_tests: {
+        sampled: Boolean(eligibleRegionsOrganic.sampled),
+        sample_share: Number(eligibleRegionsOrganic.sample_share ?? 1),
+        data_lag: Number(eligibleRegionsOrganic.data_lag ?? 0),
       },
     },
   };
