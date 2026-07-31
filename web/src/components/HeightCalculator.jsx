@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, Info, Ruler } from "@phosphor-icons/react";
+import { HeightPlanDiagram } from "./HeightPlanDiagram.jsx";
 import { formatNumber } from "./ModelFacts.jsx";
 import { calculateHeight } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
@@ -93,18 +94,41 @@ export function HeightCalculator({ model = null }) {
 
       {error ? <p className="mt-5 border border-danger p-4 text-danger">{error}</p> : null}
       {result ? (
-        <div className="mt-6 grid gap-4 border-y-2 border-ink py-5 sm:grid-cols-3">
-          <ResultMetric label="Центр экрана" value={`${formatNumber(result.center_height_cm)} см`} />
-          <ResultMetric label="Нижний край" value={`${formatNumber(result.bottom_height_cm)} см`} />
-          <ResultMetric label="Верхний край" value={`${formatNumber(result.top_height_cm)} см`} />
-          <p className="flex gap-3 text-sm leading-relaxed text-muted sm:col-span-3">
-            <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-action" />
-            <span>
-              Расчёт использует геометрию экрана 16:9 и заданный угол просмотра. Перед сверлением
-              сопоставьте центр экрана с положением монтажных отверстий конкретной модели.
-              {result.warnings.length ? ` ${result.warnings.join(" ")}` : ""}
-            </span>
-          </p>
+        <div className="mt-6" data-height-plan-result="true">
+          <div className="grid gap-4 border-y-2 border-ink py-5 sm:grid-cols-3">
+            <ResultMetric label="Центр экрана" value={`${formatNumber(result.center_height_cm)} см`} />
+            <ResultMetric label="Нижний край" value={`${formatNumber(result.bottom_height_cm)} см`} />
+            <ResultMetric label="Верхний край" value={`${formatNumber(result.top_height_cm)} см`} />
+            <p className="flex gap-3 text-sm leading-relaxed text-muted sm:col-span-3">
+              <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-action" />
+              <span>
+                Расчёт использует геометрию экрана 16:9 и заданный угол просмотра. Перед сверлением
+                сопоставьте центр экрана с положением монтажных отверстий конкретной модели.
+                {result.warnings.length ? ` ${result.warnings.join(" ")}` : ""}
+              </span>
+            </p>
+          </div>
+
+          <HeightPlanDiagram result={result} />
+
+          <section className="grid gap-4 border-b-2 border-ink py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" data-height-next-job="true">
+            <div>
+              <p className="font-mono text-xs uppercase text-action">Следующий шаг до сверления</p>
+              <h3 className="mt-1 font-display text-2xl font-extrabold">Переведите центр экрана в линию пластины</h3>
+              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
+                Положение отверстий VESA и контрольной линии зависит от точного телевизора и кронштейна.
+                Монтажная карта сохранит знак смещения и покажет, какую высоту переносить на стену.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 sm:justify-end">
+              <a className="primary-button" href="/kak-povesit-televizor-na-stenu/">
+                Построить монтажную карту <ArrowRight aria-hidden="true" />
+              </a>
+              <a className="font-semibold text-technical underline underline-offset-4" href="/podbor/">
+                Проверить модель и кронштейн
+              </a>
+            </div>
+          </section>
         </div>
       ) : null}
     </section>

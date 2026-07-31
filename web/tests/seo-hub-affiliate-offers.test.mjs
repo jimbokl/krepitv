@@ -65,6 +65,34 @@ function snapshot(placements) {
   };
 }
 
+function offerFromSourceCard(card, { id, vid }) {
+  const destination = new URL(card.market_source_url);
+  destination.searchParams.set("clid", card.clid);
+  destination.searchParams.set("vid", vid);
+  destination.searchParams.set("distr_type", "7");
+  destination.searchParams.set("utm_source", "partner_network");
+  destination.searchParams.set("utm_campaign", card.clid);
+
+  return {
+    id,
+    market_source_url: card.market_source_url,
+    page_path: card.page_path,
+    entity_kind: card.entity_kind,
+    entity_id: card.entity_id,
+    compliance_mode: card.compliance_mode,
+    clid: card.clid,
+    vid,
+    affiliate_href: destination.toString(),
+    page_name: "POKUPKI_PRODUCT",
+    title: `Кронштейн ${card.entity_id}`,
+    product_photo: "https://avatars.mds.yandex.net/get-mpic/1/example.jpeg/optimize",
+    checked_at: "2026-07-31T01:30:00Z",
+    eligibility: "publishable",
+    publishable: true,
+    creative: card.creative,
+  };
+}
+
 test("parser возвращает отдельные свежие placement-офферы без смешивания метаданных", () => {
   const placements = [
     placement({ rank: 2, entityId: "itech-ptrb440ln" }),
@@ -198,32 +226,28 @@ test("селектор использует exact hub id/path, фактичес�
 });
 
 test("manifest задаёт 17 уникальных placement-ссылок и порядок шести хабов", async () => {
-  const [manifest, pages, mounts, models, publicSnapshot] = await Promise.all([
+  const [manifest, source, pages, mounts, models] = await Promise.all([
     readFile(new URL("../../data/affiliate/seo-hub-placements.json", import.meta.url), "utf8").then(JSON.parse),
+    readFile(new URL("../../data/affiliate/market-products.json", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../../data/seo_pages.json", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../../data/mounts.json", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../../data/tv_models.json", import.meta.url), "utf8").then(JSON.parse),
-    readFile(new URL("../../data/affiliate/public-offers.json", import.meta.url), "utf8").then(JSON.parse),
   ]);
-  const publicById = new Map(publicSnapshot.offers.map((item) => [item.id, item]));
+  const sourceById = new Map(source.cards.map((item) => [item.id, item]));
   const placements = manifest.hubs.flatMap((hub) => hub.placements.map((item) => {
-    const baseOffer = publicById.get(item.source_card_id);
-    assert.ok(baseOffer, `Нет исходного оффера ${item.source_card_id}`);
-    assert.equal(baseOffer.entity_id, item.entity_id);
-    assert.equal(baseOffer.clid, manifest.clid);
-    const href = new URL(baseOffer.affiliate_href);
-    href.searchParams.set("vid", item.vid);
+    const sourceCard = sourceById.get(item.source_card_id);
+    assert.ok(sourceCard, `Нет исходной карточки ${item.source_card_id}`);
+    assert.equal(sourceCard.entity_id, item.entity_id);
+    assert.equal(sourceCard.clid, manifest.clid);
     return {
       placement_id: item.placement_id,
       hub_id: hub.hub_id,
       hub_path: hub.hub_path,
       rank: item.rank,
-      offer: {
-        ...baseOffer,
+      offer: offerFromSourceCard(sourceCard, {
         id: item.placement_id,
         vid: item.vid,
-        affiliate_href: href.toString(),
-      },
+      }),
     };
   }));
   const vids = placements.map((item) => item.offer.vid);
@@ -236,10 +260,11 @@ test("manifest задаёт 17 уникальных placement-ссылок и п
   assert.ok(vids.every((vid) => /^[A-Za-z0-9]{1,150}$/.test(vid)));
   assert.ok(Math.max(...vids.map((vid) => vid.length)) <= 40);
 
-  const snapshotNow = Date.parse(publicSnapshot.generated_at) + 60_000;
+  const generatedAt = "2026-07-31T01:45:00Z";
+  const snapshotNow = Date.parse(generatedAt) + 60_000;
   const parsed = getFreshHubAffiliateOffers({
     schema_version: 1,
-    generated_at: publicSnapshot.generated_at,
+    generated_at: generatedAt,
     placements,
   }, { now: snapshotNow });
   assert.equal(parsed.length, 17);

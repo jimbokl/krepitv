@@ -572,6 +572,11 @@ fn html_shell(
     static_body: Option<&str>,
     head: HeadExtras<'_>,
 ) -> String {
+    let market_verification_meta = if canonical == "https://krepitv.ru/" {
+        "<meta name=\"yandex-market-affiliate-verification\" content=\"YMReferral\">\n"
+    } else {
+        ""
+    };
     let title = escape_html(title);
     let description = escape_html(description);
     let canonical = escape_html(canonical);
@@ -596,7 +601,7 @@ fn html_shell(
         })
         .unwrap_or_default();
     format!(
-        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n<link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\">\n{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
+        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n<link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\">\n{market_verification_meta}{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
         head.json_ld,
     )
 }
@@ -2690,7 +2695,7 @@ fn main() {
         &web.join("index.html"),
         &html_shell(
             "Проверка совместимости телевизора и кронштейна — KREPI TV",
-            "Проверьте VESA, массу, диагональ и высоту установки для точной модели телевизора. Расчёт работает локально в браузере. YMReferral",
+            "Проверьте VESA, массу, диагональ и высоту установки для точной модели телевизора. Расчёт работает локально в браузере.",
             "https://krepitv.ru/",
             "home",
             None,
@@ -3067,15 +3072,14 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        CommercialProfilesFile, PublicAffiliateSnapshot, SeoPage, TvModel,
+        CommercialProfilesFile, HeadExtras, PublicAffiliateSnapshot, SeoPage, TvModel,
         affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
-        commercial_profile_for, escape_html, is_indexable_model, is_indexable_mount,
+        commercial_profile_for, escape_html, html_shell, is_indexable_model, is_indexable_mount,
         is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
         model_mount_matches, model_page_body, mount_page_body, mounts_catalog_body,
         parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_screw_catalog_html,
-        seo_vesa_model_catalog_html, tv_product_json_ld, validate_commercial_profiles,
-        wall_mount_screws_html, workspace_root,
+        seo_calculator_note, seo_catalog_html, seo_screw_catalog_html, seo_vesa_model_catalog_html,
+        tv_product_json_ld, validate_commercial_profiles, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -3086,6 +3090,44 @@ mod tests {
             escape_html("<ТВ & \"стена\">"),
             "&lt;ТВ &amp; &quot;стена&quot;&gt;"
         );
+    }
+
+    #[test]
+    fn keeps_market_verification_out_of_search_descriptions() {
+        let description = "Независимая проверка совместимости.";
+        let home = html_shell(
+            "KREPI TV",
+            description,
+            "https://krepitv.ru/",
+            "home",
+            None,
+            None,
+            HeadExtras {
+                robots: None,
+                json_ld: "",
+            },
+        );
+        assert!(home.contains(
+            "<meta name=\"yandex-market-affiliate-verification\" content=\"YMReferral\">"
+        ));
+        assert!(home.contains(&format!(
+            "<meta name=\"description\" content=\"{description}\">"
+        )));
+        assert!(!home.contains(&format!("{description} YMReferral")));
+
+        let inner = html_shell(
+            "Внутренняя страница",
+            description,
+            "https://krepitv.ru/podbor/",
+            "matcher",
+            None,
+            None,
+            HeadExtras {
+                robots: None,
+                json_ld: "",
+            },
+        );
+        assert!(!inner.contains("yandex-market-affiliate-verification"));
     }
 
     #[test]
@@ -3412,9 +3454,9 @@ mod tests {
         assert_eq!(html.matches("<option value=").count(), 80);
         assert_eq!(html.matches("<details").count(), 5);
         assert!(html.contains("Таблица VESA телевизоров"));
-        assert!(html.contains(
-            "https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-sizes"
-        ));
+        assert!(
+            html.contains("https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-sizes")
+        );
         assert!(html.contains("data-vesa-source-conflict=\"true\""));
         assert!(html.contains("Источники расходятся: 400×300 мм / 400×400 мм"));
         assert!(!html.contains("market.yandex.ru"));
