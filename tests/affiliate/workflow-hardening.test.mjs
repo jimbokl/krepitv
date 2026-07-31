@@ -13,6 +13,15 @@ const pagesWorkflowUrl = new URL(
   "../../.github/workflows/pages.yml",
   import.meta.url,
 );
+const webPackageUrl = new URL("../../web/package.json", import.meta.url);
+
+test("Vite SSR tests are serialized on constrained GitHub runners", async () => {
+  const packageFile = JSON.parse(await readFile(webPackageUrl, "utf8"));
+  assert.equal(
+    packageFile.scripts?.["test:sites"],
+    "node --test --test-concurrency=1 tests/*.test.mjs",
+  );
+});
 
 test("affiliate workflow is scheduled with pinned actions and one scoped OAuth step", async () => {
   const workflow = await readFile(workflowUrl, "utf8");

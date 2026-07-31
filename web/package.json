@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
-    "test:sites": "node --test tests/*.test.mjs",
+    "test:sites": "node --test --test-concurrency=1 tests/*.test.mjs",
     "check:ru": "node scripts/check-russian-ui.mjs"
   },
   "dependencies": {
