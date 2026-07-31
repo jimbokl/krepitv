@@ -52,6 +52,10 @@ struct WallMountScrews {
     source_region: String,
     source_url: String,
     source_label: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    secondary_source_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    secondary_source_label: Option<String>,
     checked_at: String,
     note: String,
 }
@@ -63,6 +67,8 @@ struct WallMountScrewGroup {
     thread: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     length_mm: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    length_unknown: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     engagement_min_mm: Option<f64>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -463,6 +469,9 @@ fn format_mm(value: f64) -> String {
 fn wall_mount_screw_measurement(group: &WallMountScrewGroup) -> String {
     if let Some(length) = group.length_mm {
         return format!("{}×{} мм", group.thread, length);
+    }
+    if group.length_unknown == Some(true) {
+        return format!("{} · длина не определена", group.thread);
     }
     let (Some(minimum), Some(maximum)) = (group.engagement_min_mm, group.engagement_max_mm) else {
         return group.thread.clone();
@@ -926,6 +935,17 @@ fn wall_mount_screws_html(tv: &TvModel) -> String {
             )
         })
         .unwrap_or_default();
+    let secondary_source = match (
+        hardware.secondary_source_url.as_deref(),
+        hardware.secondary_source_label.as_deref(),
+    ) {
+        (Some(url), Some(label)) => format!(
+            "<a class=\"inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{}\" rel=\"noreferrer\">{} · дополнительный официальный источник</a>",
+            escape_html(url),
+            escape_html(label),
+        ),
+        _ => String::new(),
+    };
     let conflict = hardware
         .vesa_conflict
         .as_ref()
@@ -947,6 +967,12 @@ fn wall_mount_screws_html(tv: &TvModel) -> String {
     let warning = if hardware
         .groups
         .iter()
+        .any(|group| group.length_unknown == Some(true))
+    {
+        "Официальные документы подтверждают резьбу, но не дают единой безопасной длины. Подберите её по бумажной инструкции телевизора и толщине планки кронштейна."
+    } else if hardware
+        .groups
+        .iter()
         .any(|group| group.engagement_min_mm.is_some())
     {
         if range_label == "C" {
@@ -959,7 +985,7 @@ fn wall_mount_screws_html(tv: &TvModel) -> String {
     };
 
     format!(
-        "<section class=\"mt-6 border-2 border-ink bg-white p-5\" aria-labelledby=\"wall-mount-screws-title\" data-wall-mount-screws=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Паспорт настенного монтажа</p><h2 id=\"wall-mount-screws-title\" class=\"mt-2 font-display text-3xl font-extrabold\">Какие винты нужны для {title}</h2>{conflict}<dl class=\"mt-4 border-b border-line\">{groups}</dl>{adapters}{required_parts}<p class=\"mt-4 text-sm leading-relaxed text-muted\">{note}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\"><strong class=\"text-ink\">Важно:</strong> {warning}</p><a class=\"mt-4 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">{source_label} · регион: {source_region} · проверено {checked_at}</a></section>",
+        "<section class=\"mt-6 border-2 border-ink bg-white p-5\" aria-labelledby=\"wall-mount-screws-title\" data-wall-mount-screws=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Паспорт настенного монтажа</p><h2 id=\"wall-mount-screws-title\" class=\"mt-2 font-display text-3xl font-extrabold\">Какие винты нужны для {title}</h2>{conflict}<dl class=\"mt-4 border-b border-line\">{groups}</dl>{adapters}{required_parts}<p class=\"mt-4 text-sm leading-relaxed text-muted\">{note}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\"><strong class=\"text-ink\">Важно:</strong> {warning}</p><div class=\"mt-4 grid gap-2\"><a class=\"inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">{source_label} · регион: {source_region} · проверено {checked_at}</a>{secondary_source}</div></section>",
         title = escape_html(&tv.title),
         conflict = conflict,
         groups = groups,
@@ -971,6 +997,7 @@ fn wall_mount_screws_html(tv: &TvModel) -> String {
         source_label = escape_html(&hardware.source_label),
         source_region = escape_html(&hardware.source_region),
         checked_at = escape_html(&hardware.checked_at),
+        secondary_source = secondary_source,
     )
 }
 
@@ -1948,6 +1975,16 @@ fn validate_models(models: &[TvModel]) {
                     && !hardware.source_region.trim().is_empty()
                     && hardware.source_url.starts_with("https://")
                     && !hardware.source_label.trim().is_empty()
+                    && match (
+                        hardware.secondary_source_url.as_deref(),
+                        hardware.secondary_source_label.as_deref(),
+                    ) {
+                        (None, None) => true,
+                        (Some(url), Some(label)) => {
+                            url.starts_with("https://") && !label.trim().is_empty()
+                        }
+                        _ => false,
+                    }
                     && is_valid_iso_date(&hardware.checked_at)
                     && !hardware.note.trim().is_empty()
                     && hardware
@@ -1968,10 +2005,16 @@ fn validate_models(models: &[TvModel]) {
                 );
             }
             let mut locations = HashSet::new();
+            let mut effective_range_labels = HashSet::new();
             for group in &hardware.groups {
                 let has_exact_length = group.length_mm.is_some();
+                let has_unknown_length = group.length_unknown == Some(true);
                 let has_engagement_range =
                     group.engagement_min_mm.is_some() && group.engagement_max_mm.is_some();
+                if has_engagement_range {
+                    effective_range_labels
+                        .insert(group.range_label.as_deref().unwrap_or("L").to_owned());
+                }
                 let valid_exact_length = group
                     .length_mm
                     .is_none_or(|length| (4..=100).contains(&length));
@@ -1988,21 +2031,33 @@ fn validate_models(models: &[TvModel]) {
                     Some("L" | "C") => has_engagement_range,
                     Some(_) => false,
                 };
+                let valid_unknown_length = group.length_unknown.is_none_or(|value| value);
+                let measurement_modes =
+                    [has_exact_length, has_unknown_length, has_engagement_range]
+                        .into_iter()
+                        .filter(|mode| *mode)
+                        .count();
                 assert!(
                     !group.location.trim().is_empty()
                         && locations.insert(group.location.to_lowercase())
                         && group.thread.starts_with('M')
                         && group.thread.len() > 1
                         && group.thread[1..].bytes().all(|byte| byte.is_ascii_digit())
-                        && has_exact_length != has_engagement_range
+                        && measurement_modes == 1
                         && valid_exact_length
                         && valid_engagement_range
                         && valid_range_label
+                        && valid_unknown_length
                         && (1..=4).contains(&group.quantity),
                     "Некорректная группа винтов у {}",
                     tv.id
                 );
             }
+            assert!(
+                effective_range_labels.len() <= 1,
+                "Паспорт {} смешивает диапазоны L и C; SSR и React должны давать одинаковое предупреждение",
+                tv.id
+            );
         }
     }
 }
@@ -2160,8 +2215,8 @@ fn validate_commercial_profiles(
     );
     assert_eq!(
         file.profiles.len(),
-        21,
-        "SEO-серия должна содержать ровно 21 проверенный профиль"
+        30,
+        "SEO-серия должна содержать ровно 30 проверенных профилей"
     );
 
     let expected = [
@@ -2186,6 +2241,15 @@ fn validate_commercial_profiles(
         "model:tcl-55c7k",
         "model:tcl-75c6k",
         "model:tcl-65c7k",
+        "model:samsung-qe43q7faauxru",
+        "model:samsung-qe50q7faauxru",
+        "model:samsung-ue32f6000fuxru",
+        "model:hisense-65u8q",
+        "model:hisense-65u7q",
+        "model:hisense-65ur9s",
+        "model:tcl-55p6k",
+        "model:tcl-55p7k",
+        "model:tcl-43s5k",
     ]
     .into_iter()
     .collect::<HashSet<_>>();
@@ -2860,7 +2924,42 @@ mod tests {
             .iter()
             .filter(|model| model.wall_mount_screws.is_some())
             .collect::<Vec<_>>();
-        assert_eq!(sourced.len(), 18);
+        assert_eq!(sourced.len(), 26);
+        let expected_passport_ids = [
+            "tcl-55c6k",
+            "tcl-55c7l",
+            "tcl-55c7k",
+            "tcl-65c7k",
+            "tcl-75c6k",
+            "tcl-55p6k",
+            "tcl-55p7k",
+            "hisense-43e7s",
+            "hisense-50e7s",
+            "hisense-50u77sl",
+            "hisense-55e7s",
+            "hisense-55e77sl",
+            "hisense-55u7q",
+            "hisense-55u7s",
+            "hisense-55u7s-pro",
+            "hisense-65u7q",
+            "hisense-65u7s",
+            "hisense-65u77sl",
+            "hisense-65u8q",
+            "hisense-65ur9s",
+            "samsung-qe43q7faauxru",
+            "samsung-qe50q7faauxru",
+            "samsung-ue32f6000fuxru",
+            "samsung-ue43u8000fuxru",
+            "samsung-ue50u8000fuxru",
+            "samsung-ue55u8000fuxru",
+        ]
+        .into_iter()
+        .collect::<std::collections::HashSet<_>>();
+        let actual_passport_ids = sourced
+            .iter()
+            .map(|model| model.id.as_str())
+            .collect::<std::collections::HashSet<_>>();
+        assert_eq!(actual_passport_ids, expected_passport_ids);
 
         let model = |id: &str| {
             models
@@ -2919,6 +3018,110 @@ mod tests {
         assert!(samsung_html.contains("data-adapter-status=\"unknown\""));
         assert!(samsung_html.contains("после монтажной пластины"));
         assert!(!samsung_html.contains("M8×23"));
+
+        for (id, model_name, file_id) in [
+            ("samsung-qe43q7faauxru", "QE43Q7FAAU", "10108131"),
+            ("samsung-qe50q7faauxru", "QE50Q7FAAU", "10108143"),
+        ] {
+            let q7f = model(id);
+            let q7f_hardware = q7f
+                .wall_mount_screws
+                .as_ref()
+                .expect("Нет паспорта Samsung Q7F");
+            assert!(
+                q7f_hardware
+                    .source_url
+                    .contains(&format!("ModelName={model_name}"))
+            );
+            assert!(
+                q7f_hardware
+                    .source_url
+                    .contains(&format!("CttFileID={file_id}"))
+            );
+            let q7f_html = wall_mount_screws_html(q7f);
+            assert!(q7f_html.contains("4 шт. · M8 · диапазон C 19–21 мм"));
+            assert!(q7f_html.contains("data-adapter-status=\"unknown\""));
+            assert!(!q7f_html.contains("M8×19"));
+        }
+        let f6000 = model("samsung-ue32f6000fuxru");
+        let f6000_hardware = f6000
+            .wall_mount_screws
+            .as_ref()
+            .expect("Нет паспорта Samsung F6000F");
+        assert!(f6000_hardware.source_url.contains("ModelName=UE32F6000FU"));
+        assert!(f6000_hardware.source_url.contains("CttFileID=10080407"));
+        let f6000_html = wall_mount_screws_html(f6000);
+        assert!(f6000_html.contains("4 шт. · M8 · диапазон C 21–23 мм"));
+        assert!(f6000_html.contains("M4×L14"));
+        assert!(f6000_html.contains("относятся к ножкам"));
+        assert!(!f6000_html.contains("M8×21"));
+
+        for (id, pdf_fragment, support_id) in [
+            ("hisense-65u8q", "/U8Q/65-75U8Q.pdf", "ID=8669"),
+            ("hisense-65u7q", "/u7q/U7Q.pdf", "ID=8663"),
+            (
+                "hisense-65ur9s",
+                "/UR9S/20221782_65-75-85UR9S_Rus.pdf",
+                "ID=9197",
+            ),
+        ] {
+            let hisense = model(id);
+            assert_eq!(hisense.vesa_width_mm, 400);
+            assert_eq!(hisense.vesa_height_mm, 400);
+            let hisense_hardware = hisense
+                .wall_mount_screws
+                .as_ref()
+                .expect("Нет паспорта Hisense 65 дюймов");
+            assert_eq!(hisense_hardware.groups.len(), 1);
+            let group = &hisense_hardware.groups[0];
+            assert_eq!(group.thread, "M6");
+            assert_eq!(group.engagement_min_mm, Some(9.5));
+            assert_eq!(group.engagement_max_mm, Some(11.5));
+            assert_eq!(group.range_label.as_deref(), Some("L"));
+            assert_eq!(group.quantity, 4);
+            assert_eq!(group.length_mm, None);
+            assert_eq!(group.length_unknown, None);
+            assert_eq!(hisense_hardware.requires_adapters, None);
+            assert!(hisense_hardware.source_url.contains(pdf_fragment));
+            assert!(
+                hisense_hardware
+                    .secondary_source_url
+                    .as_deref()
+                    .is_some_and(|url| url.contains(support_id))
+            );
+            assert!(
+                hisense_hardware.required_parts_note.as_deref().is_some_and(
+                    |note| note.contains("количество, размер и комплектность не указаны")
+                )
+            );
+            assert!(hisense_hardware.note.contains("Полная длина и шаг резьбы"));
+
+            let hisense_html = wall_mount_screws_html(hisense);
+            assert!(hisense_html.contains("4 шт. · M6 · диапазон L 9,5–11,5 мм"));
+            assert!(hisense_html.contains("промежуточные вставки"));
+            assert!(hisense_html.contains("не готовая полная длина винта"));
+            assert!(hisense_html.contains("data-adapter-status=\"unknown\""));
+            assert!(!hisense_html.contains("M6×9"));
+            assert!(!hisense_html.contains("M6×10"));
+            assert!(!hisense_html.contains("M6×11"));
+            assert!(!hisense_html.contains("M6×12"));
+        }
+
+        let p6k_html = wall_mount_screws_html(model("tcl-55p6k"));
+        assert_eq!(p6k_html.matches("M6 · длина не определена").count(), 2);
+        assert!(p6k_html.contains("11–28 мм"));
+        assert!(p6k_html.contains("максимум 26 мм"));
+        assert!(p6k_html.contains("дополнительный официальный источник"));
+        assert!(p6k_html.contains("не дают единой безопасной длины"));
+        assert!(p6k_html.contains("Не используйте M6×12"));
+
+        let p7k_html = wall_mount_screws_html(model("tcl-55p7k"));
+        assert!(p7k_html.contains("2 шт. · M6×16 мм"));
+        assert!(p7k_html.contains("2 шт. · M6×30 мм"));
+        assert!(p7k_html.contains("ряд не указан"));
+        assert!(p7k_html.contains("регион: Новая Зеландия"));
+        assert!(p7k_html.contains("Российская спецификация точной модели TCL 55P7K"));
+        assert!(p7k_html.contains("сверить руководство российского экземпляра"));
 
         let u77sl_html = wall_mount_screws_html(model("hisense-65u77sl"));
         assert!(u77sl_html.contains("код 65U77SL на страницах PDF отсутствует"));
@@ -3178,7 +3381,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
 
         validate_commercial_profiles(&profiles, &models, &mounts, &graph);
-        assert_eq!(profiles.profiles.len(), 21);
+        assert_eq!(profiles.profiles.len(), 30);
 
         for profile in &profiles.profiles {
             let marker = format!(

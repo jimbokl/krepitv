@@ -38,6 +38,43 @@ const expectedCommercialProfiles = new Set([
   "model:tcl-55c7k:/modeli/tcl-55c7k/",
   "model:tcl-65c7k:/modeli/tcl-65c7k/",
   "model:tcl-75c6k:/modeli/tcl-75c6k/",
+  "model:samsung-qe43q7faauxru:/modeli/samsung-qe43q7faauxru/",
+  "model:samsung-qe50q7faauxru:/modeli/samsung-qe50q7faauxru/",
+  "model:samsung-ue32f6000fuxru:/modeli/samsung-ue32f6000fuxru/",
+  "model:hisense-65u8q:/modeli/hisense-65u8q/",
+  "model:hisense-65u7q:/modeli/hisense-65u7q/",
+  "model:hisense-65ur9s:/modeli/hisense-65ur9s/",
+  "model:tcl-55p6k:/modeli/tcl-55p6k/",
+  "model:tcl-55p7k:/modeli/tcl-55p7k/",
+  "model:tcl-43s5k:/modeli/tcl-43s5k/",
+]);
+const expectedWallMountScrewPassports = new Set([
+  "tcl-55c6k",
+  "tcl-55c7l",
+  "tcl-55c7k",
+  "tcl-65c7k",
+  "tcl-75c6k",
+  "tcl-55p6k",
+  "tcl-55p7k",
+  "hisense-43e7s",
+  "hisense-50e7s",
+  "hisense-50u77sl",
+  "hisense-55e7s",
+  "hisense-55e77sl",
+  "hisense-55u7q",
+  "hisense-55u7s",
+  "hisense-55u7s-pro",
+  "hisense-65u7q",
+  "hisense-65u7s",
+  "hisense-65u77sl",
+  "hisense-65u8q",
+  "hisense-65ur9s",
+  "samsung-qe43q7faauxru",
+  "samsung-qe50q7faauxru",
+  "samsung-ue32f6000fuxru",
+  "samsung-ue43u8000fuxru",
+  "samsung-ue50u8000fuxru",
+  "samsung-ue55u8000fuxru",
 ]);
 const seoHubAffiliatePaths = new Set([
   "/kronshteyny-onkron/",
@@ -527,6 +564,7 @@ for (const offer of publishableMarketOffers) {
   }
 }
 
+const actualWallMountScrewPassports = new Set();
 for (const model of models) {
   assertHttpsSource(model, `Модель ${model.id}`);
   if (!model.source_label?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(model.checked_at ?? "")) {
@@ -534,23 +572,34 @@ for (const model of models) {
   }
   const hardware = model.wall_mount_screws;
   if (hardware) {
+    actualWallMountScrewPassports.add(model.id);
     const groups = hardware.groups;
     const locations = new Set(groups?.map((group) => group.location?.trim().toLocaleLowerCase("ru-RU")));
+    const effectiveRangeLabels = new Set(
+      Array.isArray(groups)
+        ? groups
+          .filter((group) => Number.isFinite(group.engagement_min_mm))
+          .map((group) => group.range_label ?? "L")
+        : [],
+    );
     if (
       !Array.isArray(groups) ||
       groups.length < 1 ||
       groups.length > 4 ||
       groups.reduce((total, group) => total + group.quantity, 0) !== 4 ||
       locations.size !== groups.length ||
+      effectiveRangeLabels.size > 1 ||
       groups.some((group) => {
         const hasExactLength = Number.isInteger(group.length_mm);
+        const hasUnknownLength = group.length_unknown === true;
         const hasEngagementRange =
           Number.isFinite(group.engagement_min_mm)
           && Number.isFinite(group.engagement_max_mm);
         return (
           !group.location?.trim()
           || !/^M\d{1,2}$/.test(group.thread ?? "")
-          || hasExactLength === hasEngagementRange
+          || [hasExactLength, hasUnknownLength, hasEngagementRange].filter(Boolean).length !== 1
+          || (group.length_unknown !== undefined && group.length_unknown !== true)
           || (hasExactLength && (group.length_mm < 4 || group.length_mm > 100))
           || (hasEngagementRange && (
             group.engagement_min_mm < 1
@@ -582,12 +631,109 @@ for (const model of models) {
       !hardware.source_region?.trim() ||
       !hardware.source_url?.startsWith("https://") ||
       !hardware.source_label?.trim() ||
+      ((hardware.secondary_source_url === undefined) !== (hardware.secondary_source_label === undefined)) ||
+      (hardware.secondary_source_url !== undefined && (
+        !hardware.secondary_source_url?.startsWith("https://")
+        || !hardware.secondary_source_label?.trim()
+      )) ||
       !/^\d{4}-\d{2}-\d{2}$/.test(hardware.checked_at ?? "") ||
       !hardware.note?.trim()
     ) {
       throw new Error(`Модель ${model.id}: некорректный паспорт настенного монтажа`);
     }
   }
+}
+if (
+  actualWallMountScrewPassports.size !== expectedWallMountScrewPassports.size
+  || [...actualWallMountScrewPassports].some((id) => !expectedWallMountScrewPassports.has(id))
+) {
+  throw new Error(
+    `Набор паспортов винтов не совпадает с разрешённым: ${[...actualWallMountScrewPassports].sort().join(", ")}`,
+  );
+}
+
+const modelById = new Map(models.map((model) => [model.id, model]));
+for (const [id, modelName, fileId] of [
+  ["samsung-qe43q7faauxru", "QE43Q7FAAU", "10108131"],
+  ["samsung-qe50q7faauxru", "QE50Q7FAAU", "10108143"],
+]) {
+  const hardware = modelById.get(id)?.wall_mount_screws;
+  const group = hardware?.groups?.[0];
+  if (
+    group?.thread !== "M8"
+    || group?.engagement_min_mm !== 19
+    || group?.engagement_max_mm !== 21
+    || group?.range_label !== "C"
+    || !hardware?.source_url?.includes(`ModelName=${modelName}`)
+    || !hardware?.source_url?.includes(`CttFileID=${fileId}`)
+  ) {
+    throw new Error(`${id}: потерян точный паспорт M8/C 19–21 мм или связь с исходным файлом`);
+  }
+}
+const f6000 = modelById.get("samsung-ue32f6000fuxru")?.wall_mount_screws;
+if (
+  f6000?.groups?.[0]?.thread !== "M8"
+  || f6000?.groups?.[0]?.engagement_min_mm !== 21
+  || f6000?.groups?.[0]?.engagement_max_mm !== 23
+  || !f6000?.source_url?.includes("ModelName=UE32F6000FU")
+  || !f6000?.source_url?.includes("CttFileID=10080407")
+  || !f6000?.note?.includes("M4×L14")
+  || !f6000?.note?.includes("ножкам")
+) {
+  throw new Error("samsung-ue32f6000fuxru: потерян паспорт M8/C 21–23 мм или оговорка о ножках");
+}
+for (const [id, pdfFragment, supportId] of [
+  ["hisense-65u8q", "/U8Q/65-75U8Q.pdf", "ID=8669"],
+  ["hisense-65u7q", "/u7q/U7Q.pdf", "ID=8663"],
+  ["hisense-65ur9s", "/UR9S/20221782_65-75-85UR9S_Rus.pdf", "ID=9197"],
+]) {
+  const model = modelById.get(id);
+  const hardware = modelById.get(id)?.wall_mount_screws;
+  const group = hardware?.groups?.[0];
+  if (
+    model?.vesa_width_mm !== 400
+    || model?.vesa_height_mm !== 400
+    || hardware?.groups?.length !== 1
+    || group?.thread !== "M6"
+    || group?.engagement_min_mm !== 9.5
+    || group?.engagement_max_mm !== 11.5
+    || group?.range_label !== "L"
+    || group?.quantity !== 4
+    || group?.length_mm !== undefined
+    || group?.length_unknown !== undefined
+    || hardware?.requires_adapters !== undefined
+    || !hardware?.source_url?.includes(pdfFragment)
+    || !hardware?.secondary_source_url?.includes(supportId)
+    || !hardware?.required_parts_note?.includes("промежуточные вставки")
+    || !hardware?.required_parts_note?.includes("количество, размер и комплектность не указаны")
+    || !hardware?.note?.includes("Полная длина и шаг резьбы")
+  ) {
+    throw new Error(`${id}: потерян паспорт M6/L 9,5–11,5 мм или требование вставок`);
+  }
+}
+const p6k = modelById.get("tcl-55p6k")?.wall_mount_screws;
+if (
+  p6k?.groups?.length !== 2
+  || p6k.groups.some((group) => group.thread !== "M6" || group.length_unknown !== true)
+  || !p6k.secondary_source_url
+  || p6k.requires_adapters !== undefined
+  || !p6k.required_parts_note?.includes("Не используйте M6×12")
+  || !p6k.note?.includes("11–28 мм")
+  || !p6k.note?.includes("максимум 26 мм")
+) {
+  throw new Error("tcl-55p6k: потеряна безопасная фиксация конфликта длины 26/28 мм");
+}
+const p7k = modelById.get("tcl-55p7k")?.wall_mount_screws;
+const p7kLengths = p7k?.groups?.map((group) => group.length_mm).sort((a, b) => a - b);
+if (
+  JSON.stringify(p7kLengths) !== JSON.stringify([16, 30])
+  || p7k?.source_region !== "Новая Зеландия"
+  || p7k?.groups?.some((group) => !group.location.includes("ряд не указан"))
+  || !p7k?.secondary_source_label?.includes("Российская спецификация точной модели")
+  || !p7k?.required_parts_note?.includes("не распределяет пары")
+  || !p7k?.note?.includes("российского экземпляра")
+) {
+  throw new Error("tcl-55p7k: потеряны размеры M6×16/M6×30 или cross-region оговорка");
 }
 for (const mount of mounts) {
   assertHttpsSource(mount, `Кронштейн ${mount.id}`);

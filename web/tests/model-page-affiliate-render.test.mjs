@@ -241,6 +241,55 @@ test("паспорт Hisense отличает диапазон L от полно
     assert.equal(samsungPassport.includes("после монтажной пластины"), true);
     assert.equal(samsungPassport.includes("M8×23"), false);
     assert.equal(samsungPassport.includes("адаптеры VESA.</p>"), false);
+
+    const p6k = {
+      title: "TCL 55P6K",
+      wall_mount_screws: {
+        groups: [
+          { location: "Верхний ряд", thread: "M6", length_unknown: true, quantity: 2 },
+          { location: "Нижний ряд", thread: "M6", length_unknown: true, quantity: 2 },
+        ],
+        required_parts_note: "Не используйте M6×12 из раздела защиты от опрокидывания как винты VESA.",
+        source_region: "Япония",
+        source_url: "https://static-obg.tcl.com/p6k-manual.pdf",
+        source_label: "Официальное руководство TCL P6K",
+        secondary_source_url: "https://static-obg.tcl.com/p6k-drawing.pdf",
+        secondary_source_label: "Официальный размерный чертёж TCL 55P6K",
+        checked_at: "2026-07-31",
+        note: "Руководство указывает 11–28 мм, а чертёж — максимум 26 мм.",
+      },
+    };
+    const p6kPassport = renderToStaticMarkup(
+      React.createElement(WallMountScrews, { model: p6k }),
+    );
+    assert.equal((p6kPassport.match(/M6 · длина не определена/gu) ?? []).length, 2);
+    assert.equal(p6kPassport.includes("не дают единой безопасной длины"), true);
+    assert.equal(p6kPassport.includes("дополнительный официальный источник"), true);
+    assert.equal(p6kPassport.includes("data-adapter-status=\"unknown\""), true);
+    assert.equal(p6kPassport.includes("Не используйте M6×12"), true);
+
+    const p7k = {
+      title: "TCL 55P7K",
+      wall_mount_screws: {
+        groups: [
+          { location: "Группа M6×16 — ряд не указан", thread: "M6", length_mm: 16, quantity: 2 },
+          { location: "Группа M6×30 — ряд не указан", thread: "M6", length_mm: 30, quantity: 2 },
+        ],
+        required_parts_note: "Документ не распределяет пары по рядам.",
+        source_region: "Новая Зеландия",
+        source_url: "https://static-obg.tcl.com/55p7k-specification.pdf",
+        source_label: "Официальная спецификация TCL 55P7K",
+        checked_at: "2026-07-31",
+        note: "Перед установкой нужно сверить руководство российского экземпляра.",
+      },
+    };
+    const p7kPassport = renderToStaticMarkup(
+      React.createElement(WallMountScrews, { model: p7k }),
+    );
+    assert.equal(p7kPassport.includes("2 шт. · M6×16 мм"), true);
+    assert.equal(p7kPassport.includes("2 шт. · M6×30 мм"), true);
+    assert.equal(p7kPassport.includes("ряд не указан"), true);
+    assert.equal(p7kPassport.includes("регион: Новая Зеландия"), true);
   } finally {
     await vite.close();
   }

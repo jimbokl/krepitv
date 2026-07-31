@@ -9,6 +9,9 @@ function screwMeasurement(group) {
   if (Number.isFinite(group.length_mm)) {
     return `${group.thread}×${group.length_mm} мм`;
   }
+  if (group.length_unknown === true) {
+    return `${group.thread} · длина не определена`;
+  }
   if (
     Number.isFinite(group.engagement_min_mm)
     && Number.isFinite(group.engagement_max_mm)
@@ -88,22 +91,37 @@ export function WallMountScrews({ model }) {
         <WarningCircle aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-action" />
         <p>
           <strong className="text-ink">Важно:</strong>{" "}
-          {hardware.groups.some((group) => Number.isFinite(group.engagement_min_mm))
+          {hardware.groups.some((group) => group.length_unknown === true)
+            ? "Официальные документы подтверждают резьбу, но не дают единой безопасной длины. Подберите её по бумажной инструкции телевизора и толщине планки кронштейна."
+            : hardware.groups.some((group) => Number.isFinite(group.engagement_min_mm))
             ? hardware.groups.some((group) => group.range_label === "C")
               ? "Диапазон C измеряется после монтажной пластины до конца винта. Это не готовая полная длина покупаемого винта: добавьте толщину пластины кронштейна."
               : "Диапазон L взят из схемы руководства. Это не готовая полная длина винта: она зависит от толщины планки, шайбы и предусмотренной вставки."
             : "Это паспортный размер винта, а не глубина резьбового отверстия. Не увеличивайте длину по аналогии; учитывайте только схему и проставки из руководств телевизора и кронштейна."}
         </p>
       </div>
-      <a
-        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-technical underline underline-offset-4"
-        href={hardware.source_url}
-        rel="noreferrer"
-        target="_blank"
-      >
-        {hardware.source_label} · регион: {hardware.source_region} · проверено {formatCheckedDate(hardware.checked_at)}
-        <LinkSimple aria-hidden="true" className="shrink-0" />
-      </a>
+      <div className="mt-4 grid gap-2">
+        <a
+          className="inline-flex items-center gap-2 text-sm font-semibold text-technical underline underline-offset-4"
+          href={hardware.source_url}
+          rel="noreferrer"
+          target="_blank"
+        >
+          {hardware.source_label} · регион: {hardware.source_region} · проверено {formatCheckedDate(hardware.checked_at)}
+          <LinkSimple aria-hidden="true" className="shrink-0" />
+        </a>
+        {hardware.secondary_source_url && hardware.secondary_source_label ? (
+          <a
+            className="inline-flex items-center gap-2 text-sm font-semibold text-technical underline underline-offset-4"
+            href={hardware.secondary_source_url}
+            rel="noreferrer"
+            target="_blank"
+          >
+            {hardware.secondary_source_label} · дополнительный официальный источник
+            <LinkSimple aria-hidden="true" className="shrink-0" />
+          </a>
+        ) : null}
+      </div>
     </section>
   );
 }

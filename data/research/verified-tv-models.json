@@ -54,7 +54,24 @@
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-43-inch-qled-4k-smart-tv-qe43q7faauxru/",
     "source_label": "Официальные характеристики Samsung",
     "source_fact": "Карточка подтверждает 43 дюйма, 2025 год, корпус 967,5×561,4×59,7 мм, массу 7,1 кг и VESA 200×200 мм.",
-    "checked_at": "2026-07-30"
+    "checked_at": "2026-07-30",
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Четыре точки VESA",
+          "thread": "M8",
+          "engagement_min_mm": 19,
+          "engagement_max_mm": 21,
+          "range_label": "C",
+          "quantity": 4
+        }
+      ],
+      "source_region": "Россия",
+      "source_url": "https://org.downloadcenter.samsung.com/downloadfile/ContentsFile.aspx?CDSite=UNI_RU&OriginYN=N&ModelType=N&ModelName=QE43Q7FAAU&CttFileID=10108131&CDCttType=EM&VPath=EM%2F202503%2F20250318033429001%2FBN68-21987A-00_IG_Q7FA+Flat+feet+43-65inch_WW_L10_250203.0.pdf",
+      "source_label": "Руководство по установке Samsung Q7FA из российской карточки, PDF 2",
+      "checked_at": "2026-07-31",
+      "note": "Таблица семейства 43Q7F указывает M8 и размер C 19–21 мм после монтажной пластины. Полная длина винта, шаг резьбы и наличие проставок в руководстве не указаны."
+    }
   },
   {
     "id": "samsung-qe50q7faauxru",
@@ -73,7 +90,24 @@
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-50-inch-qled-4k-smart-tv-qe50q7faauxru/",
     "source_label": "Официальные характеристики Samsung",
     "source_fact": "Карточка подтверждает 50 дюймов, 2025 год, корпус 1120,3×647×60 мм, массу 9,6 кг и VESA 200×200 мм.",
-    "checked_at": "2026-07-30"
+    "checked_at": "2026-07-30",
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Четыре точки VESA",
+          "thread": "M8",
+          "engagement_min_mm": 19,
+          "engagement_max_mm": 21,
+          "range_label": "C",
+          "quantity": 4
+        }
+      ],
+      "source_region": "Россия",
+      "source_url": "https://org.downloadcenter.samsung.com/downloadfile/ContentsFile.aspx?CDSite=UNI_RU&OriginYN=N&ModelType=N&ModelName=QE50Q7FAAU&CttFileID=10108143&CDCttType=EM&VPath=EM%2F202503%2F20250318033447001%2FBN68-21987A-00_IG_Q7FA+Flat+feet+43-65inch_WW_L10_250203.0.pdf",
+      "source_label": "Руководство по установке Samsung Q7FA из российской карточки, PDF 2",
+      "checked_at": "2026-07-31",
+      "note": "Таблица семейства 50Q7F указывает M8 и размер C 19–21 мм после монтажной пластины. Полная длина винта, шаг резьбы и наличие проставок в руководстве не указаны."
+    }
   },
   {
     "id": "samsung-qe55q7f5auxru",
@@ -130,7 +164,24 @@
     "source_url": "https://www.samsung.com/ru/tvs/full-hd-tv/f6000-32-inch-ue32f6000fuxru/",
     "source_label": "Официальные характеристики Samsung",
     "source_fact": "Карточка подтверждает 32 дюйма, 2025 год, корпус 732,9×438,7×73,2 мм, массу 3,8 кг и VESA 200×200 мм.",
-    "checked_at": "2026-07-30"
+    "checked_at": "2026-07-30",
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Четыре точки VESA",
+          "thread": "M8",
+          "engagement_min_mm": 21,
+          "engagement_max_mm": 23,
+          "range_label": "C",
+          "quantity": 4
+        }
+      ],
+      "source_region": "Россия",
+      "source_url": "https://org.downloadcenter.samsung.com/downloadfile/ContentsFile.aspx?CDSite=UNI_RU&OriginYN=N&ModelType=N&ModelName=UE32F6000FU&CttFileID=10080407&CDCttType=EM&VPath=EM%2F202502%2F20250222034517001%2FBN68-20862A-01_IG_F6000F+H5000F+Low+Feet+32-43inch_WW_L10_241211.0.pdf",
+      "source_label": "Руководство по установке Samsung F6000F из российской карточки, PDF 2",
+      "checked_at": "2026-07-31",
+      "note": "Таблица семейства 32F6***F указывает четыре M8 и размер C 21–23 мм после монтажной пластины. Комплектные M4×L14 на первой странице относятся к ножкам, а не к VESA; полная длина VESA-винта, шаг резьбы и наличие проставок не указаны."
+    }
   },
   {
     "id": "samsung-ue43u8000fuxru",
@@ -937,7 +988,27 @@
     "year_source_url": "https://ru.hisense.com/news/8955/",
     "source_label": "Официальные российские характеристики Hisense",
     "source_fact": "Карточка точной модели подтверждает корпус 1448×838×45 мм без подставки, массу 24,4 кг и VESA 400×400 мм; официальный материал Hisense включает 65U8Q в модельный ряд 2025 года.",
-    "checked_at": "2026-07-30"
+    "checked_at": "2026-07-30",
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Четыре точки VESA",
+          "thread": "M6",
+          "engagement_min_mm": 9.5,
+          "engagement_max_mm": 11.5,
+          "range_label": "L",
+          "quantity": 4
+        }
+      ],
+      "required_parts_note": "Руководство требует разместить промежуточные вставки между телевизором и кронштейном; их количество, размер и комплектность не указаны.",
+      "source_region": "Россия",
+      "source_url": "https://cdn.hisense.ru/upload/file_tovar/Service/User%20Manuals/TV/U8Q/65-75U8Q.pdf",
+      "source_label": "Российское руководство Hisense 65/75U8Q, стр. 3 раздела монтажа (PDF 9)",
+      "secondary_source_url": "https://ru.hisense.com/support/downloads/?ACTION=start&ID=8669&PARENT_SECTION=10",
+      "secondary_source_label": "Поддержка точной модели Hisense 65U8Q",
+      "checked_at": "2026-07-31",
+      "note": "Строка 65 дюймов указывает четыре M6 и диапазон L 9,5–11,5 мм. Полная длина и шаг резьбы не заданы; длина зависит от планки, шайбы и промежуточной вставки."
+    }
   },
   {
     "id": "hisense-65ur9s",
@@ -956,7 +1027,27 @@
     "source_url": "https://ru.hisense.com/catalog/tvs/65UR9S/",
     "source_label": "Официальные российские характеристики Hisense",
     "source_fact": "Карточка точной модели прямо указывает 2026 год, корпус 1448×838×45 мм без подставки, массу 24,4 кг и VESA 400×400 мм.",
-    "checked_at": "2026-07-30"
+    "checked_at": "2026-07-30",
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Четыре точки VESA",
+          "thread": "M6",
+          "engagement_min_mm": 9.5,
+          "engagement_max_mm": 11.5,
+          "range_label": "L",
+          "quantity": 4
+        }
+      ],
+      "required_parts_note": "Руководство требует разместить промежуточные вставки между телевизором и кронштейном; их количество, размер и комплектность не указаны.",
+      "source_region": "Россия",
+      "source_url": "https://cdn.hisense.ru/upload/file_tovar/Service/User%20Manuals/TV/UR9S/20221782_65-75-85UR9S_Rus.pdf",
+      "source_label": "Российское руководство Hisense 65/75/85UR9S, стр. 4 раздела монтажа (PDF 8)",
+      "secondary_source_url": "https://ru.hisense.com/support/downloads/?ACTION=start&ID=9197&PARENT_SECTION=10",
+      "secondary_source_label": "Поддержка точной модели Hisense 65UR9S",
+      "checked_at": "2026-07-31",
+      "note": "Строка 65 дюймов указывает четыре M6 и диапазон L 9,5–11,5 мм. Полная длина и шаг резьбы не заданы; длина зависит от планки, шайбы и промежуточной вставки."
+    }
   },
   {
     "id": "samsung-qe43qef1auxru",
@@ -1623,8 +1714,32 @@
     "year_source_url": "https://www.tcl.com/ru/ru/news/introducing-the-p6k-series",
     "specification_source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p6k/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A2ay81NXA2aw==.json",
     "source_label": "Официальные российские характеристики TCL",
-    "source_fact": "Официальная exact-model спецификация 55P6K указывает 2025 год, корпус 1226×711×72 мм без подставки, массу 9 кг и VESA 200×200 мм.",
-    "checked_at": "2026-07-30"
+    "source_fact": "Официальная спецификация точной модели 55P6K указывает 2025 год, корпус 1226×711×72 мм без подставки, массу 9 кг и VESA 200×200 мм.",
+    "checked_at": "2026-07-30",
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Верхний ряд",
+          "thread": "M6",
+          "length_unknown": true,
+          "quantity": 2
+        },
+        {
+          "location": "Нижний ряд",
+          "thread": "M6",
+          "length_unknown": true,
+          "quantity": 2
+        }
+      ],
+      "required_parts_note": "Не используйте M6×12 из раздела защиты от опрокидывания как винты VESA. Полную длину подбирают отдельно для каждого ряда с учётом толщины планки кронштейна.",
+      "source_region": "Япония",
+      "source_url": "https://static-obg.tcl.com/content/dam/brandsite/region/japan/products/tv/p-series/p6k/P6K_%E5%8F%96%E6%89%B1%E8%AA%AC%E6%98%8E%E6%9B%B820250821.pdf",
+      "source_label": "Официальное руководство TCL P6K, PDF 20",
+      "secondary_source_url": "https://static-obg.tcl.com/content/dam/brandsite/region/japan/products/tv/p-series/p6k/55V6C-T6C-U65-P6K-six-view-20250305.pdf",
+      "secondary_source_label": "Официальный размерный чертёж TCL 55P6K",
+      "checked_at": "2026-07-31",
+      "note": "Оба документа подтверждают четыре M6 и разную глубину верхних и нижних отверстий, но расходятся по верхнему пределу: руководство указывает 11–28 мм, чертёж — максимум 26 мм; для нижнего ряда руководство указывает 8–11 мм. Единую или полную длину публиковать небезопасно: её нужно сверить с бумажной инструкцией российского экземпляра и толщиной пластины. Два M6×12 в руководстве относятся к защите от опрокидывания, а не к комплекту VESA."
+    }
   },
   {
     "id": "tcl-55p7k",
@@ -1644,8 +1759,32 @@
     "year_source_url": "https://www.tcl.com/ru/ru/news/introducing-the-p7k-series",
     "specification_source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p7k/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A3ay81NXA3aw==.json",
     "source_label": "Официальные российские характеристики TCL",
-    "source_fact": "Официальная exact-model спецификация 55P7K указывает 2025 год, корпус 1224×708×69,5 мм без подставки, массу 10,5 кг и VESA 300×300 мм.",
-    "checked_at": "2026-07-30"
+    "source_fact": "Официальная спецификация точной модели 55P7K указывает 2025 год, корпус 1224×708×69,5 мм без подставки, массу 10,5 кг и VESA 300×300 мм.",
+    "checked_at": "2026-07-30",
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Группа M6×16 — ряд не указан",
+          "thread": "M6",
+          "length_mm": 16,
+          "quantity": 2
+        },
+        {
+          "location": "Группа M6×30 — ряд не указан",
+          "thread": "M6",
+          "length_mm": 30,
+          "quantity": 2
+        }
+      ],
+      "required_parts_note": "Документ не распределяет пары M6×16 и M6×30 по верхнему и нижнему рядам. Не выбирайте расположение по аналогии; сверяйте бумажную инструкцию российского экземпляра.",
+      "source_region": "Новая Зеландия",
+      "source_url": "https://static-obg.tcl.com/content/dam/brandsite/region/nz/product/tvs/p-series/p7k/55P7K_Product_Specification_NZ.pdf",
+      "source_label": "Официальная спецификация TCL 55P7K, PDF 2",
+      "secondary_source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p7k/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A3ay81NXA3aw==.json",
+      "secondary_source_label": "Российская спецификация точной модели TCL 55P7K",
+      "checked_at": "2026-07-31",
+      "note": "Спецификация перечисляет два M6×16 и два M6×30 без привязки размеров к верхнему или нижнему ряду. Габариты, масса и VESA совпадают с российской карточкой точной модели, но источник относится к Новой Зеландии; перед установкой нужно сверить руководство российского экземпляра. Наличие проставок не указано."
+    }
   },
   {
     "id": "tcl-43s5k",
@@ -1666,7 +1805,7 @@
     "specification_source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/s5k/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3M1ay80M3M1aw==.json",
     "weight_source_url": "https://www.tcl.com/content/brandsite/global/en/tvs/s5k/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvZ2xvYmFsL2VuL3R2cy9zNWsvNDNzNWs=.json",
     "source_label": "Официальные характеристики TCL для точной модели",
-    "source_fact": "Российская exact-model спецификация 43S5K указывает 2025 год, VESA 100×100 мм и фактический корпус 954×554×77 мм без подставки; tuple поставщика 954×77×554 нормализован из порядка Ш×Г×В. Масса 5,02 кг без подставки взята из официальной глобальной exact-model спецификации с совпадающими габаритами и массой брутто.",
+    "source_fact": "Российская спецификация точной модели 43S5K указывает 2025 год, VESA 100×100 мм и фактический корпус 954×554×77 мм без подставки; порядок размеров поставщика 954×77×554 нормализован как Ш×Г×В. Масса 5,02 кг без подставки взята из официальной глобальной спецификации той же модели с совпадающими габаритами и массой брутто.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1687,7 +1826,27 @@
     "year_source_url": "https://ru.hisense.com/news/8767/",
     "source_label": "Официальные российские характеристики Hisense",
     "source_fact": "Карточка точной модели подтверждает корпус 1446×837×75 мм без подставки, массу 19,5 кг и VESA 400×400 мм; официальный анонс Hisense относит серию U7Q и диагональ 65 дюймов к новым моделям 2025 года.",
-    "checked_at": "2026-07-30"
+    "checked_at": "2026-07-30",
+    "wall_mount_screws": {
+      "groups": [
+        {
+          "location": "Четыре точки VESA",
+          "thread": "M6",
+          "engagement_min_mm": 9.5,
+          "engagement_max_mm": 11.5,
+          "range_label": "L",
+          "quantity": 4
+        }
+      ],
+      "required_parts_note": "Руководство требует разместить промежуточные вставки между телевизором и кронштейном; их количество, размер и комплектность не указаны.",
+      "source_region": "Россия",
+      "source_url": "https://cdn.hisense.ru/upload/file_tovar/Service/User%20Manuals/TV/u7q/U7Q.pdf",
+      "source_label": "Поддержка Hisense 65U7Q → руководство U7Q, стр. 4 раздела монтажа (PDF 10)",
+      "secondary_source_url": "https://ru.hisense.com/support/downloads/?ACTION=start&ID=8663&PARENT_SECTION=10",
+      "secondary_source_label": "Поддержка точной модели Hisense 65U7Q",
+      "checked_at": "2026-07-31",
+      "note": "Точная российская карточка 65U7Q выдаёт общее руководство U7Q; строка 65 дюймов указывает четыре M6 и диапазон L 9,5–11,5 мм. Полная длина и шаг резьбы не заданы."
+    }
   },
   {
     "id": "hisense-55u8q",
