@@ -11,6 +11,8 @@
     "catalog:verify": "node scripts/catalog/verify-coverage.mjs",
     "catalog:sync": "node scripts/catalog/sync-model-catalog.mjs && node scripts/catalog/sync-mount-catalog.mjs",
     "catalog:test": "node --test tests/catalog/*.test.mjs",
+    "dataset:generate": "node scripts/datasets/generate-tv-vesa-screws.mjs",
+    "dataset:check": "node scripts/datasets/generate-tv-vesa-screws.mjs --check",
     "research:tv-demand": "node scripts/research/collect-tv-model-demand.mjs",
     "research:seo-hubs": "node scripts/research/collect-seo-hub-demand.mjs",
     "research:merge-tv-demand": "node scripts/research/merge-tv-model-demand.mjs",
@@ -43,6 +45,6 @@
     "analytics:test": "node --test tests/analytics/*.test.mjs",
     "dev:prepare": "npm run build:content && npm run build:wasm",
     "dev": "npm run dev:prepare && npm --prefix web run dev",
-    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test"
+    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && npm run dataset:check && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test"
   }
 }

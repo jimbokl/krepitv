@@ -1140,6 +1140,26 @@ const screwLookupHtml = htmlByRoute.get(screwLookupPage.path) ?? "";
 if (!screwLookupHtml.includes('data-screw-catalog="true"') || !screwLookupHtml.includes("<details")) {
   throw new Error("Страница подбора винтов не содержит самостоятельный сворачиваемый каталог");
 }
+for (const required of [
+  'data-searchable-model-count="80"',
+  'data-model-search-count="80"',
+  'data-known-model-fallback="true"',
+  "паспорт винтов ещё не подтверждён",
+  "https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-screws",
+]) {
+  if (!screwLookupHtml.includes(required)) {
+    throw new Error(`Сырой HTML страницы винтов не содержит обязательный фрагмент: ${required}`);
+  }
+}
+if ((screwLookupHtml.match(/<option value=/g) ?? []).length !== models.length) {
+  throw new Error("Сырой HTML поиска винтов не содержит все известные модели");
+}
+if (
+  screwLookupHtml.indexOf('data-screw-catalog="true"')
+  > screwLookupHtml.indexOf("Что проверить")
+) {
+  throw new Error("Интерактивный ответ должен находиться раньше общего списка проверок");
+}
 for (const model of screwModels) {
   const modelRoute = `/modeli/${model.id}/`;
   if (

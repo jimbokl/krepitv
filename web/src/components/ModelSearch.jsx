@@ -13,6 +13,8 @@ export function ModelSearch({
   onSubmit,
   placeholder = "Введите модель ТВ",
   buttonLabel = "Найти совместимые",
+  emptyMessage = "Такой модели пока нет в проверенной базе.",
+  resultLabel = "Проверенная модель",
   compact = false,
   autoFocus = false,
 }) {
@@ -54,6 +56,7 @@ export function ModelSearch({
   return (
     <form
       className={`relative grid min-w-0 gap-3 ${compact ? "lg:grid-cols-[minmax(0,1fr)_auto]" : "md:grid-cols-[minmax(0,1fr)_22rem]"}`}
+      data-model-search-count={search.length}
       onSubmit={submit}
       ref={rootRef}
     >
@@ -113,12 +116,14 @@ export function ModelSearch({
                   type="button"
                 >
                   <span className="font-semibold text-ink">{item.title}</span>
-                  <span className="text-sm text-muted">Проверенная модель</span>
+                  <span className="text-sm text-muted">
+                    {typeof resultLabel === "function" ? resultLabel(item) : resultLabel}
+                  </span>
                 </button>
               ))
             ) : (
               <p className="px-5 py-4 text-muted">
-                Такой модели пока нет в проверенной базе.
+                {emptyMessage}
               </p>
             )}
           </div>

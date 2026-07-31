@@ -1910,12 +1910,19 @@ fn seo_screw_catalog_html(models: &[TvModel]) -> String {
         })
         .collect::<Vec<_>>();
     let catalog = brand_catalog_html(rows, "Моделей", "div", "border-t border-line");
+    let model_options = models
+        .iter()
+        .map(|model| format!("<option value=\"{}\"></option>", escape_html(&model.title)))
+        .collect::<Vec<_>>()
+        .join("\n");
 
     format!(
-        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"screw-catalog-title\" data-screw-catalog=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатная проверка без регистрации</p><h2 id=\"screw-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Винты VESA по точной модели</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">База показывает только подтверждённые официальным руководством резьбу, количество, длину или допустимую глубину и обязательные вставки. Данные похожей серии не переносятся.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённая резьба</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{threads}</dd></div></dl><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Все проверенные модели</h3>{catalog}</div></section>",
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"screw-catalog-title\" data-screw-catalog=\"true\" data-searchable-model-count=\"{searchable_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатная проверка без регистрации</p><h2 id=\"screw-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите точную модель телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Покажем только то, что удалось подтвердить официальным руководством: резьбу, количество, длину или допустимую глубину и обязательные вставки.</p><p class=\"mt-3 max-w-3xl border-l-2 border-action pl-4 text-sm font-semibold leading-relaxed\">Поиск относится к винтам между корпусом телевизора и VESA-пластиной. Это не анкеры для стены и не винты для ножек.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-model-search-count=\"{searchable_count}\"><label class=\"sr-only\" for=\"static-screw-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-screw-model\" list=\"static-screw-models\" name=\"model\" placeholder=\"Например, Samsung QE43Q7FAAUXRU\" autocomplete=\"off\"><datalist id=\"static-screw-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть каталог моделей</button></form><p class=\"mt-4 border-l-2 border-line pl-4 text-sm leading-relaxed text-muted\" data-known-model-fallback=\"true\">Поиск распознаёт все {searchable_count} моделей. Если модель известна, но паспорт винтов ещё не подтверждён, сервис не угадывает M6/M8 по VESA и ведёт в карточку модели с совместимыми кронштейнами.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей в поиске</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{searchable_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённая резьба</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{threads}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Исходные данные доступны для проверки и повторного использования: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-screws\" rel=\"noreferrer\" target=\"_blank\">скачать CSV или JSON на GitHub</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Все проверенные модели</h3>{catalog}</div></section>",
+        searchable_count = models.len(),
         model_count = screw_models.len(),
         brand_count = brand_count,
         threads = escape_html(&threads.join(" · ")),
+        model_options = model_options,
         catalog = catalog,
     )
 }
@@ -1976,10 +1983,20 @@ fn seo_page_body(
         .collect::<Vec<_>>()
         .join("\n");
 
+    let facts_section = format!(
+        "<section class=\"py-8\" data-check-list=\"true\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>"
+    );
+    let answer_content = if page.kind == "screws" {
+        format!("{catalog}{facts_section}{calculator_note}")
+    } else {
+        format!("{facts_section}{buy_mount_comparison}{catalog}{calculator_note}")
+    };
+
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p><section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>{buy_mount_comparison}{catalog}{calculator_note}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section><p><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section><p><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
         h1 = escape_html(&page.h1),
         lead = escape_html(&page.lead),
+        answer_content = answer_content,
     ))
 }
 
@@ -3110,6 +3127,16 @@ mod tests {
         assert!(catalog_html.contains(
             "Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">26"
         ));
+        assert!(catalog_html.contains("data-searchable-model-count=\"80\""));
+        assert!(catalog_html.contains("data-model-search-count=\"80\""));
+        assert_eq!(catalog_html.matches("<option value=").count(), 80);
+        assert!(catalog_html.contains("data-known-model-fallback=\"true\""));
+        assert!(catalog_html.contains("паспорт винтов ещё не подтверждён"));
+        assert!(
+            catalog_html.contains(
+                "https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-screws"
+            )
+        );
         assert_eq!(catalog_html.matches("<details").count(), 3);
         assert_eq!(catalog_html.matches("Совместимые кронштейны →").count(), 26);
         assert!(catalog_html.contains(&hardware.source_url));

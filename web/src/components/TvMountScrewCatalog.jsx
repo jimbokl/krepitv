@@ -27,6 +27,17 @@ function modelBySearchItem(models, item) {
   return models.find((model) => model.id === item.id) ?? null;
 }
 
+export function classifyScrewLookupSelection(models, item) {
+  const model = modelBySearchItem(models, item);
+  if (!model) return { model: null, status: "unknown" };
+  return {
+    model,
+    status: model.wall_mount_screws?.groups?.length
+      ? "verified-passport"
+      : "known-without-passport",
+  };
+}
+
 export function TvMountScrewCatalog({ models, search }) {
   const [query, setQuery] = useState("");
   const [selectedModel, setSelectedModel] = useState(null);
@@ -37,10 +48,6 @@ export function TvMountScrewCatalog({ models, search }) {
   const eligibleIds = useMemo(
     () => new Set(eligibleModels.map((model) => model.id)),
     [eligibleModels],
-  );
-  const eligibleSearch = useMemo(
-    () => search.filter((item) => eligibleIds.has(item.id)),
-    [eligibleIds, search],
   );
   const brands = useMemo(
     () => new Set(eligibleModels.map((model) => model.brand)).size,
@@ -56,9 +63,9 @@ export function TvMountScrewCatalog({ models, search }) {
   );
 
   function selectModel(item) {
-    const model = modelBySearchItem(eligibleModels, item);
+    const { model, status } = classifyScrewLookupSelection(models, item);
     setSelectedModel(model);
-    if (!model) return;
+    if (!model || status !== "verified-passport") return;
     emitResultCompleted(window, {
       toolId: "screw_lookup",
       resultType: "mount_screws_found",
@@ -71,6 +78,7 @@ export function TvMountScrewCatalog({ models, search }) {
       aria-labelledby="screw-catalog-title"
       className="border-y-2 border-ink py-8"
       data-screw-catalog="true"
+      data-searchable-model-count={models.length}
     >
       <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(26rem,1.15fr)] lg:items-end">
         <div className="min-w-0">
@@ -84,21 +92,31 @@ export function TvMountScrewCatalog({ models, search }) {
             Покажем только то, что удалось подтвердить официальным руководством:
             резьбу, количество, длину или допустимую глубину и обязательные вставки.
           </p>
+          <p className="mt-3 max-w-2xl border-l-2 border-action pl-4 text-sm font-semibold leading-relaxed">
+            Поиск относится к винтам между корпусом телевизора и VESA-пластиной.
+            Это не анкеры для стены и не винты для ножек.
+          </p>
         </div>
         <div className="min-w-0">
           <ModelSearch
-            buttonLabel="Показать винты"
+            buttonLabel="Проверить модель"
             compact
+            emptyMessage="Модели пока нет. Проверьте полный код на шильдике: винты по одной диагонали не определяем."
             onChange={setQuery}
             onSelect={selectModel}
             placeholder="Например, Samsung QE43Q7FAAUXRU"
-            search={eligibleSearch}
+            resultLabel={(item) => eligibleIds.has(item.id) ? "Паспорт винтов" : "Модель известна"}
+            search={search}
             value={query}
           />
         </div>
       </div>
 
-      <dl className="mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3">
+      <dl className="mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4">
+        <div className="bg-paper p-4">
+          <dt className="font-mono text-xs uppercase text-muted">Моделей в поиске</dt>
+          <dd className="mt-1 font-display text-3xl font-extrabold">{models.length}</dd>
+        </div>
         <div className="bg-paper p-4">
           <dt className="font-mono text-xs uppercase text-muted">Моделей с паспортом</dt>
           <dd className="mt-1 font-display text-3xl font-extrabold">{eligibleModels.length}</dd>
@@ -113,7 +131,7 @@ export function TvMountScrewCatalog({ models, search }) {
         </div>
       </dl>
 
-      {selectedModel ? (
+      {selectedModel?.wall_mount_screws?.groups?.length ? (
         <div className="mt-7" data-selected-screw-model={selectedModel.id}>
           <WallMountScrews model={selectedModel} showCatalogLink={false} />
           <a
@@ -124,6 +142,41 @@ export function TvMountScrewCatalog({ models, search }) {
             <ArrowRight aria-hidden="true" />
           </a>
         </div>
+      ) : selectedModel ? (
+        <div
+          className="mt-7 border-2 border-ink bg-white p-5"
+          data-known-model-without-screw-passport={selectedModel.id}
+        >
+          <div className="flex items-start gap-3">
+            <WarningCircle aria-hidden="true" className="mt-0.5 size-7 shrink-0 text-action" />
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
+                Модель найдена · паспорт винтов ещё не подтверждён
+              </p>
+              <h3 className="mt-2 font-display text-3xl font-extrabold">
+                {selectedModel.title}
+              </h3>
+              <p className="mt-3 max-w-3xl leading-relaxed text-muted">
+                Для модели подтверждён VESA {selectedModel.vesa_width_mm}×{selectedModel.vesa_height_mm} мм,
+                но одного VESA недостаточно, чтобы безопасно назвать M6/M8 и длину. Мы не переносим
+                винты с похожей серии.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a className="primary-button" href={modelHref(selectedModel)}>
+                  Карточка модели и кронштейны <ArrowRight aria-hidden="true" />
+                </a>
+                <a
+                  className="inline-flex items-center gap-2 font-semibold text-technical underline underline-offset-4"
+                  href={selectedModel.source_url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Официальные характеристики <LinkSimple aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="mt-7 flex items-start gap-3 border-l-2 border-action pl-4">
           <ShieldCheck aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-verified" />
@@ -133,6 +186,18 @@ export function TvMountScrewCatalog({ models, search }) {
           </p>
         </div>
       )}
+
+      <p className="mt-5 text-sm leading-relaxed text-muted">
+        Исходные данные доступны для проверки и повторного использования: {" "}
+        <a
+          className="font-semibold text-technical underline underline-offset-4"
+          href="https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-screws"
+          rel="noreferrer"
+          target="_blank"
+        >
+          скачать CSV или JSON на GitHub
+        </a>.
+      </p>
 
       <div className="mt-9">
         <div className="flex items-end justify-between gap-4 border-b-2 border-ink pb-4">

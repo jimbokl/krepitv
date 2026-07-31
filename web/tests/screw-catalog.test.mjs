@@ -36,7 +36,7 @@ test("React-каталог держит модели под брендами и 
   });
 
   try {
-    const { TvMountScrewCatalog } = await vite.ssrLoadModule(
+    const { TvMountScrewCatalog, classifyScrewLookupSelection } = await vite.ssrLoadModule(
       "/src/components/TvMountScrewCatalog.jsx",
     );
     const models = [
@@ -50,8 +50,24 @@ test("React-каталог держит модели под брендами и 
       search: `${model.brand} ${model.model}`,
       href: `/modeli/${model.id}/`,
     }));
+    const knownWithoutPassport = {
+      id: "lg-known",
+      brand: "LG",
+      model: "KNOWN",
+      title: "LG KNOWN",
+      vesa_width_mm: 300,
+      vesa_height_mm: 200,
+      source_url: "https://example.com/lg-known",
+    };
+    const allModels = [...models, knownWithoutPassport];
+    search.push({
+      id: knownWithoutPassport.id,
+      title: knownWithoutPassport.title,
+      search: "LG KNOWN",
+      href: "/modeli/lg-known/",
+    });
     const html = renderToStaticMarkup(
-      React.createElement(TvMountScrewCatalog, { models, search }),
+      React.createElement(TvMountScrewCatalog, { models: allModels, search }),
     );
 
     assert.equal(html.includes("data-screw-catalog=\"true\""), true);
@@ -62,6 +78,17 @@ test("React-каталог держит модели под брендами и 
     }
     assert.equal(html.includes("market.yandex.ru"), false);
     assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
+    assert.equal(html.includes('data-searchable-model-count="4"'), true);
+    assert.equal(html.includes('data-model-search-count="4"'), true);
+    assert.equal(
+      classifyScrewLookupSelection(allModels, search.at(-1)).status,
+      "known-without-passport",
+    );
+    assert.equal(
+      classifyScrewLookupSelection(allModels, search[0]).status,
+      "verified-passport",
+    );
+    assert.equal(classifyScrewLookupSelection(allModels, null).status, "unknown");
   } finally {
     await vite.close();
   }

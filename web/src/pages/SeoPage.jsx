@@ -123,17 +123,19 @@ function SeoArticle({ catalog, page }) {
           </p>
         </header>
 
-        <section
-          className={`${["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
-          aria-label="Ключевые факты"
-        >
-          {topFacts.map((fact, index) => (
-            <article className="flex gap-4 px-1 py-5 first:pl-0 sm:px-6 sm:first:pl-0" key={fact}>
-              <span className="font-display text-3xl font-extrabold text-action">{index + 1}</span>
-              <p className="text-sm leading-relaxed sm:text-base">{fact}</p>
-            </article>
-          ))}
-        </section>
+        {!prioritizesScrewLookup ? (
+          <section
+            className={`${["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
+            aria-label="Ключевые факты"
+          >
+            {topFacts.map((fact, index) => (
+              <article className="flex gap-4 px-1 py-5 first:pl-0 sm:px-6 sm:first:pl-0" key={fact}>
+                <span className="font-display text-3xl font-extrabold text-action">{index + 1}</span>
+                <p className="text-sm leading-relaxed sm:text-base">{fact}</p>
+              </article>
+            ))}
+          </section>
+        ) : null}
 
         {prioritizesBrandComparison ? (
           <>
