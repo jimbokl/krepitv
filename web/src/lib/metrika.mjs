@@ -1,12 +1,15 @@
 import { AFFILIATE_CLICK_EVENT } from "./affiliateClick.mjs";
+import { RESULT_COMPLETED_EVENT } from "./resultCompleted.mjs";
 
-export { AFFILIATE_CLICK_EVENT };
+export { AFFILIATE_CLICK_EVENT, RESULT_COMPLETED_EVENT };
 export const AFFILIATE_CLICK_GOAL = "market_click";
+export const RESULT_COMPLETED_GOAL = "result_completed";
 
 const METRIKA_SCRIPT_ID = "krepitv-yandex-metrika";
 const METRIKA_SCRIPT_URL = "https://mc.yandex.ru/metrika/tag.js";
 const SAFE_TOKEN = /^[A-Za-z0-9_-]{1,150}$/;
-const SAFE_PAGE_PATH = /^(?:\/|\/[A-Za-z0-9/_-]{1,240})$/;
+const SAFE_RESULT_TOKEN = /^[a-z][a-z0-9_-]{0,63}$/;
+const SAFE_PAGE_PATH = /^(?:\/|\/[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*\/?)$/;
 
 function normalizeCounterId(value) {
   const counterId = Number(value);
@@ -17,8 +20,18 @@ function safeToken(value) {
   return typeof value === "string" && SAFE_TOKEN.test(value) ? value : undefined;
 }
 
+function safeResultToken(value) {
+  return typeof value === "string" && SAFE_RESULT_TOKEN.test(value)
+    ? value
+    : undefined;
+}
+
 function safePagePath(value) {
-  return typeof value === "string" && SAFE_PAGE_PATH.test(value) ? value : undefined;
+  return typeof value === "string" &&
+    value.length <= 241 &&
+    SAFE_PAGE_PATH.test(value)
+    ? value
+    : undefined;
 }
 
 function createQueuedMetrika(windowObject) {
@@ -40,7 +53,12 @@ export function installMetrika({
 } = {}) {
   const normalizedCounterId = normalizeCounterId(counterId);
   if (!normalizedCounterId || !windowObject || !documentObject) {
-    return { enabled: false, dispose() {}, trackMarketClick() { return false; } };
+    return {
+      enabled: false,
+      dispose() {},
+      trackMarketClick() { return false; },
+      trackResultCompleted() { return false; },
+    };
   }
 
   const ym = createQueuedMetrika(windowObject);
@@ -83,12 +101,40 @@ export function installMetrika({
     trackMarketClick(event?.detail);
   }
 
+  function trackResultCompleted(detail = {}) {
+    const toolId = safeResultToken(detail.toolId);
+    const resultType = safeResultToken(detail.resultType);
+    if (!toolId || !resultType) return false;
+
+    const parameters = {
+      result_count: Number.isInteger(detail.resultCount) &&
+        detail.resultCount >= 0 && detail.resultCount <= 1000
+        ? detail.resultCount
+        : undefined,
+      result_type: resultType,
+      source_path: safePagePath(detail.sourcePath),
+      tool_id: toolId,
+    };
+    for (const [key, value] of Object.entries(parameters)) {
+      if (value === undefined) delete parameters[key];
+    }
+    ym(normalizedCounterId, "reachGoal", RESULT_COMPLETED_GOAL, parameters);
+    return true;
+  }
+
+  function handleResultCompleted(event) {
+    trackResultCompleted(event?.detail);
+  }
+
   windowObject.addEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
+  windowObject.addEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
   return {
     enabled: true,
     dispose() {
       windowObject.removeEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
+      windowObject.removeEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
     },
     trackMarketClick,
+    trackResultCompleted,
   };
 }

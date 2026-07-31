@@ -3,6 +3,8 @@ import test from "node:test";
 import {
   AFFILIATE_CLICK_EVENT,
   AFFILIATE_CLICK_GOAL,
+  RESULT_COMPLETED_EVENT,
+  RESULT_COMPLETED_GOAL,
   installMetrika,
 } from "../src/lib/metrika.mjs";
 
@@ -132,4 +134,77 @@ test("корневая SEO-страница сохраняется в обезл
   });
 
   assert.equal(calls[1][3].source_path, "/");
+});
+
+test("событие готового результата отправляет только безопасные параметры", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  browser.listeners.get(RESULT_COMPLETED_EVENT)({
+    detail: {
+      toolId: "viewing-distance",
+      resultType: "recommended-range",
+      resultCount: 2,
+      sourcePath: "/rasstoyanie-do-televizora/",
+      rawInput: "user@example.test",
+    },
+  });
+
+  assert.deepEqual(calls[1], [123456, "reachGoal", RESULT_COMPLETED_GOAL, {
+    result_count: 2,
+    result_type: "recommended-range",
+    source_path: "/rasstoyanie-do-televizora/",
+    tool_id: "viewing-distance",
+  }]);
+
+  metrika.dispose();
+  assert.equal(browser.listeners.size, 0);
+});
+
+test("цель результата не отправляется без обязательных controlled tokens", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  assert.equal(metrika.trackResultCompleted({
+    toolId: "телефон:+79990000000",
+    resultType: "recommended range",
+    resultCount: 1001,
+    sourcePath: "https://example.test/?email=user@example.test",
+  }), false);
+  assert.equal(calls.length, 1);
+});
+
+test("прямой вызов цели результата отбрасывает небезопасные optional-поля", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  assert.equal(metrika.trackResultCompleted({
+    toolId: "height-calculator",
+    resultType: "mounting-height",
+    resultCount: -1,
+    sourcePath: "//external.test/user@example.test",
+    rawInput: "+79990000000",
+  }), true);
+  assert.deepEqual(calls[1][3], {
+    result_type: "mounting-height",
+    tool_id: "height-calculator",
+  });
 });

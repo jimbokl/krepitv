@@ -3,6 +3,7 @@ import { ArrowRight, Info, Ruler } from "@phosphor-icons/react";
 import { formatNumber } from "./ModelFacts.jsx";
 import { calculateHeight } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
+import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 
 export function HeightCalculator({ model = null }) {
   const [values, setValues] = useState({
@@ -35,6 +36,10 @@ export function HeightCalculator({ model = null }) {
         clearance: Number(values.clearance),
       });
       setResult(plan);
+      emitResultCompleted(window, {
+        toolId: "height_calculator",
+        resultType: "height_plan",
+      });
       setStatus("ready");
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Не удалось выполнить расчёт");

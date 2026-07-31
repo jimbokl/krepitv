@@ -10,6 +10,7 @@ import {
 } from "@phosphor-icons/react";
 import { calculateTvZoneSocketPlan } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
+import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 import { formatNumber } from "./ModelFacts.jsx";
 
 const initialValues = {
@@ -53,6 +54,10 @@ export function TvZoneSocketCalculator() {
         ),
       );
       setResult(plan);
+      emitResultCompleted(window, {
+        toolId: "tv_zone_socket_calculator",
+        resultType: "socket_plan",
+      });
       setStatus("ready");
     } catch (caught) {
       setResult(null);

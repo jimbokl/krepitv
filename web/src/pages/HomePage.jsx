@@ -12,6 +12,7 @@ import {
   Wrench,
 } from "@phosphor-icons/react";
 import { Brand } from "../components/Brand.jsx";
+import { MetrikaConsent } from "../components/MetrikaConsent.jsx";
 import { ModelFacts } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
@@ -65,6 +66,8 @@ export function HomePage({ catalog }) {
             <HeaderTrust Icon={LockKey} text="Проверка вместо догадок" />
           </div>
         </header>
+
+        <MetrikaConsent />
 
         <div className="my-4 flex items-center gap-3 font-mono text-[0.65rem] text-muted" aria-hidden="true">
           <span>0</span>

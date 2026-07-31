@@ -8,6 +8,7 @@ import {
 } from "@phosphor-icons/react";
 import { calculateTurnClearance } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
+import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 import { formatNumber } from "./ModelFacts.jsx";
 
 const INITIAL_VALUES = {
@@ -42,6 +43,10 @@ export function TurnClearanceCalculator() {
         safetyClearance: Number(values.safetyClearance),
       });
       setResult(plan);
+      emitResultCompleted(window, {
+        toolId: "turn_clearance_calculator",
+        resultType: "turn_clearance",
+      });
       setStatus("ready");
     } catch (caught) {
       setResult(null);

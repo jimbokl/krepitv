@@ -21,6 +21,8 @@
   временно закрыты `noindex,follow` и исключены из sitemap;
 - 140 индексируемых URL, статическая перелинковка, sitemap, robots и JSON-LD;
 - 12 проверяемых прямых предложений Яндекс Маркета без региональных цен;
+- consent-gated воронка `result_completed → market_click → APPROVED payment`
+  без передачи модели, параметров расчёта и текста поиска;
 - полностью статический production без платного сервера.
 
 ## Сборка
@@ -54,3 +56,5 @@ SEO. Исследование и прогноз Директа сохранен�
 [`product-docs/research/seo-wave10-high-demand-mounting-passports-2026-07-31.md`](product-docs/research/seo-wave10-high-demand-mounting-passports-2026-07-31.md).
 Решения по измерению и дальнейшему масштабированию зафиксированы в
 [`product-docs/operations/growth-playbook-application-2026-07-31.md`](product-docs/operations/growth-playbook-application-2026-07-31.md).
+Первая когорта из 20 существующих URL и gate следующей SEO-волны — в
+[`product-docs/operations/weekly-growth-cohort-2026-07-31.md`](product-docs/operations/weekly-growth-cohort-2026-07-31.md).

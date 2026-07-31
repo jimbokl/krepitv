@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { calculateVesaMatch } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
+import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 
 const INITIAL_VALUES = {
   width: "200",
@@ -43,6 +44,14 @@ export function VesaMatchCalculator() {
         mountSpec: values.mountSpec,
       });
       setResult(plan);
+      emitResultCompleted(window, {
+        toolId: "vesa_match_calculator",
+        resultType: plan.status === "совпадает"
+          ? "exact_match"
+          : plan.status === "не-совпадает"
+            ? "no_exact_match"
+            : "needs_review",
+      });
       setStatus("ready");
     } catch (caught) {
       setResult(null);

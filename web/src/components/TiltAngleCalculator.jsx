@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { calculateTiltAngle } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
+import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 import { formatNumber } from "./ModelFacts.jsx";
 
 const INITIAL_VALUES = {
@@ -42,6 +43,10 @@ export function TiltAngleCalculator() {
         ),
       );
       setResult(plan);
+      emitResultCompleted(window, {
+        toolId: "tilt_angle_calculator",
+        resultType: "tilt_plan",
+      });
       setStatus("ready");
     } catch (caught) {
       setResult(null);

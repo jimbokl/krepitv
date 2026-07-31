@@ -3,6 +3,7 @@ import { ArrowRight, Info, Monitor } from "@phosphor-icons/react";
 import { formatNumber } from "./ModelFacts.jsx";
 import { calculateViewingGeometry } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
+import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 
 const MODES = {
   "diagonal-to-distance": {
@@ -53,6 +54,10 @@ export function ViewingDistanceCalculator() {
         Number(horizontalAngle),
       );
       setResult(geometry);
+      emitResultCompleted(window, {
+        toolId: "viewing_distance_calculator",
+        resultType: mode === "diagonal-to-distance" ? "distance_plan" : "diagonal_plan",
+      });
       setStatus("ready");
     } catch (caught) {
       setResult(null);

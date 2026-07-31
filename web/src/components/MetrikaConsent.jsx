@@ -26,8 +26,9 @@ export function MetrikaConsent() {
       <div className="mx-auto grid max-w-[1440px] gap-3 px-5 py-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6 sm:px-8">
         <p className="max-w-4xl text-sm leading-relaxed text-muted">
           <strong className="font-display text-base text-ink">Помогите улучшить подбор.</strong>{" "}
-          С разрешения Метрика посчитает посещения и переходы на Маркет. Вебвизор отключён;
-          имена, телефоны и текст поиска не передаются. Подробности — в{" "}
+          С разрешения Метрика посчитает посещения, обезличенные результаты расчётов и
+          подбора и переходы на Маркет. Вебвизор отключён; имена, телефоны и текст поиска
+          не передаются. Подробности — в{" "}
           <a className="underline underline-offset-2" href="/politika-konfidencialnosti/">
             политике
           </a>

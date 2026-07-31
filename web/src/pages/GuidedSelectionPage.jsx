@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -12,11 +12,13 @@ import {
   Stack,
 } from "@phosphor-icons/react";
 import { Brand } from "../components/Brand.jsx";
+import { MetrikaConsent } from "../components/MetrikaConsent.jsx";
 import { ModelFacts } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
 import { useCompatibility } from "../hooks/useCompatibility.js";
 import { modelHref } from "../lib/catalog.js";
+import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 
 const wallOptions = [
   {
@@ -72,6 +74,9 @@ export function GuidedSelectionPage({ catalog }) {
   const [selectedModel, setSelectedModel] = useState(initialModel);
   const [wall, setWall] = useState("");
   const [mechanism, setMechanism] = useState("");
+  const mechanismSelectionRef = useRef(null);
+  const emittedSelectionRef = useRef(0);
+  const nextSelectionIdRef = useRef(0);
   const compatibility = useCompatibility(
     step >= 3 && mechanism ? selectedModel : null,
     catalog.mounts,
@@ -82,6 +87,28 @@ export function GuidedSelectionPage({ catalog }) {
     [compatibility.matches],
   );
 
+  useEffect(() => {
+    const selection = mechanismSelectionRef.current;
+    if (
+      !selection ||
+      emittedSelectionRef.current === selection.id ||
+      selection.modelId !== selectedModel?.id ||
+      selection.mechanism !== mechanism ||
+      selection.compatibilityAtSelection === compatibility ||
+      compatibility.status !== "ready" ||
+      compatible.length === 0
+    ) {
+      return;
+    }
+
+    emittedSelectionRef.current = selection.id;
+    emitResultCompleted(window, {
+      toolId: "mount_match",
+      resultType: "compatible_matches",
+      resultCount: compatible.length,
+    });
+  }, [compatibility, compatible.length, mechanism, selectedModel?.id]);
+
   function selectSearchItem(item) {
     const model = catalog.models.find((candidate) => candidate.id === item?.id) ?? null;
     setSelectedModel(model);
@@ -90,13 +117,29 @@ export function GuidedSelectionPage({ catalog }) {
   function submitModel(item) {
     const model = catalog.models.find((candidate) => candidate.id === item.id);
     if (!model) return;
+    mechanismSelectionRef.current = null;
+    setMechanism("");
     setSelectedModel(model);
     setStep(2);
   }
 
+  function selectMechanism(nextMechanism) {
+    const id = nextSelectionIdRef.current + 1;
+    nextSelectionIdRef.current = id;
+    mechanismSelectionRef.current = {
+      id,
+      modelId: selectedModel?.id ?? null,
+      mechanism: nextMechanism,
+      compatibilityAtSelection: compatibility,
+    };
+    setMechanism(nextMechanism);
+  }
+
   return (
-    <main className="min-h-screen bg-paper text-ink">
-      <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[16.5rem_minmax(0,1fr)]">
+    <>
+      <MetrikaConsent />
+      <main className="min-h-screen bg-paper text-ink">
+        <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[16.5rem_minmax(0,1fr)]">
         <aside className="border-b border-line bg-[#f3f1ec] px-5 py-6 lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
           <Brand compact />
           <p className="mt-3 max-w-48 text-sm leading-snug text-muted">
@@ -164,7 +207,7 @@ export function GuidedSelectionPage({ catalog }) {
               {step === 3 ? (
                 <ChoiceGrid
                   label="Выберите механизм кронштейна"
-                  onChange={setMechanism}
+                  onChange={selectMechanism}
                   options={mechanisms}
                   value={mechanism}
                 />
@@ -250,9 +293,10 @@ export function GuidedSelectionPage({ catalog }) {
               </p>
             </section>
           ) : null}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
 

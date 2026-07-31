@@ -10,6 +10,7 @@ import {
 } from "@phosphor-icons/react";
 import { calculateMountingMap } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
+import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 import { formatNumber } from "./ModelFacts.jsx";
 
 const initialValues = {
@@ -44,6 +45,10 @@ export function MountingMapCalculator() {
         ),
       );
       setResult(plan);
+      emitResultCompleted(window, {
+        toolId: "mounting_map_calculator",
+        resultType: "mounting_map",
+      });
       setStatus("ready");
     } catch (caught) {
       setResult(null);
