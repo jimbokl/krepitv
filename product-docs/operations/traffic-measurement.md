@@ -70,6 +70,46 @@ YANDEX_ANALYTICS_CREDENTIALS=/absolute/path/yandex-oauth.json \
 командой `npm run analytics:goals:apply`. При неизвестном исходе POST менеджер
 сначала перечитывает authoritative list и не создаёт возможный дубль.
 
+### Воспроизводимый read-only отчёт воронки
+
+Отчёт не изменяет счётчик или цели и не сохраняет OAuth в выводе. Локальный
+pointer-файл должен оставаться в `.private`, иметь права только владельца и не
+попадать в git:
+
+```bash
+YANDEX_ANALYTICS_CREDENTIALS="$PWD/.private/yandex-metrika-oauth.json" \
+  npm run analytics:funnel-report -- \
+    --date1 2026-07-29 \
+    --date2 2026-07-31
+```
+
+Для другого окна меняются только `--date1` и `--date2`. Опциональный
+`--out .private/metrika-funnel-YYYY-MM-DD.json` сохраняет тот же обезличенный
+агрегат с правами `600`; без `--out` отчёт печатается в stdout. Скрипт сначала
+read-only проверяет точные идентификаторы трёх целей через Management API, а
+затем делает два `GET` к Metrika Data API с `accuracy=full`:
+
+- `all_consenting` — authoritative `totals` по всем источникам среди
+  посетителей, разрешивших Метрику; разрез `source_breakdown` нужен для
+  диагностики direct/internal/test, но `users` по его строкам суммировать
+  нельзя: один пользователь может оказаться в нескольких строках;
+- `organic_excluding_tests` — только источник `organic`, дополнительно
+  исключены стартовые URL с `metrika-test` и `_ym_status-check`; именно этот
+  блок используется как наблюдаемый baseline органического продукта;
+- `result_completed`, `mount_detail_click` и `market_click` — достижения
+  целей, а не показы элементов интерфейса; нулевые значения в organic-блоке не
+  отменяют возможное поведение людей, не разрешивших аналитику;
+- `coverage` всегда напоминает, что Метрика видит только согласившуюся часть
+  аудитории. Без отдельной оценки consent coverage её пользователей и события
+  нельзя выдавать за всех посетителей из поиска.
+
+Данные поисковых кабинетов хранятся отдельно. Если Search Console недоступен
+текущему API-аккаунту, а Вебмастер отвечает `HOST_NOT_LOADED`, показы, клики,
+индексация и исключения имеют состояние `unknown`, а не `0`. Ноль допустим
+только когда authoritative API успешно вернул измеренное окно; очередь sitemap,
+IndexNow, HTTP 200 и отсутствие строк в публичном `site:`-поиске нулевую
+поисковую метрику не доказывают.
+
 Официальная документация:
 
 - <https://yandex.ru/support/metrica/ru/general/creating-counter>

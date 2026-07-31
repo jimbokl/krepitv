@@ -1057,6 +1057,10 @@ fn model_page_body(
         .and_then(|hardware| hardware.vesa_conflict.as_ref());
     let mut context_candidates = vec![
         (
+            "vesa".to_string(),
+            "VESA по модели и ручная проверка".to_string(),
+        ),
+        (
             format!("brand-{}", tv.brand.to_lowercase()),
             format!("Кронштейны для телевизоров {}", tv.brand),
         ),
@@ -1927,12 +1931,99 @@ fn seo_screw_catalog_html(models: &[TvModel]) -> String {
     )
 }
 
+fn seo_vesa_model_catalog_html(models: &[TvModel], graph: &[CompatibilityEdge]) -> String {
+    let brand_count = models
+        .iter()
+        .map(|model| model.brand.as_str())
+        .collect::<HashSet<_>>()
+        .len();
+    let vesa_count = models
+        .iter()
+        .map(|model| (model.vesa_width_mm, model.vesa_height_mm))
+        .collect::<HashSet<_>>()
+        .len();
+    let rows = models
+        .iter()
+        .map(|model| {
+            let source_conflict = model
+                .wall_mount_screws
+                .as_ref()
+                .and_then(|hardware| hardware.vesa_conflict.as_ref());
+            let verified_mounts = if source_conflict.is_some() {
+                0
+            } else {
+                graph
+                    .iter()
+                    .filter(|edge| {
+                        edge.tv_id == model.id
+                            && edge.compatible
+                            && edge.fit_status == "verified-fit"
+                    })
+                    .count()
+            };
+            let conflict = source_conflict
+                .map(|conflict| {
+                    format!(
+                        "<p class=\"mt-3 text-sm font-semibold leading-relaxed text-action\" data-vesa-source-conflict=\"true\">Источники расходятся: {catalog} / {manual}. Перед монтажом нужен ручной замер.</p>",
+                        catalog = escape_html(&conflict.catalog_value),
+                        manual = escape_html(&conflict.manual_value),
+                    )
+                })
+                .unwrap_or_default();
+            let match_summary = if source_conflict.is_some() {
+                "автоподбор остановлен".to_string()
+            } else {
+                format!("{verified_mounts} проверенных кронштейнов")
+            };
+            (
+                model.brand.clone(),
+                format!(
+                    "<article class=\"grid gap-4 border-b border-line py-5 lg:grid-cols-[minmax(0,1fr)_minmax(15rem,0.7fr)] lg:items-start\"><div><a class=\"font-display text-2xl font-extrabold\" href=\"/modeli/{id}/\">{title}</a><p class=\"mt-2 font-display text-2xl font-extrabold text-action\">VESA {vesa_w}×{vesa_h} мм</p><p class=\"mt-1 text-sm text-muted\">{diagonal}″ · {weight} кг без подставки · {match_summary}</p>{conflict}</div><div class=\"grid gap-3 lg:justify-items-end lg:text-right\"><a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{source_url}\" rel=\"noreferrer\" target=\"_blank\">Официальный источник</a><span class=\"font-mono text-xs uppercase text-muted\">Проверено {checked_at}</span><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">{model_link_label} →</a></div></article>",
+                    id = escape_html(&model.id),
+                    title = escape_html(&model.title),
+                    vesa_w = model.vesa_width_mm,
+                    vesa_h = model.vesa_height_mm,
+                    diagonal = model.diagonal_inches,
+                    weight = model.weight_kg,
+                    match_summary = escape_html(&match_summary),
+                    conflict = conflict,
+                    source_url = escape_html(&model.source_url),
+                    checked_at = escape_html(&model.checked_at),
+                    model_link_label = if source_conflict.is_some() {
+                        "Открыть паспорт модели"
+                    } else {
+                        "Совместимые кронштейны"
+                    },
+                ),
+            )
+        })
+        .collect::<Vec<_>>();
+    let catalog = brand_catalog_html(rows, "Моделей", "div", "border-t border-line");
+    let model_options = models
+        .iter()
+        .map(|model| format!("<option value=\"{}\"></option>", escape_html(&model.title)))
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    format!(
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"vesa-model-catalog-title\" data-vesa-model-catalog=\"true\" data-searchable-model-count=\"{model_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатный поиск без регистрации</p><h2 id=\"vesa-model-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите VESA по модели телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Введите полный код с шильдика. Покажем расстояние между отверстиями, официальный источник и число кронштейнов, прошедших точную проверку.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-vesa-model-search-count=\"{model_count}\"><label class=\"sr-only\" for=\"static-vesa-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-vesa-model\" list=\"static-vesa-models\" name=\"model\" placeholder=\"Например, TCL 55P6K\" autocomplete=\"off\"><datalist id=\"static-vesa-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть модель</button></form><p class=\"mt-4 border-l-2 border-action pl-4 text-sm leading-relaxed text-muted\">VESA записывается как горизонталь × вертикаль в миллиметрах. Диагональ экрана сама по себе не определяет расположение отверстий.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Точных моделей</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Схем VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_count}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Данные можно проверить и повторно использовать: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-sizes\" rel=\"noreferrer\" target=\"_blank\">скачать таблицу VESA в CSV или JSON</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Таблица VESA телевизоров</h3>{catalog}</div></section>",
+        model_count = models.len(),
+        brand_count = brand_count,
+        vesa_count = vesa_count,
+        model_options = model_options,
+        catalog = catalog,
+    )
+}
+
 fn seo_catalog_html(
     page: &SeoPage,
     models: &[TvModel],
     mounts: &[Mount],
     graph: &[CompatibilityEdge],
 ) -> String {
+    if page.id == "vesa" {
+        return seo_vesa_model_catalog_html(models, graph);
+    }
     match page.kind.as_str() {
         "mechanism" | "commercial" | "mount-brand" => {
             seo_mechanism_catalog_html(page, mounts, graph)
@@ -1988,6 +2079,8 @@ fn seo_page_body(
     );
     let answer_content = if page.kind == "screws" {
         format!("{catalog}{facts_section}{calculator_note}")
+    } else if page.id == "vesa" {
+        format!("{catalog}{calculator_note}{facts_section}")
     } else {
         format!("{facts_section}{buy_mount_comparison}{catalog}{calculator_note}")
     };
@@ -2965,8 +3058,9 @@ mod tests {
         is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
         model_mount_matches, model_page_body, mount_page_body, mounts_catalog_body,
         parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_screw_catalog_html, tv_product_json_ld,
-        validate_commercial_profiles, wall_mount_screws_html, workspace_root,
+        seo_calculator_note, seo_catalog_html, seo_screw_catalog_html,
+        seo_vesa_model_catalog_html, tv_product_json_ld, validate_commercial_profiles,
+        wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -3287,6 +3381,33 @@ mod tests {
             pro_structured
                 .contains("Требуется проверка: карточка 400×300 мм / руководство 400×400 мм")
         );
+    }
+
+    #[test]
+    fn vesa_lookup_prerenders_all_models_sources_and_conflicts() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let graph = build_compatibility_graph(&models, &mounts);
+        let html = seo_vesa_model_catalog_html(&models, &graph);
+
+        assert!(html.contains("data-vesa-model-catalog=\"true\""));
+        assert!(html.contains("data-searchable-model-count=\"80\""));
+        assert!(html.contains("data-vesa-model-search-count=\"80\""));
+        assert_eq!(html.matches("<option value=").count(), 80);
+        assert_eq!(html.matches("<details").count(), 5);
+        assert!(html.contains("Таблица VESA телевизоров"));
+        assert!(html.contains(
+            "https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-sizes"
+        ));
+        assert!(html.contains("data-vesa-source-conflict=\"true\""));
+        assert!(html.contains("Источники расходятся: 400×300 мм / 400×400 мм"));
+        assert!(!html.contains("market.yandex.ru"));
+
+        for model in &models {
+            assert!(html.contains(&format!("href=\"/modeli/{}/\"", model.id)));
+            assert!(html.contains(&model.source_url));
+        }
     }
 
     #[test]
@@ -3795,8 +3916,9 @@ mod tests {
 
         assert_eq!(page.path, "/vesa/");
         assert!(page.indexable);
-        assert!(page.title.contains("проверить совместимость"));
-        assert!(page.description.contains("точной пары"));
+        assert!(page.title.contains("Размер VESA телевизора"));
+        assert!(page.title.contains("поиск по модели"));
+        assert!(page.description.contains("официальный размер"));
         assert!(page.facts.len() >= 5);
         assert!(page.faq.len() >= 6);
 

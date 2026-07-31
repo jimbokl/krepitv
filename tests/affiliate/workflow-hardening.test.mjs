@@ -50,14 +50,14 @@ test("affiliate workflow is scheduled with pinned actions and one scoped OAuth s
   assert.match(workflow, /placement\.model_path/);
 });
 
-test("orders workflow keeps the ledger ephemeral and uses only pinned actions", async () => {
+test("orders workflow keeps raw ledger ephemeral and retains only a safe aggregate", async () => {
   const workflow = await readFile(ordersWorkflowUrl, "utf8");
   const actions = [...workflow.matchAll(/^\s*uses:\s*([^\s#]+)/gm)].map(
     (match) => match[1],
   );
 
   assert.match(workflow, /cron:\s*["']41 3 \* \* \*["']/);
-  assert.equal(actions.length, 2);
+  assert.equal(actions.length, 3);
   for (const action of actions) {
     assert.match(action, /^[^@\s]+@[0-9a-f]{40}$/);
   }
@@ -67,7 +67,19 @@ test("orders workflow keeps the ledger ephemeral and uses only pinned actions", 
   );
   assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/);
   assert.match(workflow, /affiliate:orders-sync[\s\S]*?> \/dev\/null/);
-  assert.match(workflow, /affiliate:orders-report[\s\S]*?> \/dev\/null/);
+  assert.match(workflow, /affiliate:orders-aggregate/);
+  assert.match(
+    workflow,
+    /aggregate_path="\.private\/affiliate-orders\/aggregates\/\$\{month\}\.json"/,
+  );
+  assert.match(
+    workflow,
+    /actions\/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02/,
+  );
+  assert.match(workflow, /path:\s*\$\{\{ steps\.aggregate\.outputs\.path \}\}/);
+  assert.match(workflow, /if-no-files-found:\s*error/);
+  assert.match(workflow, /retention-days:\s*90/);
+  assert.match(workflow, /include-hidden-files:\s*true/);
   assert.match(workflow, /affiliate:check-model-manifest/);
   assert.match(workflow, /affiliate:validate-models/);
   assert.match(
@@ -75,9 +87,17 @@ test("orders workflow keeps the ledger ephemeral and uses only pinned actions", 
     /--model-placements\s+data\/affiliate\/model-page-placements\.json/,
   );
   assert.match(workflow, /if:\s*always\(\)[\s\S]*?rm -rf \.private\/affiliate-orders/);
+  const uploadStep = workflow.match(
+    /- name: Сохранить только обезличенный агрегат[\s\S]*?(?=\n\s+- name: Уничтожить временный реестр)/,
+  )?.[0] ?? "";
+  assert.ok(uploadStep);
+  assert.doesNotMatch(
+    uploadStep,
+    /state\.json|latest\.json|\/reports\/|affiliate-orders\/$|\*|order_key|orderId/i,
+  );
   assert.doesNotMatch(
     workflow,
-    /actions\/cache|upload-artifact|git push|contents:\s*write/,
+    /actions\/cache|git push|contents:\s*write/,
   );
 
   const oauthReferences = workflow.match(

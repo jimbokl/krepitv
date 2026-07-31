@@ -23,6 +23,10 @@ export function getModelContextPages(model, pages) {
 
   const candidates = [
     {
+      id: "vesa",
+      label: "VESA по модели и ручная проверка",
+    },
+    {
       id: `brand-${String(model.brand ?? "").trim().toLocaleLowerCase("ru-RU")}`,
       label: `Кронштейны для телевизоров ${model.brand}`,
     },

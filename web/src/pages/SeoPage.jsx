@@ -18,6 +18,7 @@ import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TiltAngleCalculator } from "../components/TiltAngleCalculator.jsx";
 import { TurnClearanceCalculator } from "../components/TurnClearanceCalculator.jsx";
 import { TvMountScrewCatalog } from "../components/TvMountScrewCatalog.jsx";
+import { TvVesaCatalog } from "../components/TvVesaCatalog.jsx";
 import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx";
 import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
@@ -59,6 +60,8 @@ function SeoArticle({ catalog, page }) {
   const prioritizesBrandComparison = page.id === "mount-brand-onkron";
   const prioritizesBuyComparison = page.id === "buy-tv-mount";
   const prioritizesScrewLookup = page.id === "tv-mount-screws";
+  const prioritizesVesaLookup = page.id === "vesa";
+  const prioritizesPrimaryLookup = prioritizesScrewLookup || prioritizesVesaLookup;
   const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa", "tv-mount-screws"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
@@ -123,7 +126,7 @@ function SeoArticle({ catalog, page }) {
           </p>
         </header>
 
-        {!prioritizesScrewLookup ? (
+        {!prioritizesPrimaryLookup ? (
           <section
             className={`${["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
             aria-label="Ключевые факты"
@@ -150,13 +153,27 @@ function SeoArticle({ catalog, page }) {
         {page.id === "extendable-mount" ? <TurnClearanceCalculator /> : null}
         {page.id === "tilt-mount" ? <TiltAngleCalculator /> : null}
         {page.id === "mounting-map" ? <MountingMapCalculator /> : null}
-        {page.id === "tv-zone-sockets" ? <TvZoneSocketCalculator /> : null}
+        {page.id === "tv-zone-sockets" ? (
+          <TvZoneSocketCalculator
+            compatibilityEdges={catalog.compatibilityEdges}
+            models={catalog.models}
+            mounts={catalog.mounts}
+            search={catalog.search}
+          />
+        ) : null}
+        {prioritizesVesaLookup ? (
+          <TvVesaCatalog
+            compatibilityEdges={catalog.compatibilityEdges}
+            models={catalog.models}
+            search={catalog.search}
+          />
+        ) : null}
         {page.id === "vesa" ? <VesaMatchCalculator /> : null}
         {prioritizesScrewLookup ? (
           <TvMountScrewCatalog models={catalog.models} search={catalog.search} />
         ) : null}
 
-        {!prioritizesScrewLookup ? (
+        {!prioritizesPrimaryLookup ? (
           <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
           <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-end">
             <div>
@@ -205,11 +222,11 @@ function SeoArticle({ catalog, page }) {
               </div>
             </section>
 
-            {!prioritizesBrandComparison && !prioritizesScrewLookup ? (
+            {!prioritizesBrandComparison && !prioritizesPrimaryLookup ? (
               <CatalogEvidence items={catalogItems} page={page} />
             ) : null}
 
-            {!prioritizesBrandComparison && !prioritizesBuyComparison && !prioritizesScrewLookup ? (
+            {!prioritizesBrandComparison && !prioritizesBuyComparison && !prioritizesPrimaryLookup ? (
               <SeoHubOffers offers={affiliateOffers} page={page} />
             ) : null}
 

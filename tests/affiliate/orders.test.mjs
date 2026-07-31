@@ -4,14 +4,17 @@ import path from "node:path";
 import test from "node:test";
 
 import {
+  assertSafeOrdersAggregate,
   assertPrivatePath,
   buildMonthlyOrdersReport,
   buildPlacementAttributionIndex,
+  buildSafeMonthlyOrdersAggregate,
   CANCELLATION_REASON_ENUM,
   collectKnownVids,
   computeSyncWindow,
   createOrdersState,
   fetchOrdersWindow,
+  formatSafeOrdersAggregateSummary,
   formatMoscowApiDate,
   hmacKeyFingerprint,
   hmacOrderKey,
@@ -761,4 +764,77 @@ test("aggregates private placement attribution without exposing order keys", () 
   for (const forbidden of Object.keys(state.orders)) {
     assert.equal(serialized.includes(forbidden), false, forbidden);
   }
+});
+
+test("durable aggregate and its log cannot expose raw or hashed order identifiers", () => {
+  const rawOrderId = "9000000000001";
+  const orderHash = createHmac("sha256", secret)
+    .update(`${clid}:${rawOrderId}`)
+    .digest("hex");
+  const state = createOrdersState(clid, secret);
+  state.cursor.last_successful_update_end = "2026-07-31T12:00:00.000Z";
+  state.sync = {
+    last_started_at: "2026-07-31T12:00:00.000Z",
+    last_completed_at: "2026-07-31T12:00:00.000Z",
+    window_start: "2026-07-29T00:00:00.000Z",
+    window_end: "2026-07-31T12:00:00.000Z",
+    pages: 1,
+    records: 1,
+    known_records: 1,
+    quarantined_records: 0,
+  };
+  state.orders[rawOrderId] = {
+    order_key: orderHash,
+    vid: "krepitvFixture",
+    status: "APPROVED",
+    updated_at: "2026-07-31T11:59:00.000Z",
+    payment_kopecks: 12_345,
+    oauth_fixture: token,
+    hmac_fixture: secret,
+  };
+
+  const aggregate = buildSafeMonthlyOrdersAggregate(
+    state,
+    "2026-07",
+    "2026-07-31T12:01:00.000Z",
+  );
+  assert.deepEqual(aggregate.approved, {
+    orders: 1,
+    payment_kopecks: 12_345,
+  });
+  assert.equal(Object.hasOwn(aggregate, "attribution"), false);
+  assert.equal(Object.hasOwn(aggregate, "clid"), false);
+
+  const outputs = [
+    JSON.stringify(aggregate),
+    formatSafeOrdersAggregateSummary(aggregate),
+  ];
+  for (const output of outputs) {
+    for (const forbidden of [
+      rawOrderId,
+      orderHash,
+      token,
+      secret,
+      "krepitvFixture",
+      "order_key",
+      "orderId",
+      "oauth_fixture",
+      "hmac_fixture",
+    ]) {
+      assert.equal(output.includes(forbidden), false, forbidden);
+    }
+  }
+
+  assert.throws(
+    () => assertSafeOrdersAggregate({ ...aggregate, order_key: orderHash }),
+    /unsupported schema/,
+  );
+  assert.throws(
+    () =>
+      assertSafeOrdersAggregate({
+        ...aggregate,
+        kind: orderHash,
+      }),
+    /unsupported schema|order-key hashes/,
+  );
 });

@@ -5,6 +5,7 @@ import path from "node:path";
 export const MARKET_AFFILIATE_ORDERS_ENDPOINT =
   "https://api.content.market.yandex.ru/v3/affiliate/orders";
 export const ORDERS_SCHEMA_VERSION = 2;
+export const ORDERS_AGGREGATE_SCHEMA_VERSION = 1;
 export const ORDER_STATUSES = Object.freeze([
   "NEW",
   "ON_HOLD",
@@ -1067,4 +1068,147 @@ export function buildMonthlyOrdersReport(
     );
   }
   return report;
+}
+
+function requireAggregateCount(value, fieldName) {
+  if (!Number.isSafeInteger(value) || value < 0) {
+    throw new Error(`${fieldName} must be a non-negative safe integer`);
+  }
+  return value;
+}
+
+export function assertSafeOrdersAggregate(value) {
+  if (
+    !hasExactKeys(value, [
+      "schema_version",
+      "kind",
+      "month",
+      "generated_at",
+      "data_as_of",
+      "api_window",
+      "approved",
+      "pending_current",
+      "cancelled_in_month",
+      "quarantined_current",
+    ]) ||
+    value.schema_version !== ORDERS_AGGREGATE_SCHEMA_VERSION ||
+    value.kind !== "krepitv_affiliate_orders_monthly_aggregate" ||
+    !MONTH_RE.test(value.month)
+  ) {
+    throw new Error("orders aggregate has an unsupported schema");
+  }
+
+  normalizeUtcDate(value.generated_at, "generated_at");
+  normalizeUtcDate(value.data_as_of, "data_as_of");
+  if (
+    !hasExactKeys(value.api_window, [
+      "update_start",
+      "update_end",
+      "pages",
+      "records",
+      "known_records",
+      "quarantined_records",
+    ])
+  ) {
+    throw new Error("orders aggregate API window is malformed");
+  }
+  normalizeUtcDate(value.api_window.update_start, "api_window.update_start");
+  normalizeUtcDate(value.api_window.update_end, "api_window.update_end");
+  if (Date.parse(value.api_window.update_start) > Date.parse(value.api_window.update_end)) {
+    throw new Error("orders aggregate API window is reversed");
+  }
+  for (const key of [
+    "pages",
+    "records",
+    "known_records",
+    "quarantined_records",
+  ]) {
+    requireAggregateCount(value.api_window[key], `api_window.${key}`);
+  }
+  if (value.api_window.known_records + value.api_window.quarantined_records !== value.api_window.records) {
+    throw new Error("orders aggregate API record counts do not add up");
+  }
+
+  if (!hasExactKeys(value.approved, ["orders", "payment_kopecks"])) {
+    throw new Error("orders aggregate approved totals are malformed");
+  }
+  requireAggregateCount(value.approved.orders, "approved.orders");
+  requireAggregateCount(
+    value.approved.payment_kopecks,
+    "approved.payment_kopecks",
+  );
+
+  if (
+    !hasExactKeys(value.pending_current, [
+      "new_orders",
+      "on_hold_orders",
+      "payment_kopecks",
+      "note",
+    ]) ||
+    value.pending_current.note !== "Не является подтверждённой выручкой"
+  ) {
+    throw new Error("orders aggregate pending totals are malformed");
+  }
+  for (const key of ["new_orders", "on_hold_orders", "payment_kopecks"]) {
+    requireAggregateCount(value.pending_current[key], `pending_current.${key}`);
+  }
+
+  for (const [fieldName, counters] of [
+    ["cancelled_in_month", value.cancelled_in_month],
+    ["quarantined_current", value.quarantined_current],
+  ]) {
+    if (!hasExactKeys(counters, ["orders"])) {
+      throw new Error(`orders aggregate ${fieldName} totals are malformed`);
+    }
+    requireAggregateCount(counters.orders, `${fieldName}.orders`);
+  }
+
+  const serialized = JSON.stringify(value);
+  if (/[a-f0-9]{64}/i.test(serialized)) {
+    throw new Error("orders aggregate must not contain order-key hashes");
+  }
+  return value;
+}
+
+export function buildSafeMonthlyOrdersAggregate(
+  state,
+  month,
+  generatedAt = new Date(),
+) {
+  if (!isObject(state) || !validateStoredSync(state.sync) || state.sync === null) {
+    throw new Error("orders aggregate requires a completed sync");
+  }
+  const report = buildMonthlyOrdersReport(state, month, generatedAt);
+  const aggregate = {
+    schema_version: ORDERS_AGGREGATE_SCHEMA_VERSION,
+    kind: "krepitv_affiliate_orders_monthly_aggregate",
+    month: report.month,
+    generated_at: report.generated_at,
+    data_as_of: report.data_as_of,
+    api_window: {
+      update_start: state.sync.window_start,
+      update_end: state.sync.window_end,
+      pages: state.sync.pages,
+      records: state.sync.records,
+      known_records: state.sync.known_records,
+      quarantined_records: state.sync.quarantined_records,
+    },
+    approved: report.approved,
+    pending_current: report.pending_current,
+    cancelled_in_month: report.cancelled_in_month,
+    quarantined_current: report.quarantined_current,
+  };
+  return assertSafeOrdersAggregate(aggregate);
+}
+
+export function formatSafeOrdersAggregateSummary(value) {
+  const aggregate = assertSafeOrdersAggregate(value);
+  return [
+    `Агрегат ${aggregate.month}`,
+    `APPROVED заказов: ${aggregate.approved.orders}`,
+    `подтверждённое вознаграждение: ${aggregate.approved.payment_kopecks} коп.`,
+    `ожидают решения: ${aggregate.pending_current.new_orders + aggregate.pending_current.on_hold_orders}`,
+    `отменено в месяце: ${aggregate.cancelled_in_month.orders}`,
+    `данные API по: ${aggregate.data_as_of}`,
+  ].join("; ");
 }

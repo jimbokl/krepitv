@@ -8,6 +8,8 @@ import {
   assertPrivatePath,
   buildMonthlyOrdersReport,
   buildPlacementAttributionIndex,
+  buildSafeMonthlyOrdersAggregate,
+  formatSafeOrdersAggregateSummary,
   writeJsonAtomic,
 } from "./orders.mjs";
 
@@ -16,6 +18,7 @@ function usage() {
     "Usage:",
     "  node scripts/affiliate/report-orders.mjs --month 2026-07",
     "Optional: --state .private/affiliate-orders/state.json --out .private/affiliate-orders/reports/2026-07.json",
+    "          --aggregate-only writes an upload-safe report without order keys or VIDs",
     "          --manifest data/affiliate/market-products.json",
     "          --hub-placements data/affiliate/seo-hub-placements.json",
     "          --model-placements data/affiliate/model-page-placements.json",
@@ -35,6 +38,10 @@ function parseArgs(args) {
   for (let index = 0; index < args.length; index += 1) {
     const flag = args[index];
     if (flag === "--help" || flag === "-h") return { help: true };
+    if (flag === "--aggregate-only") {
+      result.aggregate_only = true;
+      continue;
+    }
     if (!allowed.has(flag)) throw new Error(`Unknown argument: ${flag}\n${usage()}`);
     const value = args[index + 1];
     if (!value || value.startsWith("--")) {
@@ -73,7 +80,13 @@ const stateFile = assertPrivatePath(
 );
 const outputFile = assertPrivatePath(
   root,
-  args.out ?? path.join(root, `.private/affiliate-orders/reports/${month}.json`),
+  args.out ??
+    path.join(
+      root,
+      args.aggregate_only
+        ? `.private/affiliate-orders/aggregates/${month}.json`
+        : `.private/affiliate-orders/reports/${month}.json`,
+    ),
 );
 const manifestFile = path.resolve(
   args.manifest ?? path.join(root, "data/affiliate/market-products.json"),
@@ -85,30 +98,37 @@ const modelPlacementsFile = path.resolve(
   args.model_placements ??
     path.join(root, "data/affiliate/model-page-placements.json"),
 );
-const [state, manifest, hubPlacements, modelPlacements] = await Promise.all([
-  readJson(stateFile),
-  readJson(manifestFile),
-  readJson(hubPlacementsFile),
-  readJson(modelPlacementsFile),
-]);
-const placementIndex = buildPlacementAttributionIndex(
-  manifest,
-  [hubPlacements, modelPlacements],
-  state.clid,
-);
-const report = buildMonthlyOrdersReport(
-  state,
-  month,
-  new Date(),
-  placementIndex,
-);
+const state = await readJson(stateFile);
+let report;
+if (args.aggregate_only) {
+  report = buildSafeMonthlyOrdersAggregate(state, month, new Date());
+} else {
+  const [manifest, hubPlacements, modelPlacements] = await Promise.all([
+    readJson(manifestFile),
+    readJson(hubPlacementsFile),
+    readJson(modelPlacementsFile),
+  ]);
+  const placementIndex = buildPlacementAttributionIndex(
+    manifest,
+    [hubPlacements, modelPlacements],
+    state.clid,
+  );
+  report = buildMonthlyOrdersReport(
+    state,
+    month,
+    new Date(),
+    placementIndex,
+  );
+}
 await writeJsonAtomic(outputFile, report);
 
 console.log(
-  [
-    `Отчёт ${month}`,
-    `подтверждено заказов: ${report.approved.orders}`,
-    `вознаграждение: ${report.approved.payment_kopecks} коп.`,
-    `ожидают решения: ${report.pending_current.new_orders + report.pending_current.on_hold_orders}`,
-  ].join("; "),
+  args.aggregate_only
+    ? formatSafeOrdersAggregateSummary(report)
+    : [
+        `Отчёт ${month}`,
+        `подтверждено заказов: ${report.approved.orders}`,
+        `вознаграждение: ${report.approved.payment_kopecks} коп.`,
+        `ожидают решения: ${report.pending_current.new_orders + report.pending_current.on_hold_orders}`,
+      ].join("; "),
 );

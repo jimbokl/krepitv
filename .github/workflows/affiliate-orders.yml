@@ -57,14 +57,50 @@ jobs:
             --backfill-start 2026-07-30T00:00:00+03:00 \
             > /dev/null
 
-      - name: Собрать приватный отчёт подтверждённых начислений
+      - name: Собрать безопасный месячный агрегат
+        id: aggregate
         shell: bash
         run: |
           set -euo pipefail
           month="$(node -e 'process.stdout.write(new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString().slice(0, 7))')"
-          npm run affiliate:orders-report -- --month "$month" > /dev/null
+          aggregate_path=".private/affiliate-orders/aggregates/${month}.json"
+          npm run affiliate:orders-aggregate -- \
+            --month "$month" \
+            --out "$aggregate_path"
           chmod -R go-rwx .private/affiliate-orders
-          echo "Приватная синхронизация заказов завершена без публикации заказов и вознаграждения." >> "$GITHUB_STEP_SUMMARY"
+          echo "month=$month" >> "$GITHUB_OUTPUT"
+          echo "path=$aggregate_path" >> "$GITHUB_OUTPUT"
+
+          node --input-type=module - "$aggregate_path" <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          import { readFile } from "node:fs/promises";
+          import { assertSafeOrdersAggregate } from "./scripts/affiliate/orders.mjs";
+
+          const aggregate = assertSafeOrdersAggregate(
+            JSON.parse(await readFile(process.argv[2], "utf8")),
+          );
+          process.stdout.write([
+            "### Яндекс Маркет — месячный агрегат",
+            "",
+            `- Месяц: ${aggregate.month}`,
+            `- APPROVED заказов: ${aggregate.approved.orders}`,
+            `- Подтверждённое вознаграждение: ${aggregate.approved.payment_kopecks} коп.`,
+            `- NEW: ${aggregate.pending_current.new_orders}`,
+            `- ON_HOLD: ${aggregate.pending_current.on_hold_orders}`,
+            `- CANCELLED в месяце: ${aggregate.cancelled_in_month.orders}`,
+            `- Данные API по: ${aggregate.data_as_of}`,
+            "",
+          ].join("\n"));
+          NODE
+
+      - name: Сохранить только обезличенный агрегат
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: affiliate-orders-aggregate-${{ steps.aggregate.outputs.month }}-${{ github.run_id }}
+          path: ${{ steps.aggregate.outputs.path }}
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 9
+          include-hidden-files: true
 
       - name: Уничтожить временный реестр
         if: always()

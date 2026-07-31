@@ -1181,6 +1181,66 @@ if (screwLookupHtml.includes("market.yandex.ru")) {
   throw new Error("Технический справочник винтов не должен быть партнёрской витриной");
 }
 
+const vesaLookupPage = seoPages.find((page) => page.id === "vesa");
+if (
+  !vesaLookupPage
+  || vesaLookupPage.path !== "/vesa/"
+  || vesaLookupPage.indexable !== true
+) {
+  throw new Error("Нет единой индексируемой страницы проверки VESA");
+}
+const vesaLookupHtml = htmlByRoute.get(vesaLookupPage.path) ?? "";
+for (const required of [
+  'data-vesa-model-catalog="true"',
+  'data-searchable-model-count="80"',
+  'data-vesa-model-search-count="80"',
+  "Найдите VESA по модели телевизора",
+  "Таблица VESA телевизоров",
+  "https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-sizes",
+]) {
+  if (!vesaLookupHtml.includes(required)) {
+    throw new Error(`Сырой HTML страницы VESA не содержит обязательный фрагмент: ${required}`);
+  }
+}
+if ((vesaLookupHtml.match(/<option value=/g) ?? []).length !== models.length) {
+  throw new Error("Сырой HTML поиска VESA не содержит все известные модели");
+}
+if (
+  vesaLookupHtml.indexOf('data-vesa-model-catalog="true"')
+  > vesaLookupHtml.indexOf("Что проверить")
+) {
+  throw new Error("Поиск VESA по модели должен находиться раньше общего списка проверок");
+}
+if (
+  vesaLookupHtml.indexOf('data-vesa-model-catalog="true"')
+  > vesaLookupHtml.indexOf("Сравнить VESA телевизора и кронштейна")
+) {
+  throw new Error("Поиск VESA по модели должен быть первым режимом существующей страницы");
+}
+if (!vesaLookupHtml.includes("автоподбор остановлен")) {
+  throw new Error("Конфликт официальных VESA должен останавливать автоматический подбор");
+}
+for (const model of models) {
+  const route = `/modeli/${model.id}/`;
+  if (
+    !vesaLookupHtml.includes(`href="${route}"`)
+    || !vesaLookupHtml.includes(escapeHtmlText(model.source_url))
+  ) {
+    throw new Error(`Таблица VESA не содержит модель и официальный источник: ${model.id}`);
+  }
+  const modelHtml = htmlByRoute.get(route) ?? "";
+  if (!modelHtml.includes('href="/vesa/"')) {
+    throw new Error(`Нет обратной ссылки из карточки модели в поиск VESA: ${model.id}`);
+  }
+}
+const vesaCatalogOutsideDetails = vesaLookupHtml.replace(/<details\b[\s\S]*?<\/details>/gi, "");
+if (models.some((model) => vesaCatalogOutsideDetails.includes(`href="/modeli/${model.id}/"`))) {
+  throw new Error("Длинная таблица VESA выведена вне сворачиваемых брендов");
+}
+if (vesaLookupHtml.includes("market.yandex.ru")) {
+  throw new Error("Технический поиск VESA не должен быть партнёрской витриной");
+}
+
 function hasVerifiedModel(modelId) {
   return compatibilityEdges.some(
     (edge) => edge.tv_id === modelId && edge.compatible && edge.fit_status === "verified-fit",
