@@ -9,6 +9,7 @@ export function useCatalog() {
     search: [],
     seoPages: [],
     compatibilityEdges: [],
+    commercialProfiles: [],
     affiliateOffers: [],
     error: null,
   });

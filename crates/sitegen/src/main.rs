@@ -92,6 +92,34 @@ struct TrustLink {
     label: String,
 }
 
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct CommercialProfilesFile {
+    schema_version: u32,
+    profiles: Vec<CommercialProfile>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct CommercialProfile {
+    entity_kind: String,
+    entity_id: String,
+    path: String,
+    title: String,
+    description: String,
+    kicker: String,
+    heading: String,
+    answer: String,
+    faq: Vec<CommercialFaq>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct CommercialFaq {
+    question: String,
+    answer: String,
+}
+
 #[derive(Debug, Deserialize)]
 struct PublicAffiliateSnapshot {
     schema_version: u32,
@@ -510,6 +538,46 @@ fn model_mount_matches(tv: &TvModel, mounts: &[Mount]) -> Vec<MountMatch> {
     )
 }
 
+fn commercial_profile_for<'a>(
+    profiles: &'a [CommercialProfile],
+    entity_kind: &str,
+    entity_id: &str,
+) -> Option<&'a CommercialProfile> {
+    profiles
+        .iter()
+        .find(|profile| profile.entity_kind == entity_kind && profile.entity_id == entity_id)
+}
+
+fn commercial_profile_html(profile: &CommercialProfile) -> String {
+    let heading_id = format!(
+        "commercial-profile-{}-{}",
+        profile.entity_kind, profile.entity_id
+    );
+    let faq = profile
+        .faq
+        .iter()
+        .map(|item| {
+            format!(
+                "<details class=\"group border-t border-line first:border-t-0\"><summary class=\"flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 font-display text-lg font-bold marker:content-none\"><span>{question}</span><span aria-hidden=\"true\" class=\"font-mono text-xl leading-none group-open:rotate-45\">+</span></summary><p class=\"max-w-3xl pb-4 pr-8 text-sm leading-relaxed text-muted sm:text-base\">{answer}</p></details>",
+                question = escape_html(&item.question),
+                answer = escape_html(&item.answer),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    format!(
+        "<section aria-labelledby=\"{heading_id}\" class=\"grid gap-6 border-b-2 border-ink py-7 lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)] lg:gap-10\" data-commercial-profile=\"{kind}:{id}\"><div><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{kicker}</p><h2 class=\"mt-3 max-w-3xl font-display text-3xl font-extrabold leading-tight sm:text-4xl\" id=\"{heading_id}\">{heading}</h2><p class=\"mt-4 max-w-3xl text-base leading-relaxed text-muted sm:text-lg\">{answer}</p></div><div aria-label=\"Частые вопросы\" class=\"border-y border-ink\">{faq}</div></section>",
+        heading_id = escape_html(&heading_id),
+        kind = escape_html(&profile.entity_kind),
+        id = escape_html(&profile.entity_id),
+        kicker = escape_html(&profile.kicker),
+        heading = escape_html(&profile.heading),
+        answer = escape_html(&profile.answer),
+        faq = faq,
+    )
+}
+
 fn build_compatibility_graph(models: &[TvModel], mounts: &[Mount]) -> Vec<CompatibilityEdge> {
     models
         .iter()
@@ -697,6 +765,7 @@ fn model_page_body(
     affiliate_offers: &[PublicAffiliateOffer],
     affiliate_now_seconds: i64,
     seo_pages: &[SeoPage],
+    commercial_profile: Option<&CommercialProfile>,
 ) -> String {
     let compatible = matches
         .iter()
@@ -775,9 +844,12 @@ fn model_page_body(
             "<nav class=\"mt-5 border-y border-line\" aria-label=\"Связанные подборы\">{context_links}</nav>"
         )
     };
+    let commercial_section = commercial_profile
+        .map(commercial_profile_html)
+        .unwrap_or_default();
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl>{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_w}×{vesa_h} мм</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Масса без подставки</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl>{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции.</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}, модельный год {year}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = tv.model_year,
@@ -793,6 +865,7 @@ fn model_page_body(
         source_label = escape_html(&tv.source_label),
         affiliate_section = affiliate_section,
         context_section = context_section,
+        commercial_section = commercial_section,
     ))
 }
 
@@ -802,6 +875,7 @@ fn mount_page_body(
     graph: &[CompatibilityEdge],
     affiliate_offers: &[PublicAffiliateOffer],
     affiliate_now_seconds: i64,
+    commercial_profile: Option<&CommercialProfile>,
 ) -> String {
     let television_row = |edge: &CompatibilityEdge| {
         let tv = models.iter().find(|tv| tv.id == edge.tv_id)?;
@@ -906,9 +980,12 @@ fn mount_page_body(
     let context_section = format!(
         "<nav class=\"mt-5 border-y border-line\" aria-label=\"Связанные подборы кронштейнов\">{context_links}</nav>"
     );
+    let commercial_section = commercial_profile
+        .map(commercial_profile_html)
+        .unwrap_or_default();
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{context_section}{commercial_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -921,6 +998,7 @@ fn mount_page_body(
         source_label = escape_html(&mount.source_label),
         affiliate_section = affiliate_section,
         context_section = context_section,
+        commercial_section = commercial_section,
         verified_rows = verified_rows,
         conditional_section = conditional_section,
     ))
@@ -1660,6 +1738,163 @@ fn validate_trust_pages(pages: &[TrustPage]) {
     }
 }
 
+fn validate_commercial_text(value: &str, maximum_length: usize, label: &str) {
+    assert!(
+        !value.trim().is_empty() && value == value.trim(),
+        "{label}: ожидалась непустая строка без внешних пробелов"
+    );
+    assert!(
+        value.chars().count() <= maximum_length,
+        "{label}: текст длиннее {maximum_length} символов"
+    );
+}
+
+fn contains_number_token(value: &str, number: usize) -> bool {
+    let needle = number.to_string();
+    value.match_indices(&needle).any(|(start, matched)| {
+        let before_is_digit = value[..start]
+            .chars()
+            .next_back()
+            .is_some_and(|character| character.is_ascii_digit());
+        let end = start + matched.len();
+        let after_is_digit = value[end..]
+            .chars()
+            .next()
+            .is_some_and(|character| character.is_ascii_digit());
+        !before_is_digit && !after_is_digit
+    })
+}
+
+fn validate_commercial_profiles(
+    file: &CommercialProfilesFile,
+    models: &[TvModel],
+    mounts: &[Mount],
+    graph: &[CompatibilityEdge],
+) {
+    assert_eq!(
+        file.schema_version, 1,
+        "Неподдерживаемая версия коммерческих профилей"
+    );
+    assert_eq!(
+        file.profiles.len(),
+        10,
+        "SEO-серия должна содержать ровно 10 проверенных профилей"
+    );
+
+    let expected = [
+        "mount:onkron-tm5-bw",
+        "mount:itech-plb440nt",
+        "mount:itech-ptrb440ln",
+        "mount:itech-slt-460",
+        "model:tcl-55c6k",
+        "model:hisense-55u7s",
+        "model:tcl-55c7l",
+        "model:hisense-65u7s",
+        "model:hisense-55u7s-pro",
+        "model:hisense-55e77sl",
+    ]
+    .into_iter()
+    .collect::<HashSet<_>>();
+    let mut keys = HashSet::new();
+    let mut paths = HashSet::new();
+
+    for profile in &file.profiles {
+        let key = format!("{}:{}", profile.entity_kind, profile.entity_id);
+        assert!(
+            expected.contains(key.as_str()),
+            "Неожиданный SEO-профиль {key}"
+        );
+        assert!(keys.insert(key.clone()), "Повторяется SEO-профиль {key}");
+        assert!(
+            paths.insert(profile.path.as_str()),
+            "Повторяется путь SEO-профиля {}",
+            profile.path
+        );
+
+        let expected_path = match profile.entity_kind.as_str() {
+            "model" => {
+                assert!(
+                    models.iter().any(|tv| tv.id == profile.entity_id),
+                    "Модель {} отсутствует в каталоге",
+                    profile.entity_id
+                );
+                format!("/modeli/{}/", profile.entity_id)
+            }
+            "mount" => {
+                assert!(
+                    mounts.iter().any(|mount| mount.id == profile.entity_id),
+                    "Кронштейн {} отсутствует в каталоге",
+                    profile.entity_id
+                );
+                format!("/kronshteyny/{}/", profile.entity_id)
+            }
+            other => panic!("Некорректный вид сущности SEO-профиля: {other}"),
+        };
+        assert_eq!(
+            profile.path, expected_path,
+            "SEO-профиль {key} привязан к неверному URL"
+        );
+        validate_commercial_text(&profile.title, 65, &format!("{key}.title"));
+        validate_commercial_text(&profile.description, 160, &format!("{key}.description"));
+        validate_commercial_text(&profile.kicker, 80, &format!("{key}.kicker"));
+        validate_commercial_text(&profile.heading, 160, &format!("{key}.heading"));
+        validate_commercial_text(&profile.answer, 1_200, &format!("{key}.answer"));
+        assert_eq!(profile.faq.len(), 3, "У {key} должно быть ровно 3 FAQ");
+        for (index, item) in profile.faq.iter().enumerate() {
+            validate_commercial_text(&item.question, 180, &format!("{key}.faq[{index}].question"));
+            validate_commercial_text(&item.answer, 600, &format!("{key}.faq[{index}].answer"));
+        }
+
+        let verified_count = graph
+            .iter()
+            .filter(|edge| {
+                edge.fit_status == "verified-fit"
+                    && match profile.entity_kind.as_str() {
+                        "model" => edge.tv_id == profile.entity_id,
+                        "mount" => edge.mount_id == profile.entity_id,
+                        _ => false,
+                    }
+            })
+            .count();
+        assert!(
+            verified_count > 0
+                && contains_number_token(&profile.answer, verified_count)
+                && contains_number_token(&profile.description, verified_count),
+            "SEO-профиль {key} не совпадает с текущим числом verified-fit: {verified_count}"
+        );
+
+        let searchable = format!(
+            "{} {} {} {} {} {}",
+            profile.title,
+            profile.description,
+            profile.kicker,
+            profile.heading,
+            profile.answer,
+            profile
+                .faq
+                .iter()
+                .map(|item| format!("{} {}", item.question, item.answer))
+                .collect::<Vec<_>>()
+                .join(" ")
+        )
+        .to_lowercase();
+        assert!(
+            !searchable.contains('₽')
+                && !searchable.contains(" руб")
+                && !searchable.contains("market.yandex")
+                && !searchable.contains("http://")
+                && !searchable.contains("https://"),
+            "SEO-профиль {key} содержит цену или внешнюю ссылку"
+        );
+    }
+
+    assert_eq!(
+        keys.iter().map(String::as_str).collect::<HashSet<_>>(),
+        expected,
+        "Набор коммерческих SEO-профилей изменён без подтверждённого спроса"
+    );
+}
+
 fn main() {
     let root = workspace_root();
     let data = root.join("data");
@@ -1671,6 +1906,8 @@ fn main() {
     let mounts: Vec<Mount> = read_json(&data.join("mounts.json"));
     let seo_pages: Vec<SeoPage> = read_json(&data.join("seo_pages.json"));
     let trust_pages: Vec<TrustPage> = read_json(&data.join("trust_pages.json"));
+    let commercial_profiles: CommercialProfilesFile =
+        read_json(&data.join("commercial_profiles.json"));
     let affiliate_snapshot: PublicAffiliateSnapshot =
         read_json(&data.join("affiliate/public-offers.json"));
     assert_eq!(
@@ -1682,10 +1919,12 @@ fn main() {
         "Некорректная дата генерации публичного affiliate snapshot"
     );
     let affiliate_now_seconds = unix_now_seconds();
+    let compatibility_graph = build_compatibility_graph(&models, &mounts);
     validate_models(&models);
     validate_mounts(&mounts);
     validate_seo_pages(&seo_pages);
     validate_trust_pages(&trust_pages);
+    validate_commercial_profiles(&commercial_profiles, &models, &mounts, &compatibility_graph);
 
     fs::copy(
         data.join("tv_models.json"),
@@ -1699,7 +1938,6 @@ fn main() {
         public_data.join("catalog-coverage.json"),
     )
     .expect("Не удалось скопировать manifest покрытия каталога");
-    let compatibility_graph = build_compatibility_graph(&models, &mounts);
     write(
         &public_data.join("compatibility-graph.json"),
         &serde_json::to_string_pretty(&compatibility_graph)
@@ -1715,6 +1953,11 @@ fn main() {
         public_data.join("trust-pages.json"),
     )
     .expect("Не удалось скопировать доверительные страницы");
+    fs::copy(
+        data.join("commercial_profiles.json"),
+        public_data.join("commercial-profiles.json"),
+    )
+    .expect("Не удалось скопировать коммерческие SEO-профили");
     fs::copy(
         data.join("affiliate/public-offers.json"),
         public_data.join("affiliate-offers.json"),
@@ -1811,13 +2054,25 @@ fn main() {
     );
 
     for tv in &models {
-        let title = format!(
-            "Кронштейн для {}: VESA {}×{} — KREPI TV",
-            tv.title, tv.vesa_width_mm, tv.vesa_height_mm
+        let commercial_profile =
+            commercial_profile_for(&commercial_profiles.profiles, "model", &tv.id);
+        let title = commercial_profile.map_or_else(
+            || {
+                format!(
+                    "Кронштейн для {}: VESA {}×{} — KREPI TV",
+                    tv.title, tv.vesa_width_mm, tv.vesa_height_mm
+                )
+            },
+            |profile| profile.title.clone(),
         );
-        let description = format!(
-            "Совместимые кронштейны для {}: VESA {}×{}, масса без подставки {} кг. Проверка по данным производителя.",
-            tv.title, tv.vesa_width_mm, tv.vesa_height_mm, tv.weight_kg
+        let description = commercial_profile.map_or_else(
+            || {
+                format!(
+                    "Совместимые кронштейны для {}: VESA {}×{}, масса без подставки {} кг. Проверка по данным производителя.",
+                    tv.title, tv.vesa_width_mm, tv.vesa_height_mm, tv.weight_kg
+                )
+            },
+            |profile| profile.description.clone(),
         );
         let matches = model_mount_matches(tv, &mounts);
         let static_body = model_page_body(
@@ -1826,6 +2081,7 @@ fn main() {
             &affiliate_snapshot.offers,
             affiliate_now_seconds,
             &seo_pages,
+            commercial_profile,
         );
         let canonical = format!("https://krepitv.ru/modeli/{}/", tv.id);
         let structured_data = format!(
@@ -1859,17 +2115,29 @@ fn main() {
     }
 
     for mount in &mounts {
-        let title = format!(
-            "Кронштейн {}: совместимые телевизоры — KREPI TV",
-            mount.title
+        let commercial_profile =
+            commercial_profile_for(&commercial_profiles.profiles, "mount", &mount.id);
+        let title = commercial_profile.map_or_else(
+            || {
+                format!(
+                    "Кронштейн {}: совместимые телевизоры — KREPI TV",
+                    mount.title
+                )
+            },
+            |profile| profile.title.clone(),
         );
-        let description = format!(
-            "{}: {} кронштейн, нагрузка до {} кг, диагонали {}–{}″. Проверка совместимости с моделями телевизоров.",
-            mount.title,
-            mechanism_label(&mount.mechanism),
-            mount.max_load_kg,
-            mount.min_diagonal_in,
-            mount.max_diagonal_in,
+        let description = commercial_profile.map_or_else(
+            || {
+                format!(
+                    "{}: {} кронштейн, нагрузка до {} кг, диагонали {}–{}″. Проверка совместимости с моделями телевизоров.",
+                    mount.title,
+                    mechanism_label(&mount.mechanism),
+                    mount.max_load_kg,
+                    mount.min_diagonal_in,
+                    mount.max_diagonal_in,
+                )
+            },
+            |profile| profile.description.clone(),
         );
         let static_body = mount_page_body(
             mount,
@@ -1877,6 +2145,7 @@ fn main() {
             &compatibility_graph,
             &affiliate_snapshot.offers,
             affiliate_now_seconds,
+            commercial_profile,
         );
         let canonical = format!("https://krepitv.ru/kronshteyny/{}/", mount.id);
         let structured_data = format!(
@@ -2018,11 +2287,13 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        PublicAffiliateSnapshot, SeoPage, TvModel, affiliate_offer_placeholder_html,
-        brand_catalog_html, build_compatibility_graph, escape_html, is_indexable_model,
-        is_indexable_mount, is_indexable_seo_page, is_publishable_affiliate_offer,
-        is_valid_iso_date, json_ld_script, mount_page_body, parse_rfc3339_utc_seconds, read_json,
-        related_seo_pages, seo_calculator_note, seo_catalog_html, workspace_root,
+        CommercialProfilesFile, PublicAffiliateSnapshot, SeoPage, TvModel,
+        affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
+        commercial_profile_for, escape_html, is_indexable_model, is_indexable_mount,
+        is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
+        model_mount_matches, model_page_body, mount_page_body, parse_rfc3339_utc_seconds,
+        read_json, related_seo_pages, seo_calculator_note, seo_catalog_html,
+        validate_commercial_profiles, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -2298,6 +2569,58 @@ mod tests {
     }
 
     #[test]
+    fn demand_backed_commercial_profiles_render_once_on_existing_entity_pages() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let seo_pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let profiles: CommercialProfilesFile =
+            read_json(&root.join("data/commercial_profiles.json"));
+        let graph = build_compatibility_graph(&models, &mounts);
+
+        validate_commercial_profiles(&profiles, &models, &mounts, &graph);
+        assert_eq!(profiles.profiles.len(), 10);
+
+        for profile in &profiles.profiles {
+            let marker = format!(
+                "data-commercial-profile=\"{}:{}\"",
+                profile.entity_kind, profile.entity_id
+            );
+            let body = match profile.entity_kind.as_str() {
+                "model" => {
+                    let tv = models
+                        .iter()
+                        .find(|tv| tv.id == profile.entity_id)
+                        .expect("SEO-профиль должен ссылаться на модель");
+                    let matches = model_mount_matches(tv, &mounts);
+                    model_page_body(tv, &matches, &[], 0, &seo_pages, Some(profile))
+                }
+                "mount" => {
+                    let mount = mounts
+                        .iter()
+                        .find(|mount| mount.id == profile.entity_id)
+                        .expect("SEO-профиль должен ссылаться на кронштейн");
+                    mount_page_body(mount, &models, &graph, &[], 0, Some(profile))
+                }
+                _ => unreachable!(),
+            };
+
+            assert_eq!(body.matches(&marker).count(), 1);
+            assert!(body.contains(&escape_html(&profile.heading)));
+            assert!(body.contains(&escape_html(&profile.answer)));
+            for item in &profile.faq {
+                assert!(body.contains(&escape_html(&item.question)));
+                assert!(body.contains(&escape_html(&item.answer)));
+            }
+        }
+
+        let profile = commercial_profile_for(&profiles.profiles, "model", "tcl-55c6k")
+            .expect("Нет проверенного коммерческого профиля");
+        assert_eq!(profile.path, "/modeli/tcl-55c6k/");
+        assert!(commercial_profile_for(&profiles.profiles, "model", "lg-oled65c4").is_none());
+    }
+
+    #[test]
     fn brand_and_diagonal_pages_have_reciprocal_static_links() {
         let page = |id: &str, kind: &str| SeoPage {
             id: id.into(),
@@ -2553,7 +2876,7 @@ mod tests {
         );
 
         for mount in &mounts {
-            let body = mount_page_body(mount, &models, &graph, &[], 0);
+            let body = mount_page_body(mount, &models, &graph, &[], 0, None);
             assert!(body.contains("/kupit-kronshteyn-dlya-televizora/"));
             if mount.mechanism == "full-motion" {
                 assert!(body.contains("/tipy-kronshteynov/vydvizhnoy/"));
@@ -2593,7 +2916,7 @@ mod tests {
             .expect("Affiliate offer должен ссылаться на кронштейн из каталога");
         let graph = build_compatibility_graph(&models, &mounts);
         let now = parse_rfc3339_utc_seconds(&offer.checked_at).expect("Дата должна разбираться");
-        let body = mount_page_body(mount, &models, &graph, &snapshot.offers, now);
+        let body = mount_page_body(mount, &models, &graph, &snapshot.offers, now, None);
         let slot_position = body
             .find("data-affiliate-slot=")
             .expect("Статический affiliate slot отсутствует");

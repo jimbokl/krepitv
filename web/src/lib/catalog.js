@@ -1,4 +1,5 @@
 import { getFreshAffiliateOffers } from "./affiliateOffer.mjs";
+import { parseCommercialProfiles } from "./commercialProfiles.mjs";
 
 let catalogPromise;
 let enginePromise;
@@ -37,13 +38,15 @@ export function loadCatalog() {
       fetch("/data/model-search.json").then(assertResponse),
       fetch("/data/seo-pages.json").then(assertResponse),
       fetch("/data/compatibility-graph.json").then(assertResponse),
+      fetch("/data/commercial-profiles.json").then(assertResponse),
       loadFreshAffiliateOffers(),
-    ]).then(async ([models, mounts, search, seoPages, compatibilityEdges, affiliateOffers]) => ({
+    ]).then(async ([models, mounts, search, seoPages, compatibilityEdges, commercialProfiles, affiliateOffers]) => ({
       models: await models.json(),
       mounts: await mounts.json(),
       search: await search.json(),
       seoPages: await seoPages.json(),
       compatibilityEdges: await compatibilityEdges.json(),
+      commercialProfiles: parseCommercialProfiles(await commercialProfiles.json()),
       affiliateOffers,
     }));
   }

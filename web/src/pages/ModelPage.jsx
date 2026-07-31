@@ -10,6 +10,7 @@ import {
 } from "@phosphor-icons/react";
 import { AffiliateLink } from "../components/AffiliateOffer.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
+import { CommercialProfile } from "../components/CommercialProfile.jsx";
 import { ModelFacts, formatNumber } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
@@ -17,6 +18,7 @@ import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TrustMark, formatCheckedDate } from "../components/TrustMark.jsx";
 import { mountHref } from "../lib/catalog.js";
 import { getAffiliatePresentation, selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
+import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
 import { getModelContextPages } from "../lib/seoPages.mjs";
 
 export function ModelPage({ catalog, modelId }) {
@@ -39,6 +41,11 @@ export function ModelPage({ catalog, modelId }) {
   if (!model) {
     return <MissingModel catalog={catalog} />;
   }
+  const commercialProfile = selectCommercialProfile(catalog.commercialProfiles, {
+    entityKind: "model",
+    entityId: model.id,
+    pagePath: `/modeli/${model.id}/`,
+  });
 
   function openModel(item) {
     window.location.assign(item.href || `/modeli/${item.id}/`);
@@ -58,6 +65,8 @@ export function ModelPage({ catalog, modelId }) {
             <span className="sm:text-right">Данные проверены: {formatCheckedDate(model.checked_at)}</span>
           </div>
         </section>
+
+        <CommercialProfile profile={commercialProfile} />
 
         <section className="grid border-b-2 border-ink lg:grid-cols-[minmax(22rem,0.9fr)_minmax(0,1.15fr)]">
           <div className="border-b border-ink py-6 lg:border-b-0 lg:border-r lg:pr-8">

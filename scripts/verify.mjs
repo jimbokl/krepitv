@@ -8,6 +8,18 @@ const docs = path.join(root, "docs");
 const origin = "https://krepitv.ru";
 const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
+const expectedCommercialProfiles = new Set([
+  "mount:onkron-tm5-bw:/kronshteyny/onkron-tm5-bw/",
+  "mount:itech-plb440nt:/kronshteyny/itech-plb440nt/",
+  "mount:itech-ptrb440ln:/kronshteyny/itech-ptrb440ln/",
+  "mount:itech-slt-460:/kronshteyny/itech-slt-460/",
+  "model:tcl-55c6k:/modeli/tcl-55c6k/",
+  "model:tcl-55c7l:/modeli/tcl-55c7l/",
+  "model:hisense-55u7s:/modeli/hisense-55u7s/",
+  "model:hisense-65u7s:/modeli/hisense-65u7s/",
+  "model:hisense-55u7s-pro:/modeli/hisense-55u7s-pro/",
+  "model:hisense-55e77sl:/modeli/hisense-55e77sl/",
+]);
 
 async function walk(directory) {
   const entries = await readdir(directory);
@@ -57,6 +69,15 @@ function decodeHtmlAttribute(value) {
     .replaceAll("&#39;", "'")
     .replaceAll("&lt;", "<")
     .replaceAll("&gt;", ">");
+}
+
+function escapeHtmlText(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function metaContent(html, name) {
@@ -120,6 +141,48 @@ function assertHttpsSource(item, label) {
   }
 }
 
+function assertExactKeys(value, expected, label) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error(`${label}: ожидался объект`);
+  }
+  const actual = Object.keys(value).sort();
+  const wanted = [...expected].sort();
+  if (actual.length !== wanted.length || actual.some((key, index) => key !== wanted[index])) {
+    throw new Error(
+      `${label}: неверный набор полей (${actual.join(", ") || "пусто"})`,
+    );
+  }
+}
+
+function assertNonEmptyString(value, label) {
+  if (typeof value !== "string" || !value.trim() || value !== value.trim()) {
+    throw new Error(`${label}: ожидалась непустая строка без внешних пробелов`);
+  }
+}
+
+function assertNoNumericPrice(profile) {
+  const text = [
+    profile.title,
+    profile.description,
+    profile.kicker,
+    profile.heading,
+    profile.answer,
+    ...profile.faq.flatMap((item) => [item.question, item.answer]),
+  ].join("\n");
+  const currency = /(?:₽|\bруб(?:\.|ль|ля|лей)?\b)/iu;
+  const numericPrice = /\b(?:цена|стоимость)\s*(?::|—|–|-)?\s*(?:от\s+|до\s+)?\d/iu;
+  if (currency.test(text) || numericPrice.test(text)) {
+    throw new Error(
+      `Коммерческий профиль ${profile.entity_kind}:${profile.entity_id} содержит числовую цену или обозначение рублей`,
+    );
+  }
+}
+
+function containsNumberToken(value, number) {
+  const escaped = String(number).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?:^|\\D)${escaped}(?:\\D|$)`, "u").test(value);
+}
+
 const files = await walk(docs);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
 const yandexVerificationFiles = htmlFiles.filter((file) =>
@@ -159,6 +222,7 @@ const required = [
   "data/compatibility-graph.json",
   "data/catalog-coverage.json",
   "data/affiliate-offers.json",
+  "data/commercial-profiles.json",
   "favicon.svg",
   "robots.txt",
   "sitemap.xml",
@@ -185,8 +249,148 @@ const coverageManifest = JSON.parse(
 );
 const seoPages = JSON.parse(await readFile(path.join(docs, "data/seo-pages.json"), "utf8"));
 const trustPages = JSON.parse(await readFile(path.join(docs, "data/trust-pages.json"), "utf8"));
+const sourceCommercialProfilesRaw = await readFile(
+  path.join(root, "data/commercial_profiles.json"),
+  "utf8",
+);
+const publicCommercialProfilesRaw = await readFile(
+  path.join(docs, "data/commercial-profiles.json"),
+  "utf8",
+);
+const commercialProfilesManifest = JSON.parse(publicCommercialProfilesRaw);
 const affiliateSnapshot = JSON.parse(
   await readFile(path.join(docs, "data/affiliate-offers.json"), "utf8"),
+);
+
+if (sourceCommercialProfilesRaw !== publicCommercialProfilesRaw) {
+  throw new Error("Публичная копия commercial-profiles.json отличается от исходного файла");
+}
+assertExactKeys(
+  commercialProfilesManifest,
+  ["schema_version", "profiles"],
+  "Манифест коммерческих профилей",
+);
+if (
+  commercialProfilesManifest.schema_version !== 1 ||
+  !Array.isArray(commercialProfilesManifest.profiles)
+) {
+  throw new Error("Манифест коммерческих профилей: ожидаются schema_version=1 и массив profiles");
+}
+const commercialProfiles = commercialProfilesManifest.profiles;
+if (commercialProfiles.length !== expectedCommercialProfiles.size) {
+  throw new Error(
+    `Коммерческие профили: ожидалось ровно ${expectedCommercialProfiles.size}, найдено ${commercialProfiles.length}`,
+  );
+}
+
+for (const profile of commercialProfiles) {
+  const identity = `${profile?.entity_kind}:${profile?.entity_id}:${profile?.path}`;
+  assertExactKeys(
+    profile,
+    [
+      "entity_kind",
+      "entity_id",
+      "path",
+      "title",
+      "description",
+      "kicker",
+      "heading",
+      "answer",
+      "faq",
+    ],
+    `Коммерческий профиль ${identity}`,
+  );
+  for (const field of [
+    "entity_kind",
+    "entity_id",
+    "path",
+    "title",
+    "description",
+    "kicker",
+    "heading",
+    "answer",
+  ]) {
+    assertNonEmptyString(profile[field], `Коммерческий профиль ${identity}, поле ${field}`);
+  }
+  if (!expectedCommercialProfiles.has(identity)) {
+    throw new Error(`Коммерческий профиль вне разрешённого набора: ${identity}`);
+  }
+  const entityExists =
+    profile.entity_kind === "model"
+      ? models.some((model) => model.id === profile.entity_id)
+      : mounts.some((mount) => mount.id === profile.entity_id);
+  if (!entityExists) {
+    throw new Error(`Коммерческий профиль ссылается на неизвестную сущность: ${identity}`);
+  }
+  if (profile.title.length > 65) {
+    throw new Error(`Коммерческий профиль ${identity}: title длиннее 65 символов`);
+  }
+  if (profile.description.length > 160) {
+    throw new Error(`Коммерческий профиль ${identity}: description длиннее 160 символов`);
+  }
+  for (const [field, maximumLength] of [
+    ["kicker", 80],
+    ["heading", 160],
+    ["answer", 1_200],
+  ]) {
+    if (profile[field].length > maximumLength) {
+      throw new Error(
+        `Коммерческий профиль ${identity}: ${field} длиннее ${maximumLength} символов`,
+      );
+    }
+  }
+  if (!Array.isArray(profile.faq) || profile.faq.length !== 3) {
+    throw new Error(`Коммерческий профиль ${identity}: FAQ должен содержать ровно 3 пары`);
+  }
+  profile.faq.forEach((item, index) => {
+    assertExactKeys(
+      item,
+      ["question", "answer"],
+      `Коммерческий профиль ${identity}, FAQ ${index + 1}`,
+    );
+    assertNonEmptyString(
+      item.question,
+      `Коммерческий профиль ${identity}, вопрос FAQ ${index + 1}`,
+    );
+    assertNonEmptyString(
+      item.answer,
+      `Коммерческий профиль ${identity}, ответ FAQ ${index + 1}`,
+    );
+    if (item.question.length > 180 || item.answer.length > 600) {
+      throw new Error(
+        `Коммерческий профиль ${identity}, FAQ ${index + 1}: превышен клиентский лимит текста`,
+      );
+    }
+  });
+  const verifiedCount = compatibilityEdges.filter(
+    (edge) =>
+      edge.fit_status === "verified-fit" &&
+      (profile.entity_kind === "model"
+        ? edge.tv_id === profile.entity_id
+        : edge.mount_id === profile.entity_id),
+  ).length;
+  if (
+    verifiedCount < 1 ||
+    !containsNumberToken(profile.answer, verifiedCount) ||
+    !containsNumberToken(profile.description, verifiedCount)
+  ) {
+    throw new Error(
+      `Коммерческий профиль ${identity}: заявленное число совместимых позиций не совпадает с графом (${verifiedCount})`,
+    );
+  }
+  assertNoNumericPrice(profile);
+}
+assertUnique(
+  commercialProfiles.map((profile) => `${profile.entity_kind}:${profile.entity_id}`),
+  "Коммерческие профили, kind:id",
+);
+assertUnique(
+  commercialProfiles.map((profile) => profile.path),
+  "Коммерческие профили, пути",
+);
+assertUnique(
+  commercialProfiles.map((profile) => `${profile.entity_kind}:${profile.entity_id}:${profile.path}`),
+  "Коммерческие профили, полная идентичность",
 );
 const publishableAffiliateOffers = (affiliateSnapshot.offers ?? []).filter(
   (offer) => offer.publishable && offer.eligibility === "publishable",
@@ -442,6 +646,63 @@ for (const file of pageHtmlFiles) {
     } else {
       throw new Error(`Партнёрская ссылка без режима размещения: ${path.relative(root, file)}`);
     }
+  }
+}
+
+const profilesByMarker = new Map(
+  commercialProfiles.map((profile) => [
+    `${profile.entity_kind}:${profile.entity_id}`,
+    profile,
+  ]),
+);
+for (const [route, html] of htmlByRoute) {
+  const markerTags = html.match(
+    /<[a-z][^>]*\bdata-commercial-profile=["'][^"']+["'][^>]*>/gi,
+  ) ?? [];
+  for (const tag of markerTags) {
+    const marker = matchAttribute(tag, "data-commercial-profile");
+    const profile = profilesByMarker.get(marker);
+    if (!profile || profile.path !== route) {
+      throw new Error(`Неожиданный SSR-маркер коммерческого профиля ${marker} на ${route}`);
+    }
+  }
+}
+
+for (const profile of commercialProfiles) {
+  const identity = `${profile.entity_kind}:${profile.entity_id}`;
+  const html = htmlByRoute.get(profile.path);
+  if (!html) {
+    throw new Error(`Нет статического URL коммерческого профиля: ${profile.path}`);
+  }
+  const markerTags = (html.match(
+    /<[a-z][^>]*\bdata-commercial-profile=["'][^"']+["'][^>]*>/gi,
+  ) ?? []).filter(
+    (tag) => matchAttribute(tag, "data-commercial-profile") === identity,
+  );
+  if (markerTags.length !== 1) {
+    throw new Error(
+      `Коммерческий профиль ${identity} должен иметь ровно один SSR-маркер на ${profile.path}`,
+    );
+  }
+  if (decodeHtmlAttribute(titleFromHtml(html)) !== profile.title) {
+    throw new Error(`Коммерческий профиль ${identity}: HTML title не совпадает с манифестом`);
+  }
+  if (decodeHtmlAttribute(metaContent(html, "description")) !== profile.description) {
+    throw new Error(
+      `Коммерческий профиль ${identity}: meta description не совпадает с манифестом`,
+    );
+  }
+  if (decodeHtmlAttribute(canonicalFromHtml(html)) !== `${origin}${profile.path}`) {
+    throw new Error(`Коммерческий профиль ${identity}: неверный canonical`);
+  }
+  const requiredStaticText = [
+    profile.kicker,
+    profile.heading,
+    profile.answer,
+    ...profile.faq.flatMap((item) => [item.question, item.answer]),
+  ];
+  if (!requiredStaticText.every((value) => html.includes(escapeHtmlText(value)))) {
+    throw new Error(`Коммерческий профиль ${identity}: SSR содержит не весь материал`);
   }
 }
 

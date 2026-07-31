@@ -11,11 +11,13 @@ import {
 } from "@phosphor-icons/react";
 import AffiliateOffer from "../components/AffiliateOffer.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
+import { CommercialProfile } from "../components/CommercialProfile.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
 import { selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
+import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
 
 export function MountPage({ catalog, mountId }) {
   const mount = catalog.mounts.find((item) => item.id === mountId);
@@ -56,6 +58,11 @@ export function MountPage({ catalog, mountId }) {
     (edge) => edge.fit_status === "conditional-fit",
   );
   const contextLinks = mountContextLinks(mount);
+  const commercialProfile = selectCommercialProfile(catalog.commercialProfiles, {
+    entityKind: "mount",
+    entityId: mount.id,
+    pagePath: `/kronshteyny/${mount.id}/`,
+  });
 
   return (
     <main className="min-h-screen bg-paper text-ink">
@@ -86,6 +93,8 @@ export function MountPage({ catalog, mountId }) {
             </a>
           ))}
         </nav>
+
+        <CommercialProfile profile={commercialProfile} />
 
         {affiliateOffer ? (
           <section className="border-b-2 border-ink py-7">
