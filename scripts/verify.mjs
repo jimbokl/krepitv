@@ -286,6 +286,63 @@ for (const page of seoPages) {
   if (typeof page.indexable !== "boolean") {
     throw new Error(`SEO-материал ${page.id}: поле indexable должно быть boolean`);
   }
+  const filter = (() => {
+    if (page.kind === "mount-brand") {
+      const brand = page.id.replace(/^mount-brand-/i, "").toLocaleLowerCase("ru-RU");
+      return {
+        minimum: 4,
+        entityIds: mounts
+          .filter((mount) => mount.brand.toLocaleLowerCase("ru-RU") === brand)
+          .map((mount) => mount.id),
+        edgeKey: "mount_id",
+      };
+    }
+    if (page.kind === "brand") {
+      const brand = page.id.replace(/^brand-/i, "").toLocaleLowerCase("ru-RU");
+      return {
+        minimum: 5,
+        entityIds: models
+          .filter((model) => model.brand.toLocaleLowerCase("ru-RU") === brand)
+          .map((model) => model.id),
+        edgeKey: "tv_id",
+      };
+    }
+    if (page.kind === "diagonal") {
+      const diagonal = Number(page.id.replace(/^diagonal-/i, ""));
+      return {
+        minimum: 4,
+        entityIds: models
+          .filter((model) => Math.abs(model.diagonal_inches - diagonal) < 0.05)
+          .map((model) => model.id),
+        edgeKey: "tv_id",
+      };
+    }
+    if (page.kind === "vesa") {
+      const [width, height] = page.id.replace(/^vesa-/i, "").split("x").map(Number);
+      return {
+        minimum: 5,
+        entityIds: models
+          .filter((model) => model.vesa_width_mm === width && model.vesa_height_mm === height)
+          .map((model) => model.id),
+        edgeKey: "tv_id",
+      };
+    }
+    return null;
+  })();
+  if (page.indexable && filter) {
+    if (filter.entityIds.length < filter.minimum) {
+      throw new Error(
+        `SEO-материал ${page.id}: индексируемый фильтр слишком тонкий (${filter.entityIds.length} < ${filter.minimum})`,
+      );
+    }
+    const entityIds = new Set(filter.entityIds);
+    const verifiedPairs = compatibilityEdges.filter(
+      (edge) => edge.fit_status === "verified-fit" && entityIds.has(edge[filter.edgeKey]),
+    ).length;
+    if (verifiedPairs < 25) {
+      throw new Error(`SEO-материал ${page.id}: недостаточно подтверждённых пар (${verifiedPairs} < 25)`);
+    }
+  }
 }
 
 const sourceFiles = (await walk(path.join(root, "web/src"))).filter((file) =>

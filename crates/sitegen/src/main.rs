@@ -915,8 +915,15 @@ fn mount_page_body(
             "Выдвижные кронштейны и расчёт вылета",
         ));
     }
-    if mount.brand.eq_ignore_ascii_case("ONKRON") {
-        context_links.push(("/kronshteyny-onkron/", "Все кронштейны ONKRON"));
+    let brand_hub = match mount.brand.to_ascii_lowercase().as_str() {
+        "holder" => Some(("/kronshteyny-holder/", "Все кронштейны Holder")),
+        "itechmount" => Some(("/kronshteyny-itechmount/", "Все кронштейны iTECHmount")),
+        "kromax" => Some(("/kronshteyny-kromax/", "Все кронштейны KROMAX")),
+        "onkron" => Some(("/kronshteyny-onkron/", "Все кронштейны ONKRON")),
+        _ => None,
+    };
+    if let Some(link) = brand_hub {
+        context_links.push(link);
     }
     let context_links = context_links
         .iter()
@@ -953,111 +960,121 @@ fn mount_page_body(
 }
 
 fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPage> {
-    let preferred_ids: &[&str] = match page.id.as_str() {
-        "wall-mounted-tv" => &[
-            "mounting-map",
-            "tv-zone-sockets",
-            "vesa",
+    let preferred_ids: &[&str] = if page.kind == "mount-brand" {
+        &[
+            "buy-tv-mount",
+            "extendable-mount",
             "full-motion-mount",
+            "tilt-mount",
+            "mount-brand-onkron",
+            "mount-brand-kromax",
+            "mount-brand-holder",
+            "mount-brand-itechmount",
+        ]
+    } else if page.kind == "brand" {
+        &[
+            "diagonal-50",
+            "diagonal-55",
+            "diagonal-75",
+            "vesa-300x300",
+            "vesa-400x400",
+            "brand-lg",
+            "brand-samsung",
+            "brand-hisense",
+            "brand-tcl",
+            "brand-xiaomi",
+        ]
+    } else if page.kind == "diagonal" {
+        &[
+            "buy-tv-mount",
             "mounting-height",
-        ],
-        "mounting-map" => &[
-            "tv-zone-sockets",
-            "wall-mounted-tv",
-            "mounting-height",
+            "vesa",
+            "brand-lg",
+            "brand-samsung",
+            "brand-hisense",
+            "brand-tcl",
+            "brand-xiaomi",
+        ]
+    } else if page.kind == "vesa" {
+        &[
             "vesa",
             "how-to-find-vesa",
-        ],
-        "tv-zone-sockets" => &["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
-        "vesa" => &["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
-        "vesa-200x200" | "vesa-300x200" => &[
-            "vesa",
-            "how-to-find-vesa",
+            "buy-tv-mount",
+            "diagonal-50",
             "diagonal-55",
+            "diagonal-75",
             "brand-lg",
             "brand-samsung",
-        ],
-        "diagonal-43" | "diagonal-55" | "diagonal-65" => &[
-            "wall-mounted-tv",
-            "mounting-height",
-            "vesa",
-            "brand-lg",
-            "brand-samsung",
-        ],
-        "brand-lg" => &[
-            "diagonal-43",
-            "diagonal-55",
-            "diagonal-65",
-            "vesa-200x200",
-            "vesa-300x200",
-            "brand-samsung",
-        ],
-        "brand-samsung" => &[
-            "diagonal-43",
-            "diagonal-55",
-            "diagonal-65",
-            "vesa-200x200",
-            "vesa-300x200",
-            "brand-lg",
-        ],
-        "fixed-mount" => &[
-            "buy-tv-mount",
-            "wall-mounted-tv",
-            "tilt-mount",
-            "full-motion-mount",
-            "mounting-height",
-        ],
-        "tilt-mount" => &[
-            "buy-tv-mount",
-            "mounting-height",
-            "mounting-map",
-            "wall-mounted-tv",
-            "fixed-mount",
-            "full-motion-mount",
-        ],
-        "full-motion-mount" => &[
-            "extendable-mount",
-            "buy-tv-mount",
-            "wall-mounted-tv",
-            "fixed-mount",
-            "tilt-mount",
-            "mounting-height",
-        ],
-        "buy-tv-mount" => &[
-            "wall-mounted-tv",
-            "extendable-mount",
-            "mount-brand-onkron",
-            "vesa",
-            "fixed-mount",
-            "tilt-mount",
-        ],
-        "extendable-mount" => &[
-            "buy-tv-mount",
-            "full-motion-mount",
-            "wall-mounted-tv",
-            "mount-brand-onkron",
-            "vesa",
-            "mounting-map",
-        ],
-        "mount-brand-onkron" => &[
-            "buy-tv-mount",
-            "extendable-mount",
-            "full-motion-mount",
-            "tilt-mount",
-            "vesa",
-            "wall-mounted-tv",
-        ],
-        "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
-        "mounting-height" => &[
-            "mounting-map",
-            "tilt-mount",
-            "tv-zone-sockets",
-            "wall-mounted-tv",
-            "viewing-distance",
-            "diagonal-55",
-        ],
-        "viewing-distance" => &["mounting-height", "diagonal-55", "full-motion-mount"],
-        _ => &["vesa", "how-to-find-vesa", "mounting-height"],
+        ]
+    } else {
+        match page.id.as_str() {
+            "wall-mounted-tv" => &[
+                "mounting-map",
+                "tv-zone-sockets",
+                "vesa",
+                "full-motion-mount",
+                "mounting-height",
+            ],
+            "mounting-map" => &[
+                "tv-zone-sockets",
+                "wall-mounted-tv",
+                "mounting-height",
+                "vesa",
+                "how-to-find-vesa",
+            ],
+            "tv-zone-sockets" => &["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
+            "vesa" => &["wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
+            "fixed-mount" => &[
+                "buy-tv-mount",
+                "wall-mounted-tv",
+                "tilt-mount",
+                "full-motion-mount",
+                "mounting-height",
+            ],
+            "tilt-mount" => &[
+                "buy-tv-mount",
+                "mounting-height",
+                "mounting-map",
+                "wall-mounted-tv",
+                "fixed-mount",
+                "full-motion-mount",
+            ],
+            "full-motion-mount" => &[
+                "extendable-mount",
+                "buy-tv-mount",
+                "wall-mounted-tv",
+                "fixed-mount",
+                "tilt-mount",
+                "mounting-height",
+            ],
+            "buy-tv-mount" => &[
+                "wall-mounted-tv",
+                "extendable-mount",
+                "mount-brand-onkron",
+                "vesa",
+                "fixed-mount",
+                "tilt-mount",
+            ],
+            "extendable-mount" => &[
+                "buy-tv-mount",
+                "full-motion-mount",
+                "wall-mounted-tv",
+                "mount-brand-onkron",
+                "vesa",
+                "mounting-map",
+            ],
+            "how-to-find-vesa" => &["vesa", "vesa-200x200", "vesa-300x200"],
+            "mounting-height" => &[
+                "mounting-map",
+                "tilt-mount",
+                "tv-zone-sockets",
+                "wall-mounted-tv",
+                "viewing-distance",
+                "diagonal-55",
+            ],
+            "viewing-distance" => &["mounting-height", "diagonal-55", "full-motion-mount"],
+            _ => &["vesa", "how-to-find-vesa", "mounting-height"],
+        }
     };
 
     let mut related = Vec::new();
@@ -1076,6 +1093,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             related.push(candidate);
         }
     }
+    related.truncate(6);
     related
 }
 
@@ -2203,14 +2221,8 @@ mod tests {
             &graph,
         );
         assert!(extendable_html.contains("Проверенные выдвижные кронштейны"));
-        assert!(extendable_html.contains(&format!(
-            "/kronshteyny/{}/",
-            full_motion_mount.id
-        )));
-        assert!(!extendable_html.contains(&format!(
-            "/kronshteyny/{}/",
-            non_full_motion_mount.id
-        )));
+        assert!(extendable_html.contains(&format!("/kronshteyny/{}/", full_motion_mount.id)));
+        assert!(!extendable_html.contains(&format!("/kronshteyny/{}/", non_full_motion_mount.id)));
 
         let commercial_html = seo_catalog_html(
             &page("buy-tv-mount", "commercial"),
@@ -2241,6 +2253,25 @@ mod tests {
         assert!(onkron_html.contains(&format!("/kronshteyny/{}/", onkron_mount.id)));
         assert!(!onkron_html.contains(&format!("/kronshteyny/{}/", other_mount.id)));
 
+        for (page_id, brand) in [
+            ("mount-brand-kromax", "KROMAX"),
+            ("mount-brand-holder", "Holder"),
+            ("mount-brand-itechmount", "iTECHmount"),
+        ] {
+            let brand_mount = mounts
+                .iter()
+                .find(|mount| mount.brand == brand)
+                .expect("В каталоге нужен кронштейн проверяемого бренда");
+            let foreign_mount = mounts
+                .iter()
+                .find(|mount| mount.brand != brand)
+                .expect("В каталоге нужен кронштейн другого бренда");
+            let html = seo_catalog_html(&page(page_id, "mount-brand"), &models, &mounts, &graph);
+            assert!(html.contains(&format!("Проверенные кронштейны {brand}")));
+            assert!(html.contains(&format!("/kronshteyny/{}/", brand_mount.id)));
+            assert!(!html.contains(&format!("/kronshteyny/{}/", foreign_mount.id)));
+        }
+
         let lg_model = models
             .iter()
             .find(|tv| tv.brand == "LG")
@@ -2254,6 +2285,49 @@ mod tests {
         assert!(!brand_html.contains(&format!("/modeli/{}/", non_lg_model.id)));
         assert!(brand_html.contains("Проверенные телевизоры LG"));
         assert!(brand_html.contains("Диагоналей"));
+
+        for brand in ["Hisense", "TCL", "Xiaomi"] {
+            let brand_id = format!("brand-{}", brand.to_ascii_lowercase());
+            let own_model = models
+                .iter()
+                .find(|tv| tv.brand == brand)
+                .expect("В каталоге нужна модель проверяемого бренда");
+            let foreign_model = models
+                .iter()
+                .find(|tv| tv.brand != brand)
+                .expect("В каталоге нужна модель другого бренда");
+            let html = seo_catalog_html(&page(&brand_id, "brand"), &models, &mounts, &graph);
+            assert!(html.contains(&format!("/modeli/{}/", own_model.id)));
+            assert!(!html.contains(&format!("/modeli/{}/", foreign_model.id)));
+        }
+    }
+
+    #[test]
+    fn demand_backed_wave_two_pages_are_substantial_and_indexable() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        for id in [
+            "diagonal-50",
+            "diagonal-75",
+            "vesa-300x300",
+            "vesa-400x400",
+            "brand-hisense",
+            "brand-tcl",
+            "brand-xiaomi",
+            "mount-brand-kromax",
+            "mount-brand-holder",
+            "mount-brand-itechmount",
+        ] {
+            let page = pages
+                .iter()
+                .find(|page| page.id == id)
+                .expect("Нет страницы второй SEO-волны");
+            assert!(page.indexable, "{id} должна быть индексируемой");
+            assert!(page.facts.len() >= 5, "{id}: недостаточно проверок");
+            assert!(page.faq.len() >= 5, "{id}: недостаточно FAQ");
+            assert!(!page.lead.contains("руб"), "{id}: нельзя фиксировать цену");
+        }
+        assert!(pages.iter().all(|page| page.id != "diagonal-85"));
+        assert!(pages.iter().all(|page| page.id != "vesa-600x400"));
     }
 
     #[test]
@@ -2272,15 +2346,32 @@ mod tests {
         };
         let pages = vec![
             page("diagonal-43", "diagonal"),
+            page("diagonal-50", "diagonal"),
             page("diagonal-55", "diagonal"),
             page("diagonal-65", "diagonal"),
+            page("diagonal-75", "diagonal"),
             page("brand-lg", "brand"),
             page("brand-samsung", "brand"),
+            page("brand-hisense", "brand"),
+            page("brand-tcl", "brand"),
+            page("brand-xiaomi", "brand"),
             page("vesa-200x200", "vesa"),
             page("vesa-300x200", "vesa"),
+            page("vesa-300x300", "vesa"),
+            page("vesa-400x400", "vesa"),
+            page("buy-tv-mount", "commercial"),
+            page("mounting-height", "calculator"),
+            page("vesa", "guide"),
+            page("how-to-find-vesa", "guide"),
         ];
 
-        for diagonal_id in ["diagonal-43", "diagonal-55", "diagonal-65"] {
+        for diagonal_id in [
+            "diagonal-43",
+            "diagonal-50",
+            "diagonal-55",
+            "diagonal-65",
+            "diagonal-75",
+        ] {
             let diagonal = pages
                 .iter()
                 .find(|page| page.id == diagonal_id)
@@ -2290,20 +2381,25 @@ mod tests {
             assert!(related.iter().any(|page| page.id == "brand-samsung"));
         }
 
-        for brand_id in ["brand-lg", "brand-samsung"] {
+        for brand_id in [
+            "brand-lg",
+            "brand-samsung",
+            "brand-hisense",
+            "brand-tcl",
+            "brand-xiaomi",
+        ] {
             let brand = pages
                 .iter()
                 .find(|page| page.id == brand_id)
                 .expect("Нет страницы бренда");
             let related = related_seo_pages(brand, &pages);
-            assert!(related.iter().any(|page| page.id == "diagonal-43"));
-            assert!(related.iter().any(|page| page.id == "diagonal-55"));
-            assert!(related.iter().any(|page| page.id == "diagonal-65"));
+            assert!(related.iter().any(|page| page.kind == "diagonal"));
             assert!(
                 related
                     .iter()
                     .any(|page| page.id != brand_id && page.kind == "brand")
             );
+            assert!(related.len() <= 6);
         }
     }
 
@@ -2495,9 +2591,14 @@ mod tests {
             if mount.mechanism == "full-motion" {
                 assert!(body.contains("/tipy-kronshteynov/vydvizhnoy/"));
             }
-            if mount.brand == "ONKRON" {
-                assert!(body.contains("/kronshteyny-onkron/"));
-            }
+            let brand_path = match mount.brand.as_str() {
+                "Holder" => "/kronshteyny-holder/",
+                "iTECHmount" => "/kronshteyny-itechmount/",
+                "KROMAX" => "/kronshteyny-kromax/",
+                "ONKRON" => "/kronshteyny-onkron/",
+                other => panic!("Нет брендового хаба для {other}"),
+            };
+            assert!(body.contains(brand_path));
             for edge in graph.iter().filter(|edge| edge.mount_id == mount.id) {
                 assert!(body.contains(&format!("/modeli/{}/", edge.tv_id)));
                 for warning in &edge.warnings {

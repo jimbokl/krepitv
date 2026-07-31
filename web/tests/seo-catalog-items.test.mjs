@@ -3,7 +3,11 @@ import test from "node:test";
 import { getCatalogItems } from "../src/lib/seoCatalogItems.mjs";
 
 const catalog = {
-  models: [],
+  models: [
+    { id: "tcl-50", brand: "TCL", diagonal_inches: 50, vesa_width_mm: 300, vesa_height_mm: 300 },
+    { id: "lg-50", brand: "LG", diagonal_inches: 50, vesa_width_mm: 400, vesa_height_mm: 400 },
+    { id: "tcl-75", brand: "TCL", diagonal_inches: 75, vesa_width_mm: 400, vesa_height_mm: 400 },
+  ],
   mounts: [
     { id: "onkron-arm", brand: "ONKRON", mechanism: "full-motion" },
     { id: "onkron-tilt", brand: "ONKRON", mechanism: "tilt" },
@@ -26,4 +30,25 @@ test("extendable SEO page receives only full-motion mounts", () => {
 test("mount brand SEO page never mixes another brand", () => {
   const result = getCatalogItems({ id: "mount-brand-onkron", kind: "mount-brand" }, catalog);
   assert.deepEqual(result.values.map((item) => item.id), ["onkron-arm", "onkron-tilt"]);
+});
+
+test("all new mount-brand hubs use the exact catalog brand", () => {
+  const cases = [
+    ["mount-brand-kromax", ["other-arm"]],
+    ["mount-brand-holder", ["other-fixed"]],
+  ];
+  for (const [id, expected] of cases) {
+    const result = getCatalogItems({ id, kind: "mount-brand" }, catalog);
+    assert.deepEqual(result.values.map((item) => item.id), expected);
+  }
+});
+
+test("TV brand, diagonal and VESA hubs keep distinct filters", () => {
+  const brand = getCatalogItems({ id: "brand-tcl", kind: "brand" }, catalog);
+  const diagonal = getCatalogItems({ id: "diagonal-50", kind: "diagonal" }, catalog);
+  const vesa = getCatalogItems({ id: "vesa-400x400", kind: "vesa" }, catalog);
+
+  assert.deepEqual(brand.values.map((item) => item.id), ["tcl-50", "tcl-75"]);
+  assert.deepEqual(diagonal.values.map((item) => item.id), ["tcl-50", "lg-50"]);
+  assert.deepEqual(vesa.values.map((item) => item.id), ["lg-50", "tcl-75"]);
 });

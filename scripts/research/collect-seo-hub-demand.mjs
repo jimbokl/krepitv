@@ -128,6 +128,10 @@ for (const seed of seeds) {
   normalizedSeedKeys.add(key);
 }
 
+const landingCandidates = [...new Set(seeds.map((seed) => seed.candidate_path))]
+  .sort((left, right) => left.localeCompare(right, "ru"))
+  .map((pathname) => new URL(pathname, "https://krepitv.ru").href);
+
 await mkdir(outputRoot, { recursive: true });
 const savedRaw = reuseRaw
   ? JSON.parse(await readFile(path.join(outputRoot, "raw.json"), "utf8"))
@@ -184,11 +188,7 @@ const manifest = {
   schema_version: 1,
   research_contract: {
     product: "KREPI TV — независимый подбор кронштейна по точной модели телевизора",
-    landing_candidates: [
-      "https://krepitv.ru/kupit-kronshteyn-dlya-televizora/",
-      "https://krepitv.ru/tipy-kronshteynov/vydvizhnoy/",
-      "https://krepitv.ru/kronshteyny-onkron/",
-    ],
+    landing_candidates: landingCandidates,
     intended_conversion:
       "Проверка совместимости в собственном сервисе и необязательный переход по прямой партнёрской ссылке на Яндекс Маркет",
     relevance_rule:
@@ -199,7 +199,8 @@ const manifest = {
     devices: "все устройства",
     currency: "не применимо: CPC не собирался",
     search_scope: "поисковый спрос Wordstat Top queries; не CPC, не прогноз кликов и не награда",
-    operator: "кавычки фиксируют число слов, квадратные скобки фиксируют порядок",
+    operator:
+      "кавычки фиксируют число слов, квадратные скобки фиксируют порядок, ! фиксирует словоформу указанного слова",
     batch_size: seeds.length,
     authorization: "только исследование; запуск рекламы и расход не разрешены",
     interpretation:

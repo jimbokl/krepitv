@@ -232,8 +232,15 @@ function mountContextLinks(mount) {
       label: "Выдвижные кронштейны и расчёт вылета",
     });
   }
-  if (String(mount.brand ?? "").trim().toLocaleLowerCase("ru-RU") === "onkron") {
-    links.push({ href: "/kronshteyny-onkron/", label: "Все кронштейны ONKRON" });
+  const brandKey = String(mount.brand ?? "").trim().toLocaleLowerCase("ru-RU");
+  const brandHub = {
+    holder: { href: "/kronshteyny-holder/", label: "Все кронштейны Holder" },
+    itechmount: { href: "/kronshteyny-itechmount/", label: "Все кронштейны iTECHmount" },
+    kromax: { href: "/kronshteyny-kromax/", label: "Все кронштейны KROMAX" },
+    onkron: { href: "/kronshteyny-onkron/", label: "Все кронштейны ONKRON" },
+  }[brandKey];
+  if (brandHub) {
+    links.push(brandHub);
   }
   return links;
 }

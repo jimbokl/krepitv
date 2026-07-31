@@ -1,0 +1,1724 @@
+[
+  {
+    "seed": {
+      "candidate_id": "mount-brand-kromax",
+      "candidate_path": "/kronshteyny-kromax/",
+      "query": "!кронштейн kromax",
+      "variant": "latin-singular"
+    },
+    "operator_query": "\"[!кронштейн kromax]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1193",
+          "text": "крепеж для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "3037",
+          "text": "крепление кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "7392",
+          "text": "крепление для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "6138",
+          "text": "крепление vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "3980",
+          "text": "крепление для жалюзи"
+        },
+        {
+          "isAssociations": true,
+          "value": "327",
+          "text": "джокерная система крепления"
+        },
+        {
+          "isAssociations": true,
+          "value": "6616",
+          "text": "как повесить телевизор на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "441",
+          "text": "крепление для монитора на стол"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "крепление подкоса у52"
+        },
+        {
+          "isAssociations": true,
+          "value": "2739",
+          "text": "крепление бабочка"
+        },
+        {
+          "isAssociations": true,
+          "value": "435",
+          "text": "крепеж для кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "3571",
+          "text": "крепление для антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "398",
+          "text": "крепеж для полки на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "228",
+          "text": "потолочное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "354",
+          "text": "кронос крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "119",
+          "text": "чем крепить кабель в штробе"
+        },
+        {
+          "isAssociations": true,
+          "value": "149",
+          "text": "держатель для телевизора на стену поворотный"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2518",
+          "text": "кронштейн kromax"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-kromax",
+      "candidate_path": "/kronshteyny-kromax/",
+      "query": "!кронштейны kromax",
+      "variant": "latin-plural"
+    },
+    "operator_query": "\"[!кронштейны kromax]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1193",
+          "text": "крепеж для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "3037",
+          "text": "крепление кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "7392",
+          "text": "крепление для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "6138",
+          "text": "крепление vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "3980",
+          "text": "крепление для жалюзи"
+        },
+        {
+          "isAssociations": true,
+          "value": "327",
+          "text": "джокерная система крепления"
+        },
+        {
+          "isAssociations": true,
+          "value": "6616",
+          "text": "как повесить телевизор на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "441",
+          "text": "крепление для монитора на стол"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "крепление подкоса у52"
+        },
+        {
+          "isAssociations": true,
+          "value": "2739",
+          "text": "крепление бабочка"
+        },
+        {
+          "isAssociations": true,
+          "value": "435",
+          "text": "крепеж для кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "3571",
+          "text": "крепление для антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "398",
+          "text": "крепеж для полки на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "228",
+          "text": "потолочное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "354",
+          "text": "кронос крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "119",
+          "text": "чем крепить кабель в штробе"
+        },
+        {
+          "isAssociations": true,
+          "value": "149",
+          "text": "держатель для телевизора на стену поворотный"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2518",
+          "text": "кронштейны kromax"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-kromax",
+      "candidate_path": "/kronshteyny-kromax/",
+      "query": "!кронштейн кромакс",
+      "variant": "cyrillic-singular"
+    },
+    "operator_query": "\"[!кронштейн кромакс]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "221",
+          "text": "creaminstaller dlc unlocker"
+        },
+        {
+          "isAssociations": true,
+          "value": "666",
+          "text": "tefal easy fry grill xxl inox ey801d15"
+        },
+        {
+          "isAssociations": true,
+          "value": "6465",
+          "text": "kromax"
+        },
+        {
+          "isAssociations": true,
+          "value": "479",
+          "text": "аэрогриль tefal easy fry max ey245b10"
+        },
+        {
+          "isAssociations": true,
+          "value": "538",
+          "text": "onkron tm5"
+        },
+        {
+          "isAssociations": true,
+          "value": "236",
+          "text": "квик партс"
+        },
+        {
+          "isAssociations": true,
+          "value": "337",
+          "text": "onkron fm2"
+        },
+        {
+          "isAssociations": true,
+          "value": "377",
+          "text": "краб стригун опилио"
+        },
+        {
+          "isAssociations": true,
+          "value": "100",
+          "text": "коченкова ольга владимировна колопроктолог проктолог"
+        },
+        {
+          "isAssociations": true,
+          "value": "344",
+          "text": "onkron sn14"
+        },
+        {
+          "isAssociations": true,
+          "value": "699",
+          "text": "стандарт крепления vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "324",
+          "text": "onkron ts1881"
+        },
+        {
+          "isAssociations": true,
+          "value": "196",
+          "text": "onkron fm6"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "onkron np40"
+        },
+        {
+          "isAssociations": true,
+          "value": "1336",
+          "text": "клавиатура ajazz ak820 max"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "253",
+          "text": "кронштейн кромакс"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-kromax",
+      "candidate_path": "/kronshteyny-kromax/",
+      "query": "kromax !кронштейн",
+      "variant": "brand-first-singular"
+    },
+    "operator_query": "\"[kromax !кронштейн]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-holder",
+      "candidate_path": "/kronshteyny-holder/",
+      "query": "!кронштейн holder",
+      "variant": "latin-singular"
+    },
+    "operator_query": "\"[!кронштейн holder]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "6049",
+          "text": "крепление vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "5364",
+          "text": "дистанционные держатели"
+        },
+        {
+          "isAssociations": true,
+          "value": "9378",
+          "text": "держатель для полки"
+        },
+        {
+          "isAssociations": true,
+          "value": "642",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "9883",
+          "text": "держатель кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "6856",
+          "text": "держатель для ножей"
+        },
+        {
+          "isAssociations": true,
+          "value": "909",
+          "text": "держатель для дрели"
+        },
+        {
+          "isAssociations": true,
+          "value": "14186",
+          "text": "держатель стекла"
+        },
+        {
+          "isAssociations": true,
+          "value": "3338",
+          "text": "держатель для двери"
+        },
+        {
+          "isAssociations": true,
+          "value": "2301",
+          "text": "шарнирное крепление"
+        },
+        {
+          "isAssociations": true,
+          "value": "226",
+          "text": "вешалка на дверь без крепления"
+        },
+        {
+          "isAssociations": true,
+          "value": "4986",
+          "text": "держатель для инструмента"
+        },
+        {
+          "isAssociations": true,
+          "value": "453",
+          "text": "крепеж для кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "332",
+          "text": "держатель дмоу с"
+        },
+        {
+          "isAssociations": true,
+          "value": "285",
+          "text": "держатель для бокалов подвесной"
+        },
+        {
+          "isAssociations": true,
+          "value": "528",
+          "text": "держатель для полки на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "346",
+          "text": "держатель для проводов на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "144",
+          "text": "держатель для монитора на стол"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1078",
+          "text": "кронштейн holder"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-holder",
+      "candidate_path": "/kronshteyny-holder/",
+      "query": "!кронштейны holder",
+      "variant": "latin-plural"
+    },
+    "operator_query": "\"[!кронштейны holder]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-holder",
+      "candidate_path": "/kronshteyny-holder/",
+      "query": "!кронштейн холдер",
+      "variant": "cyrillic-singular"
+    },
+    "operator_query": "\"[!кронштейн холдер]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "7390",
+          "text": "крепление для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "3115",
+          "text": "скоба для крепления труб"
+        },
+        {
+          "isAssociations": true,
+          "value": "547",
+          "text": "uq holder"
+        },
+        {
+          "isAssociations": true,
+          "value": "1574",
+          "text": "держатель для кашпо"
+        },
+        {
+          "isAssociations": true,
+          "value": "1594",
+          "text": "держатель для бокалов"
+        },
+        {
+          "isAssociations": true,
+          "value": "909",
+          "text": "держатель для дрели"
+        },
+        {
+          "isAssociations": true,
+          "value": "404",
+          "text": "кольцо с резьбой для крепления"
+        },
+        {
+          "isAssociations": true,
+          "value": "1822",
+          "text": "держатель для микрофона"
+        },
+        {
+          "isAssociations": true,
+          "value": "6514",
+          "text": "держатель электродов"
+        },
+        {
+          "isAssociations": true,
+          "value": "266",
+          "text": "держатель 152"
+        },
+        {
+          "isAssociations": true,
+          "value": "370",
+          "text": "держатель для краскопульта"
+        },
+        {
+          "isAssociations": true,
+          "value": "4728",
+          "text": "держатель для крышек"
+        },
+        {
+          "isAssociations": true,
+          "value": "14680",
+          "text": "держатель предохранителя"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "потолочное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "444",
+          "text": "полкодержатель пеликан"
+        },
+        {
+          "isAssociations": true,
+          "value": "679",
+          "text": "держатель для флага"
+        },
+        {
+          "isAssociations": true,
+          "value": "3125",
+          "text": "клипсы зажимы"
+        },
+        {
+          "isAssociations": true,
+          "value": "827",
+          "text": "держатель предфильтра"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "69",
+          "text": "кронштейн холдер"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-itechmount",
+      "candidate_path": "/kronshteyny-itechmount/",
+      "query": "!кронштейн itechmount",
+      "variant": "full-brand-singular"
+    },
+    "operator_query": "\"[!кронштейн itechmount]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "676",
+          "text": "onkron g160"
+        },
+        {
+          "isAssociations": true,
+          "value": "907",
+          "text": "узел крепления ук н 01"
+        },
+        {
+          "isAssociations": true,
+          "value": "654",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "335",
+          "text": "onkron g150"
+        },
+        {
+          "isAssociations": true,
+          "value": "365",
+          "text": "onkron g100"
+        },
+        {
+          "isAssociations": true,
+          "value": "274",
+          "text": "onkron g130"
+        },
+        {
+          "isAssociations": true,
+          "value": "591",
+          "text": "узел крепления ук ок 01"
+        },
+        {
+          "isAssociations": true,
+          "value": "208",
+          "text": "onkron g90"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "крепление подкоса у52"
+        },
+        {
+          "isAssociations": true,
+          "value": "1203",
+          "text": "уголки для крепления полок"
+        },
+        {
+          "isAssociations": true,
+          "value": "402",
+          "text": "узел крепления натяжной ук н 01"
+        },
+        {
+          "isAssociations": true,
+          "value": "260",
+          "text": "талреп т 30 01"
+        },
+        {
+          "isAssociations": true,
+          "value": "329",
+          "text": "onkron g140"
+        },
+        {
+          "isAssociations": true,
+          "value": "7042",
+          "text": "держатель с защелкой"
+        },
+        {
+          "isAssociations": true,
+          "value": "202",
+          "text": "крепление для мониторов onkron g80"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "181",
+          "text": "кронштейн itechmount"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-itechmount",
+      "candidate_path": "/kronshteyny-itechmount/",
+      "query": "!кронштейны itechmount",
+      "variant": "full-brand-plural"
+    },
+    "operator_query": "\"[!кронштейны itechmount]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "mount-brand-itechmount",
+      "candidate_path": "/kronshteyny-itechmount/",
+      "query": "!кронштейн itech",
+      "variant": "short-brand-singular"
+    },
+    "operator_query": "\"[!кронштейн itech]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1042",
+          "text": "откидной стол с креплением к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "19957",
+          "text": "крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "6749",
+          "text": "крепление для раковины"
+        },
+        {
+          "isAssociations": true,
+          "value": "3000",
+          "text": "крепление кабеля к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "411",
+          "text": "крепление сип к опоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "419",
+          "text": "крепление для монитора на стол"
+        },
+        {
+          "isAssociations": true,
+          "value": "52705",
+          "text": "скоба крепления"
+        },
+        {
+          "isAssociations": true,
+          "value": "470",
+          "text": "крепеж для раковины к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "450",
+          "text": "крепление для монитора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "882",
+          "text": "крепление на дин рейку"
+        },
+        {
+          "isAssociations": true,
+          "value": "2854",
+          "text": "крепление металлочерепицы"
+        },
+        {
+          "isAssociations": true,
+          "value": "394",
+          "text": "крепление монитора к столу"
+        },
+        {
+          "isAssociations": true,
+          "value": "407",
+          "text": "крепление перил к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "676",
+          "text": "крепление экшн камеры на шлем"
+        },
+        {
+          "isAssociations": true,
+          "value": "505",
+          "text": "крепление акриловой ванны к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "453",
+          "text": "крепеж провода к стене"
+        },
+        {
+          "isAssociations": true,
+          "value": "645",
+          "text": "крепление для баннера"
+        },
+        {
+          "isAssociations": true,
+          "value": "310",
+          "text": "крепление для раковины к столешнице"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "24",
+          "text": "кронштейн itech"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-brand-hisense",
+      "candidate_path": "/kronshteyn-dlya-televizora-hisense/",
+      "query": "!кронштейн для !телевизора hisense",
+      "variant": "brand-tail"
+    },
+    "operator_query": "\"[!кронштейн для !телевизора hisense]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28838",
+          "text": "телевизор хайсенс"
+        },
+        {
+          "isAssociations": true,
+          "value": "987",
+          "text": "кронштейн для велосипеда на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "3635",
+          "text": "холодильник хайсенс"
+        },
+        {
+          "isAssociations": true,
+          "value": "1022",
+          "text": "кронштейн для планшета"
+        },
+        {
+          "isAssociations": true,
+          "value": "2894",
+          "text": "телевизор хайсенс 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "687",
+          "text": "коаксиальный кабель для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "4745",
+          "text": "хисенсе телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1409",
+          "text": "кронштейн для карниза для штор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1098",
+          "text": "сплит система хайсенс"
+        },
+        {
+          "isAssociations": true,
+          "value": "1073",
+          "text": "кронштейн для жалюзи"
+        },
+        {
+          "isAssociations": true,
+          "value": "977",
+          "text": "кронштейн для гардины"
+        },
+        {
+          "isAssociations": true,
+          "value": "265",
+          "text": "телевизор хайсенс 65 дюймов купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "325",
+          "text": "как подключить телевизор tcl к алисе"
+        },
+        {
+          "isAssociations": true,
+          "value": "654",
+          "text": "v2raytun на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "14972",
+          "text": "кронштейн крыла"
+        },
+        {
+          "isAssociations": true,
+          "value": "250",
+          "text": "как подключить пульт к телевизору hartens"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "526",
+          "text": "кронштейн для телевизора hisense"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-brand-tcl",
+      "candidate_path": "/kronshteyn-dlya-televizora-tcl/",
+      "query": "!кронштейн для !телевизора tcl",
+      "variant": "brand-tail"
+    },
+    "operator_query": "\"[!кронштейн для !телевизора tcl]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "40186",
+          "text": "телевизор тсл"
+        },
+        {
+          "isAssociations": true,
+          "value": "28838",
+          "text": "телевизор хайсенс"
+        },
+        {
+          "isAssociations": true,
+          "value": "2184",
+          "text": "как вывести экран айфона на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "8983",
+          "text": "телевизор bq"
+        },
+        {
+          "isAssociations": true,
+          "value": "287",
+          "text": "телевизор тсл 55 дюймов цена"
+        },
+        {
+          "isAssociations": true,
+          "value": "669",
+          "text": "тумба под телевизор с камином"
+        },
+        {
+          "isAssociations": true,
+          "value": "1910",
+          "text": "телевизор тсл 43"
+        },
+        {
+          "isAssociations": true,
+          "value": "182",
+          "text": "телевизор ксиоми 43 дюйма купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "1683",
+          "text": "телевизор тсл 55 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "809",
+          "text": "пульт для телевизора jvc"
+        },
+        {
+          "isAssociations": true,
+          "value": "4635",
+          "text": "тумба под телевизор в гостиную"
+        },
+        {
+          "isAssociations": true,
+          "value": "525",
+          "text": "телевизор dexp 55 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "747",
+          "text": "как подключить телевизор dexp к телефону"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "662",
+          "text": "кронштейн для телевизора tcl"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-brand-xiaomi",
+      "candidate_path": "/kronshteyn-dlya-televizora-xiaomi/",
+      "query": "!кронштейн для !телевизора xiaomi",
+      "variant": "brand-tail"
+    },
+    "operator_query": "\"[!кронштейн для !телевизора xiaomi]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "12196",
+          "text": "роутер сяоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "9243",
+          "text": "планшет ксиоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "3501",
+          "text": "весы сяоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "3541",
+          "text": "роутер ксиаоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "760",
+          "text": "ирригатор сяоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "2087",
+          "text": "тв приставка сяоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "1126",
+          "text": "купить планшет сяоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "1103",
+          "text": "весы ксиаоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "456",
+          "text": "как подключить роутер сяоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "128",
+          "text": "рецепты для аэрогриля сяоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "9500",
+          "text": "сяоми тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "601",
+          "text": "аэрогриль сяоми рецепты"
+        },
+        {
+          "isAssociations": true,
+          "value": "264",
+          "text": "ирригатор ксиаоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "450",
+          "text": "регистратор сяоми"
+        },
+        {
+          "isAssociations": true,
+          "value": "388",
+          "text": "блендер сяоми"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "539",
+          "text": "кронштейн для телевизора xiaomi"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-400x400",
+      "candidate_path": "/vesa/400x400/",
+      "query": "!кронштейн vesa 400x400",
+      "variant": "latin-vesa"
+    },
+    "operator_query": "\"[!кронштейн vesa 400x400]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "6466",
+          "text": "момент затяжки колесных болтов"
+        },
+        {
+          "isAssociations": true,
+          "value": "473",
+          "text": "траверса монтажная 20х30 3м"
+        },
+        {
+          "isAssociations": true,
+          "value": "558",
+          "text": "момент затяжки гбц змз 402"
+        },
+        {
+          "isAssociations": true,
+          "value": "641",
+          "text": "подъем гантелей на бицепс стоя"
+        },
+        {
+          "isAssociations": true,
+          "value": "2199",
+          "text": "вес гайки м16"
+        },
+        {
+          "isAssociations": true,
+          "value": "425",
+          "text": "момент затяжки гбц ямз 238"
+        },
+        {
+          "isAssociations": true,
+          "value": "5932",
+          "text": "момент затяжки ступичной гайки"
+        },
+        {
+          "isAssociations": true,
+          "value": "864",
+          "text": "вес уголка 50х5"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "955",
+          "text": "винт с крестообразным шлицем м6х10"
+        },
+        {
+          "isAssociations": true,
+          "value": "203",
+          "text": "сколько весит танк т90"
+        },
+        {
+          "isAssociations": true,
+          "value": "655",
+          "text": "вес контейнера 40 футов без груза"
+        },
+        {
+          "isAssociations": true,
+          "value": "372",
+          "text": "гайка м20 вес 1 шт"
+        },
+        {
+          "isAssociations": true,
+          "value": "642",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "1483",
+          "text": "гайка м20 вес"
+        },
+        {
+          "isAssociations": true,
+          "value": "1483",
+          "text": "вес гайки м20"
+        },
+        {
+          "isAssociations": true,
+          "value": "629",
+          "text": "уголок крепежный 50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "924",
+          "text": "шайба м16 вес"
+        },
+        {
+          "isAssociations": true,
+          "value": "198",
+          "text": "крепление для мониторов onkron g80"
+        },
+        {
+          "isAssociations": true,
+          "value": "924",
+          "text": "вес шайбы м16"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "234",
+          "text": "кронштейн vesa 400x400"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-300x300",
+      "candidate_path": "/vesa/300x300/",
+      "query": "!кронштейн vesa 300x300",
+      "variant": "latin-vesa"
+    },
+    "operator_query": "\"[!кронштейн vesa 300x300]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4693",
+          "text": "я вешу 300 кг телепередача"
+        },
+        {
+          "isAssociations": true,
+          "value": "1748",
+          "text": "мдм мебельная фурнитура спб"
+        },
+        {
+          "isAssociations": true,
+          "value": "6568",
+          "text": "момент затяжки колесных болтов"
+        },
+        {
+          "isAssociations": true,
+          "value": "363",
+          "text": "брус 50х50х3000 цена за штуку"
+        },
+        {
+          "isAssociations": true,
+          "value": "505",
+          "text": "крепление изофикс для автокресла что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "511",
+          "text": "траверса монтажная 20х30 3м"
+        },
+        {
+          "isAssociations": true,
+          "value": "5899",
+          "text": "уголок крепежный усиленный"
+        },
+        {
+          "isAssociations": true,
+          "value": "323",
+          "text": "изофикс крепление на автокресло что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "963",
+          "text": "свм крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "308",
+          "text": "мдм комплект мебельная фурнитура каталог"
+        },
+        {
+          "isAssociations": true,
+          "value": "963",
+          "text": "тройник канализационный 50х50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "661",
+          "text": "подъем гантелей на бицепс стоя"
+        },
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "907",
+          "text": "узел крепления ук н 01"
+        },
+        {
+          "isAssociations": true,
+          "value": "625",
+          "text": "уголок крепежный 50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "202",
+          "text": "крепление для мониторов onkron g80"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "231",
+          "text": "кронштейн vesa 300x300"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-400x300",
+      "candidate_path": "/vesa/400x300/",
+      "query": "!кронштейн vesa 400x300",
+      "variant": "latin-vesa"
+    },
+    "operator_query": "\"[!кронштейн vesa 400x300]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "vesa-600x400",
+      "candidate_path": "/vesa/600x400/",
+      "query": "!кронштейн vesa 600x400",
+      "variant": "latin-vesa"
+    },
+    "operator_query": "\"[!кронштейн vesa 600x400]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "702",
+          "text": "дюбель гвоздь 6х80"
+        },
+        {
+          "isAssociations": true,
+          "value": "661",
+          "text": "подъем гантелей на бицепс стоя"
+        },
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "374",
+          "text": "рейтинг телевизоров 50 дюймов цена и качество"
+        },
+        {
+          "isAssociations": true,
+          "value": "988",
+          "text": "винт с крестообразным шлицем м6х10"
+        },
+        {
+          "isAssociations": true,
+          "value": "676",
+          "text": "onkron g160"
+        },
+        {
+          "isAssociations": true,
+          "value": "658",
+          "text": "вес контейнера 40 футов без груза"
+        },
+        {
+          "isAssociations": true,
+          "value": "648",
+          "text": "вес блока фбс 2400х600х400"
+        },
+        {
+          "isAssociations": true,
+          "value": "1386",
+          "text": "дюбель фасадный 10х100"
+        },
+        {
+          "isAssociations": true,
+          "value": "156",
+          "text": "дюбель гвоздь 6х40 цена за штуку"
+        },
+        {
+          "isAssociations": true,
+          "value": "907",
+          "text": "узел крепления ук н 01"
+        },
+        {
+          "isAssociations": true,
+          "value": "413",
+          "text": "сколько весит платформа для жима ногами"
+        },
+        {
+          "isAssociations": true,
+          "value": "654",
+          "text": "держатель для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "625",
+          "text": "уголок крепежный 50х50"
+        },
+        {
+          "isAssociations": true,
+          "value": "963",
+          "text": "шайба м16 вес"
+        },
+        {
+          "isAssociations": true,
+          "value": "202",
+          "text": "крепление для мониторов onkron g80"
+        },
+        {
+          "isAssociations": true,
+          "value": "963",
+          "text": "вес шайбы м16"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "59",
+          "text": "кронштейн vesa 600x400"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "diagonal-50",
+      "candidate_path": "/kronshteyn-dlya-televizora-50-dyuyma/",
+      "query": "!кронштейн для !телевизора 50 !дюймов",
+      "variant": "diagonal-tail"
+    },
+    "operator_query": "\"[!кронштейн для !телевизора 50 !дюймов]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5825",
+          "text": "уголок 50х50х5 вес 1 метра"
+        },
+        {
+          "isAssociations": true,
+          "value": "1260",
+          "text": "вес уголка 50х50х5 в 1 метре"
+        },
+        {
+          "isAssociations": true,
+          "value": "4733",
+          "text": "купить водонагреватель на 50 литров"
+        },
+        {
+          "isAssociations": true,
+          "value": "824",
+          "text": "уголок 50х50х4 вес 1 метра"
+        },
+        {
+          "isAssociations": true,
+          "value": "1404",
+          "text": "как подключить денди к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "168",
+          "text": "вес уголка 50х50х4 за 1 метр"
+        },
+        {
+          "isAssociations": true,
+          "value": "618",
+          "text": "сколько весит доска 50х150х6000"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "уголок 50х50х3 вес 1 метра"
+        },
+        {
+          "isAssociations": true,
+          "value": "592",
+          "text": "смотреть фильм 50 первых поцелуев"
+        },
+        {
+          "isAssociations": true,
+          "value": "2694",
+          "text": "водонагреватель накопительный 50 литров плоский"
+        },
+        {
+          "isAssociations": true,
+          "value": "225",
+          "text": "кронштейн ра5"
+        },
+        {
+          "isAssociations": true,
+          "value": "75",
+          "text": "сталь угловая 50х50х5 вес 1 метра"
+        },
+        {
+          "isAssociations": true,
+          "value": "1169",
+          "text": "тв 65 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "255",
+          "text": "труба 50х50х4 вес 1 метра"
+        },
+        {
+          "isAssociations": true,
+          "value": "118",
+          "text": "угол 50х50х5 вес 1 метра"
+        },
+        {
+          "isAssociations": true,
+          "value": "699",
+          "text": "стандарт крепления vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "241",
+          "text": "уголок 50х50 вес 1 метра"
+        },
+        {
+          "isAssociations": true,
+          "value": "5825",
+          "text": "вес 1 метра уголка 50х50х5"
+        },
+        {
+          "isAssociations": true,
+          "value": "174",
+          "text": "сколько весит куб доски 50х150х6000"
+        },
+        {
+          "isAssociations": true,
+          "value": "663",
+          "text": "вес уголка 50х50"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1251",
+          "text": "кронштейн для телевизора 50 дюймов"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "diagonal-75",
+      "candidate_path": "/kronshteyn-dlya-televizora-75-dyuyma/",
+      "query": "!кронштейн для !телевизора 75 !дюймов",
+      "variant": "diagonal-tail"
+    },
+    "operator_query": "\"[!кронштейн для !телевизора 75 !дюймов]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "18796",
+          "text": "диагонали тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "539",
+          "text": "диагональ 55 это сколько сантиметров на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1113",
+          "text": "тв 55 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "407",
+          "text": "65 диагональ телевизор сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1639",
+          "text": "настенное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "14301",
+          "text": "диагональ 75"
+        },
+        {
+          "isAssociations": true,
+          "value": "1002",
+          "text": "vesa 75x75"
+        },
+        {
+          "isAssociations": true,
+          "value": "1188",
+          "text": "тв 65 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "564",
+          "text": "кронштейн vesa 100x100"
+        },
+        {
+          "isAssociations": true,
+          "value": "202",
+          "text": "крепление для мониторов onkron g80"
+        },
+        {
+          "isAssociations": true,
+          "value": "75",
+          "text": "минимальная диагональ эссо для монитора планшета"
+        },
+        {
+          "isAssociations": true,
+          "value": "1657",
+          "text": "onkron кронштейн для монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "709",
+          "text": "стандарт крепления vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "435",
+          "text": "кронштейн vesa 200x200"
+        },
+        {
+          "isAssociations": true,
+          "value": "100",
+          "text": "кронштейн для тв onkron tm6 черный"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "690",
+          "text": "кронштейн для телевизора 75 дюймов"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "diagonal-85",
+      "candidate_path": "/kronshteyn-dlya-televizora-85-dyuyma/",
+      "query": "!кронштейн для !телевизора 85 !дюймов",
+      "variant": "diagonal-tail"
+    },
+    "operator_query": "\"[!кронштейн для !телевизора 85 !дюймов]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10753",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "728",
+          "text": "телевизор 65 диагональ размер в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "546",
+          "text": "диагональ 55 это сколько сантиметров на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1126",
+          "text": "крепеж для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "8078",
+          "text": "на какой высоте вешать телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "3666",
+          "text": "xiaomi tv s mini led 55 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "1072",
+          "text": "тв 55 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "крепление для телевизора на стену с поворотом"
+        },
+        {
+          "isAssociations": true,
+          "value": "7390",
+          "text": "крепление для телевизора на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "10612",
+          "text": "xiaomi tv s mini led 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "1404",
+          "text": "как подключить денди к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "432",
+          "text": "65 диагональ телевизор сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "2746",
+          "text": "xiaomi tv s mini led 75"
+        },
+        {
+          "isAssociations": true,
+          "value": "1169",
+          "text": "тв 65 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "187",
+          "text": "тв 55 диагональ размеры в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "699",
+          "text": "стандарт крепления vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "1804",
+          "text": "xiaomi tv s mini led 75 2026"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "401",
+          "text": "кронштейн для телевизора 85 дюймов"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "candidate_id": "mount-brand-kromax",
+    "candidate_path": "/kronshteyny-kromax/",
+    "query": "!кронштейн kromax",
+    "variant": "latin-singular"
+  },
+  {
+    "candidate_id": "mount-brand-kromax",
+    "candidate_path": "/kronshteyny-kromax/",
+    "query": "!кронштейны kromax",
+    "variant": "latin-plural"
+  },
+  {
+    "candidate_id": "mount-brand-kromax",
+    "candidate_path": "/kronshteyny-kromax/",
+    "query": "!кронштейн кромакс",
+    "variant": "cyrillic-singular"
+  },
+  {
+    "candidate_id": "mount-brand-kromax",
+    "candidate_path": "/kronshteyny-kromax/",
+    "query": "kromax !кронштейн",
+    "variant": "brand-first-singular"
+  },
+  {
+    "candidate_id": "mount-brand-holder",
+    "candidate_path": "/kronshteyny-holder/",
+    "query": "!кронштейн holder",
+    "variant": "latin-singular"
+  },
+  {
+    "candidate_id": "mount-brand-holder",
+    "candidate_path": "/kronshteyny-holder/",
+    "query": "!кронштейны holder",
+    "variant": "latin-plural"
+  },
+  {
+    "candidate_id": "mount-brand-holder",
+    "candidate_path": "/kronshteyny-holder/",
+    "query": "!кронштейн холдер",
+    "variant": "cyrillic-singular"
+  },
+  {
+    "candidate_id": "mount-brand-itechmount",
+    "candidate_path": "/kronshteyny-itechmount/",
+    "query": "!кронштейн itechmount",
+    "variant": "full-brand-singular"
+  },
+  {
+    "candidate_id": "mount-brand-itechmount",
+    "candidate_path": "/kronshteyny-itechmount/",
+    "query": "!кронштейны itechmount",
+    "variant": "full-brand-plural"
+  },
+  {
+    "candidate_id": "mount-brand-itechmount",
+    "candidate_path": "/kronshteyny-itechmount/",
+    "query": "!кронштейн itech",
+    "variant": "short-brand-singular"
+  },
+  {
+    "candidate_id": "tv-brand-hisense",
+    "candidate_path": "/kronshteyn-dlya-televizora-hisense/",
+    "query": "!кронштейн для !телевизора hisense",
+    "variant": "brand-tail"
+  },
+  {
+    "candidate_id": "tv-brand-tcl",
+    "candidate_path": "/kronshteyn-dlya-televizora-tcl/",
+    "query": "!кронштейн для !телевизора tcl",
+    "variant": "brand-tail"
+  },
+  {
+    "candidate_id": "tv-brand-xiaomi",
+    "candidate_path": "/kronshteyn-dlya-televizora-xiaomi/",
+    "query": "!кронштейн для !телевизора xiaomi",
+    "variant": "brand-tail"
+  },
+  {
+    "candidate_id": "vesa-400x400",
+    "candidate_path": "/vesa/400x400/",
+    "query": "!кронштейн vesa 400x400",
+    "variant": "latin-vesa"
+  },
+  {
+    "candidate_id": "vesa-300x300",
+    "candidate_path": "/vesa/300x300/",
+    "query": "!кронштейн vesa 300x300",
+    "variant": "latin-vesa"
+  },
+  {
+    "candidate_id": "vesa-400x300",
+    "candidate_path": "/vesa/400x300/",
+    "query": "!кронштейн vesa 400x300",
+    "variant": "latin-vesa"
+  },
+  {
+    "candidate_id": "vesa-600x400",
+    "candidate_path": "/vesa/600x400/",
+    "query": "!кронштейн vesa 600x400",
+    "variant": "latin-vesa"
+  },
+  {
+    "candidate_id": "diagonal-50",
+    "candidate_path": "/kronshteyn-dlya-televizora-50-dyuyma/",
+    "query": "!кронштейн для !телевизора 50 !дюймов",
+    "variant": "diagonal-tail"
+  },
+  {
+    "candidate_id": "diagonal-75",
+    "candidate_path": "/kronshteyn-dlya-televizora-75-dyuyma/",
+    "query": "!кронштейн для !телевизора 75 !дюймов",
+    "variant": "diagonal-tail"
+  },
+  {
+    "candidate_id": "diagonal-85",
+    "candidate_path": "/kronshteyn-dlya-televizora-85-dyuyma/",
+    "query": "!кронштейн для !телевизора 85 !дюймов",
+    "variant": "diagonal-tail"
+  }
+]
