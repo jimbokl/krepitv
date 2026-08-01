@@ -1,0 +1,58 @@
+name: Ошибка в характеристиках
+description: Сообщить о неверном VESA, массе, винтах, совместимости или источнике
+title: "[Данные] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Обращение будет видно публично. Не указывайте имя, телефон, адрес, почту, серийный номер устройства и другие персональные данные.
+        Прикладывайте только первичный источник производителя. Маркетплейсы, партнёрские, реферальные и рекламные ссылки удаляются; повторный спам блокируется.
+  - type: dropdown
+    id: entity_type
+    attributes:
+      label: Где обнаружена ошибка
+      options:
+        - Телевизор
+        - Кронштейн
+        - Калькулятор
+        - Официальный источник
+    validations:
+      required: true
+  - type: input
+    id: entity
+    attributes:
+      label: Точная модель или название страницы
+      description: Укажите полный артикул модели либо короткое название калькулятора.
+      placeholder: Например, TCL 55C6K
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Страница KREPI TV
+      description: Скопируйте адрес страницы без дополнительных параметров.
+      placeholder: https://krepitv.ru/modeli/...
+    validations:
+      required: true
+  - type: textarea
+    id: discrepancy
+    attributes:
+      label: Что расходится
+      description: Опишите текущее значение и то, каким оно должно быть по официальному документу.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Официальный источник
+      description: Приложите HTTPS-ссылку производителя или точное название официального руководства.
+      placeholder: https://...
+    validations:
+      required: true
+  - type: checkboxes
+    id: public_notice
+    attributes:
+      label: Публичность обращения
+      options:
+        - label: Я не добавляю персональные данные или серийный номер устройства.
+          required: true

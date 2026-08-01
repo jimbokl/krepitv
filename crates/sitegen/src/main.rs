@@ -2448,6 +2448,44 @@ fn validate_trust_pages(pages: &[TrustPage]) {
             page.path
         );
     }
+
+    let contacts = pages
+        .iter()
+        .find(|page| page.id == "contacts")
+        .expect("Нет страницы контактов");
+    assert!(
+        contacts.related_links.iter().any(|link| {
+            link.href == "https://github.com/jimbokl/krepitv/issues/new/choose"
+                && link.label == "Создать обращение"
+        }),
+        "Страница контактов должна вести в проверенный публичный канал GitHub Issues"
+    );
+    let contacts_text = contacts
+        .sections
+        .iter()
+        .flat_map(|section| section.paragraphs.iter().chain(section.bullets.iter()))
+        .cloned()
+        .collect::<Vec<_>>()
+        .join(" ");
+    assert!(
+        contacts_text.contains("видны всем") && contacts_text.contains("персональные данные"),
+        "Страница контактов должна предупреждать о публичности и персональных данных"
+    );
+
+    let privacy = pages
+        .iter()
+        .find(|page| page.id == "privacy")
+        .expect("Нет политики конфиденциальности");
+    assert!(
+        privacy.sections.iter().any(|section| {
+            section.heading == "Публичные обращения через GitHub"
+                && section.paragraphs.iter().any(|paragraph| {
+                    paragraph.contains("владелец KREPI TV получает доступ")
+                        && paragraph.contains("политике")
+                })
+        }),
+        "Политика должна объяснять границу обработки публичных GitHub Issues"
+    );
 }
 
 fn validate_commercial_text(value: &str, maximum_length: usize, label: &str) {
@@ -3108,15 +3146,15 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        CommercialProfilesFile, HeadExtras, PublicAffiliateSnapshot, SeoPage, TvModel,
+        CommercialProfilesFile, HeadExtras, PublicAffiliateSnapshot, SeoPage, TrustPage, TvModel,
         affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
         commercial_profile_for, escape_html, html_shell, is_indexable_model, is_indexable_mount,
         is_indexable_seo_page, is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
         model_mount_matches, model_page_body, mount_page_body, mounts_catalog_body,
         parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_brand_mount_matcher_html,
         seo_buy_mount_comparison_html, seo_calculator_note, seo_catalog_html,
-        seo_screw_catalog_html, seo_vesa_model_catalog_html, tv_product_json_ld,
-        validate_commercial_profiles, wall_mount_screws_html, workspace_root,
+        seo_screw_catalog_html, seo_vesa_model_catalog_html, trust_page_body, tv_product_json_ld,
+        validate_commercial_profiles, validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -3174,6 +3212,22 @@ mod tests {
         assert!(!is_valid_iso_date("2026-02-29"));
         assert!(!is_valid_iso_date("9999-99-99"));
         assert!(!is_valid_iso_date("30.07.2026"));
+    }
+
+    #[test]
+    fn contacts_expose_a_real_public_channel_without_requesting_personal_data() {
+        let pages: Vec<TrustPage> = read_json(&workspace_root().join("data/trust_pages.json"));
+        validate_trust_pages(&pages);
+        let contacts = pages
+            .iter()
+            .find(|page| page.id == "contacts")
+            .expect("Нет страницы контактов");
+        let html = trust_page_body(contacts);
+
+        assert!(html.contains("https://github.com/jimbokl/krepitv/issues/new/choose"));
+        assert!(html.contains("Создать обращение"));
+        assert!(html.contains("Обращение и ответы видны всем"));
+        assert!(!html.contains("mailto:"));
     }
 
     #[test]

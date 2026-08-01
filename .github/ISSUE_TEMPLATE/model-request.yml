@@ -1,0 +1,48 @@
+name: Добавить точную модель
+description: Предложить телевизор или кронштейн с официальным источником
+title: "[Модель] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Запрос будет опубликован открыто. Не указывайте имя, телефон, адрес, почту, серийный номер устройства и другие персональные данные.
+        Прикладывайте только первичный источник производителя. Маркетплейсы, партнёрские, реферальные и рекламные ссылки удаляются; повторный спам блокируется.
+  - type: dropdown
+    id: entity_type
+    attributes:
+      label: Что добавить
+      options:
+        - Телевизор
+        - Кронштейн
+    validations:
+      required: true
+  - type: input
+    id: exact_model
+    attributes:
+      label: Производитель и полный артикул
+      description: Обозначение должно позволять отличить модель от соседней диагонали или комплектации.
+      placeholder: Например, Samsung QE55Q70DAUXRU
+    validations:
+      required: true
+  - type: input
+    id: official_source
+    attributes:
+      label: Официальная страница или руководство
+      description: Укажите HTTPS-ссылку производителя или точное название официального руководства.
+      placeholder: https://...
+    validations:
+      required: true
+  - type: textarea
+    id: useful_result
+    attributes:
+      label: Какой ответ нужен
+      description: Например, размер VESA, винты или совместимые кронштейны.
+    validations:
+      required: true
+  - type: checkboxes
+    id: public_notice
+    attributes:
+      label: Публичность обращения
+      options:
+        - label: Я не добавляю персональные данные или серийный номер устройства.
+          required: true
