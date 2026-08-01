@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "topic": "tv-no-signal",
+  "retrieved_at": "2026-08-01",
+  "sources": [
+    {
+      "id": "samsung-hdmi",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/",
+      "applies_to": ["hdmi", "samsung"],
+      "allowed_claims": ["direct-chain", "input-port", "reseat", "other-port", "other-cable", "other-source", "source-restart"]
+    },
+    {
+      "id": "sony-hdmi",
+      "url": "https://www.sony.ru/electronics/support/articles/00298459",
+      "applies_to": ["hdmi", "sony"],
+      "allowed_claims": ["selected-input", "direct-chain", "other-port", "other-cable"]
+    },
+    {
+      "id": "lg-screen-source",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155333777203",
+      "applies_to": ["screen-triage", "lg"],
+      "allowed_claims": ["tv-overlay-as-observation"]
+    },
+    {
+      "id": "samsung-channel-setup",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-find-free-channels-on-my-samsung-tv/",
+      "applies_to": ["terrestrial", "cable", "samsung"],
+      "allowed_claims": ["physical-connection", "tv-source", "antenna-vs-cable", "auto-scan"]
+    },
+    {
+      "id": "rtrs-dtv",
+      "url": "https://plus.rtrs.ru/info/",
+      "applies_to": ["terrestrial", "russia"],
+      "allowed_claims": ["antenna-required", "dtv-source", "auto-scan"]
+    },
+    {
+      "id": "tricolor-no-signal",
+      "url": "https://www.tricolor.ru/help/chastye-voprosy/net-signala/",
+      "applies_to": ["satellite", "tricolor"],
+      "allowed_claims": ["receiver-power", "receiver-restart", "accessible-cable", "weather", "ice", "obstacles", "specialist-for-inaccessible-antenna"]
+    }
+  ],
+  "global_denials": [
+    "hardware-diagnosis",
+    "factory-reset-first",
+    "roof-access",
+    "dish-rotation",
+    "live-voltage-work",
+    "purchase-before-isolation"
+  ]
+}

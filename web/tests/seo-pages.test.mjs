@@ -13,13 +13,32 @@ test("home features only explicitly prioritized indexable traffic tools", () => 
     { id: "wall-planner", home_priority: 3, indexable: true },
     { id: "tv-dimensions", home_priority: 2, indexable: true },
     { id: "phone-to-tv", home_priority: 1, indexable: true },
+    { id: "tv-no-signal", home_priority: 1, indexable: true },
     { id: "thin", home_priority: 5, indexable: false },
     { id: "unprioritized", indexable: true },
   ];
 
   assert.deepEqual(
     getHomeFeaturedPages(catalog).map((page) => page.id),
-    ["phone-to-tv", "tv-dimensions", "wall-planner", "vesa"],
+    ["phone-to-tv", "tv-no-signal", "tv-dimensions", "wall-planner"],
+  );
+});
+
+test("traffic utilities link to each other without creating diagnostic variants", () => {
+  const catalog = [
+    { id: "phone-to-tv", kind: "calculator", indexable: true },
+    { id: "tv-no-signal", kind: "calculator", indexable: true },
+    { id: "tv-dimensions", kind: "calculator", indexable: true },
+    { id: "wall-planner", kind: "calculator", indexable: true },
+  ];
+
+  assert.deepEqual(
+    getRelatedPages(catalog[0], catalog).map((page) => page.id),
+    ["tv-no-signal", "tv-dimensions", "wall-planner"],
+  );
+  assert.deepEqual(
+    getRelatedPages(catalog[1], catalog).map((page) => page.id),
+    ["phone-to-tv", "tv-dimensions", "wall-planner"],
   );
 });
 

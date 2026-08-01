@@ -17,6 +17,10 @@ import {
   PhoneTvConnectionReference,
   PhoneTvConnectionWizard,
 } from "../components/PhoneTvConnectionWizard.jsx";
+import {
+  TvNoSignalReference,
+  TvNoSignalWizard,
+} from "../components/TvNoSignalWizard.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
@@ -72,11 +76,13 @@ function SeoArticle({ catalog, page }) {
   const prioritizesWallPlanner = page.id === "wall-planner";
   const prioritizesTvDimensions = page.id === "tv-dimensions";
   const prioritizesPhoneTvConnection = page.id === "phone-to-tv";
+  const prioritizesTvNoSignal = page.id === "tv-no-signal";
+  const prioritizesTrafficUtility = prioritizesPhoneTvConnection || prioritizesTvNoSignal;
   const prioritizesPrimaryLookup = prioritizesScrewLookup
     || prioritizesVesaLookup
     || prioritizesWallPlanner
     || prioritizesTvDimensions
-    || prioritizesPhoneTvConnection;
+    || prioritizesTrafficUtility;
   const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa", "tv-mount-screws"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
@@ -128,7 +134,7 @@ function SeoArticle({ catalog, page }) {
             {kindLabels[page.kind] ?? "Технический справочник"}
           </p>
           <h1 className={`mt-3 max-w-[1180px] break-words font-display font-extrabold leading-[0.92] tracking-[-0.035em] ${
-            ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner", "tv-dimensions", "phone-to-tv"].includes(page.id)
+            ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner", "tv-dimensions", "phone-to-tv", "tv-no-signal"].includes(page.id)
               ? "text-[clamp(3rem,4vw,4.4rem)]"
               : ["wall-mounted-tv", "mounting-map"].includes(page.id)
               ? "text-[clamp(3rem,4.6vw,5rem)]"
@@ -175,6 +181,12 @@ function SeoArticle({ catalog, page }) {
           <>
             <PhoneTvConnectionWizard />
             <PhoneTvConnectionReference />
+          </>
+        ) : null}
+        {prioritizesTvNoSignal ? (
+          <>
+            <TvNoSignalWizard />
+            <TvNoSignalReference />
           </>
         ) : null}
         {prioritizesTvDimensions ? (
@@ -289,22 +301,36 @@ function SeoArticle({ catalog, page }) {
           </div>
 
           <aside className="space-y-6">
-            {!prioritizesPhoneTvConnection ? <PageVisual kind={page.kind} /> : null}
+            {!prioritizesTrafficUtility ? <PageVisual kind={page.kind} /> : null}
 
             <div className="border-2 border-ink bg-white p-5">
               <p className="font-display text-2xl font-bold">
-                {prioritizesPhoneTvConnection ? "Проверьте размер экрана" : "Подбор без догадок"}
+                {prioritizesPhoneTvConnection
+                  ? "Проверьте размер экрана"
+                  : prioritizesTvNoSignal
+                    ? "Подключаете телефон?"
+                    : "Подбор без догадок"}
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 {prioritizesPhoneTvConnection
                   ? "После подключения рассчитайте реальную ширину и высоту телевизора по диагонали."
-                  : "Укажите модель, стену и нужный механизм. Проверка VESA и нагрузки выполняется по каталогу."}
+                  : prioritizesTvNoSignal
+                    ? "Если сигнал ещё не появлялся, сначала выберите рабочий способ подключения телефона."
+                    : "Укажите модель, стену и нужный механизм. Проверка VESA и нагрузки выполняется по каталогу."}
               </p>
               <a
                 className="primary-button mt-5 w-full"
-                href={prioritizesPhoneTvConnection ? "/razmery-televizora-po-diagonali/" : "/podbor/"}
+                href={prioritizesPhoneTvConnection
+                  ? "/razmery-televizora-po-diagonali/"
+                  : prioritizesTvNoSignal
+                    ? "/kak-podklyuchit-telefon-k-televizoru/"
+                    : "/podbor/"}
               >
-                {prioritizesPhoneTvConnection ? "Рассчитать размеры" : "Начать подбор"} <ArrowRight aria-hidden="true" />
+                {prioritizesPhoneTvConnection
+                  ? "Рассчитать размеры"
+                  : prioritizesTvNoSignal
+                    ? "Открыть мастер подключения"
+                    : "Начать подбор"} <ArrowRight aria-hidden="true" />
               </a>
             </div>
 
@@ -328,9 +354,17 @@ function SeoArticle({ catalog, page }) {
             <h2 className="font-display text-3xl font-bold" id="more-title">Полезные материалы</h2>
             <a
               className="text-sm font-semibold text-action underline underline-offset-4"
-              href={prioritizesPhoneTvConnection ? "/razmery-televizora-po-diagonali/" : "/podbor/"}
+              href={prioritizesPhoneTvConnection
+                ? "/razmery-televizora-po-diagonali/"
+                : prioritizesTvNoSignal
+                  ? "/kak-podklyuchit-telefon-k-televizoru/"
+                  : "/podbor/"}
             >
-              {prioritizesPhoneTvConnection ? "Размеры телевизора" : "Перейти к подбору"}
+              {prioritizesPhoneTvConnection
+                ? "Размеры телевизора"
+                : prioritizesTvNoSignal
+                  ? "Подключение телефона"
+                  : "Перейти к подбору"}
             </a>
           </div>
           <div className="mt-5 grid gap-px bg-line border border-line sm:grid-cols-2 lg:grid-cols-3">

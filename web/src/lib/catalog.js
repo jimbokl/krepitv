@@ -385,6 +385,22 @@ export async function calculatePhoneTvConnection(values) {
   return response;
 }
 
+export async function calculateTvNoSignal(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.calculate_tv_no_signal_json(
+      values.source,
+      values.tvMenuVisible,
+      values.sourcePowered,
+      values.inputMatches,
+      values.cableConnected,
+      values.receiverMenuVisible,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateTurnClearance(values) {
   const engine = await loadEngine();
   const response = JSON.parse(

@@ -112,7 +112,8 @@ test("локальный WASM-загрузчик повторяет попытк
 test("phone-to-TV bypasses generic catalog and affiliate placements", async () => {
   const source = await read("web/src/pages/SeoPage.jsx");
   assert.match(source, /const prioritizesPhoneTvConnection = page\.id === "phone-to-tv"/);
-  assert.match(source, /\|\| prioritizesPhoneTvConnection/);
+  assert.match(source, /const prioritizesTrafficUtility = prioritizesPhoneTvConnection \|\| prioritizesTvNoSignal/);
+  assert.match(source, /\|\| prioritizesTrafficUtility/);
   assert.match(source, /<PhoneTvConnectionWizard \/>/);
   assert.match(source, /<PhoneTvConnectionReference \/>/);
 });

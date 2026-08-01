@@ -1,6 +1,44 @@
 /* @ts-self-types="./krepitv_engine.d.ts" */
 
 /**
+ * @param {string} source
+ * @param {string} tv_menu_visible
+ * @param {string} source_powered
+ * @param {string} input_matches
+ * @param {string} cable_connected
+ * @param {string} receiver_menu_visible
+ * @returns {string}
+ */
+export function calculate_tv_no_signal_json(source, tv_menu_visible, source_powered, input_matches, cable_connected, receiver_menu_visible) {
+    let deferred7_0;
+    let deferred7_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(source, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(tv_menu_visible, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len1 = WASM_VECTOR_LEN;
+        const ptr2 = passStringToWasm0(source_powered, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len2 = WASM_VECTOR_LEN;
+        const ptr3 = passStringToWasm0(input_matches, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len3 = WASM_VECTOR_LEN;
+        const ptr4 = passStringToWasm0(cable_connected, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len4 = WASM_VECTOR_LEN;
+        const ptr5 = passStringToWasm0(receiver_menu_visible, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len5 = WASM_VECTOR_LEN;
+        wasm.calculate_tv_no_signal_json(retptr, ptr0, len0, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4, ptr5, len5);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred7_0 = r0;
+        deferred7_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export3(deferred7_0, deferred7_1, 1);
+    }
+}
+
+/**
  * @param {number} diagonal_inches
  * @param {number} eye_height_cm
  * @param {number} viewing_distance_cm
@@ -22,7 +60,7 @@ export function height_plan_json(diagonal_inches, eye_height_cm, viewing_distanc
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+        wasm.__wbindgen_export3(deferred1_0, deferred1_1, 1);
     }
 }
 
@@ -40,9 +78,9 @@ export function match_mounts_json(tv_weight_kg, diagonal_inches, vesa_width_mm, 
     let deferred3_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(requested_mechanism, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr0 = passStringToWasm0(requested_mechanism, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len0 = WASM_VECTOR_LEN;
-        const ptr1 = passStringToWasm0(mounts_json, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr1 = passStringToWasm0(mounts_json, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len1 = WASM_VECTOR_LEN;
         wasm.match_mounts_json(retptr, tv_weight_kg, diagonal_inches, vesa_width_mm, vesa_height_mm, ptr0, len0, ptr1, len1);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
@@ -52,7 +90,7 @@ export function match_mounts_json(tv_weight_kg, diagonal_inches, vesa_width_mm, 
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred3_0, deferred3_1, 1);
+        wasm.__wbindgen_export3(deferred3_0, deferred3_1, 1);
     }
 }
 
@@ -80,7 +118,7 @@ export function mounting_map_json(diagonal_inches, eye_height_cm, viewing_distan
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+        wasm.__wbindgen_export3(deferred1_0, deferred1_1, 1);
     }
 }
 
@@ -99,19 +137,19 @@ export function phone_tv_connection_plan_json(phone, tv, goal, connector, same_n
     let deferred8_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(phone, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr0 = passStringToWasm0(phone, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len0 = WASM_VECTOR_LEN;
-        const ptr1 = passStringToWasm0(tv, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr1 = passStringToWasm0(tv, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len1 = WASM_VECTOR_LEN;
-        const ptr2 = passStringToWasm0(goal, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr2 = passStringToWasm0(goal, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len2 = WASM_VECTOR_LEN;
-        const ptr3 = passStringToWasm0(connector, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr3 = passStringToWasm0(connector, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len3 = WASM_VECTOR_LEN;
-        const ptr4 = passStringToWasm0(same_network, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr4 = passStringToWasm0(same_network, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len4 = WASM_VECTOR_LEN;
-        const ptr5 = passStringToWasm0(hdmi, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr5 = passStringToWasm0(hdmi, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len5 = WASM_VECTOR_LEN;
-        const ptr6 = passStringToWasm0(android_video_output, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr6 = passStringToWasm0(android_video_output, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len6 = WASM_VECTOR_LEN;
         wasm.phone_tv_connection_plan_json(retptr, ptr0, len0, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4, ptr5, len5, ptr6, len6);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
@@ -121,7 +159,7 @@ export function phone_tv_connection_plan_json(phone, tv, goal, connector, same_n
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred8_0, deferred8_1, 1);
+        wasm.__wbindgen_export3(deferred8_0, deferred8_1, 1);
     }
 }
 
@@ -147,7 +185,7 @@ export function tilt_angle_plan_json(diagonal_inches, screen_center_height_cm, e
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+        wasm.__wbindgen_export3(deferred1_0, deferred1_1, 1);
     }
 }
 
@@ -172,7 +210,7 @@ export function turn_clearance_plan_json(tv_width_cm, vesa_offset_cm, target_ang
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+        wasm.__wbindgen_export3(deferred1_0, deferred1_1, 1);
     }
 }
 
@@ -190,7 +228,7 @@ export function tv_dimensions_plan_json(mode, primary, secondary, clearance_cm, 
     let deferred2_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(mode, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr0 = passStringToWasm0(mode, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len0 = WASM_VECTOR_LEN;
         wasm.tv_dimensions_plan_json(retptr, ptr0, len0, primary, secondary, clearance_cm, exact_case_width_cm, exact_case_height_cm);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
@@ -200,7 +238,7 @@ export function tv_dimensions_plan_json(mode, primary, secondary, clearance_cm, 
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred2_0, deferred2_1, 1);
+        wasm.__wbindgen_export3(deferred2_0, deferred2_1, 1);
     }
 }
 
@@ -237,7 +275,7 @@ export function tv_zone_socket_plan_json(diagonal_inches, screen_center_height_c
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+        wasm.__wbindgen_export3(deferred1_0, deferred1_1, 1);
     }
 }
 
@@ -253,9 +291,9 @@ export function vesa_match_plan_json(measured_width, measured_height, measuremen
     let deferred3_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(measurement_unit, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr0 = passStringToWasm0(measurement_unit, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len0 = WASM_VECTOR_LEN;
-        const ptr1 = passStringToWasm0(mount_spec, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr1 = passStringToWasm0(mount_spec, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len1 = WASM_VECTOR_LEN;
         wasm.vesa_match_plan_json(retptr, measured_width, measured_height, ptr0, len0, ptr1, len1);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
@@ -265,7 +303,7 @@ export function vesa_match_plan_json(measured_width, measured_height, measuremen
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred3_0, deferred3_1, 1);
+        wasm.__wbindgen_export3(deferred3_0, deferred3_1, 1);
     }
 }
 
@@ -290,7 +328,7 @@ export function vesa_screw_length_plan_json(engagement_min_mm, engagement_max_mm
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+        wasm.__wbindgen_export3(deferred1_0, deferred1_1, 1);
     }
 }
 
@@ -305,7 +343,7 @@ export function viewing_geometry_json(mode, value, horizontal_angle_deg) {
     let deferred2_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(mode, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const ptr0 = passStringToWasm0(mode, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len0 = WASM_VECTOR_LEN;
         wasm.viewing_geometry_json(retptr, ptr0, len0, value, horizontal_angle_deg);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
@@ -315,7 +353,7 @@ export function viewing_geometry_json(mode, value, horizontal_angle_deg) {
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred2_0, deferred2_1, 1);
+        wasm.__wbindgen_export3(deferred2_0, deferred2_1, 1);
     }
 }
 
@@ -345,7 +383,7 @@ export function wall_scene_plan_json(diagonal_inches, screen_width_cm, screen_he
         return getStringFromWasm0(r0, r1);
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
-        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+        wasm.__wbindgen_export3(deferred1_0, deferred1_1, 1);
     }
 }
 function __wbg_get_imports() {

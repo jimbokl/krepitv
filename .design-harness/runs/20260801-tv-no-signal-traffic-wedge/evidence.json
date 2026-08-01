@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "task_id": "20260801-tv-no-signal-traffic-wedge",
+  "commands": [
+    {
+      "id": "cmd-rust-matrix",
+      "command": "cargo test -p krepitv-engine tv_no_signal -- --nocapture",
+      "exit_code": 0,
+      "covers": ["success", "unknown-source", "needs-service", "provider-path", "fail-closed", "generic satellite source boundary"]
+    },
+    {
+      "id": "cmd-web-contract",
+      "command": "node --test --test-concurrency=1 web/tests/tv-no-signal.test.mjs web/tests/result-instrumentation.test.mjs",
+      "exit_code": 0,
+      "covers": ["canonical", "SSR", "privacy", "analytics", "retry", "source boundary"]
+    },
+    {
+      "id": "cmd-qa-syntax",
+      "command": "node --check scripts/qa/capture-page.mjs",
+      "exit_code": 0,
+      "covers": ["visual state capture"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["66 Rust tests", "31 sitegen tests", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "exit_code": 0,
+      "covers": ["security", "146 indexable URLs", "static SEO", "affiliate policy"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260801-tv-no-signal-traffic-wedge --files web/src/components/TvNoSignalWizard.jsx web/src/components/SiteHeader.jsx web/src/components/SiteFooter.jsx web/src/pages/SeoPage.jsx web/src/pages/HomePage.jsx scripts/qa/capture-page.mjs",
+      "exit_code": 0,
+      "covers": ["default", "focus", "success", "unknown-source", "needs-service", "provider-path", "retry"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-empty-mobile",
+      "path": "empty-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-default-desktop",
+      "path": "default-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-disabled-tablet",
+      "path": "disabled-tablet.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-focus-tablet",
+      "path": "focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "shot-loading-desktop",
+      "path": "loading-desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-error-mobile",
+      "path": "error-mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-success-desktop",
+      "path": "success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-unknown-source-mobile",
+      "path": "unknown-source-mobile.png",
+      "state": "unknown-source",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-needs-service-mobile",
+      "path": "needs-service-mobile.png",
+      "state": "needs-service",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-provider-path-desktop",
+      "path": "provider-path-desktop.png",
+      "state": "provider-path",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-retry-mobile",
+      "path": "retry-mobile.png",
+      "state": "retry",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-zoom-tablet",
+      "path": "zoom-tablet.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-spacing-mobile",
+      "path": "spacing-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent reviewer /root/independent_tv_no_signal_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "P0=0, P1=0; generic satellite no longer inherits a Tricolor source or URL.",
+      "The built route has one H1, one canonical, one sitemap entry and zero Market or affiliate links.",
+      "All 13 captures use only the contracted 320x800, 768x1024 and 1440x900 viewports without overflow.",
+      "Result focus remains on the H2 without a duplicate aria-live or role=status announcement.",
+      "A single 43,922/month query wedge is not sufficient evidence for 1001 daily users; a measured page portfolio is still required."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

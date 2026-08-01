@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "id": "20260801-tv-no-signal-traffic-wedge",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root",
+  "created_at": "2026-08-01T11:30:57.713040+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus",
+    "unknown-source",
+    "needs-service",
+    "provider-path",
+    "retry"
+  ],
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800},
+    {"id": "tablet", "width": 768, "height": 1024},
+    {"id": "desktop", "width": 1440, "height": 900}
+  ],
+  "allowed_files": [
+    "README.md",
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "data/research",
+    "web/src/components/TvNoSignalWizard.jsx",
+    "web/src/components/SiteHeader.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/lib/catalog.js",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/HomePage.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/tests",
+    "scripts/qa/capture-page.mjs",
+    "web/public/pkg",
+    "web/*.html",
+    "docs",
+    "product-docs/research",
+    "product-docs/operations",
+    ".design-harness/runs/20260801-tv-no-signal-traffic-wedge"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-rust-matrix",
+      "command": "cargo test -p krepitv-engine tv_no_signal -- --nocapture",
+      "required": true,
+      "covers": ["success", "unknown-source", "needs-service", "provider-path", "fail-closed"]
+    },
+    {
+      "id": "cmd-web-contract",
+      "command": "node --test --test-concurrency=1 web/tests/tv-no-signal.test.mjs web/tests/result-instrumentation.test.mjs",
+      "required": true,
+      "covers": ["canonical", "SSR", "privacy", "analytics", "retry"]
+    },
+    {
+      "id": "cmd-qa-syntax",
+      "command": "node --check scripts/qa/capture-page.mjs",
+      "required": true,
+      "covers": ["visual state capture"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "required": true,
+      "covers": ["security", "static SEO", "affiliate policy"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "h1",
+      "value": "Телевизор пишет «Нет сигнала»: что проверить",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "safety-stop",
+      "value": "Не разбирайте телевизор и не поднимайтесь к антенне на крышу.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "demand",
+      "text": "Точная частотность запроса «телевизор нет сигнала» в Wordstat по России составляет 43 922 в месяц на дату среза 2026-08-01.",
+      "source_ids": ["demand-snapshot"]
+    },
+    {
+      "id": "hdmi-isolation",
+      "text": "Для HDMI сначала проверяют выбранный вход, питание источника, прямое соединение, переподключение, другой порт, кабель или источник.",
+      "source_ids": ["samsung-hdmi", "sony-hdmi", "official-source-matrix"]
+    },
+    {
+      "id": "terrestrial-setup",
+      "text": "Для российского эфирного цифрового ТВ нужна антенна, источник TV/DTV и автоматический поиск каналов.",
+      "source_ids": ["rtrs-dtv", "samsung-channel-setup"]
+    },
+    {
+      "id": "satellite-safe-check",
+      "text": "В общей спутниковой ветке сервис ограничивается безопасными наблюдениями и обращением к своему оператору; фирменные шаги не показываются без выбора оператора.",
+      "source_ids": ["official-source-matrix"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "demand-snapshot",
+      "path": "data/research/traffic-head-demand.json",
+      "retrieved_at": "2026-08-01T10:00:00Z"
+    },
+    {
+      "id": "official-source-matrix",
+      "path": "product-docs/research/TV_NO_SIGNAL_OFFICIAL_SOURCES_2026-08-01.md",
+      "retrieved_at": "2026-08-01T12:00:00Z"
+    },
+    {
+      "id": "samsung-hdmi",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/",
+      "retrieved_at": "2026-08-01T12:00:00Z"
+    },
+    {
+      "id": "sony-hdmi",
+      "url": "https://www.sony.ru/electronics/support/articles/00298459",
+      "retrieved_at": "2026-08-01T12:00:00Z"
+    },
+    {
+      "id": "lg-screen-source",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155333777203",
+      "retrieved_at": "2026-08-01T12:00:00Z"
+    },
+    {
+      "id": "samsung-channel-setup",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-find-free-channels-on-my-samsung-tv/",
+      "retrieved_at": "2026-08-01T12:00:00Z"
+    },
+    {
+      "id": "rtrs-dtv",
+      "url": "https://plus.rtrs.ru/info/",
+      "retrieved_at": "2026-08-01T12:00:00Z"
+    },
+    {
+      "id": "tricolor-no-signal",
+      "url": "https://www.tricolor.ru/help/chastye-voprosy/net-signala/",
+      "retrieved_at": "2026-08-01T12:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "run": "20260801-tv-no-signal-traffic-wedge",
+  "generated_at": "2026-08-01T12:19:07.355494+00:00",
+  "scanned_files": [
+    "web/src/components/TvNoSignalWizard.jsx",
+    "web/src/components/SiteHeader.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/src/pages/HomePage.jsx"
+  ],
+  "findings": []
+}

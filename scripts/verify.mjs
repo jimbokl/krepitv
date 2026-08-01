@@ -1594,7 +1594,7 @@ for (const page of indexableSeoPages) {
   if (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(page.path)) {
     throw new Error(`Индексируемая SEO-страница отсутствует в sitemap или закрыта: ${page.path}`);
   }
-  const expectedLastmod = ["vesa", "tv-mount-screws", "mounting-height", "wall-planner", "tv-dimensions"].includes(page.id)
+  const expectedLastmod = ["phone-to-tv", "tv-no-signal", "vesa", "tv-mount-screws", "mounting-height", "wall-planner", "tv-dimensions"].includes(page.id)
     ? trafficPagesUpdatedAt
     : corePagesUpdatedAt;
   if (sitemapLastmods.get(page.path) !== expectedLastmod) {

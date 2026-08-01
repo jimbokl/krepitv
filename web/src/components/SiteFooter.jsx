@@ -1,6 +1,7 @@
 import { Brand } from "./Brand.jsx";
 
 const footerLinks = [
+  { href: "/televizor-pishet-net-signala/", label: "Нет сигнала" },
   { href: "/kak-podklyuchit-telefon-k-televizoru/", label: "Телефон → ТВ" },
   { href: "/podbor/", label: "Подбор" },
   { href: "/modeli/", label: "Телевизоры" },

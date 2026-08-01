@@ -17,6 +17,7 @@ const height = Number(argument("--height", "1100"));
 const selector = argument("--selector", null);
 const modelQuery = argument("--model-query", null);
 const phoneTvState = argument("--phone-tv-state", null);
+const tvNoSignalState = argument("--tv-no-signal-state", null);
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
 const consent = argument("--consent", "denied");
@@ -41,6 +42,24 @@ if (phoneTvState && ![
   "retry",
 ].includes(phoneTvState)) {
   throw new Error("Invalid phone-to-TV state");
+}
+if (tvNoSignalState && ![
+  "empty",
+  "default",
+  "disabled",
+  "focus",
+  "loading",
+  "error",
+  "success",
+  "unknown-source",
+  "needs-service",
+  "provider-path",
+  "retry",
+].includes(tvNoSignalState)) {
+  throw new Error("Invalid TV no-signal state");
+}
+if (phoneTvState && tvNoSignalState) {
+  throw new Error("Choose only one interactive QA state");
 }
 if (placementAttributionRequired && !affiliateReportEnabled) {
   throw new Error("--require-placement-attribution requires --affiliate-report");
@@ -132,11 +151,12 @@ try {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
     });
   }
-  if (["loading", "error", "retry"].includes(phoneTvState)) {
+  const wasmQaState = phoneTvState || tvNoSignalState;
+  if (["loading", "error", "retry"].includes(wasmQaState)) {
     await send("Page.addScriptToEvaluateOnNewDocument", {
-      source: phoneTvState === "loading"
+      source: wasmQaState === "loading"
         ? `WebAssembly.instantiateStreaming = () => new Promise(() => {}); WebAssembly.instantiate = () => new Promise(() => {});`
-        : phoneTvState === "error"
+        : wasmQaState === "error"
           ? `WebAssembly.instantiateStreaming = () => Promise.reject(new Error("QA WASM failure")); WebAssembly.instantiate = () => Promise.reject(new Error("QA WASM failure"));`
           : `(() => {
               const originalStreaming = WebAssembly.instantiateStreaming.bind(WebAssembly);
@@ -278,6 +298,96 @@ try {
       throw new Error("Phone-to-TV route contains Market links");
     }
   }
+  let tvNoSignalReport = null;
+  if (tvNoSignalState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(tvNoSignalState)};
+        const wizard = document.querySelector("[data-tv-no-signal-wizard]");
+        if (!wizard) return Promise.reject(new Error("TV no-signal wizard not found"));
+        const choose = (name, value) => {
+          const input = wizard.querySelector('input[name="' + name + '"][value="' + value + '"]');
+          if (!input) throw new Error("Missing radio " + name + ":" + value);
+          input.click();
+        };
+        const waitFor = (predicate, message, timeout = 5000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            const value = predicate();
+            if (value) {
+              clearInterval(timer);
+              resolve(value);
+            } else if (Date.now() - startedAt > timeout) {
+              clearInterval(timer);
+              reject(new Error(message));
+            }
+          }, 25);
+        });
+
+        if (state === "focus") {
+          wizard.querySelector('input[name="signal-source"]')?.focus();
+        } else if (["default", "disabled"].includes(state)) {
+          choose("signal-source", "hdmi");
+        } else if (["loading", "error", "success", "unknown-source", "needs-service", "provider-path", "retry"].includes(state)) {
+          choose("signal-source", state === "unknown-source" ? "unknown" : state === "provider-path" ? "cable-box" : "hdmi");
+          await waitFor(
+            () => wizard.querySelector('input[name="tv-menu-visible"]'),
+            "TV menu choices did not render",
+          );
+          choose("tv-menu-visible", state === "needs-service" ? "no" : "yes");
+          if (state === "provider-path") {
+            choose("source-powered", "yes");
+            choose("input-matches", "yes");
+            choose("receiver-menu-visible", "yes");
+          }
+          const submit = await waitFor(
+            () => {
+              const button = wizard.querySelector('button[type="submit"]');
+              return button && !button.disabled ? button : null;
+            },
+            "TV no-signal submit stayed disabled",
+          );
+          submit.click();
+          if (state === "retry") {
+            await waitFor(
+              () => wizard.querySelector('[role="alert"]'),
+              "TV no-signal retry did not reach the first error",
+            );
+            globalThis.__qaBlockWasm = false;
+            wizard.querySelector('button[type="button"]')?.click();
+          }
+        }
+
+        const expected = state === "loading"
+          ? () => wizard.innerText.includes("Составляем план")
+          : state === "error"
+            ? () => wizard.querySelector('[role="alert"]')
+            : ["success", "retry"].includes(state)
+              ? () => document.querySelector('[data-tv-no-signal-result="success"]')
+              : ["unknown-source", "needs-service", "provider-path"].includes(state)
+                ? () => document.querySelector('[data-tv-no-signal-result="' + state + '"]')
+                : () => true;
+        await waitFor(expected, "TV no-signal state timed out");
+        return {
+          state,
+          submitDisabled: Boolean(wizard.querySelector('button[type="submit"]')?.disabled),
+          resultStatus: document.querySelector("[data-tv-no-signal-result]")?.getAttribute("data-tv-no-signal-result") ?? null,
+          hasAlert: Boolean(wizard.querySelector('[role="alert"]')),
+          focusedName: document.activeElement?.getAttribute("name") ?? null,
+          marketLinks: document.querySelectorAll('a[href*="market.yandex.ru"]').length,
+        };
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error("TV no-signal interaction failed");
+    }
+    tvNoSignalReport = interaction.result.value;
+    if (tvNoSignalReport.marketLinks !== 0) {
+      throw new Error("TV no-signal route contains Market links");
+    }
+  }
   let modelInteractionReport = null;
   if (modelQuery) {
     const interaction = await send("Runtime.evaluate", {
@@ -349,13 +459,20 @@ try {
     }
     modelInteractionReport = interaction.result.value;
   }
-  const effectiveSelector = selector || (["success", "needs-check", "no-direct-path", "retry"].includes(phoneTvState)
-    ? "[data-phone-tv-result]"
-    : phoneTvState === "error"
-      ? "[data-phone-tv-wizard] [role=\"alert\"]"
-    : phoneTvState
-      ? "[data-phone-tv-wizard]"
-      : null);
+  const effectiveSelector = selector
+    || (["success", "needs-check", "no-direct-path", "retry"].includes(phoneTvState)
+      ? "[data-phone-tv-result]"
+      : phoneTvState === "error"
+        ? "[data-phone-tv-wizard] [role=\"alert\"]"
+        : phoneTvState
+          ? "[data-phone-tv-wizard]"
+          : ["success", "unknown-source", "needs-service", "provider-path", "retry"].includes(tvNoSignalState)
+            ? "[data-tv-no-signal-result]"
+            : tvNoSignalState === "error"
+              ? "[data-tv-no-signal-wizard] [role=\"alert\"]"
+              : tvNoSignalState
+                ? "[data-tv-no-signal-wizard]"
+                : null);
   if (effectiveSelector) {
     const selected = await send("Runtime.evaluate", {
       expression: `(() => {
@@ -486,6 +603,7 @@ try {
   process.stdout.write(`${output}\n${JSON.stringify(dimensions.result.value)}\n`);
   if (modelInteractionReport) process.stdout.write(`${JSON.stringify(modelInteractionReport)}\n`);
   if (phoneTvReport) process.stdout.write(`${JSON.stringify(phoneTvReport)}\n`);
+  if (tvNoSignalReport) process.stdout.write(`${JSON.stringify(tvNoSignalReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();

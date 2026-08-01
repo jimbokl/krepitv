@@ -142,7 +142,8 @@ function preferredRelatedIds(pageId) {
   }
 
   const groups = {
-    "phone-to-tv": ["tv-dimensions", "wall-planner", "viewing-distance", "vesa", "mounting-height", "wall-mounted-tv"],
+    "tv-no-signal": ["phone-to-tv", "tv-dimensions", "viewing-distance", "wall-planner", "vesa", "mounting-height"],
+    "phone-to-tv": ["tv-no-signal", "tv-dimensions", "wall-planner", "viewing-distance", "vesa", "mounting-height"],
     "wall-mounted-tv": ["mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height"],
     "wall-planner": ["tv-dimensions", "mounting-height", "mounting-map", "tv-zone-sockets", "viewing-distance", "wall-mounted-tv"],
     "tv-dimensions": ["wall-planner", "viewing-distance", "diagonal-43", "diagonal-55", "diagonal-65", "mounting-height"],

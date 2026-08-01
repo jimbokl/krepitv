@@ -553,7 +553,13 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
 fn seo_page_lastmod(page: &SeoPage) -> &'static str {
     if matches!(
         page.id.as_str(),
-        "vesa" | "tv-mount-screws" | "mounting-height" | "wall-planner" | "tv-dimensions"
+        "phone-to-tv"
+            | "tv-no-signal"
+            | "vesa"
+            | "tv-mount-screws"
+            | "mounting-height"
+            | "wall-planner"
+            | "tv-dimensions"
     ) {
         TRAFFIC_PAGES_UPDATED_AT
     } else {
@@ -710,11 +716,11 @@ fn html_shell(
 }
 
 fn static_header() -> &'static str {
-    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/vesa/\">VESA</a><a href=\"/metodika/\">Методика</a></nav></div></header>"
+    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/vesa/\">VESA</a></nav></div></header>"
 }
 
 fn static_footer() -> &'static str {
-    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/televizor-na-stene/\">Примерка на стене</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
+    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/televizor-na-stene/\">Примерка на стене</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
 }
 
 fn static_layout(content: &str) -> String {
@@ -1449,13 +1455,21 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "tv-no-signal" => &[
+                "phone-to-tv",
+                "tv-dimensions",
+                "viewing-distance",
+                "wall-planner",
+                "vesa",
+                "mounting-height",
+            ],
             "phone-to-tv" => &[
+                "tv-no-signal",
                 "tv-dimensions",
                 "wall-planner",
                 "viewing-distance",
                 "vesa",
                 "mounting-height",
-                "wall-mounted-tv",
             ],
             "wall-mounted-tv" => &[
                 "wall-planner",
@@ -1578,6 +1592,9 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "tv-no-signal" => {
+            "<section class=\"border-y-2 border-ink py-7\" data-tv-no-signal-answer=\"true\" data-tv-no-signal-reference=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Диагностика без догадок</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сначала определите источник сообщения</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">Откройте собственное меню телевизора или измените громкость. Если индикатор виден, телевизор способен отрисовать свой интерфейс — можно переходить к выбранному входу, внешнему устройству и кабелю. Если не виден, мастер не устанавливает причину и останавливает обычную диагностику сигнала.</p><div class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2\"><article class=\"bg-paper p-5\" data-tv-no-signal-branch=\"hdmi\"><p class=\"font-mono text-xs uppercase text-action\">HDMI</p><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Вход → питание → прямая цепочка</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Сопоставьте Source/Input с разъёмом, проверьте питание источника и временно уберите переходники, ресивер или саундбар.</p></article><article class=\"bg-paper p-5\" data-tv-no-signal-branch=\"terrestrial\"><p class=\"font-mono text-xs uppercase text-action\">Эфир</p><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Кабель → TV/DTV → поиск</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Сначала проверьте доступное антенное соединение и источник. Не поднимайтесь к антенне на крышу.</p></article><article class=\"bg-paper p-5\" data-tv-no-signal-branch=\"provider\"><p class=\"font-mono text-xs uppercase text-action\">Приставка оператора</p><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Кто показывает надпись</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Если видны меню или логотип приставки, телевизор уже получает её изображение: дальнейшую ветку определяет оператор.</p></article><article class=\"bg-paper p-5\" data-tv-no-signal-branch=\"satellite\"><p class=\"font-mono text-xs uppercase text-action\">Спутник</p><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Только доступные проверки</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Проверьте питание приёмника, доступный кабель, погоду и препятствия. Фирменные шаги уточняйте у своего оператора; недоступную антенну должен проверять специалист.</p></article></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\">Не разбирайте телевизор и не поднимайтесь к антенне на крышу.</p><div class=\"mt-7\"><h3 class=\"font-display text-2xl font-extrabold\">Официальные инструкции</h3><nav class=\"mt-4 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold\" aria-label=\"Источники диагностики сигнала\"><a class=\"text-technical underline underline-offset-4\" href=\"https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/\" rel=\"noreferrer\" target=\"_blank\" data-tv-no-signal-source=\"samsung-hdmi\">Samsung: HDMI</a><a class=\"text-technical underline underline-offset-4\" href=\"https://www.sony.ru/electronics/support/articles/00298459\" rel=\"noreferrer\" target=\"_blank\" data-tv-no-signal-source=\"sony-hdmi\">Sony: HDMI</a><a class=\"text-technical underline underline-offset-4\" href=\"https://plus.rtrs.ru/info/\" rel=\"noreferrer\" target=\"_blank\" data-tv-no-signal-source=\"rtrs-dtv\">РТРС: эфирное ТВ</a></nav></div></section>"
+        }
         "phone-to-tv" => {
             "<section class=\"border-y-2 border-ink py-7\" data-phone-tv-answer=\"true\" data-phone-tv-reference=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Подключение без угадываний</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Какой способ подходит вашей паре устройств</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">Сначала выберите задачу: повтор всего экрана или передача видео из приложения. Затем подтвердите одну технологию на обоих устройствах. Одного слова Smart TV, Android или USB-C для совместимости недостаточно.</p><div class=\"mt-7 overflow-x-auto border border-ink\"><table class=\"w-full min-w-[42rem] border-collapse text-left text-sm\"><thead class=\"bg-ink font-mono text-xs uppercase text-white\"><tr><th class=\"px-4 py-3\" scope=\"col\">Способ</th><th class=\"px-4 py-3\" scope=\"col\">Для чего</th><th class=\"px-4 py-3\" scope=\"col\">Что обязательно проверить</th></tr></thead><tbody class=\"divide-y divide-line bg-white\"><tr data-phone-tv-method=\"airplay\"><th class=\"px-4 py-3\" scope=\"row\">AirPlay</th><td class=\"px-4 py-3\">Видео и экран iPhone</td><td class=\"px-4 py-3\">AirPlay на ТВ и одна сеть Wi-Fi</td></tr><tr data-phone-tv-method=\"google-cast\"><th class=\"px-4 py-3\" scope=\"row\">Google Cast</th><td class=\"px-4 py-3\">Видео из совместимого приложения</td><td class=\"px-4 py-3\">Cast на ТВ, кнопка в приложении и одна сеть</td></tr><tr data-phone-tv-method=\"miracast\"><th class=\"px-4 py-3\" scope=\"row\">Miracast / Smart View</th><td class=\"px-4 py-3\">Экран Android</td><td class=\"px-4 py-3\">Явная поддержка у телефона и телевизора</td></tr><tr data-phone-tv-method=\"hdmi-adapter\"><th class=\"px-4 py-3\" scope=\"row\">HDMI</th><td class=\"px-4 py-3\">Проводной экран</td><td class=\"px-4 py-3\">Видеовыход телефона, правильный адаптер и вход HDMI</td></tr><tr data-phone-tv-method=\"usb\"><th class=\"px-4 py-3\" scope=\"row\">Обычный USB</th><td class=\"px-4 py-3\">Питание или совместимые файлы</td><td class=\"px-4 py-3\">Не считать универсальным видеовходом</td></tr></tbody></table></div><div class=\"mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3\"><article class=\"bg-paper p-5\"><h3 class=\"font-display text-2xl font-extrabold\">AirPlay и Cast различаются</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Cast из приложения не равен универсальному повтору всего экрана iPhone.</p></article><article class=\"bg-paper p-5\"><h3 class=\"font-display text-2xl font-extrabold\">USB-C не гарантирует видео</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Для Android нужен явно заявленный DisplayPort Alt Mode или другой проводной видеовыход.</p></article><article class=\"bg-paper p-5\"><h3 class=\"font-display text-2xl font-extrabold\">Неизвестно — значит проверяем</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Бренд и год выпуска не превращаются в обещание совместимости без паспорта модели.</p></article></div><div class=\"mt-7\"><h3 class=\"font-display text-2xl font-extrabold\">Официальные инструкции</h3><nav class=\"mt-4 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold\" aria-label=\"Источники способов подключения\"><a class=\"text-technical underline underline-offset-4\" href=\"https://support.apple.com/ru-ru/102661\" rel=\"noreferrer\" target=\"_blank\" data-phone-tv-source=\"apple-airplay\">Apple: AirPlay</a><a class=\"text-technical underline underline-offset-4\" href=\"https://support.google.com/googlecast/answer/3006709?hl=ru\" rel=\"noreferrer\" target=\"_blank\" data-phone-tv-source=\"google-cast\">Google: Cast</a><a class=\"text-technical underline underline-offset-4\" href=\"https://www.samsung.com/ru/support/mobile-devices/how-to-mirror-from-your-samsung-smartphone-to-your-tv/\" rel=\"noreferrer\" target=\"_blank\" data-phone-tv-source=\"samsung-smart-view\">Samsung: Smart View</a><a class=\"text-technical underline underline-offset-4\" href=\"https://www.displayport.org/faq/\" rel=\"noreferrer\" target=\"_blank\" data-phone-tv-source=\"vesa-displayport\">VESA: USB-C и DisplayPort</a></nav></div></section>"
         }
@@ -3293,8 +3310,9 @@ mod tests {
         model_page_body, mount_page_body, mounts_catalog_body, parse_rfc3339_utc_seconds,
         read_json, related_seo_pages, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
         seo_calculator_note, seo_catalog_html, seo_page_body, seo_screw_catalog_html,
-        seo_vesa_model_catalog_html, trust_page_body, tv_product_json_ld,
-        validate_commercial_profiles, validate_trust_pages, wall_mount_screws_html, workspace_root,
+        seo_vesa_model_catalog_html, static_footer, static_header, trust_page_body,
+        tv_product_json_ld, validate_commercial_profiles, validate_trust_pages,
+        wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -3343,6 +3361,17 @@ mod tests {
             },
         );
         assert!(!inner.contains("yandex-market-affiliate-verification"));
+    }
+
+    #[test]
+    fn static_navigation_links_the_primary_no_signal_traffic_wedge() {
+        assert!(
+            static_header().contains("href=\"/televizor-pishet-net-signala/\">Нет сигнала</a>")
+        );
+        assert!(
+            static_footer().contains("href=\"/televizor-pishet-net-signala/\">Нет сигнала</a>")
+        );
+        assert!(!static_header().contains("href=\"/metodika/\">Методика</a>"));
     }
 
     #[test]
@@ -3734,7 +3763,12 @@ mod tests {
         let html = home_page_body(&models, &pages);
 
         assert_eq!(html.matches("data-featured-traffic-tool=").count(), 4);
-        for id in ["phone-to-tv", "tv-dimensions", "wall-planner", "vesa"] {
+        for id in [
+            "phone-to-tv",
+            "tv-no-signal",
+            "tv-dimensions",
+            "wall-planner",
+        ] {
             assert!(html.contains(&format!("data-featured-traffic-tool=\"{id}\"")));
         }
         assert!(html.contains("80 моделей с источниками"));
@@ -3770,6 +3804,39 @@ mod tests {
         assert!(html.contains("support.google.com/googlecast"));
         assert!(html.contains("samsung.com/ru/support"));
         assert!(html.contains("displayport.org/faq"));
+        assert!(!html.contains("market.yandex.ru"));
+        assert!(!html.contains("data-affiliate"));
+    }
+
+    #[test]
+    fn tv_no_signal_is_one_static_first_canonical_without_market_links() {
+        let root = workspace_root();
+        let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let page = pages
+            .iter()
+            .find(|page| page.id == "tv-no-signal")
+            .expect("TV no-signal page");
+        let html = seo_page_body(page, &pages, &[], &[], &[]);
+
+        assert!(is_indexable_seo_page(page));
+        assert_eq!(page.path, "/televizor-pishet-net-signala/");
+        assert_eq!(
+            pages
+                .iter()
+                .filter(|item| item.id == "tv-no-signal")
+                .count(),
+            1
+        );
+        assert_eq!(html.matches("data-tv-no-signal-answer=\"true\"").count(), 1);
+        for branch in ["hdmi", "terrestrial", "provider", "satellite"] {
+            assert!(html.contains(&format!("data-tv-no-signal-branch=\"{branch}\"")));
+        }
+        assert!(html.contains("Не разбирайте телевизор"));
+        assert!(html.contains("samsung.com/ru/support"));
+        assert!(html.contains("sony.ru/electronics/support"));
+        assert!(html.contains("plus.rtrs.ru/info"));
+        assert!(html.contains("Фирменные шаги уточняйте у своего оператора"));
+        assert!(!html.contains("tricolor.ru/help"));
         assert!(!html.contains("market.yandex.ru"));
         assert!(!html.contains("data-affiliate"));
     }

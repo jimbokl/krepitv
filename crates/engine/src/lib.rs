@@ -975,7 +975,9 @@ pub fn calculate_phone_tv_connection(
                         "Найдите «Трансляция», Smart View или «Беспроводной экран».",
                         "Выберите телевизор и подтвердите подключение.",
                     ],
-                    &["Android и Smart TV не гарантируют общий протокол: нужна проверка обеих точных моделей."],
+                    &[
+                        "Android и Smart TV не гарантируют общий протокол: нужна проверка обеих точных моделей.",
+                    ],
                 );
                 route.source_ids = match tv {
                     "samsung-smart-tv" => vec!["samsung-smart-view".to_string()],
@@ -1152,8 +1154,401 @@ pub fn calculate_phone_tv_connection(
         rejected_reasons,
         next_checks,
         privacy: "Расчёт выполняется локально в браузере; выбранные устройства не отправляются на сервер."
-            .to_string(),
+        .to_string(),
     })
+}
+
+/// Наблюдения пользователя для безопасной проверки сообщения «Нет сигнала».
+///
+/// Все поля являются закрытыми вариантами выбора. Значение `unknown` —
+/// полноценное наблюдение: движок не подменяет его догадкой о причине.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct TvNoSignalInput {
+    pub source: String,
+    pub tv_menu_visible: String,
+    pub source_powered: String,
+    pub input_matches: String,
+    pub cable_connected: String,
+    pub receiver_menu_visible: String,
+}
+
+/// Один проверяемый и безопасный шаг плана «Нет сигнала».
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct TvNoSignalStep {
+    pub id: String,
+    pub title: String,
+    pub instruction: String,
+    pub source_ids: Vec<String>,
+    pub stop_condition: String,
+}
+
+/// Консервативный план следующей проверки без диагноза оборудования.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct TvNoSignalPlan {
+    pub status: String,
+    pub source: String,
+    pub primary_step_id: Option<String>,
+    pub headline: String,
+    pub explanation: String,
+    pub steps: Vec<TvNoSignalStep>,
+    pub stop_conditions: Vec<String>,
+    pub privacy: String,
+}
+
+fn tv_no_signal_step(
+    id: &str,
+    title: &str,
+    instruction: &str,
+    source_ids: &[&str],
+    stop_condition: &str,
+) -> TvNoSignalStep {
+    TvNoSignalStep {
+        id: id.to_string(),
+        title: title.to_string(),
+        instruction: instruction.to_string(),
+        source_ids: source_ids
+            .iter()
+            .map(|source_id| (*source_id).to_string())
+            .collect(),
+        stop_condition: stop_condition.to_string(),
+    }
+}
+
+fn tv_no_signal_plan(
+    status: &str,
+    source: &str,
+    headline: &str,
+    explanation: &str,
+    steps: Vec<TvNoSignalStep>,
+    stop_conditions: &[&str],
+) -> TvNoSignalPlan {
+    TvNoSignalPlan {
+        status: status.to_string(),
+        source: source.to_string(),
+        primary_step_id: steps.first().map(|step| step.id.clone()),
+        headline: headline.to_string(),
+        explanation: explanation.to_string(),
+        steps,
+        stop_conditions: stop_conditions
+            .iter()
+            .map(|condition| (*condition).to_string())
+            .collect(),
+        privacy:
+            "Проверка выполняется локально в браузере; выбранные ответы не отправляются на сервер."
+                .to_string(),
+    }
+}
+
+fn tv_no_signal_hdmi_steps(input: &TvNoSignalInput) -> Vec<TvNoSignalStep> {
+    let mut steps = Vec::new();
+
+    if input.input_matches != "yes" {
+        steps.push(tv_no_signal_step(
+            "select-matching-input",
+            "Сверьте номер HDMI",
+            if input.input_matches == "no" {
+                "Проследите кабель до разъёма телевизора и выберите на ТВ именно этот HDMI-вход."
+            } else {
+                "Проследите кабель до разъёма телевизора, запомните номер HDMI и выберите тот же вход кнопкой Source/Input."
+            },
+            &["samsung-hdmi", "sony-hdmi"],
+            "Если собственное меню телевизора перестало отображаться, прекратите проверку сигнала.",
+        ));
+    }
+
+    if input.source_powered != "yes" {
+        steps.push(tv_no_signal_step(
+            "confirm-source-power",
+            "Проверьте питание источника",
+            if input.source_powered == "no" {
+                "Включите приставку, компьютер или другое внешнее устройство и дождитесь его обычной загрузки."
+            } else {
+                "Убедитесь по штатному индикатору или меню, что внешнее устройство включено и завершило загрузку."
+            },
+            &["samsung-hdmi", "sony-hdmi"],
+            "Если устройство необычно нагрелось, пахнет гарью или имеет повреждённый провод, отключите питание и обратитесь в сервис.",
+        ));
+    }
+
+    steps.push(tv_no_signal_step(
+        "connect-hdmi-directly",
+        "Оставьте прямую HDMI-цепочку",
+        "Соедините HDMI OUT источника напрямую с HDMI IN телевизора, временно исключив ресивер, сплиттер и переходники.",
+        &["samsung-hdmi", "sony-hdmi"],
+        "Не разбирайте устройства и не трогайте повреждённые разъёмы или кабели.",
+    ));
+    steps.push(tv_no_signal_step(
+        "reseat-and-isolate-hdmi",
+        "Изолируйте одно звено за раз",
+        "При выключенных устройствах переподключите кабель, затем по очереди проверьте другой HDMI-вход, заведомо рабочий кабель или второй источник, если они уже есть под рукой.",
+        &["samsung-hdmi", "sony-hdmi"],
+        "Не объявляйте кабель или телевизор причиной, пока отдельная проверка не повторила результат.",
+    ));
+    steps.push(tv_no_signal_step(
+        "check-source-output",
+        "Проверьте видеовыход источника",
+        "Если источник доступен на другом экране, проверьте, что он действительно выводит изображение и использует поддерживаемое разрешение.",
+        &["samsung-hdmi", "sony-hdmi"],
+        "Если другого экрана нет, пропустите этот шаг — не делайте вывод о поломке по одному сообщению.",
+    ));
+
+    steps
+}
+
+/// Возвращает безопасный порядок проверок для сообщения «Нет сигнала».
+///
+/// Движок ранжирует только наблюдаемые проверки. Он не диагностирует плату,
+/// матрицу, кабель, антенну или внешнее устройство и не рекомендует покупку.
+pub fn calculate_tv_no_signal(input: &TvNoSignalInput) -> Result<TvNoSignalPlan, String> {
+    require_choice(
+        &input.source,
+        &["hdmi", "terrestrial", "cable-box", "satellite", "unknown"],
+        "Источник просмотра",
+    )?;
+    for (value, label) in [
+        (&input.tv_menu_visible, "Меню телевизора"),
+        (&input.source_powered, "Питание источника"),
+        (&input.input_matches, "Выбранный вход"),
+        (&input.cable_connected, "Подключение кабеля"),
+        (&input.receiver_menu_visible, "Меню приставки"),
+    ] {
+        require_choice(value, &["yes", "no", "unknown"], label)?;
+    }
+
+    if input.tv_menu_visible == "no" {
+        return Ok(tv_no_signal_plan(
+            "needs-service",
+            &input.source,
+            "Сначала проверьте сам телевизор",
+            "Если не видно даже собственного меню или шкалы громкости ТВ, нельзя относить проблему к входному сигналу.",
+            vec![tv_no_signal_step(
+                "stop-signal-check",
+                "Остановите проверку входного сигнала",
+                "Откройте меню или измените громкость штатным пультом. Если собственная графика ТВ не появилась, запишите модель и обратитесь в поддержку или сервис.",
+                &[],
+                "Не разбирайте телевизор и не проверяйте внутренние узлы самостоятельно.",
+            )],
+            &[
+                "Не разбирайте телевизор и не работайте с ним под напряжением.",
+                "Если есть запах гари, треск или повреждение питания, отключите телевизор от розетки.",
+            ],
+        ));
+    }
+
+    if input.tv_menu_visible == "unknown" {
+        return Ok(tv_no_signal_plan(
+            "action-plan",
+            &input.source,
+            "Сначала отделите экран ТВ от источника",
+            "Один короткий тест покажет, можно ли продолжать проверку входного сигнала.",
+            vec![tv_no_signal_step(
+                "check-tv-menu",
+                "Откройте собственное меню ТВ",
+                "Штатным пультом откройте меню телевизора или измените громкость и проверьте, появилась ли поверх сообщения шкала ТВ.",
+                &[],
+                "Если меню и шкала не появляются, остановите этот мастер и используйте сервисный путь.",
+            )],
+            &["Не разбирайте телевизор и не работайте с ним под напряжением."],
+        ));
+    }
+
+    if input.source == "unknown" {
+        return Ok(tv_no_signal_plan(
+            "unknown-source",
+            &input.source,
+            "Определите, кто показывает сообщение",
+            "Без источника мастер не будет угадывать причину или советовать оборудование.",
+            vec![tv_no_signal_step(
+                "identify-message-source",
+                "Переключите Source/Input",
+                "Откройте список входов ТВ и по очереди выберите TV/DTV и физически подключённые HDMI. Отметьте, на каком входе меняется экран или появляется меню приставки.",
+                &["samsung-hdmi", "sony-hdmi", "samsung-channel-setup"],
+                "Не запускайте сброс настроек и не меняйте кабели, пока источник сообщения не определён.",
+            )],
+            &["Не делайте вывод о неисправности по одному сообщению «Нет сигнала»."],
+        ));
+    }
+
+    match input.source.as_str() {
+        "hdmi" => Ok(tv_no_signal_plan(
+            "action-plan",
+            &input.source,
+            "Проверьте HDMI от входа к источнику",
+            "План последовательно исключает выбор входа, питание и цепочку соединения, но не называет виноватое устройство.",
+            tv_no_signal_hdmi_steps(input),
+            &[
+                "Не разбирайте телевизор или источник и не работайте с ними под напряжением.",
+                "Не считайте кабель или разъём неисправным без отдельной повторной проверки.",
+            ],
+        )),
+        "terrestrial" => {
+            let mut steps = Vec::new();
+            if input.input_matches != "yes" {
+                steps.push(tv_no_signal_step(
+                    "select-tv-dtv",
+                    "Выберите TV/DTV",
+                    "Откройте Source/Input и выберите телевизионный вход TV/DTV, а не HDMI.",
+                    &["samsung-channel-setup", "rtrs-dtv"],
+                    "Если собственного меню ТВ больше не видно, остановите проверку сигнала.",
+                ));
+            }
+            if input.cable_connected != "yes" {
+                steps.push(tv_no_signal_step(
+                    "check-accessible-antenna-cable",
+                    "Проверьте доступный антенный кабель",
+                    "Осмотрите только доступное соединение кабеля с входом ANT/RF телевизора и аккуратно вставьте штекер до упора.",
+                    &["samsung-channel-setup", "rtrs-dtv"],
+                    "Не поднимайтесь к антенне на крышу и не работайте с недоступным кабелем.",
+                ));
+            }
+            steps.push(tv_no_signal_step(
+                "run-dtv-auto-search",
+                "Запустите автоматический поиск DTV",
+                "В меню каналов выберите эфирную антенну и автоматический цифровой поиск DTV; сохраните найденные каналы.",
+                &["samsung-channel-setup", "rtrs-dtv"],
+                "Не выполняйте заводской сброс: для этой проверки достаточно поиска каналов.",
+            ));
+            steps.push(tv_no_signal_step(
+                "compare-terrestrial-reception",
+                "Сравните приём без догадок",
+                "Если поиск не нашёл каналы, проверьте официальный справочный сервис РТРС для своей местности или сравните приём с соседним исправным телевизором, если это возможно.",
+                &["rtrs-dtv"],
+                "Не меняйте положение наружной антенны в одиночку и не выходите на крышу.",
+            ));
+            Ok(tv_no_signal_plan(
+                "action-plan",
+                &input.source,
+                "Проверьте эфирный вход и поиск DTV",
+                "Антенна, вход TV/DTV и цифровой поиск проверяются отдельно; отсутствие каналов само по себе не устанавливает причину.",
+                steps,
+                &[
+                    "Не поднимайтесь к антенне на крышу.",
+                    "Не выполняйте заводской сброс и не вскрывайте телевизор.",
+                ],
+            ))
+        }
+        "cable-box" => {
+            if input.input_matches == "yes"
+                && input.source_powered == "yes"
+                && input.receiver_menu_visible == "yes"
+            {
+                let mut steps = Vec::new();
+                if input.cable_connected != "yes" {
+                    steps.push(tv_no_signal_step(
+                        "check-accessible-provider-cable",
+                        "Проверьте доступный кабель оператора",
+                        "Осмотрите только доступное внешнее соединение кабеля с приставкой и вставьте разъём без усилия.",
+                        &[],
+                        "Не вскрывайте приставку и не трогайте общедомовое оборудование.",
+                    ));
+                }
+                steps.push(tv_no_signal_step(
+                    "contact-provider",
+                    "Проверьте статус у оператора",
+                    "Зафиксируйте текст сообщения, модель приставки и время появления, затем проверьте уведомления оператора или обратитесь в его поддержку.",
+                    &[],
+                    "Не выполняйте заводской сброс приставки без инструкции своего оператора.",
+                ));
+                return Ok(tv_no_signal_plan(
+                    "provider-path",
+                    &input.source,
+                    "Телевизор показывает меню приставки",
+                    "HDMI-вход и питание подтверждены, поэтому следующий проверяемый путь находится на стороне приставки или услуги оператора; точная причина не установлена.",
+                    steps,
+                    &[
+                        "Не вскрывайте приставку и не трогайте общедомовое оборудование.",
+                        "Не выполняйте заводской сброс без инструкции оператора.",
+                    ],
+                ));
+            }
+
+            let mut steps = tv_no_signal_hdmi_steps(input);
+            steps.push(tv_no_signal_step(
+                "open-receiver-menu",
+                "Откройте меню приставки",
+                "Штатным пультом приставки попробуйте открыть её меню или программу передач, чтобы отделить HDMI-соединение от сигнала оператора.",
+                &[],
+                "Если меню приставки появилось, продолжайте проверку через поддержку своего оператора.",
+            ));
+            Ok(tv_no_signal_plan(
+                "action-plan",
+                &input.source,
+                "Сначала подтвердите связь ТВ с приставкой",
+                "Пока меню приставки не видно, нельзя относить сообщение к оператору или кабельной сети.",
+                steps,
+                &[
+                    "Не вскрывайте приставку и не трогайте общедомовое оборудование.",
+                    "Не выполняйте заводской сброс без инструкции оператора.",
+                ],
+            ))
+        }
+        "satellite" => {
+            let mut steps = Vec::new();
+            if input.input_matches != "yes" {
+                steps.push(tv_no_signal_step(
+                    "select-satellite-receiver-input",
+                    "Сверьте вход спутникового приёмника",
+                    "Проследите HDMI-кабель от приёмника до телевизора и выберите на ТВ тот же номер входа.",
+                    &["sony-hdmi"],
+                    "Если собственное меню ТВ перестало отображаться, прекратите проверку сигнала.",
+                ));
+            }
+            if input.source_powered != "yes" {
+                steps.push(tv_no_signal_step(
+                    "confirm-satellite-receiver-power",
+                    "Проверьте питание приёмника",
+                    "Убедитесь по штатному индикатору и экрану загрузки, что спутниковый приёмник включён.",
+                    &[],
+                    "При запахе гари, треске или повреждённом проводе отключите питание и обратитесь в сервис.",
+                ));
+            }
+            if input.receiver_menu_visible != "yes" {
+                steps.push(tv_no_signal_step(
+                    "open-satellite-receiver-menu",
+                    "Откройте меню приёмника",
+                    "Штатным пультом приёмника откройте его меню, чтобы отличить сообщение телевизора от сообщения спутникового оборудования.",
+                    &[],
+                    "Если меню не появляется при правильном входе и питании, остановитесь и обратитесь в поддержку оборудования.",
+                ));
+            }
+            if input.cable_connected != "yes" {
+                steps.push(tv_no_signal_step(
+                    "check-accessible-satellite-cable",
+                    "Проверьте только доступный кабель",
+                    "Осмотрите доступное внешнее соединение антенного кабеля с приёмником; не разбирайте разъёмы и оборудование.",
+                    &[],
+                    "Не поднимайтесь к антенне и не работайте на крыше.",
+                ));
+            }
+            steps.push(tv_no_signal_step(
+                "observe-weather-and-obstacles",
+                "Оцените условия с безопасного места",
+                "С земли проверьте, нет ли сильного снегопада, наледи или нового видимого препятствия в направлении антенны, и дождитесь окончания опасной погоды.",
+                &[],
+                "Не поворачивайте тарелку и не очищайте её, если для этого нужно подниматься или работать на высоте.",
+            ));
+            steps.push(tv_no_signal_step(
+                "contact-satellite-support",
+                "Передайте наблюдения специалисту",
+                "Запишите текст сообщения, показания шкал сигнала, если они доступны в меню, модель приёмника и выполненные проверки, затем обратитесь в поддержку оператора.",
+                &[],
+                "Настройку недоступной антенны и работы на высоте должен выполнять специалист.",
+            ));
+            Ok(tv_no_signal_plan(
+                "action-plan",
+                &input.source,
+                "Проверьте приёмник, не трогая антенну",
+                "План отделяет вход телевизора от спутникового приёмника и заканчивается безопасной передачей наблюдений специалисту.",
+                steps,
+                &[
+                    "Не поднимайтесь к антенне на крышу и не поворачивайте тарелку.",
+                    "Не разбирайте приёмник, телевизор или антенный тракт.",
+                ],
+            ))
+        }
+        "unknown" => unreachable!(),
+        _ => unreachable!(),
+    }
 }
 
 /// Рассчитывает, хватит ли вылета кронштейна для горизонтального поворота ТВ.
@@ -2867,6 +3262,30 @@ pub fn phone_tv_connection_plan_json(
 }
 
 #[wasm_bindgen]
+pub fn calculate_tv_no_signal_json(
+    source: &str,
+    tv_menu_visible: &str,
+    source_powered: &str,
+    input_matches: &str,
+    cable_connected: &str,
+    receiver_menu_visible: &str,
+) -> String {
+    let input = TvNoSignalInput {
+        source: source.to_string(),
+        tv_menu_visible: tv_menu_visible.to_string(),
+        source_powered: source_powered.to_string(),
+        input_matches: input_matches.to_string(),
+        cable_connected: cable_connected.to_string(),
+        receiver_menu_visible: receiver_menu_visible.to_string(),
+    };
+
+    match calculate_tv_no_signal(&input) {
+        Ok(plan) => serde_json::to_string(&plan).expect("TV no-signal plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
+#[wasm_bindgen]
 pub fn viewing_geometry_json(mode: &str, value: f64, horizontal_angle_deg: f64) -> String {
     let result = match mode {
         "diagonal-to-distance" => viewing_distance_for_diagonal(value, horizontal_angle_deg),
@@ -3641,7 +4060,11 @@ mod tests {
             .find(|route| route.id == "wireless-screen")
             .unwrap();
         assert_eq!(lg_route.source_ids, vec!["lg-screen-share"]);
-        assert!(!lg_route.source_ids.contains(&"samsung-smart-view".to_string()));
+        assert!(
+            !lg_route
+                .source_ids
+                .contains(&"samsung-smart-view".to_string())
+        );
     }
 
     #[test]
@@ -3722,6 +4145,222 @@ mod tests {
         let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
         assert!(invalid.get("error").is_some());
         assert!(invalid.get("status").is_none());
+    }
+
+    fn tv_no_signal_input(source: &str) -> TvNoSignalInput {
+        TvNoSignalInput {
+            source: source.to_string(),
+            tv_menu_visible: "yes".to_string(),
+            source_powered: "unknown".to_string(),
+            input_matches: "unknown".to_string(),
+            cable_connected: "unknown".to_string(),
+            receiver_menu_visible: "unknown".to_string(),
+        }
+    }
+
+    #[test]
+    fn tv_no_signal_unknown_and_missing_tv_menu_fail_closed() {
+        let unknown = calculate_tv_no_signal(&tv_no_signal_input("unknown")).unwrap();
+        assert_eq!(unknown.status, "unknown-source");
+        assert_eq!(
+            unknown.primary_step_id.as_deref(),
+            Some("identify-message-source")
+        );
+        assert_eq!(unknown.steps.len(), 1);
+        assert!(unknown.explanation.contains("не будет угадывать"));
+
+        let mut no_menu = tv_no_signal_input("hdmi");
+        no_menu.tv_menu_visible = "no".to_string();
+        let no_menu = calculate_tv_no_signal(&no_menu).unwrap();
+        assert_eq!(no_menu.status, "needs-service");
+        assert_eq!(
+            no_menu.primary_step_id.as_deref(),
+            Some("stop-signal-check")
+        );
+        assert_eq!(no_menu.steps.len(), 1);
+        assert!(no_menu.explanation.contains("нельзя относить"));
+
+        let mut unknown_menu = tv_no_signal_input("satellite");
+        unknown_menu.tv_menu_visible = "unknown".to_string();
+        let unknown_menu = calculate_tv_no_signal(&unknown_menu).unwrap();
+        assert_eq!(unknown_menu.status, "action-plan");
+        assert_eq!(
+            unknown_menu.primary_step_id.as_deref(),
+            Some("check-tv-menu")
+        );
+        assert_eq!(unknown_menu.steps.len(), 1);
+    }
+
+    #[test]
+    fn tv_no_signal_hdmi_orders_input_power_and_direct_isolation() {
+        let mut input = tv_no_signal_input("hdmi");
+        input.input_matches = "no".to_string();
+        input.source_powered = "no".to_string();
+        let first = calculate_tv_no_signal(&input).unwrap();
+        let second = calculate_tv_no_signal(&input).unwrap();
+
+        assert_eq!(first, second);
+        assert_eq!(first.status, "action-plan");
+        assert_eq!(
+            first
+                .steps
+                .iter()
+                .map(|step| step.id.as_str())
+                .collect::<Vec<_>>(),
+            vec![
+                "select-matching-input",
+                "confirm-source-power",
+                "connect-hdmi-directly",
+                "reseat-and-isolate-hdmi",
+                "check-source-output",
+            ]
+        );
+        assert_eq!(first.steps[0].source_ids, vec!["samsung-hdmi", "sony-hdmi"]);
+
+        let mut confirmed = tv_no_signal_input("hdmi");
+        confirmed.input_matches = "yes".to_string();
+        confirmed.source_powered = "yes".to_string();
+        let confirmed = calculate_tv_no_signal(&confirmed).unwrap();
+        assert_eq!(
+            confirmed.primary_step_id.as_deref(),
+            Some("connect-hdmi-directly")
+        );
+    }
+
+    #[test]
+    fn tv_no_signal_terrestrial_uses_safe_dtv_checks() {
+        let plan = calculate_tv_no_signal(&tv_no_signal_input("terrestrial")).unwrap();
+        assert_eq!(plan.status, "action-plan");
+        assert_eq!(plan.primary_step_id.as_deref(), Some("select-tv-dtv"));
+        assert!(
+            plan.steps
+                .iter()
+                .any(|step| step.id == "run-dtv-auto-search")
+        );
+        assert!(
+            plan.steps
+                .iter()
+                .flat_map(|step| step.source_ids.iter())
+                .any(|source_id| source_id == "rtrs-dtv")
+        );
+        assert!(
+            plan.stop_conditions
+                .iter()
+                .any(|condition| condition.contains("Не поднимайтесь"))
+        );
+    }
+
+    #[test]
+    fn tv_no_signal_cable_box_requires_visible_receiver_menu_for_provider_path() {
+        let mut confirmed = tv_no_signal_input("cable-box");
+        confirmed.input_matches = "yes".to_string();
+        confirmed.source_powered = "yes".to_string();
+        confirmed.receiver_menu_visible = "yes".to_string();
+        confirmed.cable_connected = "yes".to_string();
+        let confirmed = calculate_tv_no_signal(&confirmed).unwrap();
+        assert_eq!(confirmed.status, "provider-path");
+        assert_eq!(
+            confirmed.primary_step_id.as_deref(),
+            Some("contact-provider")
+        );
+        assert!(
+            confirmed
+                .explanation
+                .contains("точная причина не установлена")
+        );
+
+        let mut unconfirmed = tv_no_signal_input("cable-box");
+        unconfirmed.input_matches = "yes".to_string();
+        unconfirmed.source_powered = "yes".to_string();
+        unconfirmed.receiver_menu_visible = "no".to_string();
+        let unconfirmed = calculate_tv_no_signal(&unconfirmed).unwrap();
+        assert_eq!(unconfirmed.status, "action-plan");
+        assert!(
+            unconfirmed
+                .steps
+                .iter()
+                .any(|step| step.id == "open-receiver-menu")
+        );
+    }
+
+    #[test]
+    fn tv_no_signal_satellite_stops_before_roof_or_dish_work() {
+        let plan = calculate_tv_no_signal(&tv_no_signal_input("satellite")).unwrap();
+        assert_eq!(plan.status, "action-plan");
+        assert!(
+            plan.steps
+                .iter()
+                .any(|step| step.id == "contact-satellite-support")
+        );
+        assert!(
+            plan.stop_conditions
+                .iter()
+                .any(|condition| condition.contains("не поворачивайте тарелку"))
+        );
+        assert!(
+            plan.steps
+                .iter()
+                .flat_map(|step| step.source_ids.iter())
+                .all(|source_id| source_id != "tricolor-no-signal"),
+            "generic satellite flow must not inherit a branded operator source"
+        );
+
+        let serialized = serde_json::to_string(&plan).unwrap().to_lowercase();
+        for forbidden in [
+            "купите",
+            "закажите",
+            "замените",
+            "поднимитесь",
+            "поверните тарелку",
+            "диагностирована",
+            "неисправен телевизор",
+        ] {
+            assert!(
+                !serialized.contains(forbidden),
+                "unsafe or unsupported recommendation: {forbidden}"
+            );
+        }
+    }
+
+    #[test]
+    fn tv_no_signal_wasm_json_has_stable_shape_and_error_only_failure() {
+        let response =
+            calculate_tv_no_signal_json("hdmi", "yes", "yes", "yes", "unknown", "unknown");
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "status",
+            "source",
+            "primary_step_id",
+            "headline",
+            "explanation",
+            "steps",
+            "stop_conditions",
+            "privacy",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert_eq!(value["status"], "action-plan");
+        assert_eq!(value["steps"][0]["id"], "connect-hdmi-directly");
+        for field in ["id", "title", "instruction", "source_ids", "stop_condition"] {
+            assert!(
+                value["steps"][0].get(field).is_some(),
+                "missing step field {field}"
+            );
+        }
+        assert!(value.get("error").is_none());
+
+        let invalid =
+            calculate_tv_no_signal_json("streaming-app", "yes", "yes", "yes", "yes", "yes");
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+        assert!(invalid.get("status").is_none());
+
+        let invalid_observation =
+            calculate_tv_no_signal_json("hdmi", "sometimes", "yes", "yes", "yes", "yes");
+        let invalid_observation: serde_json::Value =
+            serde_json::from_str(&invalid_observation).unwrap();
+        assert!(invalid_observation.get("error").is_some());
+        assert!(invalid_observation.get("steps").is_none());
     }
 
     #[test]
