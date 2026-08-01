@@ -1,7 +1,7 @@
 {
   "version": 1,
   "run_id": "20260801-tv-no-signal-traffic-wedge",
-  "sealed_at": "2026-08-01T12:22:49.067151+00:00",
+  "sealed_at": "2026-08-01T12:23:30.472846+00:00",
   "task_hash": "sha256:ec5a3a39628c3c3f4f524fbf0d6e3aef90aa971278bac2c1f6ca19260f259ce2",
   "evidence_hash": "sha256:40e6d37fda86a89b625a320fecdd4e3e4823592fbe20e7cef82cf2ec1bbd0647",
   "files": {
