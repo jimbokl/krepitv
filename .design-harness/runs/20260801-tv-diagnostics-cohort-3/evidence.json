@@ -33,6 +33,12 @@
       "covers": ["919 tracked files", "688 text files", "4 public verification files", "152 indexable HTML", "depth 3", "177 affiliate files", "529 direct affiliate URLs"]
     },
     {
+      "id": "cmd-production",
+      "command": "production hash and browser smoke",
+      "exit_code": 0,
+      "covers": ["GitHub Pages run 30704069791", "HTTPS 200", "HTTP to HTTPS 301", "valid TLS for krepitv.ru and www.krepitv.ru", "8 of 8 local/remote SHA-256 matches", "3 canonicals", "SSR", "default", "success", "zero Market links"]
+    },
+    {
       "id": "cmd-source-contract",
       "command": "jq schema and task/source URL/claim consistency checks",
       "exit_code": 0,
@@ -157,6 +163,27 @@
       "state": "default",
       "viewport_id": "mobile",
       "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "three_compact_links": true, "footer_brand_unwrapped": true}
+    },
+    {
+      "id": "shot-production-sound-desktop-success",
+      "path": "evidence/screenshots/production-sound-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "action-plan", "primary_step_id": "confirm-own-menu-visible", "collapsed_remainder": true, "market_links": 0, "production": true}
+    },
+    {
+      "id": "shot-production-no-sound-tablet-default",
+      "path": "evidence/screenshots/production-no-sound-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0, "production": true}
+    },
+    {
+      "id": "shot-production-remote-mobile-success",
+      "path": "evidence/screenshots/production-remote-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "action-plan", "primary_step_id": "follow-model-pairing", "completed_battery_step_omitted": true, "collapsed_remainder": true, "market_links": 0, "production": true}
     }
   ],
   "assets": [],
@@ -168,8 +195,8 @@
       "Three indexable canonical pages have substantive SSR, official sources and zero Yandex Market links.",
       "All 360 valid Rust/WASM combinations have allowed statuses, 1..4 sourced steps, primary first, stop conditions and privacy text.",
       "Completed battery observations are omitted and every body-button path stops before moving or removing a wall-mounted television.",
-      "Sixteen responsive and state captures have no overflow, overlap or clipped focus.",
-      "Security, static SEO, affiliate and design-drift audits pass; production remains a separate release gate."
+      "Nineteen responsive, state and production captures have no overflow, overlap or clipped focus.",
+      "Security, static SEO, affiliate, design-drift and production hash/browser gates pass."
     ]
   },
   "rollback": {

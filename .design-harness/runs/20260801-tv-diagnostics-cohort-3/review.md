@@ -17,7 +17,7 @@ PASS. Открытых P0–P2 замечаний нет.
 
 ## Visual And Responsive Findings
 
-Проверены 16 скриншотов: 320×800, 768×1024 и 1440×900;
+Проверены 19 скриншотов: 320×800, 768×1024 и 1440×900;
 empty/default/disabled/loading/error/retry/success/focus/needs-check/external-path/
 service-boundary, масштаб текста 200% и WCAG text spacing. Переполнения,
 наложения и обрезанного focus не обнаружено. Главная содержит отдельный компактный
@@ -52,8 +52,9 @@ stop_condition и privacy-текст. Аппаратных диагнозов, �
 ## Residual Risks
 
 Страницы Sony возвращают HTTP 403 автоматическому клиенту и помечены
-`automation_blocked`; требуется периодическая ручная перепроверка. Сам выпуск не
-доказывает достижение 1 001 посетителя в сутки.
+`automation_blocked`; требуется периодическая ручная перепроверка. Production
+прошёл hash/browser smoke, но сам выпуск не доказывает достижение 1 001
+посетителя в сутки.
 
 ## Rollback
 
