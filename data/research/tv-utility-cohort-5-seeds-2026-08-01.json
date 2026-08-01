@@ -1,0 +1,170 @@
+[
+  {
+    "candidate_id": "screen-cleaning",
+    "candidate_path": "/chem-protirat-ekran-televizora/",
+    "query": "чем протирать экран телевизора",
+    "operator_query": "\"[чем !протирать !экран !телевизора]\"",
+    "variant": "wipe-fixed-wordforms"
+  },
+  {
+    "candidate_id": "screen-cleaning",
+    "candidate_path": "/chem-protirat-ekran-televizora/",
+    "query": "чем протереть экран телевизора",
+    "operator_query": "\"[чем !протереть !экран !телевизора]\"",
+    "variant": "wipe-perfective-fixed-wordforms"
+  },
+  {
+    "candidate_id": "screen-cleaning",
+    "candidate_path": "/chem-protirat-ekran-televizora/",
+    "query": "как почистить экран телевизора",
+    "operator_query": "\"[как !почистить !экран !телевизора]\"",
+    "variant": "clean-fixed-wordforms"
+  },
+  {
+    "candidate_id": "screen-cleaning",
+    "candidate_path": "/chem-protirat-ekran-televizora/",
+    "query": "как убрать разводы с экрана телевизора",
+    "operator_query": "\"[как !убрать !разводы с !экрана !телевизора]\"",
+    "variant": "streaks-fixed-wordforms"
+  },
+  {
+    "candidate_id": "dead-pixel-test",
+    "candidate_path": "/proverka-televizora-na-bitye-pikseli/",
+    "query": "проверка телевизора на битые пиксели",
+    "operator_query": "\"[!проверка !телевизора на !битые !пиксели]\"",
+    "variant": "check-fixed-wordforms"
+  },
+  {
+    "candidate_id": "dead-pixel-test",
+    "candidate_path": "/proverka-televizora-na-bitye-pikseli/",
+    "query": "тест телевизора на битые пиксели",
+    "operator_query": "\"[!тест !телевизора на !битые !пиксели]\"",
+    "variant": "test-fixed-wordforms"
+  },
+  {
+    "candidate_id": "dead-pixel-test",
+    "candidate_path": "/proverka-televizora-na-bitye-pikseli/",
+    "query": "проверить телевизор на битые пиксели",
+    "operator_query": "\"[!проверить !телевизор на !битые !пиксели]\"",
+    "variant": "verb-fixed-wordforms"
+  },
+  {
+    "candidate_id": "dead-pixel-test",
+    "candidate_path": "/proverka-televizora-na-bitye-pikseli/",
+    "query": "тест экрана телевизора",
+    "operator_query": "\"[!тест !экрана !телевизора]\"",
+    "variant": "screen-test-fixed-wordforms"
+  },
+  {
+    "candidate_id": "hide-tv-wires",
+    "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+    "query": "как спрятать провода от телевизора на стене",
+    "operator_query": "\"[как !спрятать !провода от !телевизора на !стене]\"",
+    "variant": "wall-fixed-wordforms"
+  },
+  {
+    "candidate_id": "hide-tv-wires",
+    "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+    "query": "как спрятать провода от телевизора без штробления",
+    "operator_query": "\"[как !спрятать !провода от !телевизора без !штробления]\"",
+    "variant": "no-chase-fixed-wordforms"
+  },
+  {
+    "candidate_id": "hide-tv-wires",
+    "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+    "query": "кабель канал для телевизора на стене",
+    "operator_query": "\"[!кабель !канал для !телевизора на !стене]\"",
+    "variant": "raceway-fixed-wordforms"
+  },
+  {
+    "candidate_id": "hide-tv-wires",
+    "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+    "query": "как скрыть провода от телевизора",
+    "operator_query": "\"[как !скрыть !провода от !телевизора]\"",
+    "variant": "hide-fixed-wordforms"
+  },
+  {
+    "candidate_id": "soundbar-to-tv",
+    "candidate_path": "/kak-podklyuchit-saundbar-k-televizoru/",
+    "query": "как подключить саундбар к телевизору",
+    "operator_query": "\"[как !подключить !саундбар к !телевизору]\"",
+    "variant": "connect-fixed-wordforms"
+  },
+  {
+    "candidate_id": "soundbar-to-tv",
+    "candidate_path": "/kak-podklyuchit-saundbar-k-televizoru/",
+    "query": "подключение саундбара к телевизору",
+    "operator_query": "\"[!подключение !саундбара к !телевизору]\"",
+    "variant": "connection-fixed-wordforms"
+  },
+  {
+    "candidate_id": "soundbar-to-tv",
+    "candidate_path": "/kak-podklyuchit-saundbar-k-televizoru/",
+    "query": "телевизор не видит саундбар",
+    "operator_query": "\"[!телевизор не !видит !саундбар]\"",
+    "variant": "not-seen-fixed-wordforms"
+  },
+  {
+    "candidate_id": "make-tv-smart",
+    "candidate_path": "/kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+    "query": "как сделать смарт тв из обычного телевизора",
+    "operator_query": "\"[как !сделать !смарт !тв из !обычного !телевизора]\"",
+    "variant": "make-smart-fixed-wordforms"
+  },
+  {
+    "candidate_id": "make-tv-smart",
+    "candidate_path": "/kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+    "query": "смарт тв приставка для обычного телевизора",
+    "operator_query": "\"[!смарт !тв !приставка для !обычного !телевизора]\"",
+    "variant": "box-fixed-wordforms"
+  },
+  {
+    "candidate_id": "make-tv-smart",
+    "candidate_path": "/kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+    "query": "как подключить смарт тв приставку к телевизору",
+    "operator_query": "\"[как !подключить !смарт !тв !приставку к !телевизору]\"",
+    "variant": "connect-box-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-aspect-ratio",
+    "candidate_path": "/izobrazhenie-ne-na-ves-ekran-televizora/",
+    "query": "черные полосы на экране телевизора",
+    "operator_query": "\"[!черные !полосы на !экране !телевизора]\"",
+    "variant": "black-bars-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-aspect-ratio",
+    "candidate_path": "/izobrazhenie-ne-na-ves-ekran-televizora/",
+    "query": "изображение не на весь экран телевизора",
+    "operator_query": "\"[!изображение не на весь !экран !телевизора]\"",
+    "variant": "not-fullscreen-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-aspect-ratio",
+    "candidate_path": "/izobrazhenie-ne-na-ves-ekran-televizora/",
+    "query": "как растянуть изображение на весь экран телевизора",
+    "operator_query": "\"[как !растянуть !изображение на весь !экран !телевизора]\"",
+    "variant": "stretch-fixed-wordforms"
+  },
+  {
+    "candidate_id": "hdmi-cable-checker",
+    "candidate_path": "/kakoy-hdmi-kabel-nuzhen/",
+    "query": "какой hdmi кабель нужен для телевизора",
+    "operator_query": "\"[!какой hdmi !кабель !нужен для !телевизора]\"",
+    "variant": "needed-fixed-wordforms"
+  },
+  {
+    "candidate_id": "hdmi-cable-checker",
+    "candidate_path": "/kakoy-hdmi-kabel-nuzhen/",
+    "query": "как выбрать hdmi кабель для телевизора",
+    "operator_query": "\"[как !выбрать hdmi !кабель для !телевизора]\"",
+    "variant": "choose-fixed-wordforms"
+  },
+  {
+    "candidate_id": "hdmi-cable-checker",
+    "candidate_path": "/kakoy-hdmi-kabel-nuzhen/",
+    "query": "hdmi кабель для телевизора 4k 120 герц",
+    "operator_query": "\"[hdmi !кабель для !телевизора 4k 120 !герц]\"",
+    "variant": "4k120-fixed-wordforms"
+  }
+]

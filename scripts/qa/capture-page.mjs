@@ -451,6 +451,23 @@ try {
             "service-boundary": ["no", "yes", "drive-not-shown", "yes"],
             "external-path": ["no", "no", "drive-not-shown", "unknown"],
           },
+          "soundbar-to-tv": {
+            success: ["earc", "arc", "yes", "safe"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["earc", "arc", "no", "safe"],
+            "external-path": ["bluetooth", "bluetooth", "yes", "safe"],
+          },
+          "screen-cleaning": {
+            success: ["clear", "off-cool", "clean-dry-microfiber", "safe"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["damage", "off-cool", "clean-dry-microfiber", "safe"],
+          },
+          "smart-tv-box": {
+            success: ["hdmi", "hdmi", "yes", "power-and-network"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["hdmi", "hdmi", "yes", "unsafe"],
+            "external-path": ["hdmi", "hdmi", "yes", "no-power"],
+          },
         };
         const taskScenarios = scenarios[task];
         const scenarioKey = ["needs-check", "service-boundary", "external-path", "immediate-stop"].includes(state)

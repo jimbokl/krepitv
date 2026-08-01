@@ -564,6 +564,9 @@ fn seo_page_lastmod(page: &SeoPage) -> &'static str {
             | "laptop-to-tv"
             | "digital-channels"
             | "picture-setup"
+            | "soundbar-to-tv"
+            | "screen-cleaning"
+            | "smart-tv-box"
             | "vesa"
             | "tv-mount-screws"
             | "mounting-height"
@@ -1488,6 +1491,30 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "soundbar-to-tv" => &[
+                "tv-no-sound",
+                "tv-no-signal",
+                "picture-setup",
+                "tv-sound-no-picture",
+                "tv-remote-not-working",
+                "smart-tv-box",
+            ],
+            "screen-cleaning" => &[
+                "picture-setup",
+                "tv-sound-no-picture",
+                "tv-turns-off",
+                "tv-no-sound",
+                "wall-planner",
+                "soundbar-to-tv",
+            ],
+            "smart-tv-box" => &[
+                "tv-no-signal",
+                "tv-no-internet",
+                "phone-to-tv",
+                "digital-channels",
+                "soundbar-to-tv",
+                "tv-usb-not-seen",
+            ],
             "tv-no-signal" => &[
                 "tv-sound-no-picture",
                 "digital-channels",
@@ -1510,6 +1537,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-remote-not-working",
                 "tv-turns-off",
                 "digital-channels",
+                "soundbar-to-tv",
                 "picture-setup",
             ],
             "tv-remote-not-working" => &[
@@ -1534,6 +1562,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-no-signal",
                 "phone-to-tv",
                 "laptop-to-tv",
+                "smart-tv-box",
                 "tv-turns-off",
             ],
             "tv-usb-not-seen" => &[
@@ -1549,6 +1578,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-no-signal",
                 "tv-no-internet",
                 "tv-usb-not-seen",
+                "smart-tv-box",
                 "picture-setup",
                 "tv-dimensions",
             ],
@@ -1574,6 +1604,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "wall-planner",
                 "tv-no-signal",
                 "laptop-to-tv",
+                "screen-cleaning",
                 "phone-to-tv",
             ],
             "wall-mounted-tv" => &[
@@ -1697,6 +1728,51 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "soundbar-to-tv" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="soundbar-to-tv" data-tv-utility-task="soundbar-to-tv">
+<p class="font-mono text-xs uppercase text-action">Подписи портов → один путь подключения</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Сопоставьте выход телевизора и вход саундбара</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">Смотрите на подписи у реально доступных разъёмов обоих устройств. Обычный HDMI без подписи ARC или eARC не подтверждает возврат звука, а названия аудиовыхода и управления берут из руководств точных моделей.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-utility-branch="labelled-arc"><p class="font-mono text-xs uppercase text-action">ARC/eARC есть на обоих</p><h3 class="mt-2 font-display text-2xl font-extrabold">Соедините подписанные порты</h3><p class="mt-3 text-sm leading-relaxed text-muted">Подключите соответствующие ARC/eARC-разъёмы и выберите внешний аудиовыход по инструкциям телевизора и саундбара. Не переносите название настройки с другой модели.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="matching-wired"><p class="font-mono text-xs uppercase text-action">Совпадает оптика или аналог</p><h3 class="mt-2 font-display text-2xl font-extrabold">Выход → такой же вход</h3><p class="mt-3 text-sm leading-relaxed text-muted">Используйте только явно совпадающую пару. Отдельно выберите нужный вход саундбара и выход телевизора; этот путь не обещает функции ARC/eARC или управление одним пультом.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="bluetooth-or-unknown"><p class="font-mono text-xs uppercase text-action">Bluetooth или подписи не совпали</p><h3 class="mt-2 font-display text-2xl font-extrabold">Сначала точные модели</h3><p class="mt-3 text-sm leading-relaxed text-muted">Bluetooth применим только при явной поддержке обоими устройствами и может иметь задержку или ограничения. При неизвестных либо несовпадающих подписях не выбирайте кабель или переходник наугад.</p></article>
+</div>
+<p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-utility-stop="true">Остановитесь, если порт нельзя достать без снятия или сдвига настенного телевизора, соединение повреждено, горячее, болтается или намокло. Не открывайте устройства и не выполняйте электрические измерения.</p>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-utility-next="tv-no-sound">Соединение подтверждено, но звука нет? Продолжите с <a class="font-semibold text-action underline underline-offset-4" href="/net-zvuka-na-televizore/">мастером проверки звука</a>, не меняя несколько настроек одновременно.</p>
+<nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники подключения саундбара"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/how-to-use-hdmi-arc-on-samsung-smart-tv/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-soundbar-arc">Samsung: HDMI ARC</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00014997" rel="noreferrer" target="_blank" data-tv-utility-source="sony-tv-soundbar-connect">Sony: подключение саундбара</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20153413206539OLT" rel="noreferrer" target="_blank" data-tv-utility-source="lg-tv-soundbar-connect">LG: способы подключения</a></nav>
+</section>"#
+        }
+        "screen-cleaning" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="screen-cleaning" data-tv-utility-task="screen-cleaning">
+<p class="font-mono text-xs uppercase text-action">След на экране → наименее агрессивный шаг</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Начните с сухой мягкой микрофибры</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">Телевизор должен быть выключен и остыть. Вилку отсоединяют только при безопасном доступе; чистящую жидкость не распыляют прямо на экран и не дают ей стекать к рамке или отверстиям.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-utility-branch="dry-dust"><p class="font-mono text-xs uppercase text-action">Пыль</p><h3 class="mt-2 font-display text-2xl font-extrabold">Сухая микрофибра</h3><p class="mt-3 text-sm leading-relaxed text-muted">Чистой мягкой салфеткой без давления аккуратно соберите пыль. Не используйте абразивный материал и не надавливайте на поверхность матрицы.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="fingerprints"><p class="font-mono text-xs uppercase text-action">Отпечатки</p><h3 class="mt-2 font-display text-2xl font-extrabold">Сначала тот же сухой способ</h3><p class="mt-3 text-sm leading-relaxed text-muted">Попробуйте чистую сухую микрофибру. Влажную ткань или состав применяйте только тогда, когда такой шаг прямо разрешён руководством точной модели.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="stubborn-or-unknown"><p class="font-mono text-xs uppercase text-action">Стойкое или неизвестное пятно</p><h3 class="mt-2 font-display text-2xl font-extrabold">Не усиливайте воздействие</h3><p class="mt-3 text-sm leading-relaxed text-muted">Не соскабливайте след, не увеличивайте давление и не пробуйте неподтверждённую химию. Найдите инструкцию конкретного телевизора или обратитесь в официальную поддержку.</p></article>
+</div>
+<p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-utility-stop="true">Не продолжайте очистку при трещине, отслоении, жидкости внутри, а также если телевизор не выключен или не остыл. Не касайтесь горячих, повреждённых или мокрых вилки, кабеля и розетки и не двигайте настенный телевизор ради доступа.</p>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-utility-next="picture-setup">Экран чистый, но изображение остаётся слишком тёмным или неестественным? Перейдите к <a class="font-semibold text-action underline underline-offset-4" href="/nastroyka-izobrazheniya-televizora/">мастеру настройки изображения</a>.</p>
+<nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники очистки экрана"><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20154713246835" rel="noreferrer" target="_blank" data-tv-utility-source="lg-tv-screen-cleaning">LG: очистка экрана</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00167099" rel="noreferrer" target="_blank" data-tv-utility-source="sony-tv-screen-cleaning">Sony: очистка телевизора</a></nav>
+</section>"#
+        }
+        "smart-tv-box" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="smart-tv-box" data-tv-utility-task="smart-tv-box">
+<p class="font-mono text-xs uppercase text-action">Выход приставки → вход телевизора</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Сначала подтвердите видеосоединение</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">У подключения четыре независимых этапа: видео, штатное питание, сеть и аккаунт, сопряжение пульта. Успех одного этапа не подтверждает остальные, а общее предположение о питании приставки от USB не заменяет её инструкцию.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-utility-branch="confirmed-hdmi"><p class="font-mono text-xs uppercase text-action">HDMI подтверждён</p><h3 class="mt-2 font-display text-2xl font-extrabold">Подключите и выберите вход</h3><p class="mt-3 text-sm leading-relaxed text-muted">Соедините HDMI-выход приставки со свободным HDMI-входом телевизора, подайте питание комплектным способом и выберите именно номер подключённого входа.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="confirmed-composite"><p class="font-mono text-xs uppercase text-action">Композитный AV подтверждён</p><h3 class="mt-2 font-display text-2xl font-extrabold">Только по двум инструкциям</h3><p class="mt-3 text-sm leading-relaxed text-muted">Используйте этот путь лишь при явной совместимости выхода приставки и входа телевизора в руководствах точных моделей. Похожий разъём не доказывает совместимость.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="mismatch-or-converter"><p class="font-mono text-xs uppercase text-action">Совпадения нет или нужен переходник</p><h3 class="mt-2 font-display text-2xl font-extrabold">Остановитесь до подключения</h3><p class="mt-3 text-sm leading-relaxed text-muted">Не назначайте пассивный переходник или конвертер без прямой поддержки точной пары устройств. Зафиксируйте названия выходов и входов и сверьте официальные инструкции.</p></article>
+</div>
+<p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-utility-stop="true">Не снимайте и не сдвигайте настенный телевизор ради недоступного порта. Не продолжайте при повреждённых, горячих, болтающихся или мокрых кабеле, вилке либо розетке; не открывайте устройства и не выполняйте электрические измерения.</p>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-utility-next="tv-no-signal">Приставка включена штатно, но изображения нет? Продолжите с <a class="font-semibold text-action underline underline-offset-4" href="/televizor-pishet-net-signala/">мастером «Нет сигнала»</a>.</p>
+<nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники подключения приставки"><a class="text-technical underline underline-offset-4" href="https://support.google.com/googletv/answer/10050221?hl=ru" rel="noreferrer" target="_blank" data-tv-utility-source="google-tv-device-setup">Google: настройка устройства</a><a class="text-technical underline underline-offset-4" href="https://www.mi.com/ru/support/article/KA-15498/" rel="noreferrer" target="_blank" data-tv-utility-source="xiaomi-mi-box-compatibility">Xiaomi: совместимость приставки</a><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-external-hdmi">Samsung: внешний HDMI-источник</a></nav>
+</section>"#
+        }
         "tv-sound-no-picture" => {
             r#"<section class="border-y-2 border-ink py-7" data-tv-diagnostic-answer="tv-sound-no-picture" data-tv-diagnostic-task="tv-sound-no-picture"><p class="font-mono text-xs uppercase text-action">Наблюдение → следующая проверка</p><h2 class="mt-2 font-display text-3xl font-extrabold">Отделите экран телевизора от выбранного источника</h2><p class="mt-3 max-w-4xl leading-relaxed text-muted">Используйте только собственное меню, индикатор громкости и поддерживаемый встроенный тест телевизора. Эти наблюдения выбирают следующий безопасный шаг, но не устанавливают причину и не заменяют проверку точной модели.</p><div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3"><article class="bg-paper p-5" data-tv-diagnostic-branch="own-interface-visible"><p class="font-mono text-xs uppercase text-action">Меню или громкость видны</p><h3 class="mt-2 font-display text-2xl font-extrabold">Проверьте текущий источник</h3><p class="mt-3 text-sm leading-relaxed text-muted">Сопоставьте выбранный вход с подключённым устройством. Если экран показывает «Нет сигнала», перейдите к <a class="font-semibold text-action underline underline-offset-4" href="/televizor-pishet-net-signala/">отдельной проверке сигнала</a>.</p></article><article class="bg-paper p-5" data-tv-diagnostic-branch="one-input-only"><p class="font-mono text-xs uppercase text-action">Только один вход</p><h3 class="mt-2 font-display text-2xl font-extrabold">Изолируйте соединение</h3><p class="mt-3 text-sm leading-relaxed text-muted">Выключите телевизор и источник, затем переподключите доступный сигнальный кабель. При возможности сравните прямое соединение без промежуточного устройства.</p></article><article class="bg-paper p-5" data-tv-diagnostic-branch="no-own-interface"><p class="font-mono text-xs uppercase text-action">Интерфейс не виден</p><h3 class="mt-2 font-display text-2xl font-extrabold">Остановитесь у поддержки</h3><p class="mt-3 text-sm leading-relaxed text-muted">Если не видны меню, индикатор громкости и доступный встроенный тест, не называйте неисправную деталь: используйте официальную поддержку точной модели.</p></article></div><p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-diagnostic-stop="true">Не разбирайте телевизор, пульт или подключённые устройства и не выполняйте электрические измерения. При повреждении, жидкости, запахе гари, дыме, необычном нагреве или мигающем красном индикаторе прекратите самостоятельную проверку.</p><nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники проверки изображения"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/what-to-do-if-there-is-black-screen-on-samsung-tv/" rel="noreferrer" target="_blank" data-tv-diagnostic-source="samsung-black-screen">Samsung: чёрный экран</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20155333777203" rel="noreferrer" target="_blank" data-tv-diagnostic-source="lg-sound-but-no-picture">LG: звук без изображения</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00173823" rel="noreferrer" target="_blank" data-tv-diagnostic-source="sony-picture-sound-test">Sony: встроенный тест</a></nav></section>"#
         }
@@ -4042,6 +4118,94 @@ mod tests {
         }
         assert!(!turns_off.contains("блок питания"));
         assert!(!turns_off.contains("материнская плата"));
+    }
+
+    #[test]
+    fn tv_utility_cohort_5_is_unique_static_first_source_backed_and_non_commercial() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let expected = [
+            (
+                "soundbar-to-tv",
+                "/kak-podklyuchit-saundbar-k-televizoru/",
+                3,
+            ),
+            ("screen-cleaning", "/chem-protirat-ekran-televizora/", 2),
+            (
+                "smart-tv-box",
+                "/kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+                3,
+            ),
+        ];
+
+        for (id, path, source_count) in expected {
+            let matches = pages
+                .iter()
+                .filter(|page| page.id == id || page.path == path)
+                .collect::<Vec<_>>();
+            assert_eq!(matches.len(), 1, "{id} должен иметь один canonical");
+            let page = matches[0];
+            assert_eq!(page.id, id);
+            assert_eq!(page.path, path);
+            assert_eq!(page.kind, "calculator");
+            assert!(page.indexable);
+            assert!(page.facts.len() >= 6);
+            assert!(page.faq.len() >= 6);
+
+            let static_answer = seo_calculator_note(id);
+            assert!(static_answer.contains(&format!("data-tv-utility-answer=\"{id}\"")));
+            assert!(static_answer.contains(&format!("data-tv-utility-task=\"{id}\"")));
+            assert_eq!(static_answer.matches("data-tv-utility-branch=").count(), 3);
+            assert_eq!(
+                static_answer.matches("data-tv-utility-source=").count(),
+                source_count
+            );
+            assert!(static_answer.contains("data-tv-utility-stop=\"true\""));
+            assert!(static_answer.contains("data-tv-utility-next="));
+
+            let html = seo_page_body(page, &pages, &[], &[], &[]);
+            assert_eq!(html.matches("<h1").count(), 1);
+            assert!(html.contains("Связанные материалы"));
+            assert!(!html.contains("market.yandex"));
+            assert!(!html.contains("data-affiliate"));
+            assert!(!html.contains('₽'));
+        }
+
+        let soundbar = seo_calculator_note("soundbar-to-tv");
+        assert!(soundbar.contains("Обычный HDMI без подписи ARC или eARC не подтверждает"));
+        assert!(soundbar.contains("повреждено, горячее, болтается или намокло"));
+        assert!(!soundbar.contains("Любой HDMI"));
+        assert!(!soundbar.contains("гарантирует управление одним пультом"));
+
+        let cleaning = seo_calculator_note("screen-cleaning");
+        assert!(cleaning.contains("сухой мягкой микрофибры"));
+        assert!(cleaning.contains("не распыляют прямо на экран"));
+        assert!(cleaning.contains("руководством точной модели"));
+        assert!(!cleaning.contains("Используйте спирт"));
+        assert!(!cleaning.contains("соскоблите"));
+
+        let smart_box = seo_calculator_note("smart-tv-box");
+        assert!(smart_box.contains("HDMI-выход приставки"));
+        assert!(smart_box.contains("четыре независимых этапа"));
+        assert!(smart_box.contains("питании приставки от USB не заменяет её инструкцию"));
+        assert!(!smart_box.contains("Подойдёт любой переходник"));
+        assert!(!smart_box.contains("питайте от любого USB"));
+
+        for (from, to) in [
+            ("tv-no-sound", "soundbar-to-tv"),
+            ("picture-setup", "screen-cleaning"),
+            ("tv-no-internet", "smart-tv-box"),
+        ] {
+            let source = pages
+                .iter()
+                .find(|page| page.id == from)
+                .expect("страница для входящей перелинковки");
+            assert!(
+                related_seo_pages(source, &pages)
+                    .iter()
+                    .any(|page| page.id == to),
+                "{from} должен ссылаться на {to}"
+            );
+        }
     }
 
     #[test]

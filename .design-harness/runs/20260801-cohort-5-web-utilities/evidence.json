@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "task_id": "20260801-cohort-5-web-utilities",
+  "commands": [
+    {
+      "id": "cmd-rust-cohort-5",
+      "command": "cargo test -p krepitv-engine tv_utility_cohort_5 -- --nocapture",
+      "exit_code": 0,
+      "covers": ["6 targeted tests", "all closed-enum combinations", "fail-closed", "safety boundaries", "official source ids", "stable WASM shape"]
+    },
+    {
+      "id": "cmd-sitegen-cohort-5",
+      "command": "cargo test -p krepitv-sitegen tv_utility_cohort_5 -- --nocapture",
+      "exit_code": 0,
+      "covers": ["3 unique canonicals", "substantive SSR", "related links", "no Market CTA"]
+    },
+    {
+      "id": "cmd-web-cohort-5",
+      "command": "node --test --test-concurrency=1 web/tests/tv-utility-cohort-5.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "exit_code": 0,
+      "covers": ["29 tests", "closed UI values", "8 official sources", "privacy", "WASM order", "capture scenarios"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["88 engine tests", "35 sitegen tests", "169 web tests", "159 HTML", "158 sitemap URLs", "48 SEO materials"]
+    },
+    {
+      "id": "cmd-production-verify",
+      "command": "npm run verify",
+      "exit_code": 0,
+      "covers": ["Russian UI", "catalog", "datasets", "affiliate", "IndexNow", "43 analytics tests", "1001/day gate"]
+    },
+    {
+      "id": "cmd-security-audit",
+      "command": "ru-seo-affiliate-site-harness audit:security",
+      "exit_code": 0,
+      "covers": ["983 tracked files", "727 text files", "4 public verification files", "no exposed secrets"]
+    },
+    {
+      "id": "cmd-static-audit",
+      "command": "ru-seo-affiliate-site-harness audit:static and audit:affiliate",
+      "exit_code": 0,
+      "covers": ["158 indexable HTML", "depth 3", "183 affiliate files", "529 direct affiliate URLs"]
+    },
+    {
+      "id": "cmd-source-contract",
+      "command": "jq schema and task/source URL consistency checks",
+      "exit_code": 0,
+      "covers": ["3 canonicals", "8 official sources", "claim source ids", "Sony automation-blocked status"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "design-harness scan-drift on changed UI source",
+      "exit_code": 0,
+      "covers": ["2 parsed JSX files", "no findings"]
+    },
+    {
+      "id": "cmd-diff-check",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "covers": ["scoped implementation", "text integrity"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-soundbar-mobile-empty",
+      "path": "evidence/screenshots/soundbar-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-cleaning-tablet-default",
+      "path": "evidence/screenshots/cleaning-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-smart-mobile-disabled",
+      "path": "evidence/screenshots/smart-mobile-disabled.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-soundbar-tablet-focus",
+      "path": "evidence/screenshots/soundbar-tablet-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "soundbar_primary_focused": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-cleaning-desktop-loading",
+      "path": "evidence/screenshots/cleaning-desktop-loading.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "aria_busy": true, "four_fieldsets_disabled": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-smart-desktop-error",
+      "path": "evidence/screenshots/smart-desktop-error.png",
+      "state": "error",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "alert_visible": true, "retry_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-soundbar-desktop-success",
+      "path": "evidence/screenshots/soundbar-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "action_plan_visible": true, "soundbar_primary_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-cleaning-tablet-needs-check",
+      "path": "evidence/screenshots/cleaning-tablet-needs-check.png",
+      "state": "needs-check",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "needs_check_visible": true, "cleaning_boundary_step_correct": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-soundbar-tablet-external",
+      "path": "evidence/screenshots/soundbar-tablet-external.png",
+      "state": "external-path",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "external_path_visible": true, "bluetooth_primary_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-smart-mobile-service",
+      "path": "evidence/screenshots/smart-mobile-service.png",
+      "state": "service-boundary",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "service_boundary_visible": true, "unsafe_power_stop_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-cleaning-mobile-success",
+      "path": "evidence/screenshots/cleaning-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "action_plan_visible": true, "screen_off_cool_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-smart-desktop-success",
+      "path": "evidence/screenshots/smart-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "action_plan_visible": true, "box_video_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-cleaning-mobile-text-200",
+      "path": "evidence/screenshots/cleaning-mobile-text-200.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_200": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-soundbar-tablet-text-spacing",
+      "path": "evidence/screenshots/soundbar-tablet-text-spacing.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wcag_text_spacing": true, "market_links_zero": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent reviewer /root/cohort5_quick_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Rust, React, sitegen and capture helper agree on all three closed task contracts, including unsafe Smart TV box power.",
+      "Three unique indexable canonicals have substantive SSR, eight official sources and zero Market or affiliate links.",
+      "Fourteen post-fix captures cover 320, 768 and 1440 CSS px, all required states, 200% text zoom and WCAG text spacing without overflow or overlap.",
+      "The odd soundbar choice spans the full last row; focus, loading, error, retry and fail-closed result states remain visible and usable.",
+      "Full build, security, static, affiliate and design-drift gates pass."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

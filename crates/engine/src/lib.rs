@@ -3489,6 +3489,655 @@ fn calculate_usb_not_seen_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTa
     ))
 }
 
+fn calculate_soundbar_to_tv_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &[
+            "earc",
+            "arc",
+            "optical",
+            "analog",
+            "bluetooth",
+            "none",
+            "unknown",
+        ],
+        "Выход телевизора",
+    )?;
+    require_choice(
+        &input.secondary,
+        &[
+            "earc",
+            "arc",
+            "optical",
+            "analog",
+            "bluetooth",
+            "none",
+            "unknown",
+        ],
+        "Вход саундбара",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["yes", "no", "unknown"],
+        "Безопасный доступ к разъёмам",
+    )?;
+    require_choice(
+        &input.detail,
+        &["safe", "unsafe", "unknown"],
+        "Состояние кабеля и питания",
+    )?;
+
+    let source_ids = [
+        "samsung-tv-soundbar-arc",
+        "sony-tv-soundbar-connect",
+        "lg-tv-soundbar-connect",
+    ];
+    let warnings = [
+        "Не снимайте и не сдвигайте настенный телевизор ради доступа к разъёмам.",
+        "При повреждённом, горячем, мокром или неплотном кабеле, вилке, розетке либо разъёме прекратите подключение.",
+        "Не используйте переходник и не выбирайте ARC, eARC, оптический или аналоговый путь без совпадающих маркировок и инструкции точных моделей.",
+    ];
+
+    if input.detail == "unsafe" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "soundbar-to-tv",
+            "Не подключайте саундбар при опасном состоянии",
+            "Повреждённое, горячее, мокрое или неплотное доступное соединение нельзя проверять перестановкой кабеля или повторным включением.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unsafe-soundbar-connection",
+                    "Прекратите подключение",
+                    "Не касайтесь повреждённых, горячих или мокрых кабеля, вилки, розетки либо разъёма и не пытайтесь плотнее вставить соединение.",
+                    &source_ids,
+                    "Не включайте устройства повторно до безопасной очной проверки соединения.",
+                ),
+                tv_traffic_task_step(
+                    "report-soundbar-safety-observation",
+                    "Передайте только наблюдение",
+                    "Сообщите специалисту точные модели устройств, видимую маркировку соединения и замеченный опасный признак без вывода о неисправной детали.",
+                    &source_ids,
+                    "Не разбирайте устройства и не выполняйте электрические измерения.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.tertiary == "no" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "soundbar-to-tv",
+            "Не добирайтесь до скрытого разъёма самостоятельно",
+            "Подключение нельзя продолжать, если для доступа требуется снять, наклонить или сдвинуть настенный телевизор.",
+            vec![tv_traffic_task_step(
+                "request-safe-soundbar-access",
+                "Передайте доступ к разъёмам установщику",
+                "Сообщите точные модели и видимые маркировки доступных разъёмов. Попросите проверить соединение без самостоятельного перемещения телевизора.",
+                &source_ids,
+                "Не тянитесь за экран и не подключайте кабель вслепую.",
+            )],
+            &warnings,
+        ));
+    }
+
+    if input.detail == "unknown"
+        || input.tertiary == "unknown"
+        || input.primary == "unknown"
+        || input.secondary == "unknown"
+    {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "soundbar-to-tv",
+            "Сначала подтвердите маркировки и безопасный доступ",
+            "Без видимых маркировок выхода телевизора, входа саундбара и безопасного доступа нельзя выбирать кабель или беспроводной путь.",
+            vec![
+                tv_traffic_task_step(
+                    "record-soundbar-port-labels",
+                    "Запишите маркировки без перемещения техники",
+                    "Сверьте в руководствах точных моделей и на доступных разъёмах только явные обозначения HDMI ARC/eARC, Optical/Digital Audio Out, аналогового аудиовыхода или Bluetooth.",
+                    &source_ids,
+                    "Если маркировка скрыта за настенным телевизором, не пытайтесь увидеть её самостоятельно.",
+                ),
+                tv_traffic_task_step(
+                    "confirm-soundbar-connection-safety",
+                    "Проверьте доступное соединение без касания",
+                    "Убедитесь, что доступные кабель, вилка, розетка и разъём не повреждены, не нагреты, не намокли и не держатся неплотно.",
+                    &source_ids,
+                    "При любом опасном признаке прекратите подключение.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "bluetooth" && input.secondary == "bluetooth" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "soundbar-to-tv",
+            "Bluetooth — отдельный модельный путь",
+            "Обе модели заявляют Bluetooth, но порядок сопряжения, доступные функции и задержка зависят от точных устройств.",
+            vec![
+                tv_traffic_task_step(
+                    "open-exact-bluetooth-guides",
+                    "Сверьте режимы обеих точных моделей",
+                    "Откройте официальные инструкции телевизора и саундбара и убедитесь, что телевизор поддерживает вывод звука на Bluetooth-аудиоустройство, а саундбар — соответствующий входной режим.",
+                    &source_ids,
+                    "Не считайте наличие Bluetooth подтверждением любого аудиопрофиля.",
+                ),
+                tv_traffic_task_step(
+                    "pair-soundbar-by-model-guide",
+                    "Выполните обычное сопряжение",
+                    "Переведите саундбар в указанный производителем режим и выберите его в обычном меню аудиовыхода телевизора.",
+                    &source_ids,
+                    "Не открывайте сервисное меню и не выполняйте общий сброс.",
+                ),
+                tv_traffic_task_step(
+                    "check-bluetooth-result",
+                    "Проверьте звук на обычном фрагменте",
+                    "Воспроизведите знакомый короткий фрагмент и оцените наличие звука и приемлемую синхронизацию без изменения скрытых параметров.",
+                    &source_ids,
+                    "При заметной задержке или недоступных функциях используйте модельную поддержку, а не случайные настройки другой модели.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let both_arc = ["arc", "earc"].contains(&input.primary.as_str())
+        && ["arc", "earc"].contains(&input.secondary.as_str());
+    let matching_wired = both_arc
+        || (input.primary == "optical" && input.secondary == "optical")
+        || (input.primary == "analog" && input.secondary == "analog");
+
+    if !matching_wired {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "soundbar-to-tv",
+            "Совпадающий путь подключения не подтверждён",
+            "Выбранный выход телевизора не совпадает со входом саундбара. По этим ответам нельзя угадывать переходник, направление сигнала или поддержку разъёма.",
+            vec![
+                tv_traffic_task_step(
+                    "compare-soundbar-input-output",
+                    "Сопоставьте выход и вход",
+                    "По официальным инструкциям точных моделей найдите одну общую пару: ARC/eARC на обоих устройствах, Optical Out и Optical In либо совместимые аналоговые выход и вход.",
+                    &source_ids,
+                    "Не соединяйте два выхода, два входа или разъёмы только по сходной форме.",
+                ),
+                tv_traffic_task_step(
+                    "stop-before-undocumented-adapter",
+                    "Остановитесь без подтверждённой пары",
+                    "Если общей пары нет или нужен преобразователь, завершите мастер и обратитесь к документации точных моделей.",
+                    &source_ids,
+                    "Не подбирайте переходник по догадке и не перемещайте настенный телевизор.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let (path_name, connect_instruction, configure_instruction) = if both_arc {
+        (
+            "HDMI ARC/eARC",
+            "Соедините только явно маркированный HDMI ARC/eARC телевизора с явно маркированным HDMI ARC/eARC саундбара подходящим HDMI-кабелем.",
+            "По инструкциям точных моделей выберите внешний аудиовыход и обычные настройки HDMI-управления. При сочетании ARC и eARC учитывайте только общий режим, прямо подтверждённый обеими инструкциями.",
+        )
+    } else if input.primary == "optical" {
+        (
+            "оптический",
+            "Соедините явно маркированный оптический выход телевизора с явно маркированным оптическим входом саундбара, не перегибая кабель и не прикладывая усилие.",
+            "По инструкциям точных моделей выберите оптический аудиовыход телевизора и соответствующий вход саундбара.",
+        )
+    } else {
+        (
+            "аналоговый",
+            "Соедините совместимый аналоговый аудиовыход телевизора с соответствующим аналоговым входом саундбара только после проверки направления и типа разъёма в обеих инструкциях.",
+            "По инструкциям точных моделей выберите внешний аудиовыход и соответствующий аналоговый вход без изменения сервисных параметров.",
+        )
+    };
+
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "soundbar-to-tv",
+        &format!("Подтверждён {path_name} путь подключения"),
+        "Совпадающие маркировки на обоих устройствах позволяют выполнить один ограниченный маршрут без догадки о разъёмах.",
+        vec![
+            tv_traffic_task_step(
+                "confirm-common-soundbar-path",
+                "Ещё раз сверьте обе маркировки",
+                "Перед подключением сравните выбранные разъёмы с официальными схемами точных моделей телевизора и саундбара.",
+                &source_ids,
+                "При несовпадении маркировки или направления сигнала не подключайте кабель.",
+            ),
+            tv_traffic_task_step(
+                "connect-confirmed-soundbar-path",
+                "Подключите подтверждённую пару",
+                connect_instruction,
+                &source_ids,
+                "Если кабель входит с усилием, разъём недоступен или соединение выглядит повреждённым, остановитесь.",
+            ),
+            tv_traffic_task_step(
+                "select-soundbar-audio-path",
+                "Выберите аудиовыход по инструкции",
+                configure_instruction,
+                &source_ids,
+                "Не открывайте сервисное меню и не выполняйте обязательный заводской сброс.",
+            ),
+            tv_traffic_task_step(
+                "verify-soundbar-audio",
+                "Проверьте результат на обычном фрагменте",
+                "Воспроизведите короткий знакомый фрагмент и проверьте звук без повышения громкости до необычного уровня.",
+                &source_ids,
+                "Если звука нет, передайте точные модели, выбранный вход и маркировки официальной поддержке без аппаратного диагноза.",
+            ),
+        ],
+        &warnings,
+    ))
+}
+
+fn calculate_screen_cleaning_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["clear", "damage", "liquid", "unknown"],
+        "Состояние поверхности экрана",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["off-cool", "on", "warm", "unknown"],
+        "Состояние телевизора",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["clean-dry-microfiber", "other", "unknown"],
+        "Материал для очистки",
+    )?;
+    require_choice(
+        &input.detail,
+        &["safe", "unsafe", "inaccessible", "unknown"],
+        "Состояние вилки, кабеля и розетки",
+    )?;
+
+    let source_ids = ["lg-tv-screen-cleaning", "sony-tv-screen-cleaning"];
+    let warnings = [
+        "Не распыляйте жидкость на экран и не допускайте её стекания в рамку или отверстия.",
+        "Не давите, не скоблите и не используйте бумагу, абразив или неподтверждённое точной моделью средство.",
+        "Не тянитесь к вилке за настенным телевизором и не касайтесь горячих, повреждённых или мокрых кабеля, вилки либо розетки.",
+    ];
+
+    if input.primary == "damage" || input.primary == "liquid" {
+        let observation = if input.primary == "damage" {
+            "трещина, отслоение или иное видимое повреждение"
+        } else {
+            "жидкость внутри экрана, рамки или отверстий"
+        };
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "screen-cleaning",
+            "Не очищайте повреждённый или залитый экран",
+            &format!(
+                "Отмечено: {observation}. Протирание, давление или повторное включение могут увеличить риск; по наблюдению нельзя ставить аппаратный диагноз."
+            ),
+            vec![
+                tv_traffic_task_step(
+                    "stop-screen-cleaning",
+                    "Не касайтесь поверхности",
+                    "Прекратите очистку, не нажимайте на экран, не вытирайте жидкость из отверстий и не пытайтесь снять рамку.",
+                    &source_ids,
+                    "Не включайте телевизор ради проверки изображения.",
+                ),
+                tv_traffic_task_step(
+                    "report-screen-observation",
+                    "Передайте наблюдение поддержке",
+                    "Сообщите точную модель и только видимый признак. Если безопасный доступ к вилке отсутствует, не перемещайте телевизор для отключения.",
+                    &source_ids,
+                    "Не называйте предполагаемую внутреннюю причину и не разбирайте экран.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.detail == "unsafe" || input.detail == "inaccessible" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "screen-cleaning",
+            "Не начинайте очистку без безопасного питания",
+            "Горячие, повреждённые, мокрые или неплотные кабель, вилка и розетка требуют остановки. Недоступная вилка не разрешает тянуться за настенным телевизором.",
+            vec![tv_traffic_task_step(
+                "stop-before-screen-power-access",
+                "Остановитесь без касания питания",
+                "Не трогайте кабель, вилку или розетку, не перемещайте телевизор и не начинайте влажную или сухую очистку экрана.",
+                &source_ids,
+                "Передайте безопасный доступ или состояние питания очному специалисту.",
+            )],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "unknown" || input.detail == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "screen-cleaning",
+            "Сначала исключите повреждение, жидкость и опасное питание",
+            "До бесконтактной проверки поверхности, кабеля, вилки и розетки нельзя выбирать способ очистки.",
+            vec![tv_traffic_task_step(
+                "observe-screen-cleaning-boundary",
+                "Осмотрите без касания",
+                "При выключенном телевизоре с безопасного расстояния отметьте трещины, отслоение, жидкость у рамки или отверстий и повреждение, нагрев либо намокание доступного питания.",
+                &source_ids,
+                "При любом таком признаке не очищайте экран и обратитесь за очной помощью.",
+            )],
+            &warnings,
+        ));
+    }
+
+    if input.secondary != "off-cool" {
+        let wait_instruction = if input.secondary == "on" {
+            "Выключите телевизор штатной кнопкой или пультом и дождитесь полного остывания экрана. Отключайте вилку только если она безопасно доступна без перемещения телевизора."
+        } else if input.secondary == "warm" {
+            "Не протирайте тёплый экран: дождитесь полного остывания. Отключайте вилку только если она безопасно доступна без перемещения телевизора."
+        } else {
+            "Подтвердите, что телевизор выключен, экран полностью остыл, а безопасно доступная вилка отключена без перемещения телевизора."
+        };
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "screen-cleaning",
+            "Сначала выключите и остудите экран",
+            "Очистка начинается только после подтверждения, что телевизор выключен и экран полностью остыл.",
+            vec![tv_traffic_task_step(
+                "power-off-and-cool-screen",
+                "Подготовьте телевизор без риска",
+                wait_instruction,
+                &source_ids,
+                "Не тянитесь к недоступной вилке и не начинайте очистку тёплого экрана.",
+            )],
+            &warnings,
+        ));
+    }
+
+    if input.tertiary != "clean-dry-microfiber" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "screen-cleaning",
+            "Нужна чистая сухая микрофибра",
+            "Бумага, абразивная ткань, губка или неизвестный материал не являются безопасной заменой мягкой микрофибре.",
+            vec![
+                tv_traffic_task_step(
+                    "choose-clean-dry-microfiber",
+                    "Подготовьте мягкую салфетку",
+                    "Используйте только чистую сухую мягкую микрофибру без песчинок, грубого ворса и нанесённого средства.",
+                    &source_ids,
+                    "Не заменяйте её бумажным полотенцем, абразивом или неизвестной тканью.",
+                ),
+                tv_traffic_task_step(
+                    "open-exact-screen-cleaning-guide",
+                    "Сверьте инструкцию точной модели",
+                    "Найдите раздел очистки экрана именно вашей модели до любого увлажнения салфетки или применения средства.",
+                    &source_ids,
+                    "Не используйте универсальную химическую рекомендацию вместо инструкции модели.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "screen-cleaning",
+        "Начните с сухой мягкой микрофибры",
+        "Экран выключен и остыл, опасные признаки исключены, поэтому первый безопасный шаг ограничен сухой очисткой без давления и жидкости на поверхности.",
+        vec![
+            tv_traffic_task_step(
+                "confirm-screen-off-cool",
+                "Подтвердите выключение и остывание",
+                "Убедитесь, что телевизор выключен и экран полностью остыл. Вилка должна быть отключена только если она безопасно доступна без перемещения телевизора.",
+                &source_ids,
+                "Если экран тёплый или питание небезопасно, не продолжайте.",
+            ),
+            tv_traffic_task_step(
+                "wipe-screen-with-dry-microfiber",
+                "Протрите без давления",
+                "Легко проведите чистой сухой мягкой микрофиброй по поверхности без сильного нажима, скобления и многократного трения одного места.",
+                &source_ids,
+                "При трещине, отслоении, следе жидкости внутри или необходимости давить остановитесь.",
+            ),
+            tv_traffic_task_step(
+                "use-exact-model-cleaning-guide",
+                "Остаточный след сверяйте с инструкцией модели",
+                "Если сухая микрофибра не помогла, применяйте слегка увлажнённую салфетку или средство только когда это прямо разрешено руководством точной модели. Жидкость наносят только на салфетку, никогда не распыляют на экран.",
+                &source_ids,
+                "Если руководство не подтверждает следующий шаг, завершите очистку без химии и давления.",
+            ),
+        ],
+        &warnings,
+    ))
+}
+
+fn calculate_smart_tv_box_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["hdmi", "av", "none", "unknown"],
+        "Вход телевизора",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["hdmi", "av", "unknown"],
+        "Выход приставки",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["yes", "no", "unknown"],
+        "Безопасный доступ к разъёму телевизора",
+    )?;
+    require_choice(
+        &input.detail,
+        &[
+            "power-and-network",
+            "power-only",
+            "no-power",
+            "unsafe",
+            "unknown",
+        ],
+        "Состояние питания и сети",
+    )?;
+
+    let source_ids = [
+        "google-tv-device-setup",
+        "xiaomi-mi-box-compatibility",
+        "samsung-tv-external-hdmi",
+    ];
+    let warnings = [
+        "Не снимайте и не сдвигайте настенный телевизор ради HDMI, AV, USB или питания.",
+        "Питание приставки подключается отдельно штатным комплектом; USB телевизора нельзя считать подходящим источником по умолчанию.",
+        "Не используйте неподтверждённый переходник и не касайтесь повреждённых, горячих, мокрых или неплотных кабеля, вилки либо розетки.",
+    ];
+
+    if input.detail == "unsafe" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "smart-tv-box",
+            "Не подключайте приставку при опасном состоянии питания",
+            "Повреждённое, горячее, мокрое или неплотное соединение нельзя проверять повторным включением, заменой блока на случайный или перестановкой кабеля.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unsafe-box-power",
+                    "Прекратите подключение",
+                    "Не касайтесь повреждённых, горячих или мокрых кабеля, блока, вилки, розетки либо разъёма и не включайте приставку повторно.",
+                    &source_ids,
+                    "Не разбирайте блок питания и не выполняйте электрические измерения.",
+                ),
+                tv_traffic_task_step(
+                    "report-box-power-observation",
+                    "Передайте только наблюдение",
+                    "Сообщите специалисту точную модель приставки, штатный комплект питания и видимый опасный признак без вывода о неисправной детали.",
+                    &source_ids,
+                    "Не заменяйте штатный блок случайным и не используйте USB телевизора как обходной источник.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.tertiary == "no" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "smart-tv-box",
+            "Не перемещайте телевизор ради приставки",
+            "Если подходящий вход скрыт и требует снять, наклонить или сдвинуть настенный телевизор, самостоятельное подключение на этом заканчивается.",
+            vec![tv_traffic_task_step(
+                "request-safe-box-port-access",
+                "Передайте подключение установщику",
+                "Сообщите точные модели телевизора и приставки, а также видимые маркировки входа и выхода.",
+                &source_ids,
+                "Не тянитесь за экран, не подключайте кабель вслепую и не используйте случайный переходник.",
+            )],
+            &warnings,
+        ));
+    }
+
+    if input.detail == "unknown"
+        || input.tertiary == "unknown"
+        || input.primary == "unknown"
+        || input.secondary == "unknown"
+    {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "smart-tv-box",
+            "Сначала подтвердите вход, выход и безопасный доступ",
+            "До проверки маркировок телевизора и приставки нельзя выбирать кабель, питание или преобразователь.",
+            vec![
+                tv_traffic_task_step(
+                    "record-box-video-ports",
+                    "Сверьте видеовыход и вход",
+                    "По официальным инструкциям точных моделей найдите выход приставки и доступный вход телевизора с совпадающей маркировкой HDMI либо явно поддерживаемым композитным AV.",
+                    &source_ids,
+                    "Не определяйте назначение разъёма только по форме или цвету.",
+                ),
+                tv_traffic_task_step(
+                    "confirm-box-power-safety",
+                    "Проверьте отдельный путь питания",
+                    "Сверьте штатный блок и кабель питания приставки с её инструкцией, не подключая их и не используя USB телевизора по умолчанию.",
+                    &source_ids,
+                    "При повреждении, нагреве, намокании или недоступном разъёме остановитесь.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let matching_video = (input.primary == "hdmi" && input.secondary == "hdmi")
+        || (input.primary == "av" && input.secondary == "av");
+    if !matching_video {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "smart-tv-box",
+            "Совпадающий видеопуть не подтверждён",
+            "Выход приставки и вход телевизора не совпадают либо доступного входа нет. Нельзя автоматически назначать переходник или питание через USB.",
+            vec![
+                tv_traffic_task_step(
+                    "compare-box-output-tv-input",
+                    "Сопоставьте точные инструкции",
+                    "Проверьте, есть ли у приставки HDMI Out и у телевизора HDMI In либо прямо подтверждённая обеими моделями совместимая пара композитного AV.",
+                    &source_ids,
+                    "Не соединяйте два входа, два выхода или разъёмы только по внешнему сходству.",
+                ),
+                tv_traffic_task_step(
+                    "stop-before-box-converter",
+                    "Остановитесь без общей пары",
+                    "Если требуется адаптер или преобразователь, используйте его только после явного подтверждения обеими инструкциями.",
+                    &source_ids,
+                    "Не покупайте и не подключайте преобразователь по результату этого мастера.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.detail == "no-power" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "smart-tv-box",
+            "Сначала восстановите штатное питание приставки",
+            "Совпадающий видеопуть найден, но приставка не получает подтверждённое питание. Это отдельный путь устройства, а не проверка телевизора или сети.",
+            vec![
+                tv_traffic_task_step(
+                    "check-box-supplied-power",
+                    "Сверьте штатное питание",
+                    "По инструкции точной приставки проверьте, какой блок и кабель питания предусмотрены производителем и как выглядит обычная индикация включения.",
+                    &source_ids,
+                    "Не заменяйте штатное питание USB-разъёмом телевизора или случайным блоком.",
+                ),
+                tv_traffic_task_step(
+                    "route-box-power-support",
+                    "Передайте наблюдение поддержке приставки",
+                    "Сообщите точную модель, используемый штатный комплект и наблюдаемую индикацию без предположения о неисправной детали.",
+                    &source_ids,
+                    "Не разбирайте блок питания и не выполняйте электрические измерения.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let (path_name, video_instruction, video_stop) = if input.primary == "hdmi" {
+        (
+            "HDMI",
+            "При выключенных устройствах соедините HDMI Out приставки с доступным HDMI In телевизора, не перемещая экран и не прикладывая усилие.",
+            "Если кабель входит с усилием, вход недоступен или маркировка не совпадает, остановитесь.",
+        )
+    } else {
+        (
+            "композитный AV",
+            "Сначала подтвердите в инструкциях обеих точных моделей назначение, распиновку и совместимость AV. Только затем при выключенных устройствах соедините подтверждённые выход и вход штатным кабелем.",
+            "Если хотя бы одна инструкция не подтверждает тот же AV-путь, не подключайте кабель и не используйте переходник.",
+        )
+    };
+
+    let network_instruction = if input.detail == "power-and-network" {
+        "После появления интерфейса приставки подтвердите её сетевой статус и сопряжение пульта по официальной инструкции. Этот мастер не запрашивает пароль, аккаунт или сетевые идентификаторы."
+    } else {
+        "После появления интерфейса приставки настройте сеть, аккаунт и сопряжение пульта отдельным этапом по официальной инструкции. Этот мастер не запрашивает пароль или данные аккаунта."
+    };
+
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "smart-tv-box",
+        &format!("Подтверждён {path_name} видеопуть"),
+        "Видео, питание, выбранный источник телевизора и сеть являются отдельными этапами; мастер не подменяет инструкцию точной приставки.",
+        vec![
+            tv_traffic_task_step(
+                "connect-box-video-path",
+                "Подключите только совпадающий видеопуть",
+                video_instruction,
+                &source_ids,
+                video_stop,
+            ),
+            tv_traffic_task_step(
+                "power-box-separately",
+                "Подключите штатное питание отдельно",
+                "Используйте блок и кабель питания из комплекта либо прямо указанные в инструкции точной приставки. Не считайте USB телевизора подходящим источником без явного подтверждения.",
+                &source_ids,
+                "При нагреве, повреждении, намокании или неплотном соединении прекратите использование.",
+            ),
+            tv_traffic_task_step(
+                "select-tv-box-input",
+                "Выберите соответствующий вход телевизора",
+                "Включите устройства штатно и выберите на телевизоре номер того HDMI-входа или AV-вход, к которому выполнено подтверждённое подключение.",
+                &source_ids,
+                "При отсутствии изображения не меняйте сервисные параметры и не выполняйте заводской сброс.",
+            ),
+            tv_traffic_task_step(
+                "setup-box-network-separately",
+                "Настройте сеть и пульт отдельным этапом",
+                network_instruction,
+                &source_ids,
+                "Если видеосигнала нет, не переходите к сети и не считайте телевизор или приставку неисправными.",
+            ),
+        ],
+        &warnings,
+    ))
+}
+
 /// Строит один безопасный план для выбранного самостоятельного TV-интента.
 pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
     require_choice(
@@ -3503,6 +4152,9 @@ pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTraffic
             "turns-off",
             "no-internet",
             "usb-not-seen",
+            "soundbar-to-tv",
+            "screen-cleaning",
+            "smart-tv-box",
         ],
         "Инструмент",
     )?;
@@ -3516,6 +4168,9 @@ pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTraffic
         "turns-off" => calculate_turns_off_task(input),
         "no-internet" => calculate_no_internet_task(input),
         "usb-not-seen" => calculate_usb_not_seen_task(input),
+        "soundbar-to-tv" => calculate_soundbar_to_tv_task(input),
+        "screen-cleaning" => calculate_screen_cleaning_task(input),
+        "smart-tv-box" => calculate_smart_tv_box_task(input),
         _ => unreachable!(),
     }
 }
@@ -7942,5 +8597,454 @@ mod tests {
             let error = calculate_tv_traffic_task(&input).unwrap_err();
             assert!(error.contains(expected_field), "unexpected error: {error}");
         }
+    }
+
+    #[test]
+    fn tv_utility_cohort_5_success_paths_are_bounded_and_source_backed() {
+        let cases = [
+            (
+                calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "soundbar-to-tv",
+                    "earc",
+                    "arc",
+                    "yes",
+                    "safe",
+                ))
+                .unwrap(),
+                "soundbar-to-tv",
+                &[
+                    "samsung-tv-soundbar-arc",
+                    "sony-tv-soundbar-connect",
+                    "lg-tv-soundbar-connect",
+                ][..],
+            ),
+            (
+                calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "screen-cleaning",
+                    "clear",
+                    "off-cool",
+                    "clean-dry-microfiber",
+                    "safe",
+                ))
+                .unwrap(),
+                "screen-cleaning",
+                &["lg-tv-screen-cleaning", "sony-tv-screen-cleaning"][..],
+            ),
+            (
+                calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "smart-tv-box",
+                    "hdmi",
+                    "hdmi",
+                    "yes",
+                    "power-and-network",
+                ))
+                .unwrap(),
+                "smart-tv-box",
+                &[
+                    "google-tv-device-setup",
+                    "xiaomi-mi-box-compatibility",
+                    "samsung-tv-external-hdmi",
+                ][..],
+            ),
+        ];
+        let serialized =
+            serde_json::to_string(&cases.iter().map(|(plan, _, _)| plan).collect::<Vec<_>>())
+                .unwrap();
+
+        for (plan, expected_task, allowed_sources) in cases {
+            assert_eq!(plan.status, "action-plan");
+            assert_eq!(plan.task, expected_task);
+            assert!((1..=4).contains(&plan.steps.len()));
+            assert_eq!(plan.primary_step_id, plan.steps[0].id);
+            assert!(plan.warnings.len() <= 3);
+            assert!(plan.privacy.contains("локально в браузере"));
+            for step in &plan.steps {
+                assert!(!step.id.trim().is_empty());
+                assert!(!step.title.trim().is_empty());
+                assert!(!step.instruction.trim().is_empty());
+                assert!(!step.stop_condition.trim().is_empty());
+                assert!(!step.source_ids.is_empty());
+                assert!(
+                    step.source_ids
+                        .iter()
+                        .all(|source_id| allowed_sources.contains(&source_id.as_str())),
+                    "unknown source id in {step:?}"
+                );
+            }
+        }
+
+        for forbidden_instruction in [
+            "распылите на экран",
+            "снимите телевизор",
+            "разберите телевизор",
+            "откройте сервисное меню",
+            "выполните заводской сброс",
+            "используйте USB телевизора как питание",
+        ] {
+            assert!(
+                !serialized.contains(forbidden_instruction),
+                "unsafe instruction {forbidden_instruction}: {serialized}"
+            );
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_5_unknown_and_contradictory_answers_fail_closed() {
+        for task in ["soundbar-to-tv", "screen-cleaning", "smart-tv-box"] {
+            let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                task, "unknown", "unknown", "unknown", "unknown",
+            ))
+            .unwrap();
+            assert_eq!(plan.status, "needs-check", "task {task}: {plan:?}");
+            assert!((1..=4).contains(&plan.steps.len()));
+            assert!(plan.steps.iter().all(|step| !step.source_ids.is_empty()));
+        }
+
+        let mismatched_soundbar = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "soundbar-to-tv",
+            "arc",
+            "optical",
+            "yes",
+            "safe",
+        ))
+        .unwrap();
+        assert_eq!(mismatched_soundbar.status, "needs-check");
+        assert_eq!(
+            mismatched_soundbar.primary_step_id,
+            "compare-soundbar-input-output"
+        );
+
+        let mismatched_box = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "smart-tv-box",
+            "hdmi",
+            "av",
+            "yes",
+            "power-and-network",
+        ))
+        .unwrap();
+        assert_eq!(mismatched_box.status, "needs-check");
+        assert_eq!(
+            mismatched_box.primary_step_id,
+            "compare-box-output-tv-input"
+        );
+
+        let av = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "smart-tv-box",
+            "av",
+            "av",
+            "yes",
+            "power-only",
+        ))
+        .unwrap();
+        assert_eq!(av.status, "action-plan");
+        assert!(av.steps[0].instruction.contains("инструкциях обеих"));
+        assert!(av.steps[0].stop_condition.contains("не подтверждает"));
+
+        let no_power = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "smart-tv-box",
+            "hdmi",
+            "hdmi",
+            "yes",
+            "no-power",
+        ))
+        .unwrap();
+        assert_eq!(no_power.status, "external-path");
+        assert_eq!(no_power.primary_step_id, "check-box-supplied-power");
+        assert!(
+            no_power
+                .steps
+                .iter()
+                .all(|step| !step.source_ids.is_empty())
+        );
+    }
+
+    #[test]
+    fn tv_utility_cohort_5_safety_boundaries_stop_before_action() {
+        let plans = [
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "soundbar-to-tv",
+                "earc",
+                "earc",
+                "yes",
+                "unsafe",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "screen-cleaning",
+                "damage",
+                "off-cool",
+                "clean-dry-microfiber",
+                "safe",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "screen-cleaning",
+                "liquid",
+                "off-cool",
+                "clean-dry-microfiber",
+                "safe",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "screen-cleaning",
+                "clear",
+                "off-cool",
+                "clean-dry-microfiber",
+                "inaccessible",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "smart-tv-box",
+                "hdmi",
+                "hdmi",
+                "no",
+                "power-only",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "smart-tv-box",
+                "hdmi",
+                "hdmi",
+                "yes",
+                "unsafe",
+            ))
+            .unwrap(),
+        ];
+
+        for plan in plans {
+            assert_eq!(plan.status, "service-boundary", "{plan:?}");
+            assert!((1..=2).contains(&plan.steps.len()));
+            assert!(plan.steps.iter().all(|step| !step.source_ids.is_empty()));
+            let serialized = serde_json::to_string(&plan).unwrap().to_lowercase();
+            assert!(
+                serialized.contains("не ") || serialized.contains("прекрат"),
+                "missing stop wording: {serialized}"
+            );
+            for diagnosis in [
+                "сгорела плата",
+                "неисправен порт",
+                "сломался блок питания",
+                "замените деталь",
+            ] {
+                assert!(!serialized.contains(diagnosis), "diagnosis: {serialized}");
+            }
+        }
+
+        let cleaning = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "screen-cleaning",
+            "clear",
+            "off-cool",
+            "clean-dry-microfiber",
+            "safe",
+        ))
+        .unwrap();
+        let cleaning = serde_json::to_string(&cleaning).unwrap().to_lowercase();
+        for required_term in [
+            "выключен",
+            "остыл",
+            "микрофибр",
+            "не распы",
+            "точной модели",
+        ] {
+            assert!(
+                cleaning.contains(required_term),
+                "missing cleaning boundary {required_term}: {cleaning}"
+            );
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_5_rejects_every_invalid_closed_field() {
+        let invalid_cases = [
+            (
+                tv_traffic_task_input("soundbar-to-tv", "hdmi<script>", "earc", "yes", "safe"),
+                "Выход телевизора",
+            ),
+            (
+                tv_traffic_task_input("soundbar-to-tv", "earc", "coaxial", "yes", "safe"),
+                "Вход саундбара",
+            ),
+            (
+                tv_traffic_task_input("screen-cleaning", "clear", "off-cool", "paper", "safe"),
+                "Материал для очистки",
+            ),
+            (
+                tv_traffic_task_input(
+                    "screen-cleaning",
+                    "clear",
+                    "off-cool",
+                    "clean-dry-microfiber",
+                    "hot-plug",
+                ),
+                "Состояние вилки, кабеля и розетки",
+            ),
+            (
+                tv_traffic_task_input(
+                    "smart-tv-box",
+                    "hdmi",
+                    "hdmi",
+                    "move-tv",
+                    "power-and-network",
+                ),
+                "Безопасный доступ к разъёму телевизора",
+            ),
+            (
+                tv_traffic_task_input(
+                    "smart-tv-box",
+                    "component",
+                    "hdmi",
+                    "yes",
+                    "power-and-network",
+                ),
+                "Вход телевизора",
+            ),
+            (
+                tv_traffic_task_input("smart-tv-box", "hdmi", "hdmi", "yes", "overvoltage"),
+                "Состояние питания и сети",
+            ),
+        ];
+
+        for (input, expected_field) in invalid_cases {
+            let error = calculate_tv_traffic_task(&input).unwrap_err();
+            assert!(error.contains(expected_field), "unexpected error: {error}");
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_5_allowed_value_matrix_is_total_and_bounded() {
+        let allowed_statuses = [
+            "action-plan",
+            "needs-check",
+            "external-path",
+            "service-boundary",
+        ];
+
+        let assert_plan = |plan: TvTrafficTaskPlan, allowed_sources: &[&str]| {
+            assert!(allowed_statuses.contains(&plan.status.as_str()), "{plan:?}");
+            assert!((1..=4).contains(&plan.steps.len()), "{plan:?}");
+            assert_eq!(plan.primary_step_id, plan.steps[0].id);
+            assert!(plan.warnings.len() <= 3);
+            assert!(plan.steps.iter().all(|step| {
+                !step.id.trim().is_empty()
+                    && !step.title.trim().is_empty()
+                    && !step.instruction.trim().is_empty()
+                    && !step.stop_condition.trim().is_empty()
+                    && !step.source_ids.is_empty()
+                    && step
+                        .source_ids
+                        .iter()
+                        .all(|source_id| allowed_sources.contains(&source_id.as_str()))
+            }));
+        };
+
+        let soundbar_ports = [
+            "earc",
+            "arc",
+            "optical",
+            "analog",
+            "bluetooth",
+            "none",
+            "unknown",
+        ];
+        for primary in soundbar_ports {
+            for secondary in soundbar_ports {
+                for tertiary in ["yes", "no", "unknown"] {
+                    for detail in ["safe", "unsafe", "unknown"] {
+                        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                            "soundbar-to-tv",
+                            primary,
+                            secondary,
+                            tertiary,
+                            detail,
+                        ))
+                        .unwrap();
+                        assert_plan(
+                            plan,
+                            &[
+                                "samsung-tv-soundbar-arc",
+                                "sony-tv-soundbar-connect",
+                                "lg-tv-soundbar-connect",
+                            ],
+                        );
+                    }
+                }
+            }
+        }
+
+        for primary in ["clear", "damage", "liquid", "unknown"] {
+            for secondary in ["off-cool", "on", "warm", "unknown"] {
+                for tertiary in ["clean-dry-microfiber", "other", "unknown"] {
+                    for detail in ["safe", "unsafe", "inaccessible", "unknown"] {
+                        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                            "screen-cleaning",
+                            primary,
+                            secondary,
+                            tertiary,
+                            detail,
+                        ))
+                        .unwrap();
+                        assert_plan(plan, &["lg-tv-screen-cleaning", "sony-tv-screen-cleaning"]);
+                    }
+                }
+            }
+        }
+
+        for primary in ["hdmi", "av", "none", "unknown"] {
+            for secondary in ["hdmi", "av", "unknown"] {
+                for tertiary in ["yes", "no", "unknown"] {
+                    for detail in [
+                        "power-and-network",
+                        "power-only",
+                        "no-power",
+                        "unsafe",
+                        "unknown",
+                    ] {
+                        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                            "smart-tv-box",
+                            primary,
+                            secondary,
+                            tertiary,
+                            detail,
+                        ))
+                        .unwrap();
+                        assert_plan(
+                            plan,
+                            &[
+                                "google-tv-device-setup",
+                                "xiaomi-mi-box-compatibility",
+                                "samsung-tv-external-hdmi",
+                            ],
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_5_is_deterministic_and_wasm_shape_stays_stable() {
+        let input = tv_traffic_task_input("soundbar-to-tv", "optical", "optical", "yes", "safe");
+        let first = calculate_tv_traffic_task(&input).unwrap();
+        let second = calculate_tv_traffic_task(&input).unwrap();
+        assert_eq!(first, second);
+
+        let payload =
+            tv_traffic_task_plan_json("smart-tv-box", "hdmi", "hdmi", "yes", "power-and-network");
+        let payload: serde_json::Value = serde_json::from_str(&payload).unwrap();
+        for field in [
+            "status",
+            "task",
+            "headline",
+            "explanation",
+            "primary_step_id",
+            "steps",
+            "warnings",
+            "privacy",
+        ] {
+            assert!(payload.get(field).is_some(), "missing field {field}");
+        }
+        assert_eq!(payload["task"], "smart-tv-box");
+        assert_eq!(payload["status"], "action-plan");
+        assert!(payload.get("error").is_none());
     }
 }

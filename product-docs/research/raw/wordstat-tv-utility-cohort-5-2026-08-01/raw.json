@@ -1,0 +1,1749 @@
+[
+  {
+    "seed": {
+      "candidate_id": "screen-cleaning",
+      "candidate_path": "/chem-protirat-ekran-televizora/",
+      "query": "чем протирать экран телевизора",
+      "operator_query": "\"[чем !протирать !экран !телевизора]\"",
+      "variant": "wipe-fixed-wordforms"
+    },
+    "operator_query": "\"[чем !протирать !экран !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "815",
+          "text": "как убрать безопасный режим на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "947",
+          "text": "экранные заставки"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "экранка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "577",
+          "text": "как пользоваться пароочистителем для уборки дома видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "332",
+          "text": "как чистить диван пароочистителем"
+        },
+        {
+          "isAssociations": true,
+          "value": "414",
+          "text": "как убрать рамки на мониторе"
+        },
+        {
+          "isAssociations": true,
+          "value": "157",
+          "text": "какой насадкой пароочистителя чистить диван"
+        },
+        {
+          "isAssociations": true,
+          "value": "132",
+          "text": "очки с дисплеем на стекле"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2693",
+          "text": "чем протирать экран телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screen-cleaning",
+      "candidate_path": "/chem-protirat-ekran-televizora/",
+      "query": "чем протереть экран телевизора",
+      "operator_query": "\"[чем !протереть !экран !телевизора]\"",
+      "variant": "wipe-perfective-fixed-wordforms"
+    },
+    "operator_query": "\"[чем !протереть !экран !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "815",
+          "text": "как убрать безопасный режим на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "947",
+          "text": "экранные заставки"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "экранка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "577",
+          "text": "как пользоваться пароочистителем для уборки дома видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "332",
+          "text": "как чистить диван пароочистителем"
+        },
+        {
+          "isAssociations": true,
+          "value": "414",
+          "text": "как убрать рамки на мониторе"
+        },
+        {
+          "isAssociations": true,
+          "value": "157",
+          "text": "какой насадкой пароочистителя чистить диван"
+        },
+        {
+          "isAssociations": true,
+          "value": "132",
+          "text": "очки с дисплеем на стекле"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2693",
+          "text": "чем протереть экран телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screen-cleaning",
+      "candidate_path": "/chem-protirat-ekran-televizora/",
+      "query": "как почистить экран телевизора",
+      "operator_query": "\"[как !почистить !экран !телевизора]\"",
+      "variant": "clean-fixed-wordforms"
+    },
+    "operator_query": "\"[как !почистить !экран !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "22998",
+          "text": "очистка кондиционера"
+        },
+        {
+          "isAssociations": true,
+          "value": "691",
+          "text": "как убрать воск с ткани"
+        },
+        {
+          "isAssociations": true,
+          "value": "1948",
+          "text": "очищение сериал"
+        },
+        {
+          "isAssociations": true,
+          "value": "7016",
+          "text": "пылесос для чистки мебели"
+        },
+        {
+          "isAssociations": true,
+          "value": "177",
+          "text": "скрап тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "15711",
+          "text": "видео удаления акне"
+        },
+        {
+          "isAssociations": true,
+          "value": "443",
+          "text": "как вывести плесень с ткани"
+        },
+        {
+          "isAssociations": true,
+          "value": "145",
+          "text": "лазерная чистка металла видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "2355",
+          "text": "чистка зубов видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "268",
+          "text": "как убрать плесень с обоев"
+        },
+        {
+          "isAssociations": true,
+          "value": "1227",
+          "text": "средство для очистки кондиционера"
+        },
+        {
+          "isAssociations": true,
+          "value": "156",
+          "text": "как отстирать плесень от ткани"
+        },
+        {
+          "isAssociations": true,
+          "value": "1382",
+          "text": "как снять защитное стекло с камеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "1940",
+          "text": "чистка радиатора кондиционера"
+        },
+        {
+          "isAssociations": true,
+          "value": "631",
+          "text": "как убрать краску с ткани"
+        },
+        {
+          "isAssociations": true,
+          "value": "5034",
+          "text": "пылесос для чистки ковров"
+        },
+        {
+          "isAssociations": true,
+          "value": "984",
+          "text": "как очистить аэрогриль"
+        },
+        {
+          "isAssociations": true,
+          "value": "815",
+          "text": "видео про уборку"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "241",
+          "text": "как почистить экран телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screen-cleaning",
+      "candidate_path": "/chem-protirat-ekran-televizora/",
+      "query": "как убрать разводы с экрана телевизора",
+      "operator_query": "\"[как !убрать !разводы с !экрана !телевизора]\"",
+      "variant": "streaks-fixed-wordforms"
+    },
+    "operator_query": "\"[как !убрать !разводы с !экрана !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "16453",
+          "text": "исковое заявление о расторжении брака"
+        },
+        {
+          "isAssociations": true,
+          "value": "5993",
+          "text": "иск о расторжении брака"
+        },
+        {
+          "isAssociations": true,
+          "value": "781",
+          "text": "удалить логотип с видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "удалить голос из видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "6279",
+          "text": "госпошлина за расторжение брака"
+        },
+        {
+          "isAssociations": true,
+          "value": "656",
+          "text": "как снять жалюзи с окна чтобы помыть"
+        },
+        {
+          "isAssociations": true,
+          "value": "15711",
+          "text": "видео удаления акне"
+        },
+        {
+          "isAssociations": true,
+          "value": "3147",
+          "text": "заявление о расторжении брака в мировой суд"
+        },
+        {
+          "isAssociations": true,
+          "value": "1526",
+          "text": "как удалить видео в лайк"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "экранка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "823",
+          "text": "как удалить видео в тиктоке"
+        },
+        {
+          "isAssociations": true,
+          "value": "387",
+          "text": "как вернуть удаленное видео в тик токе"
+        },
+        {
+          "isAssociations": true,
+          "value": "3796",
+          "text": "удалить фон с видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "551",
+          "text": "удаление фона с видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "205",
+          "text": "футаж разбитого стекла"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "23",
+          "text": "как убрать разводы с экрана телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "dead-pixel-test",
+      "candidate_path": "/proverka-televizora-na-bitye-pikseli/",
+      "query": "проверка телевизора на битые пиксели",
+      "operator_query": "\"[!проверка !телевизора на !битые !пиксели]\"",
+      "variant": "check-fixed-wordforms"
+    },
+    "operator_query": "\"[!проверка !телевизора на !битые !пиксели]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "633",
+          "text": "проверить траст фактор в кс 2"
+        },
+        {
+          "isAssociations": true,
+          "value": "622",
+          "text": "утечка тока в автомобиле как проверить мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "400",
+          "text": "ужас тв смотреть онлайн прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "126",
+          "text": "проверить дтп по vin по базе гибдд"
+        },
+        {
+          "isAssociations": true,
+          "value": "141",
+          "text": "чп эхо кг исследование что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "563",
+          "text": "7 телеком проверить баланс"
+        },
+        {
+          "isAssociations": true,
+          "value": "509",
+          "text": "проверить авто по стс"
+        },
+        {
+          "isAssociations": true,
+          "value": "273",
+          "text": "как проверить стабилитрон мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "217",
+          "text": "как проверить варистор на исправность мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "137",
+          "text": "трасфактор кс2 проверить"
+        },
+        {
+          "isAssociations": true,
+          "value": "6477",
+          "text": "проверить дтп"
+        },
+        {
+          "isAssociations": true,
+          "value": "221",
+          "text": "как проверить состояние видеокарты"
+        },
+        {
+          "isAssociations": true,
+          "value": "5029",
+          "text": "проверить стс"
+        },
+        {
+          "isAssociations": true,
+          "value": "65",
+          "text": "как проверить igbt транзистор мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "132",
+          "text": "как проверить высоковольтный диод в микроволновке мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "263",
+          "text": "как проверить баланс на 7 телеком"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "811",
+          "text": "проверка телевизора на битые пиксели"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "dead-pixel-test",
+      "candidate_path": "/proverka-televizora-na-bitye-pikseli/",
+      "query": "тест телевизора на битые пиксели",
+      "operator_query": "\"[!тест !телевизора на !битые !пиксели]\"",
+      "variant": "test-fixed-wordforms"
+    },
+    "operator_query": "\"[!тест !телевизора на !битые !пиксели]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1794",
+          "text": "архив тв радиозаписей нтв"
+        },
+        {
+          "isAssociations": true,
+          "value": "366",
+          "text": "ляпота тв страшилки с момо"
+        },
+        {
+          "isAssociations": true,
+          "value": "5670",
+          "text": "проверка дтп"
+        },
+        {
+          "isAssociations": true,
+          "value": "985",
+          "text": "боец тв онлайн прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "185",
+          "text": "окончательный анализ фильм 1992 актеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "267",
+          "text": "исследуйте и разбейте тройную печать в геншин"
+        },
+        {
+          "isAssociations": true,
+          "value": "115",
+          "text": "cnn смотреть онлайн прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "190",
+          "text": "коммерсант газета банкротство проверить"
+        },
+        {
+          "isAssociations": true,
+          "value": "72",
+          "text": "смерти больше нет ic3peak клип"
+        },
+        {
+          "isAssociations": true,
+          "value": "249",
+          "text": "дырка в телике"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "287",
+          "text": "тест телевизора на битые пиксели"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "dead-pixel-test",
+      "candidate_path": "/proverka-televizora-na-bitye-pikseli/",
+      "query": "проверить телевизор на битые пиксели",
+      "operator_query": "\"[!проверить !телевизор на !битые !пиксели]\"",
+      "variant": "verb-fixed-wordforms"
+    },
+    "operator_query": "\"[!проверить !телевизор на !битые !пиксели]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "12615",
+          "text": "проверка экрана"
+        },
+        {
+          "isAssociations": true,
+          "value": "408",
+          "text": "проверка дтп на сайте гибдд"
+        },
+        {
+          "isAssociations": true,
+          "value": "12014",
+          "text": "банкротство проверка"
+        },
+        {
+          "isAssociations": true,
+          "value": "1295",
+          "text": "проверка траста кс 2"
+        },
+        {
+          "isAssociations": true,
+          "value": "57",
+          "text": "проверка позывного сигнала в грчц"
+        },
+        {
+          "isAssociations": true,
+          "value": "103",
+          "text": "рет тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "387",
+          "text": "wrestling tv прямая трансляция"
+        },
+        {
+          "isAssociations": true,
+          "value": "208",
+          "text": "проверка матрицы монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "6",
+          "text": "tvix tv смотреть онлайн прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "проверка олед экрана"
+        },
+        {
+          "isAssociations": true,
+          "value": "88",
+          "text": "сайт для проверки траст фактора кс 2"
+        },
+        {
+          "isAssociations": true,
+          "value": "417",
+          "text": "смотреть ртв в прямом эфире"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "703",
+          "text": "проверить телевизор на битые пиксели"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "dead-pixel-test",
+      "candidate_path": "/proverka-televizora-na-bitye-pikseli/",
+      "query": "тест экрана телевизора",
+      "operator_query": "\"[!тест !экрана !телевизора]\"",
+      "variant": "screen-test-fixed-wordforms"
+    },
+    "operator_query": "\"[!тест !экрана !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "20157",
+          "text": "проверка монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "588",
+          "text": "зор тв прямая трансляция"
+        },
+        {
+          "isAssociations": true,
+          "value": "522",
+          "text": "ртв тв прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "1324",
+          "text": "как из монитора сделать телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "5186",
+          "text": "zor tv прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "561",
+          "text": "как мерить диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "732",
+          "text": "шторм тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1913",
+          "text": "видео для проверки монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "экранка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "9540",
+          "text": "телевизор с подсветкой"
+        },
+        {
+          "isAssociations": true,
+          "value": "199",
+          "text": "2к видео для проверки монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "208",
+          "text": "проверка матрицы монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "874",
+          "text": "видео для проверки телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "379",
+          "text": "картинки для проверки монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "162",
+          "text": "видео для олед монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "3929",
+          "text": "олед дисплей"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "проверка олед экрана"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "148",
+          "text": "тест экрана телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hide-tv-wires",
+      "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+      "query": "как спрятать провода от телевизора на стене",
+      "operator_query": "\"[как !спрятать !провода от !телевизора на !стене]\"",
+      "variant": "wall-fixed-wordforms"
+    },
+    "operator_query": "\"[как !спрятать !провода от !телевизора на !стене]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "9857",
+          "text": "детектор скрытой проводки"
+        },
+        {
+          "isAssociations": true,
+          "value": "3759",
+          "text": "стеновые панели в интерьере"
+        },
+        {
+          "isAssociations": true,
+          "value": "20471",
+          "text": "телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "1595",
+          "text": "индикатор скрытой проводки"
+        },
+        {
+          "isAssociations": true,
+          "value": "182",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "703",
+          "text": "стеновые панели в интерьере гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "1559",
+          "text": "бамбуковые стеновые панели для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "933",
+          "text": "телевизионная антенна своими руками"
+        },
+        {
+          "isAssociations": true,
+          "value": "506",
+          "text": "как соединить телевизионный кабель между собой"
+        },
+        {
+          "isAssociations": true,
+          "value": "721",
+          "text": "декоративные стеновые панели для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "146",
+          "text": "стеновые панели из бамбука для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "3147",
+          "text": "не работает кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "1997",
+          "text": "как подключить кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "502",
+          "text": "разветвитель телевизионного кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "142",
+          "text": "подключение двойной розетки к одному кабелю"
+        },
+        {
+          "isAssociations": true,
+          "value": "774",
+          "text": "как найти скрытую проводку"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "828",
+          "text": "как спрятать провода от телевизора на стене"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hide-tv-wires",
+      "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+      "query": "как спрятать провода от телевизора без штробления",
+      "operator_query": "\"[как !спрятать !провода от !телевизора без !штробления]\"",
+      "variant": "no-chase-fixed-wordforms"
+    },
+    "operator_query": "\"[как !спрятать !провода от !телевизора без !штробления]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hide-tv-wires",
+      "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+      "query": "кабель канал для телевизора на стене",
+      "operator_query": "\"[!кабель !канал для !телевизора на !стене]\"",
+      "variant": "raceway-fixed-wordforms"
+    },
+    "operator_query": "\"[!кабель !канал для !телевизора на !стене]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2470",
+          "text": "glaz tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "6510",
+          "text": "программа кабельного телевидения на сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "504",
+          "text": "новости спутникового и кабельного тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "32732",
+          "text": "кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "8221",
+          "text": "глаз тв прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "182",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "1099",
+          "text": "кабельканалы для электропроводки"
+        },
+        {
+          "isAssociations": true,
+          "value": "614",
+          "text": "телеканал вижу тв 1000"
+        },
+        {
+          "isAssociations": true,
+          "value": "33969",
+          "text": "телевизионные антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "1386",
+          "text": "стенка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "237",
+          "text": "телеканал шансон тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "126",
+          "text": "federal tv онлайн смотреть тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2388",
+          "text": "как настроить кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1667",
+          "text": "полка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "854",
+          "text": "кабельное тв ростелеком"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "101",
+          "text": "кабель канал для телевизора на стене"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hide-tv-wires",
+      "candidate_path": "/kak-spryatat-provoda-ot-televizora/",
+      "query": "как скрыть провода от телевизора",
+      "operator_query": "\"[как !скрыть !провода от !телевизора]\"",
+      "variant": "hide-fixed-wordforms"
+    },
+    "operator_query": "\"[как !скрыть !провода от !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "102561",
+          "text": "hdmi кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "20471",
+          "text": "телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "32732",
+          "text": "кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "31654",
+          "text": "тв кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "702",
+          "text": "соединитель антенного кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "1639",
+          "text": "как соединить антенный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "356",
+          "text": "f разъем для тв кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "1029",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "11887",
+          "text": "кабель для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1312",
+          "text": "телевизионный кабель для антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "450",
+          "text": "как подключить антенный кабель к штекеру"
+        },
+        {
+          "isAssociations": true,
+          "value": "1997",
+          "text": "как подключить кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "2388",
+          "text": "как настроить кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "502",
+          "text": "разветвитель телевизионного кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "728",
+          "text": "hdmi кабель для чего"
+        },
+        {
+          "isAssociations": true,
+          "value": "854",
+          "text": "кабельное тв ростелеком"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "231",
+          "text": "как скрыть провода от телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "soundbar-to-tv",
+      "candidate_path": "/kak-podklyuchit-saundbar-k-televizoru/",
+      "query": "как подключить саундбар к телевизору",
+      "operator_query": "\"[как !подключить !саундбар к !телевизору]\"",
+      "variant": "connect-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !саундбар к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "193984",
+          "text": "саундбар"
+        },
+        {
+          "isAssociations": true,
+          "value": "2869",
+          "text": "саундбар что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "2004",
+          "text": "что такое саундбар"
+        },
+        {
+          "isAssociations": true,
+          "value": "4123",
+          "text": "саундбар это"
+        },
+        {
+          "isAssociations": true,
+          "value": "976",
+          "text": "media station x настройка на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1193",
+          "text": "саундбар hisense hs5100"
+        },
+        {
+          "isAssociations": true,
+          "value": "13059",
+          "text": "soundbar"
+        },
+        {
+          "isAssociations": true,
+          "value": "1110",
+          "text": "добавить звук на видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "388",
+          "text": "видео запись экрана со звуком на компьютер"
+        },
+        {
+          "isAssociations": true,
+          "value": "1647",
+          "text": "топ саундбаров"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "xiaomi redmi tv soundbar"
+        },
+        {
+          "isAssociations": true,
+          "value": "251",
+          "text": "звуки для саунд дизайна"
+        },
+        {
+          "isAssociations": true,
+          "value": "6974",
+          "text": "лучшие саундбары"
+        },
+        {
+          "isAssociations": true,
+          "value": "570",
+          "text": "лучшие саундбары 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "144",
+          "text": "выбор саундбара 4pda"
+        },
+        {
+          "isAssociations": true,
+          "value": "761",
+          "text": "redmi tv soundbar"
+        },
+        {
+          "isAssociations": true,
+          "value": "449",
+          "text": "выбор саундбара"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3731",
+          "text": "как подключить саундбар к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "soundbar-to-tv",
+      "candidate_path": "/kak-podklyuchit-saundbar-k-televizoru/",
+      "query": "подключение саундбара к телевизору",
+      "operator_query": "\"[!подключение !саундбара к !телевизору]\"",
+      "variant": "connection-fixed-wordforms"
+    },
+    "operator_query": "\"[!подключение !саундбара к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "585",
+          "text": "саундбар hisense ax5140q"
+        },
+        {
+          "isAssociations": true,
+          "value": "1193",
+          "text": "саундбар hisense hs5100"
+        },
+        {
+          "isAssociations": true,
+          "value": "1647",
+          "text": "саундбар tcl s55h"
+        },
+        {
+          "isAssociations": true,
+          "value": "706",
+          "text": "саундбар hisense hs3100"
+        },
+        {
+          "isAssociations": true,
+          "value": "1717",
+          "text": "саундбар hisense hs2100"
+        },
+        {
+          "isAssociations": true,
+          "value": "784",
+          "text": "саундбар tcl s45h"
+        },
+        {
+          "isAssociations": true,
+          "value": "376",
+          "text": "саундбар samsung hw q990f"
+        },
+        {
+          "isAssociations": true,
+          "value": "4509",
+          "text": "саундбар с сабвуфером"
+        },
+        {
+          "isAssociations": true,
+          "value": "443",
+          "text": "саундбар hisense ax3120q"
+        },
+        {
+          "isAssociations": true,
+          "value": "402",
+          "text": "саундбар hisense ht saturn"
+        },
+        {
+          "isAssociations": true,
+          "value": "13296",
+          "text": "как подключить смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "479",
+          "text": "саундбар lg s95tr"
+        },
+        {
+          "isAssociations": true,
+          "value": "394",
+          "text": "саундбар tcl q75h"
+        },
+        {
+          "isAssociations": true,
+          "value": "357",
+          "text": "саундбар samsung hw q600f"
+        },
+        {
+          "isAssociations": true,
+          "value": "178",
+          "text": "саундбар samsung hw q800f"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "xiaomi redmi tv soundbar"
+        },
+        {
+          "isAssociations": true,
+          "value": "761",
+          "text": "redmi tv soundbar"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "935",
+          "text": "подключение саундбара к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "soundbar-to-tv",
+      "candidate_path": "/kak-podklyuchit-saundbar-k-televizoru/",
+      "query": "телевизор не видит саундбар",
+      "operator_query": "\"[!телевизор не !видит !саундбар]\"",
+      "variant": "not-seen-fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор не !видит !саундбар]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28478",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3485",
+          "text": "h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "9704",
+          "text": "нет сигнала на мониторе"
+        },
+        {
+          "isAssociations": true,
+          "value": "19536",
+          "text": "наше тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "387",
+          "text": "back на магнитоле что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "292",
+          "text": "достать аудио из видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "17526",
+          "text": "нам тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "10673",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "242",
+          "text": "тв на радио области"
+        },
+        {
+          "isAssociations": true,
+          "value": "37819",
+          "text": "а тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3078",
+          "text": "all tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "128",
+          "text": "now bar samsung что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "257",
+          "text": "выделить аудио из видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "736",
+          "text": "почему запись экрана без звука"
+        },
+        {
+          "isAssociations": true,
+          "value": "48070",
+          "text": "я тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "60",
+          "text": "телевизор не видит саундбар"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "make-tv-smart",
+      "candidate_path": "/kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+      "query": "как сделать смарт тв из обычного телевизора",
+      "operator_query": "\"[как !сделать !смарт !тв из !обычного !телевизора]\"",
+      "variant": "make-smart-fixed-wordforms"
+    },
+    "operator_query": "\"[как !сделать !смарт !тв из !обычного !телевизора]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "make-tv-smart",
+      "candidate_path": "/kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+      "query": "смарт тв приставка для обычного телевизора",
+      "operator_query": "\"[!смарт !тв !приставка для !обычного !телевизора]\"",
+      "variant": "box-fixed-wordforms"
+    },
+    "operator_query": "\"[!смарт !тв !приставка для !обычного !телевизора]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "make-tv-smart",
+      "candidate_path": "/kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+      "query": "как подключить смарт тв приставку к телевизору",
+      "operator_query": "\"[как !подключить !смарт !тв !приставку к !телевизору]\"",
+      "variant": "connect-box-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !смарт !тв !приставку к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "193605",
+          "text": "smart tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "7068",
+          "text": "android tv box"
+        },
+        {
+          "isAssociations": true,
+          "value": "8160",
+          "text": "android tv приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "2021",
+          "text": "пульт для приставки цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "8268",
+          "text": "smart tv приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "13440",
+          "text": "приставка для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "15060",
+          "text": "телевизионная приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "12315",
+          "text": "samsung smart tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "37473",
+          "text": "tv приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "5829",
+          "text": "приставка x96"
+        },
+        {
+          "isAssociations": true,
+          "value": "85",
+          "text": "smart tube android tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "3407",
+          "text": "smart tv box"
+        },
+        {
+          "isAssociations": true,
+          "value": "406",
+          "text": "smarttube android tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "454",
+          "text": "телевизионная приставка для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "130",
+          "text": "телеприставка для цифрового телевидения купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "268",
+          "text": "android tv box приложения"
+        },
+        {
+          "isAssociations": true,
+          "value": "446",
+          "text": "телеприставка для цифрового телевидения"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1335",
+          "text": "как подключить смарт тв приставку к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-aspect-ratio",
+      "candidate_path": "/izobrazhenie-ne-na-ves-ekran-televizora/",
+      "query": "черные полосы на экране телевизора",
+      "operator_query": "\"[!черные !полосы на !экране !телевизора]\"",
+      "variant": "black-bars-fixed-wordforms"
+    },
+    "operator_query": "\"[!черные !полосы на !экране !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3175",
+          "text": "камедоны черные удаление видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "419",
+          "text": "черный свет фильм 2004"
+        },
+        {
+          "isAssociations": true,
+          "value": "3020",
+          "text": "торт черный лес рецепт"
+        },
+        {
+          "isAssociations": true,
+          "value": "4824",
+          "text": "hdmi кабель для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "2395",
+          "text": "ремонт матрицы телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "907",
+          "text": "черная молния песня"
+        },
+        {
+          "isAssociations": true,
+          "value": "2936",
+          "text": "шум телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "200",
+          "text": "как меряется диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "9540",
+          "text": "телевизор с подсветкой"
+        },
+        {
+          "isAssociations": true,
+          "value": "870",
+          "text": "темный экран на компьютере"
+        },
+        {
+          "isAssociations": true,
+          "value": "188",
+          "text": "телевизор tcl не подключается к wifi"
+        },
+        {
+          "isAssociations": true,
+          "value": "171",
+          "text": "обои для олед монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "256",
+          "text": "черная кровь актеры и роли"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1090",
+          "text": "черные полосы на экране телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-aspect-ratio",
+      "candidate_path": "/izobrazhenie-ne-na-ves-ekran-televizora/",
+      "query": "изображение не на весь экран телевизора",
+      "operator_query": "\"[!изображение не на весь !экран !телевизора]\"",
+      "variant": "not-fullscreen-fixed-wordforms"
+    },
+    "operator_query": "\"[!изображение не на весь !экран !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1324",
+          "text": "как из монитора сделать телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "329",
+          "text": "как сделать фото экрана на ноутбуке"
+        },
+        {
+          "isAssociations": true,
+          "value": "6357",
+          "text": "телевизор на ножках"
+        },
+        {
+          "isAssociations": true,
+          "value": "228",
+          "text": "как подключить hdmi к телевизору от ноутбука"
+        },
+        {
+          "isAssociations": true,
+          "value": "209",
+          "text": "экранка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "289",
+          "text": "как починить ютуб на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "114",
+          "text": "как делать снимок экрана на ноутбуке"
+        },
+        {
+          "isAssociations": true,
+          "value": "1080",
+          "text": "клавиатура для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "278",
+          "text": "крепление телевизора к потолку"
+        },
+        {
+          "isAssociations": true,
+          "value": "255",
+          "text": "screen resolution changer"
+        },
+        {
+          "isAssociations": true,
+          "value": "1316",
+          "text": "телевизор престижио"
+        },
+        {
+          "isAssociations": true,
+          "value": "7737",
+          "text": "обои на монитор"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "221",
+          "text": "изображение не на весь экран телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-aspect-ratio",
+      "candidate_path": "/izobrazhenie-ne-na-ves-ekran-televizora/",
+      "query": "как растянуть изображение на весь экран телевизора",
+      "operator_query": "\"[как !растянуть !изображение на весь !экран !телевизора]\"",
+      "variant": "stretch-fixed-wordforms"
+    },
+    "operator_query": "\"[как !растянуть !изображение на весь !экран !телевизора]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hdmi-cable-checker",
+      "candidate_path": "/kakoy-hdmi-kabel-nuzhen/",
+      "query": "какой hdmi кабель нужен для телевизора",
+      "operator_query": "\"[!какой hdmi !кабель !нужен для !телевизора]\"",
+      "variant": "needed-fixed-wordforms"
+    },
+    "operator_query": "\"[!какой hdmi !кабель !нужен для !телевизора]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hdmi-cable-checker",
+      "candidate_path": "/kakoy-hdmi-kabel-nuzhen/",
+      "query": "как выбрать hdmi кабель для телевизора",
+      "operator_query": "\"[как !выбрать hdmi !кабель для !телевизора]\"",
+      "variant": "choose-fixed-wordforms"
+    },
+    "operator_query": "\"[как !выбрать hdmi !кабель для !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "558690",
+          "text": "hdmi"
+        },
+        {
+          "isAssociations": true,
+          "value": "10828",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "20239",
+          "text": "провод hdmi"
+        },
+        {
+          "isAssociations": true,
+          "value": "32732",
+          "text": "кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "972",
+          "text": "bit tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "236",
+          "text": "hq tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "257",
+          "text": "televizor tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "515",
+          "text": "кабельное тв это"
+        },
+        {
+          "isAssociations": true,
+          "value": "951",
+          "text": "24h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "1997",
+          "text": "как подключить кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "361",
+          "text": "телевизионная антенна для цифрового телевидения купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "703",
+          "text": "что с тв сигналом сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "13",
+          "text": "televizor24tochka ru tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "474",
+          "text": "смотреть кабельное тв бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "210",
+          "text": "что такое кабельное телевидение"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "114",
+          "text": "как выбрать hdmi кабель для телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "hdmi-cable-checker",
+      "candidate_path": "/kakoy-hdmi-kabel-nuzhen/",
+      "query": "hdmi кабель для телевизора 4k 120 герц",
+      "operator_query": "\"[hdmi !кабель для !телевизора 4k 120 !герц]\"",
+      "variant": "4k120-fixed-wordforms"
+    },
+    "operator_query": "\"[hdmi !кабель для !телевизора 4k 120 !герц]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  }
+]

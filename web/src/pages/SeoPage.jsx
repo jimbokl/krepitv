@@ -73,6 +73,9 @@ const tvTrafficTaskByPageId = new Map([
   ["tv-turns-off", "turns-off"],
   ["tv-no-internet", "no-internet"],
   ["tv-usb-not-seen", "usb-not-seen"],
+  ["soundbar-to-tv", "soundbar-to-tv"],
+  ["screen-cleaning", "screen-cleaning"],
+  ["smart-tv-box", "smart-tv-box"],
 ]);
 
 const trafficUtilityCtas = {
@@ -152,6 +155,27 @@ const trafficUtilityCtas = {
     href: "/televizor-ne-podklyuchaetsya-k-internetu/",
     label: "Проверить подключение",
     shortLabel: "Диагностика интернета",
+  },
+  "soundbar-to-tv": {
+    title: "Подключили, но звука нет?",
+    description: "Отделите настройки выхода телевизора от кабеля и внешнего аудиоустройства.",
+    href: "/net-zvuka-na-televizore/",
+    label: "Проверить звук",
+    shortLabel: "Диагностика звука",
+  },
+  "screen-cleaning": {
+    title: "Экран уже чистый?",
+    description: "Сравните несколько обратимых настроек изображения без копирования чужих чисел.",
+    href: "/nastroyka-izobrazheniya-televizora/",
+    label: "Настроить изображение",
+    shortLabel: "Настройка изображения",
+  },
+  "smart-tv-box": {
+    title: "Приставка включена, но сигнала нет?",
+    description: "Проверьте выбранный вход, питание источника и кабель как отдельные причины.",
+    href: "/televizor-pishet-net-signala/",
+    label: "Проверить сигнал",
+    shortLabel: "Диагностика сигнала",
   },
 };
 

@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "cohort_id": "tv-utility-cohort-5",
+  "retrieved_at": "2026-08-01",
+  "scope": {
+    "market": "Russia",
+    "language": "ru",
+    "source_policy": "primary-official-only",
+    "purpose": "Source, claim and fail-closed boundaries for three traffic-first KREPI TV utilities. No repair, unsafe access, purchase or affiliate CTA is authorized."
+  },
+  "canonicals": [
+    {
+      "id": "soundbar-to-tv",
+      "path": "/kak-podklyuchit-saundbar-k-televizoru/",
+      "job": "Choose one connection path from labels that are visibly present on both the television and soundbar, then produce a bounded setup checklist.",
+      "source_ids": ["samsung-tv-soundbar-arc", "sony-tv-soundbar-connect", "lg-tv-soundbar-connect"],
+      "allowed_claims": [
+        "hdmi-arc-or-earc-is-selected-only-when-both-devices-have-the-corresponding-labelled-port",
+        "optical-or-analog-is-selected-only-when-a-matching-output-and-input-are-visible-on-the-two-devices",
+        "bluetooth-is-an-external-model-dependent-path-and-can-have-feature-or-latency-limitations",
+        "input-output-and-hdmi-control-names-must-be-confirmed-in-the-exact-model-manual"
+      ],
+      "fail_closed": [
+        "port-labels-are-unknown-or-do-not-match",
+        "the-required-port-is-not-safely-accessible-without-moving-a-wall-mounted-tv",
+        "a-cable-port-or-power-connection-is-damaged-hot-loose-or-wet",
+        "the-next-step-would-require-opening-equipment-or-electrical-measurement"
+      ]
+    },
+    {
+      "id": "screen-cleaning",
+      "path": "/chem-protirat-ekran-televizora/",
+      "job": "Route visible dust, fingerprints or a stubborn mark to the least invasive manufacturer-supported cleaning step without prescribing a universal chemical.",
+      "source_ids": ["lg-tv-screen-cleaning", "sony-tv-screen-cleaning"],
+      "allowed_claims": [
+        "the-tv-should-be-off-cool-and-disconnected-only-when-the-plug-is-safely-accessible-before-cleaning",
+        "a-clean-soft-microfiber-cloth-is-the-default-first-step",
+        "liquid-must-not-be-sprayed-directly-on-the-screen-or-allowed-to-run-into-openings",
+        "any-damp-cloth-or-cleaning-solution-step-depends-on-the-exact-model-manual"
+      ],
+      "fail_closed": [
+        "the-screen-is-cracked-delaminated-or-has-liquid-inside",
+        "the-tv-plug-cable-or-outlet-is-hot-damaged-wet-or-not-safely-accessible",
+        "the-user-cannot-confirm-that-the-tv-is-off-and-cool",
+        "the-mark-needs-pressure-scraping-abrasive-material-or-an-unconfirmed-chemical"
+      ]
+    },
+    {
+      "id": "smart-tv-box",
+      "path": "/kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+      "job": "Match a streaming box video output to an available television input, confirm independent power and route setup to the exact device instructions.",
+      "source_ids": ["google-tv-device-setup", "xiaomi-mi-box-compatibility", "samsung-tv-external-hdmi"],
+      "allowed_claims": [
+        "an-hdmi-streaming-device-requires-an-available-hdmi-input-and-the-corresponding-selected-tv-source",
+        "some-model-specific-boxes-can-use-composite-av-only-when-the-box-and-tv-instructions-explicitly-support-it",
+        "power-network-account-and-remote-pairing-are-separate-setup-stages",
+        "included-power-hardware-and-the-exact-device-instructions-take-priority-over-a-generic-usb-power-assumption"
+      ],
+      "fail_closed": [
+        "the-tv-input-and-box-output-do-not-have-a-confirmed-match",
+        "the-required-port-is-not-safely-accessible-without-moving-a-wall-mounted-tv",
+        "an-adapter-or-converter-would-be-required-without-exact-device-support",
+        "a-power-cable-plug-or-outlet-is-damaged-hot-loose-or-wet"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "samsung-tv-soundbar-arc",
+      "organization": "Samsung",
+      "title": "Как использовать HDMI ARC в телевизорах Samsung Smart TV",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-use-hdmi-arc-on-samsung-smart-tv/",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "sony-tv-soundbar-connect",
+      "organization": "Sony",
+      "title": "Как подключить саундбар к телевизору?",
+      "url": "https://www.sony.ru/electronics/support/articles/00014997",
+      "checked_at": "2026-08-01",
+      "automation_blocked": true,
+      "http_status": 403,
+      "interpretation": "browser-readable; do not mark dead"
+    },
+    {
+      "id": "lg-tv-soundbar-connect",
+      "organization": "LG",
+      "title": "Подключение саундбара через оптический кабель, Bluetooth или HDMI",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413206539OLT",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "lg-tv-screen-cleaning",
+      "organization": "LG",
+      "title": "Как правильно чистить экран OLED-телевизора",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154713246835",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "sony-tv-screen-cleaning",
+      "organization": "Sony",
+      "title": "Как очистить OLED- или ЖК-телевизор",
+      "url": "https://www.sony.ru/electronics/support/articles/00167099",
+      "checked_at": "2026-08-01",
+      "automation_blocked": true,
+      "http_status": 403,
+      "interpretation": "browser-readable; do not mark dead"
+    },
+    {
+      "id": "google-tv-device-setup",
+      "organization": "Google",
+      "title": "Как настроить устройство Google TV и пульт ДУ",
+      "url": "https://support.google.com/googletv/answer/10050221?hl=ru",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "xiaomi-mi-box-compatibility",
+      "organization": "Xiaomi",
+      "title": "Могут ли все модели телевизоров использовать Mi Box",
+      "url": "https://www.mi.com/ru/support/article/KA-15498/",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "samsung-tv-external-hdmi",
+      "organization": "Samsung",
+      "title": "Что делать, если нет сигнала при подключении по HDMI",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    }
+  ],
+  "global_denials": [
+    "hardware-fault-diagnosis",
+    "opening-or-moving-a-wall-mounted-tv",
+    "electrical-measurement-or-repair",
+    "factory-reset-or-service-menu",
+    "direct-liquid-spray-pressure-scraping-or-unconfirmed-cleaning-chemicals",
+    "assuming-unlabelled-arc-earc-optical-analog-hdmi-av-or-usb-power-support",
+    "collecting-network-account-or-device-identifiers",
+    "purchase-or-affiliate-cta"
+  ]
+}

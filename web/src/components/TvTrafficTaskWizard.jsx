@@ -7,11 +7,14 @@ import {
   Laptop,
   Power,
   SlidersHorizontal,
+  Sparkle,
+  SpeakerHigh,
   SpeakerSlash,
   TelevisionSimple,
   Usb,
   WarningCircle,
   WifiSlash,
+  MonitorPlay,
 } from "@phosphor-icons/react";
 import { calculateTvTrafficTask } from "../lib/catalog.js";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
@@ -148,6 +151,38 @@ const sourceRegistry = {
   "google-android-tv-storage": {
     label: "Google: USB-накопитель в Android TV",
     url: "https://support.google.com/androidtv/answer/6299083?hl=ru",
+  },
+  "samsung-tv-soundbar-arc": {
+    label: "Samsung: HDMI ARC для телевизора и саундбара",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/how-to-use-hdmi-arc-on-samsung-smart-tv/",
+  },
+  "sony-tv-soundbar-connect": {
+    label: "Sony: подключение саундбара к телевизору",
+    url: "https://www.sony.ru/electronics/support/articles/00014997",
+  },
+  "lg-tv-soundbar-connect": {
+    label: "LG: HDMI, оптика и Bluetooth для саундбара",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20153413206539OLT",
+  },
+  "lg-tv-screen-cleaning": {
+    label: "LG: безопасная очистка экрана телевизора",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20154713246835",
+  },
+  "sony-tv-screen-cleaning": {
+    label: "Sony: очистка OLED- и ЖК-экрана",
+    url: "https://www.sony.ru/electronics/support/articles/00167099",
+  },
+  "google-tv-device-setup": {
+    label: "Google: настройка устройства Google TV",
+    url: "https://support.google.com/googletv/answer/10050221?hl=ru",
+  },
+  "xiaomi-mi-box-compatibility": {
+    label: "Xiaomi: совместимость Mi Box с телевизором",
+    url: "https://www.mi.com/ru/support/article/KA-15498/",
+  },
+  "samsung-tv-external-hdmi": {
+    label: "Samsung: внешний источник по HDMI",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/",
   },
 };
 
@@ -618,6 +653,180 @@ const configs = {
       label: "Проблема только в онлайн-приложениях? Проверить подключение к интернету",
     },
   },
+  "soundbar-to-tv": {
+    Icon: SpeakerHigh,
+    kicker: "Подключение по видимым подписям",
+    title: "Мастер: саундбар → телевизор",
+    description: "Сопоставьте только те выходы и входы, подписи которых видны на обоих устройствах. Названия меню, HDMI-CEC и возможности Bluetooth зависят от точных моделей — мастер их не угадывает.",
+    buttonLabel: "Показать способ подключения",
+    loadingLabel: "Сверяем выход телевизора и вход саундбара…",
+    toolId: "soundbar_to_tv",
+    primary: {
+      legend: "1. Какая подпись есть на выходе телевизора?",
+      options: [
+        ["earc", "HDMI eARC", "На разъёме явно указано eARC"],
+        ["arc", "HDMI ARC", "На разъёме явно указано ARC"],
+        ["optical", "Optical / Digital Audio Out", "Оптический аудиовыход"],
+        ["analog", "Наушники / Audio Out", "Аналоговый аудиовыход"],
+        ["bluetooth", "Bluetooth", "Подтверждён в инструкции телевизора"],
+        ["none", "Подходящего выхода нет", "Совпадающая подпись не найдена"],
+        ["unknown", "Не знаю", "Порт не виден или подпись не читается"],
+      ],
+    },
+    secondary: {
+      legend: "2. Какая совпадающая подпись есть на входе саундбара?",
+      options: [
+        ["earc", "HDMI eARC", "На разъёме явно указано eARC"],
+        ["arc", "HDMI ARC", "На разъёме явно указано ARC"],
+        ["optical", "Optical / Digital Audio In", "Оптический аудиовход"],
+        ["analog", "AUX / Audio In", "Аналоговый аудиовход"],
+        ["bluetooth", "Bluetooth", "Подтверждён в инструкции саундбара"],
+        ["none", "Подходящего входа нет", "Совпадающая подпись не найдена"],
+        ["unknown", "Не знаю", "Порт не виден или подпись не читается"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "unknown",
+      legend: "Нужные порты доступны без перемещения настенного телевизора?",
+      options: [
+        ["yes", "Да"],
+        ["no", "Нет"],
+        ["unknown", "Не уверен"],
+      ],
+    },
+    detail: {
+      defaultValue: "unknown",
+      legend: () => "Кабели, разъёмы, вилки и розетки выглядят безопасно?",
+      options: [
+        ["safe", "Да, повреждений нет"],
+        ["unsafe", "Нет, есть повреждение, нагрев или влага"],
+        ["unknown", "Не уверен"],
+      ],
+      show: () => true,
+    },
+    referenceSourceIds: [
+      "samsung-tv-soundbar-arc",
+      "sony-tv-soundbar-connect",
+      "lg-tv-soundbar-connect",
+    ],
+    next: {
+      href: "/net-zvuka-na-televizore/",
+      label: "Подключение совпадает, но звука нет? Открыть диагностику звука",
+    },
+  },
+  "screen-cleaning": {
+    Icon: Sparkle,
+    kicker: "Сначала самый щадящий способ",
+    title: "Мастер безопасной очистки экрана",
+    description: "Начните с чистой сухой микрофибры. Не распыляйте жидкость на экран, не давите, не скоблите и не применяйте универсальную химию: влажный способ допустим только по инструкции точной модели.",
+    buttonLabel: "Показать безопасный шаг",
+    loadingLabel: "Проверяем состояние экрана и безопасную границу…",
+    toolId: "screen_cleaning",
+    primary: {
+      legend: "1. Что видно на экране?",
+      options: [
+        ["clear", "Пыль или отпечатки", "Нет трещин, отслоения и жидкости внутри"],
+        ["damage", "Трещина или отслоение", "Самостоятельную очистку нужно остановить"],
+        ["liquid", "Жидкость внутри или у кромки", "Не нажимайте и не включайте телевизор"],
+        ["unknown", "Не уверен", "Состояние нельзя безопасно подтвердить"],
+      ],
+    },
+    secondary: {
+      legend: "2. Телевизор выключен и экран остыл?",
+      options: [
+        ["off-cool", "Да, выключен и остыл", "Можно продолжить безопасную проверку"],
+        ["on", "Нет, телевизор включён", "Сначала выключите его"],
+        ["warm", "Выключен, но ещё тёплый", "Дождитесь остывания"],
+        ["unknown", "Не уверен", "Не начинайте очистку"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "unknown",
+      legend: "Что есть для первого шага?",
+      options: [
+        ["clean-dry-microfiber", "Чистая сухая микрофибра"],
+        ["other", "Другая салфетка или средство"],
+        ["unknown", "Не уверен"],
+      ],
+    },
+    detail: {
+      defaultValue: "unknown",
+      legend: () => "Вилка, кабель и розетка безопасны и доступны без усилия?",
+      options: [
+        ["safe", "Да, доступны и целы"],
+        ["unsafe", "Нет, есть нагрев, повреждение или влага"],
+        ["inaccessible", "Вилка недоступна безопасно"],
+        ["unknown", "Не уверен"],
+      ],
+      columns: "grid-cols-1 sm:grid-cols-2",
+      show: () => true,
+    },
+    referenceSourceIds: [
+      "lg-tv-screen-cleaning",
+      "sony-tv-screen-cleaning",
+    ],
+    next: {
+      href: "/nastroyka-izobrazheniya-televizora/",
+      label: "Экран чистый? Перейти к безопасной настройке изображения",
+    },
+  },
+  "smart-tv-box": {
+    Icon: MonitorPlay,
+    kicker: "Вход, питание и настройка отдельно",
+    title: "Мастер: Smart TV-приставка → телевизор",
+    description: "Сопоставьте видеовыход приставки с подписанным входом телевизора. Питание, сеть, аккаунт и пульт — отдельные этапы; AV, переходники и питание от USB не предполагаются без инструкции точной модели.",
+    buttonLabel: "Показать план подключения",
+    loadingLabel: "Сверяем видеопорты и этапы запуска…",
+    toolId: "smart_tv_box",
+    primary: {
+      legend: "1. Какой свободный вход есть на телевизоре?",
+      options: [
+        ["hdmi", "HDMI", "Подпись видна у доступного входа"],
+        ["av", "AV", "Композитный вход подтверждён инструкцией ТВ"],
+        ["none", "Подходящего входа нет", "Совпадающий вход не найден"],
+        ["unknown", "Не знаю", "Порт или подпись не видны"],
+      ],
+    },
+    secondary: {
+      legend: "2. Какой видеовыход есть на приставке?",
+      options: [
+        ["hdmi", "HDMI", "Подпись видна на приставке"],
+        ["av", "AV", "Выход подтверждён инструкцией точной модели"],
+        ["unknown", "Не знаю", "Нужно сверить корпус и инструкцию"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "unknown",
+      legend: "Вход телевизора доступен без перемещения настенного экрана?",
+      options: [
+        ["yes", "Да"],
+        ["no", "Нет"],
+        ["unknown", "Не уверен"],
+      ],
+    },
+    detail: {
+      defaultValue: "unknown",
+      legend: () => "Что уже подтверждено для отдельного запуска приставки?",
+      options: [
+        ["power-and-network", "Штатное питание и сеть"],
+        ["power-only", "Только штатное питание"],
+        ["no-power", "Штатного питания нет"],
+        ["unsafe", "Есть повреждение, нагрев или влага"],
+        ["unknown", "Не знаю"],
+      ],
+      columns: "grid-cols-1 sm:grid-cols-2",
+      show: () => true,
+    },
+    referenceSourceIds: [
+      "google-tv-device-setup",
+      "xiaomi-mi-box-compatibility",
+      "samsung-tv-external-hdmi",
+    ],
+    next: {
+      href: "/televizor-pishet-net-signala/",
+      label: "Приставка включена, но телевизор пишет «Нет сигнала»? Проверить источник",
+    },
+  },
 };
 
 const statusCopy = {
@@ -866,10 +1075,13 @@ export function TvTrafficTaskWizard({ task }) {
                 />
                 {detailVisible ? (
                   <TriStateChoice
+                    columns="grid-cols-1 sm:grid-cols-3"
+                    configuredColumns={config.detail.columns}
                     disabled={requestState === "loading"}
                     legend={config.detail.legend({ primary, secondary })}
                     name={`${task}-detail`}
                     onChange={(value) => choose(setDetail, value)}
+                    options={config.detail.options}
                     value={detail}
                   />
                 ) : null}
@@ -932,9 +1144,13 @@ function ChoiceGrid({ columns = "sm:grid-cols-3", disabled = false, legend, name
     <fieldset disabled={disabled}>
       <legend className="font-display text-xl font-bold">{legend}</legend>
       <div className={`mt-3 grid gap-px border border-ink bg-ink ${columns}`}>
-        {options.map(([optionValue, label, description]) => (
+        {options.map(([optionValue, label, description], optionIndex) => (
           <label
-            className={`relative flex min-h-16 flex-col justify-center bg-paper px-4 py-3 transition focus-within:z-10 focus-within:ring-2 focus-within:ring-action ${disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"} ${
+            className={`relative flex min-h-16 flex-col justify-center bg-paper px-4 py-3 transition focus-within:z-10 focus-within:ring-2 focus-within:ring-action ${
+              columns.includes("sm:grid-cols-2") && options.length % 2 === 1 && optionIndex === options.length - 1
+                ? "sm:col-span-2"
+                : ""
+            } ${disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"} ${
               value === optionValue ? "bg-white text-ink" : "hover:bg-white/70"
             }`}
             key={optionValue}
@@ -957,19 +1173,28 @@ function ChoiceGrid({ columns = "sm:grid-cols-3", disabled = false, legend, name
   );
 }
 
-function TriStateChoice({ disabled = false, legend, name, onChange, value }) {
+function TriStateChoice({
+  columns = "grid-cols-1 sm:grid-cols-3",
+  configuredColumns,
+  disabled = false,
+  legend,
+  name,
+  onChange,
+  options = [
+    ["yes", "Да"],
+    ["no", "Нет"],
+    ["unknown", "Не знаю"],
+  ],
+  value,
+}) {
   return (
     <ChoiceGrid
-      columns="grid-cols-1 sm:grid-cols-3"
+      columns={configuredColumns ?? columns}
       disabled={disabled}
       legend={legend}
       name={name}
       onChange={onChange}
-      options={[
-        ["yes", "Да"],
-        ["no", "Нет"],
-        ["unknown", "Не знаю"],
-      ]}
+      options={options}
       value={value}
     />
   );

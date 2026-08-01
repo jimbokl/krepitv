@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "id": "20260801-cohort-5-web-utilities",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root/traffic_seed_batch",
+  "created_at": "2026-08-01T16:34:48.957417+00:00",
+  "states": [
+    "empty",
+    "default",
+    "loading",
+    "error",
+    "disabled",
+    "focus",
+    "success",
+    "needs-check",
+    "external-path",
+    "service-boundary"
+  ],
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800},
+    {"id": "tablet", "width": 768, "height": 1024},
+    {"id": "desktop", "width": 1440, "height": 900}
+  ],
+  "allowed_files": [
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/src/lib/seoPages.mjs",
+    "scripts/qa/capture-page.mjs",
+    "web/tests/tv-utility-cohort-5.test.mjs",
+    ".design-harness/runs/20260801-cohort-5-web-utilities/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-web-cohort-5",
+      "command": "node --test --test-concurrency=1 web/tests/tv-utility-cohort-5.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "required": true,
+      "covers": ["default", "loading", "error", "disabled", "focus", "success", "needs-check", "external-path", "service-boundary", "privacy", "sources"]
+    },
+    {
+      "id": "cmd-diff-check",
+      "command": "git diff --check",
+      "required": true,
+      "covers": ["scoped implementation", "text integrity"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "task-contract",
+      "value": "soundbar-to-tv · screen-cleaning · smart-tv-box",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "canonical-paths",
+      "value": "/kak-podklyuchit-saundbar-k-televizoru/ · /chem-protirat-ekran-televizora/ · /kak-podklyuchit-smart-tv-pristavku-k-televizoru/",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "privacy-boundary",
+      "value": "Ответы остаются в браузере; свободный ввод и отправка данных отсутствуют.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "soundbar-connection",
+      "text": "Маршрут соединения выбирается только по совпадающим подписанным выходу телевизора и входу саундбара; модельные пункты меню не угадываются.",
+      "source_ids": ["samsung-tv-soundbar-arc", "sony-tv-soundbar-connect", "lg-tv-soundbar-connect"]
+    },
+    {
+      "id": "screen-cleaning",
+      "text": "Первый шаг для целого выключенного и остывшего экрана — чистая сухая мягкая микрофибра; жидкость не распыляется на панель.",
+      "source_ids": ["lg-tv-screen-cleaning", "sony-tv-screen-cleaning"]
+    },
+    {
+      "id": "smart-box-boundary",
+      "text": "Видеовыход приставки должен совпасть с подтверждённым входом телевизора; питание, сеть, аккаунт и сопряжение остаются отдельными этапами инструкции точной модели.",
+      "source_ids": ["google-tv-device-setup", "xiaomi-mi-box-compatibility", "samsung-tv-external-hdmi"]
+    }
+  ],
+  "sources": [
+    {"id": "samsung-tv-soundbar-arc", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-use-hdmi-arc-on-samsung-smart-tv/", "retrieved_at": "2026-08-01T16:30:00Z"},
+    {"id": "sony-tv-soundbar-connect", "url": "https://www.sony.ru/electronics/support/articles/00014997", "retrieved_at": "2026-08-01T16:30:00Z", "notes": "browser-readable; automated GET blocked"},
+    {"id": "lg-tv-soundbar-connect", "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413206539OLT", "retrieved_at": "2026-08-01T16:30:00Z"},
+    {"id": "lg-tv-screen-cleaning", "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154713246835", "retrieved_at": "2026-08-01T16:30:00Z"},
+    {"id": "sony-tv-screen-cleaning", "url": "https://www.sony.ru/electronics/support/articles/00167099", "retrieved_at": "2026-08-01T16:30:00Z", "notes": "browser-readable; automated GET blocked"},
+    {"id": "google-tv-device-setup", "url": "https://support.google.com/googletv/answer/10050221?hl=ru", "retrieved_at": "2026-08-01T16:30:00Z"},
+    {"id": "xiaomi-mi-box-compatibility", "url": "https://www.mi.com/ru/support/article/KA-15498/", "retrieved_at": "2026-08-01T16:30:00Z"},
+    {"id": "samsung-tv-external-hdmi", "url": "https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/", "retrieved_at": "2026-08-01T16:30:00Z"}
+  ]
+}
