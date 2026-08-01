@@ -249,6 +249,36 @@ export function viewing_geometry_json(mode, value, horizontal_angle_deg) {
         wasm.__wbindgen_export(deferred2_0, deferred2_1, 1);
     }
 }
+
+/**
+ * @param {number} diagonal_inches
+ * @param {number} screen_width_cm
+ * @param {number} screen_height_cm
+ * @param {number} wall_width_cm
+ * @param {number} wall_height_cm
+ * @param {number} screen_center_x_cm
+ * @param {number} screen_center_y_cm
+ * @param {number} furniture_width_cm
+ * @param {number} furniture_height_cm
+ * @param {number} eye_line_height_cm
+ * @returns {string}
+ */
+export function wall_scene_plan_json(diagonal_inches, screen_width_cm, screen_height_cm, wall_width_cm, wall_height_cm, screen_center_x_cm, screen_center_y_cm, furniture_width_cm, furniture_height_cm, eye_line_height_cm) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.wall_scene_plan_json(retptr, diagonal_inches, screen_width_cm, screen_height_cm, wall_width_cm, wall_height_cm, screen_center_x_cm, screen_center_y_cm, furniture_width_cm, furniture_height_cm, eye_line_height_cm);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred1_0 = r0;
+        deferred1_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+    }
+}
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,

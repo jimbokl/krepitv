@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "id": "20260801-tv-wall-planner",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root",
+  "created_at": "2026-08-01T07:24:11.206901+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "mobile-390",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    ".design-harness",
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/research/wall-planner-demand-contract-2026-08-01.json",
+    "data/research/wall-planner-demand-seeds-2026-08-01.json",
+    "data/research/wall-planner-demand-2026-08-01.json",
+    "data/seo_pages.json",
+    "docs",
+    "product-docs/design-qa/2026-08-01-tv-wall-planner",
+    "product-docs/operations/traffic-release-tv-wall-planner-2026-08-01.md",
+    "product-docs/research/krepitv-wall-planner-cluster-2026-08-01.md",
+    "product-docs/research/WALL_PLANNER_OPPORTUNITY_2026-08-01.md",
+    "product-docs/research/raw/wordstat-wall-planner-2026-08-01",
+    "scripts/research/collect-seo-hub-demand.mjs",
+    "scripts/verify.mjs",
+    "web/index.html",
+    "web/kronshteyn-dlya-televizora-na-stenu/index.html",
+    "web/public/sitemap.xml",
+    "web/src/components/WallPlannerCalculator.jsx",
+    "web/src/components/WallPlannerDiagram.jsx",
+    "web/src/lib/catalog.js",
+    "web/src/lib/wallScenePlan.mjs",
+    "web/src/pages/SeoPage.jsx",
+    "web/televizor-na-stene",
+    "web/tests/wall-planner.test.mjs"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-wall-tests",
+      "command": "node --test web/tests/wall-planner.test.mjs",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+    },
+    {
+      "id": "cmd-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["success", "error"]
+    },
+    {
+      "id": "cmd-audits",
+      "command": "security + static + affiliate + design audits",
+      "required": true,
+      "covers": ["default", "success"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "design_harness.py scan-drift",
+      "required": true,
+      "covers": ["default", "focus"]
+    },
+    {
+      "id": "cmd-production",
+      "command": "production hash and browser smoke",
+      "required": true,
+      "covers": ["default", "success", "focus"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "content-title",
+      "value": "Телевизор на стене: примерить размер и расположение — KREPI TV",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "content-h1",
+      "value": "Примерьте телевизор на своей стене в масштабе",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "content-boundary",
+      "value": "Схема проверяет геометрию, но не прочность стены и не назначает крепёж.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-wordstat",
+      "text": "Строгая формулировка «телевизор на стене» получила 88 002 в Wordstat Top queries по России на дату сбора.",
+      "source_ids": ["source-wordstat"]
+    },
+    {
+      "id": "claim-catalog",
+      "text": "Планировщик может использовать точные габариты 80 проверенных моделей телевизоров.",
+      "source_ids": ["source-models"]
+    },
+    {
+      "id": "claim-geometry",
+      "text": "Ручной режим диагонали строит прямоугольник экрана с отношением сторон 16:9.",
+      "source_ids": ["source-engine"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "source-wordstat",
+      "path": "product-docs/research/raw/wordstat-wall-planner-2026-08-01/normalized.csv",
+      "retrieved_at": "2026-08-01T07:19:53.345Z",
+      "notes": "Top queries, Россия 225, все устройства; варианты не суммируются"
+    },
+    {
+      "id": "source-models",
+      "path": "data/tv_models.json",
+      "retrieved_at": "2026-08-01T07:20:00Z",
+      "notes": "Каждая модель содержит собственный source_url и checked_at"
+    },
+    {
+      "id": "source-engine",
+      "path": "crates/engine/src/lib.rs",
+      "retrieved_at": "2026-08-01T07:20:00Z",
+      "notes": "Детерминированная геометрия и валидация"
+    },
+    {
+      "id": "source-reference",
+      "path": "product-docs/design-references/02-guided-selection.png",
+      "retrieved_at": "2026-08-01T07:20:00Z",
+      "notes": "Утверждённый внутренний визуальный референс KREPI TV"
+    },
+    {
+      "id": "source-homeject",
+      "url": "https://homeject.com/calculators/tv-wall-mount-height-calculator/",
+      "retrieved_at": "2026-08-01T07:20:00Z",
+      "notes": "Конкурентный формат drag-and-drop room planner; не источник монтажных норм"
+    }
+  ]
+}

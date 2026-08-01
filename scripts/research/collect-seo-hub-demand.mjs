@@ -29,6 +29,8 @@ const manifestOutput = path.resolve(
   ROOT,
   argument("--manifest-output", "data/research/seo-hub-demand.json"),
 );
+const contractArgument = argument("--contract", "");
+const contractPath = contractArgument ? path.resolve(ROOT, contractArgument) : null;
 const secretPath = argument("--secret", process.env.XMLRIVER_WORDSTAT_SECRET ?? DEFAULT_SECRET);
 const reuseRaw = process.argv.includes("--reuse-raw");
 
@@ -112,8 +114,17 @@ function csvCell(value) {
 }
 
 const seeds = JSON.parse(await readFile(seedPath, "utf8"));
+const customContract = contractPath
+  ? JSON.parse(await readFile(contractPath, "utf8"))
+  : null;
 const secret = reuseRaw ? null : JSON.parse(await readFile(secretPath, "utf8"));
 if (!Array.isArray(seeds) || !seeds.length) throw new Error("SEO hub seed list is empty");
+if (
+  customContract &&
+  (!customContract.product || !customContract.intended_conversion || !customContract.relevance_rule)
+) {
+  throw new Error("Custom research contract requires product, intended_conversion and relevance_rule");
+}
 if (!reuseRaw && (!secret?.baseUrl || !secret?.user || !secret?.key)) {
   throw new Error("Wordstat secret is incomplete");
 }
@@ -187,11 +198,15 @@ const batchSha256 = createHash("sha256").update(JSON.stringify(seeds)).digest("h
 const manifest = {
   schema_version: 1,
   research_contract: {
-    product: "KREPI TV — независимый подбор кронштейна по точной модели телевизора",
+    product:
+      customContract?.product ??
+      "KREPI TV — независимый подбор кронштейна по точной модели телевизора",
     landing_candidates: landingCandidates,
     intended_conversion:
+      customContract?.intended_conversion ??
       "Проверка совместимости в собственном сервисе и необязательный переход по прямой партнёрской ссылке на Яндекс Маркет",
     relevance_rule:
+      customContract?.relevance_rule ??
       "Запрос о выборе или покупке кронштейна для телевизора, представленного в проверенном каталоге; исключаются услуги монтажа, мебель, мониторы и несвязанные крепления",
     region_id: Number(REGION_ID),
     region: "Россия",
@@ -211,6 +226,7 @@ const manifest = {
     source_label: SOURCE_LABEL,
     raw_output: path.relative(ROOT, outputRoot),
     normalized_output: path.relative(ROOT, manifestOutput),
+    ...(contractPath ? { contract_input: path.relative(ROOT, contractPath) } : {}),
   },
   observed_at: observedAt,
   batch_sha256: batchSha256,

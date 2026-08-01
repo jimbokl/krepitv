@@ -264,6 +264,26 @@ export async function calculateMountingMap(values) {
   return response;
 }
 
+export async function calculateWallScenePlan(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.wall_scene_plan_json(
+      values.diagonal,
+      values.screenWidth,
+      values.screenHeight,
+      values.wallWidth,
+      values.wallHeight,
+      values.centerX,
+      values.centerY,
+      values.furnitureWidth,
+      values.furnitureHeight,
+      values.eyeLine,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateTvZoneSocketPlan(values) {
   const engine = await loadEngine();
   const response = JSON.parse(

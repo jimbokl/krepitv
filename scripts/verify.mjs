@@ -317,6 +317,7 @@ const required = [
   "kontakty/index.html",
   "politika-konfidencialnosti/index.html",
   "rozetki-pod-televizor-na-stene/index.html",
+  "televizor-na-stene/index.html",
   "krepitv-engine-loader.js",
   "pkg/krepitv_engine_bg.wasm",
   "pkg/krepitv_engine.js",
@@ -1223,6 +1224,52 @@ if ((heightHtml.match(/scope="row"/g) ?? []).length !== 6) {
   throw new Error("Справочная таблица высоты должна содержать шесть диагоналей");
 }
 
+const wallPlannerPage = seoPages.find((page) => page.id === "wall-planner");
+const wallPlannerHtml = wallPlannerPage ? (htmlByRoute.get(wallPlannerPage.path) ?? "") : "";
+if (
+  !wallPlannerPage?.indexable
+  || wallPlannerPage.path !== "/televizor-na-stene/"
+  || decodeHtmlAttribute(canonicalFromHtml(wallPlannerHtml)) !== `${origin}/televizor-na-stene/`
+  || (wallPlannerHtml.match(/<h1(?:\s|>)/g) ?? []).length !== 1
+) {
+  throw new Error("Нет единой индексируемой канонической страницы планировщика стены");
+}
+for (const required of [
+  'data-wall-planner-answer="true"',
+  'data-wall-planner-static-examples="true"',
+  'data-wall-planner-example="43"',
+  'data-wall-planner-example="55"',
+  'data-wall-planner-example="65"',
+  "точную модель или экран 16:9",
+  "не назначает высоту, точки сверления, анкеры и розетки",
+  'href="/na-kakoy-vysote-veshat-televizor/"',
+  'href="/kak-povesit-televizor-na-stenu/"',
+  'href="/rozetki-pod-televizor-na-stene/"',
+]) {
+  if (!wallPlannerHtml.includes(required)) {
+    throw new Error(`Сырой HTML планировщика не содержит обязательный фрагмент: ${required}`);
+  }
+}
+if (
+  (wallPlannerHtml.match(/data-wall-planner-example=/g) ?? []).length !== 3
+  || wallPlannerHtml.includes("market.yandex.ru")
+) {
+  throw new Error("Планировщик должен иметь три статических примера и не быть партнёрской витриной");
+}
+for (const competingIntent of [
+  "на какой высоте",
+  "как повесить",
+  "розетки",
+  "подбор кронштейна",
+]) {
+  if (
+    wallPlannerPage.title.toLocaleLowerCase("ru-RU").includes(competingIntent)
+    || wallPlannerPage.h1.toLocaleLowerCase("ru-RU").includes(competingIntent)
+  ) {
+    throw new Error(`Планировщик каннибализирует соседний интент в title/H1: ${competingIntent}`);
+  }
+}
+
 const vesaLookupPage = seoPages.find((page) => page.id === "vesa");
 if (
   !vesaLookupPage
@@ -1494,7 +1541,7 @@ for (const page of indexableSeoPages) {
   if (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(page.path)) {
     throw new Error(`Индексируемая SEO-страница отсутствует в sitemap или закрыта: ${page.path}`);
   }
-  const expectedLastmod = ["vesa", "tv-mount-screws", "mounting-height"].includes(page.id)
+  const expectedLastmod = ["vesa", "tv-mount-screws", "mounting-height", "wall-planner"].includes(page.id)
     ? trafficPagesUpdatedAt
     : corePagesUpdatedAt;
   if (sitemapLastmods.get(page.path) !== expectedLastmod) {

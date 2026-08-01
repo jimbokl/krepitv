@@ -23,6 +23,7 @@ import { TvVesaCatalog } from "../components/TvVesaCatalog.jsx";
 import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx";
 import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
+import { WallPlannerCalculator } from "../components/WallPlannerCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
 import {
   getCatalogItems,
@@ -62,7 +63,8 @@ function SeoArticle({ catalog, page }) {
   const prioritizesBuyComparison = page.id === "buy-tv-mount";
   const prioritizesScrewLookup = page.id === "tv-mount-screws";
   const prioritizesVesaLookup = page.id === "vesa";
-  const prioritizesPrimaryLookup = prioritizesScrewLookup || prioritizesVesaLookup;
+  const prioritizesWallPlanner = page.id === "wall-planner";
+  const prioritizesPrimaryLookup = prioritizesScrewLookup || prioritizesVesaLookup || prioritizesWallPlanner;
   const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa", "tv-mount-screws"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
@@ -114,7 +116,7 @@ function SeoArticle({ catalog, page }) {
             {kindLabels[page.kind] ?? "Технический справочник"}
           </p>
           <h1 className={`mt-3 max-w-[1180px] font-display font-extrabold leading-[0.92] tracking-[-0.035em] ${
-            ["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id)
+            ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner"].includes(page.id)
               ? "text-[clamp(3rem,4vw,4.4rem)]"
               : ["wall-mounted-tv", "mounting-map"].includes(page.id)
               ? "text-[clamp(3rem,4.6vw,5rem)]"
@@ -161,6 +163,9 @@ function SeoArticle({ catalog, page }) {
         {page.id === "extendable-mount" ? <TurnClearanceCalculator /> : null}
         {page.id === "tilt-mount" ? <TiltAngleCalculator /> : null}
         {page.id === "mounting-map" ? <MountingMapCalculator /> : null}
+        {prioritizesWallPlanner ? (
+          <WallPlannerCalculator models={catalog.models} search={catalog.search} />
+        ) : null}
         {page.id === "tv-zone-sockets" ? (
           <TvZoneSocketCalculator
             compatibilityEdges={catalog.compatibilityEdges}

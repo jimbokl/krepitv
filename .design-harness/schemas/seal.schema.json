@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.design-harness/schema/seal-v1.json",
+  "title": "Programmatic Design Sealed Packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "run_id", "sealed_at", "task_hash", "evidence_hash", "files", "packet_hash"],
+  "properties": {
+    "version": {"const": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "sealed_at": {"type": "string", "format": "date-time"},
+    "task_hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "evidence_hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "files": {
+      "type": "object",
+      "additionalProperties": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+    },
+    "packet_hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+  }
+}

@@ -1,0 +1,604 @@
+[
+  {
+    "seed": {
+      "candidate_id": "wall-planner-broad",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "телевизор на стене",
+      "variant": "broad"
+    },
+    "operator_query": "\"[телевизор на стене]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "13051",
+          "text": "стеновые панели для внутренней отделки стен"
+        },
+        {
+          "isAssociations": true,
+          "value": "117807",
+          "text": "фильм стена"
+        },
+        {
+          "isAssociations": true,
+          "value": "9053",
+          "text": "стенка под телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "158619",
+          "text": "телевизор смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "16006",
+          "text": "ремонт телевизоров на дому"
+        },
+        {
+          "isAssociations": true,
+          "value": "11864",
+          "text": "подставка для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "198",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "679",
+          "text": "стеновые панели в интерьере гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "4335",
+          "text": "стенка для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1610",
+          "text": "настенное крепление для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "33881",
+          "text": "телевизионные антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "1365",
+          "text": "стенка под тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "77",
+          "text": "translucent tv"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "88002",
+          "text": "телевизор на стене"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-layout",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "расположение телевизора на стене",
+      "variant": "layout"
+    },
+    "operator_query": "\"[расположение телевизора на стене]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "6403",
+          "text": "тв зона в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "198",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "1648",
+          "text": "оформление тв зоны"
+        },
+        {
+          "isAssociations": true,
+          "value": "10592",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "597",
+          "text": "оформление тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "727",
+          "text": "стенка над карнизом 5"
+        },
+        {
+          "isAssociations": true,
+          "value": "346",
+          "text": "что идет по телеку"
+        },
+        {
+          "isAssociations": true,
+          "value": "256",
+          "text": "televizor tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "137",
+          "text": "найти каналы тв бесплатно телевизионные"
+        },
+        {
+          "isAssociations": true,
+          "value": "941",
+          "text": "24h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "627",
+          "text": "дизайн тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "640",
+          "text": "стр тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "59",
+          "text": "тв 1нд"
+        },
+        {
+          "isAssociations": true,
+          "value": "1005",
+          "text": "стенка над карнизом"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "257",
+          "text": "расположение телевизора на стене"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-place",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "разместить телевизор на стене",
+      "variant": "place"
+    },
+    "operator_query": "\"[разместить телевизор на стене]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28536",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "198",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "1648",
+          "text": "оформление тв зоны"
+        },
+        {
+          "isAssociations": true,
+          "value": "10592",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "597",
+          "text": "оформление тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "37686",
+          "text": "а тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "201",
+          "text": "интерактивное тв ростелеком что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "436",
+          "text": "интерактивное тв что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "346",
+          "text": "что идет по телеку"
+        },
+        {
+          "isAssociations": true,
+          "value": "256",
+          "text": "televizor tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "4719",
+          "text": "тв п"
+        },
+        {
+          "isAssociations": true,
+          "value": "13010",
+          "text": "идет на тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "941",
+          "text": "24h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "640",
+          "text": "стр тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "59",
+          "text": "тв 1нд"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "199",
+          "text": "разместить телевизор на стене"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-preview",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "примерить телевизор на стену",
+      "variant": "preview"
+    },
+    "operator_query": "\"[примерить телевизор на стену]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-size",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "подобрать размер телевизора на стену",
+      "variant": "size"
+    },
+    "operator_query": "\"[подобрать размер телевизора на стену]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-cabinet",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "телевизор на стене над тумбой",
+      "variant": "cabinet"
+    },
+    "operator_query": "\"[телевизор на стене над тумбой]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-cabinet-gap",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "расстояние от телевизора до тумбы",
+      "variant": "cabinet-gap"
+    },
+    "operator_query": "\"[расстояние от телевизора до тумбы]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-floor-height",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "высота телевизора на стене от пола",
+      "variant": "floor-height"
+    },
+    "operator_query": "\"[высота телевизора на стене от пола]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "16896",
+          "text": "обои для рабочего стола 1920х1080 высокого качества"
+        },
+        {
+          "isAssociations": true,
+          "value": "647",
+          "text": "существует прямоугольник диагонали которого взаимно перпендикулярны"
+        },
+        {
+          "isAssociations": true,
+          "value": "1051",
+          "text": "учитель особого назначения том 1"
+        },
+        {
+          "isAssociations": true,
+          "value": "421",
+          "text": "учитель особого назначения том 9"
+        },
+        {
+          "isAssociations": true,
+          "value": "183",
+          "text": "пуи расшифровка помещения в строительстве"
+        },
+        {
+          "isAssociations": true,
+          "value": "434",
+          "text": "обои для рабочего стола 2560х1440 высокого качества"
+        },
+        {
+          "isAssociations": true,
+          "value": "935",
+          "text": "43 дюйма это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "18943",
+          "text": "обои для рабочего стола высокого качества"
+        },
+        {
+          "isAssociations": true,
+          "value": "465",
+          "text": "учитель особого назначения том 3"
+        },
+        {
+          "isAssociations": true,
+          "value": "313",
+          "text": "средняя оболочка стенки матки называется"
+        },
+        {
+          "isAssociations": true,
+          "value": "604",
+          "text": "размеры тв в дюймах и см"
+        },
+        {
+          "isAssociations": true,
+          "value": "100",
+          "text": "обои для рабочего стола 3440х1440 высокого качества"
+        },
+        {
+          "isAssociations": true,
+          "value": "321",
+          "text": "учитель особого назначения том 4"
+        },
+        {
+          "isAssociations": true,
+          "value": "289",
+          "text": "учитель особого назначения том 5"
+        },
+        {
+          "isAssociations": true,
+          "value": "2680",
+          "text": "какой ширины бывает линолеум"
+        },
+        {
+          "isAssociations": true,
+          "value": "833",
+          "text": "учитель особого назначения том 10"
+        },
+        {
+          "isAssociations": true,
+          "value": "212",
+          "text": "43 дюймов в см размеры экрана"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2627",
+          "text": "высота телевизора на стене от пола"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-interior",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "стена с телевизором в интерьере",
+      "variant": "interior"
+    },
+    "operator_query": "\"[стена с телевизором в интерьере]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "61677",
+          "text": "дизайн гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "27770",
+          "text": "стеновые панели для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "23987",
+          "text": "интерьерные картины"
+        },
+        {
+          "isAssociations": true,
+          "value": "6243",
+          "text": "тв зона в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "5098",
+          "text": "дизайн гостиной комнаты"
+        },
+        {
+          "isAssociations": true,
+          "value": "435",
+          "text": "тв зона дизайн 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "2422",
+          "text": "тв зона дизайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "191",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "1414",
+          "text": "бамбуковые стеновые панели для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "3937",
+          "text": "настенный декор"
+        },
+        {
+          "isAssociations": true,
+          "value": "28694",
+          "text": "стеновые панели для внутренней"
+        },
+        {
+          "isAssociations": true,
+          "value": "551",
+          "text": "оформление тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "673",
+          "text": "декоративные стеновые панели для внутренней отделки"
+        },
+        {
+          "isAssociations": true,
+          "value": "621",
+          "text": "дизайн тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "139",
+          "text": "стеновые панели из бамбука для внутренней отделки"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "120",
+          "text": "стена с телевизором в интерьере"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "wall-planner-design",
+      "candidate_path": "/televizor-na-stene/",
+      "query": "дизайн стены с телевизором",
+      "variant": "design"
+    },
+    "operator_query": "\"[дизайн стены с телевизором]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "49686",
+          "text": "интерьер гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "3480",
+          "text": "стеновые панели в интерьере"
+        },
+        {
+          "isAssociations": true,
+          "value": "6243",
+          "text": "тв зона в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "11781",
+          "text": "картины для интерьера"
+        },
+        {
+          "isAssociations": true,
+          "value": "746",
+          "text": "арт деко стиль в интерьере"
+        },
+        {
+          "isAssociations": true,
+          "value": "191",
+          "text": "стеновые панели под тв зону"
+        },
+        {
+          "isAssociations": true,
+          "value": "2316",
+          "text": "интерьер гостиной в квартире"
+        },
+        {
+          "isAssociations": true,
+          "value": "1614",
+          "text": "оформление тв зоны"
+        },
+        {
+          "isAssociations": true,
+          "value": "610",
+          "text": "стеновые панели в интерьере гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "3937",
+          "text": "настенный декор"
+        },
+        {
+          "isAssociations": true,
+          "value": "551",
+          "text": "оформление тв зоны в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "1053",
+          "text": "ии дизайнер интерьера"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "692",
+          "text": "дизайн стены с телевизором"
+        }
+      ]
+    }
+  }
+]

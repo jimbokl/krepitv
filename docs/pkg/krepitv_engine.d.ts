@@ -19,6 +19,8 @@ export function vesa_screw_length_plan_json(engagement_min_mm: number | null | u
 
 export function viewing_geometry_json(mode: string, value: number, horizontal_angle_deg: number): string;
 
+export function wall_scene_plan_json(diagonal_inches: number, screen_width_cm: number, screen_height_cm: number, wall_width_cm: number, wall_height_cm: number, screen_center_x_cm: number, screen_center_y_cm: number, furniture_width_cm: number, furniture_height_cm: number, eye_line_height_cm: number): string;
+
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
@@ -32,6 +34,7 @@ export interface InitOutput {
     readonly vesa_match_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly vesa_screw_length_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number) => void;
     readonly viewing_geometry_json: (a: number, b: number, c: number, d: number, e: number) => void;
+    readonly wall_scene_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number) => void;
     readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
     readonly __wbindgen_export: (a: number, b: number, c: number) => void;
     readonly __wbindgen_export2: (a: number, b: number) => number;

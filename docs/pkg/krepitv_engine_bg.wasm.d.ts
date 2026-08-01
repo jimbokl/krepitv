@@ -10,6 +10,7 @@ export const tv_zone_socket_plan_json: (a: number, b: number, c: number, d: numb
 export const vesa_match_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
 export const vesa_screw_length_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number) => void;
 export const viewing_geometry_json: (a: number, b: number, c: number, d: number, e: number) => void;
+export const wall_scene_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number) => void;
 export const __wbindgen_add_to_stack_pointer: (a: number) => number;
 export const __wbindgen_export: (a: number, b: number, c: number) => void;
 export const __wbindgen_export2: (a: number, b: number) => number;

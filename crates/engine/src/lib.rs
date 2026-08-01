@@ -22,6 +22,12 @@ const MAX_FURNITURE_HEIGHT_CM: f64 = 200.0;
 const MAX_FURNITURE_CLEARANCE_CM: f64 = 100.0;
 const MAX_WALL_PLATE_OFFSET_CM: f64 = 100.0;
 const MAX_REFERENCE_HEIGHT_CM: f64 = 350.0;
+const MIN_WALL_WIDTH_CM: f64 = 100.0;
+const MAX_WALL_WIDTH_CM: f64 = 3_000.0;
+const MIN_WALL_HEIGHT_CM: f64 = 150.0;
+const MAX_WALL_HEIGHT_CM: f64 = 1_000.0;
+const MIN_SCREEN_HEIGHT_CM: f64 = 10.0;
+const MAX_SCREEN_HEIGHT_CM: f64 = 400.0;
 const MAX_TV_ZONE_ELEMENT_CM: f64 = 300.0;
 const MAX_TV_ZONE_OFFSET_CM: f64 = 250.0;
 const MAX_TV_ZONE_DEPTH_CM: f64 = 50.0;
@@ -99,6 +105,37 @@ pub struct MountingMapPlan {
     pub viewing_angle_deg: f64,
     pub clearance_cm: f64,
     pub adjusted_for_furniture: bool,
+    pub warnings: Vec<String>,
+}
+
+/// Масштабная двумерная схема телевизора на стене.
+///
+/// Координаты отсчитываются от левого нижнего угла стены. Паспортные ширина и
+/// высота экрана имеют приоритет над геометрией 16:9; ручной режим используется
+/// только когда обе паспортные величины равны нулю.
+#[derive(Clone, Debug, Serialize)]
+pub struct WallScenePlan {
+    pub dimension_source: String,
+    pub diagonal_inches: f64,
+    pub screen_width_cm: f64,
+    pub screen_height_cm: f64,
+    pub wall_width_cm: f64,
+    pub wall_height_cm: f64,
+    pub requested_center_x_cm: f64,
+    pub requested_center_y_cm: f64,
+    pub effective_center_x_cm: f64,
+    pub effective_center_y_cm: f64,
+    pub left_clearance_cm: f64,
+    pub right_clearance_cm: f64,
+    pub top_clearance_cm: f64,
+    pub bottom_clearance_cm: f64,
+    pub furniture_width_cm: f64,
+    pub furniture_height_cm: f64,
+    pub furniture_gap_cm: f64,
+    pub furniture_overlap_cm: f64,
+    pub eye_line_height_cm: f64,
+    pub eye_line_delta_cm: f64,
+    pub center_was_clamped: bool,
     pub warnings: Vec<String>,
 }
 
@@ -298,6 +335,13 @@ fn validate_range(value: f64, min: f64, max: f64, field: &str, unit: &str) -> Re
             rounded(min),
             rounded(max)
         ));
+    }
+    Ok(())
+}
+
+fn validate_finite(value: f64, field: &str) -> Result<(), String> {
+    if !value.is_finite() {
+        return Err(format!("{field}: введите конечное число"));
     }
     Ok(())
 }
@@ -1387,6 +1431,272 @@ pub fn calculate_mounting_map(
     })
 }
 
+/// Строит масштабную схему стены и экрана в сантиметрах.
+///
+/// Начало координат находится в левом нижнем углу стены. Если паспортные
+/// `screen_width_cm` и `screen_height_cm` положительны, они считаются точными и
+/// не пересчитываются из диагонали. Ручная геометрия 16:9 включается только
+/// когда обе величины равны нулю. Запрошенный центр может выходить за границы:
+/// после проверки размеров он будет сдвинут к ближайшему допустимому положению.
+#[allow(clippy::too_many_arguments)]
+pub fn calculate_wall_scene_plan(
+    diagonal_inches: f64,
+    screen_width_cm: f64,
+    screen_height_cm: f64,
+    wall_width_cm: f64,
+    wall_height_cm: f64,
+    screen_center_x_cm: f64,
+    screen_center_y_cm: f64,
+    furniture_width_cm: f64,
+    furniture_height_cm: f64,
+    eye_line_height_cm: f64,
+) -> Result<WallScenePlan, String> {
+    validate_finite(diagonal_inches, "Диагональ")?;
+    validate_finite(screen_width_cm, "Ширина экрана")?;
+    validate_finite(screen_height_cm, "Высота экрана")?;
+    validate_range(
+        wall_width_cm,
+        MIN_WALL_WIDTH_CM,
+        MAX_WALL_WIDTH_CM,
+        "Ширина стены",
+        "см",
+    )?;
+    validate_range(
+        wall_height_cm,
+        MIN_WALL_HEIGHT_CM,
+        MAX_WALL_HEIGHT_CM,
+        "Высота стены",
+        "см",
+    )?;
+    validate_finite(screen_center_x_cm, "Центр экрана по горизонтали")?;
+    validate_finite(screen_center_y_cm, "Центр экрана по вертикали")?;
+    validate_finite(furniture_width_cm, "Ширина мебели")?;
+    validate_finite(furniture_height_cm, "Высота мебели")?;
+    validate_range(
+        eye_line_height_cm,
+        MIN_EYE_HEIGHT_CM,
+        MAX_EYE_HEIGHT_CM,
+        "Высота линии глаз",
+        "см",
+    )?;
+
+    if eye_line_height_cm > wall_height_cm {
+        return Err("Высота линии глаз не может быть выше стены".to_string());
+    }
+    if screen_width_cm < 0.0 || screen_height_cm < 0.0 {
+        return Err("Габариты экрана не могут быть отрицательными".to_string());
+    }
+
+    let (
+        dimension_source,
+        effective_diagonal_inches,
+        effective_screen_width_cm,
+        effective_screen_height_cm,
+    ) = if screen_width_cm == 0.0 && screen_height_cm == 0.0 {
+        validate_range(
+            diagonal_inches,
+            MIN_TV_DIAGONAL_INCHES,
+            MAX_TV_DIAGONAL_INCHES,
+            "Диагональ",
+            "дюймов",
+        )?;
+        let (width, height) = screen_dimensions_16_by_9(diagonal_inches);
+        ("manual-16:9", diagonal_inches, width, height)
+    } else if screen_width_cm > 0.0 && screen_height_cm > 0.0 {
+        validate_range(
+            screen_width_cm,
+            MIN_TV_WIDTH_CM,
+            MAX_TV_WIDTH_CM,
+            "Ширина экрана",
+            "см",
+        )?;
+        validate_range(
+            screen_height_cm,
+            MIN_SCREEN_HEIGHT_CM,
+            MAX_SCREEN_HEIGHT_CM,
+            "Высота экрана",
+            "см",
+        )?;
+
+        let measured_diagonal_inches = screen_width_cm.hypot(screen_height_cm) / 2.54;
+        let effective_diagonal_inches = if diagonal_inches == 0.0 {
+            validate_range(
+                measured_diagonal_inches,
+                MIN_TV_DIAGONAL_INCHES,
+                MAX_TV_DIAGONAL_INCHES,
+                "Диагональ по точным габаритам",
+                "дюймов",
+            )?;
+            measured_diagonal_inches
+        } else {
+            validate_range(
+                diagonal_inches,
+                MIN_TV_DIAGONAL_INCHES,
+                MAX_TV_DIAGONAL_INCHES,
+                "Диагональ",
+                "дюймов",
+            )?;
+            diagonal_inches
+        };
+
+        (
+            "exact-model",
+            effective_diagonal_inches,
+            screen_width_cm,
+            screen_height_cm,
+        )
+    } else {
+        return Err(
+                "Укажите и ширину, и высоту экрана либо оставьте оба поля равными нулю для ручного режима 16:9"
+                    .to_string(),
+            );
+    };
+
+    if effective_screen_width_cm > wall_width_cm || effective_screen_height_cm > wall_height_cm {
+        return Err(
+            "Экран не помещается на стене: увеличьте размеры стены или выберите меньший телевизор"
+                .to_string(),
+        );
+    }
+
+    if furniture_width_cm < 0.0 || furniture_height_cm < 0.0 {
+        return Err("Габариты мебели не могут быть отрицательными".to_string());
+    }
+    let furniture_is_present = if furniture_width_cm == 0.0 && furniture_height_cm == 0.0 {
+        false
+    } else if furniture_width_cm > 0.0 && furniture_height_cm > 0.0 {
+        validate_range(
+            furniture_width_cm,
+            1.0,
+            MAX_WALL_WIDTH_CM,
+            "Ширина мебели",
+            "см",
+        )?;
+        validate_range(
+            furniture_height_cm,
+            1.0,
+            MAX_WALL_HEIGHT_CM,
+            "Высота мебели",
+            "см",
+        )?;
+        if furniture_width_cm > wall_width_cm || furniture_height_cm > wall_height_cm {
+            return Err("Мебель не помещается в заданный контур стены".to_string());
+        }
+        true
+    } else {
+        return Err(
+            "Укажите и ширину, и высоту мебели либо оставьте оба поля равными нулю".to_string(),
+        );
+    };
+
+    let minimum_center_x_cm = effective_screen_width_cm / 2.0;
+    let maximum_center_x_cm = wall_width_cm - effective_screen_width_cm / 2.0;
+    let minimum_center_y_cm = effective_screen_height_cm / 2.0;
+    let maximum_center_y_cm = wall_height_cm - effective_screen_height_cm / 2.0;
+    let effective_center_x_cm = screen_center_x_cm.clamp(minimum_center_x_cm, maximum_center_x_cm);
+    let effective_center_y_cm = screen_center_y_cm.clamp(minimum_center_y_cm, maximum_center_y_cm);
+    let center_was_clamped = (effective_center_x_cm - screen_center_x_cm).abs() > f64::EPSILON
+        || (effective_center_y_cm - screen_center_y_cm).abs() > f64::EPSILON;
+
+    let left_clearance_cm = effective_center_x_cm - effective_screen_width_cm / 2.0;
+    let right_clearance_cm =
+        wall_width_cm - effective_center_x_cm - effective_screen_width_cm / 2.0;
+    let bottom_clearance_cm = effective_center_y_cm - effective_screen_height_cm / 2.0;
+    let top_clearance_cm =
+        wall_height_cm - effective_center_y_cm - effective_screen_height_cm / 2.0;
+
+    let screen_left_cm = left_clearance_cm;
+    let screen_right_cm = wall_width_cm - right_clearance_cm;
+    let furniture_left_cm = (wall_width_cm - furniture_width_cm) / 2.0;
+    let furniture_right_cm = furniture_left_cm + furniture_width_cm;
+    let horizontal_furniture_overlap_cm = if furniture_is_present {
+        screen_right_cm.min(furniture_right_cm) - screen_left_cm.max(furniture_left_cm)
+    } else {
+        0.0
+    }
+    .max(0.0);
+    let vertical_furniture_delta_cm = bottom_clearance_cm - furniture_height_cm;
+    let furniture_gap_cm = if horizontal_furniture_overlap_cm > 0.0 {
+        vertical_furniture_delta_cm.max(0.0)
+    } else {
+        0.0
+    };
+    let furniture_overlap_cm = if horizontal_furniture_overlap_cm > 0.0 {
+        (-vertical_furniture_delta_cm).max(0.0)
+    } else {
+        0.0
+    };
+    let eye_line_delta_cm = effective_center_y_cm - eye_line_height_cm;
+
+    let mut warnings = Vec::new();
+    if dimension_source == "manual-16:9" {
+        warnings.push(
+            "Ручной режим использует видимую геометрию 16:9: точный корпус телевизора может быть шире или выше"
+                .to_string(),
+        );
+    }
+    if center_was_clamped {
+        warnings.push(
+            "Запрошенный центр сдвинут к ближайшему положению, при котором экран целиком остаётся внутри стены"
+                .to_string(),
+        );
+    }
+    if furniture_overlap_cm > 0.0 {
+        warnings.push(format!(
+            "Контур экрана пересекает мебель по высоте на {} см",
+            rounded(furniture_overlap_cm)
+        ));
+    } else if furniture_is_present
+        && horizontal_furniture_overlap_cm > 0.0
+        && furniture_gap_cm < 5.0
+    {
+        warnings.push(
+            "Между экраном и мебелью меньше 5 см: проверьте рамку, кабели и доступ к разъёмам"
+                .to_string(),
+        );
+    }
+    if eye_line_delta_cm.abs() > 50.0 {
+        let direction = if eye_line_delta_cm > 0.0 {
+            "выше"
+        } else {
+            "ниже"
+        };
+        warnings.push(format!(
+            "Центр экрана находится на {} см {direction} линии глаз",
+            rounded(eye_line_delta_cm.abs())
+        ));
+    }
+    warnings.push(
+        "Схема проверяет только расположение: основание стены, крепёж, VESA, массу и кабели проверьте отдельно"
+            .to_string(),
+    );
+
+    Ok(WallScenePlan {
+        dimension_source: dimension_source.to_string(),
+        diagonal_inches: rounded(effective_diagonal_inches),
+        screen_width_cm: rounded(effective_screen_width_cm),
+        screen_height_cm: rounded(effective_screen_height_cm),
+        wall_width_cm: rounded(wall_width_cm),
+        wall_height_cm: rounded(wall_height_cm),
+        requested_center_x_cm: rounded(screen_center_x_cm),
+        requested_center_y_cm: rounded(screen_center_y_cm),
+        effective_center_x_cm: rounded(effective_center_x_cm),
+        effective_center_y_cm: rounded(effective_center_y_cm),
+        left_clearance_cm: rounded(left_clearance_cm),
+        right_clearance_cm: rounded(right_clearance_cm),
+        top_clearance_cm: rounded(top_clearance_cm),
+        bottom_clearance_cm: rounded(bottom_clearance_cm),
+        furniture_width_cm: rounded(furniture_width_cm),
+        furniture_height_cm: rounded(furniture_height_cm),
+        furniture_gap_cm: rounded(furniture_gap_cm),
+        furniture_overlap_cm: rounded(furniture_overlap_cm),
+        eye_line_height_cm: rounded(eye_line_height_cm),
+        eye_line_delta_cm: rounded(eye_line_delta_cm),
+        center_was_clamped,
+        warnings,
+    })
+}
+
 fn validate_module_count(value: u32, field: &str) -> Result<(), String> {
     if value > MAX_TV_ZONE_MODULES {
         return Err(format!(
@@ -1718,6 +2028,37 @@ pub fn mounting_map_json(
 
 #[wasm_bindgen]
 #[allow(clippy::too_many_arguments)]
+pub fn wall_scene_plan_json(
+    diagonal_inches: f64,
+    screen_width_cm: f64,
+    screen_height_cm: f64,
+    wall_width_cm: f64,
+    wall_height_cm: f64,
+    screen_center_x_cm: f64,
+    screen_center_y_cm: f64,
+    furniture_width_cm: f64,
+    furniture_height_cm: f64,
+    eye_line_height_cm: f64,
+) -> String {
+    match calculate_wall_scene_plan(
+        diagonal_inches,
+        screen_width_cm,
+        screen_height_cm,
+        wall_width_cm,
+        wall_height_cm,
+        screen_center_x_cm,
+        screen_center_y_cm,
+        furniture_width_cm,
+        furniture_height_cm,
+        eye_line_height_cm,
+    ) {
+        Ok(plan) => serde_json::to_string(&plan).expect("wall scene plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
 pub fn tv_zone_socket_plan_json(
     diagonal_inches: f64,
     screen_center_height_cm: f64,
@@ -2002,6 +2343,166 @@ mod tests {
         let invalid = mounting_map_json(10.0, 110.0, 250.0, 0.0, 70.0, 10.0, 0.0, 0.0);
         let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
         assert!(invalid.get("error").is_some());
+    }
+
+    #[test]
+    fn wall_scene_manual_mode_uses_16_by_9_geometry() {
+        let plan = calculate_wall_scene_plan(
+            55.0, 0.0, 0.0, 420.0, 270.0, 210.0, 135.0, 180.0, 55.0, 110.0,
+        )
+        .unwrap();
+
+        assert_eq!(plan.dimension_source, "manual-16:9");
+        assert_eq!(plan.diagonal_inches, 55.0);
+        assert_eq!(plan.screen_width_cm, 121.8);
+        assert_eq!(plan.screen_height_cm, 68.5);
+        assert_eq!(plan.left_clearance_cm, 149.1);
+        assert_eq!(plan.right_clearance_cm, 149.1);
+        assert_eq!(plan.top_clearance_cm, 100.8);
+        assert_eq!(plan.bottom_clearance_cm, 100.8);
+        assert_eq!(plan.furniture_gap_cm, 45.8);
+        assert_eq!(plan.furniture_overlap_cm, 0.0);
+        assert_eq!(plan.eye_line_delta_cm, 25.0);
+        assert!(!plan.center_was_clamped);
+        assert!(plan.warnings.iter().any(|warning| warning.contains("16:9")));
+    }
+
+    #[test]
+    fn wall_scene_exact_dimensions_are_authoritative() {
+        let plan = calculate_wall_scene_plan(
+            55.0, 123.4, 75.6, 420.0, 270.0, 210.0, 135.0, 180.0, 55.0, 110.0,
+        )
+        .unwrap();
+
+        assert_eq!(plan.dimension_source, "exact-model");
+        assert_eq!(plan.screen_width_cm, 123.4);
+        assert_eq!(plan.screen_height_cm, 75.6);
+        assert_eq!(plan.diagonal_inches, 55.0);
+
+        let derived = calculate_wall_scene_plan(
+            0.0, 100.0, 60.0, 420.0, 270.0, 210.0, 135.0, 0.0, 0.0, 110.0,
+        )
+        .unwrap();
+        assert_eq!(derived.diagonal_inches, 45.9);
+        assert_eq!(derived.screen_width_cm, 100.0);
+        assert_eq!(derived.screen_height_cm, 60.0);
+    }
+
+    #[test]
+    fn wall_scene_clamps_requested_center_inside_wall() {
+        let plan = calculate_wall_scene_plan(
+            45.0, 100.0, 60.0, 200.0, 150.0, -10.0, 200.0, 0.0, 0.0, 100.0,
+        )
+        .unwrap();
+
+        assert_eq!(plan.requested_center_x_cm, -10.0);
+        assert_eq!(plan.requested_center_y_cm, 200.0);
+        assert_eq!(plan.effective_center_x_cm, 50.0);
+        assert_eq!(plan.effective_center_y_cm, 120.0);
+        assert_eq!(plan.left_clearance_cm, 0.0);
+        assert_eq!(plan.right_clearance_cm, 100.0);
+        assert_eq!(plan.top_clearance_cm, 0.0);
+        assert_eq!(plan.bottom_clearance_cm, 90.0);
+        assert!(plan.center_was_clamped);
+        assert!(
+            plan.warnings
+                .iter()
+                .any(|warning| warning.contains("сдвинут"))
+        );
+    }
+
+    #[test]
+    fn wall_scene_reports_furniture_overlap() {
+        let plan = calculate_wall_scene_plan(
+            65.0, 0.0, 0.0, 420.0, 270.0, 210.0, 70.0, 180.0, 55.0, 110.0,
+        )
+        .unwrap();
+
+        assert_eq!(plan.furniture_gap_cm, 0.0);
+        assert_eq!(plan.furniture_overlap_cm, 25.5);
+        assert!(
+            plan.warnings
+                .iter()
+                .any(|warning| warning.contains("пересекает мебель"))
+        );
+    }
+
+    #[test]
+    fn wall_scene_rejects_partial_or_impossible_geometry() {
+        let partial_screen = calculate_wall_scene_plan(
+            55.0, 120.0, 0.0, 420.0, 270.0, 210.0, 135.0, 180.0, 55.0, 110.0,
+        )
+        .unwrap_err();
+        assert!(partial_screen.contains("и ширину, и высоту экрана"));
+
+        let too_large = calculate_wall_scene_plan(
+            55.0, 250.0, 80.0, 200.0, 200.0, 100.0, 100.0, 0.0, 0.0, 110.0,
+        )
+        .unwrap_err();
+        assert!(too_large.contains("не помещается на стене"));
+
+        let partial_furniture = calculate_wall_scene_plan(
+            55.0, 0.0, 0.0, 420.0, 270.0, 210.0, 135.0, 180.0, 0.0, 110.0,
+        )
+        .unwrap_err();
+        assert!(partial_furniture.contains("и ширину, и высоту мебели"));
+
+        let non_finite = calculate_wall_scene_plan(
+            55.0,
+            0.0,
+            0.0,
+            420.0,
+            270.0,
+            f64::NAN,
+            135.0,
+            180.0,
+            55.0,
+            110.0,
+        )
+        .unwrap_err();
+        assert!(non_finite.contains("конечное число"));
+    }
+
+    #[test]
+    fn wall_scene_wasm_json_has_stable_shape_and_errors() {
+        let response = wall_scene_plan_json(
+            55.0, 0.0, 0.0, 420.0, 270.0, 210.0, 135.0, 180.0, 55.0, 110.0,
+        );
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "dimension_source",
+            "diagonal_inches",
+            "screen_width_cm",
+            "screen_height_cm",
+            "wall_width_cm",
+            "wall_height_cm",
+            "requested_center_x_cm",
+            "requested_center_y_cm",
+            "effective_center_x_cm",
+            "effective_center_y_cm",
+            "left_clearance_cm",
+            "right_clearance_cm",
+            "top_clearance_cm",
+            "bottom_clearance_cm",
+            "furniture_width_cm",
+            "furniture_height_cm",
+            "furniture_gap_cm",
+            "furniture_overlap_cm",
+            "eye_line_height_cm",
+            "eye_line_delta_cm",
+            "center_was_clamped",
+            "warnings",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert!(value.get("error").is_none());
+
+        let invalid = wall_scene_plan_json(
+            55.0, 120.0, 0.0, 420.0, 270.0, 210.0, 135.0, 180.0, 55.0, 110.0,
+        );
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+        assert!(invalid.get("screen_width_cm").is_none());
     }
 
     #[test]

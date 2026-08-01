@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+SCRIPT="${CODEX_HOME:-$HOME/.codex}/skills/programmatic-design/scripts/design_harness.py"
+if [ ! -f "$SCRIPT" ]; then
+  echo "Programmatic Design skill is not installed at: $SCRIPT" >&2
+  exit 2
+fi
+
+exec python3 "$SCRIPT" "$@"

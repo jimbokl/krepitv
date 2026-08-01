@@ -1,0 +1,62 @@
+[
+  {
+    "candidate_id": "wall-planner-broad",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "телевизор на стене",
+    "variant": "broad"
+  },
+  {
+    "candidate_id": "wall-planner-layout",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "расположение телевизора на стене",
+    "variant": "layout"
+  },
+  {
+    "candidate_id": "wall-planner-place",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "разместить телевизор на стене",
+    "variant": "place"
+  },
+  {
+    "candidate_id": "wall-planner-preview",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "примерить телевизор на стену",
+    "variant": "preview"
+  },
+  {
+    "candidate_id": "wall-planner-size",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "подобрать размер телевизора на стену",
+    "variant": "size"
+  },
+  {
+    "candidate_id": "wall-planner-cabinet",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "телевизор на стене над тумбой",
+    "variant": "cabinet"
+  },
+  {
+    "candidate_id": "wall-planner-cabinet-gap",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "расстояние от телевизора до тумбы",
+    "variant": "cabinet-gap"
+  },
+  {
+    "candidate_id": "wall-planner-floor-height",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "высота телевизора на стене от пола",
+    "variant": "floor-height"
+  },
+  {
+    "candidate_id": "wall-planner-interior",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "стена с телевизором в интерьере",
+    "variant": "interior"
+  },
+  {
+    "candidate_id": "wall-planner-design",
+    "candidate_path": "/televizor-na-stene/",
+    "query": "дизайн стены с телевизором",
+    "variant": "design"
+  }
+]

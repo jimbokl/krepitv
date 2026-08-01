@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.design-harness/schema/evidence-v1.json",
+  "title": "Programmatic Design Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "task_id", "commands", "screenshots", "assets", "review", "rollback"],
+  "properties": {
+    "version": {"const": 1},
+    "task_id": {"type": "string", "minLength": 1},
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "command", "exit_code"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "command": {"type": "string", "minLength": 1},
+          "exit_code": {"type": "integer"},
+          "output_path": {"type": "string"},
+          "covers": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "screenshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "state", "viewport_id", "checks"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "state": {"type": "string", "minLength": 1},
+          "viewport_id": {"type": "string", "minLength": 1},
+          "checks": {"type": "object", "additionalProperties": {"type": "boolean"}}
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "alt_text", "composition_mode", "model_rendered_exact_content", "provenance", "checks"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "alt_text": {"type": "string"},
+          "composition_mode": {"enum": ["deterministic", "deterministic-overlay", "generated"]},
+          "model_rendered_exact_content": {"type": "boolean"},
+          "long_description_path": {"type": "string"},
+          "data_table_path": {"type": "string"},
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["method"],
+            "properties": {
+              "method": {"enum": ["deterministic", "imagegen", "mixed", "source"]},
+              "prompt_path": {"type": "string"},
+              "source_paths": {"type": "array", "items": {"type": "string"}}
+            }
+          },
+          "checks": {"type": "object", "additionalProperties": {"type": "boolean"}}
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer", "independent", "verdict", "findings"],
+      "properties": {
+        "reviewer": {"type": "string"},
+        "independent": {"type": "boolean"},
+        "verdict": {"enum": ["pending", "pass", "fail"]},
+        "findings": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["documented", "path"],
+      "properties": {
+        "documented": {"type": "boolean"},
+        "path": {"type": "string"}
+      }
+    }
+  }
+}

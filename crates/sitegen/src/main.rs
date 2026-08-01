@@ -551,7 +551,7 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
 fn seo_page_lastmod(page: &SeoPage) -> &'static str {
     if matches!(
         page.id.as_str(),
-        "vesa" | "tv-mount-screws" | "mounting-height"
+        "vesa" | "tv-mount-screws" | "mounting-height" | "wall-planner"
     ) {
         TRAFFIC_PAGES_UPDATED_AT
     } else {
@@ -1457,11 +1457,20 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
     } else {
         match page.id.as_str() {
             "wall-mounted-tv" => &[
+                "wall-planner",
                 "mounting-map",
                 "tv-zone-sockets",
                 "vesa",
                 "full-motion-mount",
                 "mounting-height",
+            ],
+            "wall-planner" => &[
+                "mounting-height",
+                "mounting-map",
+                "tv-zone-sockets",
+                "viewing-distance",
+                "wall-mounted-tv",
+                "vesa",
             ],
             "mounting-map" => &[
                 "tv-mount-screws",
@@ -1520,6 +1529,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             ],
             "how-to-find-vesa" => &["tv-mount-screws", "vesa", "vesa-200x200", "vesa-300x200"],
             "mounting-height" => &[
+                "wall-planner",
                 "mounting-map",
                 "tilt-mount",
                 "tv-zone-sockets",
@@ -1554,6 +1564,9 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "wall-planner" => {
+            "<section class=\"border-y-2 border-ink py-7\" data-wall-planner-answer=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Сначала физический размер, потом монтаж</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сравните телевизор со стеной в одном масштабе</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Диагональ сама по себе не показывает, сколько места займёт корпус. Планировщик переводит точную модель или экран 16:9 в сантиметры, располагает его на заданной стене и считает четыре свободных зазора.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Эскиз отвечает только за композицию. Он не назначает высоту, точки сверления, анкеры и розетки: эти проверки остаются отдельными, чтобы один наглядный результат не выдавался за монтажный проект.</p><div class=\"mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3\" data-wall-planner-static-examples=\"true\"><article class=\"bg-paper p-4\" data-wall-planner-example=\"43\"><p class=\"font-mono text-xs uppercase text-action\">Одна стена · 43″</p><h3 class=\"mt-1 font-display text-xl font-extrabold\">Компактный экран</h3><svg class=\"mt-4 block h-auto w-full bg-white\" role=\"img\" viewBox=\"0 0 420 270\" aria-label=\"Пример телевизора 43 дюйма на стене 420 на 270 сантиметров\"><rect class=\"fill-white stroke-ink\" x=\"1\" y=\"1\" width=\"418\" height=\"268\"/><line class=\"stroke-technical\" stroke-dasharray=\"6 5\" x1=\"1\" x2=\"419\" y1=\"160\" y2=\"160\"/><rect class=\"fill-line stroke-ink\" x=\"120\" y=\"215\" width=\"180\" height=\"54\"/><rect class=\"fill-ink stroke-action\" x=\"162.4\" y=\"98.3\" width=\"95.2\" height=\"53.5\"/></svg><p class=\"mt-3 text-sm leading-relaxed text-muted\">Корпус около 95 × 54 см оставляет широкие боковые поля.</p></article><article class=\"bg-paper p-4\" data-wall-planner-example=\"55\"><p class=\"font-mono text-xs uppercase text-action\">Одна стена · 55″</p><h3 class=\"mt-1 font-display text-xl font-extrabold\">Средний экран</h3><svg class=\"mt-4 block h-auto w-full bg-white\" role=\"img\" viewBox=\"0 0 420 270\" aria-label=\"Пример телевизора 55 дюймов на стене 420 на 270 сантиметров\"><rect class=\"fill-white stroke-ink\" x=\"1\" y=\"1\" width=\"418\" height=\"268\"/><line class=\"stroke-technical\" stroke-dasharray=\"6 5\" x1=\"1\" x2=\"419\" y1=\"160\" y2=\"160\"/><rect class=\"fill-line stroke-ink\" x=\"120\" y=\"215\" width=\"180\" height=\"54\"/><rect class=\"fill-ink stroke-action\" x=\"149.1\" y=\"90.8\" width=\"121.8\" height=\"68.5\"/></svg><p class=\"mt-3 text-sm leading-relaxed text-muted\">Экран 16:9 около 122 × 69 см — это демонстрация, не готовая отметка.</p></article><article class=\"bg-paper p-4\" data-wall-planner-example=\"65\"><p class=\"font-mono text-xs uppercase text-action\">Одна стена · 65″</p><h3 class=\"mt-1 font-display text-xl font-extrabold\">Большой экран</h3><svg class=\"mt-4 block h-auto w-full bg-white\" role=\"img\" viewBox=\"0 0 420 270\" aria-label=\"Пример телевизора 65 дюймов на стене 420 на 270 сантиметров\"><rect class=\"fill-white stroke-ink\" x=\"1\" y=\"1\" width=\"418\" height=\"268\"/><line class=\"stroke-technical\" stroke-dasharray=\"6 5\" x1=\"1\" x2=\"419\" y1=\"160\" y2=\"160\"/><rect class=\"fill-line stroke-ink\" x=\"120\" y=\"215\" width=\"180\" height=\"54\"/><rect class=\"fill-ink stroke-action\" x=\"138\" y=\"84.6\" width=\"144\" height=\"80.9\"/></svg><p class=\"mt-3 text-sm leading-relaxed text-muted\">Корпус около 144 × 81 см заметно меняет пропорции той же стены.</p></article></div><p class=\"mt-4 max-w-4xl text-sm leading-relaxed text-muted\">Примеры используют условную стену 420 × 270 см и центр 145 см от пола. В собственном расчёте введите реальные размеры и выберите точную модель, если она есть в каталоге.</p></section>"
+        }
         "vesa" => {
             "<section class=\"border-y-2 border-ink py-7\"><p class=\"font-mono text-xs uppercase text-action\">Самостоятельная проверка без регистрации</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сравнить VESA телевизора и кронштейна</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Инструмент нормализует ручной замер и распознаёт явные пары из вставленной строки характеристик: x, х, ×, миллиметры и сантиметры. Ответ относится только к точной схеме отверстий.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Предельный размер вроде «до 400×400» не считается списком совместимости. Даже точное совпадение VESA не подтверждает массу, диагональ, винты, механизм, кабельные зазоры и основание стены.</p></section>"
         }
@@ -4108,6 +4121,7 @@ mod tests {
         assert_eq!(
             related_ids,
             [
+                "wall-planner",
                 "mounting-map",
                 "tv-zone-sockets",
                 "vesa",
@@ -4124,6 +4138,57 @@ mod tests {
             related_seo_pages(full_motion, &pages)
                 .iter()
                 .any(|page| page.id == master.id)
+        );
+    }
+
+    #[test]
+    fn wall_planner_is_one_indexable_static_first_canonical() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let matches = pages
+            .iter()
+            .filter(|page| page.id == "wall-planner")
+            .collect::<Vec<_>>();
+        assert_eq!(matches.len(), 1);
+        let page = matches[0];
+
+        assert!(page.indexable);
+        assert_eq!(page.kind, "calculator");
+        assert_eq!(page.path, "/televizor-na-stene/");
+        assert!(page.title.contains("Телевизор на стене"));
+        assert!(page.h1.contains("в масштабе"));
+        for competing_intent in [
+            "на какой высоте",
+            "как повесить",
+            "розетки",
+            "подбор кронштейна",
+        ] {
+            assert!(!page.title.to_lowercase().contains(competing_intent));
+            assert!(!page.h1.to_lowercase().contains(competing_intent));
+        }
+
+        let static_answer = seo_calculator_note(&page.id);
+        assert!(static_answer.contains("data-wall-planner-answer=\"true\""));
+        assert!(static_answer.contains("точную модель или экран 16:9"));
+        assert_eq!(static_answer.matches("data-wall-planner-example=").count(), 3);
+        for diagonal in ["43", "55", "65"] {
+            assert!(static_answer.contains(&format!("data-wall-planner-example=\"{diagonal}\"")));
+        }
+        assert!(!static_answer.contains("market.yandex"));
+
+        let related = related_seo_pages(page, &pages)
+            .iter()
+            .map(|related| related.id.as_str())
+            .collect::<Vec<_>>();
+        assert_eq!(
+            related,
+            [
+                "mounting-height",
+                "mounting-map",
+                "tv-zone-sockets",
+                "viewing-distance",
+                "wall-mounted-tv",
+                "vesa",
+            ]
         );
     }
 

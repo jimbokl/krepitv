@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "name": "Programmatic Design Harness",
+  "standards": {
+    "web_accessibility": "WCAG 2.2 Level AA",
+    "design_tokens": "DTCG 2025.10",
+    "minimum_reflow_width_css_px": 320,
+    "text_zoom_percent": 200,
+    "normal_text_contrast": 4.5,
+    "large_text_contrast": 3.0,
+    "non_text_contrast": 3.0,
+    "minimum_target_css_px": 24
+  },
+  "policies": {
+    "require_independent_review": true,
+    "require_alt_text": true,
+    "require_sources_for_claims": true,
+    "forbid_new_raw_colors": true,
+    "forbid_new_arbitrary_spacing": true,
+    "imagegen_exact_content": "deterministic-overlay-only"
+  },
+  "design_system": {
+    "token_paths": ["web/src/styles.css", "web/tailwind.config.js"],
+    "component_paths": ["web/src/components", "web/src/pages"],
+    "storybook_paths": [],
+    "figma_mapping_paths": ["product-docs/design-references"],
+    "drift_ignore_paths": [
+      ".design-harness",
+      "node_modules",
+      "dist",
+      "build",
+      "coverage"
+    ]
+  },
+  "required_states": {
+    "ui": ["default", "loading", "empty", "error", "success", "disabled", "focus"],
+    "infographic": ["default"],
+    "social": ["default"],
+    "brand": ["default"],
+    "mixed": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+  },
+  "default_viewports": {
+    "ui": [
+      {"id": "mobile", "width": 320, "height": 800},
+      {"id": "tablet", "width": 768, "height": 1024},
+      {"id": "desktop", "width": 1440, "height": 900}
+    ],
+    "infographic": [],
+    "social": [],
+    "brand": [],
+    "mixed": [
+      {"id": "mobile", "width": 320, "height": 800},
+      {"id": "tablet", "width": 768, "height": 1024},
+      {"id": "desktop", "width": 1440, "height": 900}
+    ]
+  },
+  "platform_presets": {
+    "social-portrait": {"width": 1080, "height": 1350, "format": "png", "safe_zone": {"top": 80, "right": 80, "bottom": 100, "left": 80}},
+    "social-square": {"width": 1080, "height": 1080, "format": "png", "safe_zone": {"top": 80, "right": 80, "bottom": 80, "left": 80}},
+    "story-portrait": {"width": 1080, "height": 1920, "format": "png", "safe_zone": {"top": 220, "right": 80, "bottom": 300, "left": 80}},
+    "open-graph": {"width": 1200, "height": 630, "format": "png", "safe_zone": {"top": 48, "right": 64, "bottom": 48, "left": 64}},
+    "presentation-16x9": {"width": 1920, "height": 1080, "format": "png", "safe_zone": {"top": 64, "right": 96, "bottom": 64, "left": 96}}
+  }
+}
