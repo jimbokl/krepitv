@@ -67,6 +67,9 @@ if (tvTrafficState && ![
   "loading",
   "error",
   "success",
+  "needs-check",
+  "service-boundary",
+  "external-path",
   "retry",
 ].includes(tvTrafficState)) {
   throw new Error("Invalid TV traffic task state");
@@ -410,12 +413,33 @@ try {
         if (!wizard) return Promise.reject(new Error("TV traffic task wizard not found"));
         const task = wizard.getAttribute("data-tv-traffic-task");
         const scenarios = {
-          "laptop-to-tv": ["windows", "hdmi"],
-          "digital-channels": ["antenna", "built-in"],
-          "picture-setup": ["everyday", "mixed"],
+          "laptop-to-tv": { success: ["windows", "hdmi"] },
+          "digital-channels": { success: ["antenna", "built-in"] },
+          "picture-setup": { success: ["everyday", "mixed"] },
+          "sound-but-no-picture": {
+            success: ["yes", "tv-speakers", "hdmi", "no"],
+            "needs-check": ["unknown", "external-audio", "unknown", "unknown"],
+            "service-boundary": ["no", "tv-speakers", "hdmi", "yes"],
+          },
+          "no-sound": {
+            success: ["tv-speakers", "tv-app", "no", "unknown"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "external-path": ["soundbar-receiver", "hdmi", "no", "yes"],
+          },
+          "remote-not-working": {
+            success: ["yes", "original", "yes", "yes"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["no", "original", "yes", "no"],
+            "external-path": ["yes", "universal", "yes", "no"],
+          },
         };
-        const scenario = scenarios[task];
-        if (!scenario) return Promise.reject(new Error("Unknown TV traffic task"));
+        const taskScenarios = scenarios[task];
+        const scenarioKey = ["needs-check", "service-boundary", "external-path"].includes(state)
+          ? state
+          : "success";
+        const scenario = taskScenarios?.[scenarioKey];
+        if (!taskScenarios) return Promise.reject(new Error("Unknown TV traffic task"));
+        if (!scenario) return Promise.reject(new Error("Unsupported state for TV traffic task"));
         const choose = (name, value) => {
           const input = wizard.querySelector('input[name="' + name + '"][value="' + value + '"]');
           if (!input) throw new Error("Missing radio " + name + ":" + value);
@@ -439,13 +463,21 @@ try {
           wizard.querySelector('input[name="' + task + '-primary"]')?.focus();
         } else if (state === "default") {
           choose(task + "-primary", scenario[0]);
-        } else if (["loading", "error", "success", "retry"].includes(state)) {
+        } else if (["loading", "error", "success", "needs-check", "service-boundary", "external-path", "retry"].includes(state)) {
           choose(task + "-primary", scenario[0]);
           await waitFor(
             () => wizard.querySelector('input[name="' + task + '-secondary"]'),
             "TV traffic secondary choices did not render",
           );
           choose(task + "-secondary", scenario[1]);
+          if (scenario[2]) choose(task + "-tertiary", scenario[2]);
+          if (scenario[3]) {
+            await waitFor(
+              () => wizard.querySelector('input[name="' + task + '-detail"]'),
+              "TV traffic detail choices did not render",
+            );
+            choose(task + "-detail", scenario[3]);
+          }
           const submit = await waitFor(
             () => {
               const button = wizard.querySelector('button[type="submit"]');
@@ -470,6 +502,8 @@ try {
             ? () => wizard.querySelector('[role="alert"]')
             : ["success", "retry"].includes(state)
               ? () => document.querySelector('[data-tv-traffic-result]')
+              : ["needs-check", "service-boundary", "external-path"].includes(state)
+                ? () => document.querySelector('[data-tv-traffic-result="' + state + '"]')
               : () => true;
         await waitFor(expected, "TV traffic task state timed out");
         return {
@@ -479,6 +513,10 @@ try {
           resultStatus: document.querySelector("[data-tv-traffic-result]")?.getAttribute("data-tv-traffic-result") ?? null,
           hasAlert: Boolean(wizard.querySelector('[role="alert"]')),
           focusedName: document.activeElement?.getAttribute("name") ?? null,
+          ariaBusy: wizard.querySelector("form")?.getAttribute("aria-busy") ?? null,
+          disabledFieldsets: wizard.querySelectorAll("fieldset:disabled").length,
+          primaryStepId: document.querySelector("[data-tv-traffic-primary-step]")?.getAttribute("data-tv-traffic-primary-step") ?? null,
+          hasCollapsedRemainder: Boolean(document.querySelector("[data-tv-traffic-remaining]")),
           marketLinks: document.querySelectorAll('a[href*="market.yandex.ru"]').length,
         };
       })()`,
@@ -577,7 +615,7 @@ try {
               ? "[data-tv-no-signal-wizard] [role=\"alert\"]"
               : tvNoSignalState
                 ? "[data-tv-no-signal-wizard]"
-                : ["success", "retry"].includes(tvTrafficState)
+                : ["success", "needs-check", "service-boundary", "external-path", "retry"].includes(tvTrafficState)
                   ? "[data-tv-traffic-result]"
                   : tvTrafficState === "error"
                     ? "[data-tv-traffic-task] [role=\"alert\"]"

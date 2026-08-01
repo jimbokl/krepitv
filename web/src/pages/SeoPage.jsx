@@ -63,10 +63,13 @@ const buyMountShortlist = [
   ["itech-slt-460", "Для больших диагоналей · VESA до 600×400"],
 ];
 
-const tvTrafficTaskIds = new Set([
-  "laptop-to-tv",
-  "digital-channels",
-  "picture-setup",
+const tvTrafficTaskByPageId = new Map([
+  ["laptop-to-tv", "laptop-to-tv"],
+  ["digital-channels", "digital-channels"],
+  ["picture-setup", "picture-setup"],
+  ["tv-sound-no-picture", "sound-but-no-picture"],
+  ["tv-no-sound", "no-sound"],
+  ["tv-remote-not-working", "remote-not-working"],
 ]);
 
 const trafficUtilityCtas = {
@@ -105,6 +108,27 @@ const trafficUtilityCtas = {
     label: "Рассчитать расстояние",
     shortLabel: "Расстояние просмотра",
   },
+  "tv-sound-no-picture": {
+    title: "На экране появилось сообщение?",
+    description: "Если вместо полностью чёрного экрана телевизор показывает «Нет сигнала», используйте отдельную проверку входа и источника.",
+    href: "/televizor-pishet-net-signala/",
+    label: "Проверить источник сигнала",
+    shortLabel: "Проверка сигнала",
+  },
+  "tv-no-sound": {
+    title: "Пропало и изображение?",
+    description: "Если звук остался, а экран стал чёрным, сначала отделите собственное меню телевизора от выбранного источника.",
+    href: "/televizor-zvuk-est-izobrazheniya-net/",
+    label: "Проверить чёрный экран",
+    shortLabel: "Проверка изображения",
+  },
+  "tv-remote-not-working": {
+    title: "Телевизор реагирует, но вход пуст?",
+    description: "Когда управление восстановлено, сообщение «Нет сигнала» проверяется отдельно от самого пульта.",
+    href: "/televizor-pishet-net-signala/",
+    label: "Проверить источник сигнала",
+    shortLabel: "Проверка сигнала",
+  },
 };
 
 export function SeoPage({ catalog, page, requestedPath }) {
@@ -125,7 +149,8 @@ function SeoArticle({ catalog, page }) {
   const prioritizesTvDimensions = page.id === "tv-dimensions";
   const prioritizesPhoneTvConnection = page.id === "phone-to-tv";
   const prioritizesTvNoSignal = page.id === "tv-no-signal";
-  const prioritizesTvTrafficTask = tvTrafficTaskIds.has(page.id);
+  const tvTrafficTask = tvTrafficTaskByPageId.get(page.id);
+  const prioritizesTvTrafficTask = Boolean(tvTrafficTask);
   const prioritizesTrafficUtility = prioritizesPhoneTvConnection || prioritizesTvNoSignal
     || prioritizesTvTrafficTask;
   const prioritizesPrimaryLookup = prioritizesScrewLookup
@@ -243,8 +268,8 @@ function SeoArticle({ catalog, page }) {
         ) : null}
         {prioritizesTvTrafficTask ? (
           <>
-            <TvTrafficTaskWizard task={page.id} />
-            <TvTrafficTaskReference task={page.id} />
+            <TvTrafficTaskWizard task={tvTrafficTask} />
+            <TvTrafficTaskReference task={tvTrafficTask} />
           </>
         ) : null}
         {prioritizesTvDimensions ? (

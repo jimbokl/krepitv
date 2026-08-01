@@ -555,6 +555,9 @@ fn seo_page_lastmod(page: &SeoPage) -> &'static str {
         page.id.as_str(),
         "phone-to-tv"
             | "tv-no-signal"
+            | "tv-sound-no-picture"
+            | "tv-no-sound"
+            | "tv-remote-not-working"
             | "laptop-to-tv"
             | "digital-channels"
             | "picture-setup"
@@ -896,9 +899,30 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
         })
         .collect::<Vec<_>>()
         .join("\n");
+    let diagnostic_links = [
+        "tv-sound-no-picture",
+        "tv-no-sound",
+        "tv-remote-not-working",
+    ]
+    .iter()
+    .filter_map(|id| {
+        seo_pages
+            .iter()
+            .find(|page| page.id == *id && is_indexable_seo_page(page))
+    })
+    .map(|page| {
+        format!(
+            "<a class=\"flex min-h-28 items-end justify-between gap-4 bg-paper p-5 font-display text-lg font-bold\" data-home-tv-diagnostic=\"{}\" href=\"{}\">{}<span aria-hidden=\"true\">→</span></a>",
+            escape_html(&page.id),
+            escape_html(&page.path),
+            escape_html(page.h1.split(':').next().unwrap_or(&page.h1)),
+        )
+    })
+    .collect::<Vec<_>>()
+    .join("\n");
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">{model_count} моделей с источниками</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section></div>",
+        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">{model_count} моделей с источниками</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section><section class=\"border-t border-line py-9\" data-home-tv-diagnostics=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Без разборки и догадок</p><div class=\"mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end\"><h2 class=\"font-display text-3xl font-extrabold\">Диагностика телевизора</h2><p class=\"max-w-2xl leading-relaxed text-muted\">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class=\"mt-5 grid gap-px border border-line bg-line md:grid-cols-3\" aria-label=\"Диагностика телевизора\">{diagnostic_links}</nav></section></div>",
         model_count = models.len(),
     ))
 }
@@ -1459,12 +1483,36 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
     } else {
         match page.id.as_str() {
             "tv-no-signal" => &[
+                "tv-sound-no-picture",
                 "digital-channels",
                 "laptop-to-tv",
                 "phone-to-tv",
                 "picture-setup",
-                "tv-dimensions",
-                "viewing-distance",
+                "tv-no-sound",
+            ],
+            "tv-sound-no-picture" => &[
+                "tv-no-signal",
+                "picture-setup",
+                "tv-no-sound",
+                "tv-remote-not-working",
+                "laptop-to-tv",
+                "phone-to-tv",
+            ],
+            "tv-no-sound" => &[
+                "tv-sound-no-picture",
+                "tv-no-signal",
+                "tv-remote-not-working",
+                "digital-channels",
+                "picture-setup",
+                "laptop-to-tv",
+            ],
+            "tv-remote-not-working" => &[
+                "tv-no-sound",
+                "tv-sound-no-picture",
+                "tv-no-signal",
+                "digital-channels",
+                "phone-to-tv",
+                "laptop-to-tv",
             ],
             "phone-to-tv" => &[
                 "laptop-to-tv",
@@ -1619,6 +1667,15 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "tv-sound-no-picture" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-diagnostic-answer="tv-sound-no-picture" data-tv-diagnostic-task="tv-sound-no-picture"><p class="font-mono text-xs uppercase text-action">Наблюдение → следующая проверка</p><h2 class="mt-2 font-display text-3xl font-extrabold">Отделите экран телевизора от выбранного источника</h2><p class="mt-3 max-w-4xl leading-relaxed text-muted">Используйте только собственное меню, индикатор громкости и поддерживаемый встроенный тест телевизора. Эти наблюдения выбирают следующий безопасный шаг, но не устанавливают причину и не заменяют проверку точной модели.</p><div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3"><article class="bg-paper p-5" data-tv-diagnostic-branch="own-interface-visible"><p class="font-mono text-xs uppercase text-action">Меню или громкость видны</p><h3 class="mt-2 font-display text-2xl font-extrabold">Проверьте текущий источник</h3><p class="mt-3 text-sm leading-relaxed text-muted">Сопоставьте выбранный вход с подключённым устройством. Если экран показывает «Нет сигнала», перейдите к <a class="font-semibold text-action underline underline-offset-4" href="/televizor-pishet-net-signala/">отдельной проверке сигнала</a>.</p></article><article class="bg-paper p-5" data-tv-diagnostic-branch="one-input-only"><p class="font-mono text-xs uppercase text-action">Только один вход</p><h3 class="mt-2 font-display text-2xl font-extrabold">Изолируйте соединение</h3><p class="mt-3 text-sm leading-relaxed text-muted">Выключите телевизор и источник, затем переподключите доступный сигнальный кабель. При возможности сравните прямое соединение без промежуточного устройства.</p></article><article class="bg-paper p-5" data-tv-diagnostic-branch="no-own-interface"><p class="font-mono text-xs uppercase text-action">Интерфейс не виден</p><h3 class="mt-2 font-display text-2xl font-extrabold">Остановитесь у поддержки</h3><p class="mt-3 text-sm leading-relaxed text-muted">Если не видны меню, индикатор громкости и доступный встроенный тест, не называйте неисправную деталь: используйте официальную поддержку точной модели.</p></article></div><p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-diagnostic-stop="true">Не разбирайте телевизор, пульт или подключённые устройства и не выполняйте электрические измерения. При повреждении, жидкости, запахе гари, дыме, необычном нагреве или мигающем красном индикаторе прекратите самостоятельную проверку.</p><nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники проверки изображения"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/what-to-do-if-there-is-black-screen-on-samsung-tv/" rel="noreferrer" target="_blank" data-tv-diagnostic-source="samsung-black-screen">Samsung: чёрный экран</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20155333777203" rel="noreferrer" target="_blank" data-tv-diagnostic-source="lg-sound-but-no-picture">LG: звук без изображения</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00173823" rel="noreferrer" target="_blank" data-tv-diagnostic-source="sony-picture-sound-test">Sony: встроенный тест</a></nav></section>"#
+        }
+        "tv-no-sound" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-diagnostic-answer="tv-no-sound" data-tv-diagnostic-task="tv-no-sound"><p class="font-mono text-xs uppercase text-action">Наблюдение → следующая проверка</p><h2 class="mt-2 font-display text-3xl font-extrabold">Отделите аудиовыход от канала или устройства</h2><p class="mt-3 max-w-4xl leading-relaxed text-muted">Сначала подтвердите, откуда должен идти звук: из динамиков телевизора, наушников или внешней аудиосистемы. Затем сравните несколько источников и встроенный тест, если он предусмотрен инструкцией модели.</p><div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3"><article class="bg-paper p-5" data-tv-diagnostic-branch="one-source-only"><p class="font-mono text-xs uppercase text-action">Один канал, вход или приложение</p><h3 class="mt-2 font-display text-2xl font-extrabold">Проверьте этот источник</h3><p class="mt-3 text-sm leading-relaxed text-muted">Если другие источники звучат, не классифицируйте весь телевизор как неисправный. Продолжите по инструкции приложения, устройства или провайдера.</p></article><article class="bg-paper p-5" data-tv-diagnostic-branch="output-not-confirmed"><p class="font-mono text-xs uppercase text-action">Выход не подтверждён</p><h3 class="mt-2 font-display text-2xl font-extrabold">Выберите ожидаемый звук</h3><p class="mt-3 text-sm leading-relaxed text-muted">Проверьте отключение звука и текущий аудиовыход. Для встроенных динамиков временно исключите доступные наушники или внешнюю аудиосистему по инструкции модели.</p></article><article class="bg-paper p-5" data-tv-diagnostic-branch="sound-test-silent"><p class="font-mono text-xs uppercase text-action">Тест тихий или недоступен</p><h3 class="mt-2 font-display text-2xl font-extrabold">Нужна точная модель</h3><p class="mt-3 text-sm leading-relaxed text-muted">Если динамики телевизора явно выбраны, а поддерживаемый тест не звучит или отсутствует, остановитесь и обратитесь в официальную поддержку без предположения о детали.</p></article></div><p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-diagnostic-stop="true">Не выполняйте заводской сброс как первый шаг и не открывайте телевизор или внешнюю аудиосистему. При повреждении, жидкости, запахе гари, дыме, необычном нагреве или мигающем красном индикаторе прекратите самостоятельную проверку.</p><nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники проверки звука"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/there-is-not-sound-on-tv/" rel="noreferrer" target="_blank" data-tv-diagnostic-source="samsung-no-sound">Samsung: нет звука</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20153413213150OLT" rel="noreferrer" target="_blank" data-tv-diagnostic-source="lg-no-sound">LG: проверка звука</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00173823" rel="noreferrer" target="_blank" data-tv-diagnostic-source="sony-picture-sound-test">Sony: встроенный тест</a></nav></section>"#
+        }
+        "tv-remote-not-working" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-diagnostic-answer="tv-remote-not-working" data-tv-diagnostic-task="tv-remote-not-working"><p class="font-mono text-xs uppercase text-action">Наблюдение → следующая проверка</p><h2 class="mt-2 font-display text-3xl font-extrabold">Сначала определите устройство и доступное управление</h2><p class="mt-3 max-w-4xl leading-relaxed text-muted">Пульт телевизора, приставки и саундбара — разные устройства. Сравните доступную штатную кнопку или подтверждённое приложение; тип пульта и порядок сопряжения берите только из инструкции точной модели.</p><div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3"><article class="bg-paper p-5" data-tv-diagnostic-branch="external-device-remote"><p class="font-mono text-xs uppercase text-action">Каналы открывает приставка</p><h3 class="mt-2 font-display text-2xl font-extrabold">Возьмите её пульт</h3><p class="mt-3 text-sm leading-relaxed text-muted">Если меню каналов принадлежит операторской приставке, проверяйте её собственный или настроенный универсальный пульт по инструкции оператора.</p></article><article class="bg-paper p-5" data-tv-diagnostic-branch="confirmed-infrared"><p class="font-mono text-xs uppercase text-action">Инструкция подтверждает ИК</p><h3 class="mt-2 font-display text-2xl font-extrabold">Батарейки → обзор</h3><p class="mt-3 text-sm leading-relaxed text-muted">Проверьте заряд, полярность, зажатые кнопки и предметы перед приёмником. Камера даёт лишь наблюдение ИК-сигнала и не проверяет телевизор.</p></article><article class="bg-paper p-5" data-tv-diagnostic-branch="smart-or-unknown"><p class="font-mono text-xs uppercase text-action">Умный или неизвестный пульт</p><h3 class="mt-2 font-display text-2xl font-extrabold">Инструкция точной модели</h3><p class="mt-3 text-sm leading-relaxed text-muted">Не угадывайте сочетание кнопок. Для подтверждённого Android TV телефон может стать пультом только при совместимости, одной сети и доступном экранном сопряжении.</p></article></div><p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-diagnostic-stop="true">Не открывайте пульт дальше батарейного отсека и не перемещайте настенный телевизор ради доступа к кнопке. При коррозии, жидкости, вздутой или горячей батарейке, повреждении либо мигающем красном индикаторе остановитесь и обратитесь в официальную поддержку.</p><nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники проверки пульта"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/tv-remote-control-is-not-working/" rel="noreferrer" target="_blank" data-tv-diagnostic-source="samsung-remote-not-working">Samsung: пульт не работает</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00256916" rel="noreferrer" target="_blank" data-tv-diagnostic-source="sony-remote-not-working">Sony: типы пультов</a><a class="text-technical underline underline-offset-4" href="https://support.google.com/androidtv/answer/6122465?hl=ru" rel="noreferrer" target="_blank" data-tv-diagnostic-source="google-android-tv-phone-remote">Google: телефон как пульт</a></nav></section>"#
+        }
         "laptop-to-tv" => {
             r#"<section class="border-y-2 border-ink py-7" data-tv-traffic-answer="laptop-to-tv"><p class="font-mono text-xs uppercase text-action">Сначала технология, потом кабель</p><h2 class="mt-2 font-display text-3xl font-extrabold">Три проверяемых пути от ноутбука к телевизору</h2><p class="mt-3 max-w-4xl leading-relaxed text-muted">Для HDMI нужен подтверждённый видеовыход и совпадающий вход телевизора. Для USB-C сначала проверьте DisplayPort Alt Mode, Thunderbolt или явную поддержку внешнего дисплея у точной модели. Для связи без провода должна совпасть технология на обоих устройствах: Miracast для совместимой пары Windows либо AirPlay для совместимой пары Mac.</p><div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3"><article class="bg-paper p-5" data-tv-traffic-branch="laptop-hdmi"><p class="font-mono text-xs uppercase text-action">HDMI</p><h3 class="mt-2 font-display text-2xl font-extrabold">Вход → режим экранов</h3><p class="mt-3 text-sm leading-relaxed text-muted">Выберите физически подключённый HDMI. В Windows используйте Win + P; на Mac откройте настройки дисплеев.</p></article><article class="bg-paper p-5" data-tv-traffic-branch="laptop-usb-c"><p class="font-mono text-xs uppercase text-action">USB-C</p><h3 class="mt-2 font-display text-2xl font-extrabold">Сначала видеовыход</h3><p class="mt-3 text-sm leading-relaxed text-muted">Форма разъёма не доказывает передачу видео. Не покупайте адаптер до проверки спецификации ноутбука.</p></article><article class="bg-paper p-5" data-tv-traffic-branch="laptop-wireless"><p class="font-mono text-xs uppercase text-action">Без провода</p><h3 class="mt-2 font-display text-2xl font-extrabold">Один общий протокол</h3><p class="mt-3 text-sm leading-relaxed text-muted">Win + K ищет Miracast-приёмники; Mac использует AirPlay с совместимым телевизором.</p></article></div><nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Источники подключения ноутбука"><a class="text-technical underline underline-offset-4" href="https://support.microsoft.com/ru-RU/Windows/Hardware/Display-Graphics/how-to-use-multiple-monitors-in-windows" rel="noreferrer" target="_blank" data-tv-traffic-source="microsoft-multiple-displays">Microsoft: экраны Windows</a><a class="text-technical underline underline-offset-4" href="https://support.apple.com/ru-ru/guide/mac-help/mchlp1206/mac" rel="noreferrer" target="_blank" data-tv-traffic-source="apple-mac-tv-display">Apple: телевизор как дисплей Mac</a><a class="text-technical underline underline-offset-4" href="https://support.apple.com/ru-ru/guide/mac-help/mchld7e543a0/mac" rel="noreferrer" target="_blank" data-tv-traffic-source="apple-mac-airplay">Apple: AirPlay</a></nav></section>"#
         }
@@ -3792,7 +3849,7 @@ mod tests {
     }
 
     #[test]
-    fn home_prioritizes_seven_traffic_tools_without_listing_every_model() {
+    fn home_prioritizes_seven_traffic_tools_and_three_diagnostics_without_listing_every_model() {
         let root = workspace_root();
         let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
         let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
@@ -3810,11 +3867,62 @@ mod tests {
         ] {
             assert!(html.contains(&format!("data-featured-traffic-tool=\"{id}\"")));
         }
+        assert!(html.contains("data-home-tv-diagnostics=\"true\""));
+        assert_eq!(html.matches("data-home-tv-diagnostic=").count(), 3);
+        for id in [
+            "tv-sound-no-picture",
+            "tv-no-sound",
+            "tv-remote-not-working",
+        ] {
+            assert!(html.contains(&format!("data-home-tv-diagnostic=\"{id}\"")));
+        }
         assert!(html.contains("80 моделей с источниками"));
         assert!(html.contains("href=\"/modeli/\""));
         assert!(html.contains("href=\"/kronshteyny/\""));
         for model in &models {
             assert!(!html.contains(&format!("href=\"/modeli/{}/\"", model.id)));
+        }
+    }
+
+    #[test]
+    fn tv_diagnostic_pages_are_unique_static_first_and_stop_before_hardware_diagnosis() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let expected = [
+            (
+                "tv-sound-no-picture",
+                "/televizor-zvuk-est-izobrazheniya-net/",
+            ),
+            ("tv-no-sound", "/net-zvuka-na-televizore/"),
+            ("tv-remote-not-working", "/ne-rabotaet-pult-ot-televizora/"),
+        ];
+
+        for (id, path) in expected {
+            let matches = pages
+                .iter()
+                .filter(|page| page.id == id || page.path == path)
+                .collect::<Vec<_>>();
+            assert_eq!(matches.len(), 1, "{id} должен иметь один canonical");
+            let page = matches[0];
+            assert_eq!(page.id, id);
+            assert_eq!(page.path, path);
+            assert_eq!(page.kind, "calculator");
+            assert!(page.indexable);
+            assert!(page.facts.len() >= 6);
+            assert!(page.faq.len() >= 6);
+
+            let static_answer = seo_calculator_note(id);
+            assert!(static_answer.contains(&format!("data-tv-diagnostic-answer=\"{id}\"")));
+            assert!(static_answer.contains(&format!("data-tv-diagnostic-task=\"{id}\"")));
+            assert_eq!(
+                static_answer.matches("data-tv-diagnostic-branch=").count(),
+                3
+            );
+            assert_eq!(
+                static_answer.matches("data-tv-diagnostic-source=").count(),
+                3
+            );
+            assert!(static_answer.contains("data-tv-diagnostic-stop=\"true\""));
+            assert!(!static_answer.contains("market.yandex"));
         }
     }
 

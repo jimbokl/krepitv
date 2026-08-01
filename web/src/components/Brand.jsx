@@ -5,7 +5,7 @@ export function Brand({ compact = false }) {
 
   return (
     <a
-      className="inline-flex shrink-0 items-baseline gap-1 font-display font-extrabold uppercase leading-none tracking-[-0.05em] text-ink"
+      className="inline-flex shrink-0 items-baseline gap-1 whitespace-nowrap font-display font-extrabold uppercase leading-none tracking-[-0.05em] text-ink"
       href="/"
       aria-label="Крепи ТВ — главная"
     >

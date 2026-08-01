@@ -84,7 +84,7 @@ test("общий мастер покрывает обязательные сос
   assert.match(source, /tabIndex=\{-1\}/);
   assert.match(source, /role="alert"/);
   assert.match(source, />\s*Повторить\s*</);
-  assert.match(source, /<fieldset>/);
+  assert.match(source, /<fieldset disabled=\{disabled\}>/);
   assert.match(source, /<legend/);
   assert.match(source, /type="radio"/);
   assert.match(source, /min-h-12|min-h-14/);
@@ -94,9 +94,10 @@ test("мастера остаются самостоятельными и не �
   const wizard = await read("web/src/components/TvTrafficTaskWizard.jsx");
   const page = await read("web/src/pages/SeoPage.jsx");
 
-  assert.match(page, /const prioritizesTvTrafficTask = tvTrafficTaskIds\.has\(page\.id\)/);
-  assert.match(page, /<TvTrafficTaskWizard task=\{page\.id\} \/>/);
-  assert.match(page, /<TvTrafficTaskReference task=\{page\.id\} \/>/);
+  assert.match(page, /const tvTrafficTask = tvTrafficTaskByPageId\.get\(page\.id\)/);
+  assert.match(page, /const prioritizesTvTrafficTask = Boolean\(tvTrafficTask\)/);
+  assert.match(page, /<TvTrafficTaskWizard task=\{tvTrafficTask\} \/>/);
+  assert.match(page, /<TvTrafficTaskReference task=\{tvTrafficTask\} \/>/);
   assert.match(page, /\|\| prioritizesTvTrafficTask/);
   assert.doesNotMatch(
     wizard,
@@ -110,7 +111,7 @@ test("аналитика результата передаёт только за
 
   assert.ok(eventBlock);
   assert.match(eventBlock[1], /toolId: config\.toolId/);
-  assert.match(eventBlock[1], /resultType: `\$\{plan\.status\.replaceAll/);
+  assert.match(eventBlock[1], /resultType: resultTypes\[plan\.status\]/);
   assert.doesNotMatch(eventBlock[1], /primary|secondary|tertiary|detail|task,/i);
 });
 

@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "id": "20260801-tv-diagnostics-cohort-3",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root",
+  "created_at": "2026-08-01T13:39:30.970656+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800},
+    {"id": "tablet", "width": 768, "height": 1024},
+    {"id": "desktop", "width": 1440, "height": 900}
+  ],
+  "allowed_files": [
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "data/research/tv-diagnostics-cohort-3-sources-2026-08-01.json",
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/components/Brand.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/HomePage.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/tests/seo-pages.test.mjs",
+    "web/tests/tv-diagnostics-cohort-3.test.mjs",
+    "web/tests/tv-traffic-cohort-2.test.mjs",
+    "scripts/qa/capture-page.mjs",
+    "scripts/verify.mjs",
+    "web/index.html",
+    "web/public/sitemap.xml",
+    "web/kak-podklyuchit-telefon-k-televizoru/index.html",
+    "web/televizor-pishet-net-signala/index.html",
+    "web/kak-podklyuchit-noutbuk-k-televizoru/index.html",
+    "web/kak-nastroit-tsifrovye-kanaly-na-televizore/index.html",
+    "web/nastroyka-izobrazheniya-televizora/index.html",
+    "web/televizor-zvuk-est-izobrazheniya-net/index.html",
+    "web/net-zvuka-na-televizore/index.html",
+    "web/ne-rabotaet-pult-ot-televizora/index.html",
+    "product-docs/research/TV_DIAGNOSTICS_COHORT_3_OFFICIAL_SOURCES_2026-08-01.md",
+    "product-docs/operations/traffic-release-tv-diagnostics-cohort-3-2026-08-01.md",
+    "README.md",
+    "docs/**",
+    ".design-harness/runs/20260801-tv-diagnostics-cohort-3/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-rust-diagnostics",
+      "command": "cargo test -p krepitv-engine tv_diagnostics_task -- --nocapture",
+      "required": true,
+      "covers": ["success", "needs-check", "service-boundary", "validation", "unsafe-input rejection"]
+    },
+    {
+      "id": "cmd-web-diagnostics",
+      "command": "node --test --test-concurrency=1 web/tests/tv-diagnostics-cohort-3.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "SSR", "privacy"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "required": true,
+      "covers": ["security", "static SEO", "affiliate policy"]
+    },
+    {
+      "id": "cmd-production",
+      "command": "production hash and browser smoke",
+      "required": true,
+      "covers": ["HTTPS", "TLS", "canonical", "sitemap", "default", "success", "zero Market links"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "canonical-paths",
+      "value": "/televizor-zvuk-est-izobrazheniya-net/ · /net-zvuka-na-televizore/ · /ne-rabotaet-pult-ot-televizora/",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "demand-values",
+      "value": "14 478 · 14 476 · 5 627 запросов в месяц; Россия; все устройства; 01.08.2026; строки не суммируются",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "safety-boundary",
+      "value": "Не разбирайте телевизор, пульт или подключённые устройства и не выполняйте электрические измерения.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "picture-source-isolation",
+      "text": "Если собственное меню, шкала громкости или встроенный тест телевизора видны, следующую безопасную проверку можно перенести на текущий вход, приложение, кабель или внешнее устройство, не называя аппаратную причину.",
+      "source_ids": [
+        "samsung-black-screen",
+        "lg-sound-but-no-picture",
+        "sony-sound-but-no-picture",
+        "sony-picture-sound-test"
+      ]
+    },
+    {
+      "id": "picture-service-boundary",
+      "text": "Если собственное меню, шкала громкости и применимый встроенный тест не видны, самостоятельная проверка заканчивается обращением в официальную поддержку точной модели.",
+      "source_ids": [
+        "samsung-black-screen",
+        "lg-sound-but-no-picture",
+        "sony-sound-but-no-picture"
+      ]
+    },
+    {
+      "id": "sound-output-and-test",
+      "text": "До сброса настроек безопасно проверить громкость, Mute, выбранный аудиовыход и применимый встроенный звуковой тест; успешный тест переносит следующую проверку на источник без диагноза детали.",
+      "source_ids": [
+        "samsung-no-sound",
+        "lg-no-sound",
+        "sony-no-sound",
+        "sony-picture-sound-test"
+      ]
+    },
+    {
+      "id": "remote-safe-first-checks",
+      "text": "Для пульта сначала определяют управляемое устройство и тип пульта, затем проверяют батарейки, препятствия и только модельную процедуру сопряжения; камера применима лишь к подтверждённому ИК-пульту.",
+      "source_ids": [
+        "samsung-remote-not-working",
+        "lg-remote-not-responding",
+        "sony-remote-not-working"
+      ]
+    },
+    {
+      "id": "phone-remote-limited-fallback",
+      "text": "Телефон с Google TV может быть резервным пультом только для совместимого Android TV при выполнении требований сопряжения и общей сети.",
+      "source_ids": [
+        "google-android-tv-phone-remote"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "wordstat-demand",
+      "path": "data/research/tv-problem-cohort-demand-2026-08-01.json",
+      "retrieved_at": "2026-08-01T12:43:39.011Z",
+      "notes": "Top queries, Россия 225, все устройства; normalized_exact; строки не суммируются"
+    },
+    {
+      "id": "samsung-black-screen",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/what-to-do-if-there-is-black-screen-on-samsung-tv/",
+      "retrieved_at": "2026-08-01T13:41:09Z"
+    },
+    {
+      "id": "lg-sound-but-no-picture",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155333777203",
+      "retrieved_at": "2026-08-01T13:41:09Z"
+    },
+    {
+      "id": "sony-sound-but-no-picture",
+      "url": "https://www.sony.ru/electronics/support/articles/00153674",
+      "retrieved_at": "2026-08-01T13:41:09Z",
+      "notes": "automation_blocked=true; HTTP 403 автоматике, не считать битой ссылкой"
+    },
+    {
+      "id": "sony-picture-sound-test",
+      "url": "https://www.sony.ru/electronics/support/articles/00173823",
+      "retrieved_at": "2026-08-01T13:41:09Z",
+      "notes": "automation_blocked=true; HTTP 403 автоматике, не считать битой ссылкой"
+    },
+    {
+      "id": "samsung-no-sound",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/there-is-not-sound-on-tv/",
+      "retrieved_at": "2026-08-01T13:41:09Z"
+    },
+    {
+      "id": "lg-no-sound",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413213150OLT",
+      "retrieved_at": "2026-08-01T13:41:09Z"
+    },
+    {
+      "id": "sony-no-sound",
+      "url": "https://www.sony.ru/electronics/support/articles/00090112",
+      "retrieved_at": "2026-08-01T13:41:09Z",
+      "notes": "automation_blocked=true; HTTP 403 автоматике, не считать битой ссылкой"
+    },
+    {
+      "id": "samsung-remote-not-working",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/tv-remote-control-is-not-working/",
+      "retrieved_at": "2026-08-01T13:41:09Z"
+    },
+    {
+      "id": "lg-remote-not-responding",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413220443",
+      "retrieved_at": "2026-08-01T13:41:09Z"
+    },
+    {
+      "id": "sony-remote-not-working",
+      "url": "https://www.sony.ru/electronics/support/articles/00256916",
+      "retrieved_at": "2026-08-01T13:41:09Z",
+      "notes": "automation_blocked=true; HTTP 403 автоматике, не считать битой ссылкой"
+    },
+    {
+      "id": "google-android-tv-phone-remote",
+      "url": "https://support.google.com/androidtv/answer/6122465?hl=ru",
+      "retrieved_at": "2026-08-01T13:41:09Z"
+    }
+  ]
+}

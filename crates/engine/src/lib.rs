@@ -1551,7 +1551,7 @@ pub fn calculate_tv_no_signal(input: &TvNoSignalInput) -> Result<TvNoSignalPlan,
     }
 }
 
-/// Закрытые наблюдения для трёх самостоятельных traffic-first мастеров.
+/// Закрытые наблюдения для самостоятельных traffic-first мастеров.
 ///
 /// Поля имеют разные подписи в интерфейсе, но всегда принимают только заранее
 /// определённые варианты. Движок не получает свободный текст, модель, адрес,
@@ -1580,6 +1580,7 @@ pub struct TvTrafficTaskPlan {
     pub task: String,
     pub headline: String,
     pub explanation: String,
+    pub primary_step_id: String,
     pub steps: Vec<TvTrafficTaskStep>,
     pub warnings: Vec<String>,
     pub privacy: String,
@@ -1612,11 +1613,16 @@ fn tv_traffic_task_plan(
     steps: Vec<TvTrafficTaskStep>,
     warnings: &[&str],
 ) -> TvTrafficTaskPlan {
+    let primary_step_id = steps
+        .first()
+        .map(|step| step.id.clone())
+        .unwrap_or_default();
     TvTrafficTaskPlan {
         status: status.to_string(),
         task: task.to_string(),
         headline: headline.to_string(),
         explanation: explanation.to_string(),
+        primary_step_id,
         steps,
         warnings: warnings
             .iter()
@@ -2245,17 +2251,613 @@ fn calculate_picture_setup_task(input: &TvTrafficTaskInput) -> Result<TvTrafficT
     ))
 }
 
+fn calculate_sound_but_no_picture_task(
+    input: &TvTrafficTaskInput,
+) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["yes", "no", "unknown"],
+        "Видимость меню телевизора",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["tv-speakers", "external-audio", "unknown"],
+        "Источник слышимого звука",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["tv-app", "channels", "hdmi", "unknown"],
+        "Источник изображения",
+    )?;
+    require_choice(
+        &input.detail,
+        &["yes", "no", "unknown"],
+        "Повтор симптома на других источниках",
+    )?;
+
+    let safety_warnings = [
+        "Не разбирайте телевизор, пульт или подключённые устройства и не выполняйте электрические измерения.",
+        "Проверка наблюдений не определяет неисправную деталь и не заменяет поддержку точной модели.",
+    ];
+
+    if input.secondary != "tv-speakers" {
+        let audio_instruction = if input.secondary == "external-audio" {
+            "Звук сейчас идёт через внешнее аудиоустройство. Если меню это позволяет, временно выберите встроенные динамики телевизора и снова откройте его собственное меню."
+        } else {
+            "Уточните в меню телевизора, выбран ли вывод на встроенные динамики или на внешнее аудиоустройство. Сам факт слышимого звука пока не локализует телевизор."
+        };
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "sound-but-no-picture",
+            "Сначала уточните путь звука",
+            "Звук внешнего или неизвестного устройства не подтверждает состояние изображения самого телевизора.",
+            vec![
+                tv_traffic_task_step(
+                    "identify-audio-output",
+                    "Уточните, откуда слышен звук",
+                    audio_instruction,
+                    &["samsung-black-screen", "lg-sound-but-no-picture"],
+                    "Если встроенные динамики выбрать нельзя, не делайте вывод о причине — перейдите к инструкции поддержки точной модели.",
+                ),
+                tv_traffic_task_step(
+                    "check-own-menu",
+                    "Проверьте собственное меню телевизора",
+                    "Вызовите Home, Menu или шкалу громкости штатной кнопкой телевизора либо оригинальным пультом и отметьте только то, виден ли этот интерфейс.",
+                    &["samsung-black-screen", "sony-sound-but-no-picture"],
+                    "Если собственный интерфейс не появляется, не переходите к разборке или измерениям.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary == "unknown" || input.tertiary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "sound-but-no-picture",
+            "Нужно отделить экран телевизора от источника",
+            "Без наблюдения собственного меню и известного источника безопасно определить следующий путь нельзя.",
+            vec![
+                tv_traffic_task_step(
+                    "check-own-menu",
+                    "Откройте собственное меню телевизора",
+                    "Вызовите Home, Menu или шкалу громкости и проверьте, появляется ли интерфейс поверх чёрного экрана.",
+                    &["samsung-black-screen", "lg-sound-but-no-picture"],
+                    "Не считайте заставку внешней приставки собственным меню телевизора.",
+                ),
+                tv_traffic_task_step(
+                    "identify-picture-source",
+                    "Уточните текущий источник",
+                    "Определите, открыт ли встроенный ТВ-сервис, эфирные каналы или конкретный HDMI-вход. Не меняйте несколько соединений одновременно.",
+                    &["sony-sound-but-no-picture", "sony-picture-sound-test"],
+                    "Если источник определить нельзя, остановитесь на официальной инструкции точной модели.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary == "no" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "sound-but-no-picture",
+            "Самостоятельная проверка заканчивается поддержкой модели",
+            "Собственное меню не видно, хотя звук подтверждён через динамики телевизора. Этого недостаточно для диагноза детали.",
+            vec![
+                tv_traffic_task_step(
+                    "confirm-own-menu-absent",
+                    "Повторно проверьте собственное меню",
+                    "Отключите воспроизведение на текущем источнике, вызовите Home, Menu или шкалу громкости и проверьте экран при обычном освещении.",
+                    &["samsung-black-screen", "lg-sound-but-no-picture"],
+                    "Если меню появилось, вернитесь к проверке текущего источника; если нет — не продолжайте аппаратный поиск.",
+                ),
+                tv_traffic_task_step(
+                    "use-built-in-picture-test",
+                    "Запустите только доступный встроенный тест",
+                    "Если руководство точной модели описывает встроенную проверку изображения и она доступна без сброса, выполните её по этому руководству.",
+                    &["sony-picture-sound-test"],
+                    "Если тест недоступен, не пытайтесь открыть сервисное меню и не применяйте процедуру другой модели.",
+                ),
+                tv_traffic_task_step(
+                    "contact-model-support",
+                    "Передайте наблюдения официальной поддержке",
+                    "Сообщите точную модель, выбранный источник, наличие звука через динамики и отсутствие собственного меню. Перечислите только выполненные безопасные проверки.",
+                    &[
+                        "samsung-black-screen",
+                        "lg-sound-but-no-picture",
+                        "sony-sound-but-no-picture",
+                    ],
+                    "Не называйте предполагаемую деталь неисправной: эти наблюдения её не определяют.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    let source_label = match input.tertiary.as_str() {
+        "tv-app" => "встроенного приложения телевизора",
+        "channels" => "эфирных или кабельных каналов",
+        "hdmi" => "устройства на выбранном HDMI-входе",
+        _ => unreachable!(),
+    };
+    let comparison_instruction = match input.detail.as_str() {
+        "yes" => format!(
+            "Симптом повторяется не только у {source_label}. Запустите доступный встроенный тест изображения по инструкции точной модели и сохраните результат для поддержки."
+        ),
+        "no" => format!(
+            "На другом доступном источнике изображение есть, поэтому следующую проверку ограничьте трактом {source_label}: выбранным входом, приложением или внешним устройством."
+        ),
+        _ => format!(
+            "Сравните {source_label} с одним доступным встроенным источником телевизора, не меняя настройки изображения и не выполняя общий сброс."
+        ),
+    };
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "sound-but-no-picture",
+        "Собственное меню видно — сравните источники",
+        "Видимый интерфейс телевизора позволяет продолжить только проверку источника и встроенного теста, без аппаратного диагноза.",
+        vec![
+            tv_traffic_task_step(
+                "confirm-own-menu-visible",
+                "Зафиксируйте видимое меню",
+                "Оставьте на экране Home, Menu или шкалу громкости и запишите, на каком входе либо в каком приложении пропало изображение.",
+                &["samsung-black-screen", "lg-sound-but-no-picture"],
+                "Если собственное меню снова не появляется, остановите этот путь и используйте официальную поддержку модели.",
+            ),
+            tv_traffic_task_step(
+                "compare-picture-sources",
+                "Сравните один другой источник",
+                &comparison_instruction,
+                &["sony-sound-but-no-picture", "sony-picture-sound-test"],
+                "Не выполняйте заводской сброс и не меняйте несколько входов, кабелей или настроек одновременно.",
+            ),
+        ],
+        &safety_warnings,
+    ))
+}
+
+fn calculate_no_sound_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &[
+            "tv-speakers",
+            "soundbar-receiver",
+            "headphones-bluetooth",
+            "unknown",
+        ],
+        "Выбранный аудиовыход",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["tv-app", "channels", "hdmi", "unknown"],
+        "Источник без звука",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["yes", "no", "unknown"],
+        "Mute или нулевая громкость",
+    )?;
+    require_choice(
+        &input.detail,
+        &["yes", "no", "unknown"],
+        "Питание и выбор внешнего аудиоустройства",
+    )?;
+
+    let safety_warnings = [
+        "Не разбирайте телевизор, пульт или подключённые устройства и не выполняйте электрические измерения.",
+        "Не выполняйте общий заводской сброс как первый способ вернуть звук.",
+    ];
+
+    if input.primary == "unknown" || input.secondary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "no-sound",
+            "Сначала уточните аудиовыход и источник",
+            "Без выбранного выхода и известного источника нельзя безопасно отделить настройки телевизора от внешней цепочки.",
+            vec![
+                tv_traffic_task_step(
+                    "identify-audio-output",
+                    "Откройте список аудиовыходов",
+                    "Проверьте, выбраны ли динамики телевизора, саундбар/ресивер или наушники/Bluetooth. Запишите выбор, не меняя остальные настройки.",
+                    &["samsung-no-sound", "lg-no-sound", "sony-no-sound"],
+                    "Если список называется иначе, используйте руководство точной модели, а не похожую инструкцию.",
+                ),
+                tv_traffic_task_step(
+                    "identify-silent-source",
+                    "Уточните источник без звука",
+                    "Отметьте встроенное приложение, каналы или конкретный HDMI-вход и сравнивайте только с одним другим доступным источником.",
+                    &["samsung-no-sound", "sony-picture-sound-test"],
+                    "Не меняйте аудиоформат и соединение одновременно.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary != "tv-speakers" {
+        let output_name = if input.primary == "soundbar-receiver" {
+            "саундбар или ресивер"
+        } else {
+            "наушники или Bluetooth-устройство"
+        };
+        let external_state = match input.detail.as_str() {
+            "yes" => format!(
+                "{output_name} включён и выбран. Временно переключите вывод на динамики телевизора и сравните тот же источник."
+            ),
+            "no" => format!(
+                "Сначала включите {output_name} и явно выберите его в меню вывода либо временно верните динамики телевизора."
+            ),
+            _ => format!(
+                "Уточните, включён и выбран ли {output_name}; до этого не меняйте аудиоформат или кабельную схему."
+            ),
+        };
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "no-sound",
+            "Проверьте внешний аудиотракт отдельно",
+            "Выбран не встроенный динамик, поэтому отсутствие звука ещё не локализовано в телевизоре.",
+            vec![
+                tv_traffic_task_step(
+                    "verify-external-audio-route",
+                    "Подтвердите внешний аудиовыход",
+                    &external_state,
+                    &["samsung-no-sound", "lg-no-sound", "sony-no-sound"],
+                    "Если динамики телевизора работают, продолжайте только по инструкции внешнего аудиоустройства.",
+                ),
+                tv_traffic_task_step(
+                    "compare-tv-speakers",
+                    "Сравните с динамиками телевизора",
+                    "На том же источнике выберите динамики телевизора, проверьте Mute и постепенно поднимите громкость до слышимого уровня.",
+                    &["samsung-no-sound", "sony-no-sound"],
+                    "Если пункт динамиков недоступен, не сбрасывайте телевизор — сверьте ограничения текущего режима в руководстве.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    let mute_instruction = match input.tertiary.as_str() {
+        "yes" => {
+            "Отключите Mute и постепенно поднимите громкость до слышимого уровня, не меняя аудиовыход."
+        }
+        "no" => {
+            "Убедитесь, что на экране отображается ненулевая громкость и выбран вывод на динамики телевизора."
+        }
+        _ => {
+            "Нажмите кнопку громкости и проверьте экранный индикатор: зафиксируйте Mute либо ненулевой уровень, не предполагая текущее состояние."
+        }
+    };
+    let source_name = match input.secondary.as_str() {
+        "tv-app" => "встроенное приложение",
+        "channels" => "каналы",
+        "hdmi" => "выбранный HDMI-вход",
+        _ => unreachable!(),
+    };
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "no-sound",
+        "Проверьте звук от выхода к источнику",
+        "План проверяет Mute, выбранный выход, другой источник и доступный встроенный тест, не называя неисправную деталь.",
+        vec![
+            tv_traffic_task_step(
+                "check-mute-and-volume",
+                "Проверьте Mute и громкость",
+                mute_instruction,
+                &["samsung-no-sound", "lg-no-sound", "sony-no-sound"],
+                "Если звук появился, не меняйте другие параметры.",
+            ),
+            tv_traffic_task_step(
+                "confirm-tv-speakers",
+                "Подтвердите динамики телевизора",
+                "Откройте настройки звука и явно выберите динамики телевизора, если такой пункт доступен у модели.",
+                &["samsung-no-sound", "lg-no-sound", "sony-no-sound"],
+                "Если пункт недоступен, используйте руководство точной модели и не выполняйте общий сброс.",
+            ),
+            tv_traffic_task_step(
+                "compare-sound-source",
+                "Сравните один другой источник",
+                &format!(
+                    "Сейчас проверяется {source_name}. Запустите один другой встроенный источник при том же аудиовыходе и уровне громкости."
+                ),
+                &["samsung-no-sound", "sony-picture-sound-test"],
+                "Если звук отсутствует только у одного источника, продолжайте по его инструкции, не меняя общие настройки телевизора.",
+            ),
+            tv_traffic_task_step(
+                "run-built-in-sound-test",
+                "Запустите доступный встроенный тест звука",
+                "Если точная модель предлагает тест звука, выполните его по официальному руководству и сохраните результат для поддержки.",
+                &["sony-picture-sound-test", "lg-no-sound"],
+                "Если тест недоступен или звук не появился на всех источниках, остановитесь и обратитесь в официальную поддержку без предположения о детали.",
+            ),
+        ],
+        &safety_warnings,
+    ))
+}
+
+fn calculate_remote_not_working_task(
+    input: &TvTrafficTaskInput,
+) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["yes", "no", "unknown"],
+        "Управление кнопкой корпуса или приложением",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["original", "universal", "app", "unknown"],
+        "Способ управления",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["yes", "no", "unknown"],
+        "Проверка батареек",
+    )?;
+    require_choice(
+        &input.detail,
+        &["yes", "no", "unknown"],
+        "Работа части кнопок",
+    )?;
+
+    let safety_warnings = [
+        "Не разбирайте телевизор, пульт или подключённые устройства и не выполняйте электрические измерения.",
+        "Не используйте камеру телефона для проверки, пока руководство точной модели не подтверждает, что пульт инфракрасный.",
+    ];
+
+    if input.primary == "unknown" || input.secondary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "remote-not-working",
+            "Сначала уточните способ управления",
+            "Без проверки кнопки корпуса или приложения и без типа средства управления нельзя безопасно выбрать следующий шаг.",
+            vec![
+                tv_traffic_task_step(
+                    "check-tv-control",
+                    "Проверьте управление самим телевизором",
+                    "Используйте штатную кнопку корпуса только если она описана в руководстве и безопасно доступна без снятия или сдвига настенного телевизора; иначе остановитесь и обратитесь в поддержку. Альтернатива — уже настроенное официальное приложение. Отметьте только реакцию телевизора.",
+                    &[
+                        "samsung-remote-not-working",
+                        "lg-remote-not-responding",
+                        "sony-remote-not-working",
+                    ],
+                    "Если до кнопки нельзя дотянуться без снятия или сдвига телевизора, остановитесь и обратитесь в официальную поддержку; не ищите скрытые сервисные комбинации.",
+                ),
+                tv_traffic_task_step(
+                    "identify-control-type",
+                    "Уточните оригинальный пульт, универсальный пульт или приложение",
+                    "Сверьте название средства управления и точную модель телевизора. Процедуры сопряжения и поддерживаемые команды различаются.",
+                    &[
+                        "samsung-remote-not-working",
+                        "lg-remote-not-responding",
+                        "sony-remote-not-working",
+                    ],
+                    "Не применяйте процедуру сопряжения от другого пульта только из-за похожего корпуса.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "universal" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "remote-not-working",
+            "Проверьте настройку универсального пульта",
+            "Универсальный пульт является отдельным средством управления; его коды и поддерживаемые команды определяет точная модель пульта.",
+            vec![
+                tv_traffic_task_step(
+                    "confirm-universal-target",
+                    "Проверьте выбранное устройство",
+                    "Убедитесь, что на универсальном пульте выбран режим телевизора, и сверьте настройку с руководством точной модели пульта и телевизора.",
+                    &["samsung-remote-not-working", "sony-remote-not-working"],
+                    "Если штатная кнопка телевизора работает, не делайте вывод о неисправности телевизора по универсальному пульту.",
+                ),
+                tv_traffic_task_step(
+                    "compare-original-control",
+                    "Сравните с доступным штатным управлением",
+                    "Проверьте кнопку корпуса только если она безопасно доступна без снятия или сдвига настенного телевизора; иначе используйте уже настроенное официальное приложение или оригинальный пульт, если они доступны, не меняя настройки телевизора.",
+                    &["lg-remote-not-responding", "sony-remote-not-working"],
+                    "Если до кнопки нельзя безопасно добраться без снятия или сдвига телевизора и альтернативного управления нет, остановитесь и обратитесь в поддержку.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "app" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "remote-not-working",
+            "Проверьте совместимость приложения",
+            "Телефон может заменить пульт только для совместимой платформы и при выполнении её условий сопряжения.",
+            vec![
+                tv_traffic_task_step(
+                    "confirm-app-compatibility",
+                    "Подтвердите платформу телевизора",
+                    "Для Google TV или Android TV используйте официальную процедуру Google; для другой платформы — только приложение и руководство её производителя.",
+                    &["google-android-tv-phone-remote"],
+                    "Общая сеть Wi-Fi сама по себе не подтверждает совместимость приложения.",
+                ),
+                tv_traffic_task_step(
+                    "repeat-app-pairing",
+                    "Повторите только официальное сопряжение",
+                    "Проверьте одну сеть, выбранный телевизор и код на экране по официальной инструкции совместимой платформы.",
+                    &["google-android-tv-phone-remote"],
+                    "Не вводите код сопряжения на сторонних сайтах и не передавайте его другим людям.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary == "no" && input.tertiary == "yes" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "remote-not-working",
+            "Безопасная самостоятельная проверка завершена",
+            "Телевизор не реагирует на штатное управление, а батарейки оригинального пульта уже проверены. Эти наблюдения не определяют неисправную деталь.",
+            vec![
+                tv_traffic_task_step(
+                    "confirm-tv-power-and-control",
+                    "Проверьте питание и штатную кнопку один раз",
+                    "Убедитесь, что телевизор показывает обычный индикатор питания, и нажмите штатную кнопку корпуса по руководству модели только если она безопасно доступна без снятия или сдвига настенного телевизора; иначе остановитесь и обратитесь в поддержку.",
+                    &[
+                        "samsung-remote-not-working",
+                        "lg-remote-not-responding",
+                        "sony-remote-not-working",
+                    ],
+                    "Если кнопка недоступна без снятия или сдвига телевизора либо реакции нет, остановитесь и обратитесь в официальную поддержку; не продолжайте аппаратную проверку.",
+                ),
+                tv_traffic_task_step(
+                    "contact-remote-support",
+                    "Обратитесь в официальную поддержку модели",
+                    "Передайте точную модель, способ управления, состояние индикатора, результат проверки батареек и реакции штатной кнопки.",
+                    &[
+                        "samsung-remote-not-working",
+                        "lg-remote-not-responding",
+                        "sony-remote-not-working",
+                    ],
+                    "Не называйте пульт или телевизор неисправным до проверки по процедуре точной модели.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary == "no" {
+        let battery_instruction = if input.tertiary == "no" {
+            "Проверьте соответствие типа и полярности батареек. Если под рукой есть заведомо исправный комплект того же типа, сравните с ним."
+        } else {
+            "Уточните тип, полярность и состояние батареек по руководству оригинального пульта; до этого не делайте вывод о телевизоре."
+        };
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "remote-not-working",
+            "Завершите безопасную проверку пульта",
+            "Реакции штатного управления нет, но состояние питания пульта ещё не подтверждено.",
+            vec![
+                tv_traffic_task_step(
+                    "verify-remote-batteries",
+                    "Проверьте батарейки без разборки пульта",
+                    battery_instruction,
+                    &[
+                        "samsung-remote-not-working",
+                        "lg-remote-not-responding",
+                        "sony-remote-not-working",
+                    ],
+                    "Не очищайте внутренние контакты и не разбирайте корпус.",
+                ),
+                tv_traffic_task_step(
+                    "check-tv-control",
+                    "Повторите проверку штатной кнопки телевизора",
+                    "Найдите расположение кнопки в руководстве точной модели и проверьте одну команду только если кнопка безопасно доступна без снятия или сдвига настенного телевизора; иначе остановитесь и обратитесь в поддержку.",
+                    &["sony-remote-not-working", "lg-remote-not-responding"],
+                    "Если кнопка недоступна без снятия или сдвига телевизора либо реакции нет после безопасных проверок, остановитесь и обратитесь в официальную поддержку.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    let button_observation = match input.detail.as_str() {
+        "yes" => {
+            "Часть кнопок работает. Проверьте, поддерживается ли конкретная команда в текущем экране или на выбранном устройстве, затем сверьте модельную процедуру сопряжения."
+        }
+        "no" => {
+            "Ни одна проверенная кнопка не работает. Сначала подтвердите батарейки, отсутствие препятствий и модельную процедуру сопряжения оригинального пульта."
+        }
+        _ => {
+            "Проверьте отдельно питание, Home и громкость и запишите, реагирует ли телевизор хотя бы на одну команду."
+        }
+    };
+    let mut steps = Vec::new();
+    if input.tertiary != "yes" {
+        let battery_observation = if input.tertiary == "no" {
+            "Проверьте тип и полярность батареек. Если доступен заведомо исправный комплект того же типа, выполните одно сравнение."
+        } else {
+            "Сверьте тип и полярность батареек с руководством пульта и зафиксируйте результат до других действий."
+        };
+        steps.push(tv_traffic_task_step(
+            "verify-remote-batteries",
+            "Проверьте питание пульта",
+            battery_observation,
+            &[
+                "samsung-remote-not-working",
+                "lg-remote-not-responding",
+                "sony-remote-not-working",
+            ],
+            "Не разбирайте пульт и не выполняйте измерения.",
+        ));
+    }
+    if input.tertiary == "yes" {
+        steps.push(tv_traffic_task_step(
+            "follow-model-pairing",
+            "Используйте только модельную процедуру сопряжения",
+            "Если официальный документ точной модели описывает сопряжение, выполните его буквально. Для простого ИК-пульта этот шаг может не требоваться.",
+            &[
+                "samsung-remote-not-working",
+                "lg-remote-not-responding",
+                "sony-remote-not-working",
+            ],
+            "Не применяйте комбинацию кнопок для другой модели пульта.",
+        ));
+    }
+    if input.detail != "no" {
+        steps.push(tv_traffic_task_step(
+            "compare-remote-buttons",
+            "Сравните несколько обычных команд",
+            button_observation,
+            &[
+                "samsung-remote-not-working",
+                "lg-remote-not-responding",
+                "sony-remote-not-working",
+            ],
+            "Если руководство указывает отдельное устройство-цель, сначала выберите его и не меняйте другие настройки.",
+        ));
+    }
+    if input.tertiary != "yes" {
+        steps.push(tv_traffic_task_step(
+            "follow-model-pairing",
+            "Используйте только модельную процедуру сопряжения",
+            "Если официальный документ точной модели описывает сопряжение, выполните его буквально. Для простого ИК-пульта этот шаг может не требоваться.",
+            &[
+                "samsung-remote-not-working",
+                "lg-remote-not-responding",
+                "sony-remote-not-working",
+            ],
+            "Не применяйте комбинацию кнопок для другой модели пульта.",
+        ));
+    }
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "remote-not-working",
+        "Телевизор управляется — проверьте оригинальный пульт",
+        "Реакция на штатную кнопку или уже настроенное приложение отделяет телевизор от пути команд оригинального пульта без диагноза детали.",
+        steps,
+        &safety_warnings,
+    ))
+}
+
 /// Строит один безопасный план для выбранного самостоятельного TV-интента.
 pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
     require_choice(
         &input.task,
-        &["laptop-to-tv", "digital-channels", "picture-setup"],
+        &[
+            "laptop-to-tv",
+            "digital-channels",
+            "picture-setup",
+            "sound-but-no-picture",
+            "no-sound",
+            "remote-not-working",
+        ],
         "Инструмент",
     )?;
     match input.task.as_str() {
         "laptop-to-tv" => calculate_laptop_tv_task(input),
         "digital-channels" => calculate_digital_channels_task(input),
         "picture-setup" => calculate_picture_setup_task(input),
+        "sound-but-no-picture" => calculate_sound_but_no_picture_task(input),
+        "no-sound" => calculate_no_sound_task(input),
+        "remote-not-working" => calculate_remote_not_working_task(input),
         _ => unreachable!(),
     }
 }
@@ -5987,6 +6589,7 @@ mod tests {
             "task",
             "headline",
             "explanation",
+            "primary_step_id",
             "steps",
             "warnings",
             "privacy",
@@ -5999,5 +6602,367 @@ mod tests {
             tv_traffic_task_plan_json("unknown-task", "movie", "dark", "baseline", "unknown");
         let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
         assert!(invalid.get("error").is_some());
+    }
+
+    #[test]
+    fn tv_diagnostics_task_main_branches_are_explicit() {
+        let picture_action = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "sound-but-no-picture",
+            "yes",
+            "tv-speakers",
+            "hdmi",
+            "no",
+        ))
+        .unwrap();
+        assert_eq!(picture_action.status, "action-plan");
+        assert_eq!(picture_action.primary_step_id, "confirm-own-menu-visible");
+
+        let picture_boundary = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "sound-but-no-picture",
+            "no",
+            "tv-speakers",
+            "channels",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(picture_boundary.status, "service-boundary");
+        assert_eq!(picture_boundary.primary_step_id, "confirm-own-menu-absent");
+
+        let sound_action = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "no-sound",
+            "tv-speakers",
+            "tv-app",
+            "no",
+            "unknown",
+        ))
+        .unwrap();
+        assert_eq!(sound_action.status, "action-plan");
+        assert_eq!(sound_action.steps.len(), 4);
+
+        let sound_external = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "no-sound",
+            "soundbar-receiver",
+            "hdmi",
+            "no",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(sound_external.status, "external-path");
+
+        let remote_action = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "remote-not-working",
+            "yes",
+            "original",
+            "yes",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(remote_action.status, "action-plan");
+        assert_eq!(remote_action.primary_step_id, "follow-model-pairing");
+        assert!(
+            remote_action
+                .steps
+                .iter()
+                .all(|step| step.id != "verify-remote-batteries")
+        );
+
+        let remote_pairing = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "remote-not-working",
+            "yes",
+            "original",
+            "yes",
+            "no",
+        ))
+        .unwrap();
+        assert_eq!(remote_pairing.status, "action-plan");
+        assert_eq!(remote_pairing.primary_step_id, "follow-model-pairing");
+        assert_eq!(remote_pairing.steps.len(), 1);
+        assert!(
+            !serde_json::to_string(&remote_pairing)
+                .unwrap()
+                .contains("не повторяйте")
+        );
+
+        let remote_external = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "remote-not-working",
+            "yes",
+            "app",
+            "unknown",
+            "unknown",
+        ))
+        .unwrap();
+        assert_eq!(remote_external.status, "external-path");
+
+        let remote_boundary = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "remote-not-working",
+            "no",
+            "original",
+            "yes",
+            "no",
+        ))
+        .unwrap();
+        assert_eq!(remote_boundary.status, "service-boundary");
+    }
+
+    #[test]
+    fn tv_diagnostics_task_unknown_observations_fail_closed() {
+        let cases = [
+            tv_traffic_task_input(
+                "sound-but-no-picture",
+                "unknown",
+                "tv-speakers",
+                "hdmi",
+                "unknown",
+            ),
+            tv_traffic_task_input(
+                "sound-but-no-picture",
+                "yes",
+                "external-audio",
+                "tv-app",
+                "unknown",
+            ),
+            tv_traffic_task_input("no-sound", "unknown", "tv-app", "unknown", "unknown"),
+            tv_traffic_task_input("no-sound", "tv-speakers", "unknown", "unknown", "unknown"),
+            tv_traffic_task_input(
+                "remote-not-working",
+                "unknown",
+                "original",
+                "unknown",
+                "unknown",
+            ),
+            tv_traffic_task_input("remote-not-working", "yes", "unknown", "unknown", "unknown"),
+            tv_traffic_task_input("remote-not-working", "no", "original", "unknown", "no"),
+        ];
+
+        for input in cases {
+            let plan = calculate_tv_traffic_task(&input).unwrap();
+            assert_eq!(plan.status, "needs-check", "unexpected plan for {input:?}");
+        }
+    }
+
+    #[test]
+    fn tv_diagnostics_task_body_button_steps_fail_closed_for_wall_mounts() {
+        let cases = [
+            (
+                calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "remote-not-working",
+                    "unknown",
+                    "original",
+                    "unknown",
+                    "unknown",
+                ))
+                .unwrap(),
+                "check-tv-control",
+            ),
+            (
+                calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "remote-not-working",
+                    "yes",
+                    "universal",
+                    "unknown",
+                    "unknown",
+                ))
+                .unwrap(),
+                "compare-original-control",
+            ),
+            (
+                calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "remote-not-working",
+                    "no",
+                    "original",
+                    "yes",
+                    "no",
+                ))
+                .unwrap(),
+                "confirm-tv-power-and-control",
+            ),
+            (
+                calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "remote-not-working",
+                    "no",
+                    "original",
+                    "no",
+                    "no",
+                ))
+                .unwrap(),
+                "check-tv-control",
+            ),
+        ];
+
+        for (plan, step_id) in cases {
+            let step = plan
+                .steps
+                .iter()
+                .find(|step| step.id == step_id)
+                .unwrap_or_else(|| panic!("missing body-button step {step_id}"));
+            let safety_copy =
+                format!("{} {}", step.instruction, step.stop_condition).to_lowercase();
+            assert!(safety_copy.contains("без снятия"), "unsafe step: {step:?}");
+            assert!(safety_copy.contains("сдвига"), "unsafe step: {step:?}");
+            assert!(
+                safety_copy.contains("остановитесь") && safety_copy.contains("поддерж"),
+                "missing fail-closed boundary: {step:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn tv_diagnostics_task_rejects_invalid_closed_enum_values() {
+        let invalid_cases = [
+            (
+                tv_traffic_task_input(
+                    "sound-but-no-picture",
+                    "visible<script>",
+                    "tv-speakers",
+                    "hdmi",
+                    "no",
+                ),
+                "Видимость меню телевизора",
+            ),
+            (
+                tv_traffic_task_input("no-sound", "tv-speakers", "streaming-box", "no", "unknown"),
+                "Источник без звука",
+            ),
+            (
+                tv_traffic_task_input("remote-not-working", "yes", "infrared", "yes", "yes"),
+                "Способ управления",
+            ),
+        ];
+
+        for (input, expected_field) in invalid_cases {
+            let error = calculate_tv_traffic_task(&input).unwrap_err();
+            assert!(error.contains(expected_field), "unexpected error: {error}");
+        }
+    }
+
+    #[test]
+    fn tv_diagnostics_task_is_deterministic_and_wasm_safe() {
+        let input = tv_traffic_task_input(
+            "sound-but-no-picture",
+            "yes",
+            "tv-speakers",
+            "tv-app",
+            "unknown",
+        );
+        let first = calculate_tv_traffic_task(&input).unwrap();
+        let second = calculate_tv_traffic_task(&input).unwrap();
+        assert_eq!(first, second);
+
+        let response =
+            tv_traffic_task_plan_json("remote-not-working", "yes", "original", "yes", "yes");
+        let response: serde_json::Value = serde_json::from_str(&response).unwrap();
+        assert!(response.get("error").is_none());
+        assert_eq!(response["primary_step_id"], response["steps"][0]["id"]);
+
+        let invalid =
+            tv_traffic_task_plan_json("no-sound", "tv-speakers", "hdmi", "maybe", "unknown");
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+        assert!(invalid.get("steps").is_none());
+    }
+
+    #[test]
+    fn tv_diagnostics_task_steps_have_bounded_source_shape() {
+        let plans = [
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "sound-but-no-picture",
+                "yes",
+                "tv-speakers",
+                "channels",
+                "yes",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "sound-but-no-picture",
+                "no",
+                "tv-speakers",
+                "hdmi",
+                "unknown",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "no-sound",
+                "tv-speakers",
+                "channels",
+                "unknown",
+                "unknown",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "no-sound",
+                "headphones-bluetooth",
+                "tv-app",
+                "no",
+                "unknown",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "remote-not-working",
+                "yes",
+                "original",
+                "no",
+                "no",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "remote-not-working",
+                "yes",
+                "app",
+                "unknown",
+                "unknown",
+            ))
+            .unwrap(),
+        ];
+        let allowed_statuses = [
+            "action-plan",
+            "needs-check",
+            "service-boundary",
+            "external-path",
+        ];
+        let allowed_sources = [
+            "samsung-black-screen",
+            "lg-sound-but-no-picture",
+            "sony-sound-but-no-picture",
+            "sony-picture-sound-test",
+            "samsung-no-sound",
+            "lg-no-sound",
+            "sony-no-sound",
+            "samsung-remote-not-working",
+            "lg-remote-not-responding",
+            "sony-remote-not-working",
+            "google-android-tv-phone-remote",
+        ];
+
+        for plan in plans {
+            assert!(allowed_statuses.contains(&plan.status.as_str()));
+            assert!((1..=4).contains(&plan.steps.len()));
+            assert_eq!(plan.primary_step_id, plan.steps[0].id);
+            assert!(!plan.headline.trim().is_empty());
+            assert!(!plan.explanation.trim().is_empty());
+            assert!(plan.warnings.len() <= 3);
+            assert!(plan.privacy.contains("локально в браузере"));
+            for step in &plan.steps {
+                assert!(!step.id.trim().is_empty());
+                assert!(!step.title.trim().is_empty());
+                assert!(!step.instruction.trim().is_empty());
+                assert!(!step.stop_condition.trim().is_empty());
+                assert!(!step.source_ids.is_empty());
+                assert!(
+                    step.source_ids
+                        .iter()
+                        .all(|source_id| allowed_sources.contains(&source_id.as_str())),
+                    "unknown source id in {step:?}"
+                );
+            }
+
+            let serialized = serde_json::to_string(&plan).unwrap().to_lowercase();
+            for forbidden in ["купите", "закажите", "снимите крышку", "вскройте"]
+            {
+                assert!(
+                    !serialized.contains(forbidden),
+                    "unsafe instruction {forbidden}: {serialized}"
+                );
+            }
+        }
     }
 }

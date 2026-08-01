@@ -17,7 +17,7 @@ import { ModelFacts } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
-import { getHomeFeaturedPages } from "../lib/seoPages.mjs";
+import { getHomeDiagnosticPages, getHomeFeaturedPages } from "../lib/seoPages.mjs";
 
 export function HomePage({ catalog }) {
   const [query, setQuery] = useState("");
@@ -41,6 +41,10 @@ export function HomePage({ catalog }) {
   );
   const featuredSeoPages = useMemo(
     () => getHomeFeaturedPages(catalog.seoPages, 7),
+    [catalog.seoPages],
+  );
+  const diagnosticPages = useMemo(
+    () => getHomeDiagnosticPages(catalog.seoPages),
     [catalog.seoPages],
   );
 
@@ -205,6 +209,39 @@ export function HomePage({ catalog }) {
               Все проверенные кронштейны
             </a>
           </div>
+        </section>
+
+        <section className="border-b border-line py-8" id="diagnostika-televizora">
+          <div className="grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
+                Без разборки и догадок
+              </p>
+              <h2 className="mt-2 font-display text-3xl font-bold uppercase sm:text-4xl">
+                Диагностика телевизора
+              </h2>
+            </div>
+            <p className="max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
+              Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку
+              и остановится там, где нужна инструкция точной модели или официальная поддержка.
+            </p>
+          </div>
+          <nav
+            aria-label="Диагностика телевизора"
+            className="mt-6 grid gap-px border border-line bg-line md:grid-cols-3"
+          >
+            {diagnosticPages.map((page) => (
+              <a
+                className="group flex min-h-28 items-end justify-between gap-4 bg-paper p-5 font-display text-lg font-bold transition hover:bg-white hover:text-action"
+                data-home-tv-diagnostic={page.id}
+                href={page.path}
+                key={page.id}
+              >
+                {page.h1.replace(/:.+$/, "")}
+                <ArrowRight aria-hidden="true" className="size-5 shrink-0 transition group-hover:translate-x-1" />
+              </a>
+            ))}
+          </nav>
         </section>
 
         <div className="mt-6 flex justify-center">

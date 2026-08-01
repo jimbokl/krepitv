@@ -10,6 +10,7 @@ const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-07-31";
 const trafficPagesUpdatedAt = "2026-08-01";
+const expectedIndexableUrlCount = 152;
 const removedAffiliateDisclaimerFragments = [
   "Партнёрская ссылка на Яндекс Маркет",
   "Если вы оформите заказ",
@@ -1490,6 +1491,11 @@ if (sitemapEntries.length !== sitemapUrlElementCount) {
 const sitemapUrls = sitemapEntries.map((entry) => entry.url);
 const sitemapLastmods = new Map(sitemapEntries.map((entry) => [new URL(entry.url).pathname, entry.lastmod]));
 assertMinimum(sitemapUrls, 15, "URL в sitemap");
+if (sitemapUrls.length !== expectedIndexableUrlCount) {
+  throw new Error(
+    `Ожидалось ${expectedIndexableUrlCount} индексируемых URL, получено ${sitemapUrls.length}`,
+  );
+}
 assertUnique(sitemapUrls, "Sitemap URL");
 assertUnique(
   sitemapEntries.map((entry) => new URL(entry.url).pathname),
@@ -1597,6 +1603,9 @@ for (const page of indexableSeoPages) {
   const expectedLastmod = [
     "phone-to-tv",
     "tv-no-signal",
+    "tv-sound-no-picture",
+    "tv-no-sound",
+    "tv-remote-not-working",
     "laptop-to-tv",
     "digital-channels",
     "picture-setup",

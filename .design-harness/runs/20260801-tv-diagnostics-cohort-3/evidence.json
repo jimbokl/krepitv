@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "task_id": "20260801-tv-diagnostics-cohort-3",
+  "commands": [
+    {
+      "id": "cmd-rust-diagnostics",
+      "command": "cargo test -p krepitv-engine tv_diagnostics_task -- --nocapture",
+      "exit_code": 0,
+      "covers": ["6 targeted tests", "closed enums", "fail-closed", "completed observations omitted", "wall-mount safety boundary", "1..4 sourced steps", "stable WASM shape"]
+    },
+    {
+      "id": "cmd-web-diagnostics",
+      "command": "node --test --test-concurrency=1 web/tests/tv-diagnostics-cohort-3.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "exit_code": 0,
+      "covers": ["33 tests", "all UI states", "SSR", "privacy"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "152 indexable URLs", "whole artifact"]
+    },
+    {
+      "id": "cmd-production-verify",
+      "command": "npm run verify",
+      "exit_code": 0,
+      "covers": ["77 engine tests", "33 sitegen tests", "152 web tests", "catalog", "datasets", "affiliate", "IndexNow", "43 analytics tests"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "exit_code": 0,
+      "covers": ["919 tracked files", "688 text files", "4 public verification files", "152 indexable HTML", "depth 3", "177 affiliate files", "529 direct affiliate URLs"]
+    },
+    {
+      "id": "cmd-source-contract",
+      "command": "jq schema and task/source URL/claim consistency checks",
+      "exit_code": 0,
+      "covers": ["3 canonicals", "11 official sources", "claim source ids", "Sony automation_blocked"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "design-harness scan-drift on changed UI source",
+      "exit_code": 0,
+      "covers": ["5 parsed UI files", "no findings"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-sound-mobile-empty",
+      "path": "evidence/screenshots/sound-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0}
+    },
+    {
+      "id": "shot-no-sound-tablet-default",
+      "path": "evidence/screenshots/no-sound-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0}
+    },
+    {
+      "id": "shot-remote-mobile-disabled",
+      "path": "evidence/screenshots/remote-mobile-disabled.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0}
+    },
+    {
+      "id": "shot-sound-tablet-focus",
+      "path": "evidence/screenshots/sound-tablet-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "focused_name": "sound-but-no-picture-primary", "market_links": 0}
+    },
+    {
+      "id": "shot-no-sound-desktop-loading",
+      "path": "evidence/screenshots/no-sound-desktop-loading.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "aria_busy": true, "disabled_fieldsets": 3, "market_links": 0}
+    },
+    {
+      "id": "shot-remote-desktop-error",
+      "path": "evidence/screenshots/remote-desktop-error.png",
+      "state": "error",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "alert_visible": true, "retry_visible": true, "market_links": 0}
+    },
+    {
+      "id": "shot-sound-tablet-retry",
+      "path": "evidence/screenshots/sound-tablet-retry.png",
+      "state": "retry",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "action-plan", "primary_step": true, "market_links": 0}
+    },
+    {
+      "id": "shot-sound-desktop-success",
+      "path": "evidence/screenshots/sound-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "action-plan", "primary_step": true, "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-remote-desktop-success",
+      "path": "evidence/screenshots/remote-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "action-plan", "primary_step_id": "follow-model-pairing", "completed_battery_step_omitted": true, "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-sound-tablet-needs-check",
+      "path": "evidence/screenshots/sound-tablet-needs-check.png",
+      "state": "needs-check",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "needs-check", "primary_step": true, "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-no-sound-tablet-external",
+      "path": "evidence/screenshots/no-sound-tablet-external.png",
+      "state": "external-path",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "external-path", "primary_step": true, "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-remote-mobile-service",
+      "path": "evidence/screenshots/remote-mobile-service.png",
+      "state": "service-boundary",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "service-boundary", "primary_step_id": "confirm-tv-power-and-control", "wall_mount_stop_visible": true, "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-no-sound-mobile-text-200",
+      "path": "evidence/screenshots/no-sound-mobile-text-200.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_percent": 200, "market_links": 0}
+    },
+    {
+      "id": "shot-no-sound-tablet-text-spacing",
+      "path": "evidence/screenshots/no-sound-tablet-text-spacing.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wcag_text_spacing": true, "market_links": 0}
+    },
+    {
+      "id": "shot-home-diagnostics-desktop",
+      "path": "evidence/screenshots/home-diagnostics-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "three_compact_links": true, "footer_brand_unwrapped": true}
+    },
+    {
+      "id": "shot-home-diagnostics-mobile",
+      "path": "evidence/screenshots/home-diagnostics-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "three_compact_links": true, "footer_brand_unwrapped": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent reviewer /root/tv_diag_final_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Three indexable canonical pages have substantive SSR, official sources and zero Yandex Market links.",
+      "All 360 valid Rust/WASM combinations have allowed statuses, 1..4 sourced steps, primary first, stop conditions and privacy text.",
+      "Completed battery observations are omitted and every body-button path stops before moving or removing a wall-mounted television.",
+      "Sixteen responsive and state captures have no overflow, overlap or clipped focus.",
+      "Security, static SEO, affiliate and design-drift audits pass; production remains a separate release gate."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

@@ -18,6 +18,19 @@ export function getHomeFeaturedPages(pages, limit = 4) {
     .slice(0, limit);
 }
 
+const HOME_DIAGNOSTIC_PAGE_IDS = [
+  "tv-sound-no-picture",
+  "tv-no-sound",
+  "tv-remote-not-working",
+];
+
+export function getHomeDiagnosticPages(pages) {
+  return HOME_DIAGNOSTIC_PAGE_IDS.flatMap((id) => {
+    const page = pages.find((item) => item.id === id && isIndexableSeoPage(item));
+    return page ? [page] : [];
+  });
+}
+
 export function getRelatedPages(page, pages, limit = 6) {
   const preferred = preferredRelatedIds(page.id);
   return pages
@@ -142,7 +155,10 @@ function preferredRelatedIds(pageId) {
   }
 
   const groups = {
-    "tv-no-signal": ["digital-channels", "laptop-to-tv", "phone-to-tv", "picture-setup", "tv-dimensions", "viewing-distance"],
+    "tv-no-signal": ["tv-sound-no-picture", "digital-channels", "laptop-to-tv", "phone-to-tv", "picture-setup", "tv-no-sound"],
+    "tv-sound-no-picture": ["tv-no-signal", "picture-setup", "tv-no-sound", "tv-remote-not-working", "laptop-to-tv", "phone-to-tv"],
+    "tv-no-sound": ["tv-sound-no-picture", "tv-no-signal", "tv-remote-not-working", "digital-channels", "picture-setup", "laptop-to-tv"],
+    "tv-remote-not-working": ["tv-no-sound", "tv-sound-no-picture", "tv-no-signal", "digital-channels", "phone-to-tv", "laptop-to-tv"],
     "phone-to-tv": ["laptop-to-tv", "tv-no-signal", "picture-setup", "tv-dimensions", "wall-planner", "viewing-distance"],
     "laptop-to-tv": ["tv-no-signal", "phone-to-tv", "picture-setup", "digital-channels", "tv-dimensions", "viewing-distance"],
     "digital-channels": ["tv-no-signal", "picture-setup", "laptop-to-tv", "phone-to-tv", "tv-dimensions", "viewing-distance"],

@@ -20,7 +20,7 @@ const footerLinks = [
 export function SiteFooter() {
   return (
     <footer className="border-t-2 border-ink bg-paper text-ink">
-      <div className="mx-auto grid min-w-0 max-w-[1440px] gap-6 px-5 py-7 [overflow-wrap:anywhere] sm:px-8 lg:grid-cols-[1fr_auto] lg:items-end">
+      <div className="mx-auto grid min-w-0 max-w-[1440px] gap-6 px-5 py-7 [overflow-wrap:anywhere] sm:px-8 lg:grid-cols-[minmax(16rem,0.7fr)_minmax(0,2fr)] lg:items-end">
         <div className="min-w-0">
           <Brand compact />
           <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
@@ -28,7 +28,7 @@ export function SiteFooter() {
           </p>
         </div>
         <nav
-          className="flex min-w-0 flex-wrap gap-x-6 gap-y-3 font-display text-sm font-bold uppercase"
+          className="flex min-w-0 flex-wrap gap-x-6 gap-y-3 font-display text-sm font-bold uppercase lg:justify-end"
           aria-label="Инструменты и информация о сервисе"
         >
           {footerLinks.map((link) => (

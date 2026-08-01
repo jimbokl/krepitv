@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  getHomeDiagnosticPages,
   getHomeFeaturedPages,
   getModelContextPages,
   getRelatedPages,
@@ -44,6 +45,9 @@ test("traffic utilities link to each other without creating diagnostic variants"
     { id: "laptop-to-tv", kind: "calculator", indexable: true },
     { id: "digital-channels", kind: "calculator", indexable: true },
     { id: "picture-setup", kind: "calculator", indexable: true },
+    { id: "tv-sound-no-picture", kind: "calculator", indexable: true },
+    { id: "tv-no-sound", kind: "calculator", indexable: true },
+    { id: "tv-remote-not-working", kind: "calculator", indexable: true },
   ];
 
   assert.deepEqual(
@@ -52,7 +56,34 @@ test("traffic utilities link to each other without creating diagnostic variants"
   );
   assert.deepEqual(
     getRelatedPages(catalog[1], catalog).map((page) => page.id),
-    ["digital-channels", "laptop-to-tv", "phone-to-tv", "picture-setup", "tv-dimensions", "wall-planner"],
+    ["tv-sound-no-picture", "digital-channels", "laptop-to-tv", "phone-to-tv", "picture-setup", "tv-no-sound"],
+  );
+  assert.deepEqual(
+    getRelatedPages(catalog[7], catalog).map((page) => page.id),
+    ["tv-no-signal", "picture-setup", "tv-no-sound", "tv-remote-not-working", "laptop-to-tv", "phone-to-tv"],
+  );
+  assert.deepEqual(
+    getRelatedPages(catalog[8], catalog).map((page) => page.id),
+    ["tv-sound-no-picture", "tv-no-signal", "tv-remote-not-working", "digital-channels", "picture-setup", "laptop-to-tv"],
+  );
+  assert.deepEqual(
+    getRelatedPages(catalog[9], catalog).map((page) => page.id),
+    ["tv-no-sound", "tv-sound-no-picture", "tv-no-signal", "digital-channels", "phone-to-tv", "laptop-to-tv"],
+  );
+});
+
+test("home diagnostic block uses exactly three canonical pages", () => {
+  const catalog = [
+    { id: "tv-no-sound", path: "/net-zvuka-na-televizore/", indexable: true },
+    { id: "tv-remote-not-working", path: "/ne-rabotaet-pult-ot-televizora/", indexable: true },
+    { id: "tv-sound-no-picture", path: "/televizor-zvuk-est-izobrazheniya-net/", indexable: true },
+    { id: "tv-no-signal", path: "/televizor-pishet-net-signala/", indexable: true },
+    { id: "tv-sound-no-picture-copy", path: "/copy/", indexable: false },
+  ];
+
+  assert.deepEqual(
+    getHomeDiagnosticPages(catalog).map((page) => page.id),
+    ["tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working"],
   );
 });
 

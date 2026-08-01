@@ -1,0 +1,571 @@
+{
+  "version": 1,
+  "cohort_id": "tv-diagnostics-cohort-3",
+  "retrieved_at": "2026-08-01",
+  "checked_at": "2026-08-01T13:41:09Z",
+  "scope": {
+    "market": "Russia",
+    "language": "ru",
+    "source_policy": "primary-official-only",
+    "allowed_organizations": [
+      "Samsung",
+      "LG",
+      "Sony",
+      "Google"
+    ],
+    "purpose": "Source, claim and fail-closed boundaries for three Russian KREPI TV diagnostic utilities. This manifest does not authorize hardware diagnosis, disassembly or repair instructions."
+  },
+  "canonicals": [
+    {
+      "id": "sound-but-no-picture",
+      "path": "/televizor-zvuk-est-izobrazheniya-net/",
+      "job": "Separate a television-wide blank-screen symptom from a single input or external-device problem using only visible on-screen controls and manufacturer-supported self-checks, then provide the next safe action without diagnosing internal hardware.",
+      "source_ids": [
+        "samsung-black-screen",
+        "lg-sound-but-no-picture",
+        "sony-sound-but-no-picture",
+        "sony-picture-sound-test"
+      ],
+      "allowed_claims": [
+        "a-visible-tv-home-menu-volume-overlay-or-built-in-test-shifts-the-next-check-toward-the-selected-input-content-app-cable-or-external-device-without-proving-a-cause",
+        "if-the-symptom-occurs-on-one-input-only-the-user-can-safely-check-the-selected-input-and-reseat-a-user-accessible-signal-cable-with-all-affected-devices-powered-off",
+        "supported-models-can-use-a-manufacturer-built-in-picture-or-picture-and-sound-test-to-isolate-the-tv-from-an-external-source",
+        "if-no-tv-menu-volume-overlay-or-supported-built-in-test-is-visible-after-safe-source-isolation-the-result-must-stop-at-official-support",
+        "mechanical-screen-damage-liquid-smell-smoke-unusual-heat-or-a-red-blinking-status-indicator-requires-stopping-self-service"
+      ],
+      "conflicts": [
+        "vendor-menu-paths-tests-and-indicator-meanings-vary-by-brand-model-year-and-platform",
+        "a-visible-overlay-or-normal-built-in-test-narrows-the-problem-area-but-does-not-prove-that-the-panel-backlight-cable-source-or-main-board-is-good-or-bad",
+        "sony-describes-a-presence-sensor-only-for-applicable-legacy-models-and-explicitly-excludes-google-tv-and-android-tv-from-that-feature",
+        "manufacturer-pages-may-list-reset-or-firmware-actions-later-in-their-flow-but-this-contract-does-not-authorize-either-as-a-first-step"
+      ],
+      "fail_closed": [
+        "exact-brand-model-year-or-platform-unknown",
+        "tv-menu-volume-overlay-and-built-in-test-all-unavailable-or-not-visible",
+        "mechanical-damage-liquid-ingress-burning-smell-smoke-unusual-heat-or-red-blinking-indicator",
+        "power-cord-plug-or-outlet-is-damaged-hot-loose-wet-or-not-safely-accessible",
+        "the-next-step-would-require-opening-the-tv-removing-the-back-cover-probing-live-voltage-or-repairing-a-backlight-power-supply-panel-or-board",
+        "the-user-requests-a-hardware-fault-certificate-from-a-browser-observation",
+        "the-symptom-persists-after-safe-input-and-external-device-isolation"
+      ]
+    },
+    {
+      "id": "no-sound",
+      "path": "/net-zvuka-na-televizore/",
+      "job": "Distinguish muted or misrouted television audio from one-source, one-channel, external-device or external-audio-system problems using a manufacturer-supported sound test, without diagnosing or repairing speakers or audio electronics.",
+      "source_ids": [
+        "samsung-no-sound",
+        "lg-no-sound",
+        "sony-no-sound",
+        "sony-picture-sound-test"
+      ],
+      "allowed_claims": [
+        "volume-mute-and-selected-sound-output-are-safe-observations-before-any-reset-or-purchase",
+        "headphones-or-an-external-audio-device-can-route-sound-away-from-the-tv-speakers",
+        "a-successful-built-in-sound-test-shifts-the-next-check-to-the-current-channel-app-input-source-or-external-device-without-proving-a-specific-cause",
+        "sound-present-on-other-channels-apps-or-inputs-means-the-symptom-is-not-television-wide-and-should-be-routed-to-that-source-or-provider",
+        "if-the-manufacturer-built-in-sound-test-is-unavailable-or-silent-after-the-output-is-confirmed-as-tv-speakers-the-result-must-stop-at-model-specific-official-support"
+      ],
+      "conflicts": [
+        "sound-output-labels-and-menu-paths-vary-by-brand-model-year-platform-and-connected-audio-system",
+        "arc-earc-optical-bluetooth-headphone-and-tv-speaker-paths-are-not-interchangeable",
+        "a-successful-sound-test-does-not-identify-a-bad-cable-app-channel-codec-provider-or-external-device",
+        "factory-reset-erases-settings-and-is-not-authorized-as-an-early-generic-step-by-this-contract"
+      ],
+      "fail_closed": [
+        "exact-brand-model-year-platform-or-intended-sound-output-unknown",
+        "the-user-cannot-identify-whether-sound-is-expected-from-tv-speakers-headphones-soundbar-receiver-or-set-top-box",
+        "the-problem-is-limited-to-a-provider-channel-app-or-external-device-whose-audio-settings-are-unknown",
+        "the-built-in-sound-test-is-unavailable-or-silent-after-tv-speakers-are-explicitly-selected",
+        "mechanical-damage-liquid-ingress-burning-smell-smoke-unusual-heat-or-red-blinking-indicator",
+        "the-next-step-would-require-opening-the-tv-probing-live-voltage-or-repairing-speakers-a-power-supply-main-board-or-audio-board",
+        "the-user-requests-a-hardware-fault-diagnosis-from-a-web-questionnaire"
+      ]
+    },
+    {
+      "id": "remote-not-working",
+      "path": "/ne-rabotaet-pult-ot-televizora/",
+      "job": "Determine whether the user has the television remote or a set-top-box remote, identify infrared versus paired smart-remote behavior where possible, and provide safe checks for batteries, obstruction, pairing and compatible phone control without claiming a hardware fault.",
+      "source_ids": [
+        "samsung-remote-not-working",
+        "lg-remote-not-responding",
+        "sony-remote-not-working",
+        "google-android-tv-phone-remote"
+      ],
+      "allowed_claims": [
+        "a-third-party-set-top-box-may-require-its-own-remote-for-channel-control",
+        "battery-charge-polarity-stuck-buttons-and-a-blocked-tv-receiver-are-safe-first-checks",
+        "a-user-accessible-tv-body-button-can-help-separate-tv-control-from-remote-control-only-when-its-location-is-confirmed-for-the-model",
+        "an-infrared-camera-observation-is-applicable-only-to-an-infrared-remote-and-does-not-test-a-bluetooth-or-radio-remote",
+        "smart-remote-pairing-steps-must-come-from-the-exact-brand-and-model-family",
+        "a-compatible-android-tv-can-use-the-google-tv-app-on-an-android-phone-as-a-virtual-remote-after-supported-pairing-and-network-requirements-are-met"
+      ],
+      "conflicts": [
+        "infrared-and-bluetooth-or-radio-remotes-use-different-tests-and-pairing-paths",
+        "a-camera-may-not-show-infrared-on-every-phone-camera-and-a-visible-infrared-flash-does-not-prove-that-the-tv-receiver-works",
+        "brand-specific-smart-remotes-and-pairing-key-combinations-are-not-cross-brand-instructions",
+        "a-phone-remote-is-not-a-universal-fallback-because-compatibility-prior-network-setup-account-requirements-and-on-screen-pairing-can-be-required",
+        "some-buttons-work-only-in-specific-tv-modes-apps-or-inputs"
+      ],
+      "fail_closed": [
+        "remote-owner-is-unknown-or-the-user-may-be-holding-a-set-top-box-soundbar-or-universal-remote",
+        "remote-control-type-infrared-bluetooth-radio-solar-or-model-family-is-unknown",
+        "battery-compartment-is-corroded-swollen-wet-hot-or-physically-damaged",
+        "tv-body-button-location-or-safe-access-is-not-confirmed",
+        "phone-and-tv-compatibility-pairing-state-or-same-network-condition-is-not-confirmed",
+        "the-tv-does-not-respond-to-a-confirmed-body-button-or-shows-a-red-blinking-indicator",
+        "the-next-step-would-require-opening-the-remote-or-tv-soldering-or-repairing-an-internal-receiver-board",
+        "the-user-requests-a-hardware-fault-diagnosis-from-an-ir-camera-observation"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "samsung-black-screen",
+      "organization": "Samsung",
+      "title": "Что делать, если нет изображения на телевизоре Samsung?",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/what-to-do-if-there-is-black-screen-on-samsung-tv/",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-07-03",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "applies_to": [
+        "sound-but-no-picture",
+        "samsung-tv",
+        "black-screen",
+        "tv-menu-check",
+        "external-device-isolation"
+      ],
+      "allowed_claims": [
+        "samsung-tells-users-to-check-for-mechanical-screen-damage",
+        "with-the-tv-unplugged-user-accessible-external-devices-can-be-disconnected-before-restarting",
+        "the-menu-or-home-button-is-used-to-check-whether-the-tv-can-display-its-own-interface",
+        "if-the-safe-sequence-does-not-restore-a-menu-samsung-routes-the-user-to-an-authorized-service-center"
+      ],
+      "conflicts": [
+        "the-instruction-is-samsung-specific-and-does-not-define-menu-paths-for-other-brands",
+        "disconnecting-external-devices-does-not-authorize-opening-one-connect-tv-or-any-cable-housing",
+        "the-source-does-not-identify-an-internal-failed-component"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.samsung.com/ru/support/tv-audio-video/what-to-do-if-there-is-black-screen-on-samsung-tv/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "lg-sound-but-no-picture",
+      "organization": "LG",
+      "title": "Телевизор LG имеет звук, но нет изображения",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155333777203",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-07-23",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "applies_to": [
+        "sound-but-no-picture",
+        "lg-tv",
+        "volume-overlay-check",
+        "external-device",
+        "hdmi"
+      ],
+      "allowed_claims": [
+        "the-volume-overlay-must-be-tested-with-the-tv-remote-not-an-external-device-remote",
+        "a-visible-volume-overlay-shifts-the-next-check-toward-the-signal-external-device-or-hdmi-connection-without-proving-a-cause",
+        "with-devices-powered-off-a-user-accessible-hdmi-cable-can-be-reseated-at-both-external-connectors",
+        "if-no-volume-overlay-appears-lg-routes-the-user-to-support"
+      ],
+      "conflicts": [
+        "a-visible-overlay-does-not-certify-the-panel-backlight-cable-or-main-board",
+        "the-page-calls-out-hdmi-but-does-not-authorize-assuming-every-black-screen-is-an-hdmi-cable-problem",
+        "menu-and-connection-details-can-differ-by-model"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.lg.com/ru/support/product-help/CT20206007-20155333777203",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "sony-sound-but-no-picture",
+      "organization": "Sony",
+      "title": "Нет изображения на телевизоре / нет изображения на телевизоре, но звук в порядке / датчик присутствия не работает",
+      "url": "https://www.sony.ru/electronics/support/articles/00153674",
+      "source_region": "ru-RU",
+      "source_updated_at": "2025-11-27",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "automation_blocked": true,
+      "applies_to": [
+        "sound-but-no-picture",
+        "sony-tv",
+        "input-isolation",
+        "home-menu-check",
+        "external-device-isolation",
+        "presence-sensor-only-on-applicable-models"
+      ],
+      "allowed_claims": [
+        "changing-input-or-opening-home-can-show-whether-the-symptom-is-limited-to-the-current-input",
+        "user-accessible-usb-and-hdmi-devices-can-be-disconnected-before-a-safe-power-cycle",
+        "a-presence-sensor-can-disable-the-picture-only-on-applicable-models",
+        "sony-routes-unresolved-cases-to-support-or-repair"
+      ],
+      "conflicts": [
+        "google-tv-and-android-tv-models-do-not-have-the-presence-sensor-described-by-this-source",
+        "the-page-lists-forced-factory-reset-but-this-contract-does-not-authorize-it-as-a-first-or-generic-step",
+        "the-official-url-suffix-differs-from-the-displayed-article-number-00157011",
+        "the-source-does-not-identify-an-internal-failed-component"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 403,
+        "final_url": "https://www.sony.ru/electronics/support/articles/00153674",
+        "interpretation": "automation_blocked; content was available through browser-indexed retrieval; do-not-mark-dead"
+      }
+    },
+    {
+      "id": "sony-picture-sound-test",
+      "organization": "Sony",
+      "title": "Как проверить качество изображения и звука на телевизоре?",
+      "url": "https://www.sony.ru/electronics/support/articles/00173823",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-01-16",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "automation_blocked": true,
+      "applies_to": [
+        "sound-but-no-picture",
+        "no-sound",
+        "sony-tv",
+        "built-in-picture-test",
+        "built-in-sound-test",
+        "source-vs-tv-isolation"
+      ],
+      "allowed_claims": [
+        "supported-sony-models-can-run-a-built-in-picture-and-sound-diagnostic",
+        "the-test-runs-from-the-help-or-problem-diagnosis-menu-on-applicable-models",
+        "the-test-can-be-restarted-or-completed-without-changing-picture-settings"
+      ],
+      "conflicts": [
+        "test-menu-availability-is-model-specific",
+        "a-test-result-narrows-the-next-check-but-does-not-authorize-a-hardware-fault-diagnosis",
+        "the-official-url-suffix-differs-from-the-displayed-article-number-00174088"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 403,
+        "final_url": "https://www.sony.ru/electronics/support/articles/00173823",
+        "interpretation": "automation_blocked; content was available through browser-indexed retrieval; do-not-mark-dead"
+      }
+    },
+    {
+      "id": "samsung-no-sound",
+      "organization": "Samsung",
+      "title": "Что делать, если нет звука из динамиков телевизора Samsung?",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/there-is-not-sound-on-tv/",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-07-03",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "applies_to": [
+        "no-sound",
+        "samsung-tv",
+        "tv-speakers",
+        "built-in-sound-test",
+        "external-device-isolation",
+        "headphones"
+      ],
+      "allowed_claims": [
+        "temporary-removal-of-headphones-and-external-devices-precedes-the-built-in-sound-test",
+        "sound-during-the-built-in-test-shifts-the-next-check-to-the-signal-source-or-external-device-without-proving-a-cause",
+        "connected-headphones-can-route-sound-away-from-the-tv-speakers",
+        "if-the-sequence-does-not-restore-sound-samsung-routes-the-user-to-an-authorized-service-center"
+      ],
+      "conflicts": [
+        "the-source-includes-reset-and-firmware-later-in-its-flow-but-this-contract-does-not-authorize-either-as-a-first-step",
+        "a-silent-test-does-not-identify-a-failed-speaker-board-or-power-supply",
+        "menu-paths-and-test-availability-are-model-specific"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.samsung.com/ru/support/tv-audio-video/there-is-not-sound-on-tv/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "lg-no-sound",
+      "organization": "LG",
+      "title": "Звук телевизора LG не работает даже при переключении каналов",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413213150OLT",
+      "source_region": "ru-RU",
+      "source_updated_at": "2025-10-15",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "applies_to": [
+        "no-sound",
+        "lg-tv",
+        "sound-output",
+        "internal-tv-speaker",
+        "built-in-sound-test",
+        "set-top-box"
+      ],
+      "allowed_claims": [
+        "mute-volume-and-the-selected-sound-output-should-be-checked-before-deeper-action",
+        "the-internal-tv-speaker-can-be-selected-as-the-output-on-applicable-models",
+        "a-successful-lg-sound-test-shifts-the-next-check-to-the-set-top-box-or-current-source-without-proving-a-cause",
+        "if-the-safe-checks-do-not-resolve-the-symptom-lg-routes-the-user-to-service"
+      ],
+      "conflicts": [
+        "menu-paths-and-images-can-differ-by-model-and-webos-generation",
+        "the-source-discusses-a-set-top-box-but-does-not-allow-assuming-that-every-no-sound-case-is-caused-by-the-box",
+        "the-test-does-not-identify-an-internal-failed-component"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413213150OLT",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "sony-no-sound",
+      "organization": "Sony",
+      "title": "Что делать, если у телевизора нет звука, плохой звук или слышны негромкие шумы?",
+      "url": "https://www.sony.ru/electronics/support/articles/00090112",
+      "source_region": "ru-RU",
+      "source_updated_at": "2025-03-11",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "automation_blocked": true,
+      "applies_to": [
+        "no-sound",
+        "sony-tv",
+        "tv-speakers",
+        "mute",
+        "sound-output",
+        "external-audio-system"
+      ],
+      "allowed_claims": [
+        "disconnecting-user-accessible-hdmi-audio-devices-can-help-separate-tv-speakers-from-an-external-audio-system",
+        "volume-and-mute-are-safe-observations",
+        "tv-speakers-must-be-selected-if-sound-is-expected-from-the-built-in-speakers",
+        "external-audio-systems-require-the-corresponding-model-supported-output-path"
+      ],
+      "conflicts": [
+        "arc-and-external-audio-instructions-depend-on-the-exact-tv-audio-system-and-connection",
+        "the-page-lists-sound-reset-firmware-and-factory-reset-but-this-contract-does-not-authorize-factory-reset-as-an-early-generic-step",
+        "the-official-url-suffix-differs-from-the-displayed-article-number-00095946",
+        "the-source-does-not-identify-an-internal-failed-component"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 403,
+        "final_url": "https://www.sony.ru/electronics/support/articles/00090112",
+        "interpretation": "automation_blocked; content was available through browser-indexed retrieval; do-not-mark-dead"
+      }
+    },
+    {
+      "id": "samsung-remote-not-working",
+      "organization": "Samsung",
+      "title": "Что делать, если не работает пульт от телевизора Samsung?",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/tv-remote-control-is-not-working/",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-07-03",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "applies_to": [
+        "remote-not-working",
+        "samsung-tv",
+        "infrared-remote",
+        "smart-control-remote",
+        "battery",
+        "pairing",
+        "receiver-obstruction"
+      ],
+      "allowed_claims": [
+        "battery-charge-and-polarity-should-be-checked-before-deeper-action",
+        "an-infrared-remote-needs-line-of-sight-to-the-tv-receiver",
+        "a-phone-camera-observation-applies-only-to-an-infrared-remote-and-samsung-notes-that-an-iphone-front-camera-may-be-required",
+        "a-smart-control-remote-uses-a-different-bluetooth-or-pairing-path",
+        "if-a-confirmed-remote-sends-a-signal-but-the-tv-does-not-respond-samsung-routes-the-user-to-service"
+      ],
+      "conflicts": [
+        "a-camera-test-does-not-test-a-bluetooth-smart-control-remote",
+        "a-visible-infrared-flash-does-not-prove-that-the-tv-receiver-or-every-button-works",
+        "pairing-key-combinations-and-menu-paths-vary-by-remote-model-and-tv-series",
+        "the-source-lists-reset-and-software-update-later-in-the-flow-but-this-contract-does-not-authorize-them-as-first-steps"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.samsung.com/ru/support/tv-audio-video/tv-remote-control-is-not-working/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "lg-remote-not-responding",
+      "organization": "LG",
+      "title": "Пульт дистанционного управления телевизором LG не отвечает",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413220443",
+      "source_region": "ru-RU",
+      "source_updated_at": "2025-10-15",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "applies_to": [
+        "remote-not-working",
+        "lg-tv",
+        "lg-ai-or-magic-remote",
+        "battery",
+        "receiver-obstruction"
+      ],
+      "allowed_claims": [
+        "a-non-lighting-remote-led-can-be-a-reason-to-replace-both-batteries-on-the-applicable-lg-remote",
+        "an-object-or-soundbar-blocking-the-tv-receiver-can-prevent-remote-reception",
+        "menu-images-and-exact-remote-behavior-can-differ-by-model"
+      ],
+      "conflicts": [
+        "the-led-observation-is-specific-to-applicable-lg-ai-or-magic-remotes-and-is-not-a-cross-brand-test",
+        "the-source-does-not-prove-that-every-lg-remote-has-the-same-led-or-pairing-procedure",
+        "removing-an-obstruction-does-not-diagnose-the-tv-receiver"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413220443",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "sony-remote-not-working",
+      "organization": "Sony",
+      "title": "Помогите! Пульт ДУ моего телевизора не работает",
+      "url": "https://www.sony.ru/electronics/support/articles/00256916",
+      "source_region": "ru-RU",
+      "source_updated_at": "2025-03-11",
+      "checked_at": "2026-08-01T13:41:09Z",
+      "automation_blocked": true,
+      "applies_to": [
+        "remote-not-working",
+        "sony-tv",
+        "original-tv-remote",
+        "set-top-box-remote",
+        "battery",
+        "tv-body-buttons",
+        "infrared-or-bluetooth-type-isolation"
+      ],
+      "allowed_claims": [
+        "a-third-party-tuner-or-set-top-box-can-require-its-own-remote-for-channel-control",
+        "batteries-can-be-removed-reinserted-with-correct-polarity-and-replaced-before-deeper-action",
+        "model-documented-tv-body-buttons-can-help-separate-a-tv-response-problem-from-a-remote-only-problem",
+        "remote-troubleshooting-must-branch-by-infrared-versus-wireless-or-bluetooth-type",
+        "unresolved-tv-or-remote-behavior-is-routed-to-official-support"
+      ],
+      "conflicts": [
+        "the-article-applies-only-to-listed-products-and-links-separate-procedures-for-specific-remote-types",
+        "a-tv-body-button-location-must-come-from-the-exact-model-manual",
+        "the-page-lists-power-reset-and-updates-but-this-contract-does-not-authorize-factory-reset-as-an-early-generic-step",
+        "the-official-url-suffix-differs-from-the-displayed-article-number-00256924"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 403,
+        "final_url": "https://www.sony.ru/electronics/support/articles/00256916",
+        "interpretation": "automation_blocked; content was available through browser-indexed retrieval; do-not-mark-dead"
+      }
+    },
+    {
+      "id": "google-android-tv-phone-remote",
+      "organization": "Google",
+      "title": "Как использовать телефон в качестве пульта для Android TV",
+      "url": "https://support.google.com/androidtv/answer/6122465?hl=ru",
+      "source_region": "ru",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T13:41:09Z",
+      "applies_to": [
+        "remote-not-working",
+        "android-tv",
+        "android-phone",
+        "google-tv-app",
+        "virtual-remote",
+        "same-wifi-network"
+      ],
+      "allowed_claims": [
+        "the-google-tv-app-on-an-android-phone-or-tablet-can-control-a-compatible-android-tv-after-supported-pairing",
+        "phone-and-android-tv-must-use-the-same-wifi-network-for-the-documented-connection-path",
+        "the-user-selects-the-device-and-completes-the-on-screen-pairing-instructions"
+      ],
+      "conflicts": [
+        "the-source-does-not-authorize-claiming-support-for-non-android-tv-models",
+        "a-phone-remote-may-not-help-if-the-tv-is-not-already-on-the-network-or-the-user-cannot-complete-on-screen-pairing",
+        "the-source-does-not-diagnose-the-physical-remote-or-the-tv-receiver"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://support.google.com/androidtv/answer/6122465?hl=ru",
+        "interpretation": "reachable"
+      }
+    }
+  ],
+  "known_conflicts": [
+    {
+      "id": "visible-tv-overlay-is-isolation-not-hardware-diagnosis",
+      "canonicals": [
+        "sound-but-no-picture"
+      ],
+      "resolution": "Treat a visible Home menu, volume overlay or built-in test only as evidence that the next check should move to the current input, content, app, cable or external device. Never infer the condition of a panel, backlight, power supply or board."
+    },
+    {
+      "id": "silent-current-source-vs-silent-built-in-test",
+      "canonicals": [
+        "no-sound"
+      ],
+      "resolution": "First select the intended output and run the manufacturer test where supported. Sound in the test routes the user to the source or provider; a silent or unavailable test routes to official model support without naming a failed component."
+    },
+    {
+      "id": "infrared-vs-smart-remote",
+      "canonicals": [
+        "remote-not-working"
+      ],
+      "resolution": "Require the exact remote type. Camera observations apply only to infrared remotes; pairing procedures apply only to the matching Bluetooth or radio remote family."
+    },
+    {
+      "id": "tv-remote-vs-set-top-box-remote",
+      "canonicals": [
+        "remote-not-working"
+      ],
+      "resolution": "Ask which device the user is trying to control. A provider set-top box can require its own remote, so failure to change channels with the television remote is not evidence that either device is broken."
+    },
+    {
+      "id": "phone-remote-is-conditional",
+      "canonicals": [
+        "remote-not-working"
+      ],
+      "resolution": "Offer the Google TV phone remote only for confirmed Android TV compatibility, an Android phone, same-network access and a pairing path the user can complete. Otherwise keep it unavailable."
+    }
+  ],
+  "global_denials": [
+    "opening-or-removing-the-tv-back-cover",
+    "opening-a-remote-beyond-the-user-accessible-battery-compartment",
+    "live-voltage-testing-or-probing",
+    "capacitor-discharge-or-power-supply-repair",
+    "backlight-strip-led-driver-panel-main-board-tcon-audio-board-speaker-or-receiver-board-repair",
+    "flashlight-test-as-a-hardware-fault-certificate",
+    "service-menu-hidden-menu-or-firmware-service-mode",
+    "soldering-component-replacement-or-board-swapping",
+    "hardware-fault-diagnosis-from-a-web-questionnaire-camera-observation-overlay-or-browser-pattern",
+    "factory-reset-first",
+    "firmware-update-first",
+    "unofficial-firmware-driver-or-service-manual",
+    "generic-cross-brand-menu-or-pairing-key-combination",
+    "infrared-camera-test-for-a-bluetooth-or-radio-remote",
+    "phone-remote-success-without-confirmed-platform-network-and-pairing",
+    "purchase-or-affiliate-cta-before-source-isolation-and-independent-result"
+  ],
+  "global_fail_closed": [
+    "When brand, exact model, year, platform, input, intended audio output or remote type is unknown, return a manual model check instead of a precise menu path or diagnosis.",
+    "When official sources conflict, use the narrower brand-model-platform instruction and display the limitation.",
+    "When there is screen damage, liquid, corrosion, a swollen battery, burning smell, smoke, unusual heat, a damaged power cord or a red blinking indicator, stop self-service and route to official support or emergency electrical safety as appropriate.",
+    "When no television-owned menu, overlay or built-in test is visible in a sound-but-no-picture case, stop before naming an internal component and route to official model support.",
+    "When a built-in sound test is silent or unavailable after television speakers are explicitly selected, stop before naming an internal component and route to official model support.",
+    "When only one channel, app, input or external device fails, route to that source or provider and do not classify the whole television as faulty.",
+    "When the remote type is unknown, do not run an infrared camera test or publish a pairing-key sequence.",
+    "When a phone remote requires a platform, same network or on-screen pairing that is not confirmed, keep the phone-control result unavailable.",
+    "When a safe check would require moving a wall-mounted television, reaching an inaccessible plug, opening equipment, touching mains wiring, using a meter or soldering, stop the self-service path.",
+    "When an automated request returns 403 but browser retrieval still exposes the official source, mark automation_blocked and keep the source pending manual recheck rather than dead."
+  ]
+}

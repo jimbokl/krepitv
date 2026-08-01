@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "run": "20260801-tv-diagnostics-cohort-3",
+  "generated_at": "2026-08-01T14:23:49.912412+00:00",
+  "scanned_files": [
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/components/Brand.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/src/pages/HomePage.jsx"
+  ],
+  "findings": []
+}
