@@ -79,6 +79,9 @@ const tvTrafficTaskByPageId = new Map([
   ["smart-tv-box", "smart-tv-box"],
   ["tv-speakers", "tv-speakers"],
   ["tv-headphones", "tv-headphones"],
+  ["tv-firmware-update", "tv-firmware-update"],
+  ["tv-app-install", "tv-app-install"],
+  ["tv-factory-reset", "tv-factory-reset"],
 ]);
 
 const trafficUtilityCtas = {
@@ -200,6 +203,27 @@ const trafficUtilityCtas = {
     href: "/televizor-sam-vyklyuchaetsya/",
     label: "Проверить отключение",
     shortLabel: "Диагностика отключения",
+  },
+  "tv-firmware-update": {
+    title: "Нужно установить приложение?",
+    description: "После обновления проверьте приложение в официальном магазине именно вашей платформы и региона.",
+    href: "/kak-ustanovit-prilozhenie-na-televizor/",
+    label: "Открыть мастер приложений",
+    shortLabel: "Установка приложения",
+  },
+  "tv-app-install": {
+    title: "Магазин не открывается?",
+    description: "Отделите отсутствие приложения от проблемы сети во всех онлайн-сервисах телевизора.",
+    href: "/televizor-ne-podklyuchaetsya-k-internetu/",
+    label: "Проверить подключение",
+    shortLabel: "Диагностика интернета",
+  },
+  "tv-factory-reset": {
+    title: "Телевизор выключается сам?",
+    description: "Перед удалением данных проверьте таймеры, внешние устройства и опасные признаки отдельным мастером.",
+    href: "/televizor-sam-vyklyuchaetsya/",
+    label: "Проверить отключения",
+    shortLabel: "Диагностика отключений",
   },
 };
 

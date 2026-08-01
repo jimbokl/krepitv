@@ -1,0 +1,330 @@
+{
+  "version": 1,
+  "cohort_id": "tv-utility-cohort-7",
+  "retrieved_at": "2026-08-01",
+  "scope": {
+    "market": "Russia",
+    "language": "ru",
+    "source_policy": "primary-official-only",
+    "purpose": "Source, claim and fail-closed boundaries for three local television utility wizards: firmware update, application installation and factory reset. No repair, purchase, affiliate CTA, advertising or server-side collection is authorized."
+  },
+  "canonicals": [
+    {
+      "id": "tv-firmware-update",
+      "path": "/kak-obnovit-televizor/",
+      "strict_query": "как обновить телевизор",
+      "strict_demand": 32685,
+      "job": "Route the owner to the exact-model official network or official USB firmware update path, or stop when the model, package or current update state is not safely confirmed.",
+      "source_ids": [
+        "samsung-tv-update-online",
+        "samsung-tv-update-usb",
+        "samsung-tv-firmware-model",
+        "lg-tv-update",
+        "sony-tv-update",
+        "yaos-tv-update"
+      ],
+      "allowed_claims": [
+        "firmware-instructions-and-files-must-match-the-exact-television-model",
+        "the-official-network-update-route-is-preferred-when-the-exact-model-offers-it",
+        "a-usb-update-is-allowed-only-with-the-manufacturers-exact-model-package-and-instructions",
+        "a-running-update-must-not-be-interrupted-or-powered-off"
+      ],
+      "fail_closed": [
+        "the-exact-model-or-official-model-page-cannot-be-confirmed",
+        "the-download-or-usb-package-is-not-from-the-official-manufacturer-source",
+        "the-update-is-already-running",
+        "the-device-cable-outlet-or-usb-media-is-damaged-hot-loose-or-wet",
+        "the-user-is-being-directed-to-a-service-menu-downgrade-or-third-party-firmware"
+      ]
+    },
+    {
+      "id": "tv-app-install",
+      "path": "/kak-ustanovit-prilozhenie-na-televizor/",
+      "strict_query": "как установить приложение на телевизор",
+      "strict_demand": 16195,
+      "job": "Route the owner to the official application store supported by the exact television platform and stop without promising availability when the app, account, network or platform is not confirmed.",
+      "source_ids": [
+        "samsung-tv-app-install",
+        "lg-tv-app-install",
+        "google-tv-app-install",
+        "yaos-tv-apps"
+      ],
+      "allowed_claims": [
+        "applications-are-installed-through-the-official-store-or-catalog-supported-by-the-television-platform",
+        "application-availability-can-depend-on-the-exact-model-platform-account-and-region",
+        "network-account-and-free-space-may-be-required-by-the-official-platform-flow",
+        "an-app-that-is-not-in-the-official-store-is-not-guaranteed-compatible"
+      ],
+      "fail_closed": [
+        "the-television-platform-or-exact-model-is-unknown",
+        "the-application-is-not-present-in-the-official-platform-store",
+        "the-only-offered-path-is-a-third-party-apk-or-unverified-sideload",
+        "the-device-has-no-working-network-required-account-or-sufficient-free-space",
+        "the-user-is-asked-for-account-passwords-or-device-identifiers"
+      ]
+    },
+    {
+      "id": "tv-factory-reset",
+      "path": "/kak-sbrosit-televizor-do-zavodskih-nastroek/",
+      "strict_query": "как сбросить телевизор до заводских настроек",
+      "strict_demand": 7940,
+      "job": "Distinguish a harmless restart from a destructive factory reset, require explicit readiness to erase local settings and use only the exact-model normal settings menu.",
+      "source_ids": [
+        "samsung-tv-reset",
+        "lg-tv-reset",
+        "sony-tv-reset",
+        "yaos-tv-reset"
+      ],
+      "allowed_claims": [
+        "a-factory-reset-is-destructive-and-can-remove-local-settings-accounts-and-installed-applications",
+        "a-restart-and-a-factory-reset-are-different-actions",
+        "the-exact-model-normal-settings-menu-takes-priority-over-a-generic-button-sequence",
+        "a-running-firmware-update-must-not-be-interrupted-by-a-reset"
+      ],
+      "fail_closed": [
+        "the-user-has-not-explicitly-confirmed-readiness-to-erase-local-settings",
+        "the-exact-model-or-normal-menu-path-cannot-be-confirmed",
+        "the-firmware-update-is-running",
+        "the-only-available-instruction-uses-a-service-menu-or-universal-hidden-button-combination",
+        "the-device-cable-outlet-or-controls-are-damaged-hot-loose-or-wet"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "samsung-tv-update-online",
+      "organization": "Samsung",
+      "title": "Как обновить прошивку телевизора Samsung через интернет",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-can-i-update-the-samsung-tv-firmware-through-the-internet/",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["official-network-update-path", "do-not-turn-off-a-running-update"],
+      "limitations": ["samsung-only", "menu-names-and-availability-depend-on-the-exact-model"],
+      "conflicts": []
+    },
+    {
+      "id": "samsung-tv-update-usb",
+      "organization": "Samsung",
+      "title": "Как обновить прошивку телевизора Samsung с помощью USB-накопителя",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-can-i-update-the-samsung-tv-firmware-using-a-usb-memory-stick/",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["official-usb-update-path", "firmware-package-must-match-the-model"],
+      "limitations": ["samsung-only", "does-not-authorize-third-party-firmware-or-downgrade"],
+      "conflicts": []
+    },
+    {
+      "id": "samsung-tv-firmware-model",
+      "organization": "Samsung",
+      "title": "Где скачать прошивку для телевизора Samsung",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-download-a-firmware-for-my-samsung-tv/",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["firmware-is-selected-on-the-official-exact-model-page", "model-matching-precedes-download"],
+      "limitations": ["samsung-only", "the-site-does-not-store-or-redistribute-firmware"],
+      "conflicts": []
+    },
+    {
+      "id": "lg-tv-update",
+      "organization": "LG",
+      "title": "Как обновить программное обеспечение телевизора LG",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413220386OLT",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["official-lg-update-flow", "update-path-depends-on-the-exact-model-and-software"],
+      "limitations": ["lg-only", "menu-names-can-vary-by-model-and-webos-version"],
+      "conflicts": []
+    },
+    {
+      "id": "sony-tv-update",
+      "organization": "Sony",
+      "title": "Обновление программного обеспечения телевизора Sony",
+      "url": "https://www.sony.ru/electronics/support/articles/00119543",
+      "checked_at": "2026-08-01",
+      "automation_blocked": true,
+      "http_status": 403,
+      "interpretation": "browser-readable; do not mark dead",
+      "source_region": "RU",
+      "extracted_facts": ["official-sony-update-flow", "update-method-and-menu-depend-on-the-exact-model"],
+      "limitations": ["automated-get-is-blocked", "sony-only"],
+      "conflicts": []
+    },
+    {
+      "id": "yaos-tv-update",
+      "organization": "Yandex",
+      "title": "Обновление прошивки телевизора с YaOS",
+      "url": "https://alice.yandex.ru/support/ru/tv/settings/update-firmware",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["official-yaos-update-flow", "running-update-must-complete-before-power-interruption"],
+      "limitations": ["yaos-only", "does-not-cover-another-smart-tv-platform"],
+      "conflicts": []
+    },
+    {
+      "id": "samsung-tv-app-install",
+      "organization": "Samsung",
+      "title": "Как установить приложение на телевизор Samsung",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-install-an-app-on-samsung-tv/",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["applications-are-installed-from-the-supported-tv-app-store", "availability-depends-on-model-platform-and-region"],
+      "limitations": ["samsung-only", "does-not-prove-that-a-specific-app-is-available"],
+      "conflicts": []
+    },
+    {
+      "id": "lg-tv-app-install",
+      "organization": "LG",
+      "title": "Как устанавливать приложения на телевизор LG",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155331408377",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["applications-use-the-official-lg-content-store-flow", "network-account-and-space-can-be-required"],
+      "limitations": ["lg-only", "menu-and-catalog-availability-depend-on-model-webos-and-region"],
+      "conflicts": []
+    },
+    {
+      "id": "google-tv-app-install",
+      "organization": "Google",
+      "title": "Как скачать и удалить приложения и игры на Google TV",
+      "url": "https://support.google.com/googletv/answer/10050570?hl=ru",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU-localized",
+      "extracted_facts": ["applications-are-installed-through-the-supported-google-tv-store", "account-and-device-compatibility-can-affect-availability"],
+      "limitations": ["google-tv-only", "does-not-authorize-unverified-apk-sideloading"],
+      "conflicts": []
+    },
+    {
+      "id": "yaos-tv-apps",
+      "organization": "Yandex",
+      "title": "Приложения на телевизоре с YaOS",
+      "url": "https://alice.yandex.ru/support/ru/tv/apps/tv-yndx",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["applications-use-the-supported-yaos-catalog", "catalog-availability-is-platform-dependent"],
+      "limitations": ["yaos-only", "does-not-prove-that-a-specific-app-is-available"],
+      "conflicts": []
+    },
+    {
+      "id": "samsung-tv-reset",
+      "organization": "Samsung",
+      "title": "Как сбросить настройки телевизора Samsung",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-do-i-reset-settings-on-my-samsung-tv/",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["factory-reset-uses-the-supported-normal-menu", "reset-removes-local-settings"],
+      "limitations": ["samsung-only", "menu-path-and-pin-behavior-depend-on-the-exact-model", "non-certified-models-may-have-different-behavior"],
+      "conflicts": []
+    },
+    {
+      "id": "lg-tv-reset",
+      "organization": "LG",
+      "title": "Как сбросить телевизор LG до заводских настроек",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154159901753",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["factory-reset-is-a-destructive-settings-action", "normal-menu-path-depends-on-the-model-and-webos-version"],
+      "limitations": ["lg-only", "does-not-authorize-service-menu-access"],
+      "conflicts": []
+    },
+    {
+      "id": "sony-tv-reset",
+      "organization": "Sony",
+      "title": "Как сбросить телевизор Sony до заводских настроек",
+      "url": "https://www.sony.ru/electronics/support/articles/00262856",
+      "checked_at": "2026-08-01",
+      "automation_blocked": true,
+      "http_status": 403,
+      "interpretation": "browser-readable; do not mark dead",
+      "source_region": "RU",
+      "extracted_facts": ["restart-and-factory-reset-are-distinct-actions", "reset-flow-depends-on-the-exact-sony-platform-and-model"],
+      "limitations": ["automated-get-is-blocked", "sony-only"],
+      "conflicts": []
+    },
+    {
+      "id": "yaos-tv-reset",
+      "organization": "Yandex",
+      "title": "Сброс настроек телевизора с YaOS",
+      "url": "https://alice.yandex.ru/support/ru/tv/settings/reset-settings",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "extracted_facts": ["factory-reset-uses-the-supported-yaos-settings-flow", "reset-erases-local-configuration"],
+      "limitations": ["yaos-only", "does-not-cover-another-smart-tv-platform"],
+      "conflicts": []
+    }
+  ],
+  "claim_source_map": [
+    {
+      "claim_id": "update-exact-model",
+      "claim": "Firmware instructions and packages must match the exact television model and come from an official manufacturer source.",
+      "source_ids": ["samsung-tv-update-online", "samsung-tv-update-usb", "samsung-tv-firmware-model", "lg-tv-update", "sony-tv-update", "yaos-tv-update"],
+      "evidence_mode": "direct-official-model-boundary"
+    },
+    {
+      "claim_id": "update-network-or-official-usb",
+      "claim": "Only the exact-model official network route or exact-model official USB route is presented.",
+      "source_ids": ["samsung-tv-update-online", "samsung-tv-update-usb", "samsung-tv-firmware-model", "lg-tv-update", "sony-tv-update", "yaos-tv-update"],
+      "evidence_mode": "conservative-union-of-official-platform-flows"
+    },
+    {
+      "claim_id": "update-no-interruption",
+      "claim": "A firmware update already in progress must not be interrupted or followed by a factory reset.",
+      "source_ids": ["samsung-tv-update-online", "samsung-tv-update-usb", "yaos-tv-update"],
+      "evidence_mode": "direct-operational-safety-boundary"
+    },
+    {
+      "claim_id": "apps-official-store-only",
+      "claim": "The wizard routes only through the official application store or catalog supported by the television platform.",
+      "source_ids": ["samsung-tv-app-install", "lg-tv-app-install", "google-tv-app-install", "yaos-tv-apps"],
+      "evidence_mode": "direct-official-platform-flow"
+    },
+    {
+      "claim_id": "apps-no-availability-promise",
+      "claim": "Availability of a specific application is not promised because it can depend on model, platform, account and region.",
+      "source_ids": ["samsung-tv-app-install", "lg-tv-app-install", "google-tv-app-install", "yaos-tv-apps"],
+      "evidence_mode": "conservative-official-platform-boundary"
+    },
+    {
+      "claim_id": "apps-no-sideload",
+      "claim": "A third-party APK or unverified sideload is not presented as a universal installation route.",
+      "source_ids": ["samsung-tv-app-install", "lg-tv-app-install", "google-tv-app-install", "yaos-tv-apps"],
+      "evidence_mode": "fail-closed-policy-from-documented-official-store-routes"
+    },
+    {
+      "claim_id": "reset-is-destructive",
+      "claim": "A factory reset is destructive and is different from a restart; it requires explicit readiness to erase local settings.",
+      "source_ids": ["samsung-tv-reset", "lg-tv-reset", "sony-tv-reset", "yaos-tv-reset"],
+      "evidence_mode": "direct-official-reset-boundary-plus-explicit-consent-policy"
+    },
+    {
+      "claim_id": "reset-normal-menu-exact-model",
+      "claim": "Only the exact-model normal settings menu is used; service menus and universal hidden button sequences are excluded.",
+      "source_ids": ["samsung-tv-reset", "lg-tv-reset", "sony-tv-reset", "yaos-tv-reset"],
+      "evidence_mode": "conservative-union-of-official-normal-menu-flows"
+    }
+  ],
+  "global_denials": [
+    "firmware-file-hosting-or-redistribution",
+    "third-party-firmware-or-downgrade",
+    "interrupting-a-running-update",
+    "unverified-apk-or-universal-sideload",
+    "promising-application-availability-for-every-model-region-or-platform",
+    "factory-reset-without-explicit-destructive-confirmation",
+    "service-menu-or-universal-hidden-button-instructions",
+    "reset-as-a-generic-first-troubleshooting-step",
+    "opening-moving-or-repairing-a-television",
+    "collecting-account-password-model-network-or-device-identifiers",
+    "purchase-affiliate-or-advertising-cta-before-the-traffic-gate"
+  ]
+}

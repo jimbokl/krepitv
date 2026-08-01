@@ -1,0 +1,18 @@
+{
+  "product": "KREPI TV — бесплатные локальные мастера для владельцев телевизоров",
+  "intended_conversion": "Завершение полезного локального результата без регистрации, покупки, партнёрской ссылки или передачи введённых данных на сервер",
+  "relevance_rule": "Повторная проверка только лидирующих самостоятельных задач из разведочного батча; фиксируются ключевые словоформы, а разные формулировки одного canonical не суммируются",
+  "region": "Россия, идентификатор 225",
+  "period": "Top queries, последний месяц на дату сбора",
+  "devices": "все устройства",
+  "currency": "не применимо: CPC не собирается",
+  "search_scope": "SEO-спрос Wordstat; строгая проверка словоформ, не прогноз переходов и не рекламный запуск",
+  "candidate_batch_size": 15,
+  "authorization": "только исследование; реклама, партнёрские офферы и расход не разрешены",
+  "interpretation": "Частоты вариантов одного canonical пересекаются и не суммируются. Строгая частота служит evidence gate, но не гарантирует позицию, клик или посетителя.",
+  "output_paths": {
+    "seeds": "data/research/tv-utility-cohort-7-validation-seeds-2026-08-01.json",
+    "manifest": "data/research/tv-utility-cohort-7-validation-demand-2026-08-01.json",
+    "raw": "product-docs/research/raw/wordstat-tv-utility-cohort-7-validation-2026-08-01/"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "id": "20260801-cohort-7-smart-tv",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root + /root/cohort7_engine (engine only)",
+  "created_at": "2026-08-01T18:34:42.406660+00:00",
+  "states": [
+    "empty",
+    "default",
+    "disabled",
+    "focus",
+    "loading",
+    "error",
+    "success",
+    "needs-check",
+    "external-path",
+    "service-boundary"
+  ],
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800},
+    {"id": "tablet", "width": 768, "height": 1024},
+    {"id": "desktop", "width": 1440, "height": 900}
+  ],
+  "allowed_files": [
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "data/research/tv-utility-cohort-7-*",
+    "product-docs/research/TV_UTILITY_COHORT_7_2026-08-01.md",
+    "product-docs/research/raw/wordstat-tv-utility-cohort-7-*/**",
+    "product-docs/operations/traffic-goal-1000-daily-2026-08-01.md",
+    "product-docs/operations/traffic-release-tv-utility-cohort-7-2026-08-01.md",
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/SeoPage.jsx",
+    "web/tests/tv-utility-cohort-7.test.mjs",
+    "web/tests/seo-pages.test.mjs",
+    "web/tests/result-instrumentation.test.mjs",
+    "scripts/qa/capture-page.mjs",
+    "scripts/verify.mjs",
+    "web/public/pkg/**",
+    "web/public/sitemap.xml",
+    "web/kak-obnovit-televizor/**",
+    "web/kak-ustanovit-prilozhenie-na-televizor/**",
+    "web/kak-sbrosit-televizor-do-zavodskih-nastroek/**",
+    "docs/**",
+    ".design-harness/runs/20260801-cohort-7-smart-tv/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-rust-cohort-7",
+      "command": "cargo test -p krepitv-engine tv_utility_cohort_7 -- --nocapture",
+      "required": true,
+      "covers": ["closed enums", "fail closed", "destructive confirmation", "stable WASM shape"]
+    },
+    {
+      "id": "cmd-sitegen-cohort-7",
+      "command": "cargo test -p krepitv-sitegen tv_utility_cohort_7 -- --nocapture",
+      "required": true,
+      "covers": ["three canonicals", "substantive SSR", "source parity", "no Market"]
+    },
+    {
+      "id": "cmd-web-cohort-7",
+      "command": "node --test --test-concurrency=1 web/tests/tv-utility-cohort-7.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "required": true,
+      "covers": ["all states", "privacy", "sources", "WASM call order", "related links"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["complete artifact", "full regression", "sitemap", "Russian UI"]
+    },
+    {
+      "id": "cmd-diff-check",
+      "command": "git diff --check",
+      "required": true,
+      "covers": ["text integrity", "scoped implementation"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "task-contract",
+      "value": "tv-firmware-update · tv-app-install · tv-factory-reset",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "canonical-paths",
+      "value": "/kak-obnovit-televizor/ · /kak-ustanovit-prilozhenie-na-televizor/ · /kak-sbrosit-televizor-do-zavodskih-nastroek/",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "destructive-boundary",
+      "value": "Полный сброс удаляет пользовательские настройки, настроенные каналы, аккаунты/данные и установленные приложения; прошивка не откатывается.",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "privacy-boundary",
+      "value": "Ответы остаются в браузере; модель, аккаунт, сеть и другие идентификаторы не вводятся и не отправляются.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "update-boundary",
+      "text": "Системное обновление выбирают только для точной модели и официального пути; процесс нельзя прерывать выключением питания или извлечением USB.",
+      "source_ids": ["samsung-tv-update-online", "samsung-tv-update-usb", "samsung-tv-firmware-model", "lg-tv-update", "sony-tv-update", "yaos-tv-update"]
+    },
+    {
+      "id": "app-store-boundary",
+      "text": "Установка идёт через официальный магазин платформы; наличие приложения зависит от модели, платформы, региона и магазина.",
+      "source_ids": ["samsung-tv-app-install", "lg-tv-app-install", "google-tv-app-install", "yaos-tv-apps"]
+    },
+    {
+      "id": "reset-boundary",
+      "text": "Заводской сброс является деструктивным действием и выполняется только после проверки последствий и инструкции точной модели.",
+      "source_ids": ["samsung-tv-reset", "lg-tv-reset", "sony-tv-reset", "yaos-tv-reset"]
+    }
+  ],
+  "sources": [
+    {"id": "samsung-tv-update-online", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-can-i-update-the-samsung-tv-firmware-through-the-internet/", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "samsung-tv-update-usb", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-can-i-update-the-samsung-tv-firmware-using-a-usb-memory-stick/", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "samsung-tv-firmware-model", "url": "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-download-a-firmware-for-my-samsung-tv/", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "lg-tv-update", "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413220386OLT", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "sony-tv-update", "url": "https://www.sony.ru/electronics/support/articles/00119543", "retrieved_at": "2026-08-01T18:40:00Z", "notes": "browser-readable; automated GET may be blocked"},
+    {"id": "yaos-tv-update", "url": "https://alice.yandex.ru/support/ru/tv/settings/update-firmware", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "samsung-tv-app-install", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-install-an-app-on-samsung-tv/", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "lg-tv-app-install", "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155331408377", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "google-tv-app-install", "url": "https://support.google.com/googletv/answer/10050570?hl=ru", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "yaos-tv-apps", "url": "https://alice.yandex.ru/support/ru/tv/apps/tv-yndx", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "samsung-tv-reset", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-do-i-reset-settings-on-my-samsung-tv/", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "lg-tv-reset", "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154159901753", "retrieved_at": "2026-08-01T18:40:00Z"},
+    {"id": "sony-tv-reset", "url": "https://www.sony.ru/electronics/support/articles/00262856", "retrieved_at": "2026-08-01T18:40:00Z", "notes": "browser-readable; automated GET may be blocked"},
+    {"id": "yaos-tv-reset", "url": "https://alice.yandex.ru/support/ru/tv/settings/reset-settings", "retrieved_at": "2026-08-01T18:40:00Z"}
+  ]
+}

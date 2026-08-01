@@ -1,0 +1,107 @@
+[
+  {
+    "candidate_id": "tv-firmware-update",
+    "candidate_path": "/kak-obnovit-televizor/",
+    "query": "как обновить телевизор",
+    "variant": "how-to-fixed-wordforms",
+    "operator_query": "\"[как !обновить !телевизор]\""
+  },
+  {
+    "candidate_id": "tv-app-install",
+    "candidate_path": "/kak-ustanovit-prilozhenie-na-televizor/",
+    "query": "как установить приложение на телевизор",
+    "variant": "install-fixed-wordforms",
+    "operator_query": "\"[как !установить !приложение на !телевизор]\""
+  },
+  {
+    "candidate_id": "tv-app-install",
+    "candidate_path": "/kak-ustanovit-prilozhenie-na-televizor/",
+    "query": "как скачать приложение на телевизор",
+    "variant": "download-fixed-wordforms",
+    "operator_query": "\"[как !скачать !приложение на !телевизор]\""
+  },
+  {
+    "candidate_id": "tv-app-install",
+    "candidate_path": "/kak-ustanovit-prilozhenie-na-televizor/",
+    "query": "как удалить приложение с телевизора",
+    "variant": "remove-fixed-wordforms",
+    "operator_query": "\"[как !удалить !приложение с !телевизора]\""
+  },
+  {
+    "candidate_id": "tv-antenna-connect",
+    "candidate_path": "/kak-podklyuchit-antennu-k-televizoru/",
+    "query": "как настроить антенну на телевизоре",
+    "variant": "configure-fixed-wordforms",
+    "operator_query": "\"[как !настроить !антенну на !телевизоре]\""
+  },
+  {
+    "candidate_id": "tv-antenna-connect",
+    "candidate_path": "/kak-podklyuchit-antennu-k-televizoru/",
+    "query": "как подключить антенну к телевизору",
+    "variant": "connect-fixed-wordforms",
+    "operator_query": "\"[как !подключить !антенну к !телевизору]\""
+  },
+  {
+    "candidate_id": "phone-tv-remote",
+    "candidate_path": "/kak-upravlyat-televizorom-s-telefona/",
+    "query": "пульт для телевизора на телефоне",
+    "variant": "remote-fixed-wordforms",
+    "operator_query": "\"[!пульт для !телевизора на !телефоне]\""
+  },
+  {
+    "candidate_id": "phone-tv-remote",
+    "candidate_path": "/kak-upravlyat-televizorom-s-telefona/",
+    "query": "как управлять телевизором с телефона",
+    "variant": "control-fixed-wordforms",
+    "operator_query": "\"[как !управлять !телевизором с !телефона]\""
+  },
+  {
+    "candidate_id": "tv-factory-reset",
+    "candidate_path": "/kak-sbrosit-televizor-do-zavodskih-nastroek/",
+    "query": "как сбросить телевизор до заводских настроек",
+    "variant": "how-to-fixed-wordforms",
+    "operator_query": "\"[как !сбросить !телевизор до !заводских !настроек]\""
+  },
+  {
+    "candidate_id": "tv-factory-reset",
+    "candidate_path": "/kak-sbrosit-televizor-do-zavodskih-nastroek/",
+    "query": "сброс настроек телевизора",
+    "variant": "short-fixed-wordforms",
+    "operator_query": "\"[!сброс !настроек !телевизора]\""
+  },
+  {
+    "candidate_id": "digital-box-connect",
+    "candidate_path": "/kak-podklyuchit-tsifrovuyu-pristavku-k-televizoru/",
+    "query": "как подключить цифровую приставку к телевизору",
+    "variant": "fixed-wordforms",
+    "operator_query": "\"[как !подключить !цифровую !приставку к !телевизору]\""
+  },
+  {
+    "candidate_id": "tv-youtube-recovery",
+    "candidate_path": "/ne-rabotaet-youtube-na-televizore/",
+    "query": "ютуб не работает на телевизоре",
+    "variant": "fixed-wordforms",
+    "operator_query": "\"[!ютуб !не !работает на !телевизоре]\""
+  },
+  {
+    "candidate_id": "tv-storage-cleanup",
+    "candidate_path": "/kak-ochistit-pamyat-televizora/",
+    "query": "как очистить память телевизора",
+    "variant": "fixed-wordforms",
+    "operator_query": "\"[как !очистить !память !телевизора]\""
+  },
+  {
+    "candidate_id": "tv-dark-screen",
+    "candidate_path": "/temnyy-ekran-na-televizore/",
+    "query": "темный экран на телевизоре",
+    "variant": "fixed-wordforms",
+    "operator_query": "\"[!темный !экран на !телевизоре]\""
+  },
+  {
+    "candidate_id": "tv-model-lookup",
+    "candidate_path": "/kak-uznat-model-televizora/",
+    "query": "как узнать модель телевизора",
+    "variant": "fixed-wordforms",
+    "operator_query": "\"[как !узнать !модель !телевизора]\""
+  }
+]

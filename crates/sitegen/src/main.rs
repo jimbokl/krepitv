@@ -49,6 +49,40 @@ const TV_UTILITY_COHORT_6: [(&str, &str, &[&str]); 3] = [
         &["samsung-tv-energy-fiche", "lg-tv-energy-spec"],
     ),
 ];
+const TV_UTILITY_COHORT_7: [(&str, &str, &[&str]); 3] = [
+    (
+        "tv-firmware-update",
+        "/kak-obnovit-televizor/",
+        &[
+            "samsung-tv-update-online",
+            "samsung-tv-update-usb",
+            "samsung-tv-firmware-model",
+            "lg-tv-update",
+            "sony-tv-update",
+            "yaos-tv-update",
+        ],
+    ),
+    (
+        "tv-app-install",
+        "/kak-ustanovit-prilozhenie-na-televizor/",
+        &[
+            "samsung-tv-app-install",
+            "lg-tv-app-install",
+            "google-tv-app-install",
+            "yaos-tv-apps",
+        ],
+    ),
+    (
+        "tv-factory-reset",
+        "/kak-sbrosit-televizor-do-zavodskih-nastroek/",
+        &[
+            "samsung-tv-reset",
+            "lg-tv-reset",
+            "sony-tv-reset",
+            "yaos-tv-reset",
+        ],
+    ),
+];
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -597,6 +631,9 @@ fn seo_page_lastmod(page: &SeoPage) -> &'static str {
             | "tv-speakers"
             | "tv-headphones"
             | "tv-energy-consumption"
+            | "tv-firmware-update"
+            | "tv-app-install"
+            | "tv-factory-reset"
             | "vesa"
             | "tv-mount-screws"
             | "mounting-height"
@@ -1521,6 +1558,30 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "tv-firmware-update" => &[
+                "tv-app-install",
+                "tv-factory-reset",
+                "tv-no-internet",
+                "tv-turns-off",
+                "tv-remote-not-working",
+                "smart-tv-box",
+            ],
+            "tv-app-install" => &[
+                "tv-no-internet",
+                "tv-firmware-update",
+                "smart-tv-box",
+                "tv-factory-reset",
+                "phone-to-tv",
+                "tv-remote-not-working",
+            ],
+            "tv-factory-reset" => &[
+                "tv-firmware-update",
+                "tv-app-install",
+                "tv-turns-off",
+                "tv-no-internet",
+                "tv-remote-not-working",
+                "picture-setup",
+            ],
             "tv-speakers" => &[
                 "soundbar-to-tv",
                 "tv-headphones",
@@ -1782,6 +1843,51 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "tv-firmware-update" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="tv-firmware-update" data-tv-utility-task="tv-firmware-update">
+<p class="font-mono text-xs uppercase text-action">Бренд → точная модель → официальный способ</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Выберите встроенное обновление или файл строго для своей модели</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">Начните со штатного обновления по сети, если оно доступно для точной модели. USB-путь допустим только по официальной инструкции производителя и с файлом, найденным по полному коду телевизора.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-utility-branch="network"><p class="font-mono text-xs uppercase text-action">Штатное обновление по сети</p><h3 class="mt-2 font-display text-2xl font-extrabold">Проверьте обновление в меню</h3><p class="mt-3 text-sm leading-relaxed text-muted">Подключите телевизор к устойчивой сети и откройте раздел обновления ПО по инструкции своего бренда и серии. Названия меню и необходимость аккаунта могут отличаться.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="official-usb"><p class="font-mono text-xs uppercase text-action">Официальный USB-путь</p><h3 class="mt-2 font-display text-2xl font-extrabold">Полный код модели обязателен</h3><p class="mt-3 text-sm leading-relaxed text-muted">Найдите точную модель на наклейке или в меню, затем скачайте файл только с её страницы поддержки. Не переносите прошивку с похожей серии и не используйте сторонний архив.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="unknown-or-running"><p class="font-mono text-xs uppercase text-action">Модель неизвестна или процесс идёт</p><h3 class="mt-2 font-display text-2xl font-extrabold">Не продолжайте наугад</h3><p class="mt-3 text-sm leading-relaxed text-muted">Если точная модель, источник файла или инструкция не подтверждены, остановитесь. Если установка уже началась, дождитесь штатного завершения и ничего не отключайте.</p></article>
+</div>
+<p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-utility-stop="true">Во время уже запущенного обновления не выключайте телевизор, не отключайте питание и не извлекайте USB. Не устанавливайте файл от другой модели и не входите в сервисное меню.</p>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-utility-next="tv-app-install">Обновление завершено, а нужно добавить сервис? Перейдите к <a class="font-semibold text-action underline underline-offset-4" href="/kak-ustanovit-prilozhenie-na-televizor/">мастеру установки приложений</a>.</p>
+<details class="mt-7 border border-line bg-white p-4"><summary class="cursor-pointer font-display font-bold">Официальные инструкции производителей</summary><nav class="mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2" aria-label="Официальные источники обновления телевизоров"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/how-can-i-update-the-samsung-tv-firmware-through-the-internet/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-update-online">Samsung: обновление по сети</a><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/how-can-i-update-the-samsung-tv-firmware-using-a-usb-memory-stick/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-update-usb">Samsung: обновление через USB</a><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/where-can-i-download-a-firmware-for-my-samsung-tv/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-firmware-model">Samsung: файл по модели</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20153413220386OLT" rel="noreferrer" target="_blank" data-tv-utility-source="lg-tv-update">LG: обновление телевизора</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00119543" rel="noreferrer" target="_blank" data-tv-utility-source="sony-tv-update">Sony: обновление ПО</a><a class="text-technical underline underline-offset-4" href="https://alice.yandex.ru/support/ru/tv/settings/update-firmware" rel="noreferrer" target="_blank" data-tv-utility-source="yaos-tv-update">YaOS: обновление прошивки</a></nav></details>
+</section>"#
+        }
+        "tv-app-install" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="tv-app-install" data-tv-utility-task="tv-app-install">
+<p class="font-mono text-xs uppercase text-action">Платформа → официальный магазин → доступность</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Устанавливайте приложение через магазин своей платформы</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">Tizen, webOS, Android или Google TV и YaOS используют разные каталоги. Сначала определите платформу точной модели, затем ищите приложение в официальном магазине — его наличие зависит от модели, версии системы и региона.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-utility-branch="official-store"><p class="font-mono text-xs uppercase text-action">Приложение есть в магазине</p><h3 class="mt-2 font-display text-2xl font-extrabold">Следуйте шагам своей платформы</h3><p class="mt-3 text-sm leading-relaxed text-muted">Подключите сеть, войдите в требуемый аккаунт, откройте официальный магазин и установите найденную версию для телевизора. Названия разделов различаются по брендам.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="not-found"><p class="font-mono text-xs uppercase text-action">Приложение не находится</p><h3 class="mt-2 font-display text-2xl font-extrabold">Проверьте модель и регион</h3><p class="mt-3 text-sm leading-relaxed text-muted">Уточните полный код телевизора, платформу, версию системы, регион аккаунта и наличие свободного места. Не обещайте доступность сервиса только потому, что он есть на телефоне.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="apk-or-unknown"><p class="font-mono text-xs uppercase text-action">Предлагают APK или платформа неизвестна</p><h3 class="mt-2 font-display text-2xl font-extrabold">Остановитесь до подтверждения</h3><p class="mt-3 text-sm leading-relaxed text-muted">APK не работает на Tizen, webOS или YaOS и не является универсальным путём даже для Android TV. Сначала подтвердите платформу и официальный источник.</p></article>
+</div>
+<p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-utility-stop="true">Не скачивайте приложение из случайного архива и не вводите на сайте KREPI TV пароль от телевизора или аккаунта. Если магазина нет или платформа неизвестна, мастер не придумывает обходной путь.</p>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-utility-next="tv-no-internet">Магазин не открывается из-за сети? Продолжите с <a class="font-semibold text-action underline underline-offset-4" href="/televizor-ne-podklyuchaetsya-k-internetu/">мастером подключения телевизора к интернету</a>.</p>
+<details class="mt-7 border border-line bg-white p-4"><summary class="cursor-pointer font-display font-bold">Официальные инструкции платформ</summary><nav class="mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2" aria-label="Официальные источники установки приложений"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/how-to-install-an-app-on-samsung-tv/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-app-install">Samsung: установка приложения</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20155331408377" rel="noreferrer" target="_blank" data-tv-utility-source="lg-tv-app-install">LG: приложения webOS</a><a class="text-technical underline underline-offset-4" href="https://support.google.com/googletv/answer/10050570?hl=ru" rel="noreferrer" target="_blank" data-tv-utility-source="google-tv-app-install">Google TV: приложения</a><a class="text-technical underline underline-offset-4" href="https://alice.yandex.ru/support/ru/tv/apps/tv-yndx" rel="noreferrer" target="_blank" data-tv-utility-source="yaos-tv-apps">YaOS: приложения на ТВ</a></nav></details>
+</section>"#
+        }
+        "tv-factory-reset" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="tv-factory-reset" data-tv-utility-task="tv-factory-reset">
+<p class="font-mono text-xs uppercase text-action">Причина → последствия → явное подтверждение</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Сначала отделите перезагрузку от полного удаления настроек</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">Для временного сбоя обычно достаточно штатной перезагрузки. Заводской сброс стирает пользовательские настройки и требует повторной настройки, поэтому его выполняют только осознанно и по инструкции точной модели.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-utility-branch="restart-only"><p class="font-mono text-xs uppercase text-action">Нужно только перезапустить</p><h3 class="mt-2 font-display text-2xl font-extrabold">Не стирайте настройки</h3><p class="mt-3 text-sm leading-relaxed text-muted">Используйте обычную штатную перезагрузку по руководству модели. Она не равна заводскому сбросу и не должна удалять аккаунты, сеть и пользовательские параметры.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="ready-to-erase"><p class="font-mono text-xs uppercase text-action">Сброс действительно нужен</p><h3 class="mt-2 font-display text-2xl font-extrabold">Проверьте, что будет удалено</h3><p class="mt-3 text-sm leading-relaxed text-muted">Сохраните нужные сведения, выйдите из аккаунтов при передаче устройства и подтвердите готовность заново настроить сеть, каналы, приложения и изображение.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="unsafe-or-no-menu"><p class="font-mono text-xs uppercase text-action">Обновление идёт или меню недоступно</p><h3 class="mt-2 font-display text-2xl font-extrabold">Не используйте сервисные комбинации</h3><p class="mt-3 text-sm leading-relaxed text-muted">Не сбрасывайте телевизор во время обновления и не вводите универсальные коды из сторонних инструкций. Зафиксируйте точную модель и обратитесь к официальной поддержке.</p></article>
+</div>
+<p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-utility-stop="true">Заводской сброс удаляет пользовательские данные и настройки. Не продолжайте без явной готовности к удалению, при выполняющемся обновлении, нестабильном питании или отсутствии официального пути для точной модели.</p>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-utility-next="tv-firmware-update">Если проблема связана с устаревшим ПО, сначала проверьте <a class="font-semibold text-action underline underline-offset-4" href="/kak-obnovit-televizor/">официальный путь обновления телевизора</a>, не используя сброс как универсальный первый шаг.</p>
+<details class="mt-7 border border-line bg-white p-4"><summary class="cursor-pointer font-display font-bold">Официальные инструкции по сбросу</summary><nav class="mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2" aria-label="Официальные источники сброса телевизоров"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/how-do-i-reset-settings-on-my-samsung-tv/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-reset">Samsung: сброс настроек</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20154159901753" rel="noreferrer" target="_blank" data-tv-utility-source="lg-tv-reset">LG: заводские настройки</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00262856" rel="noreferrer" target="_blank" data-tv-utility-source="sony-tv-reset">Sony: сброс телевизора</a><a class="text-technical underline underline-offset-4" href="https://alice.yandex.ru/support/ru/tv/settings/reset-settings" rel="noreferrer" target="_blank" data-tv-utility-source="yaos-tv-reset">YaOS: сброс настроек</a></nav></details>
+</section>"#
+        }
         "tv-speakers" => {
             r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="tv-speakers" data-tv-utility-task="tv-speakers">
 <p class="font-mono text-xs uppercase text-action">Тип акустики → выход ТВ → совпадающий вход</p>
@@ -2910,6 +3016,57 @@ fn validate_seo_pages(pages: &[SeoPage]) {
             "{id}: SSR должен содержать только source allowlist когорты 6"
         );
     }
+
+    for (id, path, source_ids) in TV_UTILITY_COHORT_7 {
+        let cohort_matches = pages
+            .iter()
+            .filter(|page| page.id == id || page.path == path)
+            .collect::<Vec<_>>();
+        assert_eq!(
+            cohort_matches.len(),
+            1,
+            "Страница когорты 7 {id} должна иметь один разрешённый canonical"
+        );
+        let page = cohort_matches[0];
+        assert_eq!(page.id, id, "Путь {path} закреплён только за {id}");
+        assert_eq!(
+            page.path, path,
+            "Идентификатор {id} закреплён только за {path}"
+        );
+        assert_eq!(
+            page.kind, "calculator",
+            "{id} должен оставаться калькулятором"
+        );
+        assert!(page.indexable, "{id} должен оставаться индексируемым");
+        assert!(
+            page.facts.len() >= 6,
+            "{id}: требуется не менее шести фактов"
+        );
+        assert!(page.faq.len() >= 6, "{id}: требуется не менее шести FAQ");
+
+        let static_answer = seo_calculator_note(id);
+        for source_id in source_ids {
+            assert!(
+                static_answer.contains(&format!("data-tv-utility-source=\"{source_id}\"")),
+                "{id}: отсутствует разрешённый источник {source_id}"
+            );
+        }
+        assert_eq!(
+            static_answer.matches("data-tv-utility-source=").count(),
+            source_ids.len(),
+            "{id}: SSR должен содержать только source allowlist когорты 7"
+        );
+        assert_eq!(
+            static_answer.matches("data-tv-utility-branch=").count(),
+            3,
+            "{id}: SSR должен показывать три ограниченных сценария"
+        );
+        assert!(static_answer.contains("data-tv-utility-stop=\"true\""));
+        assert!(static_answer.contains("data-tv-utility-next="));
+        assert!(!static_answer.contains("market.yandex"));
+        assert!(!static_answer.contains("data-affiliate"));
+        assert!(!static_answer.contains('₽'));
+    }
 }
 
 fn validate_trust_pages(pages: &[TrustPage]) {
@@ -3651,7 +3808,7 @@ fn main() {
 mod tests {
     use super::{
         CommercialProfilesFile, HeadExtras, PublicAffiliateSnapshot, SeoPage,
-        TRAFFIC_PAGES_UPDATED_AT, TV_UTILITY_COHORT_6, TrustPage, TvModel,
+        TRAFFIC_PAGES_UPDATED_AT, TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage, TvModel,
         affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
         commercial_profile_for, dataset_json_ld, escape_html, home_page_body, html_shell,
         is_indexable_model, is_indexable_mount, is_indexable_seo_page,
@@ -4115,11 +4272,11 @@ mod tests {
         for id in [
             "phone-to-tv",
             "tv-no-signal",
+            "tv-firmware-update",
             "tv-dimensions",
+            "tv-app-install",
             "wall-planner",
-            "laptop-to-tv",
-            "digital-channels",
-            "picture-setup",
+            "tv-factory-reset",
         ] {
             assert!(html.contains(&format!("data-featured-traffic-tool=\"{id}\"")));
         }
@@ -4457,6 +4614,99 @@ mod tests {
         assert!(!energy.contains("средний тариф"));
         assert!(!energy.contains("руб."));
         assert!(!energy.contains('₽'));
+    }
+
+    #[test]
+    fn tv_utility_cohort_7_is_allowlisted_static_first_source_backed_and_non_commercial() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        validate_seo_pages(&pages);
+
+        for (id, path, source_ids) in TV_UTILITY_COHORT_7 {
+            let matches = pages
+                .iter()
+                .filter(|page| page.id == id || page.path == path)
+                .collect::<Vec<_>>();
+            assert_eq!(matches.len(), 1, "{id} должен иметь один canonical");
+            let page = matches[0];
+            assert_eq!(page.id, id);
+            assert_eq!(page.path, path);
+            assert_eq!(page.kind, "calculator");
+            assert!(page.indexable);
+            assert!(page.home_priority.is_some());
+            assert!(page.facts.len() >= 6);
+            assert!(page.faq.len() >= 6);
+            assert_eq!(seo_page_lastmod(page), TRAFFIC_PAGES_UPDATED_AT);
+
+            let static_answer = seo_calculator_note(id);
+            assert!(static_answer.contains(&format!("data-tv-utility-answer=\"{id}\"")));
+            assert!(static_answer.contains(&format!("data-tv-utility-task=\"{id}\"")));
+            assert_eq!(static_answer.matches("data-tv-utility-branch=").count(), 3);
+            assert!(static_answer.contains("data-tv-utility-stop=\"true\""));
+            assert!(static_answer.contains("data-tv-utility-next="));
+            for source_id in source_ids {
+                assert!(static_answer.contains(&format!("data-tv-utility-source=\"{source_id}\"")));
+            }
+            assert_eq!(
+                static_answer.matches("data-tv-utility-source=").count(),
+                source_ids.len()
+            );
+
+            let expected_related: &[&str] = match id {
+                "tv-firmware-update" => &[
+                    "tv-app-install",
+                    "tv-factory-reset",
+                    "tv-no-internet",
+                    "tv-turns-off",
+                    "tv-remote-not-working",
+                    "smart-tv-box",
+                ],
+                "tv-app-install" => &[
+                    "tv-no-internet",
+                    "tv-firmware-update",
+                    "smart-tv-box",
+                    "tv-factory-reset",
+                    "phone-to-tv",
+                    "tv-remote-not-working",
+                ],
+                "tv-factory-reset" => &[
+                    "tv-firmware-update",
+                    "tv-app-install",
+                    "tv-turns-off",
+                    "tv-no-internet",
+                    "tv-remote-not-working",
+                    "picture-setup",
+                ],
+                _ => unreachable!(),
+            };
+            let actual_related = related_seo_pages(page, &pages)
+                .iter()
+                .map(|related| related.id.as_str())
+                .collect::<Vec<_>>();
+            assert_eq!(actual_related, expected_related, "{id}: related contract");
+
+            let html = seo_page_body(page, &pages, &[], &[], &[]);
+            assert_eq!(html.matches("<h1").count(), 1);
+            assert!(html.contains("Связанные материалы"));
+            assert!(!html.contains("market.yandex"));
+            assert!(!html.contains("data-affiliate"));
+            assert!(!html.contains('₽'));
+        }
+
+        let firmware = seo_calculator_note("tv-firmware-update");
+        assert!(firmware.contains("Полный код модели обязателен"));
+        assert!(firmware.contains("не выключайте телевизор"));
+        assert!(firmware.contains("не извлекайте USB"));
+        assert!(!firmware.contains("универсальная прошивка"));
+
+        let apps = seo_calculator_note("tv-app-install");
+        assert!(apps.contains("официальном магазине"));
+        assert!(apps.contains("APK не работает на Tizen, webOS или YaOS"));
+        assert!(!apps.contains("скачайте любой APK"));
+
+        let reset = seo_calculator_note("tv-factory-reset");
+        assert!(reset.contains("Заводской сброс удаляет пользовательские данные и настройки"));
+        assert!(reset.contains("Не сбрасывайте телевизор во время обновления"));
+        assert!(!reset.contains("универсальные коды для сервисного меню"));
     }
 
     #[test]

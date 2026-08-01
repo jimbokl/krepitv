@@ -4573,6 +4573,726 @@ fn calculate_tv_headphones_task(input: &TvTrafficTaskInput) -> Result<TvTrafficT
     ))
 }
 
+fn calculate_tv_firmware_update_task(
+    input: &TvTrafficTaskInput,
+) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &[
+            "samsung",
+            "lg-webos",
+            "google-android",
+            "yaos",
+            "other",
+            "unknown",
+        ],
+        "Платформа телевизора",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["network", "official-usb", "unknown"],
+        "Способ обновления",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["yes", "no", "unknown"],
+        "Инструкция точной модели",
+    )?;
+    require_choice(
+        &input.detail,
+        &["ready", "update-running", "unsafe", "unknown"],
+        "Состояние обновления",
+    )?;
+
+    let source_ids = [
+        "samsung-tv-update-online",
+        "samsung-tv-update-usb",
+        "samsung-tv-firmware-model",
+        "lg-tv-update",
+        "sony-tv-update",
+        "yaos-tv-update",
+    ];
+    let warnings = [
+        "Используйте только официальный способ и файл обновления для точной модели и региона телевизора.",
+        "Не отключайте питание и не извлекайте USB-накопитель во время уже начавшегося обновления.",
+        "Не открывайте сервисное меню и не применяйте универсальные комбинации кнопок.",
+    ];
+
+    if input.detail == "unsafe" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "tv-firmware-update",
+            "Не начинайте обновление при опасном состоянии",
+            "Повреждение, запах гари, нагрев, жидкость, искры или нестабильное питание требуют остановки до любых действий с прошивкой.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unsafe-firmware-update",
+                    "Прекратите подготовку к обновлению",
+                    "Не включайте телевизор повторно, не подключайте накопитель и не касайтесь повреждённого кабеля, вилки или розетки.",
+                    &source_ids,
+                    "Продолжать можно только после безопасной очной проверки питания и телевизора.",
+                ),
+                tv_traffic_task_step(
+                    "report-firmware-safety-observation",
+                    "Передайте наблюдение официальной поддержке",
+                    "Сообщите точную модель и видимый опасный признак без разборки телевизора и самостоятельной диагностики платы.",
+                    &source_ids,
+                    "Не снимайте корпус и не переходите в сервисное меню.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.detail == "update-running" {
+        return Ok(tv_traffic_task_plan(
+            "action-plan",
+            "tv-firmware-update",
+            "Не прерывайте уже начавшееся обновление",
+            "Для выполняющегося обновления безопасное действие одно: сохранить питание и дождаться штатного завершения по инструкции точной модели.",
+            vec![
+                tv_traffic_task_step(
+                    "do-not-interrupt-firmware-update",
+                    "Не выключайте телевизор",
+                    "Не отключайте питание, не извлекайте USB-накопитель, не нажимайте кнопки сброса и не пытайтесь перезапустить телевизор.",
+                    &source_ids,
+                    "Если появился опасный признак, не касайтесь устройства и обратитесь в официальную поддержку или аварийную службу по ситуации.",
+                ),
+                tv_traffic_task_step(
+                    "wait-for-firmware-update-result",
+                    "Дождитесь штатного результата",
+                    "Следите только за экранной индикацией и выдержите время, указанное в официальной инструкции точной модели.",
+                    &source_ids,
+                    "Если процесс явно вышел за указанное производителем время или показал код ошибки, не обесточивайте телевизор по догадке — передайте код официальной поддержке.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "other" || input.tertiary == "no" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-firmware-update",
+            "Официальный путь обновления не подтверждён",
+            "Без инструкции и пакета для точной модели мастер не назначает сетевое или USB-обновление по аналогии с другим телевизором.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unconfirmed-firmware-path",
+                    "Не запускайте обновление по догадке",
+                    "Не загружайте файл от похожей модели и не используйте меню, код или комбинацию кнопок из стороннего руководства.",
+                    &source_ids,
+                    "Остановитесь до подтверждения официального пути для точной модели и региона.",
+                ),
+                tv_traffic_task_step(
+                    "request-exact-model-firmware-path",
+                    "Обратитесь к официальной поддержке",
+                    "Передайте точное обозначение модели и текущую версию программного обеспечения, чтобы получить модельную инструкцию без самостоятельного подбора файла.",
+                    &source_ids,
+                    "Не сообщайте пароли и не устанавливайте файл, пока его модельная принадлежность не подтверждена.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "unknown"
+        || input.secondary == "unknown"
+        || input.tertiary == "unknown"
+        || input.detail == "unknown"
+    {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "tv-firmware-update",
+            "Сначала подтвердите модельный путь обновления",
+            "Неизвестная платформа, способ, инструкция точной модели или текущее состояние не позволяют безопасно начинать обновление.",
+            vec![
+                tv_traffic_task_step(
+                    "record-firmware-model-and-version",
+                    "Сверьте точную модель и версию",
+                    "Откройте только обычный информационный экран телевизора и сопоставьте обозначение модели, регион и текущую версию с официальной страницей производителя.",
+                    &source_ids,
+                    "Не переходите в сервисное меню и не вводите универсальную комбинацию кнопок.",
+                ),
+                tv_traffic_task_step(
+                    "confirm-official-firmware-method",
+                    "Найдите точную официальную инструкцию",
+                    "Подтвердите, разрешено ли этой модели сетевое обновление или обновление с официально подготовленного USB-накопителя.",
+                    &source_ids,
+                    "Без однозначной инструкции оставьте обновление не начатым.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let platform_name = match input.primary.as_str() {
+        "samsung" => "Samsung",
+        "lg-webos" => "LG webOS",
+        "google-android" => "Google TV или Android TV",
+        "yaos" => "YaOS",
+        _ => unreachable!(),
+    };
+    let (method_name, prepare_instruction, start_instruction) = match input.secondary.as_str() {
+        "network" => (
+            "через сеть",
+            "Проверьте устойчивое питание и подключение телевизора к сети, затем ещё раз сопоставьте точную модель и модельную инструкцию.",
+            "Откройте штатный раздел обновления программного обеспечения и выполните только шаги официальной инструкции точной модели.",
+        ),
+        "official-usb" => (
+            "с официального USB-накопителя",
+            "Скачайте пакет только с официальной страницы точной модели и подготовьте накопитель строго по её инструкции, не переименовывая и не заменяя файлы по догадке.",
+            "Подключите подготовленный накопитель и запустите обновление только через штатное пользовательское меню, указанное производителем.",
+        ),
+        _ => unreachable!(),
+    };
+
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "tv-firmware-update",
+        &format!("Обновите {platform_name} {method_name}"),
+        "Платформа, официальный способ, инструкция точной модели и готовность к обновлению подтверждены закрытыми ответами.",
+        vec![
+            tv_traffic_task_step(
+                "confirm-exact-firmware-package",
+                "Повторно сверьте точную модель",
+                "Сопоставьте обозначение модели, регион, текущую версию и официальный источник; похожее название модели не считается совпадением.",
+                &source_ids,
+                "При любом расхождении не начинайте обновление.",
+            ),
+            tv_traffic_task_step(
+                "prepare-official-firmware-update",
+                "Подготовьте официальный путь",
+                prepare_instruction,
+                &source_ids,
+                "При нестабильном питании или сети отложите запуск.",
+            ),
+            tv_traffic_task_step(
+                "start-official-firmware-update",
+                "Запустите обновление штатным способом",
+                start_instruction,
+                &source_ids,
+                "После запуска не отключайте питание, не извлекайте накопитель и не нажимайте сброс.",
+            ),
+            tv_traffic_task_step(
+                "verify-firmware-version",
+                "Дождитесь завершения и проверьте версию",
+                "После штатного перезапуска откройте обычный информационный экран и сравните показанную версию с официальной инструкцией.",
+                &source_ids,
+                "При коде ошибки или незавершённом запуске не повторяйте обновление по догадке — обратитесь в официальную поддержку.",
+            ),
+        ],
+        &warnings,
+    ))
+}
+
+fn calculate_tv_app_install_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &[
+            "samsung",
+            "lg-webos",
+            "google-android",
+            "yaos",
+            "other",
+            "unknown",
+        ],
+        "Платформа телевизора",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["official-store", "not-found", "apk-only", "unknown"],
+        "Источник приложения",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["ready", "no-network", "no-account", "unknown"],
+        "Готовность магазина",
+    )?;
+    require_choice(
+        &input.detail,
+        &["enough-space", "low-space", "unknown"],
+        "Свободное место",
+    )?;
+
+    let source_ids = [
+        "samsung-tv-app-install",
+        "lg-tv-app-install",
+        "google-tv-app-install",
+        "yaos-tv-apps",
+    ];
+    let warnings = [
+        "Наличие приложения зависит от платформы, точной модели, региона и текущего каталога официального магазина.",
+        "Не используйте сервисное меню, неподтверждённые файлы или инструкции для другой платформы.",
+        "Перед удалением приложения проверьте, какие локальные данные и вход в учётную запись придётся восстановить.",
+    ];
+
+    if input.secondary == "not-found" || input.secondary == "apk-only" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-app-install",
+            "Установка из официального магазина не подтверждена",
+            "Отсутствие приложения в магазине или наличие только стороннего файла не подтверждают совместимость с телевизором.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unofficial-app-install",
+                    "Не устанавливайте приложение обходным способом",
+                    "Не меняйте регион, не открывайте сервисное меню и не загружайте неподтверждённый установочный файл по сторонней инструкции.",
+                    &source_ids,
+                    "Остановитесь, пока приложение не появится в официальном магазине этой платформы и региона.",
+                ),
+                tv_traffic_task_step(
+                    "check-official-app-alternative",
+                    "Проверьте официальный вариант сервиса",
+                    "На официальной странице разработчика или платформы уточните поддержку точной модели и доступный штатный способ просмотра без обещания наличия приложения.",
+                    &source_ids,
+                    "Если официальный путь не указан, оставьте приложение не установленным.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.detail == "low-space" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-app-install",
+            "Сначала освободите место штатным способом",
+            "При нехватке памяти установка не начинается: очистка выполняется только через официальный раздел приложений или хранилища телевизора.",
+            vec![
+                tv_traffic_task_step(
+                    "open-official-tv-storage",
+                    "Откройте штатное управление хранилищем",
+                    "По официальной инструкции точной модели откройте обычный раздел приложений или памяти без сервисного меню.",
+                    &source_ids,
+                    "Если раздел или последствия удаления непонятны, ничего не удаляйте.",
+                ),
+                tv_traffic_task_step(
+                    "remove-user-selected-unused-app",
+                    "Удалите только выбранное ненужное приложение",
+                    "Проверьте данные и учётную запись, затем удалите только то приложение, которое владелец осознанно выбрал как ненужное.",
+                    &source_ids,
+                    "Не удаляйте системные компоненты, не очищайте всё устройство и не выполняйте заводской сброс.",
+                ),
+                tv_traffic_task_step(
+                    "recheck-official-store-space",
+                    "Повторно проверьте место в магазине",
+                    "Вернитесь в официальный магазин и продолжайте только если он показывает достаточно памяти для выбранного приложения.",
+                    &source_ids,
+                    "Если места по-прежнему мало, остановитесь без дополнительных удалений по догадке.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "other" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-app-install",
+            "Платформа не поддержана этим мастером",
+            "Для другой платформы нельзя переносить путь магазина и названия меню с Samsung, LG webOS, Google TV, Android TV или YaOS.",
+            vec![tv_traffic_task_step(
+                "request-platform-specific-app-instruction",
+                "Найдите официальную инструкцию платформы",
+                "Сверьте точную модель и используйте только магазин и порядок установки, прямо указанные её производителем.",
+                &source_ids,
+                "Без платформенной инструкции оставьте приложение не установленным.",
+            )],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "unknown"
+        || input.secondary == "unknown"
+        || input.tertiary == "unknown"
+        || input.detail == "unknown"
+    {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "tv-app-install",
+            "Сначала подтвердите платформу и условия магазина",
+            "Неизвестная платформа, источник, готовность магазина или свободное место не позволяют построить безопасный план установки.",
+            vec![
+                tv_traffic_task_step(
+                    "identify-tv-app-platform",
+                    "Определите платформу по точной модели",
+                    "Сверьте название системы в обычном информационном экране и официальной инструкции точной модели.",
+                    &source_ids,
+                    "Не определяйте платформу только по бренду или внешнему виду меню.",
+                ),
+                tv_traffic_task_step(
+                    "confirm-official-app-store-state",
+                    "Проверьте официальный магазин",
+                    "Уточните наличие приложения, подключение сети, готовность учётной записи и достаточное место непосредственно в штатном магазине.",
+                    &source_ids,
+                    "Не вводите пароль вне системного экрана телевизора и не используйте сторонний файл.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.tertiary == "no-network" || input.tertiary == "no-account" {
+        let (headline, instruction, stop_condition) = if input.tertiary == "no-network" {
+            (
+                "Сначала восстановите штатное подключение к сети",
+                "Проверьте сеть через обычные настройки и официальную инструкцию точной модели; сервис не запрашивает и не принимает сетевой пароль.",
+                "Без рабочего сетевого подключения не переходите к установке приложения.",
+            )
+        } else {
+            (
+                "Сначала подготовьте официальную учётную запись",
+                "Выполните вход или создание учётной записи только в штатном интерфейсе платформы по её официальной инструкции.",
+                "Не вводите данные учётной записи на сторонней странице и не обходите требование магазина.",
+            )
+        };
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-app-install",
+            headline,
+            "Официальный магазин не готов к установке, поэтому мастер останавливается на восстановлении обязательного условия.",
+            vec![tv_traffic_task_step(
+                "restore-official-app-store-prerequisite",
+                "Подготовьте обязательное условие магазина",
+                instruction,
+                &source_ids,
+                stop_condition,
+            )],
+            &warnings,
+        ));
+    }
+
+    let platform_name = match input.primary.as_str() {
+        "samsung" => "Samsung",
+        "lg-webos" => "LG webOS",
+        "google-android" => "Google TV или Android TV",
+        "yaos" => "YaOS",
+        _ => unreachable!(),
+    };
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "tv-app-install",
+        &format!("Установите приложение из магазина {platform_name}"),
+        "Платформа известна, приложение найдено в официальном магазине, сеть и учётная запись готовы, а свободного места достаточно; наличие всё равно проверяется в момент установки.",
+        vec![
+            tv_traffic_task_step(
+                "open-official-tv-app-store",
+                "Откройте официальный магазин",
+                "Откройте штатный магазин приложений через обычное пользовательское меню телевизора.",
+                &source_ids,
+                "Если открывается другой источник или магазин недоступен, остановитесь без установки.",
+            ),
+            tv_traffic_task_step(
+                "verify-official-tv-app-card",
+                "Проверьте карточку приложения",
+                "Сопоставьте точное название, разработчика, региональную доступность, требования и запрашиваемые разрешения в официальной карточке.",
+                &source_ids,
+                "При расхождении названия, разработчика или совместимости не нажимайте установку.",
+            ),
+            tv_traffic_task_step(
+                "install-official-tv-app",
+                "Запустите штатную установку",
+                "Нажмите установку в официальном магазине и дождитесь её завершения без выключения телевизора.",
+                &source_ids,
+                "Если магазин сообщает об отсутствии, несовместимости или нехватке места, остановитесь и сохраните точное сообщение.",
+            ),
+            tv_traffic_task_step(
+                "open-installed-tv-app",
+                "Откройте приложение",
+                "Запустите приложение из обычного списка и выполните вход только в его штатном интерфейсе, если он требуется.",
+                &source_ids,
+                "Не передавайте этому сайту пароль, код входа или данные учётной записи.",
+            ),
+        ],
+        &warnings,
+    ))
+}
+
+fn calculate_tv_factory_reset_task(
+    input: &TvTrafficTaskInput,
+) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &[
+            "samsung",
+            "lg-webos",
+            "google-android",
+            "yaos",
+            "other",
+            "unknown",
+        ],
+        "Платформа телевизора",
+    )?;
+    require_choice(
+        &input.secondary,
+        &[
+            "restart-only",
+            "troubleshooting",
+            "sale-transfer",
+            "unknown",
+        ],
+        "Цель сброса",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["ready-to-erase", "not-ready", "unknown"],
+        "Готовность к удалению данных",
+    )?;
+    require_choice(
+        &input.detail,
+        &[
+            "normal-menu",
+            "no-menu",
+            "update-running",
+            "unsafe",
+            "unknown",
+        ],
+        "Состояние телевизора",
+    )?;
+
+    let source_ids = [
+        "samsung-tv-reset",
+        "lg-tv-reset",
+        "sony-tv-reset",
+        "yaos-tv-reset",
+    ];
+    let warnings = [
+        "Заводской сброс удалит учётные записи, настройки сети, настроенные каналы, параметры и установленные приложения; восстановление зависит от сохранённых данных и сервисов.",
+        "Не запускайте сброс во время обновления программного обеспечения и не отключайте питание уже идущего обновления.",
+        "Не используйте сервисное меню или универсальную комбинацию кнопок для обхода обычного меню.",
+    ];
+
+    if input.detail == "unsafe" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "tv-factory-reset",
+            "Не выполняйте сброс при опасном состоянии",
+            "Повреждение, запах гари, нагрев, жидкость, искры или нестабильное питание важнее цели сброса и требуют очной безопасной проверки.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unsafe-factory-reset",
+                    "Прекратите действия с телевизором",
+                    "Не включайте устройство повторно, не касайтесь повреждённого питания и не пытайтесь открыть меню сброса.",
+                    &source_ids,
+                    "До безопасной очной проверки не продолжайте диагностику или удаление данных.",
+                ),
+                tv_traffic_task_step(
+                    "report-reset-safety-observation",
+                    "Передайте опасный признак специалисту",
+                    "Сообщите точную модель и видимое состояние без разборки корпуса и предположения о неисправной детали.",
+                    &source_ids,
+                    "Не используйте сервисное меню и не выполняйте электрические измерения.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.detail == "update-running" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "tv-factory-reset",
+            "Не прерывайте обновление ради сброса",
+            "Заводской сброс не выполняется, пока телевизор показывает идущее обновление программного обеспечения.",
+            vec![
+                tv_traffic_task_step(
+                    "do-not-interrupt-update-before-reset",
+                    "Не выключайте телевизор",
+                    "Не отключайте питание, не нажимайте сброс и не извлекайте USB-накопитель до штатного завершения обновления.",
+                    &source_ids,
+                    "Если процесс вышел за официально указанное время или показал ошибку, передайте точный экран официальной поддержке без принудительного сброса.",
+                ),
+                tv_traffic_task_step(
+                    "defer-factory-reset-until-update-finishes",
+                    "Отложите заводской сброс",
+                    "Вернитесь к оценке необходимости сброса только после штатного завершения обновления и нормального запуска телевизора.",
+                    &source_ids,
+                    "Не используйте сервисное меню или универсальную комбинацию кнопок.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.detail == "no-menu" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "tv-factory-reset",
+            "Не обходите недоступное обычное меню",
+            "Без штатного пользовательского меню мастер не предлагает скрытый сброс, сервисное меню или универсальную комбинацию кнопок.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-no-menu-factory-reset",
+                    "Не запускайте скрытый сброс",
+                    "Не вводите комбинации кнопок и не используйте инструкции от другой модели для доступа к заводскому сбросу.",
+                    &source_ids,
+                    "Остановитесь до официальной диагностики причины недоступного меню.",
+                ),
+                tv_traffic_task_step(
+                    "contact-official-reset-support",
+                    "Обратитесь в официальную поддержку",
+                    "Передайте точную модель, состояние экрана и доступность обычного меню, не сообщая пароли или коды учётных записей.",
+                    &source_ids,
+                    "Следуйте только модельной инструкции официальной поддержки.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "unknown"
+        || input.secondary == "unknown"
+        || input.tertiary == "unknown"
+        || input.detail == "unknown"
+    {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "tv-factory-reset",
+            "Сначала подтвердите цель и готовность к удалению",
+            "Неизвестная платформа, цель, готовность владельца или состояние меню не позволяют безопасно рекомендовать необратимый сброс.",
+            vec![
+                tv_traffic_task_step(
+                    "confirm-reset-platform-and-purpose",
+                    "Сверьте платформу и цель",
+                    "Определите платформу по точной модели и отделите обычный перезапуск от диагностики или подготовки телевизора к передаче.",
+                    &source_ids,
+                    "Не используйте заводской сброс вместо ещё не подтверждённого обычного перезапуска.",
+                ),
+                tv_traffic_task_step(
+                    "confirm-reset-data-readiness",
+                    "Проверьте готовность к удалению",
+                    "До сброса подтвердите судьбу учётных записей, сети, каналов, настроек, приложений и локальных данных.",
+                    &source_ids,
+                    "Если последствия или данные неизвестны, оставьте сброс не начатым.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "other" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-factory-reset",
+            "Нужна инструкция точной платформы",
+            "Путь заводского сброса нельзя переносить на другую платформу по бренду, внешнему виду меню или универсальной комбинации кнопок.",
+            vec![tv_traffic_task_step(
+                "request-platform-specific-reset-path",
+                "Найдите официальную модельную инструкцию",
+                "Сверьте точную модель и запросите обычный пользовательский путь сброса у производителя или официальной поддержки.",
+                &source_ids,
+                "Без модельной инструкции не выполняйте сброс.",
+            )],
+            &warnings,
+        ));
+    }
+
+    if input.tertiary == "not-ready" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-factory-reset",
+            "Сброс отложен до готовности владельца",
+            "Пока данные и доступы не подготовлены, необратимое удаление не начинается независимо от цели.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-not-ready-factory-reset",
+                    "Не подтверждайте удаление",
+                    "Выйдите из экрана сброса и не вводите код подтверждения, пока владелец не подготовит нужные данные и доступы.",
+                    &source_ids,
+                    "Не продолжайте, если неизвестно, что будет удалено или как восстановить нужные сервисы.",
+                ),
+                tv_traffic_task_step(
+                    "prepare-reset-data-and-accounts",
+                    "Подготовьте данные и учётные записи",
+                    "Проверьте доступы, привязанные учётные записи, настройки сети, список каналов, приложения и локальные данные по официальной инструкции платформы.",
+                    &source_ids,
+                    "Не передавайте этому сайту пароли, коды подтверждения или содержимое учётных записей.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.secondary == "restart-only" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-factory-reset",
+            "Для обычного перезапуска заводской сброс не нужен",
+            "Цель не требует удаления учётных записей, сети, каналов, настроек и приложений.",
+            vec![
+                tv_traffic_task_step(
+                    "use-model-specific-normal-restart",
+                    "Выполните только штатный перезапуск",
+                    "Используйте обычный пользовательский пункт перезапуска, прямо указанный в официальной инструкции точной модели.",
+                    &source_ids,
+                    "Не переходите к заводскому сбросу и не применяйте универсальную комбинацию кнопок.",
+                ),
+                tv_traffic_task_step(
+                    "recheck-after-normal-restart",
+                    "Проверьте результат без удаления данных",
+                    "После штатного запуска проверьте исходный симптом и сохранность обычных настроек.",
+                    &source_ids,
+                    "Если симптом сохранился, зафиксируйте его и перейдите к официальной диагностике, а не к сбросу по догадке.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let platform_name = match input.primary.as_str() {
+        "samsung" => "Samsung",
+        "lg-webos" => "LG webOS",
+        "google-android" => "Google TV или Android TV",
+        "yaos" => "YaOS",
+        _ => unreachable!(),
+    };
+    let purpose = match input.secondary.as_str() {
+        "troubleshooting" => "для подтверждённой диагностики",
+        "sale-transfer" => "перед продажей или передачей",
+        _ => unreachable!(),
+    };
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "tv-factory-reset",
+        &format!("Выполните штатный сброс {platform_name}"),
+        &format!(
+            "Владелец готов удалить данные, обычное меню доступно, а сброс нужен {purpose}; мастер не использует скрытые меню или универсальные комбинации."
+        ),
+        vec![
+            tv_traffic_task_step(
+                "confirm-factory-reset-erasure",
+                "Ещё раз подтвердите удаление данных",
+                "Перед продолжением подтвердите удаление учётных записей, настроек сети, настроенных каналов, параметров и установленных приложений.",
+                &source_ids,
+                "Если хотя бы один нужный доступ или данные не подготовлены, отмените сброс.",
+            ),
+            tv_traffic_task_step(
+                "open-normal-menu-factory-reset",
+                "Откройте сброс через обычное меню",
+                "Следуйте только штатному пользовательскому пути заводского сброса из официальной инструкции точной модели.",
+                &source_ids,
+                "Не используйте сервисное меню, скрытый код или универсальную комбинацию кнопок.",
+            ),
+            tv_traffic_task_step(
+                "confirm-normal-menu-factory-reset",
+                "Подтвердите сброс один раз",
+                "Прочитайте экранное предупреждение и подтвердите удаление только при полном совпадении цели и списка последствий.",
+                &source_ids,
+                "После запуска не отключайте питание и не пытайтесь прервать процесс.",
+            ),
+            tv_traffic_task_step(
+                "wait-for-factory-reset-completion",
+                "Дождитесь стартового экрана",
+                "Дождитесь штатного завершения и появления начального экрана настройки, не вводя на этом сайте учётные данные или коды.",
+                &source_ids,
+                "При ошибке или незавершённом запуске не повторяйте сброс по догадке — обратитесь в официальную поддержку.",
+            ),
+        ],
+        &warnings,
+    ))
+}
+
 fn rounded_energy_kwh(value: f64) -> f64 {
     (value * 1_000_000.0).round() / 1_000_000.0
 }
@@ -4702,6 +5422,9 @@ pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTraffic
             "smart-tv-box",
             "tv-speakers",
             "tv-headphones",
+            "tv-firmware-update",
+            "tv-app-install",
+            "tv-factory-reset",
         ],
         "Инструмент",
     )?;
@@ -4720,6 +5443,9 @@ pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTraffic
         "smart-tv-box" => calculate_smart_tv_box_task(input),
         "tv-speakers" => calculate_tv_speakers_task(input),
         "tv-headphones" => calculate_tv_headphones_task(input),
+        "tv-firmware-update" => calculate_tv_firmware_update_task(input),
+        "tv-app-install" => calculate_tv_app_install_task(input),
+        "tv-factory-reset" => calculate_tv_factory_reset_task(input),
         _ => unreachable!(),
     }
 }
@@ -10148,5 +10874,559 @@ mod tests {
         let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
         assert!(invalid.get("error").is_some());
         assert!(invalid.get("monthly_kwh").is_none());
+    }
+
+    #[test]
+    fn tv_utility_cohort_7_success_paths_require_every_confirmation() {
+        let platforms = ["samsung", "lg-webos", "google-android", "yaos"];
+
+        for platform in platforms {
+            for method in ["network", "official-usb"] {
+                let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "tv-firmware-update",
+                    platform,
+                    method,
+                    "yes",
+                    "ready",
+                ))
+                .unwrap();
+                assert_eq!(plan.status, "action-plan", "{platform}/{method}: {plan:?}");
+                assert_eq!(plan.task, "tv-firmware-update");
+                assert_eq!(plan.primary_step_id, "confirm-exact-firmware-package");
+                assert_eq!(plan.steps.len(), 4);
+            }
+
+            let app = calculate_tv_traffic_task(&tv_traffic_task_input(
+                "tv-app-install",
+                platform,
+                "official-store",
+                "ready",
+                "enough-space",
+            ))
+            .unwrap();
+            assert_eq!(app.status, "action-plan", "{platform}: {app:?}");
+            assert_eq!(app.task, "tv-app-install");
+            assert_eq!(app.primary_step_id, "open-official-tv-app-store");
+            assert_eq!(app.steps.len(), 4);
+            assert!(app.explanation.contains("наличие"));
+
+            for purpose in ["troubleshooting", "sale-transfer"] {
+                let reset = calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "tv-factory-reset",
+                    platform,
+                    purpose,
+                    "ready-to-erase",
+                    "normal-menu",
+                ))
+                .unwrap();
+                assert_eq!(
+                    reset.status, "action-plan",
+                    "{platform}/{purpose}: {reset:?}"
+                );
+                assert_eq!(reset.task, "tv-factory-reset");
+                assert_eq!(reset.primary_step_id, "confirm-factory-reset-erasure");
+                assert_eq!(reset.steps.len(), 4);
+                let serialized = serde_json::to_string(&reset).unwrap().to_lowercase();
+                for consequence in ["учётн", "сети", "канал", "приложен"] {
+                    assert!(
+                        serialized.contains(consequence),
+                        "missing {consequence}: {reset:?}"
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_7_unknown_and_unconfirmed_inputs_fail_closed() {
+        let cases = [
+            (
+                tv_traffic_task_input("tv-firmware-update", "unknown", "network", "yes", "ready"),
+                "needs-check",
+            ),
+            (
+                tv_traffic_task_input("tv-firmware-update", "samsung", "network", "no", "ready"),
+                "external-path",
+            ),
+            (
+                tv_traffic_task_input("tv-firmware-update", "lg-webos", "unknown", "yes", "ready"),
+                "needs-check",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "unknown",
+                    "official-store",
+                    "ready",
+                    "enough-space",
+                ),
+                "needs-check",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "samsung",
+                    "not-found",
+                    "ready",
+                    "enough-space",
+                ),
+                "external-path",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "google-android",
+                    "apk-only",
+                    "ready",
+                    "enough-space",
+                ),
+                "external-path",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "yaos",
+                    "official-store",
+                    "ready",
+                    "low-space",
+                ),
+                "external-path",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "lg-webos",
+                    "official-store",
+                    "no-network",
+                    "enough-space",
+                ),
+                "external-path",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-factory-reset",
+                    "unknown",
+                    "sale-transfer",
+                    "ready-to-erase",
+                    "normal-menu",
+                ),
+                "needs-check",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-factory-reset",
+                    "samsung",
+                    "sale-transfer",
+                    "unknown",
+                    "normal-menu",
+                ),
+                "needs-check",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-factory-reset",
+                    "lg-webos",
+                    "sale-transfer",
+                    "not-ready",
+                    "normal-menu",
+                ),
+                "external-path",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-factory-reset",
+                    "yaos",
+                    "restart-only",
+                    "ready-to-erase",
+                    "normal-menu",
+                ),
+                "external-path",
+            ),
+        ];
+
+        for (input, expected_status) in cases {
+            let plan = calculate_tv_traffic_task(&input).unwrap();
+            assert_eq!(plan.status, expected_status, "{input:?}: {plan:?}");
+            assert_ne!(plan.status, "action-plan", "{input:?}: {plan:?}");
+        }
+
+        let unavailable_app = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "tv-app-install",
+            "samsung",
+            "apk-only",
+            "ready",
+            "enough-space",
+        ))
+        .unwrap();
+        let serialized = serde_json::to_string(&unavailable_app)
+            .unwrap()
+            .to_lowercase();
+        assert!(!serialized.contains("установите apk"));
+        assert!(!serialized.contains("разрешите неизвестные источники"));
+        assert!(!serialized.contains("гарантированно доступ"));
+    }
+
+    #[test]
+    fn tv_utility_cohort_7_unsafe_and_running_updates_take_priority() {
+        let firmware_unsafe = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "tv-firmware-update",
+            "samsung",
+            "network",
+            "yes",
+            "unsafe",
+        ))
+        .unwrap();
+        assert_eq!(firmware_unsafe.status, "service-boundary");
+        assert_eq!(
+            firmware_unsafe.primary_step_id,
+            "stop-unsafe-firmware-update"
+        );
+
+        let firmware_running = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "tv-firmware-update",
+            "unknown",
+            "unknown",
+            "unknown",
+            "update-running",
+        ))
+        .unwrap();
+        assert_eq!(firmware_running.status, "action-plan");
+        assert_eq!(
+            firmware_running.primary_step_id,
+            "do-not-interrupt-firmware-update"
+        );
+        assert!(
+            firmware_running.steps[0]
+                .instruction
+                .contains("Не отключайте питание")
+        );
+
+        for (detail, primary_step_id) in [
+            ("unsafe", "stop-unsafe-factory-reset"),
+            ("update-running", "do-not-interrupt-update-before-reset"),
+            ("no-menu", "stop-no-menu-factory-reset"),
+        ] {
+            let reset = calculate_tv_traffic_task(&tv_traffic_task_input(
+                "tv-factory-reset",
+                "unknown",
+                "unknown",
+                "unknown",
+                detail,
+            ))
+            .unwrap();
+            assert_eq!(reset.status, "service-boundary", "{detail}: {reset:?}");
+            assert_eq!(reset.primary_step_id, primary_step_id);
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_7_rejects_invalid_closed_enum_values() {
+        let invalid_cases = [
+            (
+                tv_traffic_task_input(
+                    "tv-firmware-update",
+                    "samsung<script>",
+                    "network",
+                    "yes",
+                    "ready",
+                ),
+                "Платформа телевизора",
+            ),
+            (
+                tv_traffic_task_input("tv-firmware-update", "samsung", "download", "yes", "ready"),
+                "Способ обновления",
+            ),
+            (
+                tv_traffic_task_input("tv-firmware-update", "samsung", "network", "maybe", "ready"),
+                "Инструкция точной модели",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-firmware-update",
+                    "samsung",
+                    "network",
+                    "yes",
+                    "finished",
+                ),
+                "Состояние обновления",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "web",
+                    "official-store",
+                    "ready",
+                    "enough-space",
+                ),
+                "Платформа телевизора",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "samsung",
+                    "website",
+                    "ready",
+                    "enough-space",
+                ),
+                "Источник приложения",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "samsung",
+                    "official-store",
+                    "skip-login",
+                    "enough-space",
+                ),
+                "Готовность магазина",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-app-install",
+                    "samsung",
+                    "official-store",
+                    "ready",
+                    "clear-all",
+                ),
+                "Свободное место",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-factory-reset",
+                    "brand-only",
+                    "sale-transfer",
+                    "ready-to-erase",
+                    "normal-menu",
+                ),
+                "Платформа телевизора",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-factory-reset",
+                    "samsung",
+                    "speed-up",
+                    "ready-to-erase",
+                    "normal-menu",
+                ),
+                "Цель сброса",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-factory-reset",
+                    "samsung",
+                    "sale-transfer",
+                    "maybe",
+                    "normal-menu",
+                ),
+                "Готовность к удалению данных",
+            ),
+            (
+                tv_traffic_task_input(
+                    "tv-factory-reset",
+                    "samsung",
+                    "sale-transfer",
+                    "ready-to-erase",
+                    "service-menu",
+                ),
+                "Состояние телевизора",
+            ),
+        ];
+
+        for (input, expected_field) in invalid_cases {
+            let error = calculate_tv_traffic_task(&input).unwrap_err();
+            assert!(error.contains(expected_field), "unexpected error: {error}");
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_7_allowed_matrices_are_bounded_and_source_backed() {
+        let allowed_statuses = [
+            "action-plan",
+            "needs-check",
+            "external-path",
+            "service-boundary",
+        ];
+        let platforms = [
+            "samsung",
+            "lg-webos",
+            "google-android",
+            "yaos",
+            "other",
+            "unknown",
+        ];
+        let firmware_sources = [
+            "samsung-tv-update-online",
+            "samsung-tv-update-usb",
+            "samsung-tv-firmware-model",
+            "lg-tv-update",
+            "sony-tv-update",
+            "yaos-tv-update",
+        ];
+        let app_sources = [
+            "samsung-tv-app-install",
+            "lg-tv-app-install",
+            "google-tv-app-install",
+            "yaos-tv-apps",
+        ];
+        let reset_sources = [
+            "samsung-tv-reset",
+            "lg-tv-reset",
+            "sony-tv-reset",
+            "yaos-tv-reset",
+        ];
+        let assert_plan = |plan: TvTrafficTaskPlan, expected_task: &str, sources: &[&str]| {
+            assert_eq!(plan.task, expected_task);
+            assert!(allowed_statuses.contains(&plan.status.as_str()), "{plan:?}");
+            assert!((1..=4).contains(&plan.steps.len()), "{plan:?}");
+            assert_eq!(plan.primary_step_id, plan.steps[0].id);
+            assert!(plan.warnings.len() <= 3, "{plan:?}");
+            assert!(plan.headline.chars().any(|ch| ('А'..='я').contains(&ch)));
+            assert!(plan.steps.iter().all(|step| {
+                !step.id.trim().is_empty()
+                    && !step.title.trim().is_empty()
+                    && !step.instruction.trim().is_empty()
+                    && !step.stop_condition.trim().is_empty()
+                    && !step.source_ids.is_empty()
+                    && step
+                        .source_ids
+                        .iter()
+                        .all(|source_id| sources.contains(&source_id.as_str()))
+            }));
+            assert_eq!(
+                plan.privacy,
+                "План рассчитывается локально в браузере; выбранные ответы не отправляются на сервер."
+            );
+        };
+
+        for platform in platforms {
+            for method in ["network", "official-usb", "unknown"] {
+                for exact_instruction in ["yes", "no", "unknown"] {
+                    for state in ["ready", "update-running", "unsafe", "unknown"] {
+                        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                            "tv-firmware-update",
+                            platform,
+                            method,
+                            exact_instruction,
+                            state,
+                        ))
+                        .unwrap();
+                        if state == "unsafe" {
+                            assert_eq!(plan.status, "service-boundary", "{plan:?}");
+                        } else if state == "update-running" {
+                            assert_eq!(plan.status, "action-plan", "{plan:?}");
+                            assert_eq!(plan.primary_step_id, "do-not-interrupt-firmware-update");
+                        }
+                        assert_plan(plan, "tv-firmware-update", &firmware_sources);
+                    }
+                }
+            }
+        }
+
+        for platform in platforms {
+            for source in ["official-store", "not-found", "apk-only", "unknown"] {
+                for readiness in ["ready", "no-network", "no-account", "unknown"] {
+                    for space in ["enough-space", "low-space", "unknown"] {
+                        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                            "tv-app-install",
+                            platform,
+                            source,
+                            readiness,
+                            space,
+                        ))
+                        .unwrap();
+                        if source == "not-found" || source == "apk-only" || space == "low-space" {
+                            assert_eq!(plan.status, "external-path", "{plan:?}");
+                        }
+                        assert_plan(plan, "tv-app-install", &app_sources);
+                    }
+                }
+            }
+        }
+
+        for platform in platforms {
+            for purpose in [
+                "restart-only",
+                "troubleshooting",
+                "sale-transfer",
+                "unknown",
+            ] {
+                for readiness in ["ready-to-erase", "not-ready", "unknown"] {
+                    for state in [
+                        "normal-menu",
+                        "no-menu",
+                        "update-running",
+                        "unsafe",
+                        "unknown",
+                    ] {
+                        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                            "tv-factory-reset",
+                            platform,
+                            purpose,
+                            readiness,
+                            state,
+                        ))
+                        .unwrap();
+                        if matches!(state, "unsafe" | "update-running" | "no-menu") {
+                            assert_eq!(plan.status, "service-boundary", "{plan:?}");
+                        }
+                        assert_plan(plan, "tv-factory-reset", &reset_sources);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_7_wasm_json_is_deterministic_and_fail_closed() {
+        let cases = [
+            ("tv-firmware-update", "samsung", "network", "yes", "ready"),
+            (
+                "tv-app-install",
+                "lg-webos",
+                "official-store",
+                "ready",
+                "enough-space",
+            ),
+            (
+                "tv-factory-reset",
+                "yaos",
+                "sale-transfer",
+                "ready-to-erase",
+                "normal-menu",
+            ),
+        ];
+
+        for (task, primary, secondary, tertiary, detail) in cases {
+            let first = tv_traffic_task_plan_json(task, primary, secondary, tertiary, detail);
+            let second = tv_traffic_task_plan_json(task, primary, secondary, tertiary, detail);
+            assert_eq!(first, second);
+            let payload: serde_json::Value = serde_json::from_str(&first).unwrap();
+            for field in [
+                "status",
+                "task",
+                "headline",
+                "explanation",
+                "primary_step_id",
+                "steps",
+                "warnings",
+                "privacy",
+            ] {
+                assert!(payload.get(field).is_some(), "missing {field}: {payload}");
+            }
+            assert_eq!(payload["task"], task);
+            assert_eq!(payload["status"], "action-plan");
+            assert!(payload.get("error").is_none());
+        }
+
+        let invalid = tv_traffic_task_plan_json(
+            "tv-app-install",
+            "samsung",
+            "web-download",
+            "ready",
+            "enough-space",
+        );
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+        assert!(invalid.get("steps").is_none());
     }
 }

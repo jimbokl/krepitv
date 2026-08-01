@@ -209,6 +209,62 @@ const sourceRegistry = {
     label: "LG: подключение Bluetooth-аудиоустройства",
     url: "https://www.lg.com/ru/support/product-help/CT20206007-20155333324133",
   },
+  "samsung-tv-update-online": {
+    label: "Samsung: обновление телевизора через интернет",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/how-can-i-update-the-samsung-tv-firmware-through-the-internet/",
+  },
+  "samsung-tv-update-usb": {
+    label: "Samsung: обновление телевизора через USB",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/how-can-i-update-the-samsung-tv-firmware-using-a-usb-memory-stick/",
+  },
+  "samsung-tv-firmware-model": {
+    label: "Samsung: прошивка для точной модели",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-download-a-firmware-for-my-samsung-tv/",
+  },
+  "lg-tv-update": {
+    label: "LG: обновление ПО телевизора",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20153413220386OLT",
+  },
+  "sony-tv-update": {
+    label: "Sony: обновление ПО телевизора",
+    url: "https://www.sony.ru/electronics/support/articles/00119543",
+  },
+  "yaos-tv-update": {
+    label: "Яндекс: обновление YaOS",
+    url: "https://alice.yandex.ru/support/ru/tv/settings/update-firmware",
+  },
+  "samsung-tv-app-install": {
+    label: "Samsung: установка приложения",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/how-to-install-an-app-on-samsung-tv/",
+  },
+  "lg-tv-app-install": {
+    label: "LG: установка приложения",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20155331408377",
+  },
+  "google-tv-app-install": {
+    label: "Google TV: установка приложений",
+    url: "https://support.google.com/googletv/answer/10050570?hl=ru",
+  },
+  "yaos-tv-apps": {
+    label: "Яндекс: приложения на ТВ Станции",
+    url: "https://alice.yandex.ru/support/ru/tv/apps/tv-yndx",
+  },
+  "samsung-tv-reset": {
+    label: "Samsung: полный сброс настроек",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/how-do-i-reset-settings-on-my-samsung-tv/",
+  },
+  "lg-tv-reset": {
+    label: "LG: полный сброс настроек",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20154159901753",
+  },
+  "sony-tv-reset": {
+    label: "Sony: полный сброс настроек",
+    url: "https://www.sony.ru/electronics/support/articles/00262856",
+  },
+  "yaos-tv-reset": {
+    label: "Яндекс: сброс ТВ Станции",
+    url: "https://alice.yandex.ru/support/ru/tv/settings/reset-settings",
+  },
 };
 
 const sourceAliases = {
@@ -970,6 +1026,196 @@ const configs = {
       label: "Нужен звук для комнаты? Открыть мастер подключения колонок",
     },
   },
+  "tv-firmware-update": {
+    Icon: Power,
+    requireConfirmation: true,
+    kicker: "Точная модель до обновления",
+    title: "Мастер обновления телевизора",
+    description: "Выберите платформу и только официальный способ для точной модели. Крепи ТВ не хранит прошивки и остановит план, если обновление уже идёт, модель не подтверждена или питание выглядит небезопасно.",
+    buttonLabel: "Показать безопасный план",
+    loadingLabel: "Сверяем платформу и состояние обновления…",
+    toolId: "tv_firmware_update",
+    primary: {
+      legend: "1. Какая платформа у телевизора?",
+      options: [
+        ["samsung", "Samsung", "Точная модель из обычного информационного экрана"],
+        ["lg-webos", "LG webOS", "Платформа подтверждена по модели"],
+        ["google-android", "Google TV или Android TV", "Система подтверждена по модели"],
+        ["yaos", "YaOS", "ТВ Станция или телевизор на YaOS"],
+        ["other", "Другая платформа", "Нужна отдельная официальная инструкция"],
+        ["unknown", "Не знаю", "Сначала определим платформу по точной модели"],
+      ],
+    },
+    secondary: {
+      legend: "2. Какой официальный способ доступен?",
+      options: [
+        ["network", "Через сеть", "Штатный раздел обновления телевизора"],
+        ["official-usb", "Официальный файл на USB", "Только пакет со страницы точной модели"],
+        ["unknown", "Не знаю", "Способ ещё не подтверждён инструкцией"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "",
+      legend: "Инструкция и файл относятся к точной модели и региону?",
+      options: [
+        ["yes", "Да, совпадение подтверждено"],
+        ["no", "Нет, есть расхождение"],
+        ["unknown", "Не уверен"],
+      ],
+    },
+    detail: {
+      defaultValue: "",
+      legend: () => "В каком состоянии телевизор сейчас?",
+      options: [
+        ["ready", "Готов к обновлению", "Обновление не запущено, питание устойчиво"],
+        ["update-running", "Обновление уже идёт", "Нельзя выключать питание или извлекать USB"],
+        ["unsafe", "Есть опасный признак", "Нагрев, жидкость, искры или повреждение"],
+        ["unknown", "Не уверен", "Безопасное состояние не подтверждено"],
+      ],
+      columns: "grid-cols-1 sm:grid-cols-2",
+      show: () => true,
+    },
+    confirmationTitle: "Подтвердите модель и безопасное состояние",
+    confirmationDescription: "Без этих двух ответов мастер не разрешит начинать обновление. Уже идущий процесс нельзя прерывать выключением питания, сбросом или извлечением USB.",
+    referenceSourceIds: [
+      "samsung-tv-update-online",
+      "samsung-tv-update-usb",
+      "samsung-tv-firmware-model",
+      "lg-tv-update",
+      "sony-tv-update",
+      "yaos-tv-update",
+    ],
+    next: {
+      href: "/kak-ustanovit-prilozhenie-na-televizor/",
+      label: "Телевизор обновлён? Проверить штатную установку приложения",
+    },
+  },
+  "tv-app-install": {
+    Icon: MonitorPlay,
+    requireConfirmation: true,
+    kicker: "Только официальный магазин",
+    title: "Мастер установки приложения",
+    description: "Проверьте платформу, наличие приложения в её официальном магазине, сеть, учётную запись и свободное место. Мастер не предлагает APK, смену региона или обход системных ограничений.",
+    buttonLabel: "Показать штатный путь",
+    loadingLabel: "Проверяем магазин и условия установки…",
+    toolId: "tv_app_install",
+    primary: {
+      legend: "1. Какая платформа у телевизора?",
+      options: [
+        ["samsung", "Samsung", "Точная модель из обычного информационного экрана"],
+        ["lg-webos", "LG webOS", "Платформа подтверждена по модели"],
+        ["google-android", "Google TV или Android TV", "Система подтверждена по модели"],
+        ["yaos", "YaOS", "ТВ Станция или телевизор на YaOS"],
+        ["other", "Другая платформа", "Нужна отдельная официальная инструкция"],
+        ["unknown", "Не знаю", "Сначала определим платформу по точной модели"],
+      ],
+    },
+    secondary: {
+      legend: "2. Что показывает официальный магазин?",
+      options: [
+        ["official-store", "Приложение найдено", "Карточка открыта в штатном магазине платформы"],
+        ["not-found", "Приложение не найдено", "В официальном каталоге его нет"],
+        ["apk-only", "Нашёл только файл APK", "Официальный магазин путь не подтверждает"],
+        ["unknown", "Не знаю", "Источник приложения ещё не проверен"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "",
+      legend: "Сеть и учётная запись магазина готовы?",
+      options: [
+        ["ready", "Да, оба условия готовы"],
+        ["no-network", "Нет подключения к сети"],
+        ["no-account", "Нет готовой учётной записи"],
+        ["unknown", "Не уверен"],
+      ],
+    },
+    detail: {
+      defaultValue: "",
+      legend: () => "Что официальный магазин сообщает о памяти?",
+      options: [
+        ["enough-space", "Места достаточно"],
+        ["low-space", "Места не хватает"],
+        ["unknown", "Не знаю"],
+      ],
+      show: () => true,
+    },
+    confirmationTitle: "Подтвердите условия штатной установки",
+    confirmationDescription: "Мастер продолжит только после проверки сети, учётной записи и памяти. Название платформы не гарантирует наличие приложения для конкретной модели и региона.",
+    referenceSourceIds: [
+      "samsung-tv-app-install",
+      "lg-tv-app-install",
+      "google-tv-app-install",
+      "yaos-tv-apps",
+    ],
+    next: {
+      href: "/televizor-ne-podklyuchaetsya-k-internetu/",
+      label: "Магазин не открывается? Проверить подключение телевизора к интернету",
+    },
+  },
+  "tv-factory-reset": {
+    Icon: TelevisionSimple,
+    requireConfirmation: true,
+    kicker: "Необратимое действие — только последним шагом",
+    title: "Мастер полного сброса",
+    description: "Полный сброс удаляет учётные записи, сеть, каналы, настройки и установленные приложения. Он не откатывает прошивку и не заменяет обычный перезапуск или диагностику.",
+    buttonLabel: "Проверить границу сброса",
+    loadingLabel: "Проверяем цель и готовность к удалению…",
+    toolId: "tv_factory_reset",
+    primary: {
+      legend: "1. Какая платформа у телевизора?",
+      options: [
+        ["samsung", "Samsung", "Точная модель из обычного информационного экрана"],
+        ["lg-webos", "LG webOS", "Платформа подтверждена по модели"],
+        ["google-android", "Google TV или Android TV", "Система подтверждена по модели"],
+        ["yaos", "YaOS", "ТВ Станция или телевизор на YaOS"],
+        ["other", "Другая платформа", "Нужна отдельная официальная инструкция"],
+        ["unknown", "Не знаю", "Сначала определим платформу по точной модели"],
+      ],
+    },
+    secondary: {
+      legend: "2. Зачем нужен сброс?",
+      options: [
+        ["restart-only", "Нужен только перезапуск", "Удалять данные и настройки не требуется"],
+        ["troubleshooting", "Для подтверждённой диагностики", "Сброс прямо указан следующим шагом для точной модели"],
+        ["sale-transfer", "Перед продажей или передачей", "Нужно удалить данные владельца"],
+        ["unknown", "Не уверен", "Цель полного сброса не подтверждена"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "",
+      legend: "Владелец готов потерять настройки и данные?",
+      options: [
+        ["ready-to-erase", "Да, последствия проверены"],
+        ["not-ready", "Нет, данные или доступы не готовы"],
+        ["unknown", "Не уверен"],
+      ],
+    },
+    detail: {
+      defaultValue: "",
+      legend: () => "В каком состоянии телевизор сейчас?",
+      options: [
+        ["normal-menu", "Обычное меню доступно", "Можно следовать инструкции точной модели"],
+        ["no-menu", "Обычное меню недоступно", "Скрытый сброс не используем"],
+        ["update-running", "Обновление уже идёт", "Сброс и выключение запрещены"],
+        ["unsafe", "Есть опасный признак", "Нагрев, жидкость, искры или повреждение"],
+        ["unknown", "Не уверен", "Состояние нельзя подтвердить"],
+      ],
+      columns: "grid-cols-1 sm:grid-cols-2",
+      show: () => true,
+    },
+    confirmationTitle: "Явно подтвердите готовность к удалению",
+    confirmationDescription: "Полный сброс удаляет пользовательские настройки, настроенные каналы, учётные записи и данные, а также установленные приложения. Прошивка при этом не откатывается.",
+    referenceSourceIds: [
+      "samsung-tv-reset",
+      "lg-tv-reset",
+      "sony-tv-reset",
+      "yaos-tv-reset",
+    ],
+    next: {
+      href: "/televizor-sam-vyklyuchaetsya/",
+      label: "Сброс рассматривается из-за отключений? Сначала открыть диагностику",
+    },
+  },
 };
 
 const statusCopy = {
@@ -1238,10 +1484,11 @@ export function TvTrafficTaskWizard({ task }) {
                 data-wizard-confirmation-required="true"
               >
                 <h3 className="font-display text-xl font-bold">
-                  Обязательное подтверждение перед расчётом
+                  {config.confirmationTitle ?? "Обязательное подтверждение перед расчётом"}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">
-                  Отметьте совместимость, безопасный доступ и состояние подключения. Без этих ответов мастер не предложит действие.
+                  {config.confirmationDescription
+                    ?? "Отметьте совместимость, безопасный доступ и состояние подключения. Без этих ответов мастер не предложит действие."}
                 </p>
                 <div className="mt-5">{confirmationFields}</div>
               </section>

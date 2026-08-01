@@ -1,0 +1,177 @@
+[
+  {
+    "candidate_id": "tv-app-install",
+    "candidate_path": "/kak-ustanovit-prilozhenie-na-televizor/",
+    "query": "как установить приложение на телевизор",
+    "variant": "install",
+    "operator_query": "\"[как установить приложение на телевизор]\""
+  },
+  {
+    "candidate_id": "tv-app-install",
+    "candidate_path": "/kak-ustanovit-prilozhenie-na-televizor/",
+    "query": "как скачать приложение на телевизор",
+    "variant": "download",
+    "operator_query": "\"[как скачать приложение на телевизор]\""
+  },
+  {
+    "candidate_id": "tv-app-install",
+    "candidate_path": "/kak-ustanovit-prilozhenie-na-televizor/",
+    "query": "как удалить приложение с телевизора",
+    "variant": "remove",
+    "operator_query": "\"[как удалить приложение с телевизора]\""
+  },
+  {
+    "candidate_id": "tv-youtube-recovery",
+    "candidate_path": "/ne-rabotaet-youtube-na-televizore/",
+    "query": "ютуб не работает на телевизоре",
+    "variant": "not-working",
+    "operator_query": "\"[ютуб не работает на телевизоре]\""
+  },
+  {
+    "candidate_id": "tv-youtube-recovery",
+    "candidate_path": "/ne-rabotaet-youtube-na-televizore/",
+    "query": "как обновить ютуб на телевизоре",
+    "variant": "update",
+    "operator_query": "\"[как обновить ютуб на телевизоре]\""
+  },
+  {
+    "candidate_id": "tv-firmware-update",
+    "candidate_path": "/kak-obnovit-televizor/",
+    "query": "как обновить телевизор",
+    "variant": "how-to",
+    "operator_query": "\"[как обновить телевизор]\""
+  },
+  {
+    "candidate_id": "tv-firmware-update",
+    "candidate_path": "/kak-obnovit-televizor/",
+    "query": "обновление программного обеспечения телевизора",
+    "variant": "software",
+    "operator_query": "\"[обновление программного обеспечения телевизора]\""
+  },
+  {
+    "candidate_id": "tv-factory-reset",
+    "candidate_path": "/kak-sbrosit-televizor-do-zavodskih-nastroek/",
+    "query": "как сбросить телевизор до заводских настроек",
+    "variant": "how-to",
+    "operator_query": "\"[как сбросить телевизор до заводских настроек]\""
+  },
+  {
+    "candidate_id": "tv-factory-reset",
+    "candidate_path": "/kak-sbrosit-televizor-do-zavodskih-nastroek/",
+    "query": "сброс настроек телевизора",
+    "variant": "short",
+    "operator_query": "\"[сброс настроек телевизора]\""
+  },
+  {
+    "candidate_id": "tv-antenna-connect",
+    "candidate_path": "/kak-podklyuchit-antennu-k-televizoru/",
+    "query": "как подключить антенну к телевизору",
+    "variant": "connect",
+    "operator_query": "\"[как подключить антенну к телевизору]\""
+  },
+  {
+    "candidate_id": "tv-antenna-connect",
+    "candidate_path": "/kak-podklyuchit-antennu-k-televizoru/",
+    "query": "как настроить антенну на телевизоре",
+    "variant": "configure",
+    "operator_query": "\"[как настроить антенну на телевизоре]\""
+  },
+  {
+    "candidate_id": "digital-box-connect",
+    "candidate_path": "/kak-podklyuchit-tsifrovuyu-pristavku-k-televizoru/",
+    "query": "как подключить цифровую приставку к телевизору",
+    "variant": "how-to",
+    "operator_query": "\"[как подключить цифровую приставку к телевизору]\""
+  },
+  {
+    "candidate_id": "digital-box-connect",
+    "candidate_path": "/kak-podklyuchit-tsifrovuyu-pristavku-k-televizoru/",
+    "query": "подключение цифровой приставки к телевизору",
+    "variant": "noun",
+    "operator_query": "\"[подключение цифровой приставки к телевизору]\""
+  },
+  {
+    "candidate_id": "phone-tv-remote",
+    "candidate_path": "/kak-upravlyat-televizorom-s-telefona/",
+    "query": "как управлять телевизором с телефона",
+    "variant": "control",
+    "operator_query": "\"[как управлять телевизором с телефона]\""
+  },
+  {
+    "candidate_id": "phone-tv-remote",
+    "candidate_path": "/kak-upravlyat-televizorom-s-telefona/",
+    "query": "пульт для телевизора на телефоне",
+    "variant": "remote",
+    "operator_query": "\"[пульт для телевизора на телефоне]\""
+  },
+  {
+    "candidate_id": "tv-keyboard-mouse",
+    "candidate_path": "/kak-podklyuchit-klaviaturu-i-mysh-k-televizoru/",
+    "query": "как подключить клавиатуру к телевизору",
+    "variant": "keyboard",
+    "operator_query": "\"[как подключить клавиатуру к телевизору]\""
+  },
+  {
+    "candidate_id": "tv-keyboard-mouse",
+    "candidate_path": "/kak-podklyuchit-klaviaturu-i-mysh-k-televizoru/",
+    "query": "как подключить мышь к телевизору",
+    "variant": "mouse",
+    "operator_query": "\"[как подключить мышь к телевизору]\""
+  },
+  {
+    "candidate_id": "tv-storage-cleanup",
+    "candidate_path": "/kak-ochistit-pamyat-televizora/",
+    "query": "как очистить память телевизора",
+    "variant": "cleanup",
+    "operator_query": "\"[как очистить память телевизора]\""
+  },
+  {
+    "candidate_id": "tv-storage-cleanup",
+    "candidate_path": "/kak-ochistit-pamyat-televizora/",
+    "query": "на телевизоре недостаточно памяти",
+    "variant": "not-enough",
+    "operator_query": "\"[на телевизоре недостаточно памяти]\""
+  },
+  {
+    "candidate_id": "tv-dark-screen",
+    "candidate_path": "/temnyy-ekran-na-televizore/",
+    "query": "темный экран на телевизоре",
+    "variant": "dark",
+    "operator_query": "\"[темный экран на телевизоре]\""
+  },
+  {
+    "candidate_id": "tv-flicker",
+    "candidate_path": "/migaet-ekran-televizora/",
+    "query": "мигает экран телевизора",
+    "variant": "blinks",
+    "operator_query": "\"[мигает экран телевизора]\""
+  },
+  {
+    "candidate_id": "tv-flicker",
+    "candidate_path": "/migaet-ekran-televizora/",
+    "query": "мерцает экран телевизора",
+    "variant": "flickers",
+    "operator_query": "\"[мерцает экран телевизора]\""
+  },
+  {
+    "candidate_id": "tv-disable-voice",
+    "candidate_path": "/kak-otklyuchit-golos-na-televizore/",
+    "query": "как отключить голос на телевизоре",
+    "variant": "voice",
+    "operator_query": "\"[как отключить голос на телевизоре]\""
+  },
+  {
+    "candidate_id": "tv-disable-subtitles",
+    "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+    "query": "как отключить субтитры на телевизоре",
+    "variant": "subtitles",
+    "operator_query": "\"[как отключить субтитры на телевизоре]\""
+  },
+  {
+    "candidate_id": "tv-model-lookup",
+    "candidate_path": "/kak-uznat-model-televizora/",
+    "query": "как узнать модель телевизора",
+    "variant": "model",
+    "operator_query": "\"[как узнать модель телевизора]\""
+  }
+]

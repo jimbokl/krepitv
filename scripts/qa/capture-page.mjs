@@ -493,6 +493,23 @@ try {
             "service-boundary": ["bluetooth", "bluetooth", "yes", "unsafe"],
             "external-path": ["none", "bluetooth", "yes", "safe"],
           },
+          "tv-firmware-update": {
+            success: ["samsung", "network", "yes", "ready"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["samsung", "network", "yes", "unsafe"],
+            "external-path": ["other", "network", "yes", "ready"],
+          },
+          "tv-app-install": {
+            success: ["google-android", "official-store", "ready", "enough-space"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "external-path": ["google-android", "not-found", "ready", "enough-space"],
+          },
+          "tv-factory-reset": {
+            success: ["yaos", "sale-transfer", "ready-to-erase", "normal-menu"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["yaos", "sale-transfer", "ready-to-erase", "update-running"],
+            "external-path": ["other", "sale-transfer", "ready-to-erase", "normal-menu"],
+          },
         };
         const taskScenarios = scenarios[task];
         const scenarioKey = ["needs-check", "service-boundary", "external-path", "immediate-stop"].includes(state)

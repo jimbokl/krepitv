@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "task_id": "20260801-cohort-7-smart-tv",
+  "commands": [
+    {
+      "id": "cmd-rust-cohort-7",
+      "command": "cargo test -p krepitv-engine tv_utility_cohort_7 -- --nocapture",
+      "exit_code": 0,
+      "covers": ["6 targeted tests", "closed enums", "fail closed", "destructive confirmation", "stable WASM shape"]
+    },
+    {
+      "id": "cmd-sitegen-cohort-7",
+      "command": "cargo test -p krepitv-sitegen tv_utility_cohort_7 -- --nocapture",
+      "exit_code": 0,
+      "covers": ["three canonicals", "substantive SSR", "source parity", "no Market"]
+    },
+    {
+      "id": "cmd-web-cohort-7",
+      "command": "node --test --test-concurrency=1 web/tests/tv-utility-cohort-7.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "exit_code": 0,
+      "covers": ["29 targeted tests", "all states", "privacy", "sources", "WASM call order", "related links"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["104 engine tests", "37 sitegen tests", "186 web tests", "Russian UI", "165 HTML", "54 SEO materials", "164 sitemap URLs"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "exit_code": 0,
+      "covers": ["repository security", "164 indexable HTML", "depth 3", "affiliate policy"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "design-harness scan-drift on TvTrafficTaskWizard.jsx and SeoPage.jsx",
+      "exit_code": 0,
+      "covers": ["approved Tailwind reference", "no design-system drift findings"]
+    },
+    {
+      "id": "cmd-diff-check",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "covers": ["text integrity", "scoped implementation"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-firmware-mobile-empty",
+      "path": "screenshots/firmware-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0}
+    },
+    {
+      "id": "shot-firmware-mobile-default",
+      "path": "screenshots/firmware-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "market_links": 0}
+    },
+    {
+      "id": "shot-apps-mobile-disabled",
+      "path": "screenshots/apps-mobile-disabled.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0}
+    },
+    {
+      "id": "shot-reset-tablet-focus",
+      "path": "screenshots/reset-tablet-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "market_links": 0}
+    },
+    {
+      "id": "shot-firmware-desktop-loading",
+      "path": "screenshots/firmware-desktop-loading.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "aria_busy": true, "disabled_fieldsets": 4, "market_links": 0}
+    },
+    {
+      "id": "shot-apps-tablet-error",
+      "path": "screenshots/apps-tablet-error.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "alert_visible": true, "retry_visible": true, "market_links": 0}
+    },
+    {
+      "id": "shot-firmware-desktop-success",
+      "path": "screenshots/firmware-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "action-plan", "primary_step_id": "confirm-exact-firmware-package", "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-reset-mobile-needs-check",
+      "path": "screenshots/reset-mobile-needs-check.png",
+      "state": "needs-check",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "needs-check", "primary_step_id": "confirm-reset-platform-and-purpose", "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-apps-desktop-external-path",
+      "path": "screenshots/apps-desktop-external-path.png",
+      "state": "external-path",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "external-path", "primary_step_id": "stop-unofficial-app-install", "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-reset-tablet-service-boundary",
+      "path": "screenshots/reset-tablet-service-boundary.png",
+      "state": "service-boundary",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "service-boundary", "primary_step_id": "do-not-interrupt-update-before-reset", "collapsed_remainder": true, "market_links": 0}
+    },
+    {
+      "id": "shot-reset-mobile-200pct",
+      "path": "screenshots/reset-mobile-200pct.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_percent": 200, "market_links": 0}
+    },
+    {
+      "id": "shot-firmware-tablet-text-spacing",
+      "path": "screenshots/firmware-tablet-text-spacing.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wcag_text_spacing": true, "market_links": 0}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent reviewer /root/cohort7_independent_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Three unique canonicals have substantive SSR and exact 14-source parity across manifest, design task, Rust, React and generated pages.",
+      "Closed enum inputs, destructive reset confirmation and update/menu stop boundaries are fail-closed; service menus and APK workarounds are excluded.",
+      "The three pages contain no Market CTA, price, free-text input, server submission or hidden redirect.",
+      "Responsive, 200% zoom and WCAG text-spacing captures have no overflow, overlap or clipped text and preserve the approved Tailwind reference.",
+      "The reviewer found two verifier blockers; both the 164-URL count and cohort-7 lastmod allowlist were corrected and the complete build then passed."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}
