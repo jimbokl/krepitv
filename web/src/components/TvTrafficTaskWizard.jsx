@@ -5,10 +5,13 @@ import {
   HandTap,
   Info,
   Laptop,
+  Power,
   SlidersHorizontal,
   SpeakerSlash,
   TelevisionSimple,
+  Usb,
   WarningCircle,
+  WifiSlash,
 } from "@phosphor-icons/react";
 import { calculateTvTrafficTask } from "../lib/catalog.js";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
@@ -109,6 +112,42 @@ const sourceRegistry = {
   "google-android-tv-phone-remote": {
     label: "Google: телефон как пульт Android TV",
     url: "https://support.google.com/androidtv/answer/6122465?hl=ru",
+  },
+  "samsung-tv-wifi": {
+    label: "Samsung: телевизор не видит сеть Wi-Fi",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/samsung-tv-cannot-find-wi-fi-network/",
+  },
+  "lg-tv-internet": {
+    label: "LG: проверка подключения телевизора к интернету",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20155140884890",
+  },
+  "sony-tv-internet": {
+    label: "Sony: телевизор не подключается к интернету",
+    url: "https://www.sony.ru/electronics/support/articles/00127011",
+  },
+  "samsung-tv-turns-off": {
+    label: "Samsung: телевизор выключается сам",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/how-to-troubleshoot-the-samsung-tv-that-keeps-turning-off-by-itself/",
+  },
+  "lg-tv-off-timer": {
+    label: "LG: таймер выключения телевизора",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20153413206966",
+  },
+  "lg-tv-box-turns-off": {
+    label: "LG: телевизор и внешняя приставка выключаются вместе",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20154967823534",
+  },
+  "sony-tv-auto-power": {
+    label: "Sony: автоматическое выключение телевизора",
+    url: "https://www.sony.ru/electronics/support/articles/00032613",
+  },
+  "samsung-usb-video": {
+    label: "Samsung: телевизор не воспроизводит видео с USB",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/what-can-i-do-if-usb-video-files-cannot-be-played-on-samsung-tv/",
+  },
+  "google-android-tv-storage": {
+    label: "Google: USB-накопитель в Android TV",
+    url: "https://support.google.com/androidtv/answer/6299083?hl=ru",
   },
 };
 
@@ -431,6 +470,154 @@ const configs = {
       label: "Пульт работает, но на экране «Нет сигнала»? Проверить источник",
     },
   },
+  "turns-off": {
+    Icon: Power,
+    kicker: "Сначала признаки опасности, потом закономерность",
+    title: "Мастер: телевизор сам выключается",
+    description: "Отделим таймер или управление внешнего HDMI-устройства от случайного повторяющегося выключения. При запахе, дыме, искрах, жидкости, сильном нагреве, красном мигающем индикаторе либо повреждённых, горячих или мокрых кабеле, вилке или розетке мастер сразу остановит самостоятельную проверку.",
+    buttonLabel: "Получить безопасный план",
+    loadingLabel: "Проверяем признаки и время выключения…",
+    toolId: "tv_turns_off",
+    skipSecondary: ({ primary }) => Boolean(primary && primary !== "no"),
+    primary: {
+      legend: "1. Есть запах гари, дым, искры, жидкость, сильный нагрев, красный мигающий индикатор либо повреждённые, горячие или мокрые кабель, вилка или розетка?",
+      options: [
+        ["yes", "Да", "Ничего больше не включайте и не разбирайте"],
+        ["no", "Нет", "Явных опасных признаков не наблюдается"],
+        ["unknown", "Не знаю", "Не проверяйте то, что недоступно без перемещения настенного телевизора"],
+      ],
+    },
+    secondary: {
+      legend: "2. Когда телевизор выключается?",
+      options: [
+        ["same-time", "В одно время или через одинаковый интервал", "Проверим только таймеры и автоотключение"],
+        ["after-hdmi", "После действия с HDMI-устройством", "Приставка или консоль включается либо выключается рядом"],
+        ["random", "Без заметной закономерности", "Случайно во время обычного просмотра"],
+        ["unknown", "Не знаю", "Сначала зафиксируем момент без догадок"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "unknown",
+      legend: "Это произошло один раз или повторяется?",
+      options: [
+        ["once", "Один раз"],
+        ["repeats", "Повторяется"],
+        ["unknown", "Не знаю"],
+      ],
+    },
+    detail: {
+      defaultValue: "unknown",
+      legend: () => "Вокруг корпуса свободно проходит воздух без доступа за настенным телевизором?",
+      show: () => true,
+    },
+    referenceSourceIds: [
+      "samsung-tv-turns-off",
+      "lg-tv-off-timer",
+      "lg-tv-box-turns-off",
+      "sony-tv-auto-power",
+    ],
+    next: {
+      href: "/televizor-zvuk-est-izobrazheniya-net/",
+      label: "Телевизор не выключается, а только теряет изображение? Проверить экран",
+    },
+  },
+  "no-internet": {
+    Icon: WifiSlash,
+    kicker: "Сеть проверяем без паролей и сбросов",
+    title: "Мастер: телевизор не подключается к интернету",
+    description: "Отделим телевизор от роутера, провайдера и одного приложения. Не вводите на сайте название сети, пароль, IP- или MAC-адрес: мастер их не запрашивает.",
+    buttonLabel: "Составить план проверки сети",
+    loadingLabel: "Разделяем телевизор, сеть и приложение…",
+    toolId: "tv_no_internet",
+    primary: {
+      legend: "1. На других устройствах в этой же сети интернет работает?",
+      options: [
+        ["yes", "Да", "Телефон или компьютер открывает сайты через ту же сеть"],
+        ["no", "Нет", "Интернет не работает и на других устройствах"],
+        ["unknown", "Не знаю", "Сначала выполним проверку без ввода данных сети"],
+      ],
+    },
+    secondary: {
+      legend: "2. Телевизор видит нужную сеть?",
+      options: [
+        ["yes", "Да, сеть видна", "Название есть в списке доступных сетей"],
+        ["no", "Нет, сеть не видна", "Другие сети могут быть видны или список пуст"],
+        ["wired", "Подключён сетевым кабелем", "Wi-Fi для этого подключения не используется"],
+        ["unknown", "Не знаю", "Сначала определим способ подключения"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "unknown",
+      legend: "Где именно нет доступа?",
+      options: [
+        ["one-app", "Только в одном приложении"],
+        ["all-apps", "Во всех приложениях"],
+        ["unknown", "Не знаю"],
+      ],
+    },
+    detail: {
+      defaultValue: "unknown",
+      legend: () => "Доступный сетевой кабель подключён, а на роутере нет явного сигнала ошибки?",
+      show: ({ secondary }) => secondary === "wired",
+    },
+    referenceSourceIds: [
+      "samsung-tv-wifi",
+      "lg-tv-internet",
+      "sony-tv-internet",
+    ],
+    next: {
+      href: "/televizor-ne-vidit-fleshku/",
+      label: "Хотите открыть медиафайл с обычной флешки? Проверить USB",
+    },
+  },
+  "usb-not-seen": {
+    Icon: Usb,
+    kicker: "Распознавание отдельно от формата файла",
+    title: "Мастер: телевизор не видит флешку",
+    description: "Проверим обычную USB-флешку с медиафайлами — не телефон и не диск для записи. Не форматируйте и не регистрируйте накопитель: это может удалить данные. Сначала нужна резервная копия и инструкция точной модели.",
+    buttonLabel: "Показать безопасную проверку USB",
+    loadingLabel: "Разделяем накопитель, порт и медиафайл…",
+    toolId: "tv_usb_not_seen",
+    primary: {
+      legend: "1. Телевизор показывает флешку в источниках или файловом менеджере?",
+      options: [
+        ["yes", "Да", "Накопитель виден, но проблема остаётся"],
+        ["no", "Нет", "Флешка не появляется в интерфейсе телевизора"],
+        ["unknown", "Не знаю", "Сначала найдём безопасный способ проверить распознавание"],
+      ],
+    },
+    secondary: {
+      legend: "2. Эта флешка открывается на другом доступном устройстве?",
+      options: [
+        ["yes", "Да", "Файлы видны на компьютере или другом устройстве"],
+        ["no", "Нет", "Накопитель не открывается и там"],
+        ["unknown", "Не проверял", "Не форматируйте накопитель ради проверки"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "unknown",
+      legend: "Что именно не получается?",
+      options: [
+        ["drive-not-shown", "Флешка не отображается"],
+        ["file-not-shown", "Флешка видна, файла нет"],
+        ["file-not-playing", "Файл виден, но не открывается"],
+        ["unknown", "Не знаю"],
+      ],
+    },
+    detail: {
+      defaultValue: "unknown",
+      legend: () => "В инструкции точной модели подтверждены этот USB-порт и просмотр медиа?",
+      show: () => true,
+    },
+    referenceSourceIds: [
+      "samsung-usb-video",
+      "google-android-tv-storage",
+    ],
+    next: {
+      href: "/televizor-ne-podklyuchaetsya-k-internetu/",
+      label: "Проблема только в онлайн-приложениях? Проверить подключение к интернету",
+    },
+  },
 };
 
 const statusCopy = {
@@ -548,7 +735,9 @@ export function TvTrafficTaskWizard({ task }) {
 
   if (!config) return null;
   const Icon = config.Icon;
-  const detailVisible = config.detail.show({ primary, secondary });
+  const secondarySkipped = config.skipSecondary?.({ primary }) === true;
+  const canSubmit = Boolean(primary && (secondarySkipped || secondary));
+  const detailVisible = !secondarySkipped && config.detail.show({ primary, secondary });
 
   function invalidate() {
     requestGenerationRef.current += 1;
@@ -563,7 +752,7 @@ export function TvTrafficTaskWizard({ task }) {
   }
 
   async function runCalculation() {
-    if (!primary || !secondary || requestState === "loading") return;
+    if (!canSubmit || requestState === "loading") return;
     const generation = requestGenerationRef.current + 1;
     requestGenerationRef.current = generation;
     setRequestState("loading");
@@ -573,8 +762,8 @@ export function TvTrafficTaskWizard({ task }) {
       const rawPlan = await calculateTvTrafficTask({
         task,
         primary,
-        secondary,
-        tertiary,
+        secondary: secondarySkipped ? "unknown" : secondary,
+        tertiary: secondarySkipped ? "unknown" : tertiary,
         detail: detailVisible ? detail : "unknown",
       });
       const plan = normalizeTvTrafficTaskPlan(rawPlan, task);
@@ -631,7 +820,7 @@ export function TvTrafficTaskWizard({ task }) {
             value={primary}
           />
 
-          {primary ? (
+          {primary && !secondarySkipped ? (
             <div className="mt-7" data-wizard-step="secondary">
               <ChoiceGrid
                 columns="sm:grid-cols-2"
@@ -643,13 +832,23 @@ export function TvTrafficTaskWizard({ task }) {
                 value={secondary}
               />
             </div>
+          ) : secondarySkipped ? (
+            <p
+              className="mt-5 border-l-2 border-danger pl-4 text-sm font-semibold leading-relaxed text-danger"
+              data-wizard-secondary-skipped={primary === "yes" ? "danger" : "unconfirmed"}
+              role="status"
+            >
+              {primary === "yes"
+                ? "Опасные признаки отмечены. Дополнительные наблюдения не нужны — остановите самостоятельную проверку."
+                : "Безопасность не подтверждена. Второй вопрос не нужен — мастер даст безопасную границу остановки."}
+            </p>
           ) : (
             <p className="mt-5 border-l-2 border-line pl-4 text-sm text-muted" aria-live="polite">
               Далее — уточним второе наблюдение.
             </p>
           )}
 
-          {primary && secondary ? (
+          {primary && secondary && !secondarySkipped ? (
             <details className="group mt-7 border-y border-line py-1">
               <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 font-display text-xl font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
                 Уточнить наблюдения — необязательно
@@ -680,7 +879,7 @@ export function TvTrafficTaskWizard({ task }) {
 
           <button
             className="primary-button mt-7 min-h-14 w-full sm:w-auto"
-            disabled={!primary || !secondary || requestState === "loading"}
+            disabled={!canSubmit || requestState === "loading"}
             type="submit"
           >
             {requestState === "loading" ? config.loadingLabel : config.buttonLabel}

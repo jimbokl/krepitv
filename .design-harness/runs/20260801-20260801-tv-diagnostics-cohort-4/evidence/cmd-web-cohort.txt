@@ -1,0 +1,5 @@
+PASS
+Command: node --test --test-concurrency=1 web/tests/tv-diagnostics-cohort-4.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs
+Result: 30 passed; 0 failed.
+Coverage: SSR, privacy, immediate danger, capture contract, internal links,
+zero Market links and controlled WASM arguments.

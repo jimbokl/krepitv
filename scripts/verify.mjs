@@ -10,7 +10,7 @@ const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-07-31";
 const trafficPagesUpdatedAt = "2026-08-01";
-const expectedIndexableUrlCount = 152;
+const expectedIndexableUrlCount = 155;
 const removedAffiliateDisclaimerFragments = [
   "Партнёрская ссылка на Яндекс Маркет",
   "Если вы оформите заказ",
@@ -1606,6 +1606,9 @@ for (const page of indexableSeoPages) {
     "tv-sound-no-picture",
     "tv-no-sound",
     "tv-remote-not-working",
+    "tv-turns-off",
+    "tv-no-internet",
+    "tv-usb-not-seen",
     "laptop-to-tv",
     "digital-channels",
     "picture-setup",

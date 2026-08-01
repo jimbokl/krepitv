@@ -191,13 +191,13 @@ export function HomePage({ catalog }) {
           >
             {featuredSeoPages.map((page) => (
               <a
-                className="group flex min-h-28 items-end justify-between gap-4 bg-paper p-5 font-display text-lg font-bold transition hover:bg-white hover:text-action"
+                className="group relative flex min-h-28 items-end bg-paper px-3 py-4 pr-9 font-display text-base font-bold leading-snug transition hover:bg-white hover:text-action sm:p-5 sm:pr-12 sm:text-lg"
                 data-featured-traffic-tool={page.id}
                 href={page.path}
                 key={page.id}
               >
                 {page.h1.replace(/:.+$/, "")}
-                <ArrowRight aria-hidden="true" className="size-5 shrink-0 transition group-hover:translate-x-1" />
+                <ArrowRight aria-hidden="true" className="absolute bottom-4 right-3 size-4 transition group-hover:translate-x-1 sm:bottom-5 sm:right-5 sm:size-5" />
               </a>
             ))}
           </nav>
@@ -211,7 +211,11 @@ export function HomePage({ catalog }) {
           </div>
         </section>
 
-        <section className="border-b border-line py-8" id="diagnostika-televizora">
+        <section
+          className="border-b border-line py-8"
+          data-home-tv-diagnostics="true"
+          id="diagnostika-televizora"
+        >
           <div className="grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
@@ -228,17 +232,18 @@ export function HomePage({ catalog }) {
           </div>
           <nav
             aria-label="Диагностика телевизора"
-            className="mt-6 grid gap-px border border-line bg-line md:grid-cols-3"
+            className="mt-6 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3"
+            data-home-tv-diagnostics-count={diagnosticPages.length}
           >
             {diagnosticPages.map((page) => (
               <a
-                className="group flex min-h-28 items-end justify-between gap-4 bg-paper p-5 font-display text-lg font-bold transition hover:bg-white hover:text-action"
+                className="group relative flex min-h-16 items-end bg-paper px-3 py-3 pr-9 font-display text-base font-bold leading-snug transition hover:bg-white hover:text-action sm:min-h-28 sm:p-5 sm:pr-12 sm:text-lg"
                 data-home-tv-diagnostic={page.id}
                 href={page.path}
                 key={page.id}
               >
                 {page.h1.replace(/:.+$/, "")}
-                <ArrowRight aria-hidden="true" className="size-5 shrink-0 transition group-hover:translate-x-1" />
+                <ArrowRight aria-hidden="true" className="absolute bottom-3 right-3 size-4 transition group-hover:translate-x-1 sm:bottom-5 sm:right-5 sm:size-5" />
               </a>
             ))}
           </nav>

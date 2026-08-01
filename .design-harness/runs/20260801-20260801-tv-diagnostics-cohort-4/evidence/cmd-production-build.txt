@@ -1,0 +1,7 @@
+PASS
+Command: npm run build
+Result: clean production artifact, 82 engine tests, 34 sitegen tests,
+161 web tests, 10 catalog tests, 75 affiliate tests, 10 IndexNow tests and
+43 analytics tests. Generated 156 HTML pages, including 155 indexable URLs,
+and 45 SEO materials. Exactly one referenced JS and one referenced CSS bundle
+remain after the serial clean build.

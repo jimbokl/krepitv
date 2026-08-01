@@ -1,0 +1,51 @@
+[
+  {
+    "candidate_id": "tv-wont-turn-on",
+    "candidate_path": "/televizor-ne-vklyuchaetsya/",
+    "query": "телевизор не включается",
+    "operator_query": "\"[!телевизор !не !включается]\"",
+    "variant": "fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-wont-turn-on",
+    "candidate_path": "/televizor-ne-vklyuchaetsya/",
+    "query": "телевизор не включается что делать",
+    "operator_query": "\"[!телевизор !не !включается что делать]\"",
+    "variant": "what-to-do-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-freezes",
+    "candidate_path": "/televizor-zavis/",
+    "query": "телевизор завис",
+    "operator_query": "\"[!телевизор !завис]\"",
+    "variant": "fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-freezes",
+    "candidate_path": "/televizor-zavis/",
+    "query": "телевизор завис что делать",
+    "operator_query": "\"[!телевизор !завис что делать]\"",
+    "variant": "what-to-do-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-turns-off",
+    "candidate_path": "/televizor-sam-vyklyuchaetsya/",
+    "query": "телевизор сам выключается",
+    "operator_query": "\"[!телевизор сам !выключается]\"",
+    "variant": "fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-no-internet",
+    "candidate_path": "/televizor-ne-podklyuchaetsya-k-internetu/",
+    "query": "телевизор не подключается к интернету",
+    "operator_query": "\"[!телевизор !не !подключается к интернету]\"",
+    "variant": "fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-usb-not-seen",
+    "candidate_path": "/televizor-ne-vidit-fleshku/",
+    "query": "телевизор не видит флешку",
+    "operator_query": "\"[!телевизор !не !видит флешку]\"",
+    "variant": "fixed-wordforms"
+  }
+]

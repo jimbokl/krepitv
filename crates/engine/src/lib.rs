@@ -2837,6 +2837,658 @@ fn calculate_remote_not_working_task(
     ))
 }
 
+fn calculate_turns_off_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["yes", "no", "unknown"],
+        "Опасные признаки",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["same-time", "after-hdmi", "random", "unknown"],
+        "Сценарий выключения",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["once", "repeats", "unknown"],
+        "Повторяемость выключения",
+    )?;
+    require_choice(
+        &input.detail,
+        &["yes", "no", "unknown"],
+        "Свободная вентиляция",
+    )?;
+
+    let safety_warnings = [
+        "Не разбирайте телевизор, блок питания или подключённые устройства и не выполняйте электрические измерения.",
+        "Не снимайте и не сдвигайте настенный телевизор ради проверки питания, кабеля, вилки, розетки или вентиляции.",
+        "Повреждённые, горячие или мокрые доступные кабель, вилка или розетка, а также красный мигающий индикатор — повод остановить проверку без вывода о неисправной детали.",
+    ];
+
+    if input.primary == "yes" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "turns-off",
+            "Прекратите самостоятельную проверку",
+            "Запах гари, дым, искры, треск, следы жидкости, заметный перегрев, повреждённые, горячие или мокрые доступные кабель, вилка или розетка либо красный мигающий индикатор требуют остановить использование. По этим признакам нельзя определять деталь или продолжать проверку меню.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unsafe-use",
+                    "Не включайте телевизор повторно",
+                    "Прекратите использование телевизора. Не касайтесь повреждённых, горячих или мокрых доступных кабеля, вилки или розетки, не тянитесь к питанию или разъёмам за настенным экраном и не пытайтесь найти источник признака.",
+                    &["samsung-tv-turns-off", "sony-tv-auto-power"],
+                    "Если безопасно прекратить использование штатной кнопкой или пультом нельзя, отойдите от телевизора и обратитесь за очной помощью.",
+                ),
+                tv_traffic_task_step(
+                    "contact-turn-off-support",
+                    "Передайте наблюдения официальной поддержке",
+                    "Сообщите точную модель, когда телевизор выключился, какой опасный признак был замечен и мигал ли индикатор красным. Не называйте предполагаемую неисправную деталь.",
+                    &["samsung-tv-turns-off", "sony-tv-auto-power"],
+                    "До проверки специалистом не возобновляйте самостоятельные эксперименты.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "turns-off",
+            "Сначала исключите опасные признаки",
+            "До проверки запаха гари, дыма, искр, треска, следов жидкости, заметного перегрева, повреждения, нагрева или намокания доступных кабеля, вилки и розетки, а также красного мигающего индикатора безопасный маршрут продолжать нельзя.",
+            vec![tv_traffic_task_step(
+                "observe-danger-signals",
+                "Осмотрите телевизор без касания",
+                "С безопасного расстояния отметьте только наличие запаха гари, дыма, искр, треска, следов жидкости, заметного перегрева, повреждённых, горячих или мокрых доступных кабеля, вилки или розетки и красного мигающего индикатора. Не заглядывайте за настенный экран и ничего не касайтесь.",
+                &["samsung-tv-turns-off", "sony-tv-auto-power"],
+                "При любом опасном признаке прекратите использование и обратитесь за очной помощью.",
+            )],
+            &safety_warnings,
+        ));
+    }
+
+    if input.detail == "no" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "turns-off",
+            "Не продолжайте проверку при закрытой вентиляции",
+            "Наблюдаемое перекрытие вентиляции нельзя безопасно исправлять, если для этого нужно сдвигать или снимать телевизор.",
+            vec![
+                tv_traffic_task_step(
+                    "compare-model-clearances",
+                    "Сверьте требования точной модели",
+                    "По официальному руководству точной модели проверьте требуемые зазоры, не перемещая телевизор и не снимая его со стены.",
+                    &["samsung-tv-turns-off", "sony-tv-auto-power"],
+                    "Если зазоры нельзя проверить или обеспечить без перемещения телевизора, остановитесь.",
+                ),
+                tv_traffic_task_step(
+                    "request-safe-placement-check",
+                    "Передайте установку специалисту",
+                    "Сообщите точную модель, тип установки и какой вентиляционный зазор кажется перекрытым. Не возобновляйте длительное использование до безопасной проверки размещения.",
+                    &["samsung-tv-turns-off", "sony-tv-auto-power"],
+                    "Не пытайтесь самостоятельно добраться за настенный телевизор.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "after-hdmi" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "turns-off",
+            "Отделите телевизор от управления HDMI-устройства",
+            "Выключение после команды или события внешнего HDMI-устройства относится к отдельному пути таймеров и управления подключённой техники.",
+            vec![
+                tv_traffic_task_step(
+                    "record-hdmi-event",
+                    "Зафиксируйте одно внешнее событие",
+                    "Отметьте, после выключения, сна или команды какого HDMI-устройства выключается телевизор. Не меняйте кабельную схему.",
+                    &["lg-tv-box-turns-off", "samsung-tv-turns-off"],
+                    "Если выключение происходит и без такого события, остановите сравнение и выберите сценарий случайного выключения.",
+                ),
+                tv_traffic_task_step(
+                    "check-model-hdmi-control",
+                    "Сверьте управление HDMI по руководству",
+                    "Откройте только обычные настройки управления HDMI у точной модели телевизора и внешнего устройства и сравните их с официальными инструкциями.",
+                    &["lg-tv-box-turns-off", "sony-tv-auto-power"],
+                    "Не открывайте сервисное меню и не применяйте название настройки от другой модели.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "same-time" {
+        let repeat_note = match input.tertiary.as_str() {
+            "repeats" => {
+                "Запишите два последних совпавших времени или интервала, не оставляя телевизор включённым специально для опыта."
+            }
+            "once" => {
+                "Запишите время единственного эпизода и не считайте его подтверждённым расписанием."
+            }
+            _ => {
+                "При следующем обычном использовании отметьте время только если выключение повторится; не провоцируйте его."
+            }
+        };
+        return Ok(tv_traffic_task_plan(
+            "action-plan",
+            "turns-off",
+            "Проверьте таймеры и автоотключение",
+            "Одинаковое время или интервал позволяет сначала проверить обычные таймеры модели, не переходя к аппаратному диагнозу.",
+            vec![
+                tv_traffic_task_step(
+                    "record-shutdown-pattern",
+                    "Зафиксируйте время или интервал",
+                    repeat_note,
+                    &["lg-tv-off-timer", "sony-tv-auto-power"],
+                    "Если время или интервал не повторяются, не приписывайте выключение таймеру.",
+                ),
+                tv_traffic_task_step(
+                    "check-model-timers",
+                    "Проверьте обычные таймеры модели",
+                    "По официальной инструкции точной модели откройте таймер сна, таймер выключения и автоотключение при бездействии, если такие пункты доступны.",
+                    &[
+                        "lg-tv-off-timer",
+                        "samsung-tv-turns-off",
+                        "sony-tv-auto-power",
+                    ],
+                    "Не выполняйте общий сброс и не меняйте скрытые или сервисные параметры.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "random" && input.tertiary == "repeats" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "turns-off",
+            "Повторяющиеся случайные выключения передайте поддержке",
+            "Без устойчивого времени, интервала или связи с HDMI безопасные наблюдения не определяют причину повторяющихся выключений.",
+            vec![
+                tv_traffic_task_step(
+                    "record-random-shutdowns",
+                    "Сохраните только наблюдения",
+                    "Запишите время двух последних эпизодов, активный вход и выполнявшееся действие. Не оставляйте телевизор включённым специально для повторения.",
+                    &["samsung-tv-turns-off", "sony-tv-auto-power"],
+                    "При появлении опасного признака прекратите использование немедленно.",
+                ),
+                tv_traffic_task_step(
+                    "contact-random-shutdown-support",
+                    "Обратитесь в официальную поддержку модели",
+                    "Передайте точную модель и записанные наблюдения без предположения о неисправной детали.",
+                    &["samsung-tv-turns-off", "sony-tv-auto-power"],
+                    "Не разбирайте телевизор и не выполняйте электрические проверки.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    Ok(tv_traffic_task_plan(
+        "needs-check",
+        "turns-off",
+        "Нужно уточнить повторяемый сценарий",
+        "Одного случайного или пока неописанного эпизода недостаточно, чтобы выбрать проверку таймера, HDMI-управления или поддержки.",
+        vec![
+            tv_traffic_task_step(
+                "observe-shutdown-context",
+                "Запишите контекст следующего обычного эпизода",
+                "Если выключение повторится при обычном использовании, отметьте время, активный вход и предшествующее действие. Не пытайтесь вызвать эпизод специально.",
+                &["samsung-tv-turns-off", "sony-tv-auto-power"],
+                "При запахе гари, дыме, искрах, треске, следах жидкости или заметном перегреве сразу прекратите использование.",
+            ),
+            tv_traffic_task_step(
+                "classify-shutdown-pattern",
+                "Выберите наблюдаемый сценарий",
+                "Отдельно отметьте одинаковое время или интервал, связь с HDMI-устройством либо отсутствие закономерности.",
+                &[
+                    "lg-tv-off-timer",
+                    "lg-tv-box-turns-off",
+                    "sony-tv-auto-power",
+                ],
+                "Не делайте вывод о внутренней причине по одному наблюдению.",
+            ),
+        ],
+        &safety_warnings,
+    ))
+}
+
+fn calculate_no_internet_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["yes", "no", "unknown"],
+        "Интернет на других устройствах",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["yes", "no", "wired", "unknown"],
+        "Видимость сети телевизором",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["one-app", "all-apps", "unknown"],
+        "Масштаб проблемы",
+    )?;
+    require_choice(
+        &input.detail,
+        &["yes", "no", "unknown"],
+        "Видимые индикаторы кабеля или роутера",
+    )?;
+
+    let safety_warnings = [
+        "Не вводите на сайте название сети, пароль, IP- или MAC-адрес: мастер их не запрашивает.",
+        "Не сбрасывайте телевизор или роутер и не меняйте DNS, IP и другие сетевые параметры.",
+        "Не снимайте и не сдвигайте настенный телевизор ради доступа к кабелю или разъёмам.",
+    ];
+
+    if input.primary == "unknown" || input.secondary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "no-internet",
+            "Сначала отделите телевизор от домашней сети",
+            "Нужно проверить только два наблюдения: работает ли интернет на другом устройстве и видит ли телевизор доступные сети или проводное подключение.",
+            vec![
+                tv_traffic_task_step(
+                    "compare-another-device",
+                    "Проверьте одно другое устройство",
+                    "На телефоне или компьютере откройте любой знакомый сайт через ту же домашнюю сеть и отметьте только результат: работает или нет.",
+                    &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                    "Не сообщайте мастеру название сети, пароль или сетевые адреса.",
+                ),
+                tv_traffic_task_step(
+                    "open-tv-network-status",
+                    "Откройте обычный статус сети телевизора",
+                    "В меню точной модели проверьте, видит ли телевизор сети Wi-Fi или проводное подключение. Не меняйте сохранённые параметры.",
+                    &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                    "Если для доступа к кабелю нужно сдвигать телевизор, остановитесь на экранном статусе.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary == "no" {
+        let indicator_note = match input.detail.as_str() {
+            "yes" => {
+                "Видимые индикаторы роутера уже проверены. Запишите их обычное состояние без нажатия кнопок и изменения настроек."
+            }
+            "no" => {
+                "Если индикаторы роутера видны без перемещения техники, сравните их с обычным состоянием и руководством роутера."
+            }
+            _ => {
+                "Проверяйте индикаторы только если они видны без перемещения техники; иначе пропустите этот шаг."
+            }
+        };
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "no-internet",
+            "Сначала проверьте роутер или провайдера",
+            "Если интернет не работает и на другом устройстве, телевизор пока не является отдельной точкой проблемы.",
+            vec![
+                tv_traffic_task_step(
+                    "observe-router-status",
+                    "Сверьте видимый статус роутера",
+                    indicator_note,
+                    &["lg-tv-internet", "sony-tv-internet"],
+                    "Не нажимайте Reset, WPS или другие кнопки и не меняйте сетевые настройки.",
+                ),
+                tv_traffic_task_step(
+                    "check-provider-status",
+                    "Проверьте сообщение провайдера",
+                    "Через мобильный интернет откройте официальный статус или поддержку провайдера и сообщите только факт общего отсутствия доступа.",
+                    &["lg-tv-internet", "sony-tv-internet"],
+                    "Не передавайте пароль Wi-Fi, IP- или MAC-адрес через этот мастер.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "wired" && input.tertiary != "one-app" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "no-internet",
+            "Проверьте проводной путь без доступа за телевизор",
+            "Проводное подключение включает телевизор, кабель, роутер и провайдера; экранный статус помогает выбрать поддержку без перестановки техники.",
+            vec![
+                tv_traffic_task_step(
+                    "read-wired-status",
+                    "Запишите экранный статус подключения",
+                    "Откройте обычный раздел сети телевизора и отметьте, распознано ли проводное подключение и есть ли доступ к интернету.",
+                    &["lg-tv-internet", "sony-tv-internet"],
+                    "Не публикуйте IP- или MAC-адрес и не меняйте ручные параметры.",
+                ),
+                tv_traffic_task_step(
+                    "use-wired-support-path",
+                    "Передайте результат по нужному пути",
+                    "Если другие устройства работают, передайте статус официальной поддержке точной модели; если нет — провайдеру или поддержке роутера.",
+                    &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                    "Не тянитесь к кабелю за настенным телевизором и не выполняйте сброс.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "no" && input.tertiary == "one-app" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "no-internet",
+            "Наблюдения о подключении не совпадают",
+            "Проблему одного приложения можно проверять только после того, как телевизор видит сеть. Сейчас сначала нужно повторно разделить эти два наблюдения.",
+            vec![tv_traffic_task_step(
+                "repeat-network-and-app-observation",
+                "Проверьте сеть и приложение отдельно",
+                "Сначала откройте обычный список сетей телевизора и отметьте, видна ли домашняя сеть. Только если она видна, сравните проблемное приложение с одним другим встроенным сервисом.",
+                &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                "Не удаляйте сохранённую сеть, не вводите данные на сайте и не выполняйте сброс.",
+            )],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "no" {
+        return Ok(tv_traffic_task_plan(
+            "action-plan",
+            "no-internet",
+            "Телевизор не видит сеть — проверьте путь модели",
+            "Другие устройства работают, поэтому следующий безопасный шаг ограничен списком сетей и официальной инструкцией точной модели.",
+            vec![
+                tv_traffic_task_step(
+                    "refresh-visible-network-list",
+                    "Повторно откройте список сетей",
+                    "Закройте и снова откройте обычный список доступных сетей в меню телевизора, не удаляя сохранённые подключения.",
+                    &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                    "Не вводите имя сети или пароль на этом сайте и не меняйте настройки роутера.",
+                ),
+                tv_traffic_task_step(
+                    "check-exact-model-network-guide",
+                    "Сверьте инструкцию точной модели",
+                    "Проверьте в официальном руководстве, какой беспроводной путь и какие экранные статусы предусмотрены именно для этой модели.",
+                    &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                    "Не применяйте процедуру другой модели и не выполняйте общий сброс.",
+                ),
+                tv_traffic_task_step(
+                    "contact-network-support",
+                    "Передайте наблюдения официальной поддержке",
+                    "Сообщите точную модель, что другие устройства подключаются, а сеть отсутствует в списке телевизора. Пароль и сетевые адреса не сообщайте мастеру.",
+                    &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                    "Эти наблюдения не определяют аппаратную причину.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.tertiary == "one-app" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "no-internet",
+            "Проверьте одно приложение отдельно",
+            "Если интернет работает на других устройствах и проблема видна только в одном приложении, общая сеть телевизора пока не подтверждена как причина.",
+            vec![
+                tv_traffic_task_step(
+                    "compare-built-in-apps",
+                    "Сравните с одним другим приложением",
+                    "Откройте одно другое встроенное приложение при тех же сетевых настройках и отметьте только, загружается ли оно.",
+                    &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                    "Не выходите из аккаунтов и не удаляйте приложение ради проверки.",
+                ),
+                tv_traffic_task_step(
+                    "check-app-support",
+                    "Перейдите к официальной поддержке приложения",
+                    "Если другое приложение работает, проверьте официальный статус и требования проблемного сервиса для точной модели телевизора.",
+                    &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                    "Не меняйте DNS или общие настройки сети для одного приложения.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.tertiary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "no-internet",
+            "Уточните, где именно нет доступа",
+            "Нужно отделить одно приложение от всех встроенных сервисов, не меняя сетевые настройки.",
+            vec![tv_traffic_task_step(
+                "compare-internet-scope",
+                "Сравните два встроенных сервиса",
+                "Откройте проблемное и одно другое встроенное приложение и отметьте только, какое из них загружается.",
+                &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                "Не удаляйте приложения, не выходите из аккаунтов и не выполняйте сброс.",
+            )],
+            &safety_warnings,
+        ));
+    }
+
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "no-internet",
+        "Сеть видна — проверьте экранный статус и сервисы",
+        "Когда другие устройства работают и телевизор видит сеть, можно сравнить его экранный статус и встроенные сервисы без изменения сетевых параметров.",
+        vec![
+            tv_traffic_task_step(
+                "read-tv-connection-status",
+                "Запишите только статус подключения",
+                "Откройте обычный раздел сети телевизора и отметьте, показывает ли он подключение к сети и доступ к интернету.",
+                &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                "Не копируйте и не публикуйте название сети, IP- или MAC-адрес.",
+            ),
+            tv_traffic_task_step(
+                "compare-all-apps-path",
+                "Сравните два встроенных сервиса",
+                "Откройте два знакомых встроенных приложения при неизменных настройках и отметьте только результат загрузки.",
+                &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                "Если не работает только одно приложение, продолжайте по его официальной поддержке.",
+            ),
+            tv_traffic_task_step(
+                "route-network-observation",
+                "Передайте результат по нужному пути",
+                "При отсутствии доступа во всех сервисах передайте точную модель и экранный статус официальной поддержке телевизора; при общем сбое домашней сети — провайдеру.",
+                &["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+                "Не выполняйте сброс и не меняйте DNS, IP или другие ручные параметры.",
+            ),
+        ],
+        &safety_warnings,
+    ))
+}
+
+fn calculate_usb_not_seen_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["yes", "no", "unknown"],
+        "Распознавание флешки телевизором",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["yes", "no", "unknown"],
+        "Работа флешки на другом устройстве",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &[
+            "drive-not-shown",
+            "file-not-shown",
+            "file-not-playing",
+            "unknown",
+        ],
+        "Наблюдаемый симптом USB",
+    )?;
+    require_choice(
+        &input.detail,
+        &["yes", "no", "unknown"],
+        "Поддержка в руководстве точной модели",
+    )?;
+
+    let safety_warnings = [
+        "Мастер предназначен только для обычной USB-флешки с медиафайлами, а не для телефона, Android-хранилища или диска для записи ТВ.",
+        "Не форматируйте и не регистрируйте накопитель: это может удалить данные. Сначала нужна резервная копия и инструкция точной модели.",
+        "Не вставляйте флешку с усилием, не разбирайте телевизор и не тянитесь к порту за настенным экраном.",
+    ];
+
+    if input.primary == "unknown" || input.secondary == "unknown" || input.tertiary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "usb-not-seen",
+            "Сначала разделите накопитель и файл",
+            "Нужно отдельно проверить, виден ли сам накопитель, работает ли он на другом устройстве и появляется ли нужный файл.",
+            vec![
+                tv_traffic_task_step(
+                    "check-usb-media-list",
+                    "Откройте список USB-медиа",
+                    "В обычном меню источников или медиа точной модели отметьте только, появляется ли флешка как накопитель.",
+                    &["samsung-usb-video"],
+                    "Если порт недоступен без снятия или сдвига телевизора, не пытайтесь добраться до него.",
+                ),
+                tv_traffic_task_step(
+                    "check-drive-elsewhere-read-only",
+                    "Проверьте чтение на другом устройстве",
+                    "Если флешка уже безопасно извлечена, откройте её на компьютере только для чтения и убедитесь, что видны файлы.",
+                    &["samsung-usb-video", "google-android-tv-storage"],
+                    "Не соглашайтесь на форматирование, исправление или регистрацию накопителя.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.secondary == "no" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "usb-not-seen",
+            "Сначала защитите данные на флешке",
+            "Если накопитель не читается и на другом устройстве, телевизор пока не является отдельной точкой проблемы.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-usb-write-actions",
+                    "Не записывайте ничего на накопитель",
+                    "Откажитесь от предложений форматирования, исправления или регистрации и не копируйте новые файлы на эту флешку.",
+                    &["google-android-tv-storage"],
+                    "Любая запись может затруднить сохранение имеющихся данных.",
+                ),
+                tv_traffic_task_step(
+                    "use-data-safety-path",
+                    "Выберите путь сохранения данных",
+                    "Если файлы важны, передайте накопитель специалисту по данным; если есть резервная копия, сверяйте дальнейшие действия только с инструкцией накопителя.",
+                    &["google-android-tv-storage"],
+                    "Не используйте телевизор для проверки накопителя, который не читается на другом устройстве.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.detail != "yes" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "usb-not-seen",
+            "Сначала подтвердите поддержку точной модели",
+            "Поддержка USB-порта, накопителя и медиаформатов зависит от точной модели; похожая инструкция не подтверждает совместимость.",
+            vec![
+                tv_traffic_task_step(
+                    "find-exact-model-usb-guide",
+                    "Откройте руководство точной модели",
+                    "Проверьте назначение доступного USB-порта и раздел воспроизведения медиа именно для вашей модели.",
+                    &["samsung-usb-video", "google-android-tv-storage"],
+                    "Не используйте инструкцию похожей модели для вывода о поддержке.",
+                ),
+                tv_traffic_task_step(
+                    "preserve-usb-data",
+                    "Сохраните данные без изменений",
+                    "До подтверждения поддержки не форматируйте, не регистрируйте и не изменяйте файловую систему накопителя.",
+                    &["google-android-tv-storage"],
+                    "Если резервной копии нет, не выполняйте операции записи.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary == "no" && input.tertiary == "drive-not-shown" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "usb-not-seen",
+            "Безопасная проверка распознавания завершена",
+            "Флешка читается на другом устройстве и заявлена в руководстве точной модели, но телевизор её не показывает. Эти наблюдения не определяют аппаратную причину.",
+            vec![
+                tv_traffic_task_step(
+                    "confirm-documented-media-port",
+                    "Сверьте назначение доступного USB-порта",
+                    "По руководству точной модели убедитесь, что использован доступный порт для воспроизведения медиа, не перемещая телевизор и не применяя силу.",
+                    &["samsung-usb-video"],
+                    "Если подходящий порт недоступен без снятия или сдвига телевизора, остановитесь.",
+                ),
+                tv_traffic_task_step(
+                    "contact-usb-model-support",
+                    "Передайте наблюдения официальной поддержке",
+                    "Сообщите точную модель, назначение порта и то, что флешка читается на другом устройстве, но не отображается в меню ТВ.",
+                    &["samsung-usb-video", "google-android-tv-storage"],
+                    "Не называйте порт или внутреннюю деталь неисправными и не форматируйте накопитель.",
+                ),
+            ],
+            &safety_warnings,
+        ));
+    }
+
+    if input.primary == "no" || input.tertiary == "drive-not-shown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "usb-not-seen",
+            "Наблюдения о флешке не совпадают",
+            "Файл нельзя проверять в телевизоре, пока сам накопитель не появился в списке USB-медиа.",
+            vec![tv_traffic_task_step(
+                "repeat-usb-observation",
+                "Повторите только проверку списка медиа",
+                "Откройте обычный список USB-медиа и отметьте отдельно наличие накопителя и наличие файла, не меняя данные.",
+                &["samsung-usb-video"],
+                "Не форматируйте накопитель и не вставляйте его с усилием.",
+            )],
+            &safety_warnings,
+        ));
+    }
+
+    let file_instruction = if input.tertiary == "file-not-shown" {
+        "Сверьте расширение, контейнер и расположение файла со списком, указанным в официальном руководстве точной модели. Не переименовывайте единственный оригинал файла."
+    } else {
+        "Сверьте контейнер и параметры медиафайла со списком, указанным в официальном руководстве точной модели. Видимый файл ещё не подтверждает возможность воспроизведения."
+    };
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "usb-not-seen",
+        "Флешка видна — проверьте поддержку файла",
+        "Распознавание накопителя и воспроизведение файла являются разными наблюдениями; модельный список форматов проверяется без изменения флешки.",
+        vec![
+            tv_traffic_task_step(
+                "confirm-usb-drive-visible",
+                "Зафиксируйте видимый накопитель",
+                "Откройте флешку через обычный список медиа и убедитесь, что телевизор показывает сам накопитель до выбора файла.",
+                &["samsung-usb-video"],
+                "Если накопитель исчезает или порт нестабилен, прекратите проверку и обратитесь в поддержку без аппаратного диагноза.",
+            ),
+            tv_traffic_task_step(
+                "compare-supported-media",
+                "Сверьте файл с руководством модели",
+                file_instruction,
+                &["samsung-usb-video"],
+                "Не меняйте файловую систему и не форматируйте накопитель ради одного файла.",
+            ),
+            tv_traffic_task_step(
+                "use-copy-for-media-check",
+                "Работайте только с копией файла",
+                "Если нужна дополнительная проверка на компьютере, сначала сохраните резервную копию и используйте копию медиафайла, не изменяя оригинал на флешке.",
+                &["google-android-tv-storage"],
+                "Если резервной копии нет, остановитесь без операций записи.",
+            ),
+        ],
+        &safety_warnings,
+    ))
+}
+
 /// Строит один безопасный план для выбранного самостоятельного TV-интента.
 pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
     require_choice(
@@ -2848,6 +3500,9 @@ pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTraffic
             "sound-but-no-picture",
             "no-sound",
             "remote-not-working",
+            "turns-off",
+            "no-internet",
+            "usb-not-seen",
         ],
         "Инструмент",
     )?;
@@ -2858,6 +3513,9 @@ pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTraffic
         "sound-but-no-picture" => calculate_sound_but_no_picture_task(input),
         "no-sound" => calculate_no_sound_task(input),
         "remote-not-working" => calculate_remote_not_working_task(input),
+        "turns-off" => calculate_turns_off_task(input),
+        "no-internet" => calculate_no_internet_task(input),
+        "usb-not-seen" => calculate_usb_not_seen_task(input),
         _ => unreachable!(),
     }
 }
@@ -6963,6 +7621,326 @@ mod tests {
                     "unsafe instruction {forbidden}: {serialized}"
                 );
             }
+        }
+    }
+
+    #[test]
+    fn tv_diagnostics_cohort_4_success_paths_are_bounded_and_source_backed() {
+        let plans = [
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "turns-off",
+                "no",
+                "same-time",
+                "repeats",
+                "yes",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "no-internet",
+                "yes",
+                "no",
+                "all-apps",
+                "yes",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "usb-not-seen",
+                "yes",
+                "yes",
+                "file-not-playing",
+                "yes",
+            ))
+            .unwrap(),
+        ];
+        let expected_tasks = ["turns-off", "no-internet", "usb-not-seen"];
+        let allowed_sources = [
+            "samsung-tv-turns-off",
+            "lg-tv-off-timer",
+            "lg-tv-box-turns-off",
+            "sony-tv-auto-power",
+            "samsung-tv-wifi",
+            "lg-tv-internet",
+            "sony-tv-internet",
+            "samsung-usb-video",
+            "google-android-tv-storage",
+        ];
+
+        for (plan, expected_task) in plans.iter().zip(expected_tasks) {
+            assert_eq!(plan.status, "action-plan");
+            assert_eq!(plan.task, expected_task);
+            assert!((1..=4).contains(&plan.steps.len()));
+            assert!(plan.warnings.len() <= 3);
+            assert_eq!(plan.primary_step_id, plan.steps[0].id);
+            assert!(plan.steps.iter().all(|step| {
+                !step.source_ids.is_empty()
+                    && step
+                        .source_ids
+                        .iter()
+                        .all(|source_id| allowed_sources.contains(&source_id.as_str()))
+            }));
+        }
+
+        let network_with_hidden_default = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "no-internet",
+            "yes",
+            "no",
+            "unknown",
+            "unknown",
+        ))
+        .unwrap();
+        assert_eq!(network_with_hidden_default.status, "action-plan");
+        assert_eq!(
+            network_with_hidden_default.primary_step_id,
+            "refresh-visible-network-list"
+        );
+        assert!((1..=4).contains(&network_with_hidden_default.steps.len()));
+        assert!(
+            network_with_hidden_default
+                .steps
+                .iter()
+                .all(|step| !step.source_ids.is_empty())
+        );
+
+        let serialized = serde_json::to_string(&plans).unwrap().to_lowercase();
+        for forbidden_command in [
+            "сбросьте телевизор",
+            "сбросьте роутер",
+            "измените dns",
+            "отформатируйте накопитель",
+            "разберите телевизор",
+        ] {
+            assert!(
+                !serialized.contains(forbidden_command),
+                "unsafe command: {forbidden_command}"
+            );
+        }
+    }
+
+    #[test]
+    fn tv_diagnostics_cohort_4_needs_check_paths_fail_closed() {
+        let plans = [
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "turns-off",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "no-internet",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+            ))
+            .unwrap(),
+            calculate_tv_traffic_task(&tv_traffic_task_input(
+                "usb-not-seen",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+            ))
+            .unwrap(),
+        ];
+
+        for plan in plans {
+            assert_eq!(plan.status, "needs-check");
+            assert!((1..=4).contains(&plan.steps.len()));
+            assert!(
+                plan.steps
+                    .iter()
+                    .all(|step| !step.stop_condition.trim().is_empty())
+            );
+        }
+
+        let conflicting_network_observation = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "no-internet",
+            "yes",
+            "no",
+            "one-app",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(conflicting_network_observation.status, "needs-check");
+        assert!(
+            conflicting_network_observation
+                .headline
+                .contains("Наблюдения")
+        );
+        assert_eq!(conflicting_network_observation.steps.len(), 1);
+        assert_eq!(
+            conflicting_network_observation.primary_step_id,
+            "repeat-network-and-app-observation"
+        );
+        assert!(
+            conflicting_network_observation.steps[0]
+                .source_ids
+                .iter()
+                .all(
+                    |source_id| ["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"]
+                        .contains(&source_id.as_str())
+                )
+        );
+    }
+
+    #[test]
+    fn tv_diagnostics_cohort_4_external_paths_stay_outside_the_tv() {
+        let hdmi = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "turns-off",
+            "no",
+            "after-hdmi",
+            "repeats",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(hdmi.status, "external-path");
+        assert!(
+            hdmi.steps
+                .iter()
+                .any(|step| step.id == "check-model-hdmi-control")
+        );
+
+        let network = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "no-internet",
+            "no",
+            "no",
+            "all-apps",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(network.status, "external-path");
+        assert!(network.headline.contains("роутер") || network.headline.contains("провайдер"));
+
+        let wired_one_app = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "no-internet",
+            "yes",
+            "wired",
+            "one-app",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(wired_one_app.status, "external-path");
+        assert_eq!(wired_one_app.primary_step_id, "compare-built-in-apps");
+        assert!(
+            wired_one_app
+                .steps
+                .iter()
+                .all(|step| step.id != "read-wired-status")
+        );
+        assert!(wired_one_app.steps.iter().all(|step| {
+            !step.source_ids.is_empty()
+                && step.source_ids.iter().all(|source_id| {
+                    ["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"]
+                        .contains(&source_id.as_str())
+                })
+        }));
+
+        let usb = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "usb-not-seen",
+            "no",
+            "no",
+            "drive-not-shown",
+            "unknown",
+        ))
+        .unwrap();
+        assert_eq!(usb.status, "external-path");
+        assert!(usb.explanation.contains("другом устройстве"));
+    }
+
+    #[test]
+    fn tv_diagnostics_cohort_4_service_boundaries_name_no_hardware_cause() {
+        let danger = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "turns-off",
+            "yes",
+            "random",
+            "repeats",
+            "no",
+        ))
+        .unwrap();
+        assert_eq!(danger.status, "service-boundary");
+        assert_eq!(danger.primary_step_id, "stop-unsafe-use");
+        let danger_serialized = serde_json::to_string(&danger).unwrap().to_lowercase();
+        for required_safety_term in [
+            "повреждён",
+            "горяч",
+            "мокр",
+            "кабел",
+            "вилк",
+            "розетк",
+            "красн",
+            "мигающ",
+            "настенн",
+        ] {
+            assert!(
+                danger_serialized.contains(required_safety_term),
+                "missing safety term {required_safety_term}: {danger_serialized}"
+            );
+        }
+        assert!(danger.steps.iter().all(|step| {
+            !step.source_ids.is_empty()
+                && step.source_ids.iter().all(|source_id| {
+                    ["samsung-tv-turns-off", "sony-tv-auto-power"].contains(&source_id.as_str())
+                })
+        }));
+
+        let repeated = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "turns-off",
+            "no",
+            "random",
+            "repeats",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(repeated.status, "service-boundary");
+
+        let usb = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "usb-not-seen",
+            "no",
+            "yes",
+            "drive-not-shown",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(usb.status, "service-boundary");
+
+        for plan in [danger, repeated, usb] {
+            let serialized = serde_json::to_string(&plan).unwrap().to_lowercase();
+            for forbidden in [
+                "сломался блок",
+                "неисправен порт",
+                "сгорела плата",
+                "замените деталь",
+            ] {
+                assert!(
+                    !serialized.contains(forbidden),
+                    "hardware diagnosis: {serialized}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn tv_diagnostics_cohort_4_rejects_invalid_closed_values() {
+        let invalid_cases = [
+            (
+                tv_traffic_task_input("turns-off", "sparks<script>", "random", "once", "yes"),
+                "Опасные признаки",
+            ),
+            (
+                tv_traffic_task_input("no-internet", "yes", "wifi-6", "all-apps", "unknown"),
+                "Видимость сети телевизором",
+            ),
+            (
+                tv_traffic_task_input("usb-not-seen", "yes", "yes", "format-drive", "yes"),
+                "Наблюдаемый симптом USB",
+            ),
+        ];
+
+        for (input, expected_field) in invalid_cases {
+            let error = calculate_tv_traffic_task(&input).unwrap_err();
+            assert!(error.contains(expected_field), "unexpected error: {error}");
         }
     }
 }

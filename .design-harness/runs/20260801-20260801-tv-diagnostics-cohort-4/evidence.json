@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "task_id": "20260801-20260801-tv-diagnostics-cohort-4",
+  "commands": [
+    {
+      "id": "cmd-rust-cohort",
+      "command": "cargo fmt --check && cargo test -p krepitv-engine tv_diagnostics_cohort_4 -- --nocapture",
+      "exit_code": 0,
+      "output_path": "evidence/cmd-rust-cohort.txt",
+      "covers": ["5 targeted tests", "closed enums", "fail-closed", "bounded source-backed steps", "safety boundaries"]
+    },
+    {
+      "id": "cmd-web-cohort",
+      "command": "node --test --test-concurrency=1 web/tests/tv-diagnostics-cohort-4.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "exit_code": 0,
+      "output_path": "evidence/cmd-web-cohort.txt",
+      "covers": ["30 targeted tests", "SSR", "privacy", "immediate danger", "internal links", "zero Market links"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "output_path": "evidence/cmd-production-build.txt",
+      "covers": ["82 engine tests", "34 sitegen tests", "161 web tests", "45 SEO materials", "155 indexable URLs", "clean complete static artifact"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "exit_code": 0,
+      "output_path": "evidence/cmd-release-audits.txt",
+      "covers": ["976 tracked files", "724 text files", "155 indexable HTML", "depth 3", "180 affiliate-audited files", "529 existing direct affiliate URLs"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-turns-off-desktop-default",
+      "path": "default-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0}
+    },
+    {
+      "id": "shot-internet-mobile-empty",
+      "path": "empty-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0}
+    },
+    {
+      "id": "shot-usb-tablet-disabled",
+      "path": "disabled-tablet.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links": 0}
+    },
+    {
+      "id": "shot-internet-tablet-focus",
+      "path": "focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "focused_name": "no-internet-primary", "market_links": 0}
+    },
+    {
+      "id": "shot-internet-desktop-loading",
+      "path": "loading-desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "aria_busy": true, "disabled_fieldsets": 3, "market_links": 0}
+    },
+    {
+      "id": "shot-usb-mobile-error",
+      "path": "error-mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "alert_visible": true, "answers_preserved": true, "market_links": 0}
+    },
+    {
+      "id": "shot-turns-off-desktop-success",
+      "path": "success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "action-plan", "primary_step_id": "record-shutdown-pattern", "market_links": 0}
+    },
+    {
+      "id": "shot-internet-mobile-needs-check",
+      "path": "needs-check-mobile.png",
+      "state": "needs-check",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "needs-check", "market_links": 0}
+    },
+    {
+      "id": "shot-internet-desktop-external-path",
+      "path": "external-path-desktop.png",
+      "state": "external-path",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "external-path", "market_links": 0}
+    },
+    {
+      "id": "shot-usb-mobile-service-boundary",
+      "path": "service-boundary-mobile.png",
+      "state": "service-boundary",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "service-boundary", "market_links": 0}
+    },
+    {
+      "id": "shot-usb-mobile-retry",
+      "path": "retry-mobile.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "retry_completed": true, "result_status": "action-plan", "market_links": 0}
+    },
+    {
+      "id": "shot-turns-off-tablet-zoom",
+      "path": "zoom-tablet.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_percent": 200, "market_links": 0}
+    },
+    {
+      "id": "shot-usb-mobile-spacing",
+      "path": "spacing-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wcag_text_spacing": true, "market_links": 0}
+    },
+    {
+      "id": "shot-turns-off-mobile-danger-selected",
+      "path": "danger-selected-mobile.png",
+      "state": "danger-selected",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "stop_visible": true, "submit_disabled": false, "secondary_visible": false, "result_visible": false, "market_links": 0}
+    },
+    {
+      "id": "shot-turns-off-mobile-danger-result",
+      "path": "danger-result-mobile.png",
+      "state": "service-boundary",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "service-boundary", "primary_step_id": "stop-unsafe-use", "secondary_visible": false, "market_links": 0}
+    },
+    {
+      "id": "shot-turns-off-mobile-unknown-result",
+      "path": "unknown-result-mobile.png",
+      "state": "needs-check",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "needs-check", "primary_step_id": "observe-danger-signals", "secondary_visible": false, "market_links": 0}
+    },
+    {
+      "id": "shot-home-diagnostics-mobile",
+      "path": "home-diagnostics-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "diagnostic_cards": 6, "grid_columns": 1}
+    },
+    {
+      "id": "shot-home-diagnostics-desktop",
+      "path": "home-diagnostics-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "diagnostic_cards": 6, "grid_columns": 3}
+    }
+  ],
+  "state_coverage": {
+    "default": ["shot-turns-off-desktop-default", "shot-home-diagnostics-mobile", "shot-home-diagnostics-desktop"],
+    "loading": ["shot-internet-desktop-loading"],
+    "empty": ["shot-internet-mobile-empty"],
+    "error": ["shot-usb-mobile-error"],
+    "success": ["shot-turns-off-desktop-success", "shot-usb-mobile-retry"],
+    "disabled": ["shot-usb-tablet-disabled"],
+    "focus": ["shot-internet-tablet-focus"],
+    "needs-check": ["shot-internet-mobile-needs-check", "shot-turns-off-mobile-unknown-result"],
+    "external-path": ["shot-internet-desktop-external-path"],
+    "service-boundary": ["shot-usb-mobile-service-boundary", "shot-turns-off-mobile-danger-result"]
+  },
+  "viewport_coverage": {
+    "mobile": ["shot-internet-mobile-empty", "shot-usb-mobile-error", "shot-turns-off-mobile-danger-selected", "shot-turns-off-mobile-danger-result", "shot-home-diagnostics-mobile"],
+    "tablet": ["shot-usb-tablet-disabled", "shot-internet-tablet-focus", "shot-turns-off-tablet-zoom"],
+    "desktop": ["shot-turns-off-desktop-default", "shot-internet-desktop-loading", "shot-turns-off-desktop-success", "shot-home-diagnostics-desktop"]
+  },
+  "assets": [],
+  "review": {
+    "reviewer": "Independent reviewer /root/cohort4_independent_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Three distinct canonical jobs have substantive Russian SSR, official sources, internal links and zero Market links.",
+      "Rust/WASM remains closed, local, source-backed and fail-closed across danger, contradictory internet and USB data-safety paths.",
+      "Danger boundaries match across Rust, React and no-JavaScript SSR and do not require moving a wall-mounted television.",
+      "Eighteen state and responsive screenshots pass without overflow, overlap, clipped focus or long-list regression.",
+      "All implementation P0-P2 findings discovered during review were corrected before local PASS; production verification remains a separate gate."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

@@ -1,0 +1,5 @@
+PASS
+Command: cargo fmt --check && cargo test -p krepitv-engine tv_diagnostics_cohort_4 -- --nocapture
+Result: 5 passed; 0 failed; 77 filtered out.
+Coverage: closed enums, success, needs-check, external-path, service-boundary,
+contradictory internet observations, wired plus one-app, source-backed bounded steps.

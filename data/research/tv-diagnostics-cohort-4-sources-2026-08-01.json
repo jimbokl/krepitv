@@ -1,0 +1,158 @@
+{
+  "version": 1,
+  "cohort_id": "tv-diagnostics-cohort-4",
+  "retrieved_at": "2026-08-01",
+  "scope": {
+    "market": "Russia",
+    "language": "ru",
+    "source_policy": "primary-official-only",
+    "purpose": "Source, claim and fail-closed boundaries for three traffic-first KREPI TV utilities. No hardware diagnosis, reset, destructive storage action, purchase or affiliate CTA is authorized."
+  },
+  "canonicals": [
+    {
+      "id": "turns-off",
+      "path": "/televizor-sam-vyklyuchaetsya/",
+      "job": "Separate an actual transition to standby from a black-screen or external-device event and provide one reversible next check.",
+      "source_ids": ["samsung-tv-turns-off", "lg-tv-off-timer", "lg-tv-box-turns-off", "sony-tv-auto-power"],
+      "allowed_claims": [
+        "a-repeatable-clock-time-or-interval-can-route-the-user-to-the-exact-model-timer-or-auto-standby-settings",
+        "a-shutdown-that-occurs-only-with-one-set-top-box-or-console-can-be-isolated-to-that-external-control-path-without-proving-a-fault",
+        "a-black-screen-with-audible-sound-or-visible-tv-overlay-is-not-evidence-that-the-tv-powered-off",
+        "an-unresolved-irregular-shutdown-stops-at-official-model-support-without-naming-a-component"
+      ],
+      "fail_closed": [
+        "smell-smoke-sparks-liquid-damage-unusual-heat-or-red-blinking-indicator",
+        "power-cord-plug-or-outlet-is-damaged-hot-loose-wet-or-not-safely-accessible",
+        "the-next-step-requires-moving-a-wall-mounted-tv-opening-equipment-or-electrical-measurement",
+        "the-shutdown-is-irregular-after-reversible-timer-and-external-device-isolation"
+      ]
+    },
+    {
+      "id": "no-internet",
+      "path": "/televizor-ne-podklyuchaetsya-k-internetu/",
+      "job": "Separate a home-network outage, television-only discovery or connection issue, and one-app problem without collecting network credentials.",
+      "source_ids": ["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"],
+      "allowed_claims": [
+        "whether-other-devices-have-internet-routes-the-next-check-toward-the-home-network-or-tv-without-proving-a-fault",
+        "no-visible-networks-is-distinct-from-a-visible-network-that-rejects-connection",
+        "one-app-failure-with-working-tv-internet-routes-to-that-app-or-provider",
+        "an-optional-temporary-phone-hotspot-observation-can-help-isolate-scope-with-a-mobile-data-and-privacy-warning"
+      ],
+      "fail_closed": [
+        "ssid-password-ip-mac-account-or-free-text-would-be-required",
+        "the-next-step-is-a-generic-dns-router-channel-security-or-factory-reset-change",
+        "the-tv-sees-neither-any-network-nor-an-optional-temporary-hotspot-after-safe-model-supported-checks",
+        "the-network-menu-or-model-capability-is-unknown"
+      ]
+    },
+    {
+      "id": "usb-not-seen",
+      "path": "/televizor-ne-vidit-fleshku/",
+      "job": "Separate a missing ordinary USB flash drive used for media playback from visible files that do not play, without formatting or claiming universal format support.",
+      "source_ids": ["samsung-usb-video", "google-android-tv-storage"],
+      "allowed_claims": [
+        "device-recognition-and-file-playback-are-distinct-observations",
+        "filesystem-capacity-port-and-media-format-support-depend-on-the-exact-tv-model-and-manual",
+        "a-read-only-check-on-another-known-device-can-establish-whether-the-drive-is-readable-without-changing-it",
+        "formatting-erases-data-and-is-not-a-diagnostic-step-in-this-tool"
+      ],
+      "fail_closed": [
+        "the-connected-device-is-a-phone-recording-hdd-or-android-app-storage-rather-than-an-ordinary-media-flash-drive",
+        "data-matters-and-no-backup-exists",
+        "the-drive-is-hot-damaged-clicking-or-the-port-is-inaccessible",
+        "the-next-step-is-format-register-initialize-repair-filesystem-or-use-an-unofficial-codec-package",
+        "exact-model-manual-does-not-confirm-the-port-filesystem-capacity-or-media-format"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "samsung-tv-turns-off",
+      "organization": "Samsung",
+      "title": "Как устранить неисправность телевизора Samsung, который непрерывно выключается сам по себе",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-troubleshoot-the-samsung-tv-that-keeps-turning-off-by-itself/",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "lg-tv-off-timer",
+      "organization": "LG",
+      "title": "Как установить таймер включения/выключения",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413206966",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "lg-tv-box-turns-off",
+      "organization": "LG",
+      "title": "Телевизор постоянно выключается, когда подключён к приставке",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154967823534",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "sony-tv-auto-power",
+      "organization": "Sony",
+      "title": "Телевизор BRAVIA TV включается или выключается автоматически",
+      "url": "https://www.sony.ru/electronics/support/articles/00032613",
+      "checked_at": "2026-08-01",
+      "automation_blocked": true,
+      "http_status": 403,
+      "interpretation": "browser-readable; do not mark dead"
+    },
+    {
+      "id": "samsung-tv-wifi",
+      "organization": "Samsung",
+      "title": "Что делать, если телевизор Samsung не находит ни одну сеть Wi-Fi",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/samsung-tv-cannot-find-wi-fi-network/",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "lg-tv-internet",
+      "organization": "LG",
+      "title": "Как исправить проблемы с интернет-соединением",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155140884890",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "sony-tv-internet",
+      "organization": "Sony",
+      "title": "Настройка и устранение неисправностей соединения телевизора с сетью Интернет",
+      "url": "https://www.sony.ru/electronics/support/articles/00127011",
+      "checked_at": "2026-08-01",
+      "automation_blocked": true,
+      "http_status": 403,
+      "interpretation": "browser-readable; do not mark dead"
+    },
+    {
+      "id": "samsung-usb-video",
+      "organization": "Samsung",
+      "title": "Что делать, если не воспроизводятся видео с USB на телевизоре Samsung",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/what-can-i-do-if-usb-video-files-cannot-be-played-on-samsung-tv/",
+      "checked_at": "2026-08-01",
+      "http_status": 200
+    },
+    {
+      "id": "google-android-tv-storage",
+      "organization": "Google",
+      "title": "Как увеличить доступное пространство на устройстве Android TV",
+      "url": "https://support.google.com/androidtv/answer/6299083?hl=ru",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "notes": "Used only for the explicit erasure warning and model-dependent storage support; not as authority for generic TV media playback."
+    }
+  ],
+  "global_denials": [
+    "hardware-fault-diagnosis",
+    "opening-or-moving-a-wall-mounted-tv",
+    "electrical-measurement-or-repair",
+    "factory-reset-or-firmware-first",
+    "generic-dns-router-security-or-channel-changes",
+    "collecting-network-identifiers-or-credentials",
+    "formatting-registering-initializing-or-repairing-storage",
+    "claiming-universal-fat32-ntfs-exfat-codec-capacity-or-port-support",
+    "purchase-or-affiliate-cta"
+  ]
+}

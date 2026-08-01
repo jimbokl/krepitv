@@ -1,0 +1,30 @@
+[
+  {
+    "candidate_id": "tv-wont-turn-on",
+    "candidate_path": "/televizor-ne-vklyuchaetsya/",
+    "query": "телевизор не включается",
+    "operator_query": "\"[телевизор не !включается]\"",
+    "variant": "predicate-wordform"
+  },
+  {
+    "candidate_id": "tv-wont-turn-on",
+    "candidate_path": "/televizor-ne-vklyuchaetsya/",
+    "query": "телевизор не включается что делать",
+    "operator_query": "\"[телевизор не !включается что делать]\"",
+    "variant": "what-to-do-predicate-wordform"
+  },
+  {
+    "candidate_id": "tv-freezes",
+    "candidate_path": "/televizor-zavis/",
+    "query": "телевизор завис",
+    "operator_query": "\"[телевизор !завис]\"",
+    "variant": "predicate-wordform"
+  },
+  {
+    "candidate_id": "tv-freezes",
+    "candidate_path": "/televizor-zavis/",
+    "query": "телевизор завис что делать",
+    "operator_query": "\"[телевизор !завис что делать]\"",
+    "variant": "what-to-do-predicate-wordform"
+  }
+]

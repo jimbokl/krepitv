@@ -48,42 +48,68 @@ test("traffic utilities link to each other without creating diagnostic variants"
     { id: "tv-sound-no-picture", kind: "calculator", indexable: true },
     { id: "tv-no-sound", kind: "calculator", indexable: true },
     { id: "tv-remote-not-working", kind: "calculator", indexable: true },
+    { id: "tv-turns-off", kind: "calculator", indexable: true },
+    { id: "tv-no-internet", kind: "calculator", indexable: true },
+    { id: "tv-usb-not-seen", kind: "calculator", indexable: true },
   ];
 
   assert.deepEqual(
     getRelatedPages(catalog[0], catalog).map((page) => page.id),
-    ["laptop-to-tv", "tv-no-signal", "picture-setup", "tv-dimensions", "wall-planner", "digital-channels"],
+    ["laptop-to-tv", "tv-no-signal", "tv-no-internet", "tv-usb-not-seen", "picture-setup", "tv-dimensions"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[1], catalog).map((page) => page.id),
-    ["tv-sound-no-picture", "digital-channels", "laptop-to-tv", "phone-to-tv", "picture-setup", "tv-no-sound"],
+    ["tv-sound-no-picture", "digital-channels", "laptop-to-tv", "phone-to-tv", "tv-no-internet", "tv-turns-off"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[7], catalog).map((page) => page.id),
-    ["tv-no-signal", "picture-setup", "tv-no-sound", "tv-remote-not-working", "laptop-to-tv", "phone-to-tv"],
+    ["tv-no-signal", "picture-setup", "tv-no-sound", "tv-turns-off", "tv-remote-not-working", "laptop-to-tv"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[8], catalog).map((page) => page.id),
-    ["tv-sound-no-picture", "tv-no-signal", "tv-remote-not-working", "digital-channels", "picture-setup", "laptop-to-tv"],
+    ["tv-sound-no-picture", "tv-no-signal", "tv-remote-not-working", "tv-turns-off", "digital-channels", "picture-setup"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[9], catalog).map((page) => page.id),
-    ["tv-no-sound", "tv-sound-no-picture", "tv-no-signal", "digital-channels", "phone-to-tv", "laptop-to-tv"],
+    ["tv-no-sound", "tv-sound-no-picture", "tv-no-signal", "tv-turns-off", "digital-channels", "phone-to-tv"],
+  );
+  assert.deepEqual(
+    getRelatedPages(catalog[10], catalog).map((page) => page.id),
+    ["tv-no-internet", "tv-no-signal", "tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working", "picture-setup"],
+  );
+  assert.deepEqual(
+    getRelatedPages(catalog[11], catalog).map((page) => page.id),
+    ["tv-usb-not-seen", "digital-channels", "tv-no-signal", "phone-to-tv", "laptop-to-tv", "tv-turns-off"],
+  );
+  assert.deepEqual(
+    getRelatedPages(catalog[12], catalog).map((page) => page.id),
+    ["tv-no-internet", "tv-no-signal", "laptop-to-tv", "phone-to-tv", "tv-remote-not-working", "digital-channels"],
   );
 });
 
-test("home diagnostic block uses exactly three canonical pages", () => {
+test("home diagnostic block uses six canonical pages without generated variants", () => {
   const catalog = [
     { id: "tv-no-sound", path: "/net-zvuka-na-televizore/", indexable: true },
     { id: "tv-remote-not-working", path: "/ne-rabotaet-pult-ot-televizora/", indexable: true },
     { id: "tv-sound-no-picture", path: "/televizor-zvuk-est-izobrazheniya-net/", indexable: true },
     { id: "tv-no-signal", path: "/televizor-pishet-net-signala/", indexable: true },
+    { id: "tv-turns-off", path: "/televizor-sam-vyklyuchaetsya/", indexable: true },
+    { id: "tv-no-internet", path: "/televizor-ne-podklyuchaetsya-k-internetu/", indexable: true },
+    { id: "tv-usb-not-seen", path: "/televizor-ne-vidit-fleshku/", indexable: true },
+    { id: "tv-no-internet-copy", path: "/copy-2/", indexable: false },
     { id: "tv-sound-no-picture-copy", path: "/copy/", indexable: false },
   ];
 
   assert.deepEqual(
     getHomeDiagnosticPages(catalog).map((page) => page.id),
-    ["tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working"],
+    [
+      "tv-sound-no-picture",
+      "tv-no-sound",
+      "tv-remote-not-working",
+      "tv-turns-off",
+      "tv-no-internet",
+      "tv-usb-not-seen",
+    ],
   );
 });
 

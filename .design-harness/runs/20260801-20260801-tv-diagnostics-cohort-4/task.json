@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "id": "20260801-20260801-tv-diagnostics-cohort-4",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root",
+  "created_at": "2026-08-01T14:55:26.736783+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus",
+    "needs-check",
+    "external-path",
+    "service-boundary"
+  ],
+  "viewports": [
+    { "id": "mobile", "width": 320, "height": 800 },
+    { "id": "tablet", "width": 768, "height": 1024 },
+    { "id": "desktop", "width": 1440, "height": 900 }
+  ],
+  "allowed_files": [
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "data/research/tv-diagnostics-cohort-4-sources-2026-08-01.json",
+    "data/research/tv-problem-cohort-4-validation-contract-2026-08-01.json",
+    "data/research/tv-problem-cohort-4-validation-demand-2026-08-01.json",
+    "data/research/tv-problem-cohort-4-validation-seeds-2026-08-01.json",
+    "data/research/tv-problem-cohort-4-wordform-probe-contract-2026-08-01.json",
+    "data/research/tv-problem-cohort-4-wordform-probe-demand-2026-08-01.json",
+    "data/research/tv-problem-cohort-4-wordform-probe-seeds-2026-08-01.json",
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/HomePage.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/tests/seo-pages.test.mjs",
+    "web/tests/tv-traffic-cohort-2.test.mjs",
+    "web/tests/tv-diagnostics-cohort-3.test.mjs",
+    "web/tests/tv-diagnostics-cohort-4.test.mjs",
+    "web/index.html",
+    "web/kak-nastroit-tsifrovye-kanaly-na-televizore/index.html",
+    "web/kak-podklyuchit-noutbuk-k-televizoru/index.html",
+    "web/kak-podklyuchit-telefon-k-televizoru/index.html",
+    "web/ne-rabotaet-pult-ot-televizora/index.html",
+    "web/net-zvuka-na-televizore/index.html",
+    "web/public/sitemap.xml",
+    "web/televizor-ne-podklyuchaetsya-k-internetu/index.html",
+    "web/televizor-ne-vidit-fleshku/index.html",
+    "web/televizor-pishet-net-signala/index.html",
+    "web/televizor-sam-vyklyuchaetsya/index.html",
+    "web/televizor-zvuk-est-izobrazheniya-net/index.html",
+    "product-docs/research/TV_DIAGNOSTICS_COHORT_4_2026-08-01.md",
+    "product-docs/research/raw/wordstat-tv-problem-cohort-4-validation-2026-08-01/**",
+    "product-docs/research/raw/wordstat-tv-problem-cohort-4-wordform-probe-2026-08-01/**",
+    "product-docs/operations/traffic-release-tv-diagnostics-cohort-4-2026-08-01.md",
+    "scripts/qa/capture-page.mjs",
+    "scripts/research/collect-seo-hub-demand.mjs",
+    "scripts/verify.mjs",
+    "README.md",
+    "docs/**",
+    ".design-harness/runs/20260801-20260801-tv-diagnostics-cohort-4/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-rust-cohort",
+      "command": "cargo fmt --check && cargo test -p krepitv-engine tv_diagnostics_cohort_4 -- --nocapture",
+      "required": true,
+      "covers": ["success", "needs-check", "external-path", "service-boundary", "validation"]
+    },
+    {
+      "id": "cmd-web-cohort",
+      "command": "node --test --test-concurrency=1 web/tests/tv-diagnostics-cohort-4.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "required": true,
+      "covers": ["security", "static SEO", "affiliate policy"]
+    },
+    {
+      "id": "cmd-design",
+      "command": ".design-harness/design-harness scan-drift --workspace . --run .design-harness/runs/20260801-20260801-tv-diagnostics-cohort-4 --files web/src/components/TvTrafficTaskWizard.jsx web/src/pages/SeoPage.jsx web/src/pages/HomePage.jsx web/src/lib/seoPages.mjs scripts/qa/capture-page.mjs && .design-harness/design-harness check --workspace . --run .design-harness/runs/20260801-20260801-tv-diagnostics-cohort-4 --phase final",
+      "required": true,
+      "covers": ["design system", "state evidence", "viewport evidence", "independent review"]
+    },
+    {
+      "id": "cmd-production",
+      "command": "production HTTPS, local-vs-production SHA-256 and browser smoke",
+      "required": true,
+      "covers": ["default", "success", "focus", "canonical", "SSR"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "canonical-paths",
+      "value": "/televizor-sam-vyklyuchaetsya/ · /televizor-ne-podklyuchaetsya-k-internetu/ · /televizor-ne-vidit-fleshku/",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "demand-values",
+      "value": "5 867 · 4 687 · 3 707 запросов в месяц; Россия 225; все устройства; 01.08.2026; не суммировать",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "usb-boundary",
+      "value": "Не форматируйте и не регистрируйте накопитель: это может удалить данные. Сначала нужна резервная копия и инструкция точной модели.",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "privacy-boundary",
+      "value": "Не вводите на сайте название сети, пароль, IP- или MAC-адрес: мастер их не запрашивает.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "internet-isolation",
+      "text": "Проверка других устройств и того, видит ли телевизор сети, помогает выбрать дальнейшую проверку у телевизора, роутера, провайдера или одного приложения без аппаратного диагноза.",
+      "source_ids": ["samsung-tv-wifi", "lg-tv-internet", "sony-tv-internet"]
+    },
+    {
+      "id": "shutdown-patterns",
+      "text": "Одинаковое время или интервал, управление внешним HDMI-устройством и таймеры относятся к отдельным проверяемым веткам самопроизвольного выключения.",
+      "source_ids": ["samsung-tv-turns-off", "lg-tv-off-timer", "lg-tv-box-turns-off", "sony-tv-auto-power"]
+    },
+    {
+      "id": "usb-scope",
+      "text": "Распознавание накопителя и воспроизведение файла — разные наблюдения; поддержка файловой системы, объёма, порта и формата зависит от точной модели.",
+      "source_ids": ["samsung-usb-video", "google-android-tv-storage"]
+    },
+    {
+      "id": "usb-erasure",
+      "text": "Форматирование накопителя удаляет данные, поэтому мастер не предлагает его как диагностический шаг.",
+      "source_ids": ["google-android-tv-storage"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "wordstat-demand",
+      "path": "data/research/tv-problem-cohort-4-validation-demand-2026-08-01.json",
+      "retrieved_at": "2026-08-01T14:00:00Z",
+      "notes": "Top queries, Россия 225, все устройства; fixed wordforms; варианты не суммируются"
+    },
+    {
+      "id": "samsung-tv-wifi",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/samsung-tv-cannot-find-wi-fi-network/",
+      "retrieved_at": "2026-08-01T14:30:00Z"
+    },
+    {
+      "id": "lg-tv-internet",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155140884890",
+      "retrieved_at": "2026-08-01T14:30:00Z"
+    },
+    {
+      "id": "sony-tv-internet",
+      "url": "https://www.sony.ru/electronics/support/articles/00127011",
+      "retrieved_at": "2026-08-01T14:30:00Z",
+      "notes": "browser-readable; automated GET blocked"
+    },
+    {
+      "id": "samsung-tv-turns-off",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-troubleshoot-the-samsung-tv-that-keeps-turning-off-by-itself/",
+      "retrieved_at": "2026-08-01T14:30:00Z"
+    },
+    {
+      "id": "lg-tv-off-timer",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413206966",
+      "retrieved_at": "2026-08-01T14:30:00Z"
+    },
+    {
+      "id": "lg-tv-box-turns-off",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154967823534",
+      "retrieved_at": "2026-08-01T14:30:00Z"
+    },
+    {
+      "id": "sony-tv-auto-power",
+      "url": "https://www.sony.ru/electronics/support/articles/00032613",
+      "retrieved_at": "2026-08-01T14:30:00Z",
+      "notes": "browser-readable; automated GET blocked"
+    },
+    {
+      "id": "samsung-usb-video",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/what-can-i-do-if-usb-video-files-cannot-be-played-on-samsung-tv/",
+      "retrieved_at": "2026-08-01T14:30:00Z"
+    },
+    {
+      "id": "google-android-tv-storage",
+      "url": "https://support.google.com/androidtv/answer/6299083?hl=ru",
+      "retrieved_at": "2026-08-01T14:30:00Z"
+    }
+  ]
+}

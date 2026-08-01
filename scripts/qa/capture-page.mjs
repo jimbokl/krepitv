@@ -70,6 +70,7 @@ if (tvTrafficState && ![
   "needs-check",
   "service-boundary",
   "external-path",
+  "immediate-stop",
   "retry",
 ].includes(tvTrafficState)) {
   throw new Error("Invalid TV traffic task state");
@@ -432,9 +433,27 @@ try {
             "service-boundary": ["no", "original", "yes", "no"],
             "external-path": ["yes", "universal", "yes", "no"],
           },
+          "turns-off": {
+            success: ["no", "same-time", "repeats", "yes"],
+            "needs-check": ["unknown", null, null, null],
+            "service-boundary": ["yes", null, null, null],
+            "external-path": ["no", "after-hdmi", "repeats", "yes"],
+            "immediate-stop": ["yes", null, null, null],
+          },
+          "no-internet": {
+            success: ["yes", "yes", "all-apps", null],
+            "needs-check": ["unknown", "unknown", "unknown", null],
+            "external-path": ["no", "yes", "all-apps", null],
+          },
+          "usb-not-seen": {
+            success: ["yes", "yes", "file-not-playing", "yes"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["no", "yes", "drive-not-shown", "yes"],
+            "external-path": ["no", "no", "drive-not-shown", "unknown"],
+          },
         };
         const taskScenarios = scenarios[task];
-        const scenarioKey = ["needs-check", "service-boundary", "external-path"].includes(state)
+        const scenarioKey = ["needs-check", "service-boundary", "external-path", "immediate-stop"].includes(state)
           ? state
           : "success";
         const scenario = taskScenarios?.[scenarioKey];
@@ -463,13 +482,43 @@ try {
           wizard.querySelector('input[name="' + task + '-primary"]')?.focus();
         } else if (state === "default") {
           choose(task + "-primary", scenario[0]);
+        } else if (state === "immediate-stop") {
+          choose(task + "-primary", scenario[0]);
+          const stopBlock = await waitFor(
+            () => wizard.querySelector('[data-wizard-secondary-skipped="danger"]'),
+            "Immediate-stop block did not render",
+          );
+          if (!stopBlock.classList.contains("border-danger") || !stopBlock.classList.contains("text-danger")) {
+            throw new Error("Immediate-stop block is missing the danger treatment");
+          }
+          if (wizard.querySelector('input[name="' + task + '-secondary"]')) {
+            throw new Error("Immediate-stop path rendered an irrelevant secondary question");
+          }
+          await waitFor(
+            () => {
+              const button = wizard.querySelector('button[type="submit"]');
+              return button && !button.disabled ? button : null;
+            },
+            "Immediate-stop submit stayed disabled",
+          );
         } else if (["loading", "error", "success", "needs-check", "service-boundary", "external-path", "retry"].includes(state)) {
           choose(task + "-primary", scenario[0]);
-          await waitFor(
-            () => wizard.querySelector('input[name="' + task + '-secondary"]'),
-            "TV traffic secondary choices did not render",
-          );
-          choose(task + "-secondary", scenario[1]);
+          const secondaryRequired = scenario[1] !== null;
+          if (secondaryRequired) {
+            await waitFor(
+              () => wizard.querySelector('input[name="' + task + '-secondary"]'),
+              "TV traffic secondary choices did not render",
+            );
+            choose(task + "-secondary", scenario[1]);
+          } else {
+            await waitFor(
+              () => wizard.querySelector("[data-wizard-secondary-skipped]"),
+              "Immediate-stop path did not skip the secondary question",
+            );
+            if (wizard.querySelector('input[name="' + task + '-secondary"]')) {
+              throw new Error("Danger path rendered an irrelevant secondary question");
+            }
+          }
           if (scenario[2]) choose(task + "-tertiary", scenario[2]);
           if (scenario[3]) {
             await waitFor(
@@ -515,6 +564,9 @@ try {
           focusedName: document.activeElement?.getAttribute("name") ?? null,
           ariaBusy: wizard.querySelector("form")?.getAttribute("aria-busy") ?? null,
           disabledFieldsets: wizard.querySelectorAll("fieldset:disabled").length,
+          secondaryVisible: Boolean(wizard.querySelector('input[name="' + task + '-secondary"]')),
+          immediateStopPath: wizard.querySelector("[data-wizard-secondary-skipped]")?.getAttribute("data-wizard-secondary-skipped") ?? null,
+          stopBlockVisible: Boolean(wizard.querySelector('[data-wizard-secondary-skipped="danger"]')),
           primaryStepId: document.querySelector("[data-tv-traffic-primary-step]")?.getAttribute("data-tv-traffic-primary-step") ?? null,
           hasCollapsedRemainder: Boolean(document.querySelector("[data-tv-traffic-remaining]")),
           marketLinks: document.querySelectorAll('a[href*="market.yandex.ru"]').length,
@@ -617,6 +669,8 @@ try {
                 ? "[data-tv-no-signal-wizard]"
                 : ["success", "needs-check", "service-boundary", "external-path", "retry"].includes(tvTrafficState)
                   ? "[data-tv-traffic-result]"
+                  : tvTrafficState === "immediate-stop"
+                    ? '[data-wizard-secondary-skipped="danger"]'
                   : tvTrafficState === "error"
                     ? "[data-tv-traffic-task] [role=\"alert\"]"
                     : tvTrafficState

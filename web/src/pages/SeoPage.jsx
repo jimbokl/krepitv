@@ -70,6 +70,9 @@ const tvTrafficTaskByPageId = new Map([
   ["tv-sound-no-picture", "sound-but-no-picture"],
   ["tv-no-sound", "no-sound"],
   ["tv-remote-not-working", "remote-not-working"],
+  ["tv-turns-off", "turns-off"],
+  ["tv-no-internet", "no-internet"],
+  ["tv-usb-not-seen", "usb-not-seen"],
 ]);
 
 const trafficUtilityCtas = {
@@ -128,6 +131,27 @@ const trafficUtilityCtas = {
     href: "/televizor-pishet-net-signala/",
     label: "Проверить источник сигнала",
     shortLabel: "Проверка сигнала",
+  },
+  "tv-turns-off": {
+    title: "Экран гаснет, а звук остаётся?",
+    description: "Если телевизор не выключается полностью, а только теряет изображение, используйте отдельную проверку чёрного экрана.",
+    href: "/televizor-zvuk-est-izobrazheniya-net/",
+    label: "Проверить изображение",
+    shortLabel: "Диагностика изображения",
+  },
+  "tv-no-internet": {
+    title: "Нужно открыть файл без интернета?",
+    description: "Если задача — посмотреть медиафайл с обычной флешки, сначала проверьте, видит ли телевизор сам накопитель.",
+    href: "/televizor-ne-vidit-fleshku/",
+    label: "Проверить USB-флешку",
+    shortLabel: "Диагностика USB",
+  },
+  "tv-usb-not-seen": {
+    title: "Файл находится в онлайн-сервисе?",
+    description: "Если вместо флешки используется приложение телевизора, отделите проблему сети от одного конкретного сервиса.",
+    href: "/televizor-ne-podklyuchaetsya-k-internetu/",
+    label: "Проверить подключение",
+    shortLabel: "Диагностика интернета",
   },
 };
 

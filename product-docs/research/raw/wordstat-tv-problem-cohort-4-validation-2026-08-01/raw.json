@@ -1,0 +1,316 @@
+[
+  {
+    "seed": {
+      "candidate_id": "tv-wont-turn-on",
+      "candidate_path": "/televizor-ne-vklyuchaetsya/",
+      "query": "телевизор не включается",
+      "operator_query": "\"[!телевизор !не !включается]\"",
+      "variant": "fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор !не !включается]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-wont-turn-on",
+      "candidate_path": "/televizor-ne-vklyuchaetsya/",
+      "query": "телевизор не включается что делать",
+      "operator_query": "\"[!телевизор !не !включается что делать]\"",
+      "variant": "what-to-do-fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор !не !включается что делать]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-freezes",
+      "candidate_path": "/televizor-zavis/",
+      "query": "телевизор завис",
+      "operator_query": "\"[!телевизор !завис]\"",
+      "variant": "fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор !завис]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-freezes",
+      "candidate_path": "/televizor-zavis/",
+      "query": "телевизор завис что делать",
+      "operator_query": "\"[!телевизор !завис что делать]\"",
+      "variant": "what-to-do-fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор !завис что делать]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-turns-off",
+      "candidate_path": "/televizor-sam-vyklyuchaetsya/",
+      "query": "телевизор сам выключается",
+      "operator_query": "\"[!телевизор сам !выключается]\"",
+      "variant": "fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор сам !выключается]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1014",
+          "text": "вытащить аудио из видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "8397",
+          "text": "извлечь аудио из видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "184",
+          "text": "off on включено выключено как понять"
+        },
+        {
+          "isAssociations": true,
+          "value": "675",
+          "text": "воспроизведение видео невозможно устройство не поддерживается"
+        },
+        {
+          "isAssociations": true,
+          "value": "882",
+          "text": "выключи его нахуй"
+        },
+        {
+          "isAssociations": true,
+          "value": "163",
+          "text": "ремонт микроволновки своими руками подробно диагностика"
+        },
+        {
+          "isAssociations": true,
+          "value": "3259",
+          "text": "не все дома фильм"
+        },
+        {
+          "isAssociations": true,
+          "value": "343",
+          "text": "как сдать квартиру в аренду правильно самостоятельно"
+        },
+        {
+          "isAssociations": true,
+          "value": "10592",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "691",
+          "text": "холодильник не отключается все время работает почему"
+        },
+        {
+          "isAssociations": true,
+          "value": "1107",
+          "text": "холодильник постоянно работает и не отключается причины"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "5867",
+          "text": "телевизор сам выключается"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-no-internet",
+      "candidate_path": "/televizor-ne-podklyuchaetsya-k-internetu/",
+      "query": "телевизор не подключается к интернету",
+      "operator_query": "\"[!телевизор !не !подключается к интернету]\"",
+      "variant": "fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор !не !подключается к интернету]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "427822",
+          "text": "как подключить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "80",
+          "text": "исправление проблем с подключением к ethernet"
+        },
+        {
+          "isAssociations": true,
+          "value": "1080",
+          "text": "как поставить впн на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "197777",
+          "text": "как настроить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1332",
+          "text": "как включить впн на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1106",
+          "text": "схема подключения интернет кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "3061",
+          "text": "как настроить смарт тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "15275",
+          "text": "как настроить антенну на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "473",
+          "text": "как включить вай фай на телевизоре lg"
+        },
+        {
+          "isAssociations": true,
+          "value": "1577",
+          "text": "как настроить кабельное тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "84",
+          "text": "иптв онлайн тв смотреть бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "1447",
+          "text": "как подключить смарт тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "13263",
+          "text": "как подключить смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "82369",
+          "text": "подключить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "8011",
+          "text": "как подключить каналы на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1984",
+          "text": "как подключить кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "2416",
+          "text": "как настроить кабельное тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4687",
+          "text": "телевизор не подключается к интернету"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-usb-not-seen",
+      "candidate_path": "/televizor-ne-vidit-fleshku/",
+      "query": "телевизор не видит флешку",
+      "operator_query": "\"[!телевизор !не !видит флешку]\"",
+      "variant": "fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор !не !видит флешку]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28297",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1605",
+          "text": "куда пропал нагиев с телевидения и почему"
+        },
+        {
+          "isAssociations": true,
+          "value": "7964",
+          "text": "тв родное кино"
+        },
+        {
+          "isAssociations": true,
+          "value": "10481",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1827",
+          "text": "диагонали тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "37343",
+          "text": "а тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "144",
+          "text": "send files to tv 4pda"
+        },
+        {
+          "isAssociations": true,
+          "value": "616",
+          "text": "включи видео ляпота тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "200",
+          "text": "как зайти на кинозал тв в 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "61",
+          "text": "тв 1нд"
+        },
+        {
+          "isAssociations": true,
+          "value": "188",
+          "text": "телеантенна своими руками для цифрового телевидения"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3707",
+          "text": "телевизор не видит флешку"
+        }
+      ]
+    }
+  }
+]

@@ -155,7 +155,9 @@ const normalized = [];
 
 for (let index = 0; index < seeds.length; index += 1) {
   const seed = seeds[index];
-  const operatorQuery = strictPhrase(seed.query);
+  const operatorQuery = typeof seed.operator_query === "string" && seed.operator_query.trim()
+    ? seed.operator_query.trim()
+    : strictPhrase(seed.query);
   const response = reuseRaw
     ? savedRawByOperator.get(operatorQuery)
     : await fetchWordstat(secret, operatorQuery);

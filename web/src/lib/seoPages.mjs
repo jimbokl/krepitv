@@ -22,6 +22,9 @@ const HOME_DIAGNOSTIC_PAGE_IDS = [
   "tv-sound-no-picture",
   "tv-no-sound",
   "tv-remote-not-working",
+  "tv-turns-off",
+  "tv-no-internet",
+  "tv-usb-not-seen",
 ];
 
 export function getHomeDiagnosticPages(pages) {
@@ -155,13 +158,16 @@ function preferredRelatedIds(pageId) {
   }
 
   const groups = {
-    "tv-no-signal": ["tv-sound-no-picture", "digital-channels", "laptop-to-tv", "phone-to-tv", "picture-setup", "tv-no-sound"],
-    "tv-sound-no-picture": ["tv-no-signal", "picture-setup", "tv-no-sound", "tv-remote-not-working", "laptop-to-tv", "phone-to-tv"],
-    "tv-no-sound": ["tv-sound-no-picture", "tv-no-signal", "tv-remote-not-working", "digital-channels", "picture-setup", "laptop-to-tv"],
-    "tv-remote-not-working": ["tv-no-sound", "tv-sound-no-picture", "tv-no-signal", "digital-channels", "phone-to-tv", "laptop-to-tv"],
-    "phone-to-tv": ["laptop-to-tv", "tv-no-signal", "picture-setup", "tv-dimensions", "wall-planner", "viewing-distance"],
-    "laptop-to-tv": ["tv-no-signal", "phone-to-tv", "picture-setup", "digital-channels", "tv-dimensions", "viewing-distance"],
-    "digital-channels": ["tv-no-signal", "picture-setup", "laptop-to-tv", "phone-to-tv", "tv-dimensions", "viewing-distance"],
+    "tv-no-signal": ["tv-sound-no-picture", "digital-channels", "laptop-to-tv", "phone-to-tv", "tv-no-internet", "tv-turns-off"],
+    "tv-sound-no-picture": ["tv-no-signal", "picture-setup", "tv-no-sound", "tv-turns-off", "tv-remote-not-working", "laptop-to-tv"],
+    "tv-no-sound": ["tv-sound-no-picture", "tv-no-signal", "tv-remote-not-working", "tv-turns-off", "digital-channels", "picture-setup"],
+    "tv-remote-not-working": ["tv-no-sound", "tv-sound-no-picture", "tv-no-signal", "tv-turns-off", "digital-channels", "phone-to-tv"],
+    "tv-turns-off": ["tv-no-internet", "tv-no-signal", "tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working", "picture-setup"],
+    "tv-no-internet": ["tv-usb-not-seen", "digital-channels", "tv-no-signal", "phone-to-tv", "laptop-to-tv", "tv-turns-off"],
+    "tv-usb-not-seen": ["tv-no-internet", "tv-no-signal", "laptop-to-tv", "phone-to-tv", "tv-remote-not-working", "digital-channels"],
+    "phone-to-tv": ["laptop-to-tv", "tv-no-signal", "tv-no-internet", "tv-usb-not-seen", "picture-setup", "tv-dimensions"],
+    "laptop-to-tv": ["tv-no-signal", "phone-to-tv", "tv-no-internet", "tv-usb-not-seen", "picture-setup", "digital-channels"],
+    "digital-channels": ["tv-no-signal", "tv-no-internet", "picture-setup", "laptop-to-tv", "phone-to-tv", "tv-dimensions"],
     "picture-setup": ["viewing-distance", "tv-dimensions", "wall-planner", "tv-no-signal", "laptop-to-tv", "phone-to-tv"],
     "wall-mounted-tv": ["mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height"],
     "wall-planner": ["tv-dimensions", "mounting-height", "mounting-map", "tv-zone-sockets", "viewing-distance", "wall-mounted-tv"],

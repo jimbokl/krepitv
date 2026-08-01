@@ -1,0 +1,7 @@
+PASS
+Command: cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru
+Result: repository security passed for 976 tracked files, 724 text files and
+4 public verification files; static SEO passed for 155 sitemap URLs and 155
+indexable HTML pages at maximum depth 3; affiliate artifact passed for 180
+audited files and 529 existing direct Market URLs.
+The three new diagnostic canonicals contain zero Market URLs.
