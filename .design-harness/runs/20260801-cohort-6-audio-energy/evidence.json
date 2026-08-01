@@ -43,6 +43,12 @@
       "command": "tracked diff secret-marker scan; sitemap/HTML/Market-link checks",
       "exit_code": 0,
       "covers": ["1026 tracked files", "161 sitemap URLs", "162 HTML", "zero Market links on three new routes", "no secret markers in changed content"]
+    },
+    {
+      "id": "cmd-production-release",
+      "command": "GitHub Pages run 30712116992; HTTP/TLS/hash checks; four production browser scenarios; exact three-URL IndexNow batch",
+      "exit_code": 0,
+      "covers": ["source commit f566a9deab57c2bcc6a47a830f44ba8af8c38d8d", "HTTP to HTTPS redirect", "valid apex and www certificate", "8 local/remote SHA-256 matches", "Rust/WASM live results", "zero Market links", "IndexNow HTTP 202 is notification only"]
     }
   ],
   "screenshots": [
@@ -171,6 +177,34 @@
       "state": "success",
       "viewport_id": "tablet",
       "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wcag_text_spacing": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-production-speakers-desktop-success",
+      "path": "screenshots/production-speakers-success-desktop.png",
+      "state": "production-success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wasm_loaded": true, "action_plan_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-production-speakers-mobile-service",
+      "path": "screenshots/production-speakers-service-mobile.png",
+      "state": "production-service-boundary",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wasm_loaded": true, "unsafe_stop_step_correct": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-production-headphones-tablet-external",
+      "path": "screenshots/production-headphones-external-tablet.png",
+      "state": "production-external-path",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wasm_loaded": true, "external_path_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-production-energy-mobile-success",
+      "path": "screenshots/production-energy-success-mobile.png",
+      "state": "production-success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wasm_loaded": true, "energy_result_visible": true, "market_links_zero": true}
     }
   ],
   "assets": [],
@@ -187,9 +221,9 @@
     "service-boundary": ["shot-speakers-desktop-service"]
   },
   "viewport_coverage": {
-    "mobile": ["shot-energy-mobile-default", "shot-energy-mobile-text-200", "shot-speakers-mobile-needs-check"],
-    "tablet": ["shot-headphones-tablet-default", "shot-headphones-tablet-success", "shot-headphones-tablet-text-spacing"],
-    "desktop": ["shot-speakers-desktop-success", "shot-speakers-desktop-service", "shot-speakers-desktop-retry"]
+    "mobile": ["shot-energy-mobile-default", "shot-energy-mobile-text-200", "shot-speakers-mobile-needs-check", "shot-production-speakers-mobile-service", "shot-production-energy-mobile-success"],
+    "tablet": ["shot-headphones-tablet-default", "shot-headphones-tablet-success", "shot-headphones-tablet-text-spacing", "shot-production-headphones-tablet-external"],
+    "desktop": ["shot-speakers-desktop-success", "shot-speakers-desktop-service", "shot-speakers-desktop-retry", "shot-production-speakers-desktop-success"]
   },
   "review": {
     "reviewer": "Independent reviewer /root/cohort6_independent_review",
@@ -202,7 +236,8 @@
       "All eight source ids and claim mappings agree across the manifest, task, Rust, React and SSR layers.",
       "Final captures cover 320, 768 and 1440 CSS px, 200% text zoom and WCAG text spacing with no overflow or overlap and distinguishable focus, loading, error, retry and boundary states.",
       "Targeted Rust 10/10, sitegen 1/1, web 30/30, full build, diff check and scoped design-drift checks pass.",
-      "The measured demand does not prove 1001 daily visitors; the traffic gate remains 0/7 until first-party analytics records seven qualifying days."
+      "The measured demand does not prove 1001 daily visitors; the traffic gate remains 0/7 until first-party analytics records seven qualifying days.",
+      "GitHub Pages run 30712116992 passed; production HTTPS, certificate, eight artifact hashes and four browser scenarios pass, then exactly three canonicals were accepted by IndexNow with HTTP 202."
     ]
   },
   "rollback": {

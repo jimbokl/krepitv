@@ -64,8 +64,18 @@ Tailwind и проверяется полным build-gate.
   остаётся 0/7 до реальных данных аналитики.
 - Совместимость точной модели подтверждается её официальной инструкцией;
   интерфейс намеренно не угадывает модельные функции.
-- До окончательного ship-gate требуется production smoke: HTTPS, совпадение
-  хэшей артефакта, загрузка WASM и browser-проверка трёх URL.
+
+## Production Verification
+
+Source commit `f566a9deab57c2bcc6a47a830f44ba8af8c38d8d` опубликован GitHub
+Pages run `30712116992` со статусом success. HTTP перенаправляет на HTTPS,
+сертификат покрывает `krepitv.ru` и `www.krepitv.ru`. Главная, sitemap, три
+новых HTML, JS, CSS и Rust/WASM совпали с локальным артефактом по SHA-256.
+
+Четыре production browser-сценария на 320, 768 и 1440 CSS px подтвердили
+`action-plan`, `service-boundary`, `external-path` и energy success без overflow
+и без Market-ссылок. Ровно три canonical приняты IndexNow с HTTP 202; это только
+уведомление об изменениях, не подтверждение индексации и не посетители.
 
 ## Rollback
 

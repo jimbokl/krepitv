@@ -38,6 +38,7 @@
     "scripts/verify.mjs",
     "README.md",
     "product-docs/operations/traffic-goal-1000-daily-2026-08-01.md",
+    "product-docs/operations/traffic-release-tv-utility-cohort-6-2026-08-01.md",
     "web/tests/tv-utility-cohort-6.test.mjs",
     "web/tests/seo-pages.test.mjs",
     "web/tests/tv-traffic-cohort-2.test.mjs",
