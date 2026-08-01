@@ -1,9 +1,9 @@
 {
   "version": 1,
   "run_id": "20260801-cohort-5-web-utilities",
-  "sealed_at": "2026-08-01T17:11:09.272640+00:00",
+  "sealed_at": "2026-08-01T17:16:19.855203+00:00",
   "task_hash": "sha256:cb5094949344a0b95f5cbda9622b95853381623b8ac178880ef0c4b57df2b95c",
-  "evidence_hash": "sha256:1bf69ff2d915740262cebbc272994f618804a5a66d902ab386a47ffbb58bb017",
+  "evidence_hash": "sha256:c697eac68adddcb9ef8a722722857a00e677d77faf7220cc62a6f58244713faf",
   "files": {
     ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
     ".design-harness/runs/20260801-cohort-5-web-utilities/SPEC.md": "sha256:8b615e792139f9231b84a991b5dcca4587804269c282c68a06efa698ee3f8ee0",
@@ -14,21 +14,25 @@
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/cleaning-desktop-loading.png": "sha256:79c6cc8c2153608011a6756060cacef8dfef4b52f8fd2e574db353cd0fffcf52",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/cleaning-mobile-success.png": "sha256:c231304a18b340ad17d5ad10b38a491027c093810aff9d428540a0de9ae1ab44",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/cleaning-mobile-text-200.png": "sha256:a3bda1670c29ba3693cc803d2d71de6a366bf24f7813da6e184828e5b37c9017",
+    ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/cleaning-production-mobile-success.png": "sha256:593046fa8500f3bddd2d5c7d50c3c577532c4e87e79f3675010f096ec2477783",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/cleaning-tablet-default.png": "sha256:b812f4144bb2a49c559e77ed269bbadbe220e20df76fe9845de5a638deacf1fa",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/cleaning-tablet-needs-check.png": "sha256:961bd15821eadbd3b5a3fbf137566885cce019fb07e55a323648deac708ab22f",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/smart-desktop-error.png": "sha256:3e25ddad75ddfc00c22222594e49516074038364b10eec8ac1fc19ffd5d47415",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/smart-desktop-success.png": "sha256:1dbdc777719429f53234a02d646d5466e9034eaee2f29f50d21de7bb97a2ad06",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/smart-mobile-disabled.png": "sha256:b4e5d135c7c4aa46c5c2c7a819dfb274c114353ea02bc8f270b74a7071de471c",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/smart-mobile-service.png": "sha256:7b3b04515eb254758286faa5c0cee83733be716fa3bdb62b698a5db890a77011",
+    ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/smart-production-desktop-success.png": "sha256:8b95d9cf9f8ffe825ad28b013b3aedf819c23a1620cda6a190912e9ab92320b3",
+    ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/smart-production-mobile-service.png": "sha256:8b1e4b80a12c94e10ba75622ca3d7d2cc9198ad55919b735eb5cc415bf08b1ef",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/soundbar-desktop-success.png": "sha256:f15e9aa8d00d24e225906a06f7e985964a21a2da306f138a431c1809ad7a62b7",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/soundbar-mobile-empty.png": "sha256:da7be9dd4c8f9397385dad89975a9036d875849fa8341793e84e285153f70b23",
+    ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/soundbar-production-tablet-success.png": "sha256:3f1734046cdde0e6d7a31d1efedd32c8e023445f3c61388b361c0faa84f9669a",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/soundbar-tablet-external.png": "sha256:97ed7c8fc8c82e2a64dacf25cebcc219e30ffc66a11c3118a273cce9c3e4275f",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/soundbar-tablet-focus.png": "sha256:ed0de37cb1d782d891409dc4f15049ed9be65cab439b67e3f9dda42ceb4f1076",
     ".design-harness/runs/20260801-cohort-5-web-utilities/evidence/screenshots/soundbar-tablet-text-spacing.png": "sha256:6289c8d37e89f6928dd4e08c38793075907a9ef2bd851f9c491c6c59853c6773",
-    ".design-harness/runs/20260801-cohort-5-web-utilities/evidence.json": "sha256:1bf69ff2d915740262cebbc272994f618804a5a66d902ab386a47ffbb58bb017",
-    ".design-harness/runs/20260801-cohort-5-web-utilities/review.md": "sha256:a95f4d7f69d06a8629de65d8407b0217692cb5886f71ee57fed1ff575fb5e798",
+    ".design-harness/runs/20260801-cohort-5-web-utilities/evidence.json": "sha256:c697eac68adddcb9ef8a722722857a00e677d77faf7220cc62a6f58244713faf",
+    ".design-harness/runs/20260801-cohort-5-web-utilities/review.md": "sha256:6cb6308685fdfb518a24dfd729d51031030b42d0a1a7c29c1c46dbef487a01cb",
     ".design-harness/runs/20260801-cohort-5-web-utilities/task.json": "sha256:cb5094949344a0b95f5cbda9622b95853381623b8ac178880ef0c4b57df2b95c",
     ".design-harness/runs/20260801-cohort-5-web-utilities/visual-direction.md": "sha256:62bbae4fb1106f9339c64113cfa7e63b401905d439b58c1a4fe9c132a9891931"
   },
-  "packet_hash": "sha256:214a32520da10901e8acab8b9557c2021b9dbe07dd779fede8055d060e6cbb6d"
+  "packet_hash": "sha256:5a709669cd5e9eaa7a305c661127f27080b5f62607acea3feb6c727bd04ea123"
 }

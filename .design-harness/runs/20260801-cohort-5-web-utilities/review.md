@@ -60,6 +60,17 @@ Tailwind-язык KREPI TV сохранён; новый визуальный я�
 VoiceOver и Firefox/WebKit не было. Наличие общего affiliate-кода в JS-бандле не
 создаёт affiliate DOM или исходящих Market-ссылок на этих трёх страницах.
 
+## Production Verification
+
+GitHub Pages run `30709836629` для source commit
+`1ccc2ccbf5ddf624f3e89ff47286dd11771770b0` завершился успешно. HTTP переводит
+на HTTPS, сертификат покрывает `krepitv.ru` и `www.krepitv.ru`. SHA-256 совпал у
+трёх новых HTML, sitemap, JavaScript-бандла и WASM. Четыре production browser
+сценария на 320, 768 и 1440 CSS px подтвердили правильные action-plan и
+service-boundary, отсутствие горизонтального overflow и ноль ссылок на Market.
+IndexNow принял ровно три новых canonical с HTTP 202; это только уведомление об
+изменениях, не индексация и не посетители.
+
 ## Rollback
 
 Откатить единый release-коммит cohort 5: удалить три canonical, три Rust-задачи,

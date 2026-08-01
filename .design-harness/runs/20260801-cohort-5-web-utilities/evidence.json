@@ -61,6 +61,12 @@
       "command": "git diff --check",
       "exit_code": 0,
       "covers": ["scoped implementation", "text integrity"]
+    },
+    {
+      "id": "cmd-production-release",
+      "command": "GitHub Pages run 30709836629; HTTP/TLS/hash checks; production browser E2E; IndexNow exact 3-URL batch",
+      "exit_code": 0,
+      "covers": ["source commit 1ccc2ccbf5ddf624f3e89ff47286dd11771770b0", "HTTP to HTTPS redirect", "valid krepitv.ru and www.krepitv.ru certificate", "6 local/remote SHA-256 matches", "4 production browser scenarios", "zero Market links", "IndexNow HTTP 202 is notification only"]
     }
   ],
   "screenshots": [
@@ -161,6 +167,34 @@
       "state": "default",
       "viewport_id": "tablet",
       "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wcag_text_spacing": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-soundbar-production-tablet-success",
+      "path": "evidence/screenshots/soundbar-production-tablet-success.png",
+      "state": "production-success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "action_plan_visible": true, "soundbar_primary_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-cleaning-production-mobile-success",
+      "path": "evidence/screenshots/cleaning-production-mobile-success.png",
+      "state": "production-success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "action_plan_visible": true, "screen_off_cool_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-smart-production-mobile-service",
+      "path": "evidence/screenshots/smart-production-mobile-service.png",
+      "state": "production-service-boundary",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "service_boundary_visible": true, "unsafe_power_stop_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-smart-production-desktop-success",
+      "path": "evidence/screenshots/smart-production-desktop-success.png",
+      "state": "production-success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "action_plan_visible": true, "box_video_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
     }
   ],
   "assets": [],
@@ -173,7 +207,8 @@
       "Three unique indexable canonicals have substantive SSR, eight official sources and zero Market or affiliate links.",
       "Fourteen post-fix captures cover 320, 768 and 1440 CSS px, all required states, 200% text zoom and WCAG text spacing without overflow or overlap.",
       "The odd soundbar choice spans the full last row; focus, loading, error, retry and fail-closed result states remain visible and usable.",
-      "Full build, security, static, affiliate and design-drift gates pass."
+      "Full build, security, static, affiliate and design-drift gates pass.",
+      "GitHub Pages run 30709836629 passed; production HTML, sitemap, JavaScript and WASM match the release artifact and four browser scenarios pass without Market links or horizontal overflow."
     ]
   },
   "rollback": {
