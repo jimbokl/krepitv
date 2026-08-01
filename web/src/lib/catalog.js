@@ -5,6 +5,7 @@ import { getFreshModelAffiliateOffers } from "./modelAffiliateOffers.mjs";
 
 let catalogPromise;
 let enginePromise;
+let engineLoadAttempt = 0;
 
 export function normalizeSearch(value) {
   return String(value ?? "")
@@ -168,34 +169,54 @@ function assertResponse(response) {
 
 export function loadEngine() {
   if (!enginePromise) {
-    enginePromise = new Promise((resolve, reject) => {
+    const loadAttempt = new Promise((resolve, reject) => {
       if (globalThis.__krepitvEngine) {
         resolve(globalThis.__krepitvEngine);
         return;
       }
 
-      const fail = () => reject(new Error(
-        "Не удалось загрузить локальный модуль расчёта. Обновите страницу.",
-      ));
-      globalThis.addEventListener(
-        "krepitv-engine-ready",
-        () => resolve(globalThis.__krepitvEngine),
-        { once: true },
-      );
+      const cleanup = () => {
+        globalThis.removeEventListener("krepitv-engine-ready", ready);
+        globalThis.removeEventListener("krepitv-engine-error", fail);
+      };
+      const ready = () => {
+        cleanup();
+        if (globalThis.__krepitvEngine) resolve(globalThis.__krepitvEngine);
+        else fail();
+      };
+      const fail = () => {
+        cleanup();
+        document.querySelector('script[data-krepitv-engine="loader"]')?.remove();
+        globalThis.__krepitvEngineError = true;
+        reject(new Error(
+          "Не удалось загрузить локальный модуль расчёта. Нажмите «Показать инструкцию» ещё раз.",
+        ));
+      };
+      globalThis.addEventListener("krepitv-engine-ready", ready, { once: true });
       globalThis.addEventListener("krepitv-engine-error", fail, { once: true });
 
       const existing = document.querySelector('script[data-krepitv-engine="loader"]');
       if (existing) {
-        if (globalThis.__krepitvEngineError) fail();
-        return;
+        if (globalThis.__krepitvEngineError) existing.remove();
+        else return;
+      }
+      if (globalThis.__krepitvEngineError) {
+        delete globalThis.__krepitvEngineError;
       }
 
+      engineLoadAttempt += 1;
       const script = document.createElement("script");
       script.dataset.krepitvEngine = "loader";
-      script.src = "/krepitv-engine-loader.js";
+      script.src = engineLoadAttempt === 1
+        ? "/krepitv-engine-loader.js"
+        : `/krepitv-engine-loader.js?retry=${engineLoadAttempt}`;
       script.type = "module";
       script.addEventListener("error", fail, { once: true });
       document.head.append(script);
+    });
+    enginePromise = loadAttempt.catch((error) => {
+      enginePromise = undefined;
+      throw error;
     });
   }
   return enginePromise;
@@ -341,6 +362,23 @@ export async function calculateTvDimensionsPlan(values) {
       mode === "niche" ? values.gap : 0,
       values.exactCaseWidth ?? 0,
       values.exactCaseHeight ?? 0,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
+export async function calculatePhoneTvConnection(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.phone_tv_connection_plan_json(
+      values.phone,
+      values.tv,
+      values.goal,
+      values.connector,
+      values.sameNetwork,
+      values.hdmi,
+      values.androidVideoOutput,
     ),
   );
   if (response.error) throw new Error(response.error);

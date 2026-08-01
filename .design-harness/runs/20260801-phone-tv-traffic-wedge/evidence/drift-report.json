@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "run": "20260801-phone-tv-traffic-wedge",
+  "generated_at": "2026-08-01T11:22:14.038517+00:00",
+  "scanned_files": [
+    "web/src/components/PhoneTvConnectionWizard.jsx",
+    "web/src/components/SiteHeader.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/src/pages/HomePage.jsx"
+  ],
+  "findings": []
+}

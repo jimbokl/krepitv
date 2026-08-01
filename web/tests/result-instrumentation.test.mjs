@@ -66,3 +66,12 @@ test("брендовый подбор фиксирует только тип и 
   assert.match(eventBlock[1], /resultCount: compatible\.length/);
   assert.doesNotMatch(eventBlock[1], /selectedModel|model\.id|query|vesa|weight/i);
 });
+
+test("мастер телефон → ТВ отправляет только контролируемый тип результата", async () => {
+  const code = await source("components/PhoneTvConnectionWizard.jsx");
+  const eventBlock = code.match(/emitResultCompleted\(window, \{([\s\S]*?)\n\s*\}\);/);
+  assert.ok(eventBlock, "phone-to-TV result event is present");
+  assert.match(eventBlock[1], /toolId: "phone_tv_connection"/);
+  assert.match(eventBlock[1], /blocked_plan/);
+  assert.doesNotMatch(eventBlock[1], /phone,|tv,|goal,|connector|sameNetwork|androidVideoOutput/i);
+});

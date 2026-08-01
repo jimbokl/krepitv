@@ -4,9 +4,11 @@ import { Brand } from "./Brand.jsx";
 import { MetrikaConsent } from "./MetrikaConsent.jsx";
 
 const links = [
+  { href: "/kak-podklyuchit-telefon-k-televizoru/", label: "Телефон → ТВ" },
   { href: "/podbor/", label: "Подбор по модели" },
   { href: "/modeli/", label: "Телевизоры" },
   { href: "/kronshteyny/", label: "Кронштейны" },
+  { href: "/razmery-televizora-po-diagonali/", label: "Размеры ТВ" },
   { href: "/vesa/", label: "VESA" },
   { href: "/metodika/", label: "Методика" },
 ];

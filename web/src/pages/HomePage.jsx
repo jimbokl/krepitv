@@ -17,7 +17,7 @@ import { ModelFacts } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
-import { isIndexableSeoPage } from "../lib/seoPages.mjs";
+import { getHomeFeaturedPages } from "../lib/seoPages.mjs";
 
 export function HomePage({ catalog }) {
   const [query, setQuery] = useState("");
@@ -39,8 +39,8 @@ export function HomePage({ catalog }) {
         : 0,
     [catalog.mounts, selectedModel],
   );
-  const indexableSeoPages = useMemo(
-    () => catalog.seoPages.filter(isIndexableSeoPage),
+  const featuredSeoPages = useMemo(
+    () => getHomeFeaturedPages(catalog.seoPages),
     [catalog.seoPages],
   );
 
@@ -185,9 +185,10 @@ export function HomePage({ catalog }) {
             aria-label="Справочники и калькуляторы"
             className="mt-6 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
           >
-            {indexableSeoPages.map((page) => (
+            {featuredSeoPages.map((page) => (
               <a
                 className="group flex min-h-28 items-end justify-between gap-4 bg-paper p-5 font-display text-lg font-bold transition hover:bg-white hover:text-action"
+                data-featured-traffic-tool={page.id}
                 href={page.path}
                 key={page.id}
               >
@@ -196,6 +197,14 @@ export function HomePage({ catalog }) {
               </a>
             ))}
           </nav>
+          <div className="mt-5 flex flex-wrap gap-x-7 gap-y-3 text-sm font-semibold">
+            <a className="text-action underline underline-offset-4" href="/modeli/">
+              Все проверенные модели телевизоров
+            </a>
+            <a className="text-action underline underline-offset-4" href="/kronshteyny/">
+              Все проверенные кронштейны
+            </a>
+          </div>
         </section>
 
         <div className="mt-6 flex justify-center">

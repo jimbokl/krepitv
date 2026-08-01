@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "run_id": "20260801-phone-tv-traffic-wedge",
+  "sealed_at": "2026-08-01T11:23:54.015223+00:00",
+  "task_hash": "sha256:2d09de36f50082798286aca1c5372abc821144d09dd3e8d040ff9ddcefa5d063",
+  "evidence_hash": "sha256:0d821ef7e77e9b78dc51c116dd86530618bf1ef5884f4b61fc54ee46ef6761c4",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/SPEC.md": "sha256:0fc631321829e5e6d6c16d7aa0d100588b07620bc9b362c464969b03753cff03",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/brief.md": "sha256:e23aa544ef426bb8ca7dc62c40d45975404f2fcf46fb533e0e2f0c3aaf5e8ae5",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/component-map.md": "sha256:a3f5c430f11575322b43382c844fd7b27f55890916f7cafdad9d20c4b2676e61",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/default-desktop.png": "sha256:68b67f5e244a537973b6def080e2289c8a1da58a8cd46e64cd9371a79ae0154d",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/disabled-tablet.png": "sha256:186b0371f880ccc3d144373860d6db30c06c1245edff5a27e2f4093b55c75e67",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/discovery.md": "sha256:c3aec5e24aaad10ed7bc6c97aa78f3c69e91637d755990a27bf48684d560ee06",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/empty-mobile.png": "sha256:a0077b70149f97c5ea5b8aed5ebe13a4e9653a2f026077572719537848944e4c",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/error-mobile.png": "sha256:16cdff58460e85a299be237ca305e93e79b98794c91f554d6431e235ee5f3203",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/evidence/drift-report.json": "sha256:a5f82fa2729e2b371c3d0787c84c293b66590bed440bfa4f38ee44a9a3b590bc",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/evidence.json": "sha256:0d821ef7e77e9b78dc51c116dd86530618bf1ef5884f4b61fc54ee46ef6761c4",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/focus-tablet.png": "sha256:e46eb4a6d5973f0dbd6110cd73867c6f19c3393fead629ebf4830df1fcb1bee2",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/loading-desktop.png": "sha256:b362e070db482ed322f0ecc199f7ba769a340254f5133a7b8b03cec8da388c4b",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/needs-check-desktop.png": "sha256:45da63e023a2c48601ad0eef788fa96c1cd6f5783bd45ad61f7be16a55d4d063",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/needs-check-mobile.png": "sha256:39c45000eead5d4deaad6bb107fcaa0460717903558c12da2dbaa6e3bf97b3e6",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/no-direct-mobile.png": "sha256:53de06d56d5c04e71eb5703f574f1d5eb8a9ba665a260a0926389154aebd8b1a",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/retry-mobile.png": "sha256:ed9b8f412cd2d7f24e9d0cf0f9bbf856d19c4252b17ffd64ebef1b17eba9247e",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/review.md": "sha256:e7efc912e53e4cfd38d29c1f0122ddcffd3ce31e64bc5b512f1e3dbbdf9e2bab",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/spacing-mobile.png": "sha256:9c579625ef2c8abbeb32dda5d5a0554e8ec29fffd78291bfe010341ccc9b40cf",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/success-desktop.png": "sha256:45da63e023a2c48601ad0eef788fa96c1cd6f5783bd45ad61f7be16a55d4d063",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/task.json": "sha256:2d09de36f50082798286aca1c5372abc821144d09dd3e8d040ff9ddcefa5d063",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/visual-direction.md": "sha256:a49e792e1deba14190b3514d4460a78ebc96045455b2934171e95e3cbf0cc9cd",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge/zoom-tablet.png": "sha256:0327b748add418eb18c1de017a904f3aaa6867054fd22cc8d8ecc0a77a3d8fd8"
+  },
+  "packet_hash": "sha256:60730fa062d3d2d0ad357400fef311c44c898ccbb7bc844c0b6bc62ce19e1dff"
+}

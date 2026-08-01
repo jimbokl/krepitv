@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "id": "20260801-phone-tv-traffic-wedge",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root",
+  "created_at": "2026-08-01T10:40:13.763665+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus",
+    "needs-check",
+    "no-direct-path",
+    "retry"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "README.md",
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "web/src/components/PhoneTvConnectionWizard.jsx",
+    "web/src/components/SiteHeader.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/lib/catalog.js",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/HomePage.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/src/pages/TrustPage.jsx",
+    "web/tests",
+    "scripts/qa/capture-page.mjs",
+    "web/public/pkg",
+    "web/*.html",
+    "docs",
+    "product-docs/research",
+    "product-docs/operations",
+    ".design-harness/runs/20260801-phone-tv-traffic-wedge"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-rust-matrix",
+      "command": "cargo test -p krepitv-engine phone_tv_connection -- --nocapture",
+      "required": true,
+      "covers": ["success", "blocked", "unknown", "USB-C fail-closed"]
+    },
+    {
+      "id": "cmd-web-contract",
+      "command": "node --test --test-concurrency=1 web/tests/phone-tv-connection.test.mjs web/tests/result-instrumentation.test.mjs",
+      "required": true,
+      "covers": ["canonical", "SSR", "privacy", "analytics"]
+    },
+    {
+      "id": "cmd-qa-syntax",
+      "command": "node --check scripts/qa/capture-page.mjs",
+      "required": true,
+      "covers": ["visual state capture"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "required": true,
+      "covers": ["security", "static SEO", "affiliate policy"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "h1",
+      "value": "Как подключить телефон к телевизору",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "usb-warning",
+      "value": "USB-C ещё не видеовыход",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "airplay-same-network",
+      "text": "Для базового AirPlay iPhone и совместимый приёмник находятся в одной Wi-Fi сети; отдельные приложения могут ограничивать AirPlay.",
+      "source_ids": ["apple-airplay"]
+    },
+    {
+      "id": "cast-not-iphone-mirror",
+      "text": "Google Cast из iPhone документирован для совместимых приложений, а полный screen cast — для Android.",
+      "source_ids": ["google-cast", "official-source-matrix"]
+    },
+    {
+      "id": "usb-c-not-video",
+      "text": "Форма USB-C не подтверждает DisplayPort Alt Mode и видеовыход.",
+      "source_ids": ["vesa-displayport"]
+    },
+    {
+      "id": "ordinary-usb-not-mirror",
+      "text": "Обычный USB телефона к телевизору относится к питанию или файлам, а не универсальному зеркалированию.",
+      "source_ids": ["lg-usb"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "official-source-matrix",
+      "path": "product-docs/research/PHONE_TO_TV_OFFICIAL_SOURCES_2026-08-01.md",
+      "retrieved_at": "2026-08-01T10:30:00Z",
+      "notes": "21 первичный URL, проверенный 2026-08-01"
+    },
+    {
+      "id": "apple-airplay",
+      "url": "https://support.apple.com/ru-ru/102661",
+      "retrieved_at": "2026-08-01T10:00:00Z"
+    },
+    {
+      "id": "google-cast",
+      "url": "https://support.google.com/googlecast/answer/3006709?hl=ru",
+      "retrieved_at": "2026-08-01T10:00:00Z"
+    },
+    {
+      "id": "samsung-smart-view",
+      "url": "https://www.samsung.com/ru/support/mobile-devices/how-to-mirror-from-your-samsung-smartphone-to-your-tv/",
+      "retrieved_at": "2026-08-01T10:00:00Z"
+    },
+    {
+      "id": "vesa-displayport",
+      "url": "https://www.displayport.org/faq/",
+      "retrieved_at": "2026-08-01T10:00:00Z"
+    },
+    {
+      "id": "lg-usb",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413220966",
+      "retrieved_at": "2026-08-01T10:00:00Z"
+    }
+  ]
+}

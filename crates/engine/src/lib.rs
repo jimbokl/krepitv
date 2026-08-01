@@ -142,6 +142,35 @@ pub struct TvDimensionsPlan {
     pub warnings: Vec<String>,
 }
 
+/// Консервативный маршрут подключения телефона к телевизору.
+///
+/// Мастер не угадывает поддержку протокола по одному бренду: состояния
+/// `needs-check` и `no-direct-path` являются полноценными результатами.
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+pub struct PhoneTvConnectionRoute {
+    pub id: String,
+    pub readiness: String,
+    pub title: String,
+    pub condition: String,
+    pub source_ids: Vec<String>,
+    pub equipment: Vec<String>,
+    pub steps: Vec<String>,
+    pub warnings: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+pub struct PhoneTvConnectionPlan {
+    pub status: String,
+    pub phone: String,
+    pub tv: String,
+    pub goal: String,
+    pub primary_route_id: Option<String>,
+    pub routes: Vec<PhoneTvConnectionRoute>,
+    pub rejected_reasons: Vec<String>,
+    pub next_checks: Vec<String>,
+    pub privacy: String,
+}
+
 /// Масштабная двумерная схема телевизора на стене.
 ///
 /// Координаты отсчитываются от левого нижнего угла стены. Паспортные ширина и
@@ -716,6 +745,414 @@ pub fn calculate_tv_dimensions_plan(
         exact_case_horizontal_delta_cm: exact_case_horizontal_delta_cm.map(rounded),
         exact_case_vertical_delta_cm: exact_case_vertical_delta_cm.map(rounded),
         warnings,
+    })
+}
+
+fn phone_tv_route(
+    id: &str,
+    readiness: &str,
+    title: &str,
+    condition: &str,
+    equipment: &[&str],
+    steps: &[&str],
+    warnings: &[&str],
+) -> PhoneTvConnectionRoute {
+    let source_ids = match id {
+        "airplay" => vec!["apple-airplay"],
+        "app-cast" | "google-cast" => vec!["google-cast"],
+        "smart-view" => vec!["samsung-smart-view"],
+        "wireless-screen" => vec![],
+        "iphone-hdmi" => vec!["apple-video-adapters"],
+        "android-usb-c-hdmi" | "android-wired-check" => vec!["vesa-displayport"],
+        _ => vec![],
+    };
+    PhoneTvConnectionRoute {
+        id: id.to_string(),
+        readiness: readiness.to_string(),
+        title: title.to_string(),
+        condition: condition.to_string(),
+        source_ids: source_ids
+            .into_iter()
+            .map(|value| value.to_string())
+            .collect(),
+        equipment: equipment.iter().map(|value| (*value).to_string()).collect(),
+        steps: steps.iter().map(|value| (*value).to_string()).collect(),
+        warnings: warnings.iter().map(|value| (*value).to_string()).collect(),
+    }
+}
+
+fn require_choice(value: &str, allowed: &[&str], label: &str) -> Result<(), String> {
+    if allowed.contains(&value) {
+        Ok(())
+    } else {
+        Err(format!("Неизвестное значение «{value}» для поля «{label}»"))
+    }
+}
+
+/// Строит проверяемый план подключения телефона к телевизору.
+///
+/// Поддержка AirPlay, Google Cast, Smart View и видеовыхода USB-C зависит от
+/// точных устройств. Поэтому бренд или форма разъёма никогда не повышают
+/// маршрут до `ready` без достаточного набора подтверждений.
+#[allow(clippy::too_many_arguments)]
+pub fn calculate_phone_tv_connection(
+    phone: &str,
+    tv: &str,
+    goal: &str,
+    connector: &str,
+    same_network: &str,
+    hdmi: &str,
+    android_video_output: &str,
+) -> Result<PhoneTvConnectionPlan, String> {
+    require_choice(
+        phone,
+        &["iphone", "android-samsung", "android-other"],
+        "Телефон",
+    )?;
+    require_choice(
+        tv,
+        &[
+            "apple-tv",
+            "samsung-smart-tv",
+            "lg-smart-tv",
+            "google-tv",
+            "yandex-tv",
+            "hdmi-tv",
+            "other-smart-tv",
+            "unknown",
+        ],
+        "Телевизор",
+    )?;
+    require_choice(goal, &["mirror", "media", "no-wifi"], "Задача")?;
+    require_choice(
+        connector,
+        &["usb-c", "lightning", "micro-usb", "unknown"],
+        "Разъём телефона",
+    )?;
+    require_choice(same_network, &["yes", "no", "unknown"], "Одна сеть Wi-Fi")?;
+    require_choice(hdmi, &["yes", "no", "unknown"], "Вход HDMI")?;
+    require_choice(
+        android_video_output,
+        &["yes", "no", "unknown"],
+        "Видеовыход Android",
+    )?;
+
+    if phone == "iphone" && connector == "micro-usb" {
+        return Err("Для iPhone выберите USB-C, Lightning или «не знаю»".to_string());
+    }
+    if phone != "iphone" && connector == "lightning" {
+        return Err("Lightning относится к iPhone; проверьте выбранный телефон".to_string());
+    }
+
+    let mut routes = Vec::new();
+    let mut rejected_reasons = Vec::new();
+    let mut next_checks = Vec::new();
+    let wants_wireless = goal != "no-wifi";
+
+    if wants_wireless && phone == "iphone" {
+        match tv {
+            "apple-tv" => {
+                routes.push(phone_tv_route(
+                    "airplay",
+                    "needs-check",
+                    "AirPlay",
+                    "AirPlay — вероятный маршрут, но без точных моделей и версий ОС он не считается подтверждённым.",
+                    &[],
+                    &[
+                        "Подключите iPhone и Apple TV к одной сети Wi-Fi.",
+                        "Откройте Пункт управления на iPhone.",
+                        "Нажмите «Повтор экрана» и выберите Apple TV.",
+                        "Введите код с экрана телевизора, если он появится.",
+                    ],
+                    &[
+                        "Сверьте точную модель Apple TV, модель iPhone и версии их систем.",
+                        "Некоторые видеоприложения ограничивают AirPlay для защищённого контента.",
+                    ],
+                ));
+                next_checks.push(
+                    "Проверьте AirPlay в руководствах точных моделей iPhone и Apple TV."
+                        .to_string(),
+                );
+            }
+            "samsung-smart-tv" | "lg-smart-tv" => {
+                routes.push(phone_tv_route(
+                    "airplay",
+                    "needs-check",
+                    "AirPlay, если он есть в точной модели телевизора",
+                    "Одинаковый бренд или Smart TV сам по себе не подтверждает AirPlay.",
+                    &[],
+                    &[
+                        "Откройте настройки телевизора и найдите пункт AirPlay.",
+                        "Подключите телефон и телевизор к одной сети Wi-Fi.",
+                        "На iPhone откройте Пункт управления и нажмите «Повтор экрана».",
+                        "Выберите телевизор и подтвердите код, если он появится.",
+                    ],
+                    &["Поддержку AirPlay нужно сверить по точной модели телевизора."],
+                ));
+                next_checks.push(
+                    "Найдите AirPlay в настройках или паспорте точной модели телевизора."
+                        .to_string(),
+                );
+            }
+            "google-tv" | "yandex-tv" | "other-smart-tv" | "unknown" => {
+                if goal == "media" {
+                    routes.push(phone_tv_route(
+                        "app-cast",
+                        "needs-check",
+                        "Трансляция из совместимого приложения",
+                        "Это передача конкретного видео или фото, а не универсальное дублирование всего экрана iPhone.",
+                        &[],
+                        &[
+                            "Подключите устройства к одной сети Wi-Fi.",
+                            "Откройте приложение с кнопкой трансляции.",
+                            "Нажмите значок трансляции и выберите телевизор.",
+                        ],
+                        &["Наличие кнопки и поддержка формата зависят от приложения и телевизора."],
+                    ));
+                } else {
+                    rejected_reasons.push(
+                        "Универсальное беспроводное дублирование iPhone не подтверждено для выбранного типа телевизора."
+                            .to_string(),
+                    );
+                }
+                next_checks.push("Проверьте, есть ли в меню телевизора AirPlay или приложение с кнопкой трансляции.".to_string());
+            }
+            "hdmi-tv" => {}
+            _ => unreachable!(),
+        }
+    }
+
+    if wants_wireless && phone != "iphone" {
+        match (phone, tv) {
+            ("android-samsung", "samsung-smart-tv") => {
+                routes.push(phone_tv_route(
+                    "smart-view",
+                    "needs-check",
+                    "Samsung Smart View",
+                    "Маршрут относится к Samsung Galaxy и совместимому Samsung Smart TV.",
+                    &[],
+                    &[
+                        "Подключите смартфон и телевизор к одной сети Wi-Fi.",
+                        "Откройте быстрые настройки Galaxy.",
+                        "Нажмите Smart View и выберите телевизор.",
+                        "Подтвердите подключение на телевизоре и телефоне.",
+                    ],
+                    &["Если Smart View отсутствует или телевизор не появляется, нужна проверка точных моделей и разрешения подключения на ТВ."],
+                ));
+            }
+            (_, "google-tv") => {
+                routes.push(phone_tv_route(
+                    "google-cast",
+                    "needs-check",
+                    if goal == "media" {
+                        "Google Cast из приложения"
+                    } else {
+                        "Google Cast или функция трансляции экрана"
+                    },
+                    "Передача видео из приложения надёжнее полного дублирования экрана, которое зависит от телефона.",
+                    &[],
+                    &[
+                        "Подключите телефон и телевизор к одной сети Wi-Fi.",
+                        "Для видео откройте приложение с кнопкой трансляции.",
+                        "Выберите телевизор из списка устройств.",
+                    ],
+                    &["Полное дублирование экрана и защищённый контент поддерживаются не всеми телефонами и приложениями."],
+                ));
+            }
+            (
+                _,
+                "samsung-smart-tv" | "lg-smart-tv" | "yandex-tv" | "other-smart-tv" | "unknown",
+            ) => {
+                let mut route = phone_tv_route(
+                    "wireless-screen",
+                    "needs-check",
+                    "Беспроводной экран, если обе модели его поддерживают",
+                    "Названия функции различаются: Smart View, Трансляция, Беспроводной экран или Screen Share.",
+                    &[],
+                    &[
+                        "Найдите на телевизоре режим беспроводного экрана или трансляции.",
+                        "На Android откройте панель быстрых настроек.",
+                        "Найдите «Трансляция», Smart View или «Беспроводной экран».",
+                        "Выберите телевизор и подтвердите подключение.",
+                    ],
+                    &["Android и Smart TV не гарантируют общий протокол: нужна проверка обеих точных моделей."],
+                );
+                route.source_ids = match tv {
+                    "samsung-smart-tv" => vec!["samsung-smart-view".to_string()],
+                    "lg-smart-tv" => vec!["lg-screen-share".to_string()],
+                    _ => vec![],
+                };
+                routes.push(route);
+                next_checks.push(
+                    "Проверьте одинаковую функцию беспроводного экрана в телефоне и телевизоре."
+                        .to_string(),
+                );
+            }
+            (_, "apple-tv") => {
+                rejected_reasons.push(
+                    "Android не имеет универсального системного AirPlay-маршрута к Apple TV."
+                        .to_string(),
+                );
+            }
+            (_, "hdmi-tv") => {}
+            _ => unreachable!(),
+        }
+    }
+
+    if hdmi == "no" {
+        rejected_reasons
+            .push("На телевизоре нет доступного HDMI-входа для проводного маршрута.".to_string());
+    } else if phone == "iphone" {
+        let (title, equipment, condition) = match connector {
+            "usb-c" => (
+                "Проводное подключение USB-C → HDMI",
+                vec![
+                    "кабель или адаптер USB-C → HDMI с поддержкой видео",
+                    "кабель HDMI при использовании адаптера",
+                ],
+                "Поддержка внешнего экрана есть не у каждого iPhone с USB-C; сначала сверьте точную модель в руководстве Apple.",
+            ),
+            "lightning" => (
+                "Проводное подключение Lightning → HDMI",
+                vec!["совместимый цифровой AV-адаптер Lightning", "кабель HDMI"],
+                "Подходит iPhone с Lightning; обычный кабель Lightning → USB не выводит изображение.",
+            ),
+            _ => (
+                "Проводное подключение после проверки разъёма iPhone",
+                vec!["видеоадаптер для точного разъёма телефона", "кабель HDMI"],
+                "Сначала определите USB-C или Lightning — адаптеры между ними не взаимозаменяемы.",
+            ),
+        };
+        routes.push(phone_tv_route(
+            "iphone-hdmi",
+            "needs-check",
+            title,
+            condition,
+            &equipment,
+            &[
+                "Подключите подходящий видеоадаптер к iPhone.",
+                "Соедините адаптер с HDMI-входом телевизора.",
+                "На телевизоре выберите тот же номер HDMI.",
+                "Разблокируйте iPhone и запустите нужный контент.",
+            ],
+            &["Некоторые приложения ограничивают вывод защищённого видео на внешний экран."],
+        ));
+        next_checks.push(
+            "Сверьте точную модель iPhone, совместимость видеоадаптера и требования HDCP в официальных инструкциях."
+                .to_string(),
+        );
+    } else {
+        match (connector, android_video_output) {
+            ("usb-c", "yes") => {
+                routes.push(phone_tv_route(
+                    "android-usb-c-hdmi",
+                    "needs-check",
+                    "Проводное подключение USB-C → HDMI",
+                    "Работает только потому, что видеовыход точной модели Android уже подтверждён.",
+                    &["кабель или адаптер USB-C → HDMI с поддержкой видео", "кабель HDMI при использовании адаптера"],
+                    &[
+                        "Соедините телефон и HDMI-вход телевизора.",
+                        "На телевизоре выберите тот же номер HDMI.",
+                        "Подтвердите режим внешнего экрана на телефоне, если появится запрос.",
+                    ],
+                    &["USB-C описывает форму разъёма; видеовыход должен быть отдельно указан в характеристиках телефона."],
+                ));
+                next_checks.push(
+                    "Повторно сверьте точную модель Android, её видеовыход и HDMI-вход телевизора по официальным руководствам."
+                        .to_string(),
+                );
+            }
+            ("usb-c", "unknown") => {
+                routes.push(phone_tv_route(
+                    "android-usb-c-hdmi",
+                    "needs-check",
+                    "USB-C → HDMI после проверки видеовыхода",
+                    "Наличие USB-C не означает поддержку DisplayPort Alt Mode или другого видеовыхода.",
+                    &["кабель или адаптер USB-C → HDMI — только после подтверждения видеовыхода"],
+                    &[
+                        "Найдите точную модель телефона в официальных характеристиках.",
+                        "Проверьте поддержку вывода видео по USB-C.",
+                        "Только после подтверждения выбирайте кабель или адаптер.",
+                    ],
+                    &["Не покупайте переходник по форме разъёма: он может только заряжать телефон."],
+                ));
+                next_checks.push(
+                    "Сверьте видеовыход USB-C по официальной спецификации точной модели телефона."
+                        .to_string(),
+                );
+            }
+            ("usb-c", "no") => {
+                rejected_reasons.push(
+                    "У выбранного Android подтверждено отсутствие видеовыхода по USB-C."
+                        .to_string(),
+                );
+            }
+            ("micro-usb", _) => {
+                rejected_reasons.push("Обычный Micro-USB не является универсальным видеовыходом; редкие MHL-сценарии требуют проверки точной модели.".to_string());
+                next_checks.push("Проверьте в официальной спецификации телефона отдельное упоминание MHL или видеовыхода.".to_string());
+            }
+            ("unknown", _) => {
+                routes.push(phone_tv_route(
+                    "android-wired-check",
+                    "needs-check",
+                    "Проводной маршрут после проверки телефона",
+                    "По одному слову Android нельзя подобрать безопасный видеоадаптер.",
+                    &[],
+                    &[
+                        "Определите точную модель телефона и тип разъёма.",
+                        "Проверьте в официальной спецификации поддержку видеовыхода.",
+                        "Проверьте наличие свободного HDMI-входа телевизора.",
+                    ],
+                    &["Обычный USB-кабель обычно предназначен для питания или файлов, а не для дублирования экрана."],
+                ));
+            }
+            ("lightning", _) => unreachable!(),
+            _ => unreachable!(),
+        }
+    }
+
+    if same_network != "yes" && wants_wireless {
+        next_checks.push(
+            "Для базового беспроводного сценария подключите оба устройства к одной сети Wi-Fi."
+                .to_string(),
+        );
+    }
+    if hdmi == "unknown" && goal == "no-wifi" {
+        next_checks.push(
+            "Проверьте свободный HDMI-вход и его номер на задней или боковой панели телевизора."
+                .to_string(),
+        );
+    }
+
+    routes.sort_by_key(|route| match route.readiness.as_str() {
+        "ready" => 0,
+        "needs-check" => 1,
+        _ => 2,
+    });
+    routes.dedup_by(|left, right| left.id == right.id);
+    next_checks.dedup();
+    rejected_reasons.dedup();
+
+    let status = if routes.iter().any(|route| route.readiness == "ready") {
+        "ready"
+    } else if routes.iter().any(|route| route.readiness == "needs-check") {
+        "needs-check"
+    } else {
+        "no-direct-path"
+    };
+    let primary_route_id = routes.first().map(|route| route.id.clone());
+
+    Ok(PhoneTvConnectionPlan {
+        status: status.to_string(),
+        phone: phone.to_string(),
+        tv: tv.to_string(),
+        goal: goal.to_string(),
+        primary_route_id,
+        routes,
+        rejected_reasons,
+        next_checks,
+        privacy: "Расчёт выполняется локально в браузере; выбранные устройства не отправляются на сервер."
+            .to_string(),
     })
 }
 
@@ -2405,6 +2842,31 @@ pub fn tv_dimensions_plan_json(
 }
 
 #[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn phone_tv_connection_plan_json(
+    phone: &str,
+    tv: &str,
+    goal: &str,
+    connector: &str,
+    same_network: &str,
+    hdmi: &str,
+    android_video_output: &str,
+) -> String {
+    match calculate_phone_tv_connection(
+        phone,
+        tv,
+        goal,
+        connector,
+        same_network,
+        hdmi,
+        android_video_output,
+    ) {
+        Ok(plan) => serde_json::to_string(&plan).expect("phone-to-TV plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
+#[wasm_bindgen]
 pub fn viewing_geometry_json(mode: &str, value: f64, horizontal_angle_deg: f64) -> String {
     let result = match mode {
         "diagonal-to-distance" => viewing_distance_for_diagonal(value, horizontal_angle_deg),
@@ -2874,6 +3336,392 @@ mod tests {
         let invalid_value = viewing_geometry_json("diagonal-to-distance", 5.0, 36.0);
         let invalid_value: serde_json::Value = serde_json::from_str(&invalid_value).unwrap();
         assert!(invalid_value.get("error").is_some());
+    }
+
+    #[test]
+    fn phone_tv_connection_matrix_is_conservative_and_deterministic() {
+        let cases = [
+            (
+                "iphone",
+                "apple-tv",
+                "mirror",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("airplay"),
+            ),
+            (
+                "iphone",
+                "apple-tv",
+                "mirror",
+                "unknown",
+                "unknown",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("airplay"),
+            ),
+            (
+                "iphone",
+                "apple-tv",
+                "mirror",
+                "unknown",
+                "no",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("airplay"),
+            ),
+            (
+                "iphone",
+                "samsung-smart-tv",
+                "mirror",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("airplay"),
+            ),
+            (
+                "iphone",
+                "lg-smart-tv",
+                "media",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("airplay"),
+            ),
+            (
+                "iphone",
+                "google-tv",
+                "media",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("app-cast"),
+            ),
+            (
+                "iphone",
+                "google-tv",
+                "mirror",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "no-direct-path",
+                None,
+            ),
+            (
+                "iphone",
+                "hdmi-tv",
+                "no-wifi",
+                "lightning",
+                "unknown",
+                "yes",
+                "unknown",
+                "needs-check",
+                Some("iphone-hdmi"),
+            ),
+            (
+                "iphone",
+                "hdmi-tv",
+                "no-wifi",
+                "usb-c",
+                "unknown",
+                "yes",
+                "unknown",
+                "needs-check",
+                Some("iphone-hdmi"),
+            ),
+            (
+                "iphone",
+                "hdmi-tv",
+                "no-wifi",
+                "unknown",
+                "unknown",
+                "yes",
+                "unknown",
+                "needs-check",
+                Some("iphone-hdmi"),
+            ),
+            (
+                "android-samsung",
+                "samsung-smart-tv",
+                "mirror",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("smart-view"),
+            ),
+            (
+                "android-other",
+                "google-tv",
+                "media",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("google-cast"),
+            ),
+            (
+                "android-other",
+                "lg-smart-tv",
+                "mirror",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "needs-check",
+                Some("wireless-screen"),
+            ),
+            (
+                "android-other",
+                "apple-tv",
+                "mirror",
+                "unknown",
+                "yes",
+                "no",
+                "unknown",
+                "no-direct-path",
+                None,
+            ),
+            (
+                "android-other",
+                "hdmi-tv",
+                "no-wifi",
+                "usb-c",
+                "unknown",
+                "yes",
+                "yes",
+                "needs-check",
+                Some("android-usb-c-hdmi"),
+            ),
+            (
+                "android-other",
+                "hdmi-tv",
+                "no-wifi",
+                "usb-c",
+                "unknown",
+                "yes",
+                "unknown",
+                "needs-check",
+                Some("android-usb-c-hdmi"),
+            ),
+            (
+                "android-other",
+                "hdmi-tv",
+                "no-wifi",
+                "usb-c",
+                "unknown",
+                "yes",
+                "no",
+                "no-direct-path",
+                None,
+            ),
+            (
+                "android-other",
+                "hdmi-tv",
+                "no-wifi",
+                "micro-usb",
+                "unknown",
+                "yes",
+                "yes",
+                "no-direct-path",
+                None,
+            ),
+            (
+                "android-other",
+                "hdmi-tv",
+                "no-wifi",
+                "unknown",
+                "unknown",
+                "yes",
+                "unknown",
+                "needs-check",
+                Some("android-wired-check"),
+            ),
+            (
+                "android-samsung",
+                "yandex-tv",
+                "mirror",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "needs-check",
+                Some("wireless-screen"),
+            ),
+        ];
+
+        for (phone, tv, goal, connector, network, hdmi, video, status, primary) in cases {
+            let first =
+                calculate_phone_tv_connection(phone, tv, goal, connector, network, hdmi, video)
+                    .unwrap();
+            let second =
+                calculate_phone_tv_connection(phone, tv, goal, connector, network, hdmi, video)
+                    .unwrap();
+            assert_eq!(first, second, "plan must be stable for {phone}/{tv}/{goal}");
+            assert_eq!(first.status, status, "wrong status for {phone}/{tv}/{goal}");
+            assert_eq!(first.primary_route_id.as_deref(), primary);
+            assert_ne!(
+                first.status, "ready",
+                "generic wizard input must not claim official confirmation for {phone}/{tv}/{goal}"
+            );
+            assert!(
+                first.routes.iter().all(|route| route.readiness != "ready"),
+                "generic route must stay fail-closed for {phone}/{tv}/{goal}"
+            );
+        }
+    }
+
+    #[test]
+    fn phone_tv_connection_never_infers_video_from_usb_c_alone() {
+        let plan = calculate_phone_tv_connection(
+            "android-other",
+            "hdmi-tv",
+            "no-wifi",
+            "usb-c",
+            "unknown",
+            "yes",
+            "unknown",
+        )
+        .unwrap();
+
+        assert_eq!(plan.status, "needs-check");
+        assert!(plan.routes.iter().all(|route| route.readiness != "ready"));
+        assert!(
+            plan.next_checks
+                .iter()
+                .any(|check| check.contains("видеовыход USB-C"))
+        );
+    }
+
+    #[test]
+    fn phone_tv_connection_sources_match_the_selected_tv_family() {
+        let yandex = calculate_phone_tv_connection(
+            "android-samsung",
+            "yandex-tv",
+            "mirror",
+            "unknown",
+            "unknown",
+            "unknown",
+            "unknown",
+        )
+        .unwrap();
+        let yandex_route = yandex
+            .routes
+            .iter()
+            .find(|route| route.id == "wireless-screen")
+            .unwrap();
+        assert!(yandex_route.source_ids.is_empty());
+
+        let lg = calculate_phone_tv_connection(
+            "android-other",
+            "lg-smart-tv",
+            "mirror",
+            "unknown",
+            "yes",
+            "unknown",
+            "unknown",
+        )
+        .unwrap();
+        let lg_route = lg
+            .routes
+            .iter()
+            .find(|route| route.id == "wireless-screen")
+            .unwrap();
+        assert_eq!(lg_route.source_ids, vec!["lg-screen-share"]);
+        assert!(!lg_route.source_ids.contains(&"samsung-smart-view".to_string()));
+    }
+
+    #[test]
+    fn phone_tv_connection_rejects_impossible_platform_connector_pairs() {
+        assert!(
+            calculate_phone_tv_connection(
+                "iphone",
+                "hdmi-tv",
+                "no-wifi",
+                "micro-usb",
+                "unknown",
+                "yes",
+                "unknown",
+            )
+            .unwrap_err()
+            .contains("iPhone")
+        );
+        assert!(
+            calculate_phone_tv_connection(
+                "android-other",
+                "hdmi-tv",
+                "no-wifi",
+                "lightning",
+                "unknown",
+                "yes",
+                "unknown",
+            )
+            .unwrap_err()
+            .contains("Lightning")
+        );
+        assert!(
+            calculate_phone_tv_connection(
+                "windows-phone",
+                "unknown",
+                "mirror",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+            )
+            .unwrap_err()
+            .contains("Телефон")
+        );
+    }
+
+    #[test]
+    fn phone_tv_connection_wasm_json_has_stable_shape_and_error_only_failure() {
+        let response = phone_tv_connection_plan_json(
+            "iphone", "apple-tv", "mirror", "unknown", "yes", "no", "unknown",
+        );
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "status",
+            "phone",
+            "tv",
+            "goal",
+            "primary_route_id",
+            "routes",
+            "rejected_reasons",
+            "next_checks",
+            "privacy",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert_eq!(value["status"], "needs-check");
+        assert_eq!(value["routes"][0]["source_ids"][0], "apple-airplay");
+        assert!(value.get("error").is_none());
+
+        let invalid = phone_tv_connection_plan_json(
+            "iphone",
+            "unknown",
+            "mirror",
+            "micro-usb",
+            "unknown",
+            "unknown",
+            "unknown",
+        );
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+        assert!(invalid.get("status").is_none());
     }
 
     #[test]

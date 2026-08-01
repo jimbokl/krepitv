@@ -1,0 +1,2295 @@
+[
+  {
+    "seed": {
+      "candidate_id": "tv-purchase-test",
+      "candidate_path": "/proverka-televizora-pered-pokupkoy/",
+      "query": "проверка телевизора на битые пиксели",
+      "variant": "дефекты экрана"
+    },
+    "operator_query": "\"[проверка телевизора на битые пиксели]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "630",
+          "text": "проверить траст фактор в кс 2"
+        },
+        {
+          "isAssociations": true,
+          "value": "627",
+          "text": "утечка тока в автомобиле как проверить мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "425",
+          "text": "ужас тв смотреть онлайн прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "125",
+          "text": "проверить дтп по vin по базе гибдд"
+        },
+        {
+          "isAssociations": true,
+          "value": "138",
+          "text": "чп эхо кг исследование что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "547",
+          "text": "7 телеком проверить баланс"
+        },
+        {
+          "isAssociations": true,
+          "value": "495",
+          "text": "проверить авто по стс"
+        },
+        {
+          "isAssociations": true,
+          "value": "262",
+          "text": "как проверить стабилитрон мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "235",
+          "text": "как проверить варистор на исправность мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "113",
+          "text": "трасфактор кс2 проверить"
+        },
+        {
+          "isAssociations": true,
+          "value": "6314",
+          "text": "проверить дтп"
+        },
+        {
+          "isAssociations": true,
+          "value": "217",
+          "text": "как проверить состояние видеокарты"
+        },
+        {
+          "isAssociations": true,
+          "value": "4694",
+          "text": "проверить стс"
+        },
+        {
+          "isAssociations": true,
+          "value": "66",
+          "text": "как проверить igbt транзистор мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "128",
+          "text": "как проверить высоковольтный диод в микроволновке мультиметром"
+        },
+        {
+          "isAssociations": true,
+          "value": "263",
+          "text": "как проверить баланс на 7 телеком"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "795",
+          "text": "проверка телевизора на битые пиксели"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-purchase-test",
+      "candidate_path": "/proverka-televizora-pered-pokupkoy/",
+      "query": "тест телевизора онлайн",
+      "variant": "онлайн тест"
+    },
+    "operator_query": "\"[тест телевизора онлайн]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "9656",
+          "text": "1tv ru смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "2751",
+          "text": "телевизорус ру смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "1161",
+          "text": "телевизорус ру смотреть бесплатно прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "3366",
+          "text": "телевизорус ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "19413",
+          "text": "смотрим ру прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "426",
+          "text": "онлайнтв ру смотреть бесплатно все каналы"
+        },
+        {
+          "isAssociations": true,
+          "value": "1199",
+          "text": "televizorus com"
+        },
+        {
+          "isAssociations": true,
+          "value": "45",
+          "text": "televizor24 ru online"
+        },
+        {
+          "isAssociations": true,
+          "value": "176",
+          "text": "1tv ru online"
+        },
+        {
+          "isAssociations": true,
+          "value": "971294",
+          "text": "смотреть все тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "52",
+          "text": "onlinetv ru прямой эфир"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "16",
+          "text": "тест телевизора онлайн"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-purchase-test",
+      "candidate_path": "/proverka-televizora-pered-pokupkoy/",
+      "query": "проверка телевизора при покупке",
+      "variant": "приёмка"
+    },
+    "operator_query": "\"[проверка телевизора при покупке]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28297",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "5750",
+          "text": "тв маркет"
+        },
+        {
+          "isAssociations": true,
+          "value": "3366",
+          "text": "телевизорус ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "77086",
+          "text": "сплит система купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "138113",
+          "text": "купить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "12878",
+          "text": "мониторинг цен"
+        },
+        {
+          "isAssociations": true,
+          "value": "763",
+          "text": "комнатная антенна для цифрового тв купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "283",
+          "text": "техники продаж для менеджеров по продажам"
+        },
+        {
+          "isAssociations": true,
+          "value": "5321",
+          "text": "магазин уцененной техники"
+        },
+        {
+          "isAssociations": true,
+          "value": "709",
+          "text": "проверить наличие диагностической карты"
+        },
+        {
+          "isAssociations": true,
+          "value": "8708",
+          "text": "диагностический центр платные услуги"
+        },
+        {
+          "isAssociations": true,
+          "value": "285",
+          "text": "сколько стоит тех осмотр"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "150",
+          "text": "проверка телевизора при покупке"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "phone-to-tv",
+      "candidate_path": "/kak-podklyuchit-telefon-k-televizoru/",
+      "query": "как подключить телефон к телевизору",
+      "variant": "основной"
+    },
+    "operator_query": "\"[как подключить телефон к телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2719",
+          "text": "подключение к сети ограничено на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "427822",
+          "text": "как подключить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "2132",
+          "text": "как с айфона подключиться к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "1734",
+          "text": "как подключиться к вай фай на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "4151",
+          "text": "как подключить вай фай на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "12948",
+          "text": "как транслировать с телефона на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "762",
+          "text": "как соединить телефон с телевизором"
+        },
+        {
+          "isAssociations": true,
+          "value": "3174",
+          "text": "как смотреть телевизор через телефон"
+        },
+        {
+          "isAssociations": true,
+          "value": "107860",
+          "text": "с телефона на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "908",
+          "text": "как подключиться с телефона на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "16401",
+          "text": "как вывести телефон на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1030",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "1555",
+          "text": "номер телефона кабельного телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "215",
+          "text": "поддержка триколор тв номер телефона"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "72811",
+          "text": "как подключить телефон к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "phone-to-tv",
+      "candidate_path": "/kak-podklyuchit-telefon-k-televizoru/",
+      "query": "как подключить айфон к телевизору",
+      "variant": "iphone"
+    },
+    "operator_query": "\"[как подключить айфон к телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "423857",
+          "text": "как подключить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1441",
+          "text": "как подключить трансляцию с телефона на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "4268",
+          "text": "как с телефона подключиться к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "1936",
+          "text": "как настроить каналы на телевизоре haier"
+        },
+        {
+          "isAssociations": true,
+          "value": "641",
+          "text": "iphone отключен подключитесь к itunes"
+        },
+        {
+          "isAssociations": true,
+          "value": "5477",
+          "text": "подключение телефона к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "744",
+          "text": "как соединить телефон с телевизором"
+        },
+        {
+          "isAssociations": true,
+          "value": "1038",
+          "text": "как сделать трансляцию с айфона на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "189",
+          "text": "iphone отключен подключитесь к itunes что делать"
+        },
+        {
+          "isAssociations": true,
+          "value": "912",
+          "text": "как подключиться с телефона на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "306",
+          "text": "как настроить iptv на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "18894",
+          "text": "установка телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1044",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "548",
+          "text": "телевизор не видит вай фай что делать"
+        },
+        {
+          "isAssociations": true,
+          "value": "1429",
+          "text": "как включить hdmi на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "620",
+          "text": "как сделать антенну для телевизора из кабеля"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "16803",
+          "text": "как подключить айфон к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "phone-to-tv",
+      "candidate_path": "/kak-podklyuchit-telefon-k-televizoru/",
+      "query": "как вывести экран телефона на телевизор",
+      "variant": "зеркалирование"
+    },
+    "operator_query": "\"[как вывести экран телефона на телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2219",
+          "text": "как снять защитное стекло с телефона"
+        },
+        {
+          "isAssociations": true,
+          "value": "9010",
+          "text": "замена стекла на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "4133",
+          "text": "замена дисплея на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "2945",
+          "text": "как снять стекло с телефона"
+        },
+        {
+          "isAssociations": true,
+          "value": "203",
+          "text": "как отклеить защитное стекло с телефона"
+        },
+        {
+          "isAssociations": true,
+          "value": "3443",
+          "text": "заменить стекло на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "531",
+          "text": "как убрать пузыри с защитного стекла телефона"
+        },
+        {
+          "isAssociations": true,
+          "value": "470",
+          "text": "как подключить смартфон к монитору"
+        },
+        {
+          "isAssociations": true,
+          "value": "160",
+          "text": "как подключить смартфон к телевизору через wifi"
+        },
+        {
+          "isAssociations": true,
+          "value": "3548",
+          "text": "как подключить телефон к тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1000",
+          "text": "как поменять защитное стекло на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "3248",
+          "text": "как подключить телефон к монитору"
+        },
+        {
+          "isAssociations": true,
+          "value": "510",
+          "text": "как менять стекло на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "171",
+          "text": "как подключить смартфон к телевизору через hdmi"
+        },
+        {
+          "isAssociations": true,
+          "value": "2186",
+          "text": "смартфон складной экран"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "5823",
+          "text": "как вывести экран телефона на телевизор"
+        },
+        {
+          "isAssociations": false,
+          "value": "5823",
+          "text": "как выводить экран телефона на телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "no-signal",
+      "candidate_path": "/televizor-pishet-net-signala/",
+      "query": "телевизор нет сигнала",
+      "variant": "основной"
+    },
+    "operator_query": "\"[телевизор нет сигнала]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "619",
+          "text": "где соловьев куда пропал с телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "3963",
+          "text": "телеканал кино тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "202229",
+          "text": "не тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1397",
+          "text": "антенный усилитель для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "208",
+          "text": "где соловьев куда пропал с телевидения сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "847",
+          "text": "куда пропал соловьев с телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "21000",
+          "text": "почему не работает телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "13142",
+          "text": "ремонт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1103",
+          "text": "засветы на тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "248",
+          "text": "инетком тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "42006",
+          "text": "не работает тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "462",
+          "text": "телевизионная приставка для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "137",
+          "text": "найти каналы тв бесплатно телевизионные"
+        },
+        {
+          "isAssociations": true,
+          "value": "14409",
+          "text": "почему не работает тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "280",
+          "text": "почему не работает тв каналы телевидение сегодня"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "43922",
+          "text": "телевизор нет сигнала"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "no-signal",
+      "candidate_path": "/televizor-pishet-net-signala/",
+      "query": "телевизор нет сигнала что делать",
+      "variant": "решение"
+    },
+    "operator_query": "\"[телевизор нет сигнала что делать]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "202229",
+          "text": "не тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1397",
+          "text": "антенный усилитель для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "847",
+          "text": "куда пропал соловьев с телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "21000",
+          "text": "почему не работает телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "13142",
+          "text": "ремонт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3718",
+          "text": "настройка триколор тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1938",
+          "text": "не работает триколор тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "681",
+          "text": "почему не работает триколор тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "42006",
+          "text": "не работает тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "14409",
+          "text": "почему не работает тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "248",
+          "text": "lampa tv настройка"
+        },
+        {
+          "isAssociations": true,
+          "value": "3162",
+          "text": "не работает кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "280",
+          "text": "почему не работает тв каналы телевидение сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "2416",
+          "text": "как настроить кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "227",
+          "text": "почему не работает триколор тв сегодня"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "10250",
+          "text": "телевизор нет сигнала что делать"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "no-signal",
+      "candidate_path": "/televizor-pishet-net-signala/",
+      "query": "телевизор не видит hdmi",
+      "variant": "hdmi"
+    },
+    "operator_query": "\"[телевизор не видит hdmi]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10795",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "24093",
+          "text": "диагональ телевизора в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "76",
+          "text": "twitch tv не работает"
+        },
+        {
+          "isAssociations": true,
+          "value": "22965",
+          "text": "нет сигнала на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "13819",
+          "text": "телемастер"
+        },
+        {
+          "isAssociations": true,
+          "value": "7412",
+          "text": "почему нет сигнала на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "4983",
+          "text": "смотреть канал кино тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "941",
+          "text": "24h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "4377",
+          "text": "телемастерская"
+        },
+        {
+          "isAssociations": true,
+          "value": "110",
+          "text": "кино тв нд программа на сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "1338",
+          "text": "почему нет тв сигнала сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "205585",
+          "text": "телевизионный"
+        },
+        {
+          "isAssociations": true,
+          "value": "305",
+          "text": "кино тв hd программа"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2713",
+          "text": "телевизор не видел hdmi"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "digital-channels",
+      "candidate_path": "/kak-nastroit-tsifrovye-kanaly-na-televizore/",
+      "query": "настройка цифровых каналов на телевизоре",
+      "variant": "основной"
+    },
+    "operator_query": "\"[настройка цифровых каналов на телевизоре]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "112607",
+          "text": "цтв"
+        },
+        {
+          "isAssociations": true,
+          "value": "28297",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3130",
+          "text": "тв ц"
+        },
+        {
+          "isAssociations": true,
+          "value": "8756",
+          "text": "как настроить смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "223",
+          "text": "тв на радио области"
+        },
+        {
+          "isAssociations": true,
+          "value": "37343",
+          "text": "а тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "248",
+          "text": "televizor tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "150",
+          "text": "показать телевизионную программу передач"
+        },
+        {
+          "isAssociations": true,
+          "value": "906",
+          "text": "24h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "112",
+          "text": "www tv service tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "61",
+          "text": "тв 1нд"
+        },
+        {
+          "isAssociations": true,
+          "value": "225",
+          "text": "тв записи современного телевидения"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1809",
+          "text": "настройка цифровых каналов на телевизоре"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "digital-channels",
+      "candidate_path": "/kak-nastroit-tsifrovye-kanaly-na-televizore/",
+      "query": "как настроить телевизор на цифровые каналы",
+      "variant": "инструкция"
+    },
+    "operator_query": "\"[как настроить телевизор на цифровые каналы]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "111636",
+          "text": "цтв"
+        },
+        {
+          "isAssociations": true,
+          "value": "28536",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "7937",
+          "text": "эфирное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1495",
+          "text": "тв т24"
+        },
+        {
+          "isAssociations": true,
+          "value": "1868",
+          "text": "диагонали тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "256",
+          "text": "televizor tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "941",
+          "text": "24h tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "120",
+          "text": "www tv service tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "59",
+          "text": "тв 1нд"
+        },
+        {
+          "isAssociations": true,
+          "value": "229",
+          "text": "тв записи современного телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "3613",
+          "text": "телеком тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "9135",
+          "text": "как настроить телевизор на цифровые каналы"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "digital-channels",
+      "candidate_path": "/kak-nastroit-tsifrovye-kanaly-na-televizore/",
+      "query": "как настроить телевизор на цифровые каналы через антенну",
+      "variant": "антенна"
+    },
+    "operator_query": "\"[как настроить телевизор на цифровые каналы через антенну]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-wifi",
+      "candidate_path": "/televizor-ne-podklyuchaetsya-k-wifi/",
+      "query": "телевизор не подключается к вай фай что делать",
+      "variant": "основной"
+    },
+    "operator_query": "\"[телевизор не подключается к вай фай что делать]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-wifi",
+      "candidate_path": "/televizor-ne-podklyuchaetsya-k-wifi/",
+      "query": "телевизор не видит вай фай",
+      "variant": "сеть не видна"
+    },
+    "operator_query": "\"[телевизор не видит вай фай]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "18389",
+          "text": "как подключить телевизор к интернету"
+        },
+        {
+          "isAssociations": true,
+          "value": "1855",
+          "text": "как узнать диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "22965",
+          "text": "нет сигнала на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "7412",
+          "text": "почему нет сигнала на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "114",
+          "text": "g co tv wifi"
+        },
+        {
+          "isAssociations": true,
+          "value": "452",
+          "text": "оптический модем с опцией wi fi"
+        },
+        {
+          "isAssociations": true,
+          "value": "462",
+          "text": "телевизионная приставка для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "137",
+          "text": "найти каналы тв бесплатно телевизионные"
+        },
+        {
+          "isAssociations": true,
+          "value": "57",
+          "text": "тплинк вайфай нет"
+        },
+        {
+          "isAssociations": true,
+          "value": "79",
+          "text": "вышки тв вещания цифрового телевидения на карте"
+        },
+        {
+          "isAssociations": true,
+          "value": "253",
+          "text": "проблемы с вайфаем сегодня"
+        },
+        {
+          "isAssociations": true,
+          "value": "368",
+          "text": "телевизионная антенна для цифрового телевидения купить"
+        },
+        {
+          "isAssociations": true,
+          "value": "6867",
+          "text": "почему нет вайфая"
+        },
+        {
+          "isAssociations": true,
+          "value": "318",
+          "text": "карта телевышек цифрового тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3613",
+          "text": "телеком тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "87",
+          "text": "телевизионные вышки цифрового телевидения на карте"
+        },
+        {
+          "isAssociations": true,
+          "value": "319",
+          "text": "телевышки цифрового телевидения на карте"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3463",
+          "text": "телевизор не видит вай фай"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-wifi",
+      "candidate_path": "/televizor-ne-podklyuchaetsya-k-wifi/",
+      "query": "телевизор не подключается к интернету",
+      "variant": "интернет"
+    },
+    "operator_query": "\"[телевизор не подключается к интернету]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "427822",
+          "text": "как подключить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "80",
+          "text": "исправление проблем с подключением к ethernet"
+        },
+        {
+          "isAssociations": true,
+          "value": "1080",
+          "text": "как поставить впн на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "197777",
+          "text": "как настроить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1332",
+          "text": "как включить впн на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1106",
+          "text": "схема подключения интернет кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "3061",
+          "text": "как настроить смарт тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "15275",
+          "text": "как настроить антенну на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "473",
+          "text": "как включить вай фай на телевизоре lg"
+        },
+        {
+          "isAssociations": true,
+          "value": "1577",
+          "text": "как настроить кабельное тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "84",
+          "text": "иптв онлайн тв смотреть бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "1447",
+          "text": "как подключить смарт тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "13263",
+          "text": "как подключить смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "82369",
+          "text": "подключить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "8011",
+          "text": "как подключить каналы на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1984",
+          "text": "как подключить кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "2416",
+          "text": "как настроить кабельное тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4727",
+          "text": "телевизор не подключается к интернету"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "picture-setup",
+      "candidate_path": "/nastroyka-izobrazheniya-televizora/",
+      "query": "настройка изображения телевизора",
+      "variant": "основной"
+    },
+    "operator_query": "\"[настройка изображения телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3960",
+          "text": "переделка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "13819",
+          "text": "телемастер"
+        },
+        {
+          "isAssociations": true,
+          "value": "4386",
+          "text": "вставить картинку в картинку онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "4409",
+          "text": "как настроить проектор"
+        },
+        {
+          "isAssociations": true,
+          "value": "182",
+          "text": "как настроить монитор для правильной цветопередачи"
+        },
+        {
+          "isAssociations": true,
+          "value": "8803",
+          "text": "как настроить смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "103630",
+          "text": "как настроить каналы"
+        },
+        {
+          "isAssociations": true,
+          "value": "1884",
+          "text": "сделать из картинки видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "87",
+          "text": "исправить картинку с помощью ии"
+        },
+        {
+          "isAssociations": true,
+          "value": "4377",
+          "text": "телемастерская"
+        },
+        {
+          "isAssociations": true,
+          "value": "63763",
+          "text": "как настроить экран"
+        },
+        {
+          "isAssociations": true,
+          "value": "122",
+          "text": "наложение картинки на картинку онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "79",
+          "text": "вышки тв вещания цифрового телевидения на карте"
+        },
+        {
+          "isAssociations": true,
+          "value": "2644",
+          "text": "как настроить цифровое тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3979",
+          "text": "как настроить цифровое телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "87",
+          "text": "телевизионные вышки цифрового телевидения на карте"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "6046",
+          "text": "настройка изображения телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "picture-setup",
+      "candidate_path": "/nastroyka-izobrazheniya-televizora/",
+      "query": "как правильно настроить изображение телевизора",
+      "variant": "инструкция"
+    },
+    "operator_query": "\"[как правильно настроить изображение телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28536",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19315",
+          "text": "знай тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "13412",
+          "text": "настройки поиска"
+        },
+        {
+          "isAssociations": true,
+          "value": "13819",
+          "text": "телемастер"
+        },
+        {
+          "isAssociations": true,
+          "value": "68547",
+          "text": "настройка экрана"
+        },
+        {
+          "isAssociations": true,
+          "value": "3163",
+          "text": "тв ц"
+        },
+        {
+          "isAssociations": true,
+          "value": "1197",
+          "text": "televizorus com"
+        },
+        {
+          "isAssociations": true,
+          "value": "69677",
+          "text": "тв ком"
+        },
+        {
+          "isAssociations": true,
+          "value": "40144",
+          "text": "настройки устройства"
+        },
+        {
+          "isAssociations": true,
+          "value": "1604",
+          "text": "телевик это"
+        },
+        {
+          "isAssociations": true,
+          "value": "4162",
+          "text": "телеателье"
+        },
+        {
+          "isAssociations": true,
+          "value": "470",
+          "text": "что такое lcn при настройке каналов"
+        },
+        {
+          "isAssociations": true,
+          "value": "8821",
+          "text": "телевидение это"
+        },
+        {
+          "isAssociations": true,
+          "value": "964295",
+          "text": "смотреть все тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "22874",
+          "text": "настройки кс2"
+        },
+        {
+          "isAssociations": true,
+          "value": "10592",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1327",
+          "text": "лучшие настройки кс2"
+        },
+        {
+          "isAssociations": true,
+          "value": "37686",
+          "text": "а тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "527",
+          "text": "как правильно настроить изображение телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "picture-setup",
+      "candidate_path": "/nastroyka-izobrazheniya-televizora/",
+      "query": "калибровка телевизора",
+      "variant": "калибровка"
+    },
+    "operator_query": "\"[калибровка телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2932",
+          "text": "хл тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "4423",
+          "text": "как настроить триколор тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "13142",
+          "text": "ремонт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3718",
+          "text": "настройка триколор тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "9108",
+          "text": "как настроить тв приставку"
+        },
+        {
+          "isAssociations": true,
+          "value": "2196",
+          "text": "окно тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "33881",
+          "text": "телевизионные антенны"
+        },
+        {
+          "isAssociations": true,
+          "value": "208",
+          "text": "экранка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1579",
+          "text": "ремонт тв приставок"
+        },
+        {
+          "isAssociations": true,
+          "value": "72",
+          "text": "оие тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "248",
+          "text": "lampa tv настройка"
+        },
+        {
+          "isAssociations": true,
+          "value": "257",
+          "text": "настройка лампа на андроид тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2416",
+          "text": "как настроить кабельное тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "662",
+          "text": "калибровка телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screen-cleaning",
+      "candidate_path": "/chem-protirat-ekran-televizora/",
+      "query": "чем протирать экран телевизора",
+      "variant": "основной"
+    },
+    "operator_query": "\"[чем протирать экран телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "821",
+          "text": "как убрать безопасный режим на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "932",
+          "text": "экранные заставки"
+        },
+        {
+          "isAssociations": true,
+          "value": "213",
+          "text": "экранка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "299",
+          "text": "как чистить диван пароочистителем"
+        },
+        {
+          "isAssociations": true,
+          "value": "412",
+          "text": "как убрать рамки на мониторе"
+        },
+        {
+          "isAssociations": true,
+          "value": "142",
+          "text": "какой насадкой пароочистителя чистить диван"
+        },
+        {
+          "isAssociations": true,
+          "value": "147",
+          "text": "очки с дисплеем на стекле"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2694",
+          "text": "чем протереть экран телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screen-cleaning",
+      "candidate_path": "/chem-protirat-ekran-televizora/",
+      "query": "как почистить экран телевизора",
+      "variant": "чистка"
+    },
+    "operator_query": "\"[как почистить экран телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "23063",
+          "text": "очистка кондиционера"
+        },
+        {
+          "isAssociations": true,
+          "value": "682",
+          "text": "как убрать воск с ткани"
+        },
+        {
+          "isAssociations": true,
+          "value": "1955",
+          "text": "очищение сериал"
+        },
+        {
+          "isAssociations": true,
+          "value": "6998",
+          "text": "пылесос для чистки мебели"
+        },
+        {
+          "isAssociations": true,
+          "value": "173",
+          "text": "скрап тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "15606",
+          "text": "видео удаления акне"
+        },
+        {
+          "isAssociations": true,
+          "value": "443",
+          "text": "как вывести плесень с ткани"
+        },
+        {
+          "isAssociations": true,
+          "value": "141",
+          "text": "лазерная чистка металла видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "2347",
+          "text": "чистка зубов видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "263",
+          "text": "как убрать плесень с обоев"
+        },
+        {
+          "isAssociations": true,
+          "value": "1235",
+          "text": "средство для очистки кондиционера"
+        },
+        {
+          "isAssociations": true,
+          "value": "154",
+          "text": "как отстирать плесень от ткани"
+        },
+        {
+          "isAssociations": true,
+          "value": "1373",
+          "text": "как снять защитное стекло с камеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "1966",
+          "text": "чистка радиатора кондиционера"
+        },
+        {
+          "isAssociations": true,
+          "value": "631",
+          "text": "как убрать краску с ткани"
+        },
+        {
+          "isAssociations": true,
+          "value": "5013",
+          "text": "пылесос для чистки ковров"
+        },
+        {
+          "isAssociations": true,
+          "value": "966",
+          "text": "как очистить аэрогриль"
+        },
+        {
+          "isAssociations": true,
+          "value": "792",
+          "text": "видео про уборку"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "248",
+          "text": "как почистить экран телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screen-cleaning",
+      "candidate_path": "/chem-protirat-ekran-televizora/",
+      "query": "как почистить экран телевизора без разводов",
+      "variant": "без разводов"
+    },
+    "operator_query": "\"[как почистить экран телевизора без разводов]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5936",
+          "text": "иск о расторжении брака"
+        },
+        {
+          "isAssociations": true,
+          "value": "1670",
+          "text": "трактора в грязи видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "1891",
+          "text": "засветы телеведущих"
+        },
+        {
+          "isAssociations": true,
+          "value": "318",
+          "text": "можно ли мыть натяжной потолок пароочистителем"
+        },
+        {
+          "isAssociations": true,
+          "value": "308",
+          "text": "как помыть окна пароочистителем"
+        },
+        {
+          "isAssociations": true,
+          "value": "412",
+          "text": "как убрать рамки на мониторе"
+        },
+        {
+          "isAssociations": true,
+          "value": "142",
+          "text": "камера напыления порошковой краски"
+        },
+        {
+          "isAssociations": true,
+          "value": "441",
+          "text": "можно ли протирать монитор влажными салфетками"
+        },
+        {
+          "isAssociations": true,
+          "value": "1481",
+          "text": "салфетки для удаления пятен"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "58",
+          "text": "как почистить экран телевизора без разводов"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "laptop-to-tv",
+      "candidate_path": "/kak-podklyuchit-noutbuk-k-televizoru/",
+      "query": "как подключить ноутбук к телевизору",
+      "variant": "основной"
+    },
+    "operator_query": "\"[как подключить ноутбук к телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4775",
+          "text": "hdmi кабель для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1842",
+          "text": "не подключается вай фай на ноутбуке"
+        },
+        {
+          "isAssociations": true,
+          "value": "136",
+          "text": "транслировать экран компьютера на телевизор по wifi"
+        },
+        {
+          "isAssociations": true,
+          "value": "467",
+          "text": "юбуст на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1259",
+          "text": "ноутбук для монтажа видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "128",
+          "text": "телевизор самсунг не видит сеть wifi"
+        },
+        {
+          "isAssociations": true,
+          "value": "270",
+          "text": "компьютер не видит телевизор через hdmi"
+        },
+        {
+          "isAssociations": true,
+          "value": "396",
+          "text": "как вывести экран компьютера на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "313",
+          "text": "кабель для подключения монитора к компьютеру"
+        },
+        {
+          "isAssociations": true,
+          "value": "827",
+          "text": "нет звука через hdmi на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "263",
+          "text": "ноут не подключается к wifi"
+        },
+        {
+          "isAssociations": true,
+          "value": "1429",
+          "text": "как включить hdmi на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "428",
+          "text": "как включить hdmi на ноутбуке"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "14262",
+          "text": "как подключить ноутбук к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "laptop-to-tv",
+      "candidate_path": "/kak-podklyuchit-noutbuk-k-televizoru/",
+      "query": "как подключить ноутбук к телевизору без проводов",
+      "variant": "беспроводное подключение"
+    },
+    "operator_query": "\"[как подключить ноутбук к телевизору без проводов]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "laptop-to-tv",
+      "candidate_path": "/kak-podklyuchit-noutbuk-k-televizoru/",
+      "query": "телевизор не видит ноутбук через hdmi",
+      "variant": "hdmi диагностика"
+    },
+    "operator_query": "\"[телевизор не видит ноутбук через hdmi]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "8362",
+          "text": "как подключить телевизор к компьютеру"
+        },
+        {
+          "isAssociations": true,
+          "value": "3534",
+          "text": "как подключить пк к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "1392",
+          "text": "как подключить ноут к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "269",
+          "text": "как дублировать экран с компьютера на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "3534",
+          "text": "как подключить телевизор к пк"
+        },
+        {
+          "isAssociations": true,
+          "value": "2816",
+          "text": "hdmi кабель для монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "657",
+          "text": "как подключить макбук к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "676",
+          "text": "как подключить комп к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "474",
+          "text": "как подключить системный блок к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "580",
+          "text": "как подключить телевизор к компьютеру без проводов"
+        },
+        {
+          "isAssociations": true,
+          "value": "2609",
+          "text": "как подключить монитор к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "93",
+          "text": "миракаст как подключить пк к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "1186",
+          "text": "как подключить dvd к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "92",
+          "text": "как подключить ноут к телевизору без проводов"
+        },
+        {
+          "isAssociations": true,
+          "value": "8362",
+          "text": "как подключить компьютер к телевизору"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "381",
+          "text": "телевизор не видит ноутбук через hdmi"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-energy",
+      "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+      "query": "сколько потребляет телевизор ватт",
+      "variant": "мощность"
+    },
+    "operator_query": "\"[сколько потребляет телевизор ватт]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-energy",
+      "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+      "query": "сколько потребляет телевизор электроэнергии",
+      "variant": "расход"
+    },
+    "operator_query": "\"[сколько потребляет телевизор электроэнергии]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-energy",
+      "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+      "query": "сколько потребляет телевизор электроэнергии в месяц",
+      "variant": "за месяц"
+    },
+    "operator_query": "\"[сколько потребляет телевизор электроэнергии в месяц]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "model-year-decoder",
+      "candidate_path": "/kak-uznat-god-vypuska-televizora/",
+      "query": "расшифровка модели телевизора",
+      "variant": "модель"
+    },
+    "operator_query": "\"[расшифровка модели телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28297",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "998871",
+          "text": "телек"
+        },
+        {
+          "isAssociations": true,
+          "value": "4963",
+          "text": "что такое смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "57082",
+          "text": "телик"
+        },
+        {
+          "isAssociations": true,
+          "value": "131",
+          "text": "w tv что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "6068",
+          "text": "смарт тв это"
+        },
+        {
+          "isAssociations": true,
+          "value": "4188",
+          "text": "смарт тв что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "26167",
+          "text": "television"
+        },
+        {
+          "isAssociations": true,
+          "value": "3917",
+          "text": "65u77sl"
+        },
+        {
+          "isAssociations": true,
+          "value": "1969",
+          "text": "что такое телевик"
+        },
+        {
+          "isAssociations": true,
+          "value": "2758",
+          "text": "телев"
+        },
+        {
+          "isAssociations": true,
+          "value": "712",
+          "text": "smart tv что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "838",
+          "text": "телек или телик"
+        },
+        {
+          "isAssociations": true,
+          "value": "1590",
+          "text": "телевик это"
+        },
+        {
+          "isAssociations": true,
+          "value": "1117",
+          "text": "телевик что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "1827",
+          "text": "диагонали тв в см"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "182",
+          "text": "расшифровка моделей телевизоров"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "model-year-decoder",
+      "candidate_path": "/kak-uznat-god-vypuska-televizora/",
+      "query": "как узнать год выпуска телевизора",
+      "variant": "год выпуска"
+    },
+    "operator_query": "\"[как узнать год выпуска телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "11037",
+          "text": "televizo"
+        },
+        {
+          "isAssociations": true,
+          "value": "18513",
+          "text": "знай тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "57082",
+          "text": "телик"
+        },
+        {
+          "isAssociations": true,
+          "value": "34029",
+          "text": "едим тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2751",
+          "text": "телевизорус ру смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "26167",
+          "text": "television"
+        },
+        {
+          "isAssociations": true,
+          "value": "35333",
+          "text": "посмотреть тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1199",
+          "text": "televizorus com"
+        },
+        {
+          "isAssociations": true,
+          "value": "11115",
+          "text": "смотреть цифровое тв бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "72070",
+          "text": "тв ком"
+        },
+        {
+          "isAssociations": true,
+          "value": "838",
+          "text": "телек или телик"
+        },
+        {
+          "isAssociations": true,
+          "value": "971294",
+          "text": "смотреть все тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "17155",
+          "text": "нам тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "37343",
+          "text": "а тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1745",
+          "text": "televizorus"
+        },
+        {
+          "isAssociations": true,
+          "value": "2911",
+          "text": "all tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "387",
+          "text": "что идет по телеку"
+        },
+        {
+          "isAssociations": true,
+          "value": "248",
+          "text": "televizor tv"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "189",
+          "text": "как узнать год выпуска телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "model-year-decoder",
+      "candidate_path": "/kak-uznat-god-vypuska-televizora/",
+      "query": "расшифровка модели телевизора samsung",
+      "variant": "samsung"
+    },
+    "operator_query": "\"[расшифровка модели телевизора samsung]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5772",
+          "text": "самсунг а56 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "4647",
+          "text": "самсунг а17 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "8368",
+          "text": "самсунг s26 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "2293",
+          "text": "самсунг а36 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "2336",
+          "text": "самсунг а55 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "1661",
+          "text": "самсунг а16 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "2341",
+          "text": "самсунг а07 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "2305",
+          "text": "самсунг s23 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "2370",
+          "text": "самсунг s24 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "1738",
+          "text": "самсунг с24 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "1173",
+          "text": "самсунг а15 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "2392",
+          "text": "самсунг с 24 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "1754",
+          "text": "самсунг с23 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "743",
+          "text": "самсунг а34 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "2233",
+          "text": "самсунг а37 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "508",
+          "text": "самсунг а24 характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "1827",
+          "text": "диагонали тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "179",
+          "text": "ошибка 4с на машинке самсунг что означает"
+        },
+        {
+          "isAssociations": true,
+          "value": "256",
+          "text": "учетная запись самсунг смарт тв создать"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "26",
+          "text": "расшифровка моделей телевизоров samsung"
+        }
+      ]
+    }
+  }
+]

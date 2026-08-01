@@ -116,6 +116,8 @@ struct CompatibilityEdge {
 #[derive(Debug, Deserialize, Serialize)]
 struct SeoPage {
     id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    home_priority: Option<u8>,
     path: String,
     kind: String,
     indexable: bool,
@@ -708,11 +710,11 @@ fn html_shell(
 }
 
 fn static_header() -> &'static str {
-    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/vesa/\">VESA</a><a href=\"/metodika/\">Методика</a></nav></div></header>"
+    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/vesa/\">VESA</a><a href=\"/metodika/\">Методика</a></nav></div></header>"
 }
 
 fn static_footer() -> &'static str {
-    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
+    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/televizor-na-stene/\">Примерка на стене</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
 }
 
 fn static_layout(content: &str) -> String {
@@ -867,37 +869,18 @@ fn formatted_vesa_list(mount: &Mount) -> String {
 }
 
 fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
-    let model_links = models
+    let mut featured_pages = seo_pages
         .iter()
-        .map(|tv| {
-            (
-                tv.brand.clone(),
-                format!(
-                    "<a class=\"border border-line bg-white p-5\" href=\"/modeli/{}/\"><strong class=\"font-display text-xl\">{}</strong><span class=\"mt-2 block text-sm text-muted\">{} · {} · VESA {}×{} мм · {}″ · {} кг без подставки</span></a>",
-                    escape_html(&tv.id),
-                    escape_html(&tv.title),
-                    escape_html(&tv.series),
-                    tv.model_year,
-                    tv.vesa_width_mm,
-                    tv.vesa_height_mm,
-                    tv.diagonal_inches,
-                    tv.weight_kg,
-                ),
-            )
-        })
+        .filter(|page| is_indexable_seo_page(page) && page.home_priority.is_some())
         .collect::<Vec<_>>();
-    let model_links = brand_catalog_html(
-        model_links,
-        "Моделей",
-        "div",
-        "grid gap-3 border-t border-line py-4 sm:grid-cols-2",
-    );
-    let seo_links = seo_pages
-        .iter()
-        .filter(|page| is_indexable_seo_page(page))
+    featured_pages.sort_by_key(|page| page.home_priority.unwrap_or(u8::MAX));
+    let seo_links = featured_pages
+        .into_iter()
+        .take(4)
         .map(|page| {
             format!(
-                "<a class=\"border border-line bg-white p-5 font-display text-lg font-bold\" href=\"{}\">{}</a>",
+                "<a class=\"border border-line bg-white p-5 font-display text-lg font-bold\" data-featured-traffic-tool=\"{}\" href=\"{}\">{}</a>",
+                escape_html(&page.id),
                 escape_html(&page.path),
                 escape_html(&page.h1),
             )
@@ -906,7 +889,8 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
         .join("\n");
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Модели с проверенными источниками</h2><div class=\"mt-5\">{model_links}</div></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте размер VESA, механизм и высоту установки до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3\" aria-label=\"Справочники и калькуляторы\">{seo_links}</nav></section></div>"
+        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">{model_count} моделей с источниками</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section></div>",
+        model_count = models.len(),
     ))
 }
 
@@ -1162,6 +1146,14 @@ fn model_page_body(
         .as_ref()
         .and_then(|hardware| hardware.vesa_conflict.as_ref());
     let mut context_candidates = vec![
+        (
+            "tv-dimensions".to_string(),
+            "Сверить размеры экрана и корпуса".to_string(),
+        ),
+        (
+            "wall-planner".to_string(),
+            "Примерить телевизор на стене".to_string(),
+        ),
         (
             "vesa".to_string(),
             "VESA по модели и ручная проверка".to_string(),
@@ -1457,6 +1449,14 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "phone-to-tv" => &[
+                "tv-dimensions",
+                "wall-planner",
+                "viewing-distance",
+                "vesa",
+                "mounting-height",
+                "wall-mounted-tv",
+            ],
             "wall-mounted-tv" => &[
                 "wall-planner",
                 "mounting-map",
@@ -1578,6 +1578,9 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "phone-to-tv" => {
+            "<section class=\"border-y-2 border-ink py-7\" data-phone-tv-answer=\"true\" data-phone-tv-reference=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Подключение без угадываний</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Какой способ подходит вашей паре устройств</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">Сначала выберите задачу: повтор всего экрана или передача видео из приложения. Затем подтвердите одну технологию на обоих устройствах. Одного слова Smart TV, Android или USB-C для совместимости недостаточно.</p><div class=\"mt-7 overflow-x-auto border border-ink\"><table class=\"w-full min-w-[42rem] border-collapse text-left text-sm\"><thead class=\"bg-ink font-mono text-xs uppercase text-white\"><tr><th class=\"px-4 py-3\" scope=\"col\">Способ</th><th class=\"px-4 py-3\" scope=\"col\">Для чего</th><th class=\"px-4 py-3\" scope=\"col\">Что обязательно проверить</th></tr></thead><tbody class=\"divide-y divide-line bg-white\"><tr data-phone-tv-method=\"airplay\"><th class=\"px-4 py-3\" scope=\"row\">AirPlay</th><td class=\"px-4 py-3\">Видео и экран iPhone</td><td class=\"px-4 py-3\">AirPlay на ТВ и одна сеть Wi-Fi</td></tr><tr data-phone-tv-method=\"google-cast\"><th class=\"px-4 py-3\" scope=\"row\">Google Cast</th><td class=\"px-4 py-3\">Видео из совместимого приложения</td><td class=\"px-4 py-3\">Cast на ТВ, кнопка в приложении и одна сеть</td></tr><tr data-phone-tv-method=\"miracast\"><th class=\"px-4 py-3\" scope=\"row\">Miracast / Smart View</th><td class=\"px-4 py-3\">Экран Android</td><td class=\"px-4 py-3\">Явная поддержка у телефона и телевизора</td></tr><tr data-phone-tv-method=\"hdmi-adapter\"><th class=\"px-4 py-3\" scope=\"row\">HDMI</th><td class=\"px-4 py-3\">Проводной экран</td><td class=\"px-4 py-3\">Видеовыход телефона, правильный адаптер и вход HDMI</td></tr><tr data-phone-tv-method=\"usb\"><th class=\"px-4 py-3\" scope=\"row\">Обычный USB</th><td class=\"px-4 py-3\">Питание или совместимые файлы</td><td class=\"px-4 py-3\">Не считать универсальным видеовходом</td></tr></tbody></table></div><div class=\"mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3\"><article class=\"bg-paper p-5\"><h3 class=\"font-display text-2xl font-extrabold\">AirPlay и Cast различаются</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Cast из приложения не равен универсальному повтору всего экрана iPhone.</p></article><article class=\"bg-paper p-5\"><h3 class=\"font-display text-2xl font-extrabold\">USB-C не гарантирует видео</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Для Android нужен явно заявленный DisplayPort Alt Mode или другой проводной видеовыход.</p></article><article class=\"bg-paper p-5\"><h3 class=\"font-display text-2xl font-extrabold\">Неизвестно — значит проверяем</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Бренд и год выпуска не превращаются в обещание совместимости без паспорта модели.</p></article></div><div class=\"mt-7\"><h3 class=\"font-display text-2xl font-extrabold\">Официальные инструкции</h3><nav class=\"mt-4 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold\" aria-label=\"Источники способов подключения\"><a class=\"text-technical underline underline-offset-4\" href=\"https://support.apple.com/ru-ru/102661\" rel=\"noreferrer\" target=\"_blank\" data-phone-tv-source=\"apple-airplay\">Apple: AirPlay</a><a class=\"text-technical underline underline-offset-4\" href=\"https://support.google.com/googlecast/answer/3006709?hl=ru\" rel=\"noreferrer\" target=\"_blank\" data-phone-tv-source=\"google-cast\">Google: Cast</a><a class=\"text-technical underline underline-offset-4\" href=\"https://www.samsung.com/ru/support/mobile-devices/how-to-mirror-from-your-samsung-smartphone-to-your-tv/\" rel=\"noreferrer\" target=\"_blank\" data-phone-tv-source=\"samsung-smart-view\">Samsung: Smart View</a><a class=\"text-technical underline underline-offset-4\" href=\"https://www.displayport.org/faq/\" rel=\"noreferrer\" target=\"_blank\" data-phone-tv-source=\"vesa-displayport\">VESA: USB-C и DisplayPort</a></nav></div></section>"
+        }
         "tv-dimensions" => {
             "<section class=\"border-y-2 border-ink py-7\" data-tv-dimensions-answer=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Размер экрана без догадок</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Таблица ширины и высоты телевизоров 16:9</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">Диагональ на коробке описывает расстояние между противоположными углами активной области. Для современного экрана 16:9 из неё можно точно рассчитать ширину и высоту; один дюйм равен 2,54 см.</p><p class=\"mt-3 max-w-4xl border-l-2 border-action pl-4 text-sm font-semibold leading-relaxed\">Таблица показывает экран, а не корпус. Рамка, нижний блок, подставка и толщина зависят от точной модели.</p><p class=\"mt-5 font-mono text-xs uppercase text-action sm:hidden\" data-tv-dimensions-table-scroll-hint=\"true\">Таблица прокручивается вправо →</p><div class=\"mt-4 overflow-x-auto border border-ink\" data-tv-dimensions-reference-table=\"true\"><table class=\"w-full min-w-[39rem] border-collapse text-left text-sm\"><thead class=\"bg-ink font-mono text-xs uppercase text-white\"><tr><th class=\"px-4 py-3\" scope=\"col\">Диагональ</th><th class=\"px-4 py-3\" scope=\"col\">Диагональ в см</th><th class=\"px-4 py-3\" scope=\"col\">Ширина экрана</th><th class=\"px-4 py-3\" scope=\"col\">Высота экрана</th></tr></thead><tbody class=\"divide-y divide-line bg-white\"><tr data-tv-dimensions-row=\"32\"><th class=\"px-4 py-3\" scope=\"row\">32″</th><td class=\"px-4 py-3\">81,3 см</td><td class=\"px-4 py-3\">70,8 см</td><td class=\"px-4 py-3\">39,8 см</td></tr><tr data-tv-dimensions-row=\"43\"><th class=\"px-4 py-3\" scope=\"row\">43″</th><td class=\"px-4 py-3\">109,2 см</td><td class=\"px-4 py-3\">95,2 см</td><td class=\"px-4 py-3\">53,5 см</td></tr><tr data-tv-dimensions-row=\"50\"><th class=\"px-4 py-3\" scope=\"row\">50″</th><td class=\"px-4 py-3\">127 см</td><td class=\"px-4 py-3\">110,7 см</td><td class=\"px-4 py-3\">62,3 см</td></tr><tr data-tv-dimensions-row=\"55\"><th class=\"px-4 py-3\" scope=\"row\">55″</th><td class=\"px-4 py-3\">139,7 см</td><td class=\"px-4 py-3\">121,8 см</td><td class=\"px-4 py-3\">68,5 см</td></tr><tr data-tv-dimensions-row=\"65\"><th class=\"px-4 py-3\" scope=\"row\">65″</th><td class=\"px-4 py-3\">165,1 см</td><td class=\"px-4 py-3\">143,9 см</td><td class=\"px-4 py-3\">80,9 см</td></tr><tr data-tv-dimensions-row=\"75\"><th class=\"px-4 py-3\" scope=\"row\">75″</th><td class=\"px-4 py-3\">190,5 см</td><td class=\"px-4 py-3\">166 см</td><td class=\"px-4 py-3\">93,4 см</td></tr><tr data-tv-dimensions-row=\"85\"><th class=\"px-4 py-3\" scope=\"row\">85″</th><td class=\"px-4 py-3\">215,9 см</td><td class=\"px-4 py-3\">188,2 см</td><td class=\"px-4 py-3\">105,8 см</td></tr></tbody></table></div><div class=\"mt-8 grid gap-px border border-ink bg-ink md:grid-cols-3\" data-tv-dimensions-method=\"true\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">1. По маркировке</p><h3 class=\"mt-2 font-display text-xl font-extrabold\">Введите диагональ</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Получите размер активной области 16:9 и сравните две диагонали в одном масштабе.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">2. По экрану</p><h3 class=\"mt-2 font-display text-xl font-extrabold\">Измерьте две стороны</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Ширина и высота дадут реальную диагональ и соотношение сторон, даже если это не 16:9.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">3. По месту</p><h3 class=\"mt-2 font-display text-xl font-extrabold\">Задайте нишу и зазор</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Калькулятор вычтет зазор со всех сторон и найдёт самый большой стандартный экран, который помещается целиком.</p></article></div><nav class=\"mt-7 flex flex-wrap gap-x-6 gap-y-3 border-t border-line pt-5 text-sm font-semibold\" aria-label=\"Следующие проверки размера телевизора\"><a class=\"text-action underline underline-offset-4\" href=\"/televizor-na-stene/\">Примерить телевизор на стене</a><a class=\"text-action underline underline-offset-4\" href=\"/rasstoyanie-do-televizora-i-diagonal/\">Проверить расстояние просмотра</a><a class=\"text-action underline underline-offset-4\" href=\"/modeli/\">Сверить корпус точной модели</a></nav></section>"
         }
@@ -2323,7 +2326,7 @@ fn trust_page_body(page: &TrustPage) -> String {
         .join("\n");
 
     format!(
-        "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto max-w-[1440px] px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a></div></header><main class=\"min-h-screen bg-paper text-ink\"><article class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-6 sm:px-8\"><nav class=\"font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a href=\"/\">Главная</a> / {h1}</nav><header class=\"mt-5 border-b-2 border-ink pb-7\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{kicker}</p><h1 class=\"mt-3 max-w-[1180px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]\">{h1}</h1><p class=\"mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl\">{lead}</p><p class=\"mt-5 font-mono text-xs text-muted\">Актуально на {updated_at}</p></header><div class=\"grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_22rem]\"><div class=\"max-w-4xl space-y-10\">{sections}</div><aside class=\"border border-line bg-white p-6\"><h2 class=\"font-display text-2xl font-extrabold\">Полезные разделы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные разделы\">{related_links}</nav></aside></div></article></main><footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Информация о сервисе\"><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>",
+        "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto max-w-[1440px] px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a></div></header><main class=\"min-h-screen bg-paper text-ink\"><article class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-6 sm:px-8\"><nav class=\"font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a href=\"/\">Главная</a> / {h1}</nav><header class=\"mt-5 border-b-2 border-ink pb-7\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{kicker}</p><h1 class=\"mt-3 max-w-[1180px] break-words font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]\">{h1}</h1><p class=\"mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl\">{lead}</p><p class=\"mt-5 font-mono text-xs text-muted\">Актуально на {updated_at}</p></header><div class=\"grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_22rem]\"><div class=\"max-w-4xl space-y-10\">{sections}</div><aside class=\"border border-line bg-white p-6\"><h2 class=\"font-display text-2xl font-extrabold\">Полезные разделы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные разделы\">{related_links}</nav></aside></div></article></main><footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Информация о сервисе\"><a href=\"/o-proekte/\">О проекте</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>",
         h1 = escape_html(&page.h1),
         kicker = escape_html(&page.kicker),
         lead = escape_html(&page.lead),
@@ -3284,14 +3287,14 @@ mod tests {
     use super::{
         CommercialProfilesFile, HeadExtras, PublicAffiliateSnapshot, SeoPage, TrustPage, TvModel,
         affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
-        commercial_profile_for, dataset_json_ld, escape_html, html_shell, is_indexable_model,
-        is_indexable_mount, is_indexable_seo_page, is_publishable_affiliate_offer,
-        is_valid_iso_date, json_ld_script, model_mount_matches, model_page_body, mount_page_body,
-        mounts_catalog_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
-        seo_brand_mount_matcher_html, seo_buy_mount_comparison_html, seo_calculator_note,
-        seo_catalog_html, seo_screw_catalog_html, seo_vesa_model_catalog_html, trust_page_body,
-        tv_product_json_ld, validate_commercial_profiles, validate_trust_pages,
-        wall_mount_screws_html, workspace_root,
+        commercial_profile_for, dataset_json_ld, escape_html, home_page_body, html_shell,
+        is_indexable_model, is_indexable_mount, is_indexable_seo_page,
+        is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, model_mount_matches,
+        model_page_body, mount_page_body, mounts_catalog_body, parse_rfc3339_utc_seconds,
+        read_json, related_seo_pages, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
+        seo_calculator_note, seo_catalog_html, seo_page_body, seo_screw_catalog_html,
+        seo_vesa_model_catalog_html, trust_page_body, tv_product_json_ld,
+        validate_commercial_profiles, validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -3371,6 +3374,7 @@ mod tests {
     fn uses_explicit_indexability_policy() {
         let page = |indexable| SeoPage {
             id: "test".into(),
+            home_priority: None,
             path: "/test/".into(),
             kind: "guide".into(),
             indexable,
@@ -3723,6 +3727,54 @@ mod tests {
     }
 
     #[test]
+    fn home_prioritizes_four_traffic_tools_without_listing_every_model() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let html = home_page_body(&models, &pages);
+
+        assert_eq!(html.matches("data-featured-traffic-tool=").count(), 4);
+        for id in ["phone-to-tv", "tv-dimensions", "wall-planner", "vesa"] {
+            assert!(html.contains(&format!("data-featured-traffic-tool=\"{id}\"")));
+        }
+        assert!(html.contains("80 моделей с источниками"));
+        assert!(html.contains("href=\"/modeli/\""));
+        assert!(html.contains("href=\"/kronshteyny/\""));
+        for model in &models {
+            assert!(!html.contains(&format!("href=\"/modeli/{}/\"", model.id)));
+        }
+    }
+
+    #[test]
+    fn phone_to_tv_is_one_static_first_canonical_without_market_links() {
+        let root = workspace_root();
+        let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let page = pages
+            .iter()
+            .find(|page| page.id == "phone-to-tv")
+            .expect("phone-to-TV page");
+        let html = seo_page_body(page, &pages, &[], &[], &[]);
+
+        assert!(is_indexable_seo_page(page));
+        assert_eq!(page.path, "/kak-podklyuchit-telefon-k-televizoru/");
+        assert_eq!(
+            pages.iter().filter(|item| item.id == "phone-to-tv").count(),
+            1
+        );
+        assert_eq!(html.matches("data-phone-tv-answer=\"true\"").count(), 1);
+        for method in ["airplay", "google-cast", "miracast", "hdmi-adapter", "usb"] {
+            assert!(html.contains(&format!("data-phone-tv-method=\"{method}\"")));
+        }
+        assert!(html.contains("USB-C не гарантирует видео"));
+        assert!(html.contains("support.apple.com/ru-ru/102661"));
+        assert!(html.contains("support.google.com/googlecast"));
+        assert!(html.contains("samsung.com/ru/support"));
+        assert!(html.contains("displayport.org/faq"));
+        assert!(!html.contains("market.yandex.ru"));
+        assert!(!html.contains("data-affiliate"));
+    }
+
+    #[test]
     fn catalog_groups_every_link_by_brand_under_native_details() {
         let html = brand_catalog_html(
             vec![
@@ -3761,6 +3813,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
         let page = |id: &str, kind: &str| SeoPage {
             id: id.into(),
+            home_priority: None,
             path: format!("/{id}/"),
             kind: kind.into(),
             indexable: true,
@@ -4035,6 +4088,7 @@ mod tests {
     fn brand_and_diagonal_pages_have_reciprocal_static_links() {
         let page = |id: &str, kind: &str| SeoPage {
             id: id.into(),
+            home_priority: None,
             path: format!("/{id}/"),
             kind: kind.into(),
             indexable: true,

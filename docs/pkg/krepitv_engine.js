@@ -85,6 +85,47 @@ export function mounting_map_json(diagonal_inches, eye_height_cm, viewing_distan
 }
 
 /**
+ * @param {string} phone
+ * @param {string} tv
+ * @param {string} goal
+ * @param {string} connector
+ * @param {string} same_network
+ * @param {string} hdmi
+ * @param {string} android_video_output
+ * @returns {string}
+ */
+export function phone_tv_connection_plan_json(phone, tv, goal, connector, same_network, hdmi, android_video_output) {
+    let deferred8_0;
+    let deferred8_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(phone, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(tv, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len1 = WASM_VECTOR_LEN;
+        const ptr2 = passStringToWasm0(goal, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len2 = WASM_VECTOR_LEN;
+        const ptr3 = passStringToWasm0(connector, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len3 = WASM_VECTOR_LEN;
+        const ptr4 = passStringToWasm0(same_network, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len4 = WASM_VECTOR_LEN;
+        const ptr5 = passStringToWasm0(hdmi, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len5 = WASM_VECTOR_LEN;
+        const ptr6 = passStringToWasm0(android_video_output, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len6 = WASM_VECTOR_LEN;
+        wasm.phone_tv_connection_plan_json(retptr, ptr0, len0, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4, ptr5, len5, ptr6, len6);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred8_0 = r0;
+        deferred8_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export(deferred8_0, deferred8_1, 1);
+    }
+}
+
+/**
  * @param {number} diagonal_inches
  * @param {number} screen_center_height_cm
  * @param {number} eye_height_cm

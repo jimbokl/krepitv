@@ -1,10 +1,27 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  getHomeFeaturedPages,
   getModelContextPages,
   getRelatedPages,
   isIndexableSeoPage,
 } from "../src/lib/seoPages.mjs";
+
+test("home features only explicitly prioritized indexable traffic tools", () => {
+  const catalog = [
+    { id: "vesa", home_priority: 4, indexable: true },
+    { id: "wall-planner", home_priority: 3, indexable: true },
+    { id: "tv-dimensions", home_priority: 2, indexable: true },
+    { id: "phone-to-tv", home_priority: 1, indexable: true },
+    { id: "thin", home_priority: 5, indexable: false },
+    { id: "unprioritized", indexable: true },
+  ];
+
+  assert.deepEqual(
+    getHomeFeaturedPages(catalog).map((page) => page.id),
+    ["phone-to-tv", "tv-dimensions", "wall-planner", "vesa"],
+  );
+});
 
 const pages = [
   { id: "current", kind: "calculator", indexable: true },
@@ -56,6 +73,32 @@ test("model context links only to existing indexable brand, diagonal and VESA hu
       id: "vesa-300x200",
       label: "Модели с VESA 300×200",
       path: "/vesa/300x200/",
+    },
+  ]);
+});
+
+test("model context sends exact models to the two main traffic tools", () => {
+  const model = {
+    brand: "LG",
+    diagonal_inches: 55,
+    vesa_width_mm: 300,
+    vesa_height_mm: 200,
+  };
+  const catalog = [
+    { id: "tv-dimensions", path: "/razmery-televizora-po-diagonali/", indexable: true },
+    { id: "wall-planner", path: "/televizor-na-stene/", indexable: true },
+  ];
+
+  assert.deepEqual(getModelContextPages(model, catalog), [
+    {
+      id: "tv-dimensions",
+      label: "Сверить размеры экрана и корпуса",
+      path: "/razmery-televizora-po-diagonali/",
+    },
+    {
+      id: "wall-planner",
+      label: "Примерить телевизор на стене",
+      path: "/televizor-na-stene/",
     },
   ]);
 });

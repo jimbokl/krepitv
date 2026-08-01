@@ -1,0 +1,182 @@
+[
+  {
+    "candidate_id": "tv-purchase-test",
+    "candidate_path": "/proverka-televizora-pered-pokupkoy/",
+    "query": "проверка телевизора на битые пиксели",
+    "variant": "дефекты экрана"
+  },
+  {
+    "candidate_id": "tv-purchase-test",
+    "candidate_path": "/proverka-televizora-pered-pokupkoy/",
+    "query": "тест телевизора онлайн",
+    "variant": "онлайн тест"
+  },
+  {
+    "candidate_id": "tv-purchase-test",
+    "candidate_path": "/proverka-televizora-pered-pokupkoy/",
+    "query": "проверка телевизора при покупке",
+    "variant": "приёмка"
+  },
+  {
+    "candidate_id": "phone-to-tv",
+    "candidate_path": "/kak-podklyuchit-telefon-k-televizoru/",
+    "query": "как подключить телефон к телевизору",
+    "variant": "основной"
+  },
+  {
+    "candidate_id": "phone-to-tv",
+    "candidate_path": "/kak-podklyuchit-telefon-k-televizoru/",
+    "query": "как подключить айфон к телевизору",
+    "variant": "iphone"
+  },
+  {
+    "candidate_id": "phone-to-tv",
+    "candidate_path": "/kak-podklyuchit-telefon-k-televizoru/",
+    "query": "как вывести экран телефона на телевизор",
+    "variant": "зеркалирование"
+  },
+  {
+    "candidate_id": "no-signal",
+    "candidate_path": "/televizor-pishet-net-signala/",
+    "query": "телевизор нет сигнала",
+    "variant": "основной"
+  },
+  {
+    "candidate_id": "no-signal",
+    "candidate_path": "/televizor-pishet-net-signala/",
+    "query": "телевизор нет сигнала что делать",
+    "variant": "решение"
+  },
+  {
+    "candidate_id": "no-signal",
+    "candidate_path": "/televizor-pishet-net-signala/",
+    "query": "телевизор не видит hdmi",
+    "variant": "hdmi"
+  },
+  {
+    "candidate_id": "digital-channels",
+    "candidate_path": "/kak-nastroit-tsifrovye-kanaly-na-televizore/",
+    "query": "настройка цифровых каналов на телевизоре",
+    "variant": "основной"
+  },
+  {
+    "candidate_id": "digital-channels",
+    "candidate_path": "/kak-nastroit-tsifrovye-kanaly-na-televizore/",
+    "query": "как настроить телевизор на цифровые каналы",
+    "variant": "инструкция"
+  },
+  {
+    "candidate_id": "digital-channels",
+    "candidate_path": "/kak-nastroit-tsifrovye-kanaly-na-televizore/",
+    "query": "как настроить телевизор на цифровые каналы через антенну",
+    "variant": "антенна"
+  },
+  {
+    "candidate_id": "tv-wifi",
+    "candidate_path": "/televizor-ne-podklyuchaetsya-k-wifi/",
+    "query": "телевизор не подключается к вай фай что делать",
+    "variant": "основной"
+  },
+  {
+    "candidate_id": "tv-wifi",
+    "candidate_path": "/televizor-ne-podklyuchaetsya-k-wifi/",
+    "query": "телевизор не видит вай фай",
+    "variant": "сеть не видна"
+  },
+  {
+    "candidate_id": "tv-wifi",
+    "candidate_path": "/televizor-ne-podklyuchaetsya-k-wifi/",
+    "query": "телевизор не подключается к интернету",
+    "variant": "интернет"
+  },
+  {
+    "candidate_id": "picture-setup",
+    "candidate_path": "/nastroyka-izobrazheniya-televizora/",
+    "query": "настройка изображения телевизора",
+    "variant": "основной"
+  },
+  {
+    "candidate_id": "picture-setup",
+    "candidate_path": "/nastroyka-izobrazheniya-televizora/",
+    "query": "как правильно настроить изображение телевизора",
+    "variant": "инструкция"
+  },
+  {
+    "candidate_id": "picture-setup",
+    "candidate_path": "/nastroyka-izobrazheniya-televizora/",
+    "query": "калибровка телевизора",
+    "variant": "калибровка"
+  },
+  {
+    "candidate_id": "screen-cleaning",
+    "candidate_path": "/chem-protirat-ekran-televizora/",
+    "query": "чем протирать экран телевизора",
+    "variant": "основной"
+  },
+  {
+    "candidate_id": "screen-cleaning",
+    "candidate_path": "/chem-protirat-ekran-televizora/",
+    "query": "как почистить экран телевизора",
+    "variant": "чистка"
+  },
+  {
+    "candidate_id": "screen-cleaning",
+    "candidate_path": "/chem-protirat-ekran-televizora/",
+    "query": "как почистить экран телевизора без разводов",
+    "variant": "без разводов"
+  },
+  {
+    "candidate_id": "laptop-to-tv",
+    "candidate_path": "/kak-podklyuchit-noutbuk-k-televizoru/",
+    "query": "как подключить ноутбук к телевизору",
+    "variant": "основной"
+  },
+  {
+    "candidate_id": "laptop-to-tv",
+    "candidate_path": "/kak-podklyuchit-noutbuk-k-televizoru/",
+    "query": "как подключить ноутбук к телевизору без проводов",
+    "variant": "беспроводное подключение"
+  },
+  {
+    "candidate_id": "laptop-to-tv",
+    "candidate_path": "/kak-podklyuchit-noutbuk-k-televizoru/",
+    "query": "телевизор не видит ноутбук через hdmi",
+    "variant": "hdmi диагностика"
+  },
+  {
+    "candidate_id": "tv-energy",
+    "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+    "query": "сколько потребляет телевизор ватт",
+    "variant": "мощность"
+  },
+  {
+    "candidate_id": "tv-energy",
+    "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+    "query": "сколько потребляет телевизор электроэнергии",
+    "variant": "расход"
+  },
+  {
+    "candidate_id": "tv-energy",
+    "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+    "query": "сколько потребляет телевизор электроэнергии в месяц",
+    "variant": "за месяц"
+  },
+  {
+    "candidate_id": "model-year-decoder",
+    "candidate_path": "/kak-uznat-god-vypuska-televizora/",
+    "query": "расшифровка модели телевизора",
+    "variant": "модель"
+  },
+  {
+    "candidate_id": "model-year-decoder",
+    "candidate_path": "/kak-uznat-god-vypuska-televizora/",
+    "query": "как узнать год выпуска телевизора",
+    "variant": "год выпуска"
+  },
+  {
+    "candidate_id": "model-year-decoder",
+    "candidate_path": "/kak-uznat-god-vypuska-televizora/",
+    "query": "расшифровка модели телевизора samsung",
+    "variant": "samsung"
+  }
+]

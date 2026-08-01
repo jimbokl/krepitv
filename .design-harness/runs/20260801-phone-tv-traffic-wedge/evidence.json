@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "task_id": "20260801-phone-tv-traffic-wedge",
+  "commands": [
+    {
+      "id": "cmd-rust-matrix",
+      "command": "cargo test -p krepitv-engine phone_tv_connection -- --nocapture",
+      "exit_code": 0,
+      "covers": ["success", "blocked", "unknown", "USB-C fail-closed"]
+    },
+    {
+      "id": "cmd-web-contract",
+      "command": "node --test --test-concurrency=1 web/tests/phone-tv-connection.test.mjs web/tests/result-instrumentation.test.mjs",
+      "exit_code": 0,
+      "covers": ["canonical", "SSR", "privacy", "analytics", "retry"]
+    },
+    {
+      "id": "cmd-qa-syntax",
+      "command": "node --check scripts/qa/capture-page.mjs",
+      "exit_code": 0,
+      "covers": ["visual state capture"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "exit_code": 0,
+      "covers": ["security", "static SEO", "affiliate policy"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260801-phone-tv-traffic-wedge --files web/src/components/PhoneTvConnectionWizard.jsx web/src/components/SiteHeader.jsx web/src/components/SiteFooter.jsx web/src/pages/SeoPage.jsx web/src/pages/HomePage.jsx",
+      "exit_code": 0,
+      "covers": ["default", "focus", "needs-check", "no-direct-path", "retry"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-empty-mobile",
+      "path": "empty-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-default-desktop",
+      "path": "default-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-disabled-tablet",
+      "path": "disabled-tablet.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-focus-tablet",
+      "path": "focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "shot-loading-desktop",
+      "path": "loading-desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-error-mobile",
+      "path": "error-mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-needs-check-desktop",
+      "path": "needs-check-desktop.png",
+      "state": "needs-check",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-needs-check-mobile",
+      "path": "needs-check-mobile.png",
+      "state": "needs-check",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-no-direct-mobile",
+      "path": "no-direct-mobile.png",
+      "state": "no-direct-path",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-retry-mobile",
+      "path": "retry-mobile.png",
+      "state": "retry",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-success-desktop",
+      "path": "success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-zoom-tablet",
+      "path": "zoom-tablet.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-spacing-mobile",
+      "path": "spacing-mobile.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent reviewer /root/phone_tv_release_reviewer",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Все 20 generic-комбинаций fail-closed: ready запрещён тестом, результат только needs-check либо no-direct-path.",
+      "Официальные источники привязаны к семейству ТВ; Яндекс и неизвестные модели не получают чужие Samsung/LG ссылки.",
+      "WASM retry восстанавливает расчёт без сброса выбора, а выбранный другой телевизор остаётся виден в summary.",
+      "Мобильные и desktop PNG для needs-check, no-direct-path и retry не имеют overflow или обрезаний; открытых P0-P2 нет."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

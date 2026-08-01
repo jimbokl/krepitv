@@ -2,6 +2,22 @@ export function isIndexableSeoPage(page) {
   return page?.indexable === true;
 }
 
+export function getHomeFeaturedPages(pages, limit = 4) {
+  return pages
+    .filter(
+      (page) =>
+        isIndexableSeoPage(page)
+        && Number.isInteger(page.home_priority)
+        && page.home_priority > 0,
+    )
+    .sort(
+      (left, right) =>
+        left.home_priority - right.home_priority
+        || left.id.localeCompare(right.id, "ru"),
+    )
+    .slice(0, limit);
+}
+
 export function getRelatedPages(page, pages, limit = 6) {
   const preferred = preferredRelatedIds(page.id);
   return pages
@@ -22,6 +38,14 @@ export function getModelContextPages(model, pages) {
   if (!model) return [];
 
   const candidates = [
+    {
+      id: "tv-dimensions",
+      label: "Сверить размеры экрана и корпуса",
+    },
+    {
+      id: "wall-planner",
+      label: "Примерить телевизор на стене",
+    },
     {
       id: "vesa",
       label: "VESA по модели и ручная проверка",
@@ -118,6 +142,7 @@ function preferredRelatedIds(pageId) {
   }
 
   const groups = {
+    "phone-to-tv": ["tv-dimensions", "wall-planner", "viewing-distance", "vesa", "mounting-height", "wall-mounted-tv"],
     "wall-mounted-tv": ["mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height"],
     "wall-planner": ["tv-dimensions", "mounting-height", "mounting-map", "tv-zone-sockets", "viewing-distance", "wall-mounted-tv"],
     "tv-dimensions": ["wall-planner", "viewing-distance", "diagonal-43", "diagonal-55", "diagonal-65", "mounting-height"],

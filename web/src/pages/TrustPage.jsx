@@ -17,7 +17,7 @@ export function TrustPage({ page }) {
 
         <header className="mt-5 border-b-2 border-ink pb-7">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">{page.kicker}</p>
-          <h1 className="mt-3 max-w-[1180px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]">
+          <h1 className="mt-3 max-w-[1180px] break-words font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]">
             {page.h1}
           </h1>
           <p className="mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl">{page.lead}</p>

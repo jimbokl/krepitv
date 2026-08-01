@@ -16,6 +16,9 @@ const width = Number(argument("--width", "1440"));
 const height = Number(argument("--height", "1100"));
 const selector = argument("--selector", null);
 const modelQuery = argument("--model-query", null);
+const phoneTvState = argument("--phone-tv-state", null);
+const textZoom = Number(argument("--text-zoom", "100"));
+const textSpacing = process.argv.includes("--text-spacing");
 const consent = argument("--consent", "denied");
 const affiliateReportEnabled = process.argv.includes("--affiliate-report");
 const placementAttributionRequired = process.argv.includes("--require-placement-attribution");
@@ -24,6 +27,21 @@ const chromePath = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/C
 if (!Number.isInteger(width) || width < 320 || width > 3840) throw new Error("Invalid viewport width");
 if (!Number.isInteger(height) || height < 480 || height > 5000) throw new Error("Invalid viewport height");
 if (!["denied", "granted", "prompt"].includes(consent)) throw new Error("Invalid consent mode");
+if (![100, 200].includes(textZoom)) throw new Error("Invalid text zoom; use 100 or 200");
+if (phoneTvState && ![
+  "empty",
+  "default",
+  "disabled",
+  "focus",
+  "loading",
+  "error",
+  "success",
+  "needs-check",
+  "no-direct-path",
+  "retry",
+].includes(phoneTvState)) {
+  throw new Error("Invalid phone-to-TV state");
+}
 if (placementAttributionRequired && !affiliateReportEnabled) {
   throw new Error("--require-placement-attribution requires --affiliate-report");
 }
@@ -114,6 +132,25 @@ try {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
     });
   }
+  if (["loading", "error", "retry"].includes(phoneTvState)) {
+    await send("Page.addScriptToEvaluateOnNewDocument", {
+      source: phoneTvState === "loading"
+        ? `WebAssembly.instantiateStreaming = () => new Promise(() => {}); WebAssembly.instantiate = () => new Promise(() => {});`
+        : phoneTvState === "error"
+          ? `WebAssembly.instantiateStreaming = () => Promise.reject(new Error("QA WASM failure")); WebAssembly.instantiate = () => Promise.reject(new Error("QA WASM failure"));`
+          : `(() => {
+              const originalStreaming = WebAssembly.instantiateStreaming.bind(WebAssembly);
+              const originalInstantiate = WebAssembly.instantiate.bind(WebAssembly);
+              globalThis.__qaBlockWasm = true;
+              WebAssembly.instantiateStreaming = (...args) => globalThis.__qaBlockWasm
+                ? Promise.reject(new Error("QA first-attempt WASM failure"))
+                : originalStreaming(...args);
+              WebAssembly.instantiate = (...args) => globalThis.__qaBlockWasm
+                ? Promise.reject(new Error("QA first-attempt WASM failure"))
+                : originalInstantiate(...args);
+            })();`,
+    });
+  }
   await send("Emulation.setDeviceMetricsOverride", {
     width,
     height,
@@ -129,6 +166,118 @@ try {
     expression: "document.fonts.ready.then(() => new Promise((resolve) => setTimeout(resolve, 700)))",
     awaitPromise: true,
   });
+  if (textZoom !== 100 || textSpacing) {
+    await send("Runtime.evaluate", {
+      expression: `(() => {
+        const style = document.createElement("style");
+        style.dataset.qaTextOverride = "true";
+        style.textContent = ${JSON.stringify(`${textZoom !== 100 ? `html { font-size: ${textZoom}% !important; }` : ""}${textSpacing ? " * { line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important; } p { margin-bottom: 2em !important; }" : ""}`)};
+        document.head.appendChild(style);
+      })()`,
+    });
+  }
+  let phoneTvReport = null;
+  if (phoneTvState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(phoneTvState)};
+        const wizard = document.querySelector("[data-phone-tv-wizard]");
+        if (!wizard) return Promise.reject(new Error("Phone-to-TV wizard not found"));
+        const choose = (name, value) => {
+          const input = wizard.querySelector('input[name="' + name + '"][value="' + value + '"]');
+          if (!input) throw new Error("Missing radio " + name + ":" + value);
+          input.click();
+        };
+        const waitFor = (predicate, message, timeout = 5000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            const value = predicate();
+            if (value) {
+              clearInterval(timer);
+              resolve(value);
+            } else if (Date.now() - startedAt > timeout) {
+              clearInterval(timer);
+              reject(new Error(message));
+            }
+          }, 25);
+        });
+
+        if (state === "focus") {
+          wizard.querySelector('input[name="phone"]')?.focus();
+        } else if (state === "default") {
+          choose("phone", "iphone");
+        } else if (["loading", "error", "success", "needs-check", "no-direct-path", "retry"].includes(state)) {
+          choose("phone", state === "no-direct-path" ? "android-other" : "iphone");
+          await waitFor(
+            () => wizard.querySelector('input[name="tv"], input[name="tv-other"]'),
+            "TV choices did not render",
+          );
+          if (["success", "needs-check"].includes(state)) {
+            choose("tv-other", "apple-tv");
+            await waitFor(
+              () => wizard.querySelector('input[name="same-network"]'),
+              "Network choices did not render",
+            );
+            choose("same-network", "yes");
+          } else if (state === "no-direct-path") {
+            choose("tv-other", "apple-tv");
+            await waitFor(
+              () => wizard.querySelector('input[name="hdmi"]'),
+              "HDMI choices did not render",
+            );
+            choose("hdmi", "no");
+          } else {
+            choose("tv", "samsung-smart-tv");
+          }
+          const submit = await waitFor(
+            () => {
+              const button = wizard.querySelector('button[type="submit"]');
+              return button && !button.disabled ? button : null;
+            },
+            "Phone-to-TV submit stayed disabled",
+          );
+          if (!submit || submit.disabled) throw new Error("Phone-to-TV submit is disabled unexpectedly");
+          submit.click();
+          if (state === "retry") {
+            await waitFor(
+              () => wizard.querySelector('[role="alert"]'),
+              "Phone-to-TV retry did not reach the first error",
+            );
+            globalThis.__qaBlockWasm = false;
+            submit.click();
+          }
+        }
+
+        const expected = state === "loading"
+          ? () => wizard.innerText.includes("Проверяем совместимость")
+          : state === "error"
+            ? () => wizard.querySelector('[role="alert"]')
+            : ["success", "needs-check", "retry"].includes(state)
+              ? () => document.querySelector('[data-phone-tv-result="needs-check"]')
+              : state === "no-direct-path"
+                ? () => document.querySelector('[data-phone-tv-result="no-direct-path"]')
+              : () => true;
+        await waitFor(expected, "Phone-to-TV state timed out");
+        return {
+          state,
+          submitDisabled: Boolean(wizard.querySelector('button[type="submit"]')?.disabled),
+          resultStatus: document.querySelector("[data-phone-tv-result]")?.getAttribute("data-phone-tv-result") ?? null,
+          hasAlert: Boolean(wizard.querySelector('[role="alert"]')),
+          focusedName: document.activeElement?.getAttribute("name") ?? null,
+          marketLinks: document.querySelectorAll('a[href*="market.yandex.ru"]').length,
+        };
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error("Phone-to-TV interaction failed");
+    }
+    phoneTvReport = interaction.result.value;
+    if (phoneTvReport.marketLinks !== 0) {
+      throw new Error("Phone-to-TV route contains Market links");
+    }
+  }
   let modelInteractionReport = null;
   if (modelQuery) {
     const interaction = await send("Runtime.evaluate", {
@@ -200,10 +349,17 @@ try {
     }
     modelInteractionReport = interaction.result.value;
   }
-  if (selector) {
+  const effectiveSelector = selector || (["success", "needs-check", "no-direct-path", "retry"].includes(phoneTvState)
+    ? "[data-phone-tv-result]"
+    : phoneTvState === "error"
+      ? "[data-phone-tv-wizard] [role=\"alert\"]"
+    : phoneTvState
+      ? "[data-phone-tv-wizard]"
+      : null);
+  if (effectiveSelector) {
     const selected = await send("Runtime.evaluate", {
       expression: `(() => {
-        const element = document.querySelector(${JSON.stringify(selector)});
+        const element = document.querySelector(${JSON.stringify(effectiveSelector)});
         if (!element) return false;
         const top = Math.max(0, element.getBoundingClientRect().top + window.scrollY - 24);
         window.scrollTo({ top, left: 0, behavior: "instant" });
@@ -215,11 +371,11 @@ try {
       returnByValue: true,
     });
     if (selected.result.value !== true) {
-      throw new Error(`Screenshot selector not found: ${selector}`);
+      throw new Error(`Screenshot selector not found: ${effectiveSelector}`);
     }
   }
   await send("Runtime.evaluate", {
-    expression: selector
+    expression: effectiveSelector
       ? "new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))"
       : "window.scrollTo(0, 0); new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))",
     awaitPromise: true,
@@ -229,7 +385,23 @@ try {
     returnByValue: true,
   });
   if (dimensions.result.value.innerWidth !== width || dimensions.result.value.scrollWidth > width) {
-    throw new Error(`Viewport overflow: ${JSON.stringify(dimensions.result.value)}`);
+    const overflow = await send("Runtime.evaluate", {
+      expression: `Array.from(document.querySelectorAll("body *")).map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          tag: element.tagName,
+          className: String(element.className ?? "").slice(0, 120),
+          text: String(element.textContent ?? "").trim().replace(/\\s+/g, " ").slice(0, 80),
+          left: Math.round(rect.left),
+          right: Math.round(rect.right),
+          width: Math.round(rect.width),
+          clientWidth: element.clientWidth,
+          scrollWidth: element.scrollWidth,
+        };
+      }).filter((item) => item.left < -1 || item.right > innerWidth + 1 || item.scrollWidth > item.clientWidth + 1).slice(0, 12)`,
+      returnByValue: true,
+    });
+    throw new Error(`Viewport overflow: ${JSON.stringify(dimensions.result.value)} offenders=${JSON.stringify(overflow.result.value)}`);
   }
   let affiliateReport = [];
   if (affiliateReportEnabled) {
@@ -313,6 +485,7 @@ try {
   }));
   process.stdout.write(`${output}\n${JSON.stringify(dimensions.result.value)}\n`);
   if (modelInteractionReport) process.stdout.write(`${JSON.stringify(modelInteractionReport)}\n`);
+  if (phoneTvReport) process.stdout.write(`${JSON.stringify(phoneTvReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();
