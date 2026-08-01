@@ -79,7 +79,8 @@ test("общий мастер покрывает обязательные сос
   assert.match(source, /requestState === "loading"/);
   assert.match(source, /setRequestState\("error"\)/);
   assert.match(source, /\{error \?/);
-  assert.match(source, /const canSubmit = Boolean\(primary && \(secondarySkipped \|\| secondary\)\)/);
+  assert.match(source, /const requiresConfirmation = config\.requireConfirmation === true && !secondarySkipped/);
+  assert.match(source, /&& \(!requiresConfirmation \|\| \(tertiary && \(!detailVisible \|\| detail\)\)\)/);
   assert.match(source, /disabled=\{!canSubmit \|\| requestState === "loading"\}/);
   assert.match(source, /resultHeadingRef/);
   assert.match(source, /tabIndex=\{-1\}/);

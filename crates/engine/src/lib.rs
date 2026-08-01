@@ -1586,6 +1586,35 @@ pub struct TvTrafficTaskPlan {
     pub privacy: String,
 }
 
+/// Закрытый числовой ввод для локального расчёта энергопотребления телевизора.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct TvEnergyInput {
+    pub active_power_w: f64,
+    pub hours_per_day: f64,
+    pub standby_power_w: f64,
+    pub tariff_rub_per_kwh: Option<f64>,
+}
+
+/// Детерминированный энергетический план без сетевого запроса и скрытых допущений.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct TvEnergyPlan {
+    pub active_power_w: f64,
+    pub hours_per_day: f64,
+    pub standby_power_w: f64,
+    pub tariff_rub_per_kwh: Option<f64>,
+    pub active_daily_kwh: f64,
+    pub standby_daily_kwh: f64,
+    pub total_daily_kwh: f64,
+    pub monthly_kwh: f64,
+    pub annual_kwh: f64,
+    pub monthly_cost_rub: Option<f64>,
+    pub annual_cost_rub: Option<f64>,
+    pub assumptions: Vec<String>,
+    pub warnings: Vec<String>,
+    pub source_ids: Vec<String>,
+    pub privacy: String,
+}
+
 fn tv_traffic_task_step(
     id: &str,
     title: &str,
@@ -4138,6 +4167,522 @@ fn calculate_smart_tv_box_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTa
     ))
 }
 
+fn calculate_tv_speakers_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["bluetooth", "optical", "analog-3.5", "hdmi-arc", "unknown"],
+        "Аудиовыход телевизора",
+    )?;
+    require_choice(
+        &input.secondary,
+        &[
+            "bluetooth",
+            "optical",
+            "analog-3.5",
+            "hdmi-arc",
+            "passive-wire",
+            "unknown",
+        ],
+        "Вход акустики",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["yes", "no", "unknown"],
+        "Совместимость и безопасный доступ",
+    )?;
+    require_choice(
+        &input.detail,
+        &["safe", "unsafe", "unknown"],
+        "Состояние подключения",
+    )?;
+
+    let source_ids = [
+        "samsung-tv-optical-audio",
+        "sony-tv-wireless-audio",
+        "sony-tv-bluetooth-audio",
+        "lg-tv-audio-output",
+    ];
+    let warnings = [
+        "Пассивные колонки нельзя подключать напрямую к аудиовыходу телевизора: им нужен совместимый усилитель или ресивер.",
+        "Не соединяйте два выхода и не выбирайте преобразователь по форме разъёма или случайному совету.",
+        "При повреждении, нагреве, жидкости, искрах, неплотном питании или необходимости перемещать настенный телевизор прекратите подключение.",
+    ];
+
+    if input.detail == "unsafe" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "tv-speakers",
+            "Не подключайте акустику при опасном состоянии",
+            "Опасный признак у кабеля, разъёма, блока питания, вилки или розетки имеет приоритет над выбранным аудиомаршрутом.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unsafe-speaker-connection",
+                    "Прекратите подключение",
+                    "Не касайтесь повреждённого, горячего или мокрого соединения, не вставляйте его плотнее и не включайте устройства повторно.",
+                    &source_ids,
+                    "До безопасной очной проверки не продолжайте подключение и не выполняйте электрические измерения.",
+                ),
+                tv_traffic_task_step(
+                    "report-speaker-safety-observation",
+                    "Передайте наблюдение специалисту",
+                    "Сообщите точные модели, видимые маркировки и опасный признак без предположения о неисправной детали.",
+                    &source_ids,
+                    "Не разбирайте телевизор, акустику, усилитель или блок питания.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.secondary == "passive-wire" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-speakers",
+            "Пассивной акустике нужен усилитель или ресивер",
+            "Провод пассивной колонки не является входом телевизора. Прямое соединение не предлагается независимо от формы доступного аудиовыхода.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-direct-passive-speaker-connection",
+                    "Не подключайте пассивные колонки к телевизору напрямую",
+                    "Оставьте акустический провод отключённым от аудиовыходов телевизора и не пытайтесь закрепить его в разъёме переходником.",
+                    &source_ids,
+                    "Не соединяйте пассивный провод с оптическим, HDMI, Bluetooth или 3,5-мм выходом телевизора.",
+                ),
+                tv_traffic_task_step(
+                    "confirm-powered-amplifier-path",
+                    "Проверьте внешний усилительный тракт",
+                    "По инструкциям точных моделей подтвердите совместимый усилитель или ресивер: его вход должен соответствовать выходу телевизора, а выход и допустимая нагрузка — пассивной акустике.",
+                    &source_ids,
+                    "Если совместимость усилителя, колонок и телевизора не подтверждена, остановитесь без случайного преобразователя.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "unknown"
+        || input.secondary == "unknown"
+        || input.tertiary == "unknown"
+        || input.detail == "unknown"
+    {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "tv-speakers",
+            "Сначала подтвердите один аудиомаршрут",
+            "Без точных маркировок выхода, входа, совместимости моделей, безопасного доступа и безопасного состояния нельзя назначить кабель или беспроводное сопряжение.",
+            vec![
+                tv_traffic_task_step(
+                    "record-speaker-audio-path",
+                    "Сверьте выход и вход по точным моделям",
+                    "Найдите в официальных инструкциях один явный путь: Bluetooth, Optical/Digital Audio Out → Optical In, 3,5-мм аудиовыход → активный аналоговый вход или HDMI ARC с обеих сторон.",
+                    &source_ids,
+                    "Не считайте одинаковую форму разъёма или само наличие Bluetooth подтверждением совместимости.",
+                ),
+                tv_traffic_task_step(
+                    "confirm-speaker-path-safety",
+                    "Подтвердите безопасное состояние",
+                    "Осмотрите только доступные кабели, питание и разъёмы без перемещения настенного телевизора.",
+                    &source_ids,
+                    "При повреждении, нагреве, жидкости, искрах или небезопасном доступе прекратите проверку.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let matching_path = input.primary == input.secondary;
+    if input.tertiary == "no" || !matching_path {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-speakers",
+            "Прямой путь к акустике не подтверждён",
+            "Выход телевизора и вход акустики не совпадают, точные модели не подтверждают маршрут либо разъём недоступен без перемещения настенного телевизора.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unconfirmed-speaker-path",
+                    "Остановитесь без случайного переходника",
+                    "Не подключайте несовпадающие вход и выход, не перемещайте настенный телевизор и не меняйте направление сигнала неподтверждённым преобразователем.",
+                    &source_ids,
+                    "Продолжайте только после появления документированного общего пути или совместимого внешнего устройства.",
+                ),
+                tv_traffic_task_step(
+                    "check-speaker-external-path",
+                    "Проверьте документированный внешний тракт",
+                    "Сверьте инструкции точных моделей и при необходимости отдельно подтвердите активную акустику, усилитель или ресивер с подходящими входом и выходом.",
+                    &source_ids,
+                    "Не выдавайте потенциальный внешний тракт за совместимость точных устройств.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let (path_name, connect_instruction, output_instruction) = match input.primary.as_str() {
+        "bluetooth" => (
+            "Bluetooth",
+            "Переведите активную акустику в обычный режим сопряжения из её инструкции и выберите точное устройство в штатном меню Bluetooth-аудиовыхода телевизора.",
+            "Проверьте короткий знакомый фрагмент и приемлемую синхронизацию; наличие Bluetooth не гарантирует все аудиофункции.",
+        ),
+        "optical" => (
+            "оптический выход",
+            "Соедините явно маркированный Optical/Digital Audio Out телевизора с явно маркированным Optical In активной акустики исправным оптическим кабелем.",
+            "Выберите оптический выход телевизора и оптический вход акустики только по обычным меню и инструкциям точных моделей.",
+        ),
+        "analog-3.5" => (
+            "аналоговый выход 3,5 мм",
+            "При минимальной безопасной громкости соедините явно подтверждённый аудиовыход 3,5 мм телевизора с активным аналоговым входом акустики.",
+            "Выберите подтверждённый аналоговый выход и плавно проверьте громкость на коротком знакомом фрагменте.",
+        ),
+        "hdmi-arc" => (
+            "HDMI ARC",
+            "Соедините только явно маркированный HDMI ARC телевизора с явно маркированным HDMI ARC активной системы или ресивера совместимым кабелем.",
+            "Включите штатный внешний аудиовыход и HDMI-управление только в объёме, описанном инструкциями обеих точных моделей.",
+        ),
+        _ => unreachable!(),
+    };
+
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "tv-speakers",
+        &format!("Подключите акустику через {path_name}"),
+        "Выход, вход, совместимость точных моделей, безопасный доступ без перемещения телевизора и безопасное состояние подтверждены; мастер использует только совпадающий маршрут.",
+        vec![
+            tv_traffic_task_step(
+                "confirm-speaker-model-path",
+                "Сохраните подтверждённый маршрут",
+                "Перед подключением ещё раз сопоставьте точные модели и маркировки доступных без перемещения телевизора выхода и входа.",
+                &source_ids,
+                "При расхождении с инструкцией остановитесь без подключения.",
+            ),
+            tv_traffic_task_step(
+                "connect-speaker-matching-path",
+                &format!("Подключите {path_name}"),
+                connect_instruction,
+                &source_ids,
+                "Не используйте другой разъём, переходник или скрытое сервисное меню.",
+            ),
+            tv_traffic_task_step(
+                "verify-speaker-audio-output",
+                "Проверьте звук обратимым способом",
+                output_instruction,
+                &source_ids,
+                "При нагреве, треске, нестабильном питании или другом опасном признаке сразу прекратите проверку.",
+            ),
+        ],
+        &warnings,
+    ))
+}
+
+fn calculate_tv_headphones_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["bluetooth", "headphones-3.5", "optical", "none", "unknown"],
+        "Аудиовыход телевизора",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["bluetooth", "analog-3.5", "optical-transmitter", "unknown"],
+        "Путь наушников",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["yes", "no", "unknown"],
+        "Совместимость и безопасный доступ",
+    )?;
+    require_choice(
+        &input.detail,
+        &["safe", "unsafe", "unknown"],
+        "Состояние подключения",
+    )?;
+
+    let source_ids = [
+        "samsung-tv-bluetooth-headphones",
+        "sony-tv-bluetooth-audio",
+        "sony-tv-wireless-audio",
+        "lg-tv-bluetooth-audio",
+    ];
+    let warnings = [
+        "Начинайте проверку на минимальной комфортной громкости и повышайте её постепенно.",
+        "Не считайте наличие Bluetooth подтверждением вывода звука на любые наушники.",
+        "Не используйте случайный переходник, сервисное меню или общий сброс и не перемещайте настенный телевизор ради разъёма.",
+    ];
+
+    if input.detail == "unsafe" {
+        return Ok(tv_traffic_task_plan(
+            "service-boundary",
+            "tv-headphones",
+            "Не подключайте наушники при опасном состоянии",
+            "Повреждение, нагрев, жидкость, искры или неплотное питание требуют остановки до выбора проводного или беспроводного пути.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unsafe-headphone-connection",
+                    "Прекратите подключение",
+                    "Не касайтесь опасного кабеля, разъёма, передатчика, блока питания, вилки или розетки и не включайте их повторно.",
+                    &source_ids,
+                    "До безопасной очной проверки не продолжайте сопряжение и не выполняйте электрические измерения.",
+                ),
+                tv_traffic_task_step(
+                    "report-headphone-safety-observation",
+                    "Передайте наблюдение специалисту",
+                    "Сообщите точные модели, видимые маркировки и опасный признак без диагноза детали.",
+                    &source_ids,
+                    "Не разбирайте телевизор, наушники, передатчик или блок питания.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "none" {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-headphones",
+            "У телевизора не подтверждён прямой аудиовыход",
+            "Без Bluetooth, выхода для наушников или оптического выхода мастер не назначает переходник по догадке.",
+            vec![
+                tv_traffic_task_step(
+                    "confirm-no-headphone-output",
+                    "Перепроверьте руководство точной модели",
+                    "Убедитесь, что в официальной инструкции действительно нет Bluetooth-аудиовыхода, 3,5-мм выхода для наушников и Optical/Digital Audio Out.",
+                    &source_ids,
+                    "Не перемещайте настенный телевизор ради поиска скрытого разъёма.",
+                ),
+                tv_traffic_task_step(
+                    "stop-before-undocumented-headphone-adapter",
+                    "Остановитесь без неподтверждённого преобразователя",
+                    "Используйте только внешний тракт, который прямо поддерживается точной моделью телевизора и выбранными наушниками.",
+                    &source_ids,
+                    "Не выбирайте преобразователь только по форме доступного разъёма.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    if input.primary == "unknown"
+        || input.secondary == "unknown"
+        || input.tertiary == "unknown"
+        || input.detail == "unknown"
+    {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "tv-headphones",
+            "Сначала подтвердите выход и путь наушников",
+            "Без точной пары выхода, приёмного пути, модельной совместимости, безопасного доступа и безопасного состояния подключение остаётся неизвестным.",
+            vec![
+                tv_traffic_task_step(
+                    "record-headphone-audio-path",
+                    "Сверьте точные модели",
+                    "По официальным инструкциям подтвердите одну пару: Bluetooth → Bluetooth, Headphones 3,5 мм → аналоговые наушники либо Optical Out → совместимый оптический передатчик.",
+                    &source_ids,
+                    "Не считайте одинаковую форму разъёма подтверждением направления и формата сигнала.",
+                ),
+                tv_traffic_task_step(
+                    "confirm-headphone-path-safety",
+                    "Проверьте доступное соединение",
+                    "Осмотрите только доступные кабели, передатчик и питание без снятия или сдвига настенного телевизора.",
+                    &source_ids,
+                    "При опасном признаке прекратите проверку.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let matching_path = matches!(
+        (input.primary.as_str(), input.secondary.as_str()),
+        ("bluetooth", "bluetooth")
+            | ("headphones-3.5", "analog-3.5")
+            | ("optical", "optical-transmitter")
+    );
+
+    if input.tertiary == "no" || !matching_path {
+        return Ok(tv_traffic_task_plan(
+            "external-path",
+            "tv-headphones",
+            "Прямой путь к наушникам не подтверждён",
+            "Выход телевизора и путь наушников не совпадают, точные модели не подтверждают соединение либо разъём недоступен без перемещения настенного телевизора.",
+            vec![
+                tv_traffic_task_step(
+                    "stop-unconfirmed-headphone-path",
+                    "Остановитесь без случайного переходника",
+                    "Не соединяйте несовпадающие устройства, не перемещайте настенный телевизор и не подменяйте направление или формат сигнала неподтверждённым преобразователем.",
+                    &source_ids,
+                    "Продолжайте только с документированным общим путём точных моделей.",
+                ),
+                tv_traffic_task_step(
+                    "check-headphone-external-path",
+                    "Проверьте документированную альтернативу",
+                    "Сверьте поддержку телевизора и наушников; для оптического пути отдельно подтвердите вход передатчика, его питание и поддерживаемый выход на наушники.",
+                    &source_ids,
+                    "Не выдавайте потенциальную схему за подтверждённую совместимость.",
+                ),
+            ],
+            &warnings,
+        ));
+    }
+
+    let (path_name, connect_instruction, verify_instruction) = match input.primary.as_str() {
+        "bluetooth" => (
+            "Bluetooth",
+            "Переведите наушники в обычный режим сопряжения из их инструкции и выберите точную модель в штатном меню Bluetooth-аудиовыхода телевизора.",
+            "Воспроизведите короткий знакомый фрагмент на минимальной комфортной громкости и проверьте звук и синхронизацию.",
+        ),
+        "headphones-3.5" => (
+            "выход для наушников 3,5 мм",
+            "Установите минимальную громкость и подключите аналоговый штекер только к явно маркированному выходу Headphones 3,5 мм телевизора.",
+            "Плавно увеличьте громкость до комфортной и проверьте, как точная модель переключает встроенные динамики.",
+        ),
+        "optical" => (
+            "оптический передатчик",
+            "Соедините Optical/Digital Audio Out телевизора с подтверждённым оптическим входом отдельно питаемого передатчика и настройте его по инструкции точной модели.",
+            "Выберите штатный оптический выход телевизора и проверьте звук на минимальной комфортной громкости без изменения сервисных настроек.",
+        ),
+        _ => unreachable!(),
+    };
+
+    Ok(tv_traffic_task_plan(
+        "action-plan",
+        "tv-headphones",
+        &format!("Подключите наушники через {path_name}"),
+        "Выход телевизора, путь наушников, совместимость точных моделей, безопасный доступ без перемещения телевизора и безопасное состояние подтверждены.",
+        vec![
+            tv_traffic_task_step(
+                "confirm-headphone-model-path",
+                "Сохраните подтверждённый маршрут",
+                "Перед подключением ещё раз сопоставьте точные модели, маркировки доступных без перемещения телевизора разъёмов и направление аудиосигнала.",
+                &source_ids,
+                "При расхождении с инструкцией остановитесь без подключения.",
+            ),
+            tv_traffic_task_step(
+                "connect-headphone-matching-path",
+                &format!("Подключите {path_name}"),
+                connect_instruction,
+                &source_ids,
+                "Не используйте другой разъём, случайный переходник или сервисное меню.",
+            ),
+            tv_traffic_task_step(
+                "verify-headphone-audio-output",
+                "Проверьте звук и громкость",
+                verify_instruction,
+                &source_ids,
+                "При нагреве, треске, нестабильном питании или другом опасном признаке сразу прекратите проверку.",
+            ),
+        ],
+        &warnings,
+    ))
+}
+
+fn rounded_energy_kwh(value: f64) -> f64 {
+    (value * 1_000_000.0).round() / 1_000_000.0
+}
+
+fn rounded_rubles(value: f64) -> f64 {
+    (value * 100.0).round() / 100.0
+}
+
+/// Рассчитывает потребление телевизора из явно заданной мощности и времени работы.
+pub fn calculate_tv_energy_plan(input: &TvEnergyInput) -> Result<TvEnergyPlan, String> {
+    validate_range(
+        input.active_power_w,
+        1.0,
+        2_000.0,
+        "Активная мощность телевизора",
+        "Вт",
+    )?;
+    validate_range(
+        input.hours_per_day,
+        0.0,
+        24.0,
+        "Время работы в сутки",
+        "часов",
+    )?;
+    validate_range(
+        input.standby_power_w,
+        0.0,
+        20.0,
+        "Мощность в режиме ожидания",
+        "Вт",
+    )?;
+    if let Some(tariff) = input.tariff_rub_per_kwh {
+        if !tariff.is_finite() {
+            return Err("Тариф: введите конечное число".to_string());
+        }
+        if tariff <= 0.0 || tariff > 1_000.0 {
+            return Err("Тариф: допустимый диапазон больше 0 и до 1000 ₽/кВт·ч".to_string());
+        }
+    }
+
+    let active_daily_kwh = rounded_energy_kwh(input.active_power_w * input.hours_per_day / 1_000.0);
+    let standby_hours_per_day = 24.0 - input.hours_per_day;
+    let standby_daily_kwh =
+        rounded_energy_kwh(input.standby_power_w * standby_hours_per_day / 1_000.0);
+    let total_daily_kwh = rounded_energy_kwh(active_daily_kwh + standby_daily_kwh);
+    let monthly_kwh = total_daily_kwh * 30.0;
+    let annual_kwh = total_daily_kwh * 365.0;
+
+    let mut assumptions = vec![
+        "Мощность активного режима и ожидания введена пользователем из паспорта, спецификации или энергетической карточки точной модели; сервис не проверяет эти числа."
+            .to_string(),
+        "Активная мощность считается постоянной во все указанные часы работы; реальное потребление зависит от режима изображения, яркости и контента."
+            .to_string(),
+        "Оставшаяся часть 24 часов считается режимом ожидания; месяц принят равным 30 суткам, год — 365 суткам."
+            .to_string(),
+    ];
+    if input.tariff_rub_per_kwh.is_some() {
+        assumptions.push(
+            "Стоимость рассчитана по одному введённому тарифу без зон, льгот, ступеней и будущих изменений тарифа."
+                .to_string(),
+        );
+    }
+
+    let mut warnings = Vec::new();
+    if input.hours_per_day == 0.0 {
+        warnings.push(
+            "При нуле часов активная часть равна нулю; расчёт всё равно учитывает 24 часа режима ожидания."
+                .to_string(),
+        );
+    }
+    if input.standby_power_w == 0.0 {
+        warnings.push(
+            "Нулевая мощность ожидания означает, что расход после выключения не добавлен; проверьте паспортное значение точной модели."
+                .to_string(),
+        );
+    }
+    if input.tariff_rub_per_kwh.is_none() {
+        warnings.push(
+            "Тариф не задан: рассчитана энергия, а стоимость в рублях оставлена пустой."
+                .to_string(),
+        );
+    }
+
+    Ok(TvEnergyPlan {
+        active_power_w: input.active_power_w,
+        hours_per_day: input.hours_per_day,
+        standby_power_w: input.standby_power_w,
+        tariff_rub_per_kwh: input.tariff_rub_per_kwh,
+        active_daily_kwh,
+        standby_daily_kwh,
+        total_daily_kwh,
+        monthly_kwh,
+        annual_kwh,
+        monthly_cost_rub: input
+            .tariff_rub_per_kwh
+            .map(|tariff| rounded_rubles(monthly_kwh * tariff)),
+        annual_cost_rub: input
+            .tariff_rub_per_kwh
+            .map(|tariff| rounded_rubles(annual_kwh * tariff)),
+        assumptions,
+        warnings,
+        source_ids: ["samsung-tv-energy-fiche", "lg-tv-energy-spec"]
+            .iter()
+            .map(|source_id| (*source_id).to_string())
+            .collect(),
+        privacy: "Расчёт выполняется локально в браузере; мощность, время и тариф не отправляются на сервер."
+            .to_string(),
+    })
+}
+
 /// Строит один безопасный план для выбранного самостоятельного TV-интента.
 pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
     require_choice(
@@ -4155,6 +4700,8 @@ pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTraffic
             "soundbar-to-tv",
             "screen-cleaning",
             "smart-tv-box",
+            "tv-speakers",
+            "tv-headphones",
         ],
         "Инструмент",
     )?;
@@ -4171,6 +4718,8 @@ pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTraffic
         "soundbar-to-tv" => calculate_soundbar_to_tv_task(input),
         "screen-cleaning" => calculate_screen_cleaning_task(input),
         "smart-tv-box" => calculate_smart_tv_box_task(input),
+        "tv-speakers" => calculate_tv_speakers_task(input),
+        "tv-headphones" => calculate_tv_headphones_task(input),
         _ => unreachable!(),
     }
 }
@@ -5926,6 +6475,25 @@ pub fn tv_traffic_task_plan_json(
     };
     match calculate_tv_traffic_task(&input) {
         Ok(plan) => serde_json::to_string(&plan).expect("TV traffic task plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
+#[wasm_bindgen]
+pub fn tv_energy_plan_json(
+    active_power_w: f64,
+    hours_per_day: f64,
+    standby_power_w: f64,
+    tariff_rub_per_kwh: Option<f64>,
+) -> String {
+    let input = TvEnergyInput {
+        active_power_w,
+        hours_per_day,
+        standby_power_w,
+        tariff_rub_per_kwh,
+    };
+    match calculate_tv_energy_plan(&input) {
+        Ok(plan) => serde_json::to_string(&plan).expect("TV energy plan is serializable"),
         Err(error) => serde_json::json!({ "error": error }).to_string(),
     }
 }
@@ -9046,5 +9614,539 @@ mod tests {
         assert_eq!(payload["task"], "smart-tv-box");
         assert_eq!(payload["status"], "action-plan");
         assert!(payload.get("error").is_none());
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_speaker_and_headphone_success_paths_are_explicit() {
+        let speaker_sources = [
+            "samsung-tv-optical-audio",
+            "sony-tv-wireless-audio",
+            "sony-tv-bluetooth-audio",
+            "lg-tv-audio-output",
+        ];
+        for route in ["bluetooth", "optical", "analog-3.5", "hdmi-arc"] {
+            let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                "tv-speakers",
+                route,
+                route,
+                "yes",
+                "safe",
+            ))
+            .unwrap();
+            assert_eq!(plan.status, "action-plan", "route {route}: {plan:?}");
+            assert_eq!(plan.task, "tv-speakers");
+            assert!(plan.explanation.contains("без перемещения"));
+            assert_eq!(plan.primary_step_id, "confirm-speaker-model-path");
+            assert_eq!(plan.steps.len(), 3);
+            assert!(plan.steps.iter().all(|step| {
+                step.source_ids
+                    .iter()
+                    .all(|source_id| speaker_sources.contains(&source_id.as_str()))
+                    && step.source_ids.len() == speaker_sources.len()
+            }));
+        }
+
+        let headphone_sources = [
+            "samsung-tv-bluetooth-headphones",
+            "sony-tv-bluetooth-audio",
+            "sony-tv-wireless-audio",
+            "lg-tv-bluetooth-audio",
+        ];
+        for (output, path) in [
+            ("bluetooth", "bluetooth"),
+            ("headphones-3.5", "analog-3.5"),
+            ("optical", "optical-transmitter"),
+        ] {
+            let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                "tv-headphones",
+                output,
+                path,
+                "yes",
+                "safe",
+            ))
+            .unwrap();
+            assert_eq!(
+                plan.status, "action-plan",
+                "route {output}/{path}: {plan:?}"
+            );
+            assert_eq!(plan.task, "tv-headphones");
+            assert!(plan.explanation.contains("без перемещения"));
+            assert_eq!(plan.primary_step_id, "confirm-headphone-model-path");
+            assert_eq!(plan.steps.len(), 3);
+            assert!(plan.steps.iter().all(|step| {
+                step.source_ids
+                    .iter()
+                    .all(|source_id| headphone_sources.contains(&source_id.as_str()))
+                    && step.source_ids.len() == headphone_sources.len()
+            }));
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_passive_speakers_require_powered_external_path() {
+        for output in ["bluetooth", "optical", "analog-3.5", "hdmi-arc", "unknown"] {
+            for confirmed in ["yes", "no", "unknown"] {
+                let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                    "tv-speakers",
+                    output,
+                    "passive-wire",
+                    confirmed,
+                    "safe",
+                ))
+                .unwrap();
+                assert_eq!(plan.status, "external-path", "{plan:?}");
+                assert_eq!(
+                    plan.primary_step_id,
+                    "stop-direct-passive-speaker-connection"
+                );
+                let serialized = serde_json::to_string(&plan).unwrap().to_lowercase();
+                assert!(serialized.contains("пассивн"));
+                assert!(serialized.contains("усилител") || serialized.contains("ресивер"));
+                assert!(serialized.contains("нельзя подключать напрямую"));
+                assert!(!serialized.contains("подключите пассивные колонки к телевизору"));
+            }
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_unknown_no_and_mismatch_fail_closed() {
+        let needs_check = [
+            tv_traffic_task_input("tv-speakers", "unknown", "optical", "yes", "safe"),
+            tv_traffic_task_input("tv-speakers", "optical", "unknown", "yes", "safe"),
+            tv_traffic_task_input("tv-headphones", "bluetooth", "bluetooth", "unknown", "safe"),
+            tv_traffic_task_input(
+                "tv-headphones",
+                "optical",
+                "optical-transmitter",
+                "yes",
+                "unknown",
+            ),
+        ];
+        for input in needs_check {
+            let plan = calculate_tv_traffic_task(&input).unwrap();
+            assert_eq!(plan.status, "needs-check", "{input:?}: {plan:?}");
+        }
+
+        let external = [
+            tv_traffic_task_input("tv-speakers", "optical", "analog-3.5", "yes", "safe"),
+            tv_traffic_task_input("tv-speakers", "bluetooth", "bluetooth", "no", "safe"),
+            tv_traffic_task_input(
+                "tv-headphones",
+                "headphones-3.5",
+                "bluetooth",
+                "yes",
+                "safe",
+            ),
+            tv_traffic_task_input(
+                "tv-headphones",
+                "optical",
+                "optical-transmitter",
+                "no",
+                "safe",
+            ),
+            tv_traffic_task_input("tv-headphones", "none", "unknown", "unknown", "unknown"),
+        ];
+        for input in external {
+            let plan = calculate_tv_traffic_task(&input).unwrap();
+            assert_eq!(plan.status, "external-path", "{input:?}: {plan:?}");
+            let serialized = serde_json::to_string(&plan).unwrap().to_lowercase();
+            assert!(serialized.contains("не ") || serialized.contains("останов"));
+            assert!(!serialized.contains("купите переходник"));
+            assert!(!serialized.contains("подключите переходник"));
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_unsafe_is_always_the_first_boundary() {
+        let cases = [
+            tv_traffic_task_input("tv-speakers", "optical", "optical", "yes", "unsafe"),
+            tv_traffic_task_input(
+                "tv-speakers",
+                "unknown",
+                "passive-wire",
+                "unknown",
+                "unsafe",
+            ),
+            tv_traffic_task_input("tv-headphones", "bluetooth", "bluetooth", "yes", "unsafe"),
+            tv_traffic_task_input("tv-headphones", "none", "unknown", "unknown", "unsafe"),
+        ];
+        for input in cases {
+            let plan = calculate_tv_traffic_task(&input).unwrap();
+            assert_eq!(plan.status, "service-boundary", "{input:?}: {plan:?}");
+            assert!(plan.primary_step_id.starts_with("stop-unsafe-"));
+            assert!((1..=2).contains(&plan.steps.len()));
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_rejects_every_invalid_closed_field() {
+        let invalid_cases = [
+            (
+                tv_traffic_task_input("tv-speakers", "coaxial<script>", "optical", "yes", "safe"),
+                "Аудиовыход телевизора",
+            ),
+            (
+                tv_traffic_task_input("tv-speakers", "optical", "speaker-wire", "yes", "safe"),
+                "Вход акустики",
+            ),
+            (
+                tv_traffic_task_input("tv-speakers", "optical", "optical", "maybe", "safe"),
+                "Совместимость и безопасный доступ",
+            ),
+            (
+                tv_traffic_task_input("tv-speakers", "optical", "optical", "yes", "hot"),
+                "Состояние подключения",
+            ),
+            (
+                tv_traffic_task_input("tv-headphones", "usb", "bluetooth", "yes", "safe"),
+                "Аудиовыход телевизора",
+            ),
+            (
+                tv_traffic_task_input("tv-headphones", "bluetooth", "radio", "yes", "safe"),
+                "Путь наушников",
+            ),
+            (
+                tv_traffic_task_input("tv-headphones", "bluetooth", "bluetooth", "maybe", "safe"),
+                "Совместимость и безопасный доступ",
+            ),
+            (
+                tv_traffic_task_input("tv-headphones", "bluetooth", "bluetooth", "yes", "damaged"),
+                "Состояние подключения",
+            ),
+        ];
+
+        for (input, expected_field) in invalid_cases {
+            let error = calculate_tv_traffic_task(&input).unwrap_err();
+            assert!(error.contains(expected_field), "unexpected error: {error}");
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_allowed_value_matrices_are_total_and_bounded() {
+        let allowed_statuses = [
+            "action-plan",
+            "needs-check",
+            "external-path",
+            "service-boundary",
+        ];
+        let assert_plan = |plan: TvTrafficTaskPlan, expected_task: &str, sources: &[&str]| {
+            assert_eq!(plan.task, expected_task);
+            assert!(allowed_statuses.contains(&plan.status.as_str()), "{plan:?}");
+            assert!((1..=4).contains(&plan.steps.len()), "{plan:?}");
+            assert_eq!(plan.primary_step_id, plan.steps[0].id);
+            assert!(plan.warnings.len() <= 3);
+            assert!(plan.steps.iter().all(|step| {
+                !step.id.trim().is_empty()
+                    && !step.title.trim().is_empty()
+                    && !step.instruction.trim().is_empty()
+                    && !step.stop_condition.trim().is_empty()
+                    && step.source_ids.len() == sources.len()
+                    && step
+                        .source_ids
+                        .iter()
+                        .all(|source_id| sources.contains(&source_id.as_str()))
+            }));
+        };
+
+        let speaker_sources = [
+            "samsung-tv-optical-audio",
+            "sony-tv-wireless-audio",
+            "sony-tv-bluetooth-audio",
+            "lg-tv-audio-output",
+        ];
+        for primary in ["bluetooth", "optical", "analog-3.5", "hdmi-arc", "unknown"] {
+            for secondary in [
+                "bluetooth",
+                "optical",
+                "analog-3.5",
+                "hdmi-arc",
+                "passive-wire",
+                "unknown",
+            ] {
+                for tertiary in ["yes", "no", "unknown"] {
+                    for detail in ["safe", "unsafe", "unknown"] {
+                        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                            "tv-speakers",
+                            primary,
+                            secondary,
+                            tertiary,
+                            detail,
+                        ))
+                        .unwrap();
+                        if detail == "unsafe" {
+                            assert_eq!(plan.status, "service-boundary", "{plan:?}");
+                        }
+                        if detail != "unsafe" && secondary == "passive-wire" {
+                            assert_eq!(plan.status, "external-path", "{plan:?}");
+                        }
+                        assert_plan(plan, "tv-speakers", &speaker_sources);
+                    }
+                }
+            }
+        }
+
+        let headphone_sources = [
+            "samsung-tv-bluetooth-headphones",
+            "sony-tv-bluetooth-audio",
+            "sony-tv-wireless-audio",
+            "lg-tv-bluetooth-audio",
+        ];
+        for primary in ["bluetooth", "headphones-3.5", "optical", "none", "unknown"] {
+            for secondary in ["bluetooth", "analog-3.5", "optical-transmitter", "unknown"] {
+                for tertiary in ["yes", "no", "unknown"] {
+                    for detail in ["safe", "unsafe", "unknown"] {
+                        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+                            "tv-headphones",
+                            primary,
+                            secondary,
+                            tertiary,
+                            detail,
+                        ))
+                        .unwrap();
+                        if detail == "unsafe" {
+                            assert_eq!(plan.status, "service-boundary", "{plan:?}");
+                        } else if primary == "none" {
+                            assert_eq!(plan.status, "external-path", "{plan:?}");
+                        }
+                        assert_plan(plan, "tv-headphones", &headphone_sources);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_energy_formula_and_assumptions_are_exact() {
+        let input = TvEnergyInput {
+            active_power_w: 100.0,
+            hours_per_day: 4.0,
+            standby_power_w: 1.0,
+            tariff_rub_per_kwh: Some(6.0),
+        };
+        let plan = calculate_tv_energy_plan(&input).unwrap();
+        assert_eq!(plan.active_daily_kwh, 0.4);
+        assert_eq!(plan.standby_daily_kwh, 0.02);
+        assert_eq!(plan.total_daily_kwh, 0.42);
+        assert_eq!(plan.monthly_kwh, 12.6);
+        assert!((plan.annual_kwh - 153.3).abs() < 1e-12);
+        assert_eq!(plan.monthly_cost_rub, Some(75.6));
+        assert_eq!(plan.annual_cost_rub, Some(919.8));
+        assert_eq!(
+            plan.source_ids,
+            ["samsung-tv-energy-fiche", "lg-tv-energy-spec"]
+        );
+        assert!(plan.assumptions.iter().any(|item| item.contains("30")));
+        assert!(plan.assumptions.iter().any(|item| item.contains("365")));
+        assert!(plan.assumptions.iter().any(|item| item.contains("тариф")));
+        assert!(
+            plan.assumptions
+                .iter()
+                .any(|item| item.contains("сервис не проверяет"))
+        );
+        assert!(plan.privacy.contains("локально в браузере"));
+
+        let precision_case = calculate_tv_energy_plan(&TvEnergyInput {
+            active_power_w: 1.1,
+            hours_per_day: 0.1,
+            standby_power_w: 0.01,
+            tariff_rub_per_kwh: None,
+        })
+        .unwrap();
+        assert_eq!(
+            precision_case.monthly_kwh,
+            precision_case.total_daily_kwh * 30.0
+        );
+        assert_eq!(
+            precision_case.annual_kwh,
+            precision_case.total_daily_kwh * 365.0
+        );
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_energy_boundaries_and_optional_tariff_are_explicit() {
+        let standby_only = calculate_tv_energy_plan(&TvEnergyInput {
+            active_power_w: 80.0,
+            hours_per_day: 0.0,
+            standby_power_w: 2.0,
+            tariff_rub_per_kwh: None,
+        })
+        .unwrap();
+        assert_eq!(standby_only.active_daily_kwh, 0.0);
+        assert_eq!(standby_only.standby_daily_kwh, 0.048);
+        assert_eq!(standby_only.monthly_kwh, 1.44);
+        assert_eq!(standby_only.annual_kwh, 17.52);
+        assert_eq!(standby_only.monthly_cost_rub, None);
+        assert_eq!(standby_only.annual_cost_rub, None);
+        assert!(standby_only.warnings.iter().any(|item| item.contains("24")));
+        assert!(
+            standby_only
+                .warnings
+                .iter()
+                .any(|item| item.contains("Тариф не задан"))
+        );
+
+        let active_only = calculate_tv_energy_plan(&TvEnergyInput {
+            active_power_w: 50.0,
+            hours_per_day: 24.0,
+            standby_power_w: 20.0,
+            tariff_rub_per_kwh: Some(10.0),
+        })
+        .unwrap();
+        assert_eq!(active_only.active_daily_kwh, 1.2);
+        assert_eq!(active_only.standby_daily_kwh, 0.0);
+        assert_eq!(active_only.total_daily_kwh, 1.2);
+        assert_eq!(active_only.monthly_cost_rub, Some(360.0));
+        assert_eq!(active_only.annual_cost_rub, Some(4_380.0));
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_energy_rejects_non_finite_and_out_of_range_values() {
+        let invalid_cases = [
+            (
+                TvEnergyInput {
+                    active_power_w: 0.0,
+                    hours_per_day: 4.0,
+                    standby_power_w: 1.0,
+                    tariff_rub_per_kwh: None,
+                },
+                "Активная мощность",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 2_001.0,
+                    hours_per_day: 4.0,
+                    standby_power_w: 1.0,
+                    tariff_rub_per_kwh: None,
+                },
+                "Активная мощность",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: f64::NAN,
+                    hours_per_day: 4.0,
+                    standby_power_w: 1.0,
+                    tariff_rub_per_kwh: None,
+                },
+                "Активная мощность",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 100.0,
+                    hours_per_day: -0.1,
+                    standby_power_w: 1.0,
+                    tariff_rub_per_kwh: None,
+                },
+                "Время работы",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 100.0,
+                    hours_per_day: 24.1,
+                    standby_power_w: 1.0,
+                    tariff_rub_per_kwh: None,
+                },
+                "Время работы",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 100.0,
+                    hours_per_day: 4.0,
+                    standby_power_w: -0.1,
+                    tariff_rub_per_kwh: None,
+                },
+                "Мощность в режиме ожидания",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 100.0,
+                    hours_per_day: 4.0,
+                    standby_power_w: 20.1,
+                    tariff_rub_per_kwh: None,
+                },
+                "Мощность в режиме ожидания",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 100.0,
+                    hours_per_day: 4.0,
+                    standby_power_w: f64::INFINITY,
+                    tariff_rub_per_kwh: None,
+                },
+                "Мощность в режиме ожидания",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 100.0,
+                    hours_per_day: 4.0,
+                    standby_power_w: 1.0,
+                    tariff_rub_per_kwh: Some(0.0),
+                },
+                "Тариф",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 100.0,
+                    hours_per_day: 4.0,
+                    standby_power_w: 1.0,
+                    tariff_rub_per_kwh: Some(1_000.1),
+                },
+                "Тариф",
+            ),
+            (
+                TvEnergyInput {
+                    active_power_w: 100.0,
+                    hours_per_day: 4.0,
+                    standby_power_w: 1.0,
+                    tariff_rub_per_kwh: Some(f64::NAN),
+                },
+                "Тариф",
+            ),
+        ];
+
+        for (input, expected_field) in invalid_cases {
+            let error = calculate_tv_energy_plan(&input).unwrap_err();
+            assert!(error.contains(expected_field), "unexpected error: {error}");
+        }
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_energy_json_shape_is_stable_and_deterministic() {
+        let first = tv_energy_plan_json(100.0, 4.0, 1.0, Some(6.0));
+        let second = tv_energy_plan_json(100.0, 4.0, 1.0, Some(6.0));
+        assert_eq!(first, second);
+        let payload: serde_json::Value = serde_json::from_str(&first).unwrap();
+        for field in [
+            "active_power_w",
+            "hours_per_day",
+            "standby_power_w",
+            "tariff_rub_per_kwh",
+            "active_daily_kwh",
+            "standby_daily_kwh",
+            "total_daily_kwh",
+            "monthly_kwh",
+            "annual_kwh",
+            "monthly_cost_rub",
+            "annual_cost_rub",
+            "assumptions",
+            "warnings",
+            "source_ids",
+            "privacy",
+        ] {
+            assert!(payload.get(field).is_some(), "missing field {field}");
+        }
+        assert_eq!(payload["monthly_kwh"], 12.6);
+        assert_eq!(payload["annual_cost_rub"], 919.8);
+        assert!(payload.get("error").is_none());
+
+        let without_tariff = tv_energy_plan_json(100.0, 4.0, 1.0, None);
+        let without_tariff: serde_json::Value = serde_json::from_str(&without_tariff).unwrap();
+        assert!(without_tariff["tariff_rub_per_kwh"].is_null());
+        assert!(without_tariff["monthly_cost_rub"].is_null());
+        assert!(without_tariff["annual_cost_rub"].is_null());
+
+        let invalid = tv_energy_plan_json(0.0, 4.0, 1.0, Some(6.0));
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+        assert!(invalid.get("monthly_kwh").is_none());
     }
 }

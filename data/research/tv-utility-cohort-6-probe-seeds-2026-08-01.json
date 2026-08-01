@@ -1,0 +1,142 @@
+[
+  {
+    "candidate_id": "tv-headphones",
+    "candidate_path": "/kak-podklyuchit-naushniki-k-televizoru/",
+    "query": "как подключить наушники к телевизору",
+    "operator_query": "\"[как !подключить !наушники к !телевизору]\"",
+    "variant": "connect-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-headphones",
+    "candidate_path": "/kak-podklyuchit-naushniki-k-televizoru/",
+    "query": "как подключить блютуз наушники к телевизору",
+    "operator_query": "\"[как !подключить !блютуз !наушники к !телевизору]\"",
+    "variant": "bluetooth-connect-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-headphones",
+    "candidate_path": "/kak-podklyuchit-naushniki-k-televizoru/",
+    "query": "беспроводные наушники к телевизору",
+    "operator_query": "\"[!беспроводные !наушники к !телевизору]\"",
+    "variant": "wireless-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-headphones",
+    "candidate_path": "/kak-podklyuchit-naushniki-k-televizoru/",
+    "query": "телевизор не видит блютуз наушники",
+    "operator_query": "\"[!телевизор не !видит !блютуз !наушники]\"",
+    "variant": "not-seen-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-power-consumption",
+    "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+    "query": "сколько электроэнергии потребляет телевизор",
+    "operator_query": "\"[!сколько !электроэнергии !потребляет !телевизор]\"",
+    "variant": "energy-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-power-consumption",
+    "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+    "query": "сколько ватт потребляет телевизор",
+    "operator_query": "\"[!сколько !ватт !потребляет !телевизор]\"",
+    "variant": "watts-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-power-consumption",
+    "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+    "query": "потребление электроэнергии телевизором",
+    "operator_query": "\"[!потребление !электроэнергии !телевизором]\"",
+    "variant": "consumption-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-power-consumption",
+    "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+    "query": "сколько электричества расходует телевизор",
+    "operator_query": "\"[!сколько !электричества !расходует !телевизор]\"",
+    "variant": "electricity-fixed-wordforms"
+  },
+  {
+    "candidate_id": "game-console-to-tv",
+    "candidate_path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+    "query": "как подключить игровую приставку к телевизору",
+    "operator_query": "\"[как !подключить !игровую !приставку к !телевизору]\"",
+    "variant": "connect-fixed-wordforms"
+  },
+  {
+    "candidate_id": "game-console-to-tv",
+    "candidate_path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+    "query": "как подключить playstation к телевизору",
+    "operator_query": "\"[как !подключить playstation к !телевизору]\"",
+    "variant": "playstation-fixed-wordforms"
+  },
+  {
+    "candidate_id": "game-console-to-tv",
+    "candidate_path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+    "query": "телевизор не видит игровую приставку",
+    "operator_query": "\"[!телевизор не !видит !игровую !приставку]\"",
+    "variant": "not-seen-fixed-wordforms"
+  },
+  {
+    "candidate_id": "game-console-to-tv",
+    "candidate_path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+    "query": "как настроить телевизор для игр",
+    "operator_query": "\"[как !настроить !телевизор для !игр]\"",
+    "variant": "game-mode-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-speakers",
+    "candidate_path": "/kak-podklyuchit-kolonki-k-televizoru/",
+    "query": "как подключить колонки к телевизору",
+    "operator_query": "\"[как !подключить !колонки к !телевизору]\"",
+    "variant": "connect-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-speakers",
+    "candidate_path": "/kak-podklyuchit-kolonki-k-televizoru/",
+    "query": "как подключить активные колонки к телевизору",
+    "operator_query": "\"[как !подключить !активные !колонки к !телевизору]\"",
+    "variant": "active-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-speakers",
+    "candidate_path": "/kak-podklyuchit-kolonki-k-televizoru/",
+    "query": "внешние колонки для телевизора",
+    "operator_query": "\"[!внешние !колонки для !телевизора]\"",
+    "variant": "external-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-speakers",
+    "candidate_path": "/kak-podklyuchit-kolonki-k-televizoru/",
+    "query": "телевизор не видит колонки",
+    "operator_query": "\"[!телевизор не !видит !колонки]\"",
+    "variant": "not-seen-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-microphone",
+    "candidate_path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+    "query": "как подключить микрофон к телевизору",
+    "operator_query": "\"[как !подключить !микрофон к !телевизору]\"",
+    "variant": "connect-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-microphone",
+    "candidate_path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+    "query": "как подключить беспроводной микрофон к телевизору",
+    "operator_query": "\"[как !подключить !беспроводной !микрофон к !телевизору]\"",
+    "variant": "wireless-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-microphone",
+    "candidate_path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+    "query": "микрофон для караоке к телевизору",
+    "operator_query": "\"[!микрофон для !караоке к !телевизору]\"",
+    "variant": "karaoke-fixed-wordforms"
+  },
+  {
+    "candidate_id": "tv-microphone",
+    "candidate_path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+    "query": "телевизор не видит микрофон",
+    "operator_query": "\"[!телевизор не !видит !микрофон]\"",
+    "variant": "not-seen-fixed-wordforms"
+  }
+]

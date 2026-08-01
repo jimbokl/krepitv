@@ -117,10 +117,10 @@ test("каждая новая страница получает контекст
     assert.match(source, /"tv-no-internet"[^\n]*"smart-tv-box"|"tv-no-internet"\s*=>\s*&\[[\s\S]{0,260}"smart-tv-box"/);
     assert.match(source, /"phone-to-tv"[^\n]*"smart-tv-box"|"phone-to-tv"\s*=>\s*&\[[\s\S]{0,260}"smart-tv-box"/);
   }
-  assert.match(related, /"soundbar-to-tv": \["tv-no-sound", "tv-no-signal", "picture-setup", "tv-sound-no-picture", "tv-remote-not-working", "smart-tv-box"\]/);
+  assert.match(related, /"soundbar-to-tv": \["tv-speakers", "tv-no-sound", "tv-no-signal", "picture-setup", "tv-sound-no-picture", "smart-tv-box"\]/);
   assert.match(related, /"screen-cleaning": \["picture-setup", "tv-sound-no-picture", "tv-turns-off", "tv-no-sound", "wall-planner", "soundbar-to-tv"\]/);
   assert.match(related, /"smart-tv-box": \["tv-no-signal", "tv-no-internet", "phone-to-tv", "digital-channels", "soundbar-to-tv", "tv-usb-not-seen"\]/);
-  assert.match(sitegen, /"soundbar-to-tv"\s*=>\s*&\[[\s\S]{0,220}"tv-remote-not-working",\s*"smart-tv-box"/);
+  assert.match(sitegen, /"soundbar-to-tv"\s*=>\s*&\[[\s\S]{0,220}"tv-speakers",[\s\S]{0,180}"smart-tv-box"/);
   assert.match(sitegen, /"screen-cleaning"\s*=>\s*&\[[\s\S]{0,220}"wall-planner",\s*"soundbar-to-tv"/);
   assert.match(sitegen, /"smart-tv-box"\s*=>\s*&\[[\s\S]{0,220}"soundbar-to-tv",\s*"tv-usb-not-seen"/);
 });

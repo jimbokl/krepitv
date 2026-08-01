@@ -105,7 +105,8 @@ test("опасные и неподтверждённые признаки не �
 
   assert.match(wizard, /skipSecondary: \(\{ primary \}\) => Boolean\(primary && primary !== "no"\)/);
   assert.match(wizard, /const secondarySkipped = config\.skipSecondary\?\.\(\{ primary \}\) === true/);
-  assert.match(wizard, /const canSubmit = Boolean\(primary && \(secondarySkipped \|\| secondary\)\)/);
+  assert.match(wizard, /const requiresConfirmation = config\.requireConfirmation === true && !secondarySkipped/);
+  assert.match(wizard, /&& \(!requiresConfirmation \|\| \(tertiary && \(!detailVisible \|\| detail\)\)\)/);
   assert.match(wizard, /secondary: secondarySkipped \? "unknown" : secondary/);
   assert.match(wizard, /tertiary: secondarySkipped \? "unknown" : tertiary/);
   assert.match(wizard, /data-wizard-secondary-skipped=\{primary === "yes" \? "danger" : "unconfirmed"\}/);
@@ -169,7 +170,7 @@ test("главная и related-map дают каждой странице вх�
   for (const [pageId] of tasks) {
     assert.match(seoPages, new RegExp(`"${pageId}"`), pageId);
   }
-  assert.match(seoPages, /"tv-turns-off": \["tv-no-internet"/);
+  assert.match(seoPages, /"tv-turns-off": \["tv-energy-consumption", "tv-no-internet"/);
   assert.match(seoPages, /"tv-no-internet": \["tv-usb-not-seen"/);
   assert.match(seoPages, /"tv-usb-not-seen": \["tv-no-internet"/);
   assert.match(seoPages, /"phone-to-tv": \["laptop-to-tv", "tv-no-signal", "tv-no-internet", "tv-usb-not-seen"/);

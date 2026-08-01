@@ -1,0 +1,249 @@
+{
+  "version": 1,
+  "cohort_id": "tv-utility-cohort-6",
+  "retrieved_at": "2026-08-01",
+  "scope": {
+    "market": "Russia",
+    "language": "ru",
+    "source_policy": "primary-official-only",
+    "purpose": "Source, claim and fail-closed boundaries for two local audio-routing wizards and one local television energy calculator. No repair, purchase or affiliate CTA is authorized."
+  },
+  "canonicals": [
+    {
+      "id": "tv-speakers",
+      "path": "/kak-podklyuchit-kolonki-k-televizoru/",
+      "job": "Match one visible television audio output to one compatible input on an active speaker system, or stop with a bounded external path.",
+      "source_ids": [
+        "samsung-tv-optical-audio",
+        "sony-tv-wireless-audio",
+        "sony-tv-bluetooth-audio",
+        "lg-tv-audio-output"
+      ],
+      "allowed_claims": [
+        "the-visible-television-output-and-active-audio-system-input-must-match",
+        "passive-speakers-require-an-external-amplifier-or-receiver-and-are-not-a-direct-television-input",
+        "bluetooth-audio-is-model-dependent-and-is-not-proven-by-the-bluetooth-label-alone",
+        "the-exact-model-manual-takes-priority-over-a-generic-route"
+      ],
+      "fail_closed": [
+        "the-port-labels-are-unknown-or-do-not-match",
+        "the-speakers-have-only-passive-wire-terminals",
+        "the-required-port-is-not-safely-accessible-without-moving-a-wall-mounted-tv",
+        "a-cable-port-plug-or-outlet-is-damaged-hot-loose-or-wet"
+      ]
+    },
+    {
+      "id": "tv-headphones",
+      "path": "/kak-podklyuchit-naushniki-k-televizoru/",
+      "job": "Choose a model-supported path for wired or Bluetooth headphones from confirmed television outputs without inventing adapter compatibility.",
+      "source_ids": [
+        "samsung-tv-bluetooth-headphones",
+        "sony-tv-bluetooth-audio",
+        "sony-tv-wireless-audio",
+        "lg-tv-bluetooth-audio"
+      ],
+      "allowed_claims": [
+        "bluetooth-headphones-require-model-supported-bluetooth-audio-such-as-a2dp",
+        "a-wired-route-is-selected-only-for-a-confirmed-headphone-or-compatible-audio-output",
+        "an-optical-transmitter-is-an-external-model-dependent-path-not-a-guaranteed-direct-connection",
+        "pairing-menu-names-and-simultaneous-speaker-output-depend-on-the-exact-model"
+      ],
+      "fail_closed": [
+        "the-television-output-or-headphone-input-is-unknown",
+        "bluetooth-audio-support-cannot-be-confirmed-for-the-exact-model",
+        "the-only-route-requires-an-unconfirmed-converter-or-transmitter",
+        "a-cable-port-plug-or-outlet-is-damaged-hot-loose-or-wet"
+      ]
+    },
+    {
+      "id": "tv-energy-consumption",
+      "path": "/skolko-elektroenergii-potreblyaet-televizor/",
+      "job": "Calculate active, standby, daily, 30-day and 365-day television energy use from user-supplied model data, with optional cost only when the user supplies a tariff.",
+      "source_ids": ["samsung-tv-energy-fiche", "lg-tv-energy-spec"],
+      "allowed_claims": [
+        "active-and-standby-power-should-come-from-the-exact-model-specification-energy-fiche-or-manual",
+        "daily-active-kwh-equals-active-watts-times-hours-per-day-divided-by-1000",
+        "daily-standby-kwh-equals-standby-watts-times-the-remaining-hours-divided-by-1000",
+        "monthly-and-annual-estimates-use-30-and-365-days-and-actual-consumption-varies-with-use"
+      ],
+      "fail_closed": [
+        "active-power-is-outside-1-to-2000-watts",
+        "daily-viewing-time-is-outside-0-to-24-hours",
+        "standby-power-is-outside-0-to-20-watts",
+        "a-provided-tariff-is-not-positive-or-exceeds-1000-rubles-per-kwh",
+        "any-input-is-not-finite"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "samsung-tv-optical-audio",
+      "organization": "Samsung",
+      "title": "Как подключить внешнее аудиоустройство с помощью оптического кабеля",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-external-audio-using-an-optical-cable/",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "last_substantive_update": null,
+      "last_substantive_update_status": "not-published-on-page",
+      "extracted_facts": ["optical-output-connects-to-optical-input", "tv-audio-output-is-selected-in-model-menu"],
+      "units": [],
+      "limitations": ["brand-and-model-specific-menu-names", "does-not-prove-support-for-an-unlisted-interface"],
+      "conflicts": []
+    },
+    {
+      "id": "sony-tv-wireless-audio",
+      "organization": "Sony",
+      "title": "Можно ли использовать Bluetooth-наушники, динамики и саундбары с Android TV или Google TV",
+      "url": "https://www.sony.ru/electronics/support/articles/00023605",
+      "checked_at": "2026-08-01",
+      "automation_blocked": true,
+      "http_status": 403,
+      "interpretation": "browser-readable; do not mark dead",
+      "source_region": "RU",
+      "last_substantive_update": null,
+      "last_substantive_update_status": "not-published-on-page",
+      "extracted_facts": ["wireless-audio-support-depends-on-the-exact-tv-model", "supported-device-types-are-model-dependent"],
+      "units": [],
+      "limitations": ["automated-get-is-blocked", "bluetooth-presence-alone-is-not-an-audio-compatibility-proof"],
+      "conflicts": []
+    },
+    {
+      "id": "sony-tv-bluetooth-audio",
+      "organization": "Sony",
+      "title": "Подключение Bluetooth-аудиоустройства к телевизору",
+      "url": "https://www.sony.ru/electronics/support/articles/00135146",
+      "checked_at": "2026-08-01",
+      "automation_blocked": true,
+      "http_status": 403,
+      "interpretation": "browser-readable; do not mark dead",
+      "source_region": "RU",
+      "last_substantive_update": null,
+      "last_substantive_update_status": "not-published-on-page",
+      "extracted_facts": ["bluetooth-audio-requires-a-supported-profile-such-as-a2dp", "pairing-flow-depends-on-the-exact-model"],
+      "units": [],
+      "limitations": ["automated-get-is-blocked", "does-not-authorize-generic-pairing-instructions-for-every-model"],
+      "conflicts": []
+    },
+    {
+      "id": "lg-tv-audio-output",
+      "organization": "LG",
+      "title": "Настройка аудиовыхода телевизора LG",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154713273543",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "last_substantive_update": null,
+      "last_substantive_update_status": "not-published-on-page",
+      "extracted_facts": ["tv-audio-output-must-be-selected-for-the-attached-system", "available-output-options-depend-on-the-exact-model"],
+      "units": [],
+      "limitations": ["lg-specific-menu-flow", "passive-speaker-boundary-is-an-interface-role-inference-not-a-quoted-claim"],
+      "conflicts": []
+    },
+    {
+      "id": "samsung-tv-bluetooth-headphones",
+      "organization": "Samsung",
+      "title": "Как подключить Bluetooth-наушники к телевизору Samsung",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-bluetooth-headphones-to-a-samsung-tv/",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "last_substantive_update": null,
+      "last_substantive_update_status": "not-published-on-page",
+      "extracted_facts": ["bluetooth-headphone-pairing-requires-tv-model-support", "pairing-menu-is-model-dependent"],
+      "units": [],
+      "limitations": ["samsung-specific-menu-flow", "does-not-prove-simultaneous-tv-speaker-output"],
+      "conflicts": []
+    },
+    {
+      "id": "lg-tv-bluetooth-audio",
+      "organization": "LG",
+      "title": "Подключение Bluetooth-аудиоустройства к телевизору LG",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155333324133",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "last_substantive_update": null,
+      "last_substantive_update_status": "not-published-on-page",
+      "extracted_facts": ["bluetooth-audio-device-selection-is-model-dependent", "audio-output-must-be-selected-in-the-tv-menu"],
+      "units": [],
+      "limitations": ["lg-specific-menu-flow", "does-not-prove-support-for-every-bluetooth-device"],
+      "conflicts": []
+    },
+    {
+      "id": "samsung-tv-energy-fiche",
+      "organization": "Samsung",
+      "title": "Product information sheet: television power and standby data",
+      "url": "https://images.samsung.com/is/content/samsung/p6/common/energylabel/common-energylabel-ue65ru7022kxxh-productfiche.pdf",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "EU/global-product-document",
+      "last_substantive_update": null,
+      "last_substantive_update_status": "not-published-in-document-metadata",
+      "extracted_facts": ["product-fiche-can-provide-on-mode-energy-data", "product-fiche-can-provide-standby-power-data"],
+      "units": ["W", "kWh/1000h"],
+      "limitations": ["one-example-model-only", "must-not-be-used-as-a-default-for-another-tv"],
+      "conflicts": []
+    },
+    {
+      "id": "lg-tv-energy-spec",
+      "organization": "LG",
+      "title": "Технические характеристики телевизора LG 55EC930V",
+      "url": "https://www.lg.com/ru/televisions/lg-55EC930V-oled-televisions",
+      "checked_at": "2026-08-01",
+      "http_status": 200,
+      "source_region": "RU",
+      "last_substantive_update": null,
+      "last_substantive_update_status": "not-published-on-page",
+      "extracted_facts": ["model-specification-can-provide-power-consumption", "power-data-is-bound-to-the-exact-model"],
+      "units": ["W"],
+      "limitations": ["one-example-model-only", "actual-consumption-varies-with-picture-mode-and-use"],
+      "conflicts": []
+    }
+  ],
+  "claim_source_map": [
+    {
+      "claim_id": "speaker-output-input-match",
+      "claim": "A visible television audio output must match the input of the active audio system.",
+      "source_ids": ["samsung-tv-optical-audio", "lg-tv-audio-output"],
+      "evidence_mode": "direct-interface-role"
+    },
+    {
+      "claim_id": "passive-speaker-external-path",
+      "claim": "A passive speaker wire is not one of the documented television audio-output interfaces and requires a compatible powered intermediary.",
+      "source_ids": ["samsung-tv-optical-audio", "lg-tv-audio-output"],
+      "evidence_mode": "conservative-engineering-inference-from-documented-interface-roles",
+      "limitation": "not represented as a verbatim manufacturer claim"
+    },
+    {
+      "claim_id": "bluetooth-audio-model-support",
+      "claim": "Bluetooth audio support and pairing depend on the exact television model; Bluetooth presence alone is insufficient.",
+      "source_ids": ["sony-tv-wireless-audio", "sony-tv-bluetooth-audio", "samsung-tv-bluetooth-headphones", "lg-tv-bluetooth-audio"],
+      "evidence_mode": "direct-model-support-boundary"
+    },
+    {
+      "claim_id": "energy-input-provenance",
+      "claim": "Active and standby power must come from the specification, manual or energy fiche of the exact television model.",
+      "source_ids": ["samsung-tv-energy-fiche", "lg-tv-energy-spec"],
+      "evidence_mode": "direct-product-document-fields"
+    },
+    {
+      "claim_id": "energy-formula",
+      "claim": "kWh equals watts multiplied by hours and divided by 1000; 30 and 365 days are explicit projection assumptions.",
+      "source_ids": [],
+      "evidence_mode": "deterministic-unit-conversion-and-explicit-assumption"
+    }
+  ],
+  "global_denials": [
+    "hardware-fault-diagnosis",
+    "opening-or-moving-a-wall-mounted-tv",
+    "electrical-measurement-or-repair",
+    "factory-reset-or-service-menu",
+    "assuming-bluetooth-audio-from-bluetooth-alone",
+    "connecting-passive-speakers-directly-to-a-television",
+    "inventing-adapter-or-converter-compatibility",
+    "using-a-default-or-guessed-electricity-tariff",
+    "collecting-model-account-network-or-device-identifiers",
+    "purchase-or-affiliate-cta"
+  ]
+}

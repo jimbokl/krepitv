@@ -51,11 +51,18 @@ test("traffic utilities link to each other without creating diagnostic variants"
     { id: "tv-turns-off", kind: "calculator", indexable: true },
     { id: "tv-no-internet", kind: "calculator", indexable: true },
     { id: "tv-usb-not-seen", kind: "calculator", indexable: true },
+    { id: "soundbar-to-tv", kind: "calculator", indexable: true },
+    { id: "screen-cleaning", kind: "calculator", indexable: true },
+    { id: "smart-tv-box", kind: "calculator", indexable: true },
+    { id: "tv-speakers", kind: "calculator", indexable: true },
+    { id: "tv-headphones", kind: "calculator", indexable: true },
+    { id: "tv-energy-consumption", kind: "calculator", indexable: true },
+    { id: "viewing-distance", kind: "calculator", indexable: true },
   ];
 
   assert.deepEqual(
     getRelatedPages(catalog[0], catalog).map((page) => page.id),
-    ["laptop-to-tv", "tv-no-signal", "tv-no-internet", "tv-usb-not-seen", "picture-setup", "tv-dimensions"],
+    ["laptop-to-tv", "tv-no-signal", "tv-no-internet", "tv-usb-not-seen", "smart-tv-box", "picture-setup"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[1], catalog).map((page) => page.id),
@@ -67,7 +74,7 @@ test("traffic utilities link to each other without creating diagnostic variants"
   );
   assert.deepEqual(
     getRelatedPages(catalog[8], catalog).map((page) => page.id),
-    ["tv-sound-no-picture", "tv-no-signal", "tv-remote-not-working", "tv-turns-off", "digital-channels", "picture-setup"],
+    ["tv-speakers", "tv-headphones", "soundbar-to-tv", "tv-sound-no-picture", "tv-no-signal", "tv-remote-not-working"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[9], catalog).map((page) => page.id),
@@ -75,11 +82,11 @@ test("traffic utilities link to each other without creating diagnostic variants"
   );
   assert.deepEqual(
     getRelatedPages(catalog[10], catalog).map((page) => page.id),
-    ["tv-no-internet", "tv-no-signal", "tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working", "picture-setup"],
+    ["tv-energy-consumption", "tv-no-internet", "tv-no-signal", "tv-sound-no-picture", "tv-no-sound", "picture-setup"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[11], catalog).map((page) => page.id),
-    ["tv-usb-not-seen", "digital-channels", "tv-no-signal", "phone-to-tv", "laptop-to-tv", "tv-turns-off"],
+    ["tv-usb-not-seen", "digital-channels", "tv-no-signal", "phone-to-tv", "laptop-to-tv", "smart-tv-box"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[12], catalog).map((page) => page.id),

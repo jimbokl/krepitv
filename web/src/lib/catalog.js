@@ -416,6 +416,20 @@ export async function calculateTvTrafficTask(values) {
   return response;
 }
 
+export async function calculateTvEnergyPlan(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.tv_energy_plan_json(
+      values.activePowerW,
+      values.hoursPerDay,
+      values.standbyPowerW,
+      values.tariffRubPerKwh,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateTurnClearance(values) {
   const engine = await loadEngine();
   const response = JSON.parse(

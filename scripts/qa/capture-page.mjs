@@ -19,6 +19,7 @@ const modelQuery = argument("--model-query", null);
 const phoneTvState = argument("--phone-tv-state", null);
 const tvNoSignalState = argument("--tv-no-signal-state", null);
 const tvTrafficState = argument("--tv-traffic-state", null);
+const tvEnergyState = argument("--tv-energy-state", null);
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
 const consent = argument("--consent", "denied");
@@ -75,7 +76,19 @@ if (tvTrafficState && ![
 ].includes(tvTrafficState)) {
   throw new Error("Invalid TV traffic task state");
 }
-if ([phoneTvState, tvNoSignalState, tvTrafficState].filter(Boolean).length > 1) {
+if (tvEnergyState && ![
+  "empty",
+  "default",
+  "disabled",
+  "focus",
+  "loading",
+  "error",
+  "success",
+  "retry",
+].includes(tvEnergyState)) {
+  throw new Error("Invalid TV energy state");
+}
+if ([phoneTvState, tvNoSignalState, tvTrafficState, tvEnergyState].filter(Boolean).length > 1) {
   throw new Error("Choose only one interactive QA state");
 }
 if (placementAttributionRequired && !affiliateReportEnabled) {
@@ -168,7 +181,7 @@ try {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
     });
   }
-  const wasmQaState = phoneTvState || tvNoSignalState || tvTrafficState;
+  const wasmQaState = phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState;
   if (["loading", "error", "retry"].includes(wasmQaState)) {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: wasmQaState === "loading"
@@ -468,6 +481,18 @@ try {
             "service-boundary": ["hdmi", "hdmi", "yes", "unsafe"],
             "external-path": ["hdmi", "hdmi", "yes", "no-power"],
           },
+          "tv-speakers": {
+            success: ["optical", "optical", "yes", "safe"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["optical", "optical", "yes", "unsafe"],
+            "external-path": ["optical", "passive-wire", "yes", "safe"],
+          },
+          "tv-headphones": {
+            success: ["bluetooth", "bluetooth", "yes", "safe"],
+            "needs-check": ["unknown", "unknown", "unknown", "unknown"],
+            "service-boundary": ["bluetooth", "bluetooth", "yes", "unsafe"],
+            "external-path": ["none", "bluetooth", "yes", "safe"],
+          },
         };
         const taskScenarios = scenarios[task];
         const scenarioKey = ["needs-check", "service-boundary", "external-path", "immediate-stop"].includes(state)
@@ -600,6 +625,97 @@ try {
       throw new Error("TV traffic task route contains Market links");
     }
   }
+  let tvEnergyReport = null;
+  if (tvEnergyState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(tvEnergyState)};
+        const calculator = document.querySelector("[data-tv-energy-calculator]");
+        if (!calculator) return Promise.reject(new Error("TV energy calculator not found"));
+        const setValue = (name, value) => {
+          const input = calculator.querySelector('input[name="' + name + '"]');
+          if (!input) throw new Error("Missing energy input " + name);
+          const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+          if (!setter) throw new Error("Native input setter not found");
+          setter.call(input, String(value));
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        };
+        const waitFor = (predicate, message, timeout = 5000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            const value = predicate();
+            if (value) {
+              clearInterval(timer);
+              resolve(value);
+            } else if (Date.now() - startedAt > timeout) {
+              clearInterval(timer);
+              reject(new Error(message));
+            }
+          }, 25);
+        });
+
+        if (state === "focus") {
+          calculator.querySelector('input[name="activePowerW"]')?.focus();
+        } else if (state === "disabled") {
+          setValue("activePowerW", 100);
+          await waitFor(
+            () => calculator.querySelector('button[type="submit"]:disabled'),
+            "Partial energy form did not stay disabled",
+          );
+        } else if (["default", "loading", "error", "success", "retry"].includes(state)) {
+          setValue("activePowerW", 100);
+          setValue("hoursPerDay", 4);
+          setValue("standbyPowerW", 1);
+          setValue("tariffRubPerKwh", 6);
+          const submit = await waitFor(
+            () => {
+              const button = calculator.querySelector('button[type="submit"]');
+              return button && !button.disabled ? button : null;
+            },
+            "TV energy submit stayed disabled",
+          );
+          if (state !== "default") submit.click();
+          if (state === "retry") {
+            await waitFor(
+              () => calculator.querySelector('[role="alert"]'),
+              "TV energy retry did not reach the first error",
+            );
+            globalThis.__qaBlockWasm = false;
+            calculator.querySelector('button[type="button"]')?.click();
+          }
+        }
+
+        const expected = state === "loading"
+          ? () => calculator.querySelector('form[aria-busy="true"] fieldset:disabled')
+          : state === "error"
+            ? () => calculator.querySelector('[role="alert"]')
+            : ["success", "retry"].includes(state)
+              ? () => document.querySelector('[data-tv-energy-result="success"]')
+              : () => true;
+        await waitFor(expected, "TV energy state timed out");
+        return {
+          state,
+          submitDisabled: Boolean(calculator.querySelector('button[type="submit"]')?.disabled),
+          resultStatus: document.querySelector("[data-tv-energy-result]")?.getAttribute("data-tv-energy-result") ?? null,
+          hasAlert: Boolean(calculator.querySelector('[role="alert"]')),
+          focusedName: document.activeElement?.getAttribute("name") ?? null,
+          ariaBusy: calculator.querySelector("form")?.getAttribute("aria-busy") ?? null,
+          disabledFieldsets: calculator.querySelectorAll("fieldset:disabled").length,
+          marketLinks: document.querySelectorAll('a[href*="market.yandex.ru"]').length,
+        };
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error("TV energy interaction failed");
+    }
+    tvEnergyReport = interaction.result.value;
+    if (tvEnergyReport.marketLinks !== 0) {
+      throw new Error("TV energy route contains Market links");
+    }
+  }
   let modelInteractionReport = null;
   if (modelQuery) {
     const interaction = await send("Runtime.evaluate", {
@@ -692,7 +808,13 @@ try {
                     ? "[data-tv-traffic-task] [role=\"alert\"]"
                     : tvTrafficState
                       ? "[data-tv-traffic-task]"
-                      : null);
+                      : ["success", "retry"].includes(tvEnergyState)
+                        ? '[data-tv-energy-result="success"]'
+                        : tvEnergyState === "error"
+                          ? '[data-tv-energy-calculator] [role="alert"]'
+                          : tvEnergyState
+                            ? "[data-tv-energy-calculator]"
+                            : null);
   if (effectiveSelector) {
     const selected = await send("Runtime.evaluate", {
       expression: `(() => {
@@ -825,6 +947,7 @@ try {
   if (phoneTvReport) process.stdout.write(`${JSON.stringify(phoneTvReport)}\n`);
   if (tvNoSignalReport) process.stdout.write(`${JSON.stringify(tvNoSignalReport)}\n`);
   if (tvTrafficReport) process.stdout.write(`${JSON.stringify(tvTrafficReport)}\n`);
+  if (tvEnergyReport) process.stdout.write(`${JSON.stringify(tvEnergyReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();

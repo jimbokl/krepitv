@@ -1,0 +1,1763 @@
+[
+  {
+    "seed": {
+      "candidate_id": "tv-headphones",
+      "candidate_path": "/kak-podklyuchit-naushniki-k-televizoru/",
+      "query": "как подключить наушники к телевизору",
+      "operator_query": "\"[как !подключить !наушники к !телевизору]\"",
+      "variant": "connect-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !наушники к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "311250",
+          "text": "как подключить наушники"
+        },
+        {
+          "isAssociations": true,
+          "value": "430535",
+          "text": "как подключить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "11556",
+          "text": "как подключиться к наушникам"
+        },
+        {
+          "isAssociations": true,
+          "value": "2147",
+          "text": "как с айфона подключиться к телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "8716",
+          "text": "наушники для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "5049",
+          "text": "телевизор не подключается к вай фай"
+        },
+        {
+          "isAssociations": true,
+          "value": "4824",
+          "text": "hdmi кабель для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "9713",
+          "text": "не подключаются наушники по блютуз"
+        },
+        {
+          "isAssociations": true,
+          "value": "1629",
+          "text": "как подключиться к беспроводным наушникам"
+        },
+        {
+          "isAssociations": true,
+          "value": "601",
+          "text": "как подключиться к наушникам хуавей"
+        },
+        {
+          "isAssociations": true,
+          "value": "19397",
+          "text": "установка телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1029",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "41595",
+          "text": "подключение наушников"
+        },
+        {
+          "isAssociations": true,
+          "value": "522",
+          "text": "как подключиться к наушникам редми"
+        },
+        {
+          "isAssociations": true,
+          "value": "817",
+          "text": "нет звука через hdmi на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "563",
+          "text": "как подключить тв розетку"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "7992",
+          "text": "как подключить наушники к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-headphones",
+      "candidate_path": "/kak-podklyuchit-naushniki-k-televizoru/",
+      "query": "как подключить блютуз наушники к телевизору",
+      "operator_query": "\"[как !подключить !блютуз !наушники к !телевизору]\"",
+      "variant": "bluetooth-connect-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !блютуз !наушники к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "11556",
+          "text": "как подключиться к наушникам"
+        },
+        {
+          "isAssociations": true,
+          "value": "2588",
+          "text": "беспроводные наушники для компьютера"
+        },
+        {
+          "isAssociations": true,
+          "value": "1629",
+          "text": "как подключиться к беспроводным наушникам"
+        },
+        {
+          "isAssociations": true,
+          "value": "41595",
+          "text": "подключение наушников"
+        },
+        {
+          "isAssociations": true,
+          "value": "522",
+          "text": "как подключиться к наушникам редми"
+        },
+        {
+          "isAssociations": true,
+          "value": "347",
+          "text": "наушники беспроводные как сережки"
+        },
+        {
+          "isAssociations": true,
+          "value": "220",
+          "text": "прерывается звук в bluetooth наушниках"
+        },
+        {
+          "isAssociations": true,
+          "value": "413",
+          "text": "наушники клипсы беспроводные купить"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1610",
+          "text": "как подключить блютуз наушники к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-headphones",
+      "candidate_path": "/kak-podklyuchit-naushniki-k-televizoru/",
+      "query": "беспроводные наушники к телевизору",
+      "operator_query": "\"[!беспроводные !наушники к !телевизору]\"",
+      "variant": "wireless-fixed-wordforms"
+    },
+    "operator_query": "\"[!беспроводные !наушники к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "187501",
+          "text": "блютуз наушники"
+        },
+        {
+          "isAssociations": true,
+          "value": "83096",
+          "text": "bluetooth наушники"
+        },
+        {
+          "isAssociations": true,
+          "value": "9928",
+          "text": "наушники техно"
+        },
+        {
+          "isAssociations": true,
+          "value": "6367",
+          "text": "телевизор с вайфаем"
+        },
+        {
+          "isAssociations": true,
+          "value": "6043",
+          "text": "наушники с экраном"
+        },
+        {
+          "isAssociations": true,
+          "value": "272",
+          "text": "блютуз передатчик для наушников"
+        },
+        {
+          "isAssociations": true,
+          "value": "2033",
+          "text": "блютуз адаптер для наушников"
+        },
+        {
+          "isAssociations": true,
+          "value": "9769",
+          "text": "как подключить наушники по блютузу"
+        },
+        {
+          "isAssociations": true,
+          "value": "912439",
+          "text": "беспроводной наушник"
+        },
+        {
+          "isAssociations": true,
+          "value": "5923",
+          "text": "блютуз для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "131",
+          "text": "задержка звука в bluetooth наушниках на пк"
+        },
+        {
+          "isAssociations": true,
+          "value": "531",
+          "text": "как найти наушники по блютузу на андроид"
+        },
+        {
+          "isAssociations": true,
+          "value": "1888",
+          "text": "наушники с радиоканалом"
+        },
+        {
+          "isAssociations": true,
+          "value": "206",
+          "text": "блютуз передатчик для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "233",
+          "text": "мотошлем с гарнитурой bluetooth"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4986",
+          "text": "беспроводные наушники к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-headphones",
+      "candidate_path": "/kak-podklyuchit-naushniki-k-televizoru/",
+      "query": "телевизор не видит блютуз наушники",
+      "operator_query": "\"[!телевизор не !видит !блютуз !наушники]\"",
+      "variant": "not-seen-fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор не !видит !блютуз !наушники]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "9569",
+          "text": "лучшие беспроводные наушники 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "6503",
+          "text": "как включить беспроводные наушники"
+        },
+        {
+          "isAssociations": true,
+          "value": "2984",
+          "text": "как пользоваться беспроводными наушниками"
+        },
+        {
+          "isAssociations": true,
+          "value": "704",
+          "text": "микронаушники беспроводные bluetooth"
+        },
+        {
+          "isAssociations": true,
+          "value": "83096",
+          "text": "bluetooth наушники"
+        },
+        {
+          "isAssociations": true,
+          "value": "4378",
+          "text": "как настроить беспроводные наушники"
+        },
+        {
+          "isAssociations": true,
+          "value": "1629",
+          "text": "как подключиться к беспроводным наушникам"
+        },
+        {
+          "isAssociations": true,
+          "value": "37418",
+          "text": "как подключить беспроводной наушник к телефону"
+        },
+        {
+          "isAssociations": true,
+          "value": "912439",
+          "text": "беспроводной наушник"
+        },
+        {
+          "isAssociations": true,
+          "value": "172",
+          "text": "микронаушники беспроводные bluetooth аренда"
+        },
+        {
+          "isAssociations": true,
+          "value": "165",
+          "text": "что делать если потерял один наушник airpods"
+        },
+        {
+          "isAssociations": true,
+          "value": "233",
+          "text": "мотошлем с гарнитурой bluetooth"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "83",
+          "text": "телевизор не видит блютуз наушники"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-power-consumption",
+      "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+      "query": "сколько электроэнергии потребляет телевизор",
+      "operator_query": "\"[!сколько !электроэнергии !потребляет !телевизор]\"",
+      "variant": "energy-fixed-wordforms"
+    },
+    "operator_query": "\"[!сколько !электроэнергии !потребляет !телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "129903",
+          "text": "электрический ток"
+        },
+        {
+          "isAssociations": true,
+          "value": "2117",
+          "text": "что такое электрический ток"
+        },
+        {
+          "isAssociations": true,
+          "value": "6635",
+          "text": "электрический ток это"
+        },
+        {
+          "isAssociations": true,
+          "value": "6788",
+          "text": "мощность электрического тока"
+        },
+        {
+          "isAssociations": true,
+          "value": "72567",
+          "text": "электрическая мощность"
+        },
+        {
+          "isAssociations": true,
+          "value": "415",
+          "text": "мощность электрического тока это"
+        },
+        {
+          "isAssociations": true,
+          "value": "2587",
+          "text": "мощность в электричестве"
+        },
+        {
+          "isAssociations": true,
+          "value": "1132",
+          "text": "потребление холодильника квт ч"
+        },
+        {
+          "isAssociations": true,
+          "value": "190",
+          "text": "как рассчитать мощность электрического тока"
+        },
+        {
+          "isAssociations": true,
+          "value": "74",
+          "text": "что такое мощность электрического тока"
+        },
+        {
+          "isAssociations": true,
+          "value": "1208",
+          "text": "потребление холодильника ватт"
+        },
+        {
+          "isAssociations": true,
+          "value": "315",
+          "text": "реактивная мощность в электрических сетях"
+        },
+        {
+          "isAssociations": true,
+          "value": "109",
+          "text": "характер нагрузки потребителя электрической энергии в заявке"
+        },
+        {
+          "isAssociations": true,
+          "value": "1537",
+          "text": "расчет электрических нагрузок"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1073",
+          "text": "сколько электроэнергии потребляет телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-power-consumption",
+      "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+      "query": "сколько ватт потребляет телевизор",
+      "operator_query": "\"[!сколько !ватт !потребляет !телевизор]\"",
+      "variant": "watts-fixed-wordforms"
+    },
+    "operator_query": "\"[!сколько !ватт !потребляет !телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28478",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1132",
+          "text": "потребление холодильника квт ч"
+        },
+        {
+          "isAssociations": true,
+          "value": "236",
+          "text": "диагональ тв в сантиметрах таблица"
+        },
+        {
+          "isAssociations": true,
+          "value": "179",
+          "text": "телик 20 каналов"
+        },
+        {
+          "isAssociations": true,
+          "value": "377",
+          "text": "расчет потребления электроэнергии по мощности"
+        },
+        {
+          "isAssociations": true,
+          "value": "1876",
+          "text": "диагонали тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "501",
+          "text": "калькулятор потребления электроэнергии"
+        },
+        {
+          "isAssociations": true,
+          "value": "1537",
+          "text": "расчет электрических нагрузок"
+        },
+        {
+          "isAssociations": true,
+          "value": "375",
+          "text": "расчет потребления калорий"
+        },
+        {
+          "isAssociations": true,
+          "value": "2176",
+          "text": "расчет потребления электроэнергии"
+        },
+        {
+          "isAssociations": true,
+          "value": "303",
+          "text": "потребление кондиционера квт ч"
+        },
+        {
+          "isAssociations": true,
+          "value": "178",
+          "text": "потребление компьютера квт в час"
+        },
+        {
+          "isAssociations": true,
+          "value": "87",
+          "text": "диагонали тв в дюймах и см"
+        },
+        {
+          "isAssociations": true,
+          "value": "766",
+          "text": "нормы потребления электроэнергии на человека в месяц"
+        },
+        {
+          "isAssociations": true,
+          "value": "117",
+          "text": "как рассчитать потребление электроэнергии по мощности оборудования"
+        },
+        {
+          "isAssociations": true,
+          "value": "1593",
+          "text": "мощность потребления холодильника"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2030",
+          "text": "сколько ватт потребляет телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-power-consumption",
+      "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+      "query": "потребление электроэнергии телевизором",
+      "operator_query": "\"[!потребление !электроэнергии !телевизором]\"",
+      "variant": "consumption-fixed-wordforms"
+    },
+    "operator_query": "\"[!потребление !электроэнергии !телевизором]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "19183",
+          "text": "оме тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "129903",
+          "text": "электрический ток"
+        },
+        {
+          "isAssociations": true,
+          "value": "2117",
+          "text": "что такое электрический ток"
+        },
+        {
+          "isAssociations": true,
+          "value": "6635",
+          "text": "электрический ток это"
+        },
+        {
+          "isAssociations": true,
+          "value": "6788",
+          "text": "мощность электрического тока"
+        },
+        {
+          "isAssociations": true,
+          "value": "72567",
+          "text": "электрическая мощность"
+        },
+        {
+          "isAssociations": true,
+          "value": "6275",
+          "text": "сколько ватт потребляет холодильник"
+        },
+        {
+          "isAssociations": true,
+          "value": "3971",
+          "text": "сколько киловатт потребляет холодильник"
+        },
+        {
+          "isAssociations": true,
+          "value": "415",
+          "text": "мощность электрического тока это"
+        },
+        {
+          "isAssociations": true,
+          "value": "2587",
+          "text": "мощность в электричестве"
+        },
+        {
+          "isAssociations": true,
+          "value": "1854",
+          "text": "электрический ток определение"
+        },
+        {
+          "isAssociations": true,
+          "value": "190",
+          "text": "как рассчитать мощность электрического тока"
+        },
+        {
+          "isAssociations": true,
+          "value": "2348",
+          "text": "что называется потребителем электрической энергии"
+        },
+        {
+          "isAssociations": true,
+          "value": "74",
+          "text": "что такое мощность электрического тока"
+        },
+        {
+          "isAssociations": true,
+          "value": "860",
+          "text": "сколько электричества потребляет кондиционер"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "624",
+          "text": "потребление электроэнергии телевизором"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-power-consumption",
+      "candidate_path": "/skolko-elektroenergii-potreblyaet-televizor/",
+      "query": "сколько электричества расходует телевизор",
+      "operator_query": "\"[!сколько !электричества !расходует !телевизор]\"",
+      "variant": "electricity-fixed-wordforms"
+    },
+    "operator_query": "\"[!сколько !электричества !расходует !телевизор]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "game-console-to-tv",
+      "candidate_path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+      "query": "как подключить игровую приставку к телевизору",
+      "operator_query": "\"[как !подключить !игровую !приставку к !телевизору]\"",
+      "variant": "connect-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !игровую !приставку к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "11347",
+          "text": "приставка для цифрового тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "107439",
+          "text": "приставка для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "347774",
+          "text": "тв приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "26896",
+          "text": "смарт приставка для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "8160",
+          "text": "android tv приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "17199",
+          "text": "андроид приставка для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2021",
+          "text": "пульт для приставки цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "8268",
+          "text": "smart tv приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "13440",
+          "text": "приставка для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "15060",
+          "text": "телевизионная приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "37473",
+          "text": "tv приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "2613",
+          "text": "лучшая тв приставка 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "5829",
+          "text": "приставка x96"
+        },
+        {
+          "isAssociations": true,
+          "value": "719",
+          "text": "тв боксы для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "9125",
+          "text": "как настроить тв приставку"
+        },
+        {
+          "isAssociations": true,
+          "value": "18555",
+          "text": "цифровая тв приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "454",
+          "text": "телевизионная приставка для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "5703",
+          "text": "настройка тв приставки"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2460",
+          "text": "как подключить игровую приставку к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "game-console-to-tv",
+      "candidate_path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+      "query": "как подключить playstation к телевизору",
+      "operator_query": "\"[как !подключить playstation к !телевизору]\"",
+      "variant": "playstation-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить playstation к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "218",
+          "text": "wink ru code подключить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1162",
+          "text": "как включить плейстейшен 4"
+        },
+        {
+          "isAssociations": true,
+          "value": "286",
+          "text": "как подключить второй джойстик на пс 5"
+        },
+        {
+          "isAssociations": true,
+          "value": "4249",
+          "text": "телевизор для ps5"
+        },
+        {
+          "isAssociations": true,
+          "value": "1478",
+          "text": "как включить плейстейшен 5"
+        },
+        {
+          "isAssociations": true,
+          "value": "6328",
+          "text": "как настроить телевизор с приставкой"
+        },
+        {
+          "isAssociations": true,
+          "value": "584",
+          "text": "playstation tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "4203",
+          "text": "как включить плейстейшен"
+        },
+        {
+          "isAssociations": true,
+          "value": "323",
+          "text": "как включить плейстейшен 5 на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1029",
+          "text": "как соединить телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "251",
+          "text": "как включить пс 5 на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "669",
+          "text": "ps tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "248",
+          "text": "как включить плейстейшен 4 на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1489",
+          "text": "телевизор для пс5"
+        },
+        {
+          "isAssociations": true,
+          "value": "163",
+          "text": "какой телевизор нужен для плейстейшен 5"
+        },
+        {
+          "isAssociations": true,
+          "value": "166",
+          "text": "как включить пс 4 на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "183",
+          "text": "как включить сони плейстейшен 4"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1115",
+          "text": "как подключить playstation к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "game-console-to-tv",
+      "candidate_path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+      "query": "телевизор не видит игровую приставку",
+      "operator_query": "\"[!телевизор не !видит !игровую !приставку]\"",
+      "variant": "not-seen-fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор не !видит !игровую !приставку]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "227",
+          "text": "тв бокс оне"
+        },
+        {
+          "isAssociations": true,
+          "value": "5466",
+          "text": "интерактивное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "254",
+          "text": "все для тв бокса"
+        },
+        {
+          "isAssociations": true,
+          "value": "584",
+          "text": "playstation tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "12590",
+          "text": "тв ресивер"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "w2g tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "1981",
+          "text": "интерактивное тв ростелеком"
+        },
+        {
+          "isAssociations": true,
+          "value": "446",
+          "text": "телеприставка для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "93",
+          "text": "телевизионные вышки цифрового телевидения на карте"
+        },
+        {
+          "isAssociations": true,
+          "value": "601",
+          "text": "бесплатные кинотеатры для андроид тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "66",
+          "text": "телевизор не видит игровую приставку"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "game-console-to-tv",
+      "candidate_path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+      "query": "как настроить телевизор для игр",
+      "operator_query": "\"[как !настроить !телевизор для !игр]\"",
+      "variant": "game-mode-fixed-wordforms"
+    },
+    "operator_query": "\"[как !настроить !телевизор для !игр]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28478",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "75",
+          "text": "twitch tv не работает"
+        },
+        {
+          "isAssociations": true,
+          "value": "1266",
+          "text": "настрой кино программа"
+        },
+        {
+          "isAssociations": true,
+          "value": "68586",
+          "text": "настройка экрана"
+        },
+        {
+          "isAssociations": true,
+          "value": "479",
+          "text": "настрой кино телепрограмма"
+        },
+        {
+          "isAssociations": true,
+          "value": "486",
+          "text": "я отключила настройку боли"
+        },
+        {
+          "isAssociations": true,
+          "value": "2804",
+          "text": "все телевизионные программы"
+        },
+        {
+          "isAssociations": true,
+          "value": "70",
+          "text": "настройка устройства воспроизведения по умолчанию"
+        },
+        {
+          "isAssociations": true,
+          "value": "853",
+          "text": "настройки про игроков кс2"
+        },
+        {
+          "isAssociations": true,
+          "value": "1605",
+          "text": "смотреть телевизионные программы"
+        },
+        {
+          "isAssociations": true,
+          "value": "7813",
+          "text": "как сделать демонстрацию экрана"
+        },
+        {
+          "isAssociations": true,
+          "value": "474",
+          "text": "что такое lcn при настройке каналов"
+        },
+        {
+          "isAssociations": true,
+          "value": "23020",
+          "text": "настройки кс2"
+        },
+        {
+          "isAssociations": true,
+          "value": "7145",
+          "text": "настройки про игроков"
+        },
+        {
+          "isAssociations": true,
+          "value": "255",
+          "text": "покажи мне программу телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "10673",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1338",
+          "text": "лучшие настройки кс2"
+        },
+        {
+          "isAssociations": true,
+          "value": "1438",
+          "text": "частота каналов для ручной настройки"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "118",
+          "text": "как настроить телевизор для игр"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-speakers",
+      "candidate_path": "/kak-podklyuchit-kolonki-k-televizoru/",
+      "query": "как подключить колонки к телевизору",
+      "operator_query": "\"[как !подключить !колонки к !телевизору]\"",
+      "variant": "connect-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !колонки к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "976",
+          "text": "media station x настройка на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "26516",
+          "text": "подключение динамиков"
+        },
+        {
+          "isAssociations": true,
+          "value": "2945",
+          "text": "как правильно подключить водонагреватель"
+        },
+        {
+          "isAssociations": true,
+          "value": "15382",
+          "text": "как настроить антенну на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "2357",
+          "text": "как включить блютуз на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "4612",
+          "text": "схема подключения динамиков"
+        },
+        {
+          "isAssociations": true,
+          "value": "2824",
+          "text": "звук включения телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1558",
+          "text": "как настроить кабельное тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "3287",
+          "text": "как включить звук на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "506",
+          "text": "как соединить телевизионный кабель между собой"
+        },
+        {
+          "isAssociations": true,
+          "value": "13296",
+          "text": "как подключить смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1189",
+          "text": "схема подключения водонагревателя в квартире"
+        },
+        {
+          "isAssociations": true,
+          "value": "82738",
+          "text": "подключить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "935",
+          "text": "схема подключения бойлера в квартире"
+        },
+        {
+          "isAssociations": true,
+          "value": "335",
+          "text": "схема подключения автозвука"
+        },
+        {
+          "isAssociations": true,
+          "value": "2388",
+          "text": "как настроить кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "41790",
+          "text": "установить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "655",
+          "text": "как правильно соединить антенный кабель"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "10429",
+          "text": "как подключить колонки к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-speakers",
+      "candidate_path": "/kak-podklyuchit-kolonki-k-televizoru/",
+      "query": "как подключить активные колонки к телевизору",
+      "operator_query": "\"[как !подключить !активные !колонки к !телевизору]\"",
+      "variant": "active-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !активные !колонки к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "768",
+          "text": "2с7 самоходная артиллерийская установка"
+        },
+        {
+          "isAssociations": true,
+          "value": "496",
+          "text": "2с5 самоходная артиллерийская установка"
+        },
+        {
+          "isAssociations": true,
+          "value": "284",
+          "text": "группа tv girl слушать"
+        },
+        {
+          "isAssociations": true,
+          "value": "308",
+          "text": "2с3 самоходная артиллерийская установка"
+        },
+        {
+          "isAssociations": true,
+          "value": "133",
+          "text": "кв 7 самоходная артиллерийская установка"
+        },
+        {
+          "isAssociations": true,
+          "value": "1816",
+          "text": "включи удивительный цифровой цирк"
+        },
+        {
+          "isAssociations": true,
+          "value": "2646",
+          "text": "уличная антенна для цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "242",
+          "text": "тв на радио области"
+        },
+        {
+          "isAssociations": true,
+          "value": "38",
+          "text": "2с7 самоходная артиллерийская установка характеристики"
+        },
+        {
+          "isAssociations": true,
+          "value": "96",
+          "text": "2с40 самоходная артиллерийская установка"
+        },
+        {
+          "isAssociations": true,
+          "value": "195",
+          "text": "интерактивное тв ростелеком что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "2061",
+          "text": "комнатная антенна для цифрового тв с усилителем"
+        },
+        {
+          "isAssociations": true,
+          "value": "651",
+          "text": "включи видео ляпота тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "286",
+          "text": "алиса включи муз тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1110",
+          "text": "добавить звук на видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "506",
+          "text": "как соединить телевизионный кабель между собой"
+        },
+        {
+          "isAssociations": true,
+          "value": "91",
+          "text": "login xsmart tv добавить устройство"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "58",
+          "text": "как подключить активные колонки к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-speakers",
+      "candidate_path": "/kak-podklyuchit-kolonki-k-televizoru/",
+      "query": "внешние колонки для телевизора",
+      "operator_query": "\"[!внешние !колонки для !телевизора]\"",
+      "variant": "external-fixed-wordforms"
+    },
+    "operator_query": "\"[!внешние !колонки для !телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "477",
+          "text": "твитч тв онлайн трансляция"
+        },
+        {
+          "isAssociations": true,
+          "value": "20471",
+          "text": "телевизионный кабель"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "cast tv receiver"
+        },
+        {
+          "isAssociations": true,
+          "value": "4340",
+          "text": "фан тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "15060",
+          "text": "телевизионная приставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "1480",
+          "text": "тв т24"
+        },
+        {
+          "isAssociations": true,
+          "value": "7289",
+          "text": "тв плеер"
+        },
+        {
+          "isAssociations": true,
+          "value": "839",
+          "text": "атч тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2329",
+          "text": "радио муз тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "5",
+          "text": "ффк тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "597",
+          "text": "теремок тв представляет"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "xiaomi redmi tv soundbar"
+        },
+        {
+          "isAssociations": true,
+          "value": "841",
+          "text": "наружная антенна для цифрового телевидения"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "65",
+          "text": "внешние колонки для телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-speakers",
+      "candidate_path": "/kak-podklyuchit-kolonki-k-televizoru/",
+      "query": "телевизор не видит колонки",
+      "operator_query": "\"[!телевизор не !видит !колонки]\"",
+      "variant": "not-seen-fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор не !видит !колонки]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "8438",
+          "text": "вместе тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "28478",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1498",
+          "text": "куда пропал нагиев с телевидения и почему"
+        },
+        {
+          "isAssociations": true,
+          "value": "543",
+          "text": "xuy tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "2698",
+          "text": "телевизорус ру смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "13783",
+          "text": "телемастер"
+        },
+        {
+          "isAssociations": true,
+          "value": "2786",
+          "text": "телев"
+        },
+        {
+          "isAssociations": true,
+          "value": "68642",
+          "text": "тв ком"
+        },
+        {
+          "isAssociations": true,
+          "value": "19536",
+          "text": "наше тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "4133",
+          "text": "телеателье"
+        },
+        {
+          "isAssociations": true,
+          "value": "457",
+          "text": "хочу тв ох"
+        },
+        {
+          "isAssociations": true,
+          "value": "17526",
+          "text": "нам тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "10673",
+          "text": "оне тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "87",
+          "text": "телевизор не видит колонки"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-microphone",
+      "candidate_path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+      "query": "как подключить микрофон к телевизору",
+      "operator_query": "\"[как !подключить !микрофон к !телевизору]\"",
+      "variant": "connect-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !микрофон к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "39730",
+          "text": "настройка микрофона"
+        },
+        {
+          "isAssociations": true,
+          "value": "3311",
+          "text": "как сделать микрофон громче"
+        },
+        {
+          "isAssociations": true,
+          "value": "937",
+          "text": "как настроить микрофон на компьютере"
+        },
+        {
+          "isAssociations": true,
+          "value": "1072",
+          "text": "как настроить микрофон на пк"
+        },
+        {
+          "isAssociations": true,
+          "value": "405",
+          "text": "как настроить микрофон fifine am8"
+        },
+        {
+          "isAssociations": true,
+          "value": "4156",
+          "text": "микрофон для стрима"
+        },
+        {
+          "isAssociations": true,
+          "value": "1980",
+          "text": "микрофон для записи вокала"
+        },
+        {
+          "isAssociations": true,
+          "value": "2824",
+          "text": "звук включения телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "139",
+          "text": "как сделать шакальный звук микрофона"
+        },
+        {
+          "isAssociations": true,
+          "value": "31632",
+          "text": "как настроить микрофон"
+        },
+        {
+          "isAssociations": true,
+          "value": "1240",
+          "text": "камера для компьютера с микрофоном"
+        },
+        {
+          "isAssociations": true,
+          "value": "1278",
+          "text": "как настроить микрофон fifine"
+        },
+        {
+          "isAssociations": true,
+          "value": "1558",
+          "text": "как настроить кабельное тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "3287",
+          "text": "как включить звук на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "2326",
+          "text": "настройка микрофона fifine"
+        },
+        {
+          "isAssociations": true,
+          "value": "2388",
+          "text": "как настроить кабельное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1427",
+          "text": "как включить hdmi на телевизоре"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "690",
+          "text": "как подключить микрофон к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-microphone",
+      "candidate_path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+      "query": "как подключить беспроводной микрофон к телевизору",
+      "operator_query": "\"[как !подключить !беспроводной !микрофон к !телевизору]\"",
+      "variant": "wireless-fixed-wordforms"
+    },
+    "operator_query": "\"[как !подключить !беспроводной !микрофон к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "8210",
+          "text": "театр у микрофона слушать радиоспектакли бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "39730",
+          "text": "настройка микрофона"
+        },
+        {
+          "isAssociations": true,
+          "value": "9924",
+          "text": "театр у микрофона слушать радиоспектакли"
+        },
+        {
+          "isAssociations": true,
+          "value": "5731",
+          "text": "микрофон fifine am8"
+        },
+        {
+          "isAssociations": true,
+          "value": "937",
+          "text": "как настроить микрофон на компьютере"
+        },
+        {
+          "isAssociations": true,
+          "value": "1072",
+          "text": "как настроить микрофон на пк"
+        },
+        {
+          "isAssociations": true,
+          "value": "922",
+          "text": "радиотеатр у микрофона слушать бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "405",
+          "text": "как настроить микрофон fifine am8"
+        },
+        {
+          "isAssociations": true,
+          "value": "3330",
+          "text": "телевизор не видит вай фай"
+        },
+        {
+          "isAssociations": true,
+          "value": "156",
+          "text": "трансляция экрана компьютера на телевизор по wifi"
+        },
+        {
+          "isAssociations": true,
+          "value": "2357",
+          "text": "как включить блютуз на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "6523",
+          "text": "как включить блютуз на магнитоле"
+        },
+        {
+          "isAssociations": true,
+          "value": "3921",
+          "text": "wireless microphone"
+        },
+        {
+          "isAssociations": true,
+          "value": "334",
+          "text": "jbl wireless microphone set"
+        },
+        {
+          "isAssociations": true,
+          "value": "2326",
+          "text": "настройка микрофона fifine"
+        },
+        {
+          "isAssociations": true,
+          "value": "2388",
+          "text": "как настроить кабельное тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "75",
+          "text": "как подключить беспроводной микрофон к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-microphone",
+      "candidate_path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+      "query": "микрофон для караоке к телевизору",
+      "operator_query": "\"[!микрофон для !караоке к !телевизору]\"",
+      "variant": "karaoke-fixed-wordforms"
+    },
+    "operator_query": "\"[!микрофон для !караоке к !телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "8419",
+          "text": "микрофон союз"
+        },
+        {
+          "isAssociations": true,
+          "value": "8210",
+          "text": "театр у микрофона слушать радиоспектакли бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "21017",
+          "text": "театр у микрофона"
+        },
+        {
+          "isAssociations": true,
+          "value": "2238",
+          "text": "проверка звука микрофона"
+        },
+        {
+          "isAssociations": true,
+          "value": "39730",
+          "text": "настройка микрофона"
+        },
+        {
+          "isAssociations": true,
+          "value": "29652",
+          "text": "микрофон fifine"
+        },
+        {
+          "isAssociations": true,
+          "value": "2872",
+          "text": "пантограф для микрофона"
+        },
+        {
+          "isAssociations": true,
+          "value": "13976",
+          "text": "театр у микрофона слушать"
+        },
+        {
+          "isAssociations": true,
+          "value": "9924",
+          "text": "театр у микрофона слушать радиоспектакли"
+        },
+        {
+          "isAssociations": true,
+          "value": "5731",
+          "text": "микрофон fifine am8"
+        },
+        {
+          "isAssociations": true,
+          "value": "958",
+          "text": "менять голос в микрофоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "1980",
+          "text": "микрофон для записи вокала"
+        },
+        {
+          "isAssociations": true,
+          "value": "20014",
+          "text": "микрофон с колонкой"
+        },
+        {
+          "isAssociations": true,
+          "value": "3921",
+          "text": "wireless microphone"
+        },
+        {
+          "isAssociations": true,
+          "value": "334",
+          "text": "jbl wireless microphone set"
+        },
+        {
+          "isAssociations": true,
+          "value": "524",
+          "text": "fifine microphone"
+        },
+        {
+          "isAssociations": true,
+          "value": "149",
+          "text": "микрофонная стойка fifine bm88"
+        },
+        {
+          "isAssociations": true,
+          "value": "384",
+          "text": "микрофонная консоль lpa duo mic"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "588",
+          "text": "микрофон для караоке к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-microphone",
+      "candidate_path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+      "query": "телевизор не видит микрофон",
+      "operator_query": "\"[!телевизор не !видит !микрофон]\"",
+      "variant": "not-seen-fixed-wordforms"
+    },
+    "operator_query": "\"[!телевизор не !видит !микрофон]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  }
+]

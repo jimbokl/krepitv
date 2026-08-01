@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Broadcast,
   HandTap,
+  Headphones,
   Info,
   Laptop,
   Power,
@@ -183,6 +184,30 @@ const sourceRegistry = {
   "samsung-tv-external-hdmi": {
     label: "Samsung: внешний источник по HDMI",
     url: "https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/",
+  },
+  "samsung-tv-optical-audio": {
+    label: "Samsung: подключение внешней аудиосистемы по оптике",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-external-audio-using-an-optical-cable/",
+  },
+  "sony-tv-wireless-audio": {
+    label: "Sony: беспроводные аудиоустройства для телевизора",
+    url: "https://www.sony.ru/electronics/support/articles/00023605",
+  },
+  "sony-tv-bluetooth-audio": {
+    label: "Sony: поддержка Bluetooth-аудио телевизором",
+    url: "https://www.sony.ru/electronics/support/articles/00135146",
+  },
+  "lg-tv-audio-output": {
+    label: "LG: выбор аудиовыхода телевизора",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20154713273543",
+  },
+  "samsung-tv-bluetooth-headphones": {
+    label: "Samsung: Bluetooth-наушники и телевизор",
+    url: "https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-bluetooth-headphones-to-a-samsung-tv/",
+  },
+  "lg-tv-bluetooth-audio": {
+    label: "LG: подключение Bluetooth-аудиоустройства",
+    url: "https://www.lg.com/ru/support/product-help/CT20206007-20155333324133",
   },
 };
 
@@ -827,6 +852,124 @@ const configs = {
       label: "Приставка включена, но телевизор пишет «Нет сигнала»? Проверить источник",
     },
   },
+  "tv-speakers": {
+    Icon: SpeakerHigh,
+    requireConfirmation: true,
+    kicker: "Один подтверждённый аудиопуть",
+    title: "Мастер: колонки → телевизор",
+    description: "Сопоставьте выход телевизора со входом активной аудиосистемы. Пассивные колонки нельзя подключать к телевизору напрямую: для них нужен совместимый усилитель или ресивер.",
+    buttonLabel: "Показать безопасный аудиопуть",
+    loadingLabel: "Сверяем выход, вход и модельную совместимость…",
+    toolId: "tv_speakers",
+    primary: {
+      legend: "1. Какой аудиовыход подтверждён у телевизора?",
+      options: [
+        ["bluetooth", "Bluetooth-аудио", "Именно вывод звука, а не только Bluetooth-функции"],
+        ["optical", "Optical / Digital Audio Out", "Оптический аудиовыход"],
+        ["analog-3.5", "Audio Out 3,5 мм", "Подтверждённый аналоговый выход"],
+        ["hdmi-arc", "HDMI ARC", "Явная маркировка ARC у порта"],
+        ["unknown", "Не знаю", "Нужно сверить подпись и инструкцию модели"],
+      ],
+    },
+    secondary: {
+      legend: "2. Какой вход есть у акустики?",
+      options: [
+        ["bluetooth", "Bluetooth-аудио", "Активная акустика принимает звук по Bluetooth"],
+        ["optical", "Optical In", "Оптический аудиовход"],
+        ["analog-3.5", "AUX / Audio In 3,5 мм", "Активный аналоговый вход"],
+        ["hdmi-arc", "HDMI ARC", "Явная маркировка ARC у входа"],
+        ["passive-wire", "Только провод пассивной колонки", "Прямого входа и собственного усиления нет"],
+        ["unknown", "Не знаю", "Нужно сверить маркировку и инструкцию"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "",
+      legend: "Совместимость подтверждена, а разъём доступен без перемещения настенного телевизора?",
+      options: [
+        ["yes", "Да, оба условия выполнены"],
+        ["no", "Нет, хотя бы одно не выполнено"],
+        ["unknown", "Не уверен"],
+      ],
+    },
+    detail: {
+      defaultValue: "",
+      legend: () => "Доступные кабели, разъёмы и питание выглядят безопасно?",
+      options: [
+        ["safe", "Да, опасных признаков нет"],
+        ["unsafe", "Нет, есть повреждение, нагрев или влага"],
+        ["unknown", "Не уверен"],
+      ],
+      show: () => true,
+    },
+    referenceSourceIds: [
+      "samsung-tv-optical-audio",
+      "sony-tv-wireless-audio",
+      "sony-tv-bluetooth-audio",
+      "lg-tv-audio-output",
+    ],
+    next: {
+      href: "/kak-podklyuchit-naushniki-k-televizoru/",
+      label: "Нужен звук только для одного зрителя? Открыть мастер наушников",
+    },
+  },
+  "tv-headphones": {
+    Icon: Headphones,
+    requireConfirmation: true,
+    kicker: "Совместимость до сопряжения",
+    title: "Мастер: наушники → телевизор",
+    description: "Наличие Bluetooth само по себе не подтверждает вывод звука на наушники. Мастер сопоставит Bluetooth-аудио, выход 3,5 мм или документированный оптический путь без случайных переходников.",
+    buttonLabel: "Показать безопасный путь",
+    loadingLabel: "Сверяем выход телевизора и путь наушников…",
+    toolId: "tv_headphones",
+    primary: {
+      legend: "1. Какой аудиовыход подтверждён у телевизора?",
+      options: [
+        ["bluetooth", "Bluetooth-аудио", "Вывод звука подтверждён для точной модели"],
+        ["headphones-3.5", "Headphones 3,5 мм", "Явно маркированный выход для наушников"],
+        ["optical", "Optical / Digital Audio Out", "Оптический аудиовыход"],
+        ["none", "Подходящего выхода нет", "Ни один путь не подтверждён"],
+        ["unknown", "Не знаю", "Нужно сверить корпус и инструкцию"],
+      ],
+    },
+    secondary: {
+      legend: "2. Какой путь поддерживают наушники?",
+      options: [
+        ["bluetooth", "Bluetooth", "Наушники готовы к обычному сопряжению"],
+        ["analog-3.5", "Аналоговый штекер 3,5 мм", "Проводные наушники"],
+        ["optical-transmitter", "Подтверждённый оптический передатчик", "Отдельно питаемый тракт из инструкции"],
+        ["unknown", "Не знаю", "Нужно сверить точные модели"],
+      ],
+    },
+    tertiary: {
+      defaultValue: "",
+      legend: "Совместимость подтверждена, а разъём доступен без перемещения настенного телевизора?",
+      options: [
+        ["yes", "Да, оба условия выполнены"],
+        ["no", "Нет, хотя бы одно не выполнено"],
+        ["unknown", "Не уверен"],
+      ],
+    },
+    detail: {
+      defaultValue: "",
+      legend: () => "Кабели, передатчик и питание выглядят безопасно?",
+      options: [
+        ["safe", "Да, опасных признаков нет"],
+        ["unsafe", "Нет, есть повреждение, нагрев или влага"],
+        ["unknown", "Не уверен"],
+      ],
+      show: () => true,
+    },
+    referenceSourceIds: [
+      "samsung-tv-bluetooth-headphones",
+      "sony-tv-bluetooth-audio",
+      "sony-tv-wireless-audio",
+      "lg-tv-bluetooth-audio",
+    ],
+    next: {
+      href: "/kak-podklyuchit-kolonki-k-televizoru/",
+      label: "Нужен звук для комнаты? Открыть мастер подключения колонок",
+    },
+  },
 };
 
 const statusCopy = {
@@ -945,8 +1088,13 @@ export function TvTrafficTaskWizard({ task }) {
   if (!config) return null;
   const Icon = config.Icon;
   const secondarySkipped = config.skipSecondary?.({ primary }) === true;
-  const canSubmit = Boolean(primary && (secondarySkipped || secondary));
   const detailVisible = !secondarySkipped && config.detail.show({ primary, secondary });
+  const requiresConfirmation = config.requireConfirmation === true && !secondarySkipped;
+  const canSubmit = Boolean(
+    primary
+      && (secondarySkipped || secondary)
+      && (!requiresConfirmation || (tertiary && (!detailVisible || detail))),
+  );
 
   function invalidate() {
     requestGenerationRef.current += 1;
@@ -995,6 +1143,32 @@ export function TvTrafficTaskWizard({ task }) {
     event.preventDefault();
     await runCalculation();
   }
+
+  const confirmationFields = (
+    <div className="space-y-7 pb-5 pt-2">
+      <ChoiceGrid
+        columns="sm:grid-cols-3"
+        disabled={requestState === "loading"}
+        legend={config.tertiary.legend}
+        name={`${task}-tertiary`}
+        onChange={(value) => choose(setTertiary, value)}
+        options={config.tertiary.options}
+        value={tertiary}
+      />
+      {detailVisible ? (
+        <TriStateChoice
+          columns="grid-cols-1 sm:grid-cols-3"
+          configuredColumns={config.detail.columns}
+          disabled={requestState === "loading"}
+          legend={config.detail.legend({ primary, secondary })}
+          name={`${task}-detail`}
+          onChange={(value) => choose(setDetail, value)}
+          options={config.detail.options}
+          value={detail}
+        />
+      ) : null}
+    </div>
+  );
 
   return (
     <section
@@ -1058,35 +1232,28 @@ export function TvTrafficTaskWizard({ task }) {
           )}
 
           {primary && secondary && !secondarySkipped ? (
-            <details className="group mt-7 border-y border-line py-1">
-              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 font-display text-xl font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
-                Уточнить наблюдения — необязательно
-                <span className="text-action transition group-open:rotate-45" aria-hidden="true">+</span>
-              </summary>
-              <div className="space-y-7 pb-5 pt-2">
-                <ChoiceGrid
-                  columns="sm:grid-cols-3"
-                  disabled={requestState === "loading"}
-                  legend={config.tertiary.legend}
-                  name={`${task}-tertiary`}
-                  onChange={(value) => choose(setTertiary, value)}
-                  options={config.tertiary.options}
-                  value={tertiary}
-                />
-                {detailVisible ? (
-                  <TriStateChoice
-                    columns="grid-cols-1 sm:grid-cols-3"
-                    configuredColumns={config.detail.columns}
-                    disabled={requestState === "loading"}
-                    legend={config.detail.legend({ primary, secondary })}
-                    name={`${task}-detail`}
-                    onChange={(value) => choose(setDetail, value)}
-                    options={config.detail.options}
-                    value={detail}
-                  />
-                ) : null}
-              </div>
-            </details>
+            requiresConfirmation ? (
+              <section
+                className="mt-7 border-y-2 border-ink py-5"
+                data-wizard-confirmation-required="true"
+              >
+                <h3 className="font-display text-xl font-bold">
+                  Обязательное подтверждение перед расчётом
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  Отметьте совместимость, безопасный доступ и состояние подключения. Без этих ответов мастер не предложит действие.
+                </p>
+                <div className="mt-5">{confirmationFields}</div>
+              </section>
+            ) : (
+              <details className="group mt-7 border-y border-line py-1">
+                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 font-display text-xl font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
+                  Уточнить наблюдения — необязательно
+                  <span className="text-action transition group-open:rotate-45" aria-hidden="true">+</span>
+                </summary>
+                {confirmationFields}
+              </details>
+            )
           ) : null}
 
           <button

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "run": "20260801-cohort-6-audio-energy",
+  "generated_at": "2026-08-01T18:07:29.076791+00:00",
+  "scanned_files": [
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/components/TvEnergyCalculator.jsx",
+    "web/src/pages/SeoPage.jsx"
+  ],
+  "findings": []
+}

@@ -25,6 +25,7 @@ import {
   TvTrafficTaskReference,
   TvTrafficTaskWizard,
 } from "../components/TvTrafficTaskWizard.jsx";
+import { TvEnergyCalculator } from "../components/TvEnergyCalculator.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
@@ -76,6 +77,8 @@ const tvTrafficTaskByPageId = new Map([
   ["soundbar-to-tv", "soundbar-to-tv"],
   ["screen-cleaning", "screen-cleaning"],
   ["smart-tv-box", "smart-tv-box"],
+  ["tv-speakers", "tv-speakers"],
+  ["tv-headphones", "tv-headphones"],
 ]);
 
 const trafficUtilityCtas = {
@@ -177,6 +180,27 @@ const trafficUtilityCtas = {
     label: "Проверить сигнал",
     shortLabel: "Диагностика сигнала",
   },
+  "tv-speakers": {
+    title: "Нужен звук для одного зрителя?",
+    description: "Сопоставьте выход телевизора с проводным или Bluetooth-путём точных наушников.",
+    href: "/kak-podklyuchit-naushniki-k-televizoru/",
+    label: "Открыть мастер наушников",
+    shortLabel: "Подключение наушников",
+  },
+  "tv-headphones": {
+    title: "Нужен звук для комнаты?",
+    description: "Проверьте общий аудиопуть телевизора и активной акустики без случайного переходника.",
+    href: "/kak-podklyuchit-kolonki-k-televizoru/",
+    label: "Открыть мастер колонок",
+    shortLabel: "Подключение колонок",
+  },
+  "tv-energy-consumption": {
+    title: "Телевизор выключается сам?",
+    description: "Отделите обычный режим ожидания и таймеры от опасного или повторяющегося отключения.",
+    href: "/televizor-sam-vyklyuchaetsya/",
+    label: "Проверить отключение",
+    shortLabel: "Диагностика отключения",
+  },
 };
 
 export function SeoPage({ catalog, page, requestedPath }) {
@@ -197,10 +221,11 @@ function SeoArticle({ catalog, page }) {
   const prioritizesTvDimensions = page.id === "tv-dimensions";
   const prioritizesPhoneTvConnection = page.id === "phone-to-tv";
   const prioritizesTvNoSignal = page.id === "tv-no-signal";
+  const prioritizesTvEnergy = page.id === "tv-energy-consumption";
   const tvTrafficTask = tvTrafficTaskByPageId.get(page.id);
   const prioritizesTvTrafficTask = Boolean(tvTrafficTask);
   const prioritizesTrafficUtility = prioritizesPhoneTvConnection || prioritizesTvNoSignal
-    || prioritizesTvTrafficTask;
+    || prioritizesTvTrafficTask || prioritizesTvEnergy;
   const prioritizesPrimaryLookup = prioritizesScrewLookup
     || prioritizesVesaLookup
     || prioritizesWallPlanner
@@ -259,7 +284,7 @@ function SeoArticle({ catalog, page }) {
           </p>
           <h1 className={`mt-3 max-w-[1180px] font-display font-extrabold leading-[0.92] tracking-[-0.035em] [overflow-wrap:anywhere] ${
             ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner", "tv-dimensions", "phone-to-tv", "tv-no-signal"].includes(page.id)
-              || prioritizesTvTrafficTask
+              || prioritizesTvTrafficTask || prioritizesTvEnergy
               ? "text-[min(4.4rem,11vw)]"
               : ["wall-mounted-tv", "mounting-map"].includes(page.id)
               ? "text-[clamp(3rem,4.6vw,5rem)]"
@@ -320,6 +345,7 @@ function SeoArticle({ catalog, page }) {
             <TvTrafficTaskReference task={tvTrafficTask} />
           </>
         ) : null}
+        {prioritizesTvEnergy ? <TvEnergyCalculator /> : null}
         {prioritizesTvDimensions ? (
           <>
             <TvDimensionsCalculator models={catalog.models} search={catalog.search} />

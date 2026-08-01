@@ -10,7 +10,7 @@ const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-07-31";
 const trafficPagesUpdatedAt = "2026-08-01";
-const expectedIndexableUrlCount = 158;
+const expectedIndexableUrlCount = 161;
 const removedAffiliateDisclaimerFragments = [
   "Партнёрская ссылка на Яндекс Маркет",
   "Если вы оформите заказ",
@@ -1615,6 +1615,9 @@ for (const page of indexableSeoPages) {
     "soundbar-to-tv",
     "screen-cleaning",
     "smart-tv-box",
+    "tv-speakers",
+    "tv-headphones",
+    "tv-energy-consumption",
     "vesa",
     "tv-mount-screws",
     "mounting-height",

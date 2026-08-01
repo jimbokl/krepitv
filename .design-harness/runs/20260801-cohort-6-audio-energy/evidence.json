@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "task_id": "20260801-cohort-6-audio-energy",
+  "commands": [
+    {
+      "id": "cmd-rust-cohort-6",
+      "command": "cargo test -p krepitv-engine tv_utility_cohort_6 -- --nocapture",
+      "exit_code": 0,
+      "covers": ["10 targeted tests", "closed enums", "numeric ranges", "fail closed", "safety", "formula", "stable WASM shape"]
+    },
+    {
+      "id": "cmd-sitegen-cohort-6",
+      "command": "cargo test -p krepitv-sitegen tv_utility_cohort_6 -- --nocapture",
+      "exit_code": 0,
+      "covers": ["three canonicals", "substantive SSR", "sources", "related parity", "no Market"]
+    },
+    {
+      "id": "cmd-web-cohort-6",
+      "command": "node --test --test-concurrency=1 web/tests/tv-utility-cohort-6.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "exit_code": 0,
+      "covers": ["30 tests", "all states", "privacy", "sources", "WASM order", "capture scenarios"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["98 engine tests", "36 sitegen tests", "178 web tests", "162 HTML", "161 sitemap URLs", "51 SEO materials", "Russian UI"]
+    },
+    {
+      "id": "cmd-diff-check",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "covers": ["text integrity", "scoped implementation"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "design-harness scan-drift --files web/src/components/TvTrafficTaskWizard.jsx web/src/components/TvEnergyCalculator.jsx web/src/pages/SeoPage.jsx",
+      "exit_code": 0,
+      "covers": ["three changed JSX files", "no findings", "generated Tailwind artifact excluded"]
+    },
+    {
+      "id": "cmd-security-static",
+      "command": "tracked diff secret-marker scan; sitemap/HTML/Market-link checks",
+      "exit_code": 0,
+      "covers": ["1026 tracked files", "161 sitemap URLs", "162 HTML", "zero Market links on three new routes", "no secret markers in changed content"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-energy-mobile-empty",
+      "path": "screenshots/energy-empty-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-energy-mobile-default",
+      "path": "screenshots/energy-default-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "responsive_heading": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-energy-mobile-disabled",
+      "path": "screenshots/energy-disabled-mobile.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-speakers-mobile-focus",
+      "path": "screenshots/speakers-focus-mobile.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "primary_focused": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-speakers-mobile-disabled",
+      "path": "screenshots/speakers-disabled-mobile.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-speakers-tablet-loading",
+      "path": "screenshots/speakers-loading-tablet.png",
+      "state": "loading",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "aria_busy": true, "four_fieldsets_disabled": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-energy-tablet-error",
+      "path": "screenshots/energy-error-tablet.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "alert_visible": true, "retry_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-speakers-mobile-error",
+      "path": "screenshots/speakers-error-mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "alert_visible": true, "answers_preserved": true, "retry_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-energy-mobile-success",
+      "path": "screenshots/energy-success-mobile.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "energy_result_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-speakers-desktop-success",
+      "path": "screenshots/speakers-success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "action_plan_visible": true, "primary_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-headphones-tablet-success",
+      "path": "screenshots/headphones-success-tablet.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "action_plan_visible": true, "primary_step_correct": true, "collapsed_remainder": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-speakers-mobile-needs-check",
+      "path": "screenshots/speakers-needs-check-mobile.png",
+      "state": "needs-check",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "needs_check_visible": true, "fail_closed": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-headphones-tablet-external",
+      "path": "screenshots/headphones-external-path-tablet.png",
+      "state": "external-path",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "external_path_visible": true, "primary_step_correct": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-speakers-desktop-service",
+      "path": "screenshots/speakers-service-boundary-desktop.png",
+      "state": "service-boundary",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "service_boundary_visible": true, "unsafe_stop_step_correct": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-speakers-desktop-retry",
+      "path": "screenshots/speakers-retry-desktop.png",
+      "state": "retry",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "retry_succeeded": true, "action_plan_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-headphones-tablet-default",
+      "path": "screenshots/headphones-default-tablet.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "required_confirmation_blocks_submit": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-energy-mobile-text-200",
+      "path": "screenshots/energy-success-mobile-zoom200.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_200": true, "market_links_zero": true}
+    },
+    {
+      "id": "shot-headphones-tablet-text-spacing",
+      "path": "screenshots/headphones-success-tablet-text-spacing.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "wcag_text_spacing": true, "market_links_zero": true}
+    }
+  ],
+  "assets": [],
+  "state_coverage": {
+    "empty": ["shot-energy-mobile-empty"],
+    "default": ["shot-energy-mobile-default", "shot-headphones-tablet-default"],
+    "disabled": ["shot-energy-mobile-disabled", "shot-speakers-mobile-disabled"],
+    "focus": ["shot-speakers-mobile-focus"],
+    "loading": ["shot-speakers-tablet-loading"],
+    "error": ["shot-energy-tablet-error", "shot-speakers-mobile-error"],
+    "success": ["shot-energy-mobile-success", "shot-speakers-desktop-success", "shot-headphones-tablet-success"],
+    "needs-check": ["shot-speakers-mobile-needs-check"],
+    "external-path": ["shot-headphones-tablet-external"],
+    "service-boundary": ["shot-speakers-desktop-service"]
+  },
+  "viewport_coverage": {
+    "mobile": ["shot-energy-mobile-default", "shot-energy-mobile-text-200", "shot-speakers-mobile-needs-check"],
+    "tablet": ["shot-headphones-tablet-default", "shot-headphones-tablet-success", "shot-headphones-tablet-text-spacing"],
+    "desktop": ["shot-speakers-desktop-success", "shot-speakers-desktop-service", "shot-speakers-desktop-retry"]
+  },
+  "review": {
+    "reviewer": "Independent reviewer /root/cohort6_independent_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Three unique Russian canonicals have substantive SSR, sitemap inclusion and contextual inbound links, with zero Market, affiliate, price or redirect output.",
+      "Audio tasks fail closed, require visible compatibility and safe-access confirmation, prioritize unsafe boundaries and route passive speakers through a powered intermediary.",
+      "The energy calculator separates active and standby consumption, declares 30/365-day assumptions, validates finite ranges and keeps the user tariff optional.",
+      "All eight source ids and claim mappings agree across the manifest, task, Rust, React and SSR layers.",
+      "Final captures cover 320, 768 and 1440 CSS px, 200% text zoom and WCAG text spacing with no overflow or overlap and distinguishable focus, loading, error, retry and boundary states.",
+      "Targeted Rust 10/10, sitegen 1/1, web 30/30, full build, diff check and scoped design-drift checks pass.",
+      "The measured demand does not prove 1001 daily visitors; the traffic gate remains 0/7 until first-party analytics records seven qualifying days."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

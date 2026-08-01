@@ -243,6 +243,30 @@ export function tv_dimensions_plan_json(mode, primary, secondary, clearance_cm, 
 }
 
 /**
+ * @param {number} active_power_w
+ * @param {number} hours_per_day
+ * @param {number} standby_power_w
+ * @param {number | null} [tariff_rub_per_kwh]
+ * @returns {string}
+ */
+export function tv_energy_plan_json(active_power_w, hours_per_day, standby_power_w, tariff_rub_per_kwh) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.tv_energy_plan_json(retptr, active_power_w, hours_per_day, standby_power_w, !isLikeNone(tariff_rub_per_kwh), isLikeNone(tariff_rub_per_kwh) ? 0 : tariff_rub_per_kwh);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred1_0 = r0;
+        deferred1_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export3(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * @param {string} task
  * @param {string} primary
  * @param {string} secondary

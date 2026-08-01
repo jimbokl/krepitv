@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "id": "20260801-cohort-6-audio-energy",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root + /root/traffic_gap_audit (engine only)",
+  "created_at": "2026-08-01T17:26:04.911744+00:00",
+  "states": [
+    "empty",
+    "default",
+    "disabled",
+    "focus",
+    "loading",
+    "error",
+    "success",
+    "needs-check",
+    "external-path",
+    "service-boundary"
+  ],
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800},
+    {"id": "tablet", "width": 768, "height": 1024},
+    {"id": "desktop", "width": 1440, "height": 900}
+  ],
+  "allowed_files": [
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "data/research/tv-utility-cohort-6-*",
+    "product-docs/research/TV_UTILITY_COHORT_6_2026-08-01.md",
+    "product-docs/research/raw/wordstat-tv-utility-cohort-6-probe-2026-08-01/**",
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/components/TvEnergyCalculator.jsx",
+    "web/src/lib/catalog.js",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/SeoPage.jsx",
+    "scripts/qa/capture-page.mjs",
+    "scripts/verify.mjs",
+    "README.md",
+    "product-docs/operations/traffic-goal-1000-daily-2026-08-01.md",
+    "web/tests/tv-utility-cohort-6.test.mjs",
+    "web/tests/seo-pages.test.mjs",
+    "web/tests/tv-traffic-cohort-2.test.mjs",
+    "web/tests/tv-diagnostics-cohort-3.test.mjs",
+    "web/tests/tv-diagnostics-cohort-4.test.mjs",
+    "web/tests/tv-utility-cohort-5.test.mjs",
+    "web/kak-podklyuchit-kolonki-k-televizoru/index.html",
+    "web/kak-podklyuchit-naushniki-k-televizoru/index.html",
+    "web/skolko-elektroenergii-potreblyaet-televizor/index.html",
+    "web/public/sitemap.xml",
+    "docs/**",
+    ".design-harness/runs/20260801-cohort-6-audio-energy/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-rust-cohort-6",
+      "command": "cargo test -p krepitv-engine tv_utility_cohort_6 -- --nocapture",
+      "required": true,
+      "covers": ["closed enums", "numeric ranges", "fail closed", "safety", "formula", "stable WASM shape"]
+    },
+    {
+      "id": "cmd-sitegen-cohort-6",
+      "command": "cargo test -p krepitv-sitegen tv_utility_cohort_6 -- --nocapture",
+      "required": true,
+      "covers": ["three canonicals", "substantive SSR", "sources", "related parity", "no Market"]
+    },
+    {
+      "id": "cmd-web-cohort-6",
+      "command": "node --test --test-concurrency=1 web/tests/tv-utility-cohort-6.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "required": true,
+      "covers": ["all states", "privacy", "sources", "WASM order", "capture scenarios"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["complete artifact", "full regression", "sitemap", "Russian UI"]
+    },
+    {
+      "id": "cmd-diff-check",
+      "command": "git diff --check",
+      "required": true,
+      "covers": ["text integrity", "scoped implementation"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "task-contract",
+      "value": "tv-speakers · tv-headphones · tv-energy-consumption",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "canonical-paths",
+      "value": "/kak-podklyuchit-kolonki-k-televizoru/ · /kak-podklyuchit-naushniki-k-televizoru/ · /skolko-elektroenergii-potreblyaet-televizor/",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "energy-formula",
+      "value": "кВт·ч = Вт × часы / 1000; месяц = 30 дней; год = 365 дней",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "privacy-boundary",
+      "value": "Ответы и числа остаются в браузере; свободный ввод и отправка данных отсутствуют.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "speaker-route",
+      "text": "Выход телевизора и вход активной аудиосистемы должны совпасть; пассивную колонку нельзя выдавать за прямой вход телевизора.",
+      "source_ids": ["samsung-tv-optical-audio", "sony-tv-wireless-audio", "sony-tv-bluetooth-audio", "lg-tv-audio-output"]
+    },
+    {
+      "id": "headphone-route",
+      "text": "Наличие Bluetooth само по себе не подтверждает Bluetooth audio; для беспроводного звука нужна совместимая модельная функция, например A2DP.",
+      "source_ids": ["samsung-tv-bluetooth-headphones", "sony-tv-bluetooth-audio", "sony-tv-wireless-audio", "lg-tv-bluetooth-audio"]
+    },
+    {
+      "id": "energy-inputs",
+      "text": "Мощность в активном и standby режимах берётся из паспорта, спецификации или энергетической карточки точной модели; фактический расход зависит от режима использования.",
+      "source_ids": ["samsung-tv-energy-fiche", "lg-tv-energy-spec"]
+    }
+  ],
+  "sources": [
+    {"id": "samsung-tv-optical-audio", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-external-audio-using-an-optical-cable/", "retrieved_at": "2026-08-01T17:22:00Z"},
+    {"id": "sony-tv-wireless-audio", "url": "https://www.sony.ru/electronics/support/articles/00023605", "retrieved_at": "2026-08-01T17:22:00Z", "notes": "browser-readable; automated GET may be blocked"},
+    {"id": "sony-tv-bluetooth-audio", "url": "https://www.sony.ru/electronics/support/articles/00135146", "retrieved_at": "2026-08-01T17:22:00Z", "notes": "browser-readable; automated GET may be blocked"},
+    {"id": "lg-tv-audio-output", "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154713273543", "retrieved_at": "2026-08-01T17:22:00Z"},
+    {"id": "samsung-tv-bluetooth-headphones", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-bluetooth-headphones-to-a-samsung-tv/", "retrieved_at": "2026-08-01T17:22:00Z"},
+    {"id": "lg-tv-bluetooth-audio", "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155333324133", "retrieved_at": "2026-08-01T17:22:00Z"},
+    {"id": "samsung-tv-energy-fiche", "url": "https://images.samsung.com/is/content/samsung/p6/common/energylabel/common-energylabel-ue65ru7022kxxh-productfiche.pdf", "retrieved_at": "2026-08-01T17:22:00Z"},
+    {"id": "lg-tv-energy-spec", "url": "https://www.lg.com/ru/televisions/lg-55EC930V-oled-televisions", "retrieved_at": "2026-08-01T17:22:00Z"}
+  ]
+}

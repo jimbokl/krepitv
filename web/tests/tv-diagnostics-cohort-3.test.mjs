@@ -120,7 +120,8 @@ test("default, disabled, error, retry, success и focus имеют явный UI
   const wizard = await read("web/src/components/TvTrafficTaskWizard.jsx");
 
   assert.match(wizard, /Далее — уточним второе наблюдение/);
-  assert.match(wizard, /const canSubmit = Boolean\(primary && \(secondarySkipped \|\| secondary\)\)/);
+  assert.match(wizard, /const requiresConfirmation = config\.requireConfirmation === true && !secondarySkipped/);
+  assert.match(wizard, /&& \(!requiresConfirmation \|\| \(tertiary && \(!detailVisible \|\| detail\)\)\)/);
   assert.match(wizard, /disabled=\{!canSubmit \|\| requestState === "loading"\}/);
   assert.match(wizard, /setRequestState\("error"\)/);
   assert.match(wizard, /role="alert"/);

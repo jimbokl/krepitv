@@ -22,6 +22,33 @@ const BUY_MOUNT_SHORTLIST: [(&str, &str); 3] = [
     ),
     ("itech-slt-460", "Для больших диагоналей · VESA до 600×400"),
 ];
+const TV_UTILITY_COHORT_6: [(&str, &str, &[&str]); 3] = [
+    (
+        "tv-speakers",
+        "/kak-podklyuchit-kolonki-k-televizoru/",
+        &[
+            "samsung-tv-optical-audio",
+            "sony-tv-wireless-audio",
+            "sony-tv-bluetooth-audio",
+            "lg-tv-audio-output",
+        ],
+    ),
+    (
+        "tv-headphones",
+        "/kak-podklyuchit-naushniki-k-televizoru/",
+        &[
+            "samsung-tv-bluetooth-headphones",
+            "sony-tv-bluetooth-audio",
+            "sony-tv-wireless-audio",
+            "lg-tv-bluetooth-audio",
+        ],
+    ),
+    (
+        "tv-energy-consumption",
+        "/skolko-elektroenergii-potreblyaet-televizor/",
+        &["samsung-tv-energy-fiche", "lg-tv-energy-spec"],
+    ),
+];
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -567,6 +594,9 @@ fn seo_page_lastmod(page: &SeoPage) -> &'static str {
             | "soundbar-to-tv"
             | "screen-cleaning"
             | "smart-tv-box"
+            | "tv-speakers"
+            | "tv-headphones"
+            | "tv-energy-consumption"
             | "vesa"
             | "tv-mount-screws"
             | "mounting-height"
@@ -1491,12 +1521,36 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "tv-speakers" => &[
+                "soundbar-to-tv",
+                "tv-headphones",
+                "tv-no-sound",
+                "smart-tv-box",
+                "picture-setup",
+                "tv-no-signal",
+            ],
+            "tv-headphones" => &[
+                "tv-speakers",
+                "soundbar-to-tv",
+                "tv-no-sound",
+                "tv-no-internet",
+                "smart-tv-box",
+                "tv-remote-not-working",
+            ],
+            "tv-energy-consumption" => &[
+                "tv-turns-off",
+                "picture-setup",
+                "tv-dimensions",
+                "viewing-distance",
+                "smart-tv-box",
+                "screen-cleaning",
+            ],
             "soundbar-to-tv" => &[
+                "tv-speakers",
                 "tv-no-sound",
                 "tv-no-signal",
                 "picture-setup",
                 "tv-sound-no-picture",
-                "tv-remote-not-working",
                 "smart-tv-box",
             ],
             "screen-cleaning" => &[
@@ -1532,13 +1586,13 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "laptop-to-tv",
             ],
             "tv-no-sound" => &[
+                "tv-speakers",
+                "tv-headphones",
+                "soundbar-to-tv",
                 "tv-sound-no-picture",
                 "tv-no-signal",
                 "tv-remote-not-working",
                 "tv-turns-off",
-                "digital-channels",
-                "soundbar-to-tv",
-                "picture-setup",
             ],
             "tv-remote-not-working" => &[
                 "tv-no-sound",
@@ -1549,11 +1603,11 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "phone-to-tv",
             ],
             "tv-turns-off" => &[
+                "tv-energy-consumption",
                 "tv-no-internet",
                 "tv-no-signal",
                 "tv-sound-no-picture",
                 "tv-no-sound",
-                "tv-remote-not-working",
                 "picture-setup",
             ],
             "tv-no-internet" => &[
@@ -1602,8 +1656,8 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "viewing-distance",
                 "tv-dimensions",
                 "wall-planner",
+                "tv-energy-consumption",
                 "tv-no-signal",
-                "laptop-to-tv",
                 "screen-cleaning",
                 "phone-to-tv",
             ],
@@ -1728,6 +1782,51 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "tv-speakers" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="tv-speakers" data-tv-utility-task="tv-speakers">
+<p class="font-mono text-xs uppercase text-action">Тип акустики → выход ТВ → совпадающий вход</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Сначала определите, активные ли у вас колонки</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">Телевизор передаёт звуковой сигнал через предусмотренный аудиовыход. Активной акустике или усилителю нужен совместимый вход; пассивные колонки без собственного усилителя нельзя подключать прямо к телевизору.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-utility-branch="matching-wired"><p class="font-mono text-xs uppercase text-action">Активная система · провод</p><h3 class="mt-2 font-display text-2xl font-extrabold">Выход должен совпасть со входом</h3><p class="mt-3 text-sm leading-relaxed text-muted">Сверьте подписи у доступного выхода телевизора и входа акустики: например, оптический выход соединяют только с оптическим входом. Затем выберите этот аудиовыход по инструкции точной модели.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="passive-speakers"><p class="font-mono text-xs uppercase text-action">Пассивные колонки</p><h3 class="mt-2 font-display text-2xl font-extrabold">Нужен отдельный усилитель</h3><p class="mt-3 text-sm leading-relaxed text-muted">Клеммы пассивной колонки не являются входом телевизора. Маршрут проходит через совместимый усилитель или ресивер; его вход, нагрузку и подключение колонок проверяют по руководствам всей системы.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="wireless-or-unknown"><p class="font-mono text-xs uppercase text-action">Bluetooth или неизвестный разъём</p><h3 class="mt-2 font-display text-2xl font-extrabold">Функцию подтверждают по модели</h3><p class="mt-3 text-sm leading-relaxed text-muted">Наличие Bluetooth для пульта не доказывает передачу звука. Беспроводной путь допустим только при явно поддерживаемом Bluetooth audio у телевизора и принимающей системы; неизвестный разъём не соединяют переходником наугад.</p></article>
+</div>
+<p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-utility-stop="true">Не подключайте пассивные колонки к аудиоразъёму телевизора напрямую. Остановитесь при повреждённом, горячем, болтающемся или мокром соединении и если доступ к порту требует снять либо сдвинуть настенный телевизор.</p>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-utility-next="tv-no-sound">Путь и аудиовыход подтверждены, но звука нет? Продолжите с <a class="font-semibold text-action underline underline-offset-4" href="/net-zvuka-na-televizore/">мастером проверки звука</a>.</p>
+<nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники подключения колонок"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-external-audio-using-an-optical-cable/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-optical-audio">Samsung: оптический аудиовыход</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00023605" rel="noreferrer" target="_blank" data-tv-utility-source="sony-tv-wireless-audio">Sony: беспроводная аудиосистема</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00135146" rel="noreferrer" target="_blank" data-tv-utility-source="sony-tv-bluetooth-audio">Sony: Bluetooth audio и A2DP</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20154713273543" rel="noreferrer" target="_blank" data-tv-utility-source="lg-tv-audio-output">LG: выбор аудиовыхода</a></nav>
+</section>"#
+        }
+        "tv-headphones" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="tv-headphones" data-tv-utility-task="tv-headphones">
+<p class="font-mono text-xs uppercase text-action">Тип наушников → функция ТВ → безопасная громкость</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Проверьте аудиовыход, а не только форму подключения</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">Проводные наушники требуют предусмотренного аналогового выхода, а Bluetooth-наушники — подтверждённой поддержки Bluetooth audio у точной модели телевизора. Bluetooth, используемый только пультом, не подтверждает профиль A2DP.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-utility-branch="confirmed-bluetooth-audio"><p class="font-mono text-xs uppercase text-action">Bluetooth audio подтверждён</p><h3 class="mt-2 font-display text-2xl font-extrabold">Сопрягайте по двум инструкциям</h3><p class="mt-3 text-sm leading-relaxed text-muted">Убедитесь, что наушники не подключены к другому устройству, переведите их в режим сопряжения и откройте список Bluetooth-аудиоустройств телевизора. Название меню зависит от модели.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="confirmed-wired-output"><p class="font-mono text-xs uppercase text-action">Проводной выход подтверждён</p><h3 class="mt-2 font-display text-2xl font-extrabold">Совпадающий штекер и низкая громкость</h3><p class="mt-3 text-sm leading-relaxed text-muted">Подключайте только к обозначенному выходу наушников или совместимому аналоговому аудиовыходу, разрешённому руководством. Перед проверкой уменьшите громкость и повышайте её постепенно.</p></article>
+<article class="bg-paper p-5" data-tv-utility-branch="unsupported-or-unknown"><p class="font-mono text-xs uppercase text-action">Функция не подтверждена</p><h3 class="mt-2 font-display text-2xl font-extrabold">Не покупайте переходник по названию порта</h3><p class="mt-3 text-sm leading-relaxed text-muted">Если телевизор не подтверждает Bluetooth audio или аудиовыход, зафиксируйте точную модель и доступные подписи. Внешний передатчик возможен лишь при совместимом выходе ТВ и собственной инструкции, а не из-за общего слова Bluetooth.</p></article>
+</div>
+<p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-tv-utility-stop="true">Не используйте повреждённые или мокрые разъёмы и кабели, не тянитесь за настенный телевизор и не начинайте проверку на высокой громкости. При боли, звоне или резком дискомфорте прекратите прослушивание.</p>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-utility-next="tv-no-sound">Наушники сопряжены или подключены, но звук не появился? Откройте <a class="font-semibold text-action underline underline-offset-4" href="/net-zvuka-na-televizore/">мастер проверки аудиовыхода</a>.</p>
+<nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники подключения наушников"><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-bluetooth-headphones-to-a-samsung-tv/" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-bluetooth-headphones">Samsung: Bluetooth-наушники</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00135146" rel="noreferrer" target="_blank" data-tv-utility-source="sony-tv-bluetooth-audio">Sony: Bluetooth audio и A2DP</a><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00023605" rel="noreferrer" target="_blank" data-tv-utility-source="sony-tv-wireless-audio">Sony: беспроводные наушники</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20155333324133" rel="noreferrer" target="_blank" data-tv-utility-source="lg-tv-bluetooth-audio">LG: Bluetooth-аудиоустройство</a></nav>
+</section>"#
+        }
+        "tv-energy-consumption" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-energy-calculator="true" data-tv-energy-answer="tv-energy-consumption">
+<p class="font-mono text-xs uppercase text-action">Мощность модели × фактическое время работы</p>
+<h2 class="mt-2 font-display text-3xl font-extrabold">Как посчитать расход телевизора без среднего значения</h2>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted">Возьмите мощность активного режима и, если она указана, мощность ожидания из паспорта, спецификации или энергетической карточки точной модели. Яркость, HDR, режим изображения и подключённые устройства могут изменить фактическое потребление.</p>
+<div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
+<article class="bg-paper p-5" data-tv-energy-step="active-power"><p class="font-mono text-xs uppercase text-action">1 · Активный режим</p><h3 class="mt-2 font-display text-2xl font-extrabold">Введите паспортные ватты</h3><p class="mt-3 text-sm leading-relaxed text-muted">Не подменяйте мощность своей модели средним значением по диагонали. Если документ раздельно показывает SDR и HDR, считайте выбранный сценарий отдельно.</p></article>
+<article class="bg-paper p-5" data-tv-energy-step="usage-time"><p class="font-mono text-xs uppercase text-action">2 · Время работы</p><h3 class="mt-2 font-display text-2xl font-extrabold">Укажите часы в сутки</h3><p class="mt-3 text-sm leading-relaxed text-muted">Суточный расход зависит от реального времени просмотра. Месячный и годовой результат являются расчётной проекцией при неизменном режиме использования.</p></article>
+<article class="bg-paper p-5" data-tv-energy-step="standby"><p class="font-mono text-xs uppercase text-action">3 · Режим ожидания</p><h3 class="mt-2 font-display text-2xl font-extrabold">Добавьте standby отдельно</h3><p class="mt-3 text-sm leading-relaxed text-muted">Используйте только значение ожидания из документа точной модели. Время ожидания не должно пересекаться с часами активной работы.</p></article>
+</div>
+<div class="mt-6 border-l-2 border-action pl-4" data-tv-energy-formula="true"><p class="font-display text-xl font-extrabold">кВт·ч = Вт × часы / 1000; месяц = 30 дней; год = 365 дней</p><p class="mt-2 text-sm leading-relaxed text-muted">Тариф по умолчанию отсутствует: сервис его не угадывает. Ответы и числа остаются в браузере; свободный ввод и отправка данных отсутствуют.</p></div>
+<p class="mt-6 text-sm leading-relaxed text-muted" data-tv-energy-next="picture-setup">Хотите сравнить режимы просмотра? Сначала зафиксируйте исходные настройки, затем меняйте один параметр в <a class="font-semibold text-action underline underline-offset-4" href="/nastroyka-izobrazheniya-televizora/">мастере изображения</a>.</p>
+<nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Официальные источники энергопотребления телевизоров"><a class="text-technical underline underline-offset-4" href="https://images.samsung.com/is/content/samsung/p6/common/energylabel/common-energylabel-ue65ru7022kxxh-productfiche.pdf" rel="noreferrer" target="_blank" data-tv-utility-source="samsung-tv-energy-fiche">Samsung: энергетическая карточка модели</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/televisions/lg-55EC930V-oled-televisions" rel="noreferrer" target="_blank" data-tv-utility-source="lg-tv-energy-spec">LG: спецификация мощности модели</a></nav>
+</section>"#
+        }
         "soundbar-to-tv" => {
             r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="soundbar-to-tv" data-tv-utility-task="soundbar-to-tv">
 <p class="font-mono text-xs uppercase text-action">Подписи портов → один путь подключения</p>
@@ -2770,6 +2869,47 @@ fn validate_seo_pages(pages: &[SeoPage]) {
         );
         assert!(page.faq.len() >= 3, "Недостаточно ответов на {}", page.path);
     }
+
+    for (id, path, source_ids) in TV_UTILITY_COHORT_6 {
+        let cohort_matches = pages
+            .iter()
+            .filter(|page| page.id == id || page.path == path)
+            .collect::<Vec<_>>();
+        assert_eq!(
+            cohort_matches.len(),
+            1,
+            "Страница когорты 6 {id} должна иметь один разрешённый canonical"
+        );
+        let page = cohort_matches[0];
+        assert_eq!(page.id, id, "Путь {path} закреплён только за {id}");
+        assert_eq!(
+            page.path, path,
+            "Идентификатор {id} закреплён только за {path}"
+        );
+        assert_eq!(
+            page.kind, "calculator",
+            "{id} должен оставаться калькулятором"
+        );
+        assert!(page.indexable, "{id} должен оставаться индексируемым");
+        assert!(
+            page.facts.len() >= 6,
+            "{id}: требуется не менее шести фактов"
+        );
+        assert!(page.faq.len() >= 6, "{id}: требуется не менее шести FAQ");
+
+        let static_answer = seo_calculator_note(id);
+        for source_id in source_ids {
+            assert!(
+                static_answer.contains(&format!("data-tv-utility-source=\"{source_id}\"")),
+                "{id}: отсутствует разрешённый источник {source_id}"
+            );
+        }
+        assert_eq!(
+            static_answer.matches("data-tv-utility-source=").count(),
+            source_ids.len(),
+            "{id}: SSR должен содержать только source allowlist когорты 6"
+        );
+    }
 }
 
 fn validate_trust_pages(pages: &[TrustPage]) {
@@ -3510,17 +3650,18 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        CommercialProfilesFile, HeadExtras, PublicAffiliateSnapshot, SeoPage, TrustPage, TvModel,
+        CommercialProfilesFile, HeadExtras, PublicAffiliateSnapshot, SeoPage,
+        TRAFFIC_PAGES_UPDATED_AT, TV_UTILITY_COHORT_6, TrustPage, TvModel,
         affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
         commercial_profile_for, dataset_json_ld, escape_html, home_page_body, html_shell,
         is_indexable_model, is_indexable_mount, is_indexable_seo_page,
         is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, model_mount_matches,
         model_page_body, mount_page_body, mounts_catalog_body, parse_rfc3339_utc_seconds,
         read_json, related_seo_pages, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_page_body, seo_screw_catalog_html,
-        seo_vesa_model_catalog_html, static_footer, static_header, trust_page_body,
-        tv_product_json_ld, validate_commercial_profiles, validate_trust_pages,
-        wall_mount_screws_html, workspace_root,
+        seo_calculator_note, seo_catalog_html, seo_page_body, seo_page_lastmod,
+        seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer, static_header,
+        trust_page_body, tv_product_json_ld, validate_commercial_profiles, validate_seo_pages,
+        validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -4206,6 +4347,116 @@ mod tests {
                 "{from} должен ссылаться на {to}"
             );
         }
+    }
+
+    #[test]
+    fn tv_utility_cohort_6_is_allowlisted_static_first_source_backed_and_non_commercial() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        validate_seo_pages(&pages);
+
+        for (id, path, source_ids) in TV_UTILITY_COHORT_6 {
+            let matches = pages
+                .iter()
+                .filter(|page| page.id == id || page.path == path)
+                .collect::<Vec<_>>();
+            assert_eq!(matches.len(), 1, "{id} должен иметь один canonical");
+            let page = matches[0];
+            assert_eq!(page.id, id);
+            assert_eq!(page.path, path);
+            assert_eq!(page.kind, "calculator");
+            assert!(page.indexable);
+            assert!(page.facts.len() >= 6);
+            assert!(page.faq.len() >= 6);
+            assert_eq!(seo_page_lastmod(page), TRAFFIC_PAGES_UPDATED_AT);
+
+            let static_answer = seo_calculator_note(id);
+            for source_id in source_ids {
+                assert!(static_answer.contains(&format!("data-tv-utility-source=\"{source_id}\"")));
+            }
+            assert_eq!(
+                static_answer.matches("data-tv-utility-source=").count(),
+                source_ids.len()
+            );
+
+            if id == "tv-energy-consumption" {
+                assert!(static_answer.contains("data-tv-energy-calculator=\"true\""));
+                assert!(static_answer.contains("data-tv-energy-answer=\"tv-energy-consumption\""));
+                assert_eq!(static_answer.matches("data-tv-energy-step=").count(), 3);
+                assert!(!static_answer.contains("data-tv-utility-task="));
+            } else {
+                assert!(static_answer.contains(&format!("data-tv-utility-answer=\"{id}\"")));
+                assert!(static_answer.contains(&format!("data-tv-utility-task=\"{id}\"")));
+                assert_eq!(static_answer.matches("data-tv-utility-branch=").count(), 3);
+                assert!(static_answer.contains("data-tv-utility-stop=\"true\""));
+                assert!(static_answer.contains("data-tv-utility-next="));
+            }
+
+            let expected_related: &[&str] = match id {
+                "tv-speakers" => &[
+                    "soundbar-to-tv",
+                    "tv-headphones",
+                    "tv-no-sound",
+                    "smart-tv-box",
+                    "picture-setup",
+                    "tv-no-signal",
+                ],
+                "tv-headphones" => &[
+                    "tv-speakers",
+                    "soundbar-to-tv",
+                    "tv-no-sound",
+                    "tv-no-internet",
+                    "smart-tv-box",
+                    "tv-remote-not-working",
+                ],
+                "tv-energy-consumption" => &[
+                    "tv-turns-off",
+                    "picture-setup",
+                    "tv-dimensions",
+                    "viewing-distance",
+                    "smart-tv-box",
+                    "screen-cleaning",
+                ],
+                _ => unreachable!(),
+            };
+            let actual_related = related_seo_pages(page, &pages)
+                .iter()
+                .map(|related| related.id.as_str())
+                .collect::<Vec<_>>();
+            assert_eq!(actual_related, expected_related, "{id}: related contract");
+
+            let html = seo_page_body(page, &pages, &[], &[], &[]);
+            assert_eq!(html.matches("<h1").count(), 1);
+            assert!(html.contains("Связанные материалы"));
+            assert!(!html.contains("market.yandex"));
+            assert!(!html.contains("data-affiliate"));
+            assert!(!html.contains('₽'));
+        }
+
+        let speakers = seo_calculator_note("tv-speakers");
+        assert!(
+            speakers
+                .contains("пассивные колонки без собственного усилителя нельзя подключать прямо")
+        );
+        assert!(speakers.contains("Клеммы пассивной колонки не являются входом телевизора"));
+        assert!(!speakers.contains("подключите пассивные колонки прямо"));
+
+        let headphones = seo_calculator_note("tv-headphones");
+        assert!(
+            headphones
+                .contains("Bluetooth, используемый только пультом, не подтверждает профиль A2DP")
+        );
+        assert!(headphones.contains("Функция не подтверждена"));
+        assert!(!headphones.contains("любой телевизор с Bluetooth"));
+
+        let energy = seo_calculator_note("tv-energy-consumption");
+        assert!(energy.contains("кВт·ч = Вт × часы / 1000; месяц = 30 дней; год = 365 дней"));
+        assert!(energy.contains("Тариф по умолчанию отсутствует: сервис его не угадывает"));
+        assert!(energy.contains(
+            "Ответы и числа остаются в браузере; свободный ввод и отправка данных отсутствуют"
+        ));
+        assert!(!energy.contains("средний тариф"));
+        assert!(!energy.contains("руб."));
+        assert!(!energy.contains('₽'));
     }
 
     #[test]

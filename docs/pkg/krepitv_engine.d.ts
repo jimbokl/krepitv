@@ -17,6 +17,8 @@ export function turn_clearance_plan_json(tv_width_cm: number, vesa_offset_cm: nu
 
 export function tv_dimensions_plan_json(mode: string, primary: number, secondary: number, clearance_cm: number, exact_case_width_cm: number, exact_case_height_cm: number): string;
 
+export function tv_energy_plan_json(active_power_w: number, hours_per_day: number, standby_power_w: number, tariff_rub_per_kwh?: number | null): string;
+
 export function tv_traffic_task_plan_json(task: string, primary: string, secondary: string, tertiary: string, detail: string): string;
 
 export function tv_zone_socket_plan_json(diagonal_inches: number, screen_center_height_cm: number, plate_width_cm: number, plate_height_cm: number, plate_horizontal_offset_cm: number, plate_vertical_offset_cm: number, socket_width_cm: number, socket_height_cm: number, socket_horizontal_offset_cm: number, socket_vertical_offset_cm: number, service_margin_cm: number, required_depth_cm: number, wall_clearance_cm: number, powered_devices: number, spare_power_modules: number, ethernet_modules: number, antenna_modules: number): string;
@@ -41,6 +43,7 @@ export interface InitOutput {
     readonly tilt_angle_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly turn_clearance_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
     readonly tv_dimensions_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number) => void;
+    readonly tv_energy_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
     readonly tv_traffic_task_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number) => void;
     readonly tv_zone_socket_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number, p: number, q: number, r: number) => void;
     readonly vesa_match_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
