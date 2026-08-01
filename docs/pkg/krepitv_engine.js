@@ -136,6 +136,34 @@ export function turn_clearance_plan_json(tv_width_cm, vesa_offset_cm, target_ang
 }
 
 /**
+ * @param {string} mode
+ * @param {number} primary
+ * @param {number} secondary
+ * @param {number} clearance_cm
+ * @param {number} exact_case_width_cm
+ * @param {number} exact_case_height_cm
+ * @returns {string}
+ */
+export function tv_dimensions_plan_json(mode, primary, secondary, clearance_cm, exact_case_width_cm, exact_case_height_cm) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(mode, wasm.__wbindgen_export2, wasm.__wbindgen_export3);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.tv_dimensions_plan_json(retptr, ptr0, len0, primary, secondary, clearance_cm, exact_case_width_cm, exact_case_height_cm);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred2_0 = r0;
+        deferred2_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
  * @param {number} diagonal_inches
  * @param {number} screen_center_height_cm
  * @param {number} plate_width_cm

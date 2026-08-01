@@ -1,0 +1,22 @@
+[
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"размеры телевизора по диагонали","variant":"head"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"размеры телевизоров в сантиметрах таблица","variant":"table"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"диагональ телевизора в см таблица","variant":"table"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"как измерить диагональ телевизора","variant":"measure"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"как узнать диагональ телевизора","variant":"measure"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"диагональ телевизора как измерить","variant":"measure"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"размер экрана телевизора в сантиметрах","variant":"screen"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"ширина телевизора по диагонали","variant":"width"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"высота телевизора по диагонали","variant":"height"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"телевизор 43 дюйма размеры","variant":"43"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"телевизор 50 дюймов размеры","variant":"50"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"телевизор 55 дюймов размеры","variant":"55"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"телевизор 65 дюймов размеры","variant":"65"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"телевизор 75 дюймов размеры","variant":"75"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"телевизор 85 дюймов размеры","variant":"85"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"ширина телевизора 55 дюймов","variant":"55-width"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"высота телевизора 55 дюймов","variant":"55-height"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"55 дюймов сколько см","variant":"55-convert"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"диагональ 55 дюймов сколько см","variant":"55-convert"},
+  {"candidate_id":"tv-dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"размер телевизора 55 дюймов в сантиметрах","variant":"55-size"}
+]

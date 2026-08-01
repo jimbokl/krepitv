@@ -1270,6 +1270,59 @@ for (const competingIntent of [
   }
 }
 
+const tvDimensionsPage = seoPages.find((page) => page.id === "tv-dimensions");
+const tvDimensionsHtml = tvDimensionsPage
+  ? (htmlByRoute.get(tvDimensionsPage.path) ?? "")
+  : "";
+if (
+  !tvDimensionsPage?.indexable
+  || tvDimensionsPage.path !== "/razmery-televizora-po-diagonali/"
+  || decodeHtmlAttribute(canonicalFromHtml(tvDimensionsHtml)) !== `${origin}/razmery-televizora-po-diagonali/`
+  || (tvDimensionsHtml.match(/<h1(?:\s|>)/g) ?? []).length !== 1
+) {
+  throw new Error("Нет единой индексируемой канонической страницы размеров телевизора");
+}
+for (const required of [
+  "Размеры телевизоров по диагонали: таблица и калькулятор — KREPI TV",
+  "Размеры телевизоров по диагонали в сантиметрах",
+  'data-tv-dimensions-answer="true"',
+  'data-tv-dimensions-reference-table="true"',
+  'data-tv-dimensions-table-scroll-hint="true"',
+  "Таблица показывает экран, а не корпус",
+  'href="/televizor-na-stene/"',
+  'href="/rasstoyanie-do-televizora-i-diagonal/"',
+  'href="/modeli/"',
+]) {
+  if (!tvDimensionsHtml.includes(required)) {
+    throw new Error(`Сырой HTML страницы размеров не содержит обязательный фрагмент: ${required}`);
+  }
+}
+for (const diagonal of [32, 43, 50, 55, 65, 75, 85]) {
+  if (!tvDimensionsHtml.includes(`data-tv-dimensions-row="${diagonal}"`)) {
+    throw new Error(`В справочной таблице размеров нет диагонали ${diagonal} дюймов`);
+  }
+}
+if (
+  (tvDimensionsHtml.match(/data-tv-dimensions-row=/g) ?? []).length !== 7
+  || tvDimensionsHtml.includes("market.yandex.ru")
+) {
+  throw new Error("Страница размеров должна иметь семь строк и не быть партнёрской витриной");
+}
+for (const sourceRoute of [
+  "/",
+  "/televizor-na-stene/",
+  "/rasstoyanie-do-televizora-i-diagonal/",
+  "/modeli/",
+  "/kronshteyn-dlya-televizora-43-dyuyma/",
+  "/kronshteyn-dlya-televizora-55-dyuyma/",
+  "/kronshteyn-dlya-televizora-65-dyuyma/",
+]) {
+  const sourceHtml = htmlByRoute.get(sourceRoute) ?? "";
+  if (!sourceHtml.includes('href="/razmery-televizora-po-diagonali/"')) {
+    throw new Error(`Нет целевой внутренней ссылки на размеры телевизора: ${sourceRoute}`);
+  }
+}
+
 const vesaLookupPage = seoPages.find((page) => page.id === "vesa");
 if (
   !vesaLookupPage
@@ -1541,7 +1594,7 @@ for (const page of indexableSeoPages) {
   if (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(page.path)) {
     throw new Error(`Индексируемая SEO-страница отсутствует в sitemap или закрыта: ${page.path}`);
   }
-  const expectedLastmod = ["vesa", "tv-mount-screws", "mounting-height", "wall-planner"].includes(page.id)
+  const expectedLastmod = ["vesa", "tv-mount-screws", "mounting-height", "wall-planner", "tv-dimensions"].includes(page.id)
     ? trafficPagesUpdatedAt
     : corePagesUpdatedAt;
   if (sitemapLastmods.get(page.path) !== expectedLastmod) {

@@ -28,6 +28,16 @@ const MIN_WALL_HEIGHT_CM: f64 = 150.0;
 const MAX_WALL_HEIGHT_CM: f64 = 1_000.0;
 const MIN_SCREEN_HEIGHT_CM: f64 = 10.0;
 const MAX_SCREEN_HEIGHT_CM: f64 = 400.0;
+const MIN_NICHE_WIDTH_CM: f64 = 30.0;
+const MAX_NICHE_WIDTH_CM: f64 = 1_000.0;
+const MIN_NICHE_HEIGHT_CM: f64 = 20.0;
+const MAX_NICHE_HEIGHT_CM: f64 = 500.0;
+const MAX_NICHE_CLEARANCE_CM: f64 = 50.0;
+const STANDARD_TV_DIAGONALS_INCHES: &[f64] = &[
+    19.0, 22.0, 24.0, 27.0, 28.0, 32.0, 39.0, 40.0, 42.0, 43.0, 48.0, 49.0, 50.0, 55.0, 58.0, 60.0,
+    65.0, 70.0, 75.0, 77.0, 83.0, 85.0, 86.0, 98.0, 100.0, 110.0, 115.0, 120.0, 130.0, 140.0,
+    150.0,
+];
 const MAX_TV_ZONE_ELEMENT_CM: f64 = 300.0;
 const MAX_TV_ZONE_OFFSET_CM: f64 = 250.0;
 const MAX_TV_ZONE_DEPTH_CM: f64 = 50.0;
@@ -105,6 +115,30 @@ pub struct MountingMapPlan {
     pub viewing_angle_deg: f64,
     pub clearance_cm: f64,
     pub adjusted_for_furniture: bool,
+    pub warnings: Vec<String>,
+}
+
+/// Результат перевода диагонали, ручного замера или размеров ниши.
+///
+/// `screen_width_cm` и `screen_height_cm` всегда описывают активный
+/// прямоугольник. Паспортный корпус передаётся и проверяется отдельно.
+#[derive(Clone, Debug, Serialize)]
+pub struct TvDimensionsPlan {
+    pub mode: String,
+    pub source: String,
+    pub diagonal_inches: f64,
+    pub diagonal_cm: f64,
+    pub screen_width_cm: f64,
+    pub screen_height_cm: f64,
+    pub measured_aspect_ratio: Option<f64>,
+    pub usable_width_cm: Option<f64>,
+    pub usable_height_cm: Option<f64>,
+    pub recommended_standard_diagonal_inches: Option<f64>,
+    pub exact_case_width_cm: Option<f64>,
+    pub exact_case_height_cm: Option<f64>,
+    pub exact_case_fits: Option<bool>,
+    pub exact_case_horizontal_delta_cm: Option<f64>,
+    pub exact_case_vertical_delta_cm: Option<f64>,
     pub warnings: Vec<String>,
 }
 
@@ -436,6 +470,252 @@ pub fn diagonal_for_viewing_distance(
         viewing_distance_cm: rounded(viewing_distance_cm),
         horizontal_angle_deg: rounded(horizontal_angle_deg),
         warnings: viewing_warnings(horizontal_angle_deg),
+    })
+}
+
+fn validate_optional_exact_case(
+    exact_case_width_cm: f64,
+    exact_case_height_cm: f64,
+) -> Result<Option<(f64, f64)>, String> {
+    validate_finite(exact_case_width_cm, "Паспортная ширина корпуса")?;
+    validate_finite(exact_case_height_cm, "Паспортная высота корпуса")?;
+
+    if exact_case_width_cm < 0.0 || exact_case_height_cm < 0.0 {
+        return Err("Паспортные габариты корпуса не могут быть отрицательными".to_string());
+    }
+    if exact_case_width_cm == 0.0 && exact_case_height_cm == 0.0 {
+        return Ok(None);
+    }
+    if exact_case_width_cm == 0.0 || exact_case_height_cm == 0.0 {
+        return Err(
+            "Укажите и ширину, и высоту корпуса либо оставьте оба поля равными нулю".to_string(),
+        );
+    }
+
+    validate_range(
+        exact_case_width_cm,
+        MIN_TV_WIDTH_CM,
+        MAX_TV_WIDTH_CM,
+        "Паспортная ширина корпуса",
+        "см",
+    )?;
+    validate_range(
+        exact_case_height_cm,
+        MIN_SCREEN_HEIGHT_CM,
+        MAX_SCREEN_HEIGHT_CM,
+        "Паспортная высота корпуса",
+        "см",
+    )?;
+    Ok(Some((exact_case_width_cm, exact_case_height_cm)))
+}
+
+/// Переводит диагональ, фактический прямоугольник или размеры ниши в сантиметры.
+///
+/// Аргументы `primary` и `secondary` зависят от режима:
+/// - `diagonal`: `primary` — диагональ в дюймах, `secondary` не используется;
+/// - `measured`: ширина и высота измеренного прямоугольника в сантиметрах;
+/// - `niche`: ширина и высота ниши в сантиметрах.
+///
+/// В режиме `niche` зазор вычитается с каждой стороны. Паспортные габариты
+/// корпуса являются отдельной необязательной парой и не подменяют активную
+/// область 16:9.
+#[allow(clippy::too_many_arguments)]
+pub fn calculate_tv_dimensions_plan(
+    mode: &str,
+    primary: f64,
+    secondary: f64,
+    clearance_cm: f64,
+    exact_case_width_cm: f64,
+    exact_case_height_cm: f64,
+) -> Result<TvDimensionsPlan, String> {
+    validate_finite(primary, "Основное значение")?;
+    validate_finite(secondary, "Второе значение")?;
+    validate_range(
+        clearance_cm,
+        0.0,
+        MAX_NICHE_CLEARANCE_CM,
+        "Зазор с каждой стороны",
+        "см",
+    )?;
+    let exact_case = validate_optional_exact_case(exact_case_width_cm, exact_case_height_cm)?;
+
+    let mut warnings = Vec::new();
+    let mut usable_width_cm = None;
+    let mut usable_height_cm = None;
+    let mut recommended_standard_diagonal_inches = None;
+    let mut exact_case_fits = None;
+    let mut exact_case_horizontal_delta_cm = None;
+    let mut exact_case_vertical_delta_cm = None;
+
+    let (source, diagonal_inches, screen_width_cm, screen_height_cm, measured_aspect_ratio) =
+        match mode {
+            "diagonal" => {
+                validate_range(
+                    primary,
+                    MIN_TV_DIAGONAL_INCHES,
+                    MAX_TV_DIAGONAL_INCHES,
+                    "Диагональ",
+                    "дюймов",
+                )?;
+                if secondary < 0.0 {
+                    return Err("Сравниваемая диагональ не может быть отрицательной".to_string());
+                }
+                if secondary > 0.0 {
+                    validate_range(
+                        secondary,
+                        MIN_TV_DIAGONAL_INCHES,
+                        MAX_TV_DIAGONAL_INCHES,
+                        "Сравниваемая диагональ",
+                        "дюймов",
+                    )?;
+                }
+                let (width, height) = screen_dimensions_16_by_9(primary);
+                warnings.push(
+                    "Расчёт показывает активную область 16:9, а не габариты корпуса телевизора."
+                        .to_string(),
+                );
+                ("diagonal-16:9", primary, width, height, None)
+            }
+            "measured" => {
+                validate_range(
+                    primary,
+                    MIN_TV_WIDTH_CM,
+                    MAX_TV_WIDTH_CM,
+                    "Измеренная ширина",
+                    "см",
+                )?;
+                validate_range(
+                    secondary,
+                    MIN_SCREEN_HEIGHT_CM,
+                    MAX_SCREEN_HEIGHT_CM,
+                    "Измеренная высота",
+                    "см",
+                )?;
+                let diagonal_cm = primary.hypot(secondary);
+                let diagonal_inches = diagonal_cm / 2.54;
+                validate_range(
+                    diagonal_inches,
+                    MIN_TV_DIAGONAL_INCHES,
+                    MAX_TV_DIAGONAL_INCHES,
+                    "Диагональ по замеру",
+                    "дюймов",
+                )?;
+                let aspect_ratio = primary / secondary;
+                warnings.push(
+                    "Диагональ рассчитана по введённому прямоугольнику без приведения к 16:9."
+                        .to_string(),
+                );
+                if (aspect_ratio - 16.0 / 9.0).abs() > 0.05 {
+                    warnings.push(
+                        "Измеренный прямоугольник заметно отличается от 16:9: проверьте, измеряли ли вы активную область или корпус."
+                            .to_string(),
+                    );
+                }
+                (
+                    "measured-rectangle",
+                    diagonal_inches,
+                    primary,
+                    secondary,
+                    Some(aspect_ratio),
+                )
+            }
+            "niche" => {
+                validate_range(
+                    primary,
+                    MIN_NICHE_WIDTH_CM,
+                    MAX_NICHE_WIDTH_CM,
+                    "Ширина ниши",
+                    "см",
+                )?;
+                validate_range(
+                    secondary,
+                    MIN_NICHE_HEIGHT_CM,
+                    MAX_NICHE_HEIGHT_CM,
+                    "Высота ниши",
+                    "см",
+                )?;
+
+                let usable_width = primary - clearance_cm * 2.0;
+                let usable_height = secondary - clearance_cm * 2.0;
+                if usable_width <= 0.0 || usable_height <= 0.0 {
+                    return Err(
+                        "Зазор с каждой стороны оставляет нулевую или отрицательную полезную область"
+                            .to_string(),
+                    );
+                }
+
+                let recommendation = STANDARD_TV_DIAGONALS_INCHES
+                    .iter()
+                    .rev()
+                    .copied()
+                    .find(|diagonal| {
+                        let (width, height) = screen_dimensions_16_by_9(*diagonal);
+                        width <= usable_width && height <= usable_height
+                    })
+                    .ok_or_else(|| {
+                        "Полезная область ниши слишком мала даже для стандартного экрана 19″"
+                            .to_string()
+                    })?;
+                let (width, height) = screen_dimensions_16_by_9(recommendation);
+                usable_width_cm = Some(usable_width);
+                usable_height_cm = Some(usable_height);
+                recommended_standard_diagonal_inches = Some(recommendation);
+                warnings.push(
+                    "Рекомендация относится к активной области 16:9; перед покупкой проверьте паспортные габариты корпуса."
+                        .to_string(),
+                );
+
+                if let Some((case_width, case_height)) = exact_case {
+                    let horizontal_delta = usable_width - case_width;
+                    let vertical_delta = usable_height - case_height;
+                    let fits = horizontal_delta >= -f64::EPSILON && vertical_delta >= -f64::EPSILON;
+                    exact_case_fits = Some(fits);
+                    exact_case_horizontal_delta_cm = Some(horizontal_delta);
+                    exact_case_vertical_delta_cm = Some(vertical_delta);
+                    if !fits {
+                        warnings.push(
+                            "Выбранный паспортный корпус не помещается в полезную область ниши."
+                                .to_string(),
+                        );
+                    }
+                }
+
+                ("niche-standard-16:9", recommendation, width, height, None)
+            }
+            _ => {
+                return Err(
+                    "Неизвестный режим расчёта: выберите диагональ, замер или нишу".to_string(),
+                );
+            }
+        };
+
+    if mode != "niche" && exact_case.is_some() {
+        warnings.push(
+            "Паспортные габариты корпуса проверяются на вместимость только в режиме ниши."
+                .to_string(),
+        );
+    }
+    let (exact_case_width, exact_case_height) = exact_case
+        .map(|(width, height)| (Some(rounded(width)), Some(rounded(height))))
+        .unwrap_or((None, None));
+
+    Ok(TvDimensionsPlan {
+        mode: mode.to_string(),
+        source: source.to_string(),
+        diagonal_inches: rounded(diagonal_inches),
+        diagonal_cm: rounded(diagonal_inches * 2.54),
+        screen_width_cm: rounded(screen_width_cm),
+        screen_height_cm: rounded(screen_height_cm),
+        measured_aspect_ratio: measured_aspect_ratio.map(rounded),
+        usable_width_cm: usable_width_cm.map(rounded),
+        usable_height_cm: usable_height_cm.map(rounded),
+        recommended_standard_diagonal_inches: recommended_standard_diagonal_inches.map(rounded),
+        exact_case_width_cm: exact_case_width,
+        exact_case_height_cm: exact_case_height,
+        exact_case_fits,
+        exact_case_horizontal_delta_cm: exact_case_horizontal_delta_cm.map(rounded),
+        exact_case_vertical_delta_cm: exact_case_vertical_delta_cm.map(rounded),
+        warnings,
     })
 }
 
@@ -2103,6 +2383,28 @@ pub fn tv_zone_socket_plan_json(
 }
 
 #[wasm_bindgen]
+pub fn tv_dimensions_plan_json(
+    mode: &str,
+    primary: f64,
+    secondary: f64,
+    clearance_cm: f64,
+    exact_case_width_cm: f64,
+    exact_case_height_cm: f64,
+) -> String {
+    match calculate_tv_dimensions_plan(
+        mode,
+        primary,
+        secondary,
+        clearance_cm,
+        exact_case_width_cm,
+        exact_case_height_cm,
+    ) {
+        Ok(plan) => serde_json::to_string(&plan).expect("TV dimensions plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
+#[wasm_bindgen]
 pub fn viewing_geometry_json(mode: &str, value: f64, horizontal_angle_deg: f64) -> String {
     let result = match mode {
         "diagonal-to-distance" => viewing_distance_for_diagonal(value, horizontal_angle_deg),
@@ -2572,6 +2874,164 @@ mod tests {
         let invalid_value = viewing_geometry_json("diagonal-to-distance", 5.0, 36.0);
         let invalid_value: serde_json::Value = serde_json::from_str(&invalid_value).unwrap();
         assert!(invalid_value.get("error").is_some());
+    }
+
+    #[test]
+    fn tv_dimensions_diagonal_mode_uses_exact_16_by_9_geometry() {
+        let plan = calculate_tv_dimensions_plan("diagonal", 55.0, 0.0, 0.0, 0.0, 0.0).unwrap();
+
+        assert_eq!(plan.mode, "diagonal");
+        assert_eq!(plan.source, "diagonal-16:9");
+        assert_eq!(plan.diagonal_inches, 55.0);
+        assert_eq!(plan.diagonal_cm, 139.7);
+        assert_eq!(plan.screen_width_cm, 121.8);
+        assert_eq!(plan.screen_height_cm, 68.5);
+        assert_eq!(plan.measured_aspect_ratio, None);
+        assert_eq!(plan.usable_width_cm, None);
+        assert_eq!(plan.recommended_standard_diagonal_inches, None);
+        assert!(plan.warnings.iter().any(|warning| warning.contains("16:9")));
+
+        let with_comparison =
+            calculate_tv_dimensions_plan("diagonal", 55.0, 65.0, 0.0, 0.0, 0.0).unwrap();
+        assert_eq!(with_comparison.diagonal_inches, 55.0);
+    }
+
+    #[test]
+    fn tv_dimensions_measured_mode_preserves_input_rectangle() {
+        let plan = calculate_tv_dimensions_plan("measured", 121.8, 68.5, 0.0, 0.0, 0.0).unwrap();
+
+        assert_eq!(plan.mode, "measured");
+        assert_eq!(plan.source, "measured-rectangle");
+        assert_eq!(plan.diagonal_inches, 55.0);
+        assert_eq!(plan.diagonal_cm, 139.7);
+        assert_eq!(plan.screen_width_cm, 121.8);
+        assert_eq!(plan.screen_height_cm, 68.5);
+        assert_eq!(plan.measured_aspect_ratio, Some(1.8));
+        assert!(
+            plan.warnings
+                .iter()
+                .any(|warning| warning.contains("без приведения к 16:9"))
+        );
+
+        let non_widescreen =
+            calculate_tv_dimensions_plan("measured", 100.0, 80.0, 0.0, 0.0, 0.0).unwrap();
+        assert_eq!(non_widescreen.screen_width_cm, 100.0);
+        assert_eq!(non_widescreen.screen_height_cm, 80.0);
+        assert_eq!(non_widescreen.measured_aspect_ratio, Some(1.3));
+        assert!(
+            non_widescreen
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("отличается от 16:9"))
+        );
+    }
+
+    #[test]
+    fn tv_dimensions_niche_mode_selects_largest_fitting_standard_size() {
+        let plan = calculate_tv_dimensions_plan("niche", 130.0, 80.0, 2.0, 0.0, 0.0).unwrap();
+
+        assert_eq!(plan.mode, "niche");
+        assert_eq!(plan.source, "niche-standard-16:9");
+        assert_eq!(plan.usable_width_cm, Some(126.0));
+        assert_eq!(plan.usable_height_cm, Some(76.0));
+        assert_eq!(plan.recommended_standard_diagonal_inches, Some(55.0));
+        assert_eq!(plan.diagonal_inches, 55.0);
+        assert_eq!(plan.screen_width_cm, 121.8);
+        assert_eq!(plan.screen_height_cm, 68.5);
+        assert_eq!(plan.exact_case_fits, None);
+    }
+
+    #[test]
+    fn tv_dimensions_niche_checks_exact_case_fit_and_deltas() {
+        let fitting = calculate_tv_dimensions_plan("niche", 130.0, 80.0, 2.0, 125.0, 75.0).unwrap();
+        assert_eq!(fitting.exact_case_width_cm, Some(125.0));
+        assert_eq!(fitting.exact_case_height_cm, Some(75.0));
+        assert_eq!(fitting.exact_case_fits, Some(true));
+        assert_eq!(fitting.exact_case_horizontal_delta_cm, Some(1.0));
+        assert_eq!(fitting.exact_case_vertical_delta_cm, Some(1.0));
+
+        let too_wide =
+            calculate_tv_dimensions_plan("niche", 130.0, 80.0, 2.0, 127.0, 75.0).unwrap();
+        assert_eq!(too_wide.exact_case_fits, Some(false));
+        assert_eq!(too_wide.exact_case_horizontal_delta_cm, Some(-1.0));
+        assert_eq!(too_wide.exact_case_vertical_delta_cm, Some(1.0));
+        assert!(
+            too_wide
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("не помещается"))
+        );
+    }
+
+    #[test]
+    fn tv_dimensions_rejects_invalid_modes_ranges_and_partial_pairs() {
+        assert!(
+            calculate_tv_dimensions_plan("diagonal", 0.0, 0.0, 0.0, 0.0, 0.0)
+                .unwrap_err()
+                .contains("Диагональ")
+        );
+        assert!(
+            calculate_tv_dimensions_plan("measured", f64::NAN, 68.5, 0.0, 0.0, 0.0)
+                .unwrap_err()
+                .contains("конечное число")
+        );
+        assert!(
+            calculate_tv_dimensions_plan("measured", 121.8, 0.0, 0.0, 0.0, 0.0)
+                .unwrap_err()
+                .contains("Измеренная высота")
+        );
+        assert!(
+            calculate_tv_dimensions_plan("niche", 50.0, 30.0, 15.0, 0.0, 0.0)
+                .unwrap_err()
+                .contains("нулевую или отрицательную")
+        );
+        assert!(
+            calculate_tv_dimensions_plan("niche", 130.0, 80.0, 2.0, 125.0, 0.0)
+                .unwrap_err()
+                .contains("и ширину, и высоту корпуса")
+        );
+        assert!(
+            calculate_tv_dimensions_plan("niche", 30.0, 20.0, 0.0, 0.0, 0.0)
+                .unwrap_err()
+                .contains("слишком мала")
+        );
+        assert!(
+            calculate_tv_dimensions_plan("unknown", 55.0, 0.0, 0.0, 0.0, 0.0)
+                .unwrap_err()
+                .contains("Неизвестный режим")
+        );
+    }
+
+    #[test]
+    fn tv_dimensions_wasm_json_has_stable_shape_and_errors() {
+        let response = tv_dimensions_plan_json("niche", 130.0, 80.0, 2.0, 125.0, 75.0);
+        let value: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "mode",
+            "source",
+            "diagonal_inches",
+            "diagonal_cm",
+            "screen_width_cm",
+            "screen_height_cm",
+            "measured_aspect_ratio",
+            "usable_width_cm",
+            "usable_height_cm",
+            "recommended_standard_diagonal_inches",
+            "exact_case_width_cm",
+            "exact_case_height_cm",
+            "exact_case_fits",
+            "exact_case_horizontal_delta_cm",
+            "exact_case_vertical_delta_cm",
+            "warnings",
+        ] {
+            assert!(value.get(field).is_some(), "missing field {field}");
+        }
+        assert!(value.get("error").is_none());
+
+        let invalid = tv_dimensions_plan_json("measured", 121.8, 0.0, 0.0, 0.0, 0.0);
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+        assert!(invalid.get("diagonal_inches").is_none());
     }
 
     #[test]

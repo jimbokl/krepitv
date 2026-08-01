@@ -1,0 +1,1791 @@
+[
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "размеры телевизора по диагонали",
+      "variant": "head"
+    },
+    "operator_query": "\"[размеры телевизора по диагонали]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "5589",
+          "text": "диагональ 32 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "4950",
+          "text": "диагональ 43 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "13684",
+          "text": "телевизор 85 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "3272",
+          "text": "65 диагональ в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "17541",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "18996",
+          "text": "диагонали тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1358",
+          "text": "диагональ 50 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "29901",
+          "text": "диагональ 65"
+        },
+        {
+          "isAssociations": true,
+          "value": "2298",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "7185",
+          "text": "32 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1139",
+          "text": "тв 55 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "765",
+          "text": "диагональ 75 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "672",
+          "text": "110 см в дюймах телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "3515",
+          "text": "ширина телевизора 65 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "243",
+          "text": "диагональ тв в сантиметрах таблица"
+        },
+        {
+          "isAssociations": true,
+          "value": "591",
+          "text": "80 см в дюймах телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "21456",
+          "text": "сколько см в дюйме в телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "47729",
+          "text": "ширина телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "2704",
+          "text": "диаметр телевизора"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2108",
+          "text": "размеры телевизоров по диагонали"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "размеры телевизоров в сантиметрах таблица",
+      "variant": "table"
+    },
+    "operator_query": "\"[размеры телевизоров в сантиметрах таблица]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "116668",
+          "text": "сколько см в дюйме"
+        },
+        {
+          "isAssociations": true,
+          "value": "175080",
+          "text": "дюйм сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1387",
+          "text": "32 дюйма это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "387",
+          "text": "65 диагональ в см ширина и высота"
+        },
+        {
+          "isAssociations": true,
+          "value": "636",
+          "text": "диагональ 43 дюйма сколько в см ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "6170",
+          "text": "43 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "2163",
+          "text": "50 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1827",
+          "text": "диагонали тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1453",
+          "text": "27 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "770",
+          "text": "75 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "252",
+          "text": "диагональ 80 см в дюймах сколько это"
+        },
+        {
+          "isAssociations": true,
+          "value": "1343",
+          "text": "65 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "158",
+          "text": "диагональ 81 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "156",
+          "text": "диагональ 19 дюймов сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "571",
+          "text": "диагональ 43 это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "133",
+          "text": "43 дюйма это сколько см по диагонали"
+        },
+        {
+          "isAssociations": true,
+          "value": "1360",
+          "text": "40 диагональ сколько см"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2945",
+          "text": "размеры телевизоров в сантиметрах таблица"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "диагональ телевизора в см таблица",
+      "variant": "table"
+    },
+    "operator_query": "\"[диагональ телевизора в см таблица]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "26578",
+          "text": "дюйм это сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "8605",
+          "text": "линейка онлайн на экране в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "14485",
+          "text": "1 дюйм сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "28297",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "175080",
+          "text": "дюйм сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "4285",
+          "text": "один дюйм в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "9779",
+          "text": "сколько см в 1 дюйме"
+        },
+        {
+          "isAssociations": true,
+          "value": "116809",
+          "text": "сколько дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "2165",
+          "text": "сколько см в одном дюйме"
+        },
+        {
+          "isAssociations": true,
+          "value": "259",
+          "text": "длина ширина высота как правильно записать"
+        },
+        {
+          "isAssociations": true,
+          "value": "626",
+          "text": "как узнать модель монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1523",
+          "text": "длина ширина высота как правильно"
+        },
+        {
+          "isAssociations": true,
+          "value": "555",
+          "text": "как узнать сколько дюймов монитор"
+        },
+        {
+          "isAssociations": true,
+          "value": "227",
+          "text": "как понять сколько дюймов монитор"
+        },
+        {
+          "isAssociations": true,
+          "value": "332",
+          "text": "большое тв что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "70",
+          "text": "как правильно писать размеры ширина высота длина"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4270",
+          "text": "диагонали телевизоров в см таблица"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "как измерить диагональ телевизора",
+      "variant": "measure"
+    },
+    "operator_query": "\"[как измерить диагональ телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "109677",
+          "text": "размеры телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "3272",
+          "text": "65 диагональ в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "6167",
+          "text": "43 дюйма в см телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "3969",
+          "text": "телевизор 75 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "17541",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "18996",
+          "text": "диагонали тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "7122",
+          "text": "размеры телевизоров в дюймах и сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "91483",
+          "text": "диагональ экрана"
+        },
+        {
+          "isAssociations": true,
+          "value": "3854",
+          "text": "43 диагональ в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "109677",
+          "text": "телевизор размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "15553",
+          "text": "тв 32 дюйма"
+        },
+        {
+          "isAssociations": true,
+          "value": "36031",
+          "text": "дюймы телевизора в сантиметры"
+        },
+        {
+          "isAssociations": true,
+          "value": "608",
+          "text": "размер тв 65 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "665",
+          "text": "тв 75 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "13530",
+          "text": "телевизор размеры в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1221",
+          "text": "тв 65 дюймов размеры"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2679",
+          "text": "как измерить диагональ телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "как узнать диагональ телевизора",
+      "variant": "measure"
+    },
+    "operator_query": "\"[как узнать диагональ телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10795",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "5030",
+          "text": "32 дюйма в см телевизор сколько"
+        },
+        {
+          "isAssociations": true,
+          "value": "28536",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "83622",
+          "text": "все каналы телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "985595",
+          "text": "телек"
+        },
+        {
+          "isAssociations": true,
+          "value": "57841",
+          "text": "телик"
+        },
+        {
+          "isAssociations": true,
+          "value": "17778",
+          "text": "как выбрать телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "17541",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "830",
+          "text": "телек или телик"
+        },
+        {
+          "isAssociations": true,
+          "value": "605",
+          "text": "размеры тв в дюймах и см"
+        },
+        {
+          "isAssociations": true,
+          "value": "4242",
+          "text": "размеры тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "346",
+          "text": "что идет по телеку"
+        },
+        {
+          "isAssociations": true,
+          "value": "269",
+          "text": "тв 32 дюйма размеры в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "256",
+          "text": "televizor tv"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1971",
+          "text": "как узнать диагональ телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "диагональ телевизора как измерить",
+      "variant": "measure"
+    },
+    "operator_query": "\"[диагональ телевизора как измерить]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "размер экрана телевизора в сантиметрах",
+      "variant": "screen"
+    },
+    "operator_query": "\"[размер экрана телевизора в сантиметрах]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3162",
+          "text": "диагональ 55 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "2530",
+          "text": "как измерить диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "2254",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "364",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "878",
+          "text": "диагональ 32 дюйма сколько в см ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "369",
+          "text": "диагональ 60 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "243",
+          "text": "как измерить диагональ монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "560",
+          "text": "диагональ 40 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "781",
+          "text": "диагональ 80 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "568",
+          "text": "диагональ 55 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "407",
+          "text": "диагональ 140 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "156",
+          "text": "диагональ 19 дюймов сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "282",
+          "text": "55 диагональ в см ширина и высота"
+        },
+        {
+          "isAssociations": true,
+          "value": "77",
+          "text": "55 см в дюймах диагональ монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "284",
+          "text": "диагональ 100 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1128",
+          "text": "диагональ 55 сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "568",
+          "text": "диагональ 55 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "90",
+          "text": "как померить диагональ монитора"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "565",
+          "text": "размер экранов телевизоров в сантиметрах"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "ширина телевизора по диагонали",
+      "variant": "width"
+    },
+    "operator_query": "\"[ширина телевизора по диагонали]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "109677",
+          "text": "размеры телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "8242",
+          "text": "телевизор 100 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "3969",
+          "text": "телевизор 75 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "7115",
+          "text": "телевизор 60 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "17541",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2566",
+          "text": "60 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "18996",
+          "text": "диагонали тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "4579",
+          "text": "телевизор 43 дюйма размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "109677",
+          "text": "телевизор размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "1139",
+          "text": "тв 55 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "815",
+          "text": "телевизор 60 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "15553",
+          "text": "тв 32 дюйма"
+        },
+        {
+          "isAssociations": true,
+          "value": "665",
+          "text": "тв 75 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "9318",
+          "text": "тв 65 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "1221",
+          "text": "тв 65 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "24915",
+          "text": "размеры телевизоров в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1139",
+          "text": "размер тв 55 дюймов"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "700",
+          "text": "ширина телевизора по диагонали"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "высота телевизора по диагонали",
+      "variant": "height"
+    },
+    "operator_query": "\"[высота телевизора по диагонали]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "телевизор 43 дюйма размеры",
+      "variant": "43"
+    },
+    "operator_query": "\"[телевизор 43 дюйма размеры]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3189",
+          "text": "диагональ 55 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "2569",
+          "text": "как измерить диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "18923",
+          "text": "диагональ телевизора в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "17541",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "18996",
+          "text": "диагонали тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1358",
+          "text": "диагональ 50 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "801",
+          "text": "диагональ 65 дюймов в сантиметрах ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "3854",
+          "text": "43 диагональ в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "704",
+          "text": "как померить диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "26784",
+          "text": "диагональ 43"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "диагональ 55 это сколько сантиметров на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "2298",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1789",
+          "text": "диагональ 65 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "373",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "765",
+          "text": "диагональ 75 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "402",
+          "text": "65 диагональ телевизор сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "297",
+          "text": "как измеряется диагональ у телевизора"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4703",
+          "text": "телевизор 43 дюйма размеры"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "телевизор 50 дюймов размеры",
+      "variant": "50"
+    },
+    "operator_query": "\"[телевизор 50 дюймов размеры]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3162",
+          "text": "диагональ 55 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1926",
+          "text": "диагональ 50 сколько в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "2151",
+          "text": "80 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "17015",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2521",
+          "text": "60 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "787",
+          "text": "диагональ 65 дюймов в сантиметрах ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "546",
+          "text": "диагональ 55 это сколько сантиметров на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1746",
+          "text": "диагональ 65 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "364",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "721",
+          "text": "диагональ 75 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "805",
+          "text": "диагональ 110 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1167",
+          "text": "45 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "4294",
+          "text": "65 диагональ размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "369",
+          "text": "диагональ 60 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "360",
+          "text": "диагональ 85 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "261",
+          "text": "50мм в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "461",
+          "text": "65 диагональ сколько сантиметров ширина"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4619",
+          "text": "телевизор 50 дюймов размеры"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "телевизор 55 дюймов размеры",
+      "variant": "55"
+    },
+    "operator_query": "\"[телевизор 55 дюймов размеры]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2521",
+          "text": "60 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "35838",
+          "text": "диагональ 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "364",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "664",
+          "text": "queen size кровать размер"
+        },
+        {
+          "isAssociations": true,
+          "value": "2923",
+          "text": "холодильник 55 см ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "360",
+          "text": "диагональ 85 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "2363",
+          "text": "стиральная машина ширина 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "872",
+          "text": "на какой высоте вешать телевизор в гостиной"
+        },
+        {
+          "isAssociations": true,
+          "value": "5442",
+          "text": "диагональ 65 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "2725",
+          "text": "55 диагональ сколько сантиметров"
+        },
+        {
+          "isAssociations": true,
+          "value": "909",
+          "text": "40 труба в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "133",
+          "text": "диагональ 40 это сколько в сантиметрах телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1709",
+          "text": "расписание 55 маршрутки"
+        },
+        {
+          "isAssociations": true,
+          "value": "3840",
+          "text": "холодильник ширина 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "9494",
+          "text": "диагональ 43 дюйма"
+        },
+        {
+          "isAssociations": true,
+          "value": "1534",
+          "text": "размер талии у мужчин"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "9787",
+          "text": "телевизор 55 дюймов размер"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "телевизор 65 дюймов размеры",
+      "variant": "65"
+    },
+    "operator_query": "\"[телевизор 65 дюймов размеры]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2137",
+          "text": "80 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "29901",
+          "text": "диагональ 65"
+        },
+        {
+          "isAssociations": true,
+          "value": "801",
+          "text": "диагональ 110 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "3638",
+          "text": "высота телевизора в спальне"
+        },
+        {
+          "isAssociations": true,
+          "value": "2931",
+          "text": "65 диагональ в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "199",
+          "text": "как меряется диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "571",
+          "text": "диагональ 55 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "13067",
+          "text": "тв 55 дюймов"
+        },
+        {
+          "isAssociations": true,
+          "value": "142",
+          "text": "в чем измеряется диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1068",
+          "text": "25 диаметр в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "75",
+          "text": "55 см в дюймах диагональ монитора"
+        },
+        {
+          "isAssociations": true,
+          "value": "72",
+          "text": "как измеряется диагональ у телевизора экран"
+        },
+        {
+          "isAssociations": true,
+          "value": "2704",
+          "text": "диаметр телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "12045",
+          "text": "диагональ телевизора 50"
+        },
+        {
+          "isAssociations": true,
+          "value": "571",
+          "text": "диагональ 55 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "127",
+          "text": "диагональ 45 дюймов в сантиметрах"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "7547",
+          "text": "телевизор 65 дюймов размер"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "телевизор 75 дюймов размеры",
+      "variant": "75"
+    },
+    "operator_query": "\"[телевизор 75 дюймов размеры]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "4950",
+          "text": "диагональ 43 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "3189",
+          "text": "диагональ 55 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "2569",
+          "text": "как измерить диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1825",
+          "text": "диагональ 24 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "18923",
+          "text": "диагональ телевизора в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "17541",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "801",
+          "text": "диагональ 65 дюймов в сантиметрах ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "диагональ 55 это сколько сантиметров на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "2298",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "675",
+          "text": "диагональ 55 это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "373",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "402",
+          "text": "65 диагональ телевизор сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "261",
+          "text": "диагональ 23.8 сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "363",
+          "text": "диагональ 85 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "14450",
+          "text": "диагональ 75"
+        },
+        {
+          "isAssociations": true,
+          "value": "1145",
+          "text": "диагональ 55 сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "6981",
+          "text": "диагональ 27"
+        },
+        {
+          "isAssociations": true,
+          "value": "365",
+          "text": "диагональ монитора 27 сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "169",
+          "text": "диагональ 85 сколько в см"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4053",
+          "text": "телевизор 75 дюймов размеры"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "телевизор 85 дюймов размеры",
+      "variant": "85"
+    },
+    "operator_query": "\"[телевизор 85 дюймов размеры]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3189",
+          "text": "диагональ 55 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "2569",
+          "text": "как измерить диагональ телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "18923",
+          "text": "диагональ телевизора в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "2137",
+          "text": "80 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "17541",
+          "text": "размеры тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "801",
+          "text": "диагональ 65 дюймов в сантиметрах ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "541",
+          "text": "диагональ 55 это сколько сантиметров на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "2298",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1789",
+          "text": "диагональ 65 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "675",
+          "text": "диагональ 55 это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "373",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "4301",
+          "text": "65 диагональ размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "402",
+          "text": "65 диагональ телевизор сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "2931",
+          "text": "65 диагональ в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1145",
+          "text": "диагональ 55 сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "454",
+          "text": "65 диагональ сколько сантиметров ширина"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1504",
+          "text": "телевизор 85 дюймов размер"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "ширина телевизора 55 дюймов",
+      "variant": "55-width"
+    },
+    "operator_query": "\"[ширина телевизора 55 дюймов]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "35838",
+          "text": "диагональ 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "103",
+          "text": "админка 55 навигатор дети"
+        },
+        {
+          "isAssociations": true,
+          "value": "677",
+          "text": "диагональ 55 это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "364",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "19789",
+          "text": "размеры диагоналей телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "1464",
+          "text": "диагональ 55 сколько в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "4214",
+          "text": "расписание 55 маршрута"
+        },
+        {
+          "isAssociations": true,
+          "value": "1169",
+          "text": "тв 65 дюймов размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "222",
+          "text": "диагональ 60 дюймов в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "133",
+          "text": "диагональ 40 это сколько в сантиметрах телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "2001",
+          "text": "размеры телевизоров по диагонали"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4913",
+          "text": "ширина телевизора 55 дюймов"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "высота телевизора 55 дюймов",
+      "variant": "55-height"
+    },
+    "operator_query": "\"[высота телевизора 55 дюймов]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "85",
+          "text": "высота 89 фильм 2006 актеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "36574",
+          "text": "диагональ 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "312",
+          "text": "песня из фильма высота 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "1845",
+          "text": "фильм высота актеры и роли"
+        },
+        {
+          "isAssociations": true,
+          "value": "7152",
+          "text": "xiaomi tv a 55 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "2592",
+          "text": "диагональ 55 это сколько"
+        },
+        {
+          "isAssociations": true,
+          "value": "2942",
+          "text": "холодильник 55 см ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "1509",
+          "text": "диагональ 55 сколько в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "13530",
+          "text": "телевизор размеры в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "591",
+          "text": "школа 55 серия"
+        },
+        {
+          "isAssociations": true,
+          "value": "241",
+          "text": "55 мм какой размер кольца"
+        },
+        {
+          "isAssociations": true,
+          "value": "964",
+          "text": "высота тв от пола"
+        },
+        {
+          "isAssociations": true,
+          "value": "193",
+          "text": "тв 55 диагональ размеры в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1145",
+          "text": "диагональ 55 сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "106",
+          "text": "телевизор размеры в сантиметрах от диагонали"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "2822",
+          "text": "высота телевизора 55 дюймов"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "55 дюймов сколько см",
+      "variant": "55-convert"
+    },
+    "operator_query": "\"[55 дюймов сколько см]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "7666",
+          "text": "27 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "4395",
+          "text": "75 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "2516",
+          "text": "42 дюйма в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1689",
+          "text": "30 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "787",
+          "text": "75 дюймов в см размер экрана"
+        },
+        {
+          "isAssociations": true,
+          "value": "1842",
+          "text": "85 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "2616",
+          "text": "3 4 дюйма это сколько мм"
+        },
+        {
+          "isAssociations": true,
+          "value": "1259",
+          "text": "36 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1366",
+          "text": "29 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "31817",
+          "text": "сколько мм в дюйме"
+        },
+        {
+          "isAssociations": true,
+          "value": "259",
+          "text": "три четверти дюйма это сколько в мм"
+        },
+        {
+          "isAssociations": true,
+          "value": "789",
+          "text": "48 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "608",
+          "text": "5 8 дюйма это сколько мм"
+        },
+        {
+          "isAssociations": true,
+          "value": "900",
+          "text": "39 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "969",
+          "text": "35 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "46879",
+          "text": "дюйм сколько мм"
+        },
+        {
+          "isAssociations": true,
+          "value": "3532",
+          "text": "65 дюймов в см размер"
+        },
+        {
+          "isAssociations": true,
+          "value": "653",
+          "text": "12 дюймов это сколько сантиметров"
+        },
+        {
+          "isAssociations": true,
+          "value": "855",
+          "text": "38 дюймов в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "271",
+          "text": "3.4 дюйма это сколько в мм"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3670",
+          "text": "55 дюймов сколько см"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "диагональ 55 дюймов сколько см",
+      "variant": "55-convert"
+    },
+    "operator_query": "\"[диагональ 55 дюймов сколько см]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "размер телевизора 55 дюймов в сантиметрах",
+      "variant": "55-size"
+    },
+    "operator_query": "\"[размер телевизора 55 дюймов в сантиметрах]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2151",
+          "text": "80 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "35838",
+          "text": "диагональ 55"
+        },
+        {
+          "isAssociations": true,
+          "value": "2254",
+          "text": "55 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "677",
+          "text": "диагональ 55 это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "364",
+          "text": "диагональ 40 дюймов это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "805",
+          "text": "диагональ 110 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "4294",
+          "text": "65 диагональ размеры"
+        },
+        {
+          "isAssociations": true,
+          "value": "2558",
+          "text": "диагональ 55 это сколько"
+        },
+        {
+          "isAssociations": true,
+          "value": "432",
+          "text": "65 диагональ телевизор сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "369",
+          "text": "диагональ 60 см сколько в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "2876",
+          "text": "65 диагональ в сантиметрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "560",
+          "text": "диагональ 40 дюйма сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "2923",
+          "text": "холодильник 55 см ширина"
+        },
+        {
+          "isAssociations": true,
+          "value": "781",
+          "text": "диагональ 80 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "282",
+          "text": "как измеряется диагональ у телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "186",
+          "text": "какая диагональ телевизора для расстояния 3 метра"
+        },
+        {
+          "isAssociations": true,
+          "value": "407",
+          "text": "диагональ 140 см в дюймах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1128",
+          "text": "диагональ 55 сколько в см"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1667",
+          "text": "размеры телевизора 55 дюймов в сантиметрах"
+        }
+      ]
+    }
+  }
+]

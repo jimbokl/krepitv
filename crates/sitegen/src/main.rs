@@ -551,7 +551,7 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
 fn seo_page_lastmod(page: &SeoPage) -> &'static str {
     if matches!(
         page.id.as_str(),
-        "vesa" | "tv-mount-screws" | "mounting-height" | "wall-planner"
+        "vesa" | "tv-mount-screws" | "mounting-height" | "wall-planner" | "tv-dimensions"
     ) {
         TRAFFIC_PAGES_UPDATED_AT
     } else {
@@ -961,7 +961,7 @@ fn models_catalog_body(models: &[TvModel]) -> String {
         .collect::<Vec<_>>();
     let items = brand_catalog_html(items, "Моделей", "div", "border-b border-line");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные модели с подтверждёнными VESA, массой без подставки и источником. На каждой странице показаны кронштейны, прошедшие единый Rust-расчёт.</p><aside class=\"mt-7 grid gap-4 border-2 border-ink bg-white p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><p class=\"font-mono text-xs uppercase text-action\">Технический справочник</p><p class=\"mt-1 font-display text-2xl font-extrabold\">Какие винты нужны для крепления телевизора</p><p class=\"mt-2 max-w-2xl text-sm leading-relaxed text-muted\">Поиск по точной модели: M6 или M8, количество, длина либо допустимая глубина и официальное руководство.</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/vinty-dlya-krepleniya-televizora/\">Подобрать винты →</a></aside><nav class=\"mt-9\" aria-label=\"Модели телевизоров\">{items}</nav></article>"
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные модели с подтверждёнными VESA, массой без подставки и источником. На каждой странице показаны кронштейны, прошедшие единый Rust-расчёт.</p><nav class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2\" aria-label=\"Инструменты перед выбором модели\"><a class=\"bg-paper p-5\" href=\"/razmery-televizora-po-diagonali/\"><span class=\"font-mono text-xs uppercase text-action\">Размер до покупки</span><strong class=\"mt-1 block font-display text-2xl\">Ширина и высота по диагонали</strong><span class=\"mt-2 block text-sm leading-relaxed text-muted\">Таблица 16:9, обратный замер и проверка ниши.</span></a><a class=\"bg-paper p-5\" href=\"/vinty-dlya-krepleniya-televizora/\"><span class=\"font-mono text-xs uppercase text-action\">Технический справочник</span><strong class=\"mt-1 block font-display text-2xl\">Винты VESA по точной модели</strong><span class=\"mt-2 block text-sm leading-relaxed text-muted\">Резьба, длина, вставки и официальное руководство.</span></a></nav><nav class=\"mt-9\" aria-label=\"Модели телевизоров\">{items}</nav></article>"
     ))
 }
 
@@ -1434,6 +1434,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else if page.kind == "diagonal" {
         &[
+            "tv-dimensions",
             "buy-tv-mount",
             "mounting-height",
             "vesa",
@@ -1465,12 +1466,20 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "mounting-height",
             ],
             "wall-planner" => &[
+                "tv-dimensions",
                 "mounting-height",
                 "mounting-map",
                 "tv-zone-sockets",
                 "viewing-distance",
                 "wall-mounted-tv",
-                "vesa",
+            ],
+            "tv-dimensions" => &[
+                "wall-planner",
+                "viewing-distance",
+                "diagonal-43",
+                "diagonal-55",
+                "diagonal-65",
+                "mounting-height",
             ],
             "mounting-map" => &[
                 "tv-mount-screws",
@@ -1537,7 +1546,12 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "viewing-distance",
                 "diagonal-55",
             ],
-            "viewing-distance" => &["mounting-height", "diagonal-55", "full-motion-mount"],
+            "viewing-distance" => &[
+                "tv-dimensions",
+                "mounting-height",
+                "diagonal-55",
+                "full-motion-mount",
+            ],
             _ => &["vesa", "how-to-find-vesa", "mounting-height"],
         }
     };
@@ -1564,6 +1578,9 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "tv-dimensions" => {
+            "<section class=\"border-y-2 border-ink py-7\" data-tv-dimensions-answer=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Размер экрана без догадок</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Таблица ширины и высоты телевизоров 16:9</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">Диагональ на коробке описывает расстояние между противоположными углами активной области. Для современного экрана 16:9 из неё можно точно рассчитать ширину и высоту; один дюйм равен 2,54 см.</p><p class=\"mt-3 max-w-4xl border-l-2 border-action pl-4 text-sm font-semibold leading-relaxed\">Таблица показывает экран, а не корпус. Рамка, нижний блок, подставка и толщина зависят от точной модели.</p><p class=\"mt-5 font-mono text-xs uppercase text-action sm:hidden\" data-tv-dimensions-table-scroll-hint=\"true\">Таблица прокручивается вправо →</p><div class=\"mt-4 overflow-x-auto border border-ink\" data-tv-dimensions-reference-table=\"true\"><table class=\"w-full min-w-[39rem] border-collapse text-left text-sm\"><thead class=\"bg-ink font-mono text-xs uppercase text-white\"><tr><th class=\"px-4 py-3\" scope=\"col\">Диагональ</th><th class=\"px-4 py-3\" scope=\"col\">Диагональ в см</th><th class=\"px-4 py-3\" scope=\"col\">Ширина экрана</th><th class=\"px-4 py-3\" scope=\"col\">Высота экрана</th></tr></thead><tbody class=\"divide-y divide-line bg-white\"><tr data-tv-dimensions-row=\"32\"><th class=\"px-4 py-3\" scope=\"row\">32″</th><td class=\"px-4 py-3\">81,3 см</td><td class=\"px-4 py-3\">70,8 см</td><td class=\"px-4 py-3\">39,8 см</td></tr><tr data-tv-dimensions-row=\"43\"><th class=\"px-4 py-3\" scope=\"row\">43″</th><td class=\"px-4 py-3\">109,2 см</td><td class=\"px-4 py-3\">95,2 см</td><td class=\"px-4 py-3\">53,5 см</td></tr><tr data-tv-dimensions-row=\"50\"><th class=\"px-4 py-3\" scope=\"row\">50″</th><td class=\"px-4 py-3\">127 см</td><td class=\"px-4 py-3\">110,7 см</td><td class=\"px-4 py-3\">62,3 см</td></tr><tr data-tv-dimensions-row=\"55\"><th class=\"px-4 py-3\" scope=\"row\">55″</th><td class=\"px-4 py-3\">139,7 см</td><td class=\"px-4 py-3\">121,8 см</td><td class=\"px-4 py-3\">68,5 см</td></tr><tr data-tv-dimensions-row=\"65\"><th class=\"px-4 py-3\" scope=\"row\">65″</th><td class=\"px-4 py-3\">165,1 см</td><td class=\"px-4 py-3\">143,9 см</td><td class=\"px-4 py-3\">80,9 см</td></tr><tr data-tv-dimensions-row=\"75\"><th class=\"px-4 py-3\" scope=\"row\">75″</th><td class=\"px-4 py-3\">190,5 см</td><td class=\"px-4 py-3\">166 см</td><td class=\"px-4 py-3\">93,4 см</td></tr><tr data-tv-dimensions-row=\"85\"><th class=\"px-4 py-3\" scope=\"row\">85″</th><td class=\"px-4 py-3\">215,9 см</td><td class=\"px-4 py-3\">188,2 см</td><td class=\"px-4 py-3\">105,8 см</td></tr></tbody></table></div><div class=\"mt-8 grid gap-px border border-ink bg-ink md:grid-cols-3\" data-tv-dimensions-method=\"true\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">1. По маркировке</p><h3 class=\"mt-2 font-display text-xl font-extrabold\">Введите диагональ</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Получите размер активной области 16:9 и сравните две диагонали в одном масштабе.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">2. По экрану</p><h3 class=\"mt-2 font-display text-xl font-extrabold\">Измерьте две стороны</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Ширина и высота дадут реальную диагональ и соотношение сторон, даже если это не 16:9.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">3. По месту</p><h3 class=\"mt-2 font-display text-xl font-extrabold\">Задайте нишу и зазор</h3><p class=\"mt-2 text-sm leading-relaxed text-muted\">Калькулятор вычтет зазор со всех сторон и найдёт самый большой стандартный экран, который помещается целиком.</p></article></div><nav class=\"mt-7 flex flex-wrap gap-x-6 gap-y-3 border-t border-line pt-5 text-sm font-semibold\" aria-label=\"Следующие проверки размера телевизора\"><a class=\"text-action underline underline-offset-4\" href=\"/televizor-na-stene/\">Примерить телевизор на стене</a><a class=\"text-action underline underline-offset-4\" href=\"/rasstoyanie-do-televizora-i-diagonal/\">Проверить расстояние просмотра</a><a class=\"text-action underline underline-offset-4\" href=\"/modeli/\">Сверить корпус точной модели</a></nav></section>"
+        }
         "wall-planner" => {
             "<section class=\"border-y-2 border-ink py-7\" data-wall-planner-answer=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Сначала физический размер, потом монтаж</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сравните телевизор со стеной в одном масштабе</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Диагональ сама по себе не показывает, сколько места займёт корпус. Планировщик переводит точную модель или экран 16:9 в сантиметры, располагает его на заданной стене и считает четыре свободных зазора.</p><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Эскиз отвечает только за композицию. Он не назначает высоту, точки сверления, анкеры и розетки: эти проверки остаются отдельными, чтобы один наглядный результат не выдавался за монтажный проект.</p><div class=\"mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3\" data-wall-planner-static-examples=\"true\"><article class=\"bg-paper p-4\" data-wall-planner-example=\"43\"><p class=\"font-mono text-xs uppercase text-action\">Одна стена · 43″</p><h3 class=\"mt-1 font-display text-xl font-extrabold\">Компактный экран</h3><svg class=\"mt-4 block h-auto w-full bg-white\" role=\"img\" viewBox=\"0 0 420 270\" aria-label=\"Пример телевизора 43 дюйма на стене 420 на 270 сантиметров\"><rect class=\"fill-white stroke-ink\" x=\"1\" y=\"1\" width=\"418\" height=\"268\"/><line class=\"stroke-technical\" stroke-dasharray=\"6 5\" x1=\"1\" x2=\"419\" y1=\"160\" y2=\"160\"/><rect class=\"fill-line stroke-ink\" x=\"120\" y=\"215\" width=\"180\" height=\"54\"/><rect class=\"fill-ink stroke-action\" x=\"162.4\" y=\"98.3\" width=\"95.2\" height=\"53.5\"/></svg><p class=\"mt-3 text-sm leading-relaxed text-muted\">Корпус около 95 × 54 см оставляет широкие боковые поля.</p></article><article class=\"bg-paper p-4\" data-wall-planner-example=\"55\"><p class=\"font-mono text-xs uppercase text-action\">Одна стена · 55″</p><h3 class=\"mt-1 font-display text-xl font-extrabold\">Средний экран</h3><svg class=\"mt-4 block h-auto w-full bg-white\" role=\"img\" viewBox=\"0 0 420 270\" aria-label=\"Пример телевизора 55 дюймов на стене 420 на 270 сантиметров\"><rect class=\"fill-white stroke-ink\" x=\"1\" y=\"1\" width=\"418\" height=\"268\"/><line class=\"stroke-technical\" stroke-dasharray=\"6 5\" x1=\"1\" x2=\"419\" y1=\"160\" y2=\"160\"/><rect class=\"fill-line stroke-ink\" x=\"120\" y=\"215\" width=\"180\" height=\"54\"/><rect class=\"fill-ink stroke-action\" x=\"149.1\" y=\"90.8\" width=\"121.8\" height=\"68.5\"/></svg><p class=\"mt-3 text-sm leading-relaxed text-muted\">Экран 16:9 около 122 × 69 см — это демонстрация, не готовая отметка.</p></article><article class=\"bg-paper p-4\" data-wall-planner-example=\"65\"><p class=\"font-mono text-xs uppercase text-action\">Одна стена · 65″</p><h3 class=\"mt-1 font-display text-xl font-extrabold\">Большой экран</h3><svg class=\"mt-4 block h-auto w-full bg-white\" role=\"img\" viewBox=\"0 0 420 270\" aria-label=\"Пример телевизора 65 дюймов на стене 420 на 270 сантиметров\"><rect class=\"fill-white stroke-ink\" x=\"1\" y=\"1\" width=\"418\" height=\"268\"/><line class=\"stroke-technical\" stroke-dasharray=\"6 5\" x1=\"1\" x2=\"419\" y1=\"160\" y2=\"160\"/><rect class=\"fill-line stroke-ink\" x=\"120\" y=\"215\" width=\"180\" height=\"54\"/><rect class=\"fill-ink stroke-action\" x=\"138\" y=\"84.6\" width=\"144\" height=\"80.9\"/></svg><p class=\"mt-3 text-sm leading-relaxed text-muted\">Корпус около 144 × 81 см заметно меняет пропорции той же стены.</p></article></div><p class=\"mt-4 max-w-4xl text-sm leading-relaxed text-muted\">Примеры используют условную стену 420 × 270 см и центр 145 см от пола. В собственном расчёте введите реальные размеры и выберите точную модель, если она есть в каталоге.</p></section>"
         }
@@ -4169,7 +4186,10 @@ mod tests {
         let static_answer = seo_calculator_note(&page.id);
         assert!(static_answer.contains("data-wall-planner-answer=\"true\""));
         assert!(static_answer.contains("точную модель или экран 16:9"));
-        assert_eq!(static_answer.matches("data-wall-planner-example=").count(), 3);
+        assert_eq!(
+            static_answer.matches("data-wall-planner-example=").count(),
+            3
+        );
         for diagonal in ["43", "55", "65"] {
             assert!(static_answer.contains(&format!("data-wall-planner-example=\"{diagonal}\"")));
         }
@@ -4182,12 +4202,70 @@ mod tests {
         assert_eq!(
             related,
             [
+                "tv-dimensions",
                 "mounting-height",
                 "mounting-map",
                 "tv-zone-sockets",
                 "viewing-distance",
                 "wall-mounted-tv",
-                "vesa",
+            ]
+        );
+    }
+
+    #[test]
+    fn tv_dimensions_page_is_one_canonical_with_static_reference_answer() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        let matches = pages
+            .iter()
+            .filter(|page| page.id == "tv-dimensions")
+            .collect::<Vec<_>>();
+        assert_eq!(matches.len(), 1);
+        let page = matches[0];
+
+        assert!(page.indexable);
+        assert_eq!(page.kind, "calculator");
+        assert_eq!(page.path, "/razmery-televizora-po-diagonali/");
+        assert_eq!(
+            page.title,
+            "Размеры телевизоров по диагонали: таблица и калькулятор — KREPI TV"
+        );
+        assert_eq!(page.h1, "Размеры телевизоров по диагонали в сантиметрах");
+        assert!(page.description.contains("43, 55 и 65 дюймов"));
+        assert!(page.lead.contains("помещается в нишу"));
+        assert!(page.facts.len() >= 6);
+        assert!(page.faq.len() >= 7);
+
+        let static_answer = seo_calculator_note(&page.id);
+        assert!(static_answer.contains("data-tv-dimensions-answer=\"true\""));
+        assert!(static_answer.contains("data-tv-dimensions-reference-table=\"true\""));
+        assert!(static_answer.contains("активной области"));
+        assert!(static_answer.contains("не корпус"));
+        assert_eq!(static_answer.matches("data-tv-dimensions-row=").count(), 7);
+        for diagonal in ["32", "43", "50", "55", "65", "75", "85"] {
+            assert!(static_answer.contains(&format!("data-tv-dimensions-row=\"{diagonal}\"")));
+        }
+        for href in [
+            "/televizor-na-stene/",
+            "/rasstoyanie-do-televizora-i-diagonal/",
+            "/modeli/",
+        ] {
+            assert!(static_answer.contains(href));
+        }
+        assert!(!static_answer.contains("market.yandex"));
+
+        let related = related_seo_pages(page, &pages)
+            .iter()
+            .map(|related| related.id.as_str())
+            .collect::<Vec<_>>();
+        assert_eq!(
+            related,
+            [
+                "wall-planner",
+                "viewing-distance",
+                "diagonal-43",
+                "diagonal-55",
+                "diagonal-65",
+                "mounting-height",
             ]
         );
     }

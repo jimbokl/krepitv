@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "task_id": "20260801-tv-dimensions-calculator",
+  "commands": [
+    {
+      "id": "cmd-dimensions-tests",
+      "command": "node --test web/tests/tv-dimensions.test.mjs web/tests/tv-dimensions-hydration.test.mjs",
+      "exit_code": 0,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+    },
+    {
+      "id": "cmd-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["success", "error"]
+    },
+    {
+      "id": "cmd-audits",
+      "command": "security + static + affiliate + design audits",
+      "exit_code": 0,
+      "covers": ["default", "success"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "design_harness.py scan-drift --files affected UI sources",
+      "exit_code": 0,
+      "covers": ["default", "focus"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-mobile-default",
+      "path": "evidence/screenshots/mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile-default",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-mobile-loading",
+      "path": "evidence/screenshots/mobile-loading.png",
+      "state": "loading",
+      "viewport_id": "mobile-default",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-mobile-success",
+      "path": "evidence/screenshots/mobile-diagonal-success.png",
+      "state": "success",
+      "viewport_id": "mobile-success",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-mobile-error",
+      "path": "evidence/screenshots/mobile-error.png",
+      "state": "error",
+      "viewport_id": "mobile-error",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-tablet-empty-focus",
+      "path": "evidence/screenshots/tablet-empty-focus.png",
+      "state": "empty",
+      "viewport_id": "tablet-empty",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "shot-tablet-disabled",
+      "path": "evidence/screenshots/tablet-empty-focus.png",
+      "state": "disabled",
+      "viewport_id": "tablet-empty",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-tablet-focus",
+      "path": "evidence/screenshots/tablet-empty-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet-empty",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "shot-tablet-measured-success",
+      "path": "evidence/screenshots/tablet-measured-success.png",
+      "state": "success",
+      "viewport_id": "tablet-success",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-tablet-text-200",
+      "path": "evidence/screenshots/tablet-success-text-200.png",
+      "state": "success",
+      "viewport_id": "tablet-text-200",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-desktop-niche-success",
+      "path": "evidence/screenshots/desktop-niche-success.png",
+      "state": "success",
+      "viewport_id": "desktop-niche",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-desktop-exact-model-success",
+      "path": "evidence/screenshots/desktop-exact-model-success.png",
+      "state": "success",
+      "viewport_id": "desktop-exact",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent reviewer /root/tv_dimensions_reviewer",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Первый проход обнаружил исчезновение SSR-таблицы после client boot; дефект исправлен до релиза.",
+      "Headless-Chrome тест подтверждает одну таблицу, семь строк, три метода, мобильную подсказку и отсутствие Market-ссылок после загрузки React.",
+      "Мобильная подсказка модели больше не перекрывает кнопку, а cross-source тест защищает семь SSR-строк от расхождения с JSON-справочником.",
+      "После повторной проверки открытых P0, P1, P2 и P3 нет."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

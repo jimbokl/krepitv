@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "aspect_ratio": "16:9",
+  "rows": [
+    {"diagonal_inches": 32, "diagonal_cm": 81.3, "screen_width_cm": 70.8, "screen_height_cm": 39.8},
+    {"diagonal_inches": 43, "diagonal_cm": 109.2, "screen_width_cm": 95.2, "screen_height_cm": 53.5},
+    {"diagonal_inches": 50, "diagonal_cm": 127.0, "screen_width_cm": 110.7, "screen_height_cm": 62.3},
+    {"diagonal_inches": 55, "diagonal_cm": 139.7, "screen_width_cm": 121.8, "screen_height_cm": 68.5},
+    {"diagonal_inches": 65, "diagonal_cm": 165.1, "screen_width_cm": 143.9, "screen_height_cm": 80.9},
+    {"diagonal_inches": 75, "diagonal_cm": 190.5, "screen_width_cm": 166.0, "screen_height_cm": 93.4},
+    {"diagonal_inches": 85, "diagonal_cm": 215.9, "screen_width_cm": 188.2, "screen_height_cm": 105.8}
+  ]
+}

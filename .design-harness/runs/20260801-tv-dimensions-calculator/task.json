@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "id": "20260801-tv-dimensions-calculator",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root",
+  "created_at": "2026-08-01T08:24:16.245541+00:00",
+  "states": ["default", "loading", "empty", "error", "success", "disabled", "focus"],
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800},
+    {"id": "tablet", "width": 768, "height": 1024},
+    {"id": "desktop", "width": 1440, "height": 900},
+    {"id": "mobile-default", "width": 320, "height": 1057},
+    {"id": "mobile-success", "width": 320, "height": 2054},
+    {"id": "mobile-error", "width": 320, "height": 1187},
+    {"id": "tablet-empty", "width": 768, "height": 801},
+    {"id": "tablet-success", "width": 768, "height": 1664},
+    {"id": "tablet-text-200", "width": 768, "height": 3560},
+    {"id": "desktop-niche", "width": 1440, "height": 1181},
+    {"id": "desktop-exact", "width": 1440, "height": 1213}
+  ],
+  "allowed_files": [
+    ".design-harness/runs/20260801-tv-dimensions-calculator",
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/research/tv-dimensions-demand-contract-2026-08-01.json",
+    "data/research/tv-dimensions-demand-seeds-2026-08-01.json",
+    "data/research/tv-dimensions-demand-2026-08-01.json",
+    "data/seo_pages.json",
+    "data/tv_dimensions_reference.json",
+    "docs",
+    "product-docs/design-qa/2026-08-01-tv-dimensions-calculator",
+    "product-docs/operations/traffic-release-tv-dimensions-2026-08-01.md",
+    "product-docs/operations/yandex-market-readiness.md",
+    "product-docs/research/TV_DIMENSIONS_OPPORTUNITY_2026-08-01.md",
+    "product-docs/research/raw/wordstat-tv-dimensions-2026-08-01",
+    "scripts/verify.mjs",
+    "web/index.html",
+    "web/kronshteyn-dlya-televizora-50-dyuyma/index.html",
+    "web/kronshteyn-dlya-televizora-75-dyuyma/index.html",
+    "web/public/sitemap.xml",
+    "web/rasstoyanie-do-televizora-i-diagonal/index.html",
+    "web/src/components/TvDimensionsCalculator.jsx",
+    "web/src/components/TvDimensionsReference.jsx",
+    "web/src/components/ModelSearch.jsx",
+    "web/src/lib/catalog.js",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/SeoPage.jsx",
+    "web/televizor-na-stene/index.html",
+    "web/tests/tv-dimensions.test.mjs",
+    "web/tests/tv-dimensions-hydration.test.mjs",
+    "web/razmery-televizora-po-diagonali"
+  ],
+  "verification_commands": [
+    {"id":"cmd-dimensions-tests","command":"node --test web/tests/tv-dimensions.test.mjs web/tests/tv-dimensions-hydration.test.mjs","required":true,"covers":["default","loading","empty","error","success","disabled","focus"]},
+    {"id":"cmd-build","command":"npm run build","required":true,"covers":["success","error"]},
+    {"id":"cmd-audits","command":"security + static + affiliate + design audits","required":true,"covers":["default","success"]},
+    {"id":"cmd-design-drift","command":"design_harness.py scan-drift --files affected UI sources","required":true,"covers":["default","focus"]},
+    {"id":"cmd-production","command":"production hash and browser smoke","required":true,"covers":["default","success","focus"]}
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id":"content-title","value":"Размеры телевизоров по диагонали: таблица и калькулятор — KREPI TV","strategy":"deterministic-overlay"},
+    {"id":"content-h1","value":"Размеры телевизоров по диагонали в сантиметрах","strategy":"deterministic-overlay"},
+    {"id":"content-boundary","value":"Расчёт показывает активную область 16:9, а не габариты корпуса телевизора.","strategy":"deterministic-overlay"}
+  ],
+  "claims": [
+    {"id":"claim-wordstat-55","text":"Строгая формулировка «телевизор 55 дюймов размеры» получила 9 787 в Wordstat Top queries по России на дату сбора.","source_ids":["source-wordstat"]},
+    {"id":"claim-inch","text":"Один международный дюйм равен 2,54 сантиметра.","source_ids":["source-engine"]},
+    {"id":"claim-ratio","text":"Таблица и прямой режим рассчитывают активную область экрана с отношением сторон 16:9.","source_ids":["source-engine"]},
+    {"id":"claim-catalog","text":"Проверка корпуса может использовать паспортные габариты 80 проверенных моделей телевизоров.","source_ids":["source-models"]}
+  ],
+  "sources": [
+    {"id":"source-wordstat","path":"product-docs/research/raw/wordstat-tv-dimensions-2026-08-01/normalized.csv","retrieved_at":"2026-08-01T08:26:00Z","notes":"Top queries, Россия 225, все устройства; варианты пересекаются и не суммируются"},
+    {"id":"source-engine","path":"crates/engine/src/lib.rs","retrieved_at":"2026-08-01T08:27:00Z","notes":"Детерминированная геометрия и тесты"},
+    {"id":"source-models","path":"data/tv_models.json","retrieved_at":"2026-08-01T08:27:00Z","notes":"Каждая модель содержит source_url и checked_at"},
+    {"id":"source-design","path":"DESIGN.md","retrieved_at":"2026-08-01T08:27:00Z","notes":"Binding UI tokens and Russian-only contract"}
+  ]
+}

@@ -101,7 +101,7 @@ export function ModelSearch({
 
         {open && (value || results.length) ? (
           <div
-            className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-30 overflow-hidden rounded-md border border-line bg-white shadow-menu"
+            className={`${compact ? "relative mt-2 lg:absolute lg:inset-x-0 lg:top-[calc(100%+0.5rem)] lg:mt-0" : "absolute inset-x-0 top-[calc(100%+0.5rem)]"} z-30 overflow-hidden rounded-md border border-line bg-white shadow-menu`}
             id="варианты-моделей"
             role="listbox"
             aria-label="Найденные модели"

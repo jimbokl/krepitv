@@ -21,6 +21,8 @@ import { TurnClearanceCalculator } from "../components/TurnClearanceCalculator.j
 import { TvMountScrewCatalog } from "../components/TvMountScrewCatalog.jsx";
 import { TvVesaCatalog } from "../components/TvVesaCatalog.jsx";
 import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx";
+import { TvDimensionsCalculator } from "../components/TvDimensionsCalculator.jsx";
+import { TvDimensionsReference } from "../components/TvDimensionsReference.jsx";
 import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { WallPlannerCalculator } from "../components/WallPlannerCalculator.jsx";
@@ -64,7 +66,11 @@ function SeoArticle({ catalog, page }) {
   const prioritizesScrewLookup = page.id === "tv-mount-screws";
   const prioritizesVesaLookup = page.id === "vesa";
   const prioritizesWallPlanner = page.id === "wall-planner";
-  const prioritizesPrimaryLookup = prioritizesScrewLookup || prioritizesVesaLookup || prioritizesWallPlanner;
+  const prioritizesTvDimensions = page.id === "tv-dimensions";
+  const prioritizesPrimaryLookup = prioritizesScrewLookup
+    || prioritizesVesaLookup
+    || prioritizesWallPlanner
+    || prioritizesTvDimensions;
   const topFacts = ["wall-mounted-tv", "mounting-map", "tv-zone-sockets", "tilt-mount", "vesa", "tv-mount-screws"].includes(page.id)
     ? page.facts.slice(0, 3)
     : page.facts;
@@ -116,7 +122,7 @@ function SeoArticle({ catalog, page }) {
             {kindLabels[page.kind] ?? "Технический справочник"}
           </p>
           <h1 className={`mt-3 max-w-[1180px] font-display font-extrabold leading-[0.92] tracking-[-0.035em] ${
-            ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner"].includes(page.id)
+            ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner", "tv-dimensions"].includes(page.id)
               ? "text-[clamp(3rem,4vw,4.4rem)]"
               : ["wall-mounted-tv", "mounting-map"].includes(page.id)
               ? "text-[clamp(3rem,4.6vw,5rem)]"
@@ -159,6 +165,12 @@ function SeoArticle({ catalog, page }) {
 
         {page.id === "mounting-height" ? <HeightCalculator /> : null}
         {page.id === "viewing-distance" ? <ViewingDistanceCalculator /> : null}
+        {prioritizesTvDimensions ? (
+          <>
+            <TvDimensionsCalculator models={catalog.models} search={catalog.search} />
+            <TvDimensionsReference />
+          </>
+        ) : null}
         {page.id === "wall-mounted-tv" ? <TurnClearanceCalculator /> : null}
         {page.id === "extendable-mount" ? <TurnClearanceCalculator /> : null}
         {page.id === "tilt-mount" ? <TiltAngleCalculator /> : null}

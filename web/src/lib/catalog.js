@@ -320,6 +320,33 @@ export async function calculateViewingGeometry(mode, value, horizontalAngle) {
   return response;
 }
 
+export async function calculateTvDimensionsPlan(values) {
+  const engine = await loadEngine();
+  const mode = values.mode;
+  const primary = mode === "diagonal"
+    ? values.diagonal
+    : mode === "measured"
+      ? values.measuredWidth
+      : values.nicheWidth;
+  const secondary = mode === "measured"
+    ? values.measuredHeight
+    : mode === "niche"
+      ? values.nicheHeight
+      : 0;
+  const response = JSON.parse(
+    engine.tv_dimensions_plan_json(
+      mode,
+      primary,
+      secondary,
+      mode === "niche" ? values.gap : 0,
+      values.exactCaseWidth ?? 0,
+      values.exactCaseHeight ?? 0,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateTurnClearance(values) {
   const engine = await loadEngine();
   const response = JSON.parse(

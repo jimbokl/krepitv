@@ -93,6 +93,7 @@ function preferredRelatedIds(pageId) {
   }
   if (pageId.startsWith("diagonal-")) {
     return [
+      "tv-dimensions",
       "buy-tv-mount",
       "mounting-height",
       "vesa",
@@ -118,6 +119,8 @@ function preferredRelatedIds(pageId) {
 
   const groups = {
     "wall-mounted-tv": ["mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height"],
+    "wall-planner": ["tv-dimensions", "mounting-height", "mounting-map", "tv-zone-sockets", "viewing-distance", "wall-mounted-tv"],
+    "tv-dimensions": ["wall-planner", "viewing-distance", "diagonal-43", "diagonal-55", "diagonal-65", "mounting-height"],
     "mounting-map": ["tv-mount-screws", "tv-zone-sockets", "wall-mounted-tv", "mounting-height", "vesa", "how-to-find-vesa"],
     "tv-zone-sockets": ["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
     vesa: ["tv-mount-screws", "wall-mounted-tv", "how-to-find-vesa", "vesa-200x200"],
@@ -128,7 +131,7 @@ function preferredRelatedIds(pageId) {
     "extendable-mount": ["buy-tv-mount", "full-motion-mount", "wall-mounted-tv", "mount-brand-onkron", "vesa", "mounting-map"],
     "how-to-find-vesa": ["tv-mount-screws", "vesa", "vesa-200x200", "vesa-300x200"],
     "mounting-height": ["mounting-map", "tilt-mount", "tv-zone-sockets", "wall-mounted-tv", "viewing-distance", "diagonal-55"],
-    "viewing-distance": ["mounting-height", "diagonal-55", "full-motion-mount"],
+    "viewing-distance": ["tv-dimensions", "mounting-height", "diagonal-55", "full-motion-mount"],
   };
   return groups[pageId] ?? ["vesa", "how-to-find-vesa", "mounting-height"];
 }
