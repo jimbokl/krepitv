@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "run_id": "20260801-tv-wall-planner",
+  "sealed_at": "2026-08-01T08:15:28.546697+00:00",
+  "task_hash": "sha256:b3fdc45f118de38a5ff902ada99ea7b5067b090350a89b79d11315869f3382a7",
+  "evidence_hash": "sha256:4ccd28abcdb38b6cb189fff79ed76f0d66e4adfdc8b729c8d7f85533ccd04e30",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260801-tv-wall-planner/SPEC.md": "sha256:656e2b7ac336eddb5a967b4c6b60d7eee78ff45a6c3db0bac4280989da343fb2",
+    ".design-harness/runs/20260801-tv-wall-planner/brief.md": "sha256:639b369f037831f2370539761c01df36956f647b98e10a42c2644884b518b411",
+    ".design-harness/runs/20260801-tv-wall-planner/component-map.md": "sha256:fff2fe7008235f9ddfbc7150996a793f1e4d8fde78dfdef2fccea06efdb920c0",
+    ".design-harness/runs/20260801-tv-wall-planner/discovery.md": "sha256:844daf620f7b9f056f0d855bfb05ec460e9442cf1af5ea6e8e7c95a34564b7b9",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/drift-report.json": "sha256:e74c8abbf7c6510a2a8f9d5cb66bf9b8380f6f861b9f501a3f7280e3c52fe0af",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/desktop-examples.png": "sha256:c2d3b1ca2b450559b87cc2f7a7978c97480ffddc89bc302f5070df27e5473840",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/desktop-focus.png": "sha256:e2c644e86932bf515357e4133185486033a02c03b594d9760f7b1807303abd94",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/mobile-390-default.png": "sha256:4b7a4e9b37bfcdc11981e8eb7b14b2e87f07afd71d6a11089f59a2c397e3991f",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/mobile-default.png": "sha256:53c915c1ef8d825f082461858b45ef1bfdd0aa924119534cb98ede81e2880719",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/mobile-error.png": "sha256:b9e638070bc458ffcfc6f652bffb7a9b75847959b17773c02b07889d499a5542",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/mobile-loading-320.png": "sha256:28f26e6adb75bf42dff715517be07b70f88dafefeeac50695e1725e03827385a",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/tablet-empty-disabled.png": "sha256:fe9466dff4d96a555edd20b547fbe28d078ef69409d8d0d1911bab9e4bebee28",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/tablet-model-success.png": "sha256:932976510c856e446254d65a8d38e49bc1cedd7bf542b1eb0c9c72bc94ea86b2",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/tablet-success-text-200.png": "sha256:cc165b964de061659771c1349b29489a81bdf1108f6c22c4ef647f5fd4f991aa",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence/screenshots/tablet-success.png": "sha256:b88a77ad5a3c5d603c03b3896d7020164bd0abc730dc97352ca1d1411967105d",
+    ".design-harness/runs/20260801-tv-wall-planner/evidence.json": "sha256:4ccd28abcdb38b6cb189fff79ed76f0d66e4adfdc8b729c8d7f85533ccd04e30",
+    ".design-harness/runs/20260801-tv-wall-planner/review.md": "sha256:d1aa300a507e1da7566cd99fd776324ad6e09cdcc4d5b54d85c36f2f8b6d3f57",
+    ".design-harness/runs/20260801-tv-wall-planner/task.json": "sha256:b3fdc45f118de38a5ff902ada99ea7b5067b090350a89b79d11315869f3382a7",
+    ".design-harness/runs/20260801-tv-wall-planner/visual-direction.md": "sha256:863ed71655a7a21eeaefdca4f11c0d2f828c068f02ad6dffc4d7b346a737301d"
+  },
+  "packet_hash": "sha256:954609292c3d527c6cbc2ed8bcfdf97e001a58aa7a0cac288cc2a055eb988ba8"
+}

@@ -1,17 +1,123 @@
 {
   "version": 1,
   "task_id": "20260801-tv-wall-planner",
-  "commands": [],
-  "screenshots": [],
+  "commands": [
+    {
+      "id": "cmd-wall-tests",
+      "command": "node --test web/tests/wall-planner.test.mjs",
+      "exit_code": 0,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+    },
+    {
+      "id": "cmd-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["success", "error"]
+    },
+    {
+      "id": "cmd-audits",
+      "command": "security + static + affiliate + design audits",
+      "exit_code": 0,
+      "covers": ["default", "success"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "design_harness.py scan-drift",
+      "exit_code": 0,
+      "covers": ["default", "focus"]
+    },
+    {
+      "id": "cmd-production",
+      "command": "production hash and browser smoke",
+      "exit_code": 0,
+      "covers": ["default", "success", "focus"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-mobile-default",
+      "path": "evidence/screenshots/mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-mobile-390-default",
+      "path": "evidence/screenshots/mobile-390-default.png",
+      "state": "default",
+      "viewport_id": "mobile-390",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-mobile-loading",
+      "path": "evidence/screenshots/mobile-loading-320.png",
+      "state": "loading",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-tablet-empty",
+      "path": "evidence/screenshots/tablet-empty-disabled.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-tablet-disabled",
+      "path": "evidence/screenshots/tablet-empty-disabled.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-mobile-error",
+      "path": "evidence/screenshots/mobile-error.png",
+      "state": "error",
+      "viewport_id": "mobile-390",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-tablet-success",
+      "path": "evidence/screenshots/tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-tablet-model-success",
+      "path": "evidence/screenshots/tablet-model-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-desktop-examples",
+      "path": "evidence/screenshots/desktop-examples.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-desktop-focus",
+      "path": "evidence/screenshots/desktop-focus.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    }
+  ],
   "assets": [],
   "review": {
-    "reviewer": "",
-    "independent": false,
-    "verdict": "pending",
-    "findings": []
+    "reviewer": "Independent reviewer /root/wall_planner_reviewer",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "После повторной runtime-проверки продуктовых P0, P1 и P2 не осталось.",
+      "Старый кадр загрузки с мелкими SVG-подписями удалён; актуальный кадр прошёл повторную проверку.",
+      "Остаточный риск — широкий запрос может оставаться интерьерным; ценность подтвердят только реальные поисковые сигналы и завершённые расчёты."
+    ]
   },
   "rollback": {
-    "documented": false,
+    "documented": true,
     "path": "review.md"
   }
 }
