@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   AFFILIATE_ELIGIBLE_REGION_AREAS_RU,
   buildMetrikaFunnelUrl,
+  evaluateDailyTrafficGoal,
   fetchMetrikaFunnel,
 } from "../../scripts/analytics/metrika-funnel.mjs";
 
@@ -58,10 +59,53 @@ test("eligible-region organic URL is explicit and accepted as one segment", () =
   assert.equal(AFFILIATE_ELIGIBLE_REGION_AREAS_RU.length, 14);
 });
 
+test("daily traffic URL excludes internal and tagged test visits", () => {
+  const url = buildMetrikaFunnelUrl({
+    counterId: 111176777,
+    dailyQualifiedTrafficOnly: true,
+    date1: "2026-07-01",
+    date2: "2026-07-31",
+    goalIds,
+  });
+  assert.equal(url.searchParams.get("dimensions"), "ym:s:date");
+  assert.equal(url.searchParams.get("sort"), "ym:s:date");
+  assert.match(url.searchParams.get("filters"), /NOT\(ym:s:lastTrafficSource=='internal'\)/);
+  assert.match(url.searchParams.get("filters"), /metrika-test/);
+  assert.match(url.searchParams.get("filters"), /_ym_status-check/);
+});
+
+test("daily traffic gate requires more than 1000 users for seven trailing days", () => {
+  const rows = Array.from({ length: 8 }, (_, index) => ({
+    date: `2026-07-${String(index + 1).padStart(2, "0")}`,
+    users: index === 0 ? 1000 : 1001,
+  }));
+  assert.deepEqual(evaluateDailyTrafficGoal(rows), {
+    metric: "ym:s:users",
+    coverage: "Нижняя граница: только посетители, разрешившие Яндекс Метрику",
+    comparison: "greater_than",
+    threshold_users: 1000,
+    required_consecutive_days: 7,
+    trailing_consecutive_days: 7,
+    longest_consecutive_days: 7,
+    status: "lower_bound_reached",
+  });
+});
+
 test("report keeps authoritative users total and strips source labels and token", async () => {
   const calls = [];
   const fetchImpl = async (url, options) => {
     calls.push({ url, options });
+    if (url.searchParams.get("filters")?.startsWith("NOT(")) {
+      return response({
+        totals: [2, 1, 0, 0, 0],
+        data: [
+          { dimensions: [{ id: "2026-07-30" }], metrics: [2, 1, 0, 0, 0] },
+        ],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
     const organic = url.searchParams.has("filters");
     return response(organic ? {
       totals: [0, 0, 0, 0, 0],
@@ -96,7 +140,13 @@ test("report keeps authoritative users total and strips source labels and token"
   ]);
   assert.equal(report.organic_excluding_tests.users, 0);
   assert.equal(report.eligible_regions_organic_excluding_tests.users, 0);
-  assert.equal(calls.length, 3);
+  assert.deepEqual(report.daily_consenting_excluding_internal_tests, [
+    { date: "2026-07-29", visits: 0, users: 0 },
+    { date: "2026-07-30", visits: 2, users: 1 },
+    { date: "2026-07-31", visits: 0, users: 0 },
+  ]);
+  assert.equal(report.daily_traffic_goal.status, "lower_bound_not_reached");
+  assert.equal(calls.length, 4);
   assert.equal(calls.every((call) => call.options.headers.Authorization === `OAuth ${token}`), true);
   assert.equal(JSON.stringify(report).includes(token), false);
   assert.equal(JSON.stringify(report).includes("Прямые заходы"), false);
