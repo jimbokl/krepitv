@@ -1,6 +1,6 @@
 # Трафиковый релиз: диагностика телевизора, когорта 4
 
-Статус: локальные гейты пройдены, ожидается production-публикация.
+Статус: production опубликован и проверен.
 Дата контентного изменения: 2026-08-01.
 
 ## Цель и честный baseline
@@ -30,8 +30,8 @@ Wordstat, HTTP 200/202, sitemap, IndexNow и страницы в индексе 
   focus, needs-check, external-path и service-boundary на 320×800, 768×1024
   и 1440×900; отдельно проверены 200% text и WCAG text spacing;
 - drift scan не нашёл отклонений от дизайн-системы;
-- независимое review, production HTTPS/hash/browser smoke и seal
-  фиксируются после публикации source-коммита.
+- независимое review прошло без открытых P0–P2; production HTTPS,
+  hash parity и browser smoke тоже пройдены.
 
 ## Индексация и измерение
 
@@ -42,5 +42,22 @@ canonical. Принятый IndexNow не является индексацие�
 
 ## Production evidence
 
-Заполняется только после успешной публикации: source commit, Pages run, hashes,
-browser screenshots, index notification and updated analytics checkpoint.
+Релиз опубликован из source commit
+`becbbea29c99f530fa4a297ea61ba7b38c233133` через GitHub Pages run
+`30707061918` со статусом success. Cloud.ru не использовался.
+
+- HTTP перенаправляется на HTTPS кодом 301; HTTPS отвечает 200;
+- TLS-сертификат содержит `krepitv.ru` и `www.krepitv.ru`, действует до
+  28.10.2026;
+- SHA-256 production побайтово совпал с локальным `docs/` для 8 из 8
+  файлов: главная, sitemap, три HTML, JS, CSS и Rust/WASM;
+- каждый live canonical имеет HTTP 200, `lang=ru`, один H1,
+  self-canonical, один SSR-ответ, 2–4 официальных источника,
+  stop-boundary, FAQ и ноль Market-ссылок;
+- production browser smoke прошёл на 320×800, 768×1024 и 1440×900:
+  danger/service-boundary, focus, default и USB success без overflow;
+- после всех production-проверок ровно три canonical отправлены
+  в IndexNow; HTTP 202 означает только приём уведомления.
+
+Аналитический baseline не переименован в успех: до появления новых
+данных подтверждённая органика остаётся 0, а gate — 0/7 суток.

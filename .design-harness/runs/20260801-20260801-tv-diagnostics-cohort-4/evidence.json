@@ -28,7 +28,21 @@
       "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
       "exit_code": 0,
       "output_path": "evidence/cmd-release-audits.txt",
-      "covers": ["976 tracked files", "724 text files", "155 indexable HTML", "depth 3", "180 affiliate-audited files", "529 existing direct affiliate URLs"]
+      "covers": ["983 tracked files", "727 text files", "155 indexable HTML", "depth 3", "180 affiliate-audited files", "529 existing direct affiliate URLs"]
+    },
+    {
+      "id": "cmd-production",
+      "command": "production HTTPS, local-vs-production SHA-256 and browser smoke",
+      "exit_code": 0,
+      "output_path": "evidence/cmd-production.txt",
+      "covers": ["GitHub Pages run 30707061918", "HTTP 301 to HTTPS", "HTTPS 200", "valid TLS", "8 of 8 SHA-256 matches", "three live canonicals", "SSR", "default", "success", "focus", "danger service-boundary", "zero Market links"]
+    },
+    {
+      "id": "cmd-design",
+      "command": ".design-harness/design-harness scan-drift --workspace . --run .design-harness/runs/20260801-20260801-tv-diagnostics-cohort-4 --files web/src/components/TvTrafficTaskWizard.jsx web/src/pages/SeoPage.jsx web/src/pages/HomePage.jsx web/src/lib/seoPages.mjs scripts/qa/capture-page.mjs && .design-harness/design-harness check --workspace . --run .design-harness/runs/20260801-20260801-tv-diagnostics-cohort-4 --phase final",
+      "exit_code": 0,
+      "output_path": "evidence/cmd-design.txt",
+      "covers": ["explicit non-empty UI drift scan", "22 screenshots", "10 declared states", "3 declared viewports", "independent review", "rollback"]
     }
   ],
   "screenshots": [
@@ -157,24 +171,52 @@
       "state": "default",
       "viewport_id": "desktop",
       "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "diagnostic_cards": 6, "grid_columns": 3}
+    },
+    {
+      "id": "shot-production-turns-off-danger-mobile",
+      "path": "production-turns-off-danger-mobile.png",
+      "state": "service-boundary",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "production": true, "result_status": "service-boundary", "primary_step_id": "stop-unsafe-use", "secondary_visible": false, "market_links": 0}
+    },
+    {
+      "id": "shot-production-internet-focus-tablet",
+      "path": "production-internet-focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "production": true, "focus_visible": true, "focused_name": "no-internet-primary", "market_links": 0}
+    },
+    {
+      "id": "shot-production-usb-success-desktop",
+      "path": "production-usb-success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "production": true, "result_status": "action-plan", "primary_step_id": "confirm-usb-drive-visible", "market_links": 0}
+    },
+    {
+      "id": "shot-production-turns-off-default-desktop",
+      "path": "production-turns-off-default-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "production": true, "submit_disabled": true, "market_links": 0}
     }
   ],
   "state_coverage": {
-    "default": ["shot-turns-off-desktop-default", "shot-home-diagnostics-mobile", "shot-home-diagnostics-desktop"],
+    "default": ["shot-turns-off-desktop-default", "shot-home-diagnostics-mobile", "shot-home-diagnostics-desktop", "shot-production-turns-off-default-desktop"],
     "loading": ["shot-internet-desktop-loading"],
     "empty": ["shot-internet-mobile-empty"],
     "error": ["shot-usb-mobile-error"],
-    "success": ["shot-turns-off-desktop-success", "shot-usb-mobile-retry"],
+    "success": ["shot-turns-off-desktop-success", "shot-usb-mobile-retry", "shot-production-usb-success-desktop"],
     "disabled": ["shot-usb-tablet-disabled"],
-    "focus": ["shot-internet-tablet-focus"],
+    "focus": ["shot-internet-tablet-focus", "shot-production-internet-focus-tablet"],
     "needs-check": ["shot-internet-mobile-needs-check", "shot-turns-off-mobile-unknown-result"],
     "external-path": ["shot-internet-desktop-external-path"],
-    "service-boundary": ["shot-usb-mobile-service-boundary", "shot-turns-off-mobile-danger-result"]
+    "service-boundary": ["shot-usb-mobile-service-boundary", "shot-turns-off-mobile-danger-result", "shot-production-turns-off-danger-mobile"]
   },
   "viewport_coverage": {
-    "mobile": ["shot-internet-mobile-empty", "shot-usb-mobile-error", "shot-turns-off-mobile-danger-selected", "shot-turns-off-mobile-danger-result", "shot-home-diagnostics-mobile"],
-    "tablet": ["shot-usb-tablet-disabled", "shot-internet-tablet-focus", "shot-turns-off-tablet-zoom"],
-    "desktop": ["shot-turns-off-desktop-default", "shot-internet-desktop-loading", "shot-turns-off-desktop-success", "shot-home-diagnostics-desktop"]
+    "mobile": ["shot-internet-mobile-empty", "shot-usb-mobile-error", "shot-turns-off-mobile-danger-selected", "shot-turns-off-mobile-danger-result", "shot-home-diagnostics-mobile", "shot-production-turns-off-danger-mobile"],
+    "tablet": ["shot-usb-tablet-disabled", "shot-internet-tablet-focus", "shot-turns-off-tablet-zoom", "shot-production-internet-focus-tablet"],
+    "desktop": ["shot-turns-off-desktop-default", "shot-internet-desktop-loading", "shot-turns-off-desktop-success", "shot-home-diagnostics-desktop", "shot-production-usb-success-desktop", "shot-production-turns-off-default-desktop"]
   },
   "assets": [],
   "review": {
@@ -186,7 +228,7 @@
       "Rust/WASM remains closed, local, source-backed and fail-closed across danger, contradictory internet and USB data-safety paths.",
       "Danger boundaries match across Rust, React and no-JavaScript SSR and do not require moving a wall-mounted television.",
       "Eighteen state and responsive screenshots pass without overflow, overlap, clipped focus or long-list regression.",
-      "All implementation P0-P2 findings discovered during review were corrected before local PASS; production verification remains a separate gate."
+      "All implementation findings discovered during review were corrected; final production review confirmed HTTPS, TLS, 8/8 parity and four live browser captures with no new P0-P2 findings."
     ]
   },
   "rollback": {

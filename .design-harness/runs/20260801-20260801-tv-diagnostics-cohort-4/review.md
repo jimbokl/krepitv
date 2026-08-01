@@ -6,8 +6,7 @@
 
 ## Verdict
 
-LOCAL PASS. Открытых P0–P2 по реализации нет. Production HTTPS, hash parity
-и live-browser smoke фиксируются отдельно после публикации source-коммита.
+FINAL PASS. Открытых P0–P2 по реализации и production нет.
 
 ## Goal Fit
 
@@ -50,6 +49,16 @@ Rust/WASM принимает только закрытые значения и �
 
 Явный drift scan по wizard, SeoPage и HomePage не нашёл отклонений. Для
 новых состояний используются существующие Tailwind-токены и общий wizard.
+
+## Production Verification
+
+Source `becbbea29c99f530fa4a297ea61ba7b38c233133` опубликован успешным
+GitHub Pages run `30707061918`. HTTP перенаправляется на HTTPS; TLS
+покрывает `krepitv.ru` и `www.krepitv.ru`. Восемь из восьми локальных
+и production SHA-256 совпали. Live-проверка каждого каноника подтвердила
+HTTP 200, `lang=ru`, один H1, self-canonical, SSR, 2–4 источника,
+stop-boundary, FAQ и ноль Market URL. Четыре production PNG на 320/768/1440
+прошли без overflow и clipping; focus видим. Новых P0–P2 нет.
 
 ## Residual Risks
 

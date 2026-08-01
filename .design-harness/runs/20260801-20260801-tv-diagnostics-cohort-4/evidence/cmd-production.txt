@@ -1,0 +1,21 @@
+PASS
+Command: production HTTPS, local-vs-production SHA-256 and browser smoke
+Source: becbbea29c99f530fa4a297ea61ba7b38c233133
+GitHub Pages run: 30707061918 (success)
+HTTP: 301 to HTTPS; HTTPS: 200.
+TLS: CN krepitv.ru; SAN krepitv.ru and www.krepitv.ru; expires 2026-10-28.
+SHA-256 parity: 8/8.
+- / = b4bf0d565c7bf8de18196b2804c46fabd9d40d2eb4fa7b5da8549d0eb69ea802
+- /sitemap.xml = d3d677c40cb229e6a86c449916a84384df309df7797b3544d915fb3eb9c105f3
+- /televizor-sam-vyklyuchaetsya/ = 3da10101515a233a5bf78dc0621209cf01931c233db71eefa72e96c52c480281
+- /televizor-ne-podklyuchaetsya-k-internetu/ = f01d5f200903ff87988a1c6987e0fb314852f4ecc4d568aa94a0d425dedeb96c
+- /televizor-ne-vidit-fleshku/ = 4eba9a9357f045250a6512171735def76040b82af31de62f0c5228e469a3bb41
+- /assets/main-COqNDCOw.js = ad6bfdd2756a767b5a46258d02602863a5fdf19376cdaaffc730fc02c6648e52
+- /assets/main-B-QXzN4u.css = 0a8cb536aae7a3cbfe7f9c1e3a4f8697574ba73300e1605e2bde2993854f0a85
+- /pkg/krepitv_engine_bg.wasm = 3da929ca865852695bc2808ec251cee4587e2194bab3fc7b419b075819c694bc
+Live structure: three pages each have 200, lang=ru, one H1, self-canonical,
+one SSR answer, 2..4 official sources, one stop boundary, FAQ and zero Market URLs.
+Browser: 320 danger/service-boundary, 768 focus, 1440 default and USB success;
+all have exact viewport width, no horizontal overflow and zero Market URLs.
+IndexNow: exactly three new canonicals accepted with HTTP 202; this is not
+indexation, ranking or traffic evidence.

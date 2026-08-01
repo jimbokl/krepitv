@@ -1,7 +1,7 @@
 {
   "version": 1,
   "run": "20260801-20260801-tv-diagnostics-cohort-4",
-  "generated_at": "2026-08-01T15:56:14.483171+00:00",
+  "generated_at": "2026-08-01T16:10:22.377514+00:00",
   "scanned_files": [
     "web/src/components/TvTrafficTaskWizard.jsx",
     "web/src/pages/SeoPage.jsx",
