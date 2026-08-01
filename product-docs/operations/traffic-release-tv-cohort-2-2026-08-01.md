@@ -49,10 +49,25 @@ IndexNow, HTTP 200 и страницы в индексе посетителям�
 
 ## Production и измерение
 
-Production commit, GitHub Pages run и контрольные хеши добавляются после
-публикации. После deploy проверяются HTTPS, canonical, sitemap, совпадение
-локального и production-артефакта и браузерный smoke. IndexNow получает только
-три новых URL и не считается ни индексацией, ни трафиком.
+- source/production commit: `262429117d1841928469519f21bdb79a14fc6fd6`;
+- GitHub Pages run: `30701875333`, завершён успешно;
+- HTTPS главной и трёх новых URL отвечает 200, TLS verify — 0;
+- HTTP перенаправляет на HTTPS кодом 301;
+- production sitemap содержит ровно 149 URL;
+- index, sitemap, три новых HTML, JS, CSS и WASM побайтово совпали с локальным
+  проверенным артефактом;
+- production browser-smoke получил результаты `ready`, `needs-check` и
+  `reversible-baseline`, без horizontal overflow и ссылок Маркета.
+
+Контрольные SHA-256: index
+`69670637b8da21631a0ffb659eb576d0b75f58a4bc968fe185b01a0185c765ef`,
+sitemap `935f680ef8c15dacd87911d84547f26ebbf48b76f687ae32ea9d8e65b47fdcf6`,
+JS `5319e8c2152f059c2771035de8954b589b6ecbacb2f3d693377b6ac62212593f`,
+CSS `caed9e7573ab75111632fd81b9e2466f6188f7ed12db1cbe7792178bc968ef0`,
+WASM `67dc7c1cec0edcd9d30de94377b9c92aa4f9243ef39066570a5abac56842f735`.
+
+IndexNow получает только три новых URL и не считается ни индексацией, ни
+трафиком.
 
 Следующая когорта создаётся по отдельному подтверждённому спросу. Уже собранный
 исследовательский backlog не публикуется автоматически: существующие страницы

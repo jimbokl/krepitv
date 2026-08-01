@@ -31,6 +31,12 @@
       "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260801-tv-traffic-cohort-2 --files web/src/components/TvTrafficTaskWizard.jsx web/src/components/Brand.jsx web/src/components/SiteHeader.jsx web/src/components/SiteFooter.jsx web/src/pages/SeoPage.jsx web/src/pages/HomePage.jsx web/src/lib/catalog.js web/src/lib/seoPages.mjs scripts/qa/capture-page.mjs",
       "exit_code": 0,
       "covers": ["7 UI source files scanned", "no findings"]
+    },
+    {
+      "id": "cmd-production",
+      "command": "production hash and browser smoke",
+      "exit_code": 0,
+      "covers": ["HTTPS 200", "TLS verify 0", "HTTP 301 to HTTPS", "149 sitemap URLs", "byte-identical artifacts", "ready", "needs-check", "reversible-baseline", "zero Market links"]
     }
   ],
   "screenshots": [
@@ -96,6 +102,27 @@
       "state": "default",
       "viewport_id": "mobile",
       "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_percent": 200, "market_links": 0}
+    },
+    {
+      "id": "shot-production-laptop-success",
+      "path": "evidence/screenshots/production-laptop-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "ready", "market_links": 0}
+    },
+    {
+      "id": "shot-production-digital-success",
+      "path": "evidence/screenshots/production-digital-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "needs-check", "market_links": 0}
+    },
+    {
+      "id": "shot-production-picture-success",
+      "path": "evidence/screenshots/production-picture-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_status": "reversible-baseline", "market_links": 0}
     }
   ],
   "assets": [],
