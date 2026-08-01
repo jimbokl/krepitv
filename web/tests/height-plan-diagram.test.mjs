@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { buildHeightPlanDiagram } from "../src/lib/heightPlanDiagram.mjs";
+import { buildHeightReferenceRows } from "../src/lib/heightReference.mjs";
 
 test("схема высоты доступно показывает три отметки и помещается в responsive viewBox", async () => {
   const result = buildHeightPlanDiagram({
@@ -57,9 +58,13 @@ test("схема не строится по неполным или против
 });
 
 test("результат высоты ведёт к монтажной карте и точной модели без ссылки на Маркет", async () => {
-  const [calculatorSource, pages] = await Promise.all([
+  const [calculatorSource, guideSource, pages] = await Promise.all([
     readFile(
       new URL("../src/components/HeightCalculator.jsx", import.meta.url),
+      "utf8",
+    ),
+    readFile(
+      new URL("../src/components/HeightPlanningGuide.jsx", import.meta.url),
       "utf8",
     ),
     readFile(
@@ -77,7 +82,30 @@ test("результат высоты ведёт к монтажной карт�
 
   assert.match(calculatorSource, /data-height-plan-result="true"/u);
   assert.match(calculatorSource, /data-height-next-job="true"/u);
+  assert.match(calculatorSource, /data-print-map="true"/u);
+  assert.match(calculatorSource, /window\.print\(\)/u);
   assert.match(calculatorSource, /href="\/kak-povesit-televizor-na-stenu\/"/u);
   assert.match(calculatorSource, /href="\/podbor\/"/u);
   assert.doesNotMatch(calculatorSource, /market\.yandex\.ru/u);
+  assert.match(guideSource, /data-height-room-scenarios="true"/u);
+  assert.match(guideSource, /data-height-reference-table="true"/u);
+  assert.match(guideSource, /data-height-table-scroll-hint="true"/u);
+  assert.match(guideSource, /Таблица прокручивается вправо/u);
+  assert.match(guideSource, /Гостиная/u);
+  assert.match(guideSource, /Спальня/u);
+  assert.match(guideSource, /Кухня/u);
+  assert.doesNotMatch(guideSource, /market\.yandex\.ru/u);
+});
+
+test("справочная таблица высоты использует только геометрию 16:9 и явный условный центр", () => {
+  assert.deepEqual(buildHeightReferenceRows(), [
+    { diagonal: 32, screenHeightCm: 39.8, bottomHeightCm: 90.1, centerHeightCm: 110, topHeightCm: 129.9 },
+    { diagonal: 43, screenHeightCm: 53.5, bottomHeightCm: 83.2, centerHeightCm: 110, topHeightCm: 136.8 },
+    { diagonal: 50, screenHeightCm: 62.3, bottomHeightCm: 78.9, centerHeightCm: 110, topHeightCm: 141.1 },
+    { diagonal: 55, screenHeightCm: 68.5, bottomHeightCm: 75.8, centerHeightCm: 110, topHeightCm: 144.2 },
+    { diagonal: 65, screenHeightCm: 80.9, bottomHeightCm: 69.5, centerHeightCm: 110, topHeightCm: 150.5 },
+    { diagonal: 75, screenHeightCm: 93.4, bottomHeightCm: 63.3, centerHeightCm: 110, topHeightCm: 156.7 },
+  ]);
+  assert.deepEqual(buildHeightReferenceRows(0), []);
+  assert.deepEqual(buildHeightReferenceRows(Number.NaN), []);
 });

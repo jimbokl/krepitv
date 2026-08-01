@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ArrowRight, Info, Ruler } from "@phosphor-icons/react";
+import { ArrowRight, Info, Printer, Ruler } from "@phosphor-icons/react";
+import { HeightPlanningGuide } from "./HeightPlanningGuide.jsx";
 import { HeightPlanDiagram } from "./HeightPlanDiagram.jsx";
 import { formatNumber } from "./ModelFacts.jsx";
 import { calculateHeight } from "../lib/catalog.js";
@@ -95,21 +96,30 @@ export function HeightCalculator({ model = null }) {
       {error ? <p className="mt-5 border border-danger p-4 text-danger">{error}</p> : null}
       {result ? (
         <div className="mt-6" data-height-plan-result="true">
-          <div className="grid gap-4 border-y-2 border-ink py-5 sm:grid-cols-3">
-            <ResultMetric label="Центр экрана" value={`${formatNumber(result.center_height_cm)} см`} />
-            <ResultMetric label="Нижний край" value={`${formatNumber(result.bottom_height_cm)} см`} />
-            <ResultMetric label="Верхний край" value={`${formatNumber(result.top_height_cm)} см`} />
-            <p className="flex gap-3 text-sm leading-relaxed text-muted sm:col-span-3">
-              <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-action" />
-              <span>
-                Расчёт использует геометрию экрана 16:9 и заданный угол просмотра. Перед сверлением
-                сопоставьте центр экрана с положением монтажных отверстий конкретной модели.
-                {result.warnings.length ? ` ${result.warnings.join(" ")}` : ""}
-              </span>
-            </p>
-          </div>
+          <div data-print-map="true">
+            <div className="grid gap-4 border-y-2 border-ink py-5 sm:grid-cols-3">
+              <ResultMetric label="Центр экрана" value={`${formatNumber(result.center_height_cm)} см`} />
+              <ResultMetric label="Нижний край" value={`${formatNumber(result.bottom_height_cm)} см`} />
+              <ResultMetric label="Верхний край" value={`${formatNumber(result.top_height_cm)} см`} />
+              <p className="flex gap-3 text-sm leading-relaxed text-muted sm:col-span-3">
+                <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-action" />
+                <span>
+                  Расчёт использует геометрию экрана 16:9 и заданный угол просмотра. Перед сверлением
+                  сопоставьте центр экрана с положением монтажных отверстий конкретной модели.
+                  {result.warnings.length ? ` ${result.warnings.join(" ")}` : ""}
+                </span>
+              </p>
+            </div>
 
-          <HeightPlanDiagram result={result} />
+            <HeightPlanDiagram result={result} />
+            <button
+              className="secondary-button mt-4 print:hidden"
+              onClick={() => window.print()}
+              type="button"
+            >
+              Распечатать контрольные высоты <Printer aria-hidden="true" />
+            </button>
+          </div>
 
           <section className="grid gap-4 border-b-2 border-ink py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" data-height-next-job="true">
             <div>
@@ -131,6 +141,8 @@ export function HeightCalculator({ model = null }) {
           </section>
         </div>
       ) : null}
+
+      {!model ? <HeightPlanningGuide /> : null}
     </section>
   );
 }

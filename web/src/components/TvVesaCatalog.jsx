@@ -112,14 +112,32 @@ export function TvVesaCatalog({ compatibilityEdges, models, search }) {
       )}
 
       <p className="mt-5 text-sm leading-relaxed text-muted">
-        Данные можно проверить и повторно использовать: {" "}
+        Открытый датасет «Размеры VESA популярных в России телевизоров», версия
+        1.0.0: {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
-          href="https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-sizes"
+          href="https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv"
           rel="noreferrer"
           target="_blank"
         >
-          скачать таблицу VESA в CSV или JSON
+          скачать CSV
+        </a>{" "}
+        или {" "}
+        <a
+          className="font-semibold text-technical underline underline-offset-4"
+          href="https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.json"
+          rel="noreferrer"
+          target="_blank"
+        >
+          JSON
+        </a>. В файлах 80 точных моделей, размеры VESA и официальные источники; {" "}
+        <a
+          className="font-semibold text-technical underline underline-offset-4"
+          href="https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE"
+          rel="noreferrer"
+          target="_blank"
+        >
+          лицензия MIT
         </a>.
       </p>
 

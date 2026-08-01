@@ -193,14 +193,33 @@ export function TvMountScrewCatalog({ models, search }) {
       )}
 
       <p className="mt-5 text-sm leading-relaxed text-muted">
-        Исходные данные доступны для проверки и повторного использования: {" "}
+        Открытый датасет «Винты VESA для популярных в России моделей телевизоров»,
+        версия 1.0.0: {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
-          href="https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-screws"
+          href="https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv"
           rel="noreferrer"
           target="_blank"
         >
-          скачать CSV или JSON на GitHub
+          скачать CSV
+        </a>{" "}
+        или {" "}
+        <a
+          className="font-semibold text-technical underline underline-offset-4"
+          href="https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.json"
+          rel="noreferrer"
+          target="_blank"
+        >
+          JSON
+        </a>. В файлах 26 точных моделей, паспортные размеры и официальные
+        источники; {" "}
+        <a
+          className="font-semibold text-technical underline underline-offset-4"
+          href="https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE"
+          rel="noreferrer"
+          target="_blank"
+        >
+          лицензия MIT
         </a>.
       </p>
 

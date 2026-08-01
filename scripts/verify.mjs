@@ -9,6 +9,7 @@ const origin = "https://krepitv.ru";
 const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-07-31";
+const trafficPagesUpdatedAt = "2026-08-01";
 const removedAffiliateDisclaimerFragments = [
   "Партнёрская ссылка на Яндекс Маркет",
   "Если вы оформите заказ",
@@ -1164,7 +1165,8 @@ for (const required of [
   'data-model-search-count="80"',
   'data-known-model-fallback="true"',
   "паспорт винтов ещё не подтверждён",
-  "https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-screws",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.json",
 ]) {
   if (!screwLookupHtml.includes(required)) {
     throw new Error(`Сырой HTML страницы винтов не содержит обязательный фрагмент: ${required}`);
@@ -1200,6 +1202,27 @@ if (screwLookupHtml.includes("market.yandex.ru")) {
   throw new Error("Технический справочник винтов не должен быть партнёрской витриной");
 }
 
+const heightPage = seoPages.find((page) => page.id === "mounting-height");
+const heightHtml = heightPage ? (htmlByRoute.get(heightPage.path) ?? "") : "";
+for (const required of [
+  'data-height-planning-guide="true"',
+  'data-height-room-scenarios="true"',
+  'data-height-reference-table="true"',
+  'data-height-table-scroll-hint="true"',
+  "1. Гостиная",
+  "2. Спальня",
+  "3. Кухня",
+  "Это не готовая рекомендация по высоте",
+  "Таблица прокручивается вправо →",
+]) {
+  if (!heightPage?.indexable || !heightHtml.includes(required)) {
+    throw new Error(`Сырой HTML страницы высоты не содержит обязательный фрагмент: ${required}`);
+  }
+}
+if ((heightHtml.match(/scope="row"/g) ?? []).length !== 6) {
+  throw new Error("Справочная таблица высоты должна содержать шесть диагоналей");
+}
+
 const vesaLookupPage = seoPages.find((page) => page.id === "vesa");
 if (
   !vesaLookupPage
@@ -1215,7 +1238,8 @@ for (const required of [
   'data-vesa-model-search-count="80"',
   "Найдите VESA по модели телевизора",
   "Таблица VESA телевизоров",
-  "https://github.com/jimbokl/krepitv/tree/main/datasets/ru-tv-vesa-sizes",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.json",
 ]) {
   if (!vesaLookupHtml.includes(required)) {
     throw new Error(`Сырой HTML страницы VESA не содержит обязательный фрагмент: ${required}`);
@@ -1470,7 +1494,10 @@ for (const page of indexableSeoPages) {
   if (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(page.path)) {
     throw new Error(`Индексируемая SEO-страница отсутствует в sitemap или закрыта: ${page.path}`);
   }
-  if (sitemapLastmods.get(page.path) !== corePagesUpdatedAt) {
+  const expectedLastmod = ["vesa", "tv-mount-screws", "mounting-height"].includes(page.id)
+    ? trafficPagesUpdatedAt
+    : corePagesUpdatedAt;
+  if (sitemapLastmods.get(page.path) !== expectedLastmod) {
     throw new Error(`SEO-страница имеет неточный sitemap lastmod: ${page.path}`);
   }
 }
@@ -1539,6 +1566,44 @@ for (const [route, html] of htmlByRoute) {
   });
   if (elements.at(-1).item !== canonical) {
     throw new Error(`Последний элемент BreadcrumbList не совпадает с canonical: ${route}`);
+  }
+
+  const datasetRoutes = new Map([
+    ["/vesa/", ["tv-vesa-sizes.csv", "tv-vesa-sizes.json"]],
+    ["/vinty-dlya-krepleniya-televizora/", ["tv-vesa-screws.csv", "tv-vesa-screws.json"]],
+  ]);
+  const expectedDownloads = datasetRoutes.get(route);
+  const dataset = jsonLd.find((item) => item["@type"] === "Dataset");
+  if (expectedDownloads) {
+    if (
+      !dataset ||
+      dataset.url !== canonical ||
+      dataset.isAccessibleForFree !== true ||
+      dataset.license !==
+        "https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE" ||
+      !Array.isArray(dataset.distribution) ||
+      dataset.distribution.length !== 2
+    ) {
+      throw new Error(`Некорректный Dataset JSON-LD: ${route}`);
+    }
+    const filenames = dataset.distribution.map((item) => {
+      if (
+        item?.["@type"] !== "DataDownload" ||
+        !["text/csv", "application/json"].includes(item.encodingFormat) ||
+        !item.contentUrl?.startsWith(
+          "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/",
+        ) ||
+        item.contentUrl.includes("?")
+      ) {
+        throw new Error(`Некорректный DataDownload JSON-LD: ${route}`);
+      }
+      return new URL(item.contentUrl).pathname.split("/").at(-1);
+    });
+    if (filenames.join("|") !== expectedDownloads.join("|")) {
+      throw new Error(`Dataset ссылается не на те файлы: ${route}`);
+    }
+  } else if (dataset) {
+    throw new Error(`Dataset JSON-LD появился на посторонней странице: ${route}`);
   }
 }
 
