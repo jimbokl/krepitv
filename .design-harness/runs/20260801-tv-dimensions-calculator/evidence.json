@@ -25,9 +25,36 @@
       "command": "design_harness.py scan-drift --files affected UI sources",
       "exit_code": 0,
       "covers": ["default", "focus"]
+    },
+    {
+      "id": "cmd-production",
+      "command": "production hash and browser smoke",
+      "exit_code": 0,
+      "covers": ["default", "success", "focus"]
     }
   ],
   "screenshots": [
+    {
+      "id": "shot-mobile-viewport",
+      "path": "evidence/screenshots/mobile-viewport.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-tablet-viewport",
+      "path": "evidence/screenshots/tablet-viewport.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "shot-desktop-viewport",
+      "path": "evidence/screenshots/desktop-viewport.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
     {
       "id": "shot-mobile-default",
       "path": "evidence/screenshots/mobile-default.png",
