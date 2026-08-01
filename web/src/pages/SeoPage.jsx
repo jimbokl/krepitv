@@ -21,6 +21,10 @@ import {
   TvNoSignalReference,
   TvNoSignalWizard,
 } from "../components/TvNoSignalWizard.jsx";
+import {
+  TvTrafficTaskReference,
+  TvTrafficTaskWizard,
+} from "../components/TvTrafficTaskWizard.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
@@ -59,6 +63,50 @@ const buyMountShortlist = [
   ["itech-slt-460", "Для больших диагоналей · VESA до 600×400"],
 ];
 
+const tvTrafficTaskIds = new Set([
+  "laptop-to-tv",
+  "digital-channels",
+  "picture-setup",
+]);
+
+const trafficUtilityCtas = {
+  "phone-to-tv": {
+    title: "Проверьте размер экрана",
+    description: "После подключения рассчитайте реальную ширину и высоту телевизора по диагонали.",
+    href: "/razmery-televizora-po-diagonali/",
+    label: "Рассчитать размеры",
+    shortLabel: "Размеры телевизора",
+  },
+  "tv-no-signal": {
+    title: "Подключаете телефон?",
+    description: "Если сигнал ещё не появлялся, сначала выберите рабочий способ подключения телефона.",
+    href: "/kak-podklyuchit-telefon-k-televizoru/",
+    label: "Открыть мастер подключения",
+    shortLabel: "Подключение телефона",
+  },
+  "laptop-to-tv": {
+    title: "На экране нет изображения?",
+    description: "Если способ подключения уже выбран, отделите неверный вход от питания источника и кабеля.",
+    href: "/televizor-pishet-net-signala/",
+    label: "Проверить сигнал",
+    shortLabel: "Диагностика сигнала",
+  },
+  "digital-channels": {
+    title: "Каналы внезапно пропали?",
+    description: "Не запускайте поиск наугад: сначала определите, телевизор или внешняя приставка показывает сообщение.",
+    href: "/televizor-pishet-net-signala/",
+    label: "Проверить источник",
+    shortLabel: "Диагностика сигнала",
+  },
+  "picture-setup": {
+    title: "Сверьте размер и дистанцию",
+    description: "Восприятие изображения зависит и от геометрии просмотра — проверьте диагональ относительно места зрителя.",
+    href: "/rasstoyanie-do-televizora-i-diagonal/",
+    label: "Рассчитать расстояние",
+    shortLabel: "Расстояние просмотра",
+  },
+};
+
 export function SeoPage({ catalog, page, requestedPath }) {
   if (!page) {
     return <SeoNotFound catalog={catalog} requestedPath={requestedPath} />;
@@ -77,7 +125,9 @@ function SeoArticle({ catalog, page }) {
   const prioritizesTvDimensions = page.id === "tv-dimensions";
   const prioritizesPhoneTvConnection = page.id === "phone-to-tv";
   const prioritizesTvNoSignal = page.id === "tv-no-signal";
-  const prioritizesTrafficUtility = prioritizesPhoneTvConnection || prioritizesTvNoSignal;
+  const prioritizesTvTrafficTask = tvTrafficTaskIds.has(page.id);
+  const prioritizesTrafficUtility = prioritizesPhoneTvConnection || prioritizesTvNoSignal
+    || prioritizesTvTrafficTask;
   const prioritizesPrimaryLookup = prioritizesScrewLookup
     || prioritizesVesaLookup
     || prioritizesWallPlanner
@@ -112,6 +162,7 @@ function SeoArticle({ catalog, page }) {
       })
       .filter(Boolean);
   }, [catalog.mounts, prioritizesBuyComparison]);
+  const trafficUtilityCta = trafficUtilityCtas[page.id];
 
   usePageMetadata(page.title, page.description, page.path);
 
@@ -122,7 +173,7 @@ function SeoArticle({ catalog, page }) {
   return (
     <main className="min-h-screen bg-paper text-ink">
       <SiteHeader />
-      <div className="mx-auto max-w-[1440px] px-5 pb-16 pt-6 sm:px-8">
+      <div className="mx-auto min-w-0 max-w-[1440px] px-5 pb-16 pt-6 [overflow-wrap:anywhere] sm:px-8">
         <nav className="flex flex-wrap items-center gap-2 font-mono text-xs text-muted" aria-label="Навигационная цепочка">
           <a className="hover:text-action" href="/">Главная</a>
           <span aria-hidden="true">/</span>
@@ -133,9 +184,10 @@ function SeoArticle({ catalog, page }) {
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
             {kindLabels[page.kind] ?? "Технический справочник"}
           </p>
-          <h1 className={`mt-3 max-w-[1180px] break-words font-display font-extrabold leading-[0.92] tracking-[-0.035em] ${
+          <h1 className={`mt-3 max-w-[1180px] font-display font-extrabold leading-[0.92] tracking-[-0.035em] [overflow-wrap:anywhere] ${
             ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner", "tv-dimensions", "phone-to-tv", "tv-no-signal"].includes(page.id)
-              ? "text-[clamp(3rem,4vw,4.4rem)]"
+              || prioritizesTvTrafficTask
+              ? "text-[min(4.4rem,11vw)]"
               : ["wall-mounted-tv", "mounting-map"].includes(page.id)
               ? "text-[clamp(3rem,4.6vw,5rem)]"
               : "text-[clamp(3rem,6vw,6.4rem)]"
@@ -187,6 +239,12 @@ function SeoArticle({ catalog, page }) {
           <>
             <TvNoSignalWizard />
             <TvNoSignalReference />
+          </>
+        ) : null}
+        {prioritizesTvTrafficTask ? (
+          <>
+            <TvTrafficTaskWizard task={page.id} />
+            <TvTrafficTaskReference task={page.id} />
           </>
         ) : null}
         {prioritizesTvDimensions ? (
@@ -305,32 +363,17 @@ function SeoArticle({ catalog, page }) {
 
             <div className="border-2 border-ink bg-white p-5">
               <p className="font-display text-2xl font-bold">
-                {prioritizesPhoneTvConnection
-                  ? "Проверьте размер экрана"
-                  : prioritizesTvNoSignal
-                    ? "Подключаете телефон?"
-                    : "Подбор без догадок"}
+                {trafficUtilityCta?.title ?? "Подбор без догадок"}
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                {prioritizesPhoneTvConnection
-                  ? "После подключения рассчитайте реальную ширину и высоту телевизора по диагонали."
-                  : prioritizesTvNoSignal
-                    ? "Если сигнал ещё не появлялся, сначала выберите рабочий способ подключения телефона."
-                    : "Укажите модель, стену и нужный механизм. Проверка VESA и нагрузки выполняется по каталогу."}
+                {trafficUtilityCta?.description
+                  ?? "Укажите модель, стену и нужный механизм. Проверка VESA и нагрузки выполняется по каталогу."}
               </p>
               <a
                 className="primary-button mt-5 w-full"
-                href={prioritizesPhoneTvConnection
-                  ? "/razmery-televizora-po-diagonali/"
-                  : prioritizesTvNoSignal
-                    ? "/kak-podklyuchit-telefon-k-televizoru/"
-                    : "/podbor/"}
+                href={trafficUtilityCta?.href ?? "/podbor/"}
               >
-                {prioritizesPhoneTvConnection
-                  ? "Рассчитать размеры"
-                  : prioritizesTvNoSignal
-                    ? "Открыть мастер подключения"
-                    : "Начать подбор"} <ArrowRight aria-hidden="true" />
+                {trafficUtilityCta?.label ?? "Начать подбор"} <ArrowRight aria-hidden="true" />
               </a>
             </div>
 
@@ -354,17 +397,9 @@ function SeoArticle({ catalog, page }) {
             <h2 className="font-display text-3xl font-bold" id="more-title">Полезные материалы</h2>
             <a
               className="text-sm font-semibold text-action underline underline-offset-4"
-              href={prioritizesPhoneTvConnection
-                ? "/razmery-televizora-po-diagonali/"
-                : prioritizesTvNoSignal
-                  ? "/kak-podklyuchit-telefon-k-televizoru/"
-                  : "/podbor/"}
+              href={trafficUtilityCta?.href ?? "/podbor/"}
             >
-              {prioritizesPhoneTvConnection
-                ? "Размеры телевизора"
-                : prioritizesTvNoSignal
-                  ? "Подключение телефона"
-                  : "Перейти к подбору"}
+              {trafficUtilityCta?.shortLabel ?? "Перейти к подбору"}
             </a>
           </div>
           <div className="mt-5 grid gap-px bg-line border border-line sm:grid-cols-2 lg:grid-cols-3">

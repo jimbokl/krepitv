@@ -18,6 +18,7 @@ const selector = argument("--selector", null);
 const modelQuery = argument("--model-query", null);
 const phoneTvState = argument("--phone-tv-state", null);
 const tvNoSignalState = argument("--tv-no-signal-state", null);
+const tvTrafficState = argument("--tv-traffic-state", null);
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
 const consent = argument("--consent", "denied");
@@ -58,7 +59,19 @@ if (tvNoSignalState && ![
 ].includes(tvNoSignalState)) {
   throw new Error("Invalid TV no-signal state");
 }
-if (phoneTvState && tvNoSignalState) {
+if (tvTrafficState && ![
+  "empty",
+  "default",
+  "disabled",
+  "focus",
+  "loading",
+  "error",
+  "success",
+  "retry",
+].includes(tvTrafficState)) {
+  throw new Error("Invalid TV traffic task state");
+}
+if ([phoneTvState, tvNoSignalState, tvTrafficState].filter(Boolean).length > 1) {
   throw new Error("Choose only one interactive QA state");
 }
 if (placementAttributionRequired && !affiliateReportEnabled) {
@@ -151,7 +164,7 @@ try {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
     });
   }
-  const wasmQaState = phoneTvState || tvNoSignalState;
+  const wasmQaState = phoneTvState || tvNoSignalState || tvTrafficState;
   if (["loading", "error", "retry"].includes(wasmQaState)) {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: wasmQaState === "loading"
@@ -388,6 +401,98 @@ try {
       throw new Error("TV no-signal route contains Market links");
     }
   }
+  let tvTrafficReport = null;
+  if (tvTrafficState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(tvTrafficState)};
+        const wizard = document.querySelector("[data-tv-traffic-task]");
+        if (!wizard) return Promise.reject(new Error("TV traffic task wizard not found"));
+        const task = wizard.getAttribute("data-tv-traffic-task");
+        const scenarios = {
+          "laptop-to-tv": ["windows", "hdmi"],
+          "digital-channels": ["antenna", "built-in"],
+          "picture-setup": ["everyday", "mixed"],
+        };
+        const scenario = scenarios[task];
+        if (!scenario) return Promise.reject(new Error("Unknown TV traffic task"));
+        const choose = (name, value) => {
+          const input = wizard.querySelector('input[name="' + name + '"][value="' + value + '"]');
+          if (!input) throw new Error("Missing radio " + name + ":" + value);
+          input.click();
+        };
+        const waitFor = (predicate, message, timeout = 5000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            const value = predicate();
+            if (value) {
+              clearInterval(timer);
+              resolve(value);
+            } else if (Date.now() - startedAt > timeout) {
+              clearInterval(timer);
+              reject(new Error(message));
+            }
+          }, 25);
+        });
+
+        if (state === "focus") {
+          wizard.querySelector('input[name="' + task + '-primary"]')?.focus();
+        } else if (state === "default") {
+          choose(task + "-primary", scenario[0]);
+        } else if (["loading", "error", "success", "retry"].includes(state)) {
+          choose(task + "-primary", scenario[0]);
+          await waitFor(
+            () => wizard.querySelector('input[name="' + task + '-secondary"]'),
+            "TV traffic secondary choices did not render",
+          );
+          choose(task + "-secondary", scenario[1]);
+          const submit = await waitFor(
+            () => {
+              const button = wizard.querySelector('button[type="submit"]');
+              return button && !button.disabled ? button : null;
+            },
+            "TV traffic submit stayed disabled",
+          );
+          submit.click();
+          if (state === "retry") {
+            await waitFor(
+              () => wizard.querySelector('[role="alert"]'),
+              "TV traffic retry did not reach the first error",
+            );
+            globalThis.__qaBlockWasm = false;
+            wizard.querySelector('button[type="button"]')?.click();
+          }
+        }
+
+        const expected = state === "loading"
+          ? () => wizard.querySelector('button[type="submit"]:disabled')
+          : state === "error"
+            ? () => wizard.querySelector('[role="alert"]')
+            : ["success", "retry"].includes(state)
+              ? () => document.querySelector('[data-tv-traffic-result]')
+              : () => true;
+        await waitFor(expected, "TV traffic task state timed out");
+        return {
+          state,
+          task,
+          submitDisabled: Boolean(wizard.querySelector('button[type="submit"]')?.disabled),
+          resultStatus: document.querySelector("[data-tv-traffic-result]")?.getAttribute("data-tv-traffic-result") ?? null,
+          hasAlert: Boolean(wizard.querySelector('[role="alert"]')),
+          focusedName: document.activeElement?.getAttribute("name") ?? null,
+          marketLinks: document.querySelectorAll('a[href*="market.yandex.ru"]').length,
+        };
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error("TV traffic task interaction failed");
+    }
+    tvTrafficReport = interaction.result.value;
+    if (tvTrafficReport.marketLinks !== 0) {
+      throw new Error("TV traffic task route contains Market links");
+    }
+  }
   let modelInteractionReport = null;
   if (modelQuery) {
     const interaction = await send("Runtime.evaluate", {
@@ -472,7 +577,13 @@ try {
               ? "[data-tv-no-signal-wizard] [role=\"alert\"]"
               : tvNoSignalState
                 ? "[data-tv-no-signal-wizard]"
-                : null);
+                : ["success", "retry"].includes(tvTrafficState)
+                  ? "[data-tv-traffic-result]"
+                  : tvTrafficState === "error"
+                    ? "[data-tv-traffic-task] [role=\"alert\"]"
+                    : tvTrafficState
+                      ? "[data-tv-traffic-task]"
+                      : null);
   if (effectiveSelector) {
     const selected = await send("Runtime.evaluate", {
       expression: `(() => {
@@ -604,6 +715,7 @@ try {
   if (modelInteractionReport) process.stdout.write(`${JSON.stringify(modelInteractionReport)}\n`);
   if (phoneTvReport) process.stdout.write(`${JSON.stringify(phoneTvReport)}\n`);
   if (tvNoSignalReport) process.stdout.write(`${JSON.stringify(tvNoSignalReport)}\n`);
+  if (tvTrafficReport) process.stdout.write(`${JSON.stringify(tvTrafficReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();

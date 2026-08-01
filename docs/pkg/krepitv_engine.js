@@ -243,6 +243,41 @@ export function tv_dimensions_plan_json(mode, primary, secondary, clearance_cm, 
 }
 
 /**
+ * @param {string} task
+ * @param {string} primary
+ * @param {string} secondary
+ * @param {string} tertiary
+ * @param {string} detail
+ * @returns {string}
+ */
+export function tv_traffic_task_plan_json(task, primary, secondary, tertiary, detail) {
+    let deferred6_0;
+    let deferred6_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(task, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(primary, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len1 = WASM_VECTOR_LEN;
+        const ptr2 = passStringToWasm0(secondary, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len2 = WASM_VECTOR_LEN;
+        const ptr3 = passStringToWasm0(tertiary, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len3 = WASM_VECTOR_LEN;
+        const ptr4 = passStringToWasm0(detail, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len4 = WASM_VECTOR_LEN;
+        wasm.tv_traffic_task_plan_json(retptr, ptr0, len0, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        deferred6_0 = r0;
+        deferred6_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export3(deferred6_0, deferred6_1, 1);
+    }
+}
+
+/**
  * @param {number} diagonal_inches
  * @param {number} screen_center_height_cm
  * @param {number} plate_width_cm

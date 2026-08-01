@@ -189,7 +189,7 @@ export function loadEngine() {
         document.querySelector('script[data-krepitv-engine="loader"]')?.remove();
         globalThis.__krepitvEngineError = true;
         reject(new Error(
-          "Не удалось загрузить локальный модуль расчёта. Нажмите «Показать инструкцию» ещё раз.",
+          "Не удалось загрузить локальный модуль расчёта. Нажмите «Повторить» и попробуйте ещё раз.",
         ));
       };
       globalThis.addEventListener("krepitv-engine-ready", ready, { once: true });
@@ -395,6 +395,21 @@ export async function calculateTvNoSignal(values) {
       values.inputMatches,
       values.cableConnected,
       values.receiverMenuVisible,
+    ),
+  );
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
+export async function calculateTvTrafficTask(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(
+    engine.tv_traffic_task_plan_json(
+      values.task,
+      values.primary,
+      values.secondary,
+      values.tertiary,
+      values.detail,
     ),
   );
   if (response.error) throw new Error(response.error);

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "product": "KREPI TV — независимые локальные мастера проверки бытовых проблем телевизора",
+  "intended_conversion": "Самостоятельный полезный план проверки без регистрации, сервера, покупки и партнёрского CTA",
+  "relevance_rule": "Практическая проблема владельца телевизора, которую можно безопасно локализовать закрытыми наблюдаемыми ответами. Исключаются вскрытие, электрические измерения, ремонт компонентов и диагноз по одному симптому",
+  "landing_candidates": [
+    "https://krepitv.ru/televizor-ne-vklyuchaetsya/",
+    "https://krepitv.ru/televizor-zvuk-est-izobrazheniya-net/",
+    "https://krepitv.ru/net-zvuka-na-televizore/",
+    "https://krepitv.ru/televizor-zavis/",
+    "https://krepitv.ru/televizor-sam-vyklyuchaetsya/",
+    "https://krepitv.ru/ne-rabotaet-pult-ot-televizora/",
+    "https://krepitv.ru/televizor-ne-podklyuchaetsya-k-internetu/",
+    "https://krepitv.ru/televizor-ne-vidit-fleshku/"
+  ],
+  "region_id": 225,
+  "region": "Россия",
+  "wordstat_tab": "Top queries",
+  "period": "последний месяц на дату сбора в Top queries",
+  "devices": "все устройства",
+  "currency": "не применимо: CPC не собирался",
+  "search_scope": "поисковый спрос Wordstat Top queries; не показы сайта, не клики, не прогноз трафика и не CPC",
+  "operator_template": "\"[QUERY]\"",
+  "operator_semantics": "Кавычки фиксируют число слов, квадратные скобки фиксируют порядок; словоформы не фиксируются",
+  "batch_size": 8,
+  "authorization": "только исследование; реклама, публикация страниц и расход не разрешены",
+  "collection_method": "существующий scripts/research/collect-seo-hub-demand.mjs через XMLRiver",
+  "secret_handling": "Учётные данные читаются коллектором из ~/.codex/secrets/xmlriver-wordstat.json и не сохраняются в наборе данных или логах",
+  "interpretation_policy": {
+    "normalized_exact": "measured",
+    "single_operator_result": "directional",
+    "multiple_results_without_match": "directional",
+    "no_result": "no_data"
+  },
+  "aggregation_rule": "Не суммировать варианты, строки или частотности: пересечение словоформ и аудиторий не измерялось",
+  "output_paths": {
+    "seeds": "data/research/tv-problem-cohort-demand-seeds-2026-08-01.json",
+    "manifest": "data/research/tv-problem-cohort-demand-2026-08-01.json",
+    "raw_directory": "product-docs/research/raw/wordstat-tv-problem-cohort-2026-08-01"
+  }
+}

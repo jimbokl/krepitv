@@ -555,6 +555,9 @@ fn seo_page_lastmod(page: &SeoPage) -> &'static str {
         page.id.as_str(),
         "phone-to-tv"
             | "tv-no-signal"
+            | "laptop-to-tv"
+            | "digital-channels"
+            | "picture-setup"
             | "vesa"
             | "tv-mount-screws"
             | "mounting-height"
@@ -882,7 +885,7 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
     featured_pages.sort_by_key(|page| page.home_priority.unwrap_or(u8::MAX));
     let seo_links = featured_pages
         .into_iter()
-        .take(4)
+        .take(7)
         .map(|page| {
             format!(
                 "<a class=\"border border-line bg-white p-5 font-display text-lg font-bold\" data-featured-traffic-tool=\"{}\" href=\"{}\">{}</a>",
@@ -1456,20 +1459,44 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
     } else {
         match page.id.as_str() {
             "tv-no-signal" => &[
+                "digital-channels",
+                "laptop-to-tv",
+                "phone-to-tv",
+                "picture-setup",
+                "tv-dimensions",
+                "viewing-distance",
+            ],
+            "phone-to-tv" => &[
+                "laptop-to-tv",
+                "tv-no-signal",
+                "picture-setup",
+                "tv-dimensions",
+                "wall-planner",
+                "viewing-distance",
+            ],
+            "laptop-to-tv" => &[
+                "tv-no-signal",
+                "phone-to-tv",
+                "picture-setup",
+                "digital-channels",
+                "tv-dimensions",
+                "viewing-distance",
+            ],
+            "digital-channels" => &[
+                "tv-no-signal",
+                "picture-setup",
+                "laptop-to-tv",
                 "phone-to-tv",
                 "tv-dimensions",
                 "viewing-distance",
-                "wall-planner",
-                "vesa",
-                "mounting-height",
             ],
-            "phone-to-tv" => &[
-                "tv-no-signal",
+            "picture-setup" => &[
+                "viewing-distance",
                 "tv-dimensions",
                 "wall-planner",
-                "viewing-distance",
-                "vesa",
-                "mounting-height",
+                "tv-no-signal",
+                "laptop-to-tv",
+                "phone-to-tv",
             ],
             "wall-mounted-tv" => &[
                 "wall-planner",
@@ -1592,6 +1619,15 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "laptop-to-tv" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-traffic-answer="laptop-to-tv"><p class="font-mono text-xs uppercase text-action">Сначала технология, потом кабель</p><h2 class="mt-2 font-display text-3xl font-extrabold">Три проверяемых пути от ноутбука к телевизору</h2><p class="mt-3 max-w-4xl leading-relaxed text-muted">Для HDMI нужен подтверждённый видеовыход и совпадающий вход телевизора. Для USB-C сначала проверьте DisplayPort Alt Mode, Thunderbolt или явную поддержку внешнего дисплея у точной модели. Для связи без провода должна совпасть технология на обоих устройствах: Miracast для совместимой пары Windows либо AirPlay для совместимой пары Mac.</p><div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3"><article class="bg-paper p-5" data-tv-traffic-branch="laptop-hdmi"><p class="font-mono text-xs uppercase text-action">HDMI</p><h3 class="mt-2 font-display text-2xl font-extrabold">Вход → режим экранов</h3><p class="mt-3 text-sm leading-relaxed text-muted">Выберите физически подключённый HDMI. В Windows используйте Win + P; на Mac откройте настройки дисплеев.</p></article><article class="bg-paper p-5" data-tv-traffic-branch="laptop-usb-c"><p class="font-mono text-xs uppercase text-action">USB-C</p><h3 class="mt-2 font-display text-2xl font-extrabold">Сначала видеовыход</h3><p class="mt-3 text-sm leading-relaxed text-muted">Форма разъёма не доказывает передачу видео. Не покупайте адаптер до проверки спецификации ноутбука.</p></article><article class="bg-paper p-5" data-tv-traffic-branch="laptop-wireless"><p class="font-mono text-xs uppercase text-action">Без провода</p><h3 class="mt-2 font-display text-2xl font-extrabold">Один общий протокол</h3><p class="mt-3 text-sm leading-relaxed text-muted">Win + K ищет Miracast-приёмники; Mac использует AirPlay с совместимым телевизором.</p></article></div><nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Источники подключения ноутбука"><a class="text-technical underline underline-offset-4" href="https://support.microsoft.com/ru-RU/Windows/Hardware/Display-Graphics/how-to-use-multiple-monitors-in-windows" rel="noreferrer" target="_blank" data-tv-traffic-source="microsoft-multiple-displays">Microsoft: экраны Windows</a><a class="text-technical underline underline-offset-4" href="https://support.apple.com/ru-ru/guide/mac-help/mchlp1206/mac" rel="noreferrer" target="_blank" data-tv-traffic-source="apple-mac-tv-display">Apple: телевизор как дисплей Mac</a><a class="text-technical underline underline-offset-4" href="https://support.apple.com/ru-ru/guide/mac-help/mchld7e543a0/mac" rel="noreferrer" target="_blank" data-tv-traffic-source="apple-mac-airplay">Apple: AirPlay</a></nav></section>"#
+        }
+        "digital-channels" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-traffic-answer="digital-channels"><p class="font-mono text-xs uppercase text-action">Не стирайте список наугад</p><h2 class="mt-2 font-display text-3xl font-extrabold">Определите, где настраиваются каналы</h2><p class="mt-3 max-w-4xl leading-relaxed text-muted">Коаксиальный кабель прямо в ANT/RF телевизора означает поиск встроенным тюнером. HDMI или AV от отдельной коробки означает внешнюю приставку: список каналов и параметры настраиваются её пультом. Для прямого кабеля оператора нужны его параметры сети.</p><div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3"><article class="bg-paper p-5" data-tv-traffic-branch="channels-antenna"><p class="font-mono text-xs uppercase text-action">Эфирная антенна</p><h3 class="mt-2 font-display text-2xl font-extrabold">DVB-T2 → Эфир → поиск</h3><p class="mt-3 text-sm leading-relaxed text-muted">Проверьте поддержку DVB-T2 и доступное соединение, затем выбирайте цифровой эфирный поиск.</p></article><article class="bg-paper p-5" data-tv-traffic-branch="channels-cable"><p class="font-mono text-xs uppercase text-action">Кабель оператора</p><h3 class="mt-2 font-display text-2xl font-extrabold">DVB-C → параметры сети</h3><p class="mt-3 text-sm leading-relaxed text-muted">Частоту, тип поиска и другие обязательные значения берите у своего оператора, а не у другого города.</p></article><article class="bg-paper p-5" data-tv-traffic-branch="channels-box"><p class="font-mono text-xs uppercase text-action">Внешняя приставка</p><h3 class="mt-2 font-display text-2xl font-extrabold">Вход ТВ → меню приставки</h3><p class="mt-3 text-sm leading-relaxed text-muted">Телевизор показывает готовый видеосигнал; настройку выполняйте по инструкции приставки или оператора.</p></article></div><p class="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold">Не поднимайтесь к антенне на крышу и не ремонтируйте общедомовую сеть самостоятельно.</p><nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Источники настройки цифровых каналов"><a class="text-technical underline underline-offset-4" href="https://plus.rtrs.ru/info/" rel="noreferrer" target="_blank" data-tv-traffic-source="rtrs-digital-terrestrial">РТРС: эфирное цифровое ТВ</a><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/where-can-i-find-free-channels-on-my-samsung-tv/" rel="noreferrer" target="_blank" data-tv-traffic-source="samsung-channel-setup">Samsung: типы каналов</a><a class="text-technical underline underline-offset-4" href="https://www.lg.com/ru/support/product-help/CT20206007-20153413221090" rel="noreferrer" target="_blank" data-tv-traffic-source="lg-channel-autotune">LG: автопоиск каналов</a></nav></section>"#
+        }
+        "picture-setup" => {
+            r#"<section class="border-y-2 border-ink py-7" data-tv-traffic-answer="picture-setup"><p class="font-mono text-xs uppercase text-action">Обратимая настройка</p><h2 class="mt-2 font-display text-3xl font-extrabold">Меняйте один параметр и сравнивайте один фрагмент</h2><p class="mt-3 max-w-4xl leading-relaxed text-muted">Запишите текущий вход, режим и исходные значения. Выберите режим под контент, зафиксируйте обычное освещение комнаты и меняйте один параметр за раз. HDR настраивайте только во время подтверждённого HDR-сигнала; пункты меню могут различаться по модели и источнику.</p><div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3"><article class="bg-paper p-5" data-tv-traffic-branch="picture-movie"><p class="font-mono text-xs uppercase text-action">Фильмы</p><h3 class="mt-2 font-display text-2xl font-extrabold">Нейтральный режим</h3><p class="mt-3 text-sm leading-relaxed text-muted">Сравнивайте в постоянном вечернем свете и не переносите чужие числовые значения на свою панель.</p></article><article class="bg-paper p-5" data-tv-traffic-branch="picture-game"><p class="font-mono text-xs uppercase text-action">Игры</p><h3 class="mt-2 font-display text-2xl font-extrabold">Сначала задержка</h3><p class="mt-3 text-sm leading-relaxed text-muted">Включите игровой режим на нужном входе и проверьте управление до дополнительной обработки движения.</p></article><article class="bg-paper p-5" data-tv-traffic-branch="picture-check"><p class="font-mono text-xs uppercase text-action">Проверка</p><h3 class="mt-2 font-display text-2xl font-extrabold">Встроенный тест</h3><p class="mt-3 text-sm leading-relaxed text-muted">Тест изображения помогает сравнить источник с самим телевизором, но не ставит диагноз панели.</p></article></div><p class="mt-6 border-l-2 border-action pl-4 text-sm font-semibold">Это обратимая базовая настройка без измерительного прибора, а не профессиональная калибровка.</p><nav class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold" aria-label="Источники настройки изображения"><a class="text-technical underline underline-offset-4" href="https://www.sony.ru/electronics/support/articles/00190409" rel="noreferrer" target="_blank" data-tv-traffic-source="sony-picture-settings">Sony: настройки изображения</a><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/how-to-run-test-image-on-samsung-tv/" rel="noreferrer" target="_blank" data-tv-traffic-source="samsung-picture-test">Samsung: тест изображения</a><a class="text-technical underline underline-offset-4" href="https://www.samsung.com/ru/support/tv-audio-video/smart-tv-game-mode-turn-on/" rel="noreferrer" target="_blank" data-tv-traffic-source="samsung-game-mode">Samsung: игровой режим</a></nav></section>"#
+        }
         "tv-no-signal" => {
             "<section class=\"border-y-2 border-ink py-7\" data-tv-no-signal-answer=\"true\" data-tv-no-signal-reference=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Диагностика без догадок</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сначала определите источник сообщения</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">Откройте собственное меню телевизора или измените громкость. Если индикатор виден, телевизор способен отрисовать свой интерфейс — можно переходить к выбранному входу, внешнему устройству и кабелю. Если не виден, мастер не устанавливает причину и останавливает обычную диагностику сигнала.</p><div class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2\"><article class=\"bg-paper p-5\" data-tv-no-signal-branch=\"hdmi\"><p class=\"font-mono text-xs uppercase text-action\">HDMI</p><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Вход → питание → прямая цепочка</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Сопоставьте Source/Input с разъёмом, проверьте питание источника и временно уберите переходники, ресивер или саундбар.</p></article><article class=\"bg-paper p-5\" data-tv-no-signal-branch=\"terrestrial\"><p class=\"font-mono text-xs uppercase text-action\">Эфир</p><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Кабель → TV/DTV → поиск</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Сначала проверьте доступное антенное соединение и источник. Не поднимайтесь к антенне на крышу.</p></article><article class=\"bg-paper p-5\" data-tv-no-signal-branch=\"provider\"><p class=\"font-mono text-xs uppercase text-action\">Приставка оператора</p><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Кто показывает надпись</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Если видны меню или логотип приставки, телевизор уже получает её изображение: дальнейшую ветку определяет оператор.</p></article><article class=\"bg-paper p-5\" data-tv-no-signal-branch=\"satellite\"><p class=\"font-mono text-xs uppercase text-action\">Спутник</p><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Только доступные проверки</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Проверьте питание приёмника, доступный кабель, погоду и препятствия. Фирменные шаги уточняйте у своего оператора; недоступную антенну должен проверять специалист.</p></article></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\">Не разбирайте телевизор и не поднимайтесь к антенне на крышу.</p><div class=\"mt-7\"><h3 class=\"font-display text-2xl font-extrabold\">Официальные инструкции</h3><nav class=\"mt-4 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold\" aria-label=\"Источники диагностики сигнала\"><a class=\"text-technical underline underline-offset-4\" href=\"https://www.samsung.com/ru/support/tv-audio-video/no-signal-while-connect-devices-through-hdmi/\" rel=\"noreferrer\" target=\"_blank\" data-tv-no-signal-source=\"samsung-hdmi\">Samsung: HDMI</a><a class=\"text-technical underline underline-offset-4\" href=\"https://www.sony.ru/electronics/support/articles/00298459\" rel=\"noreferrer\" target=\"_blank\" data-tv-no-signal-source=\"sony-hdmi\">Sony: HDMI</a><a class=\"text-technical underline underline-offset-4\" href=\"https://plus.rtrs.ru/info/\" rel=\"noreferrer\" target=\"_blank\" data-tv-no-signal-source=\"rtrs-dtv\">РТРС: эфирное ТВ</a></nav></div></section>"
         }
@@ -3756,18 +3792,21 @@ mod tests {
     }
 
     #[test]
-    fn home_prioritizes_four_traffic_tools_without_listing_every_model() {
+    fn home_prioritizes_seven_traffic_tools_without_listing_every_model() {
         let root = workspace_root();
         let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
         let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
         let html = home_page_body(&models, &pages);
 
-        assert_eq!(html.matches("data-featured-traffic-tool=").count(), 4);
+        assert_eq!(html.matches("data-featured-traffic-tool=").count(), 7);
         for id in [
             "phone-to-tv",
             "tv-no-signal",
             "tv-dimensions",
             "wall-planner",
+            "laptop-to-tv",
+            "digital-channels",
+            "picture-setup",
         ] {
             assert!(html.contains(&format!("data-featured-traffic-tool=\"{id}\"")));
         }
@@ -3839,6 +3878,55 @@ mod tests {
         assert!(!html.contains("tricolor.ru/help"));
         assert!(!html.contains("market.yandex.ru"));
         assert!(!html.contains("data-affiliate"));
+    }
+
+    #[test]
+    fn tv_traffic_cohort_two_has_three_static_first_canonicals_without_market_links() {
+        let root = workspace_root();
+        let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+
+        for (id, path, source_fragment) in [
+            (
+                "laptop-to-tv",
+                "/kak-podklyuchit-noutbuk-k-televizoru/",
+                "support.microsoft.com/ru-RU",
+            ),
+            (
+                "digital-channels",
+                "/kak-nastroit-tsifrovye-kanaly-na-televizore/",
+                "plus.rtrs.ru/info",
+            ),
+            (
+                "picture-setup",
+                "/nastroyka-izobrazheniya-televizora/",
+                "samsung.com/ru/support",
+            ),
+        ] {
+            let page = pages
+                .iter()
+                .find(|page| page.id == id)
+                .expect("traffic cohort page");
+            let html = seo_page_body(page, &pages, &[], &[], &[]);
+
+            assert!(is_indexable_seo_page(page));
+            assert_eq!(page.path, path);
+            assert_eq!(pages.iter().filter(|item| item.id == id).count(), 1);
+            assert_eq!(
+                html.matches(&format!("data-tv-traffic-answer=\"{id}\""))
+                    .count(),
+                1
+            );
+            assert!(html.contains(source_fragment));
+            assert!(!html.contains("market.yandex.ru"));
+            assert!(!html.contains("data-affiliate"));
+        }
+
+        let picture = pages
+            .iter()
+            .find(|page| page.id == "picture-setup")
+            .expect("picture setup page");
+        let picture_html = seo_page_body(picture, &pages, &[], &[], &[]);
+        assert!(picture_html.contains("не профессиональная калибровка"));
     }
 
     #[test]

@@ -40,7 +40,7 @@ export function HomePage({ catalog }) {
     [catalog.mounts, selectedModel],
   );
   const featuredSeoPages = useMemo(
-    () => getHomeFeaturedPages(catalog.seoPages),
+    () => getHomeFeaturedPages(catalog.seoPages, 7),
     [catalog.seoPages],
   );
 

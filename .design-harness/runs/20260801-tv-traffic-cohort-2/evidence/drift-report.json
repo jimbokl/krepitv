@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "run": "20260801-tv-traffic-cohort-2",
+  "generated_at": "2026-08-01T13:30:09.519287+00:00",
+  "scanned_files": [
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/components/Brand.jsx",
+    "web/src/components/SiteHeader.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/src/pages/HomePage.jsx",
+    "web/src/lib/catalog.js"
+  ],
+  "findings": []
+}

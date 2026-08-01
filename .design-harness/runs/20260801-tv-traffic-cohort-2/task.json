@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "id": "20260801-tv-traffic-cohort-2",
+  "kind": "ui",
+  "status": "specified",
+  "implementer": "Codex /root",
+  "created_at": "2026-08-01T12:36:40.160715+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "crates/engine/src/lib.rs",
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "data/research/tv-traffic-cohort-2-sources-2026-08-01.json",
+    "data/research/tv-problem-cohort-demand-2026-08-01.json",
+    "data/research/tv-problem-cohort-demand-contract-2026-08-01.json",
+    "data/research/tv-problem-cohort-demand-seeds-2026-08-01.json",
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/components/Brand.jsx",
+    "web/src/components/SiteHeader.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/lib/catalog.js",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/HomePage.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/tests/seo-pages.test.mjs",
+    "web/tests/tv-traffic-cohort-2.test.mjs",
+    "web/index.html",
+    "web/public/sitemap.xml",
+    "web/kak-podklyuchit-telefon-k-televizoru/index.html",
+    "web/televizor-pishet-net-signala/index.html",
+    "web/kak-podklyuchit-noutbuk-k-televizoru/index.html",
+    "web/kak-nastroit-tsifrovye-kanaly-na-televizore/index.html",
+    "web/nastroyka-izobrazheniya-televizora/index.html",
+    "product-docs/research/TV_TRAFFIC_COHORT_2_OFFICIAL_SOURCES_2026-08-01.md",
+    "product-docs/research/raw/wordstat-tv-problem-cohort-2026-08-01/**",
+    "product-docs/operations/traffic-release-tv-cohort-2-2026-08-01.md",
+    "README.md",
+    "scripts/qa/capture-page.mjs",
+    "scripts/verify.mjs",
+    "docs/**",
+    ".design-harness/runs/20260801-tv-traffic-cohort-2/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-rust-cohort",
+      "command": "cargo test -p krepitv-engine tv_traffic_task -- --nocapture",
+      "required": true,
+      "covers": ["success", "unknown", "fail-closed", "validation"]
+    },
+    {
+      "id": "cmd-web-cohort",
+      "command": "node --test --test-concurrency=1 web/tests/tv-traffic-cohort-2.test.mjs web/tests/seo-pages.test.mjs web/tests/result-instrumentation.test.mjs",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-release-audits",
+      "command": "cd /Users/dmitrij/Documents/ru-seo-affiliate-site-harness && npm run audit:security -- --project /Users/dmitrij/Documents/krepitv && npm run audit:static -- --project /Users/dmitrij/Documents/krepitv --dist docs && npm run audit:affiliate -- --project /Users/dmitrij/Documents/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "required": true,
+      "covers": ["security", "static SEO", "affiliate policy"]
+    },
+    {
+      "id": "cmd-production",
+      "command": "production hash and browser smoke",
+      "required": true,
+      "covers": ["default", "success", "focus", "canonical"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "canonical-paths",
+      "value": "/kak-podklyuchit-noutbuk-k-televizoru/ · /kak-nastroit-tsifrovye-kanaly-na-televizore/ · /nastroyka-izobrazheniya-televizora/",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "demand-values",
+      "value": "14 262 · 9 135 · 6 046 запросов в месяц; Россия; все устройства; 01.08.2026",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "calibration-boundary",
+      "value": "Это обратимая базовая настройка без измерительного прибора, а не профессиональная калибровка.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "windows-display",
+      "text": "Windows использует Win+P для режима нескольких экранов и Win+K для совместимого беспроводного дисплея Miracast.",
+      "source_ids": ["microsoft-multiple-displays", "microsoft-wireless-display"]
+    },
+    {
+      "id": "mac-tv-display",
+      "text": "Mac можно подключить к телевизору видеокабелем либо использовать AirPlay с совместимым телевизором.",
+      "source_ids": ["apple-mac-tv-display", "apple-mac-airplay"]
+    },
+    {
+      "id": "digital-channel-source",
+      "text": "Перед поиском каналов нужно различить эфирную антенну, кабель и внешнюю приставку; DVB-T2/C проверяется по точной модели.",
+      "source_ids": ["samsung-channel-setup", "rtrs-digital-terrestrial"]
+    },
+    {
+      "id": "picture-mode-context",
+      "text": "Доступность настроек изображения зависит от модели и источника; игровой режим предназначен для снижения задержки игрового источника.",
+      "source_ids": ["sony-picture-settings", "samsung-game-mode"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "wordstat-demand",
+      "path": "data/research/traffic-head-demand.json",
+      "retrieved_at": "2026-08-01T09:59:58Z",
+      "notes": "Top queries, Россия 225, все устройства; варианты не суммируются"
+    },
+    {
+      "id": "microsoft-multiple-displays",
+      "url": "https://support.microsoft.com/ru-RU/Windows/Hardware/Display-Graphics/how-to-use-multiple-monitors-in-windows",
+      "retrieved_at": "2026-08-01T12:30:00Z"
+    },
+    {
+      "id": "microsoft-wireless-display",
+      "url": "https://support.microsoft.com/ru-ru/windows/%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%83-%D0%B8%D0%BB%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D1%83-7e170c39-58dc-c866-7d55-be2372632892",
+      "retrieved_at": "2026-08-01T12:30:00Z"
+    },
+    {
+      "id": "apple-mac-tv-display",
+      "url": "https://support.apple.com/ru-ru/guide/mac-help/mchlp1206/mac",
+      "retrieved_at": "2026-08-01T12:30:00Z"
+    },
+    {
+      "id": "apple-mac-airplay",
+      "url": "https://support.apple.com/ru-ru/guide/mac-help/mchld7e543a0/mac",
+      "retrieved_at": "2026-08-01T12:30:00Z"
+    },
+    {
+      "id": "samsung-channel-setup",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-find-free-channels-on-my-samsung-tv/",
+      "retrieved_at": "2026-08-01T12:30:00Z"
+    },
+    {
+      "id": "rtrs-digital-terrestrial",
+      "url": "https://plus.rtrs.ru/info/",
+      "retrieved_at": "2026-08-01T12:30:00Z"
+    },
+    {
+      "id": "sony-picture-settings",
+      "url": "https://www.sony.ru/electronics/support/articles/00190409",
+      "retrieved_at": "2026-08-01T12:30:00Z"
+    },
+    {
+      "id": "samsung-game-mode",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/smart-tv-game-mode-turn-on/",
+      "retrieved_at": "2026-08-01T12:30:00Z"
+    }
+  ]
+}

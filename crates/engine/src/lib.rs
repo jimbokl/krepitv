@@ -1551,6 +1551,715 @@ pub fn calculate_tv_no_signal(input: &TvNoSignalInput) -> Result<TvNoSignalPlan,
     }
 }
 
+/// Закрытые наблюдения для трёх самостоятельных traffic-first мастеров.
+///
+/// Поля имеют разные подписи в интерфейсе, но всегда принимают только заранее
+/// определённые варианты. Движок не получает свободный текст, модель, адрес,
+/// сетевой пароль или другие пользовательские данные.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct TvTrafficTaskInput {
+    pub task: String,
+    pub primary: String,
+    pub secondary: String,
+    pub tertiary: String,
+    pub detail: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct TvTrafficTaskStep {
+    pub id: String,
+    pub title: String,
+    pub instruction: String,
+    pub source_ids: Vec<String>,
+    pub stop_condition: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct TvTrafficTaskPlan {
+    pub status: String,
+    pub task: String,
+    pub headline: String,
+    pub explanation: String,
+    pub steps: Vec<TvTrafficTaskStep>,
+    pub warnings: Vec<String>,
+    pub privacy: String,
+}
+
+fn tv_traffic_task_step(
+    id: &str,
+    title: &str,
+    instruction: &str,
+    source_ids: &[&str],
+    stop_condition: &str,
+) -> TvTrafficTaskStep {
+    TvTrafficTaskStep {
+        id: id.to_string(),
+        title: title.to_string(),
+        instruction: instruction.to_string(),
+        source_ids: source_ids
+            .iter()
+            .map(|source_id| (*source_id).to_string())
+            .collect(),
+        stop_condition: stop_condition.to_string(),
+    }
+}
+
+fn tv_traffic_task_plan(
+    status: &str,
+    task: &str,
+    headline: &str,
+    explanation: &str,
+    steps: Vec<TvTrafficTaskStep>,
+    warnings: &[&str],
+) -> TvTrafficTaskPlan {
+    TvTrafficTaskPlan {
+        status: status.to_string(),
+        task: task.to_string(),
+        headline: headline.to_string(),
+        explanation: explanation.to_string(),
+        steps,
+        warnings: warnings
+            .iter()
+            .map(|warning| (*warning).to_string())
+            .collect(),
+        privacy:
+            "План рассчитывается локально в браузере; выбранные ответы не отправляются на сервер."
+                .to_string(),
+    }
+}
+
+fn calculate_laptop_tv_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["windows", "macos", "other", "unknown"],
+        "Система ноутбука",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["hdmi", "usb-c", "wireless", "unknown"],
+        "Способ подключения",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["mirror", "extend", "video", "game"],
+        "Задача подключения",
+    )?;
+    require_choice(
+        &input.detail,
+        &["yes", "no", "unknown"],
+        "Подтверждение поддержки",
+    )?;
+
+    let mode_label = match input.tertiary.as_str() {
+        "extend" => "«Расширить»: телевизор станет вторым рабочим столом.",
+        "game" => {
+            "Для игры сначала выберите вывод на телевизор и проверьте задержку на прямом соединении."
+        }
+        "video" => {
+            "Для видео выберите дублирование либо только телевизор и отдельно проверьте вывод звука."
+        }
+        _ => "«Повторять»: на телевизоре и ноутбуке будет одно изображение.",
+    };
+
+    if input.primary == "unknown" || input.secondary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "laptop-to-tv",
+            "Сначала определите систему и видеовыход",
+            "Без системы ноутбука и точного способа связи нельзя честно выбрать сочетание клавиш, адаптер или беспроводной протокол.",
+            vec![
+                tv_traffic_task_step(
+                    "identify-system",
+                    "Уточните Windows или macOS",
+                    "Откройте сведения о системе ноутбука и запишите её название. Для другой системы используйте руководство производителя.",
+                    &["microsoft-wireless-display", "apple-mac-tv"],
+                    "Не устанавливайте неизвестные программы для трансляции только ради этой проверки.",
+                ),
+                tv_traffic_task_step(
+                    "identify-video-path",
+                    "Проверьте разъёмы и поддержку",
+                    "Найдите HDMI либо точное указание DisplayPort/Thunderbolt через USB-C; для беспроводного пути нужна явная поддержка на ноутбуке и телевизоре.",
+                    &[
+                        "vesa-displayport",
+                        "microsoft-wireless-display",
+                        "apple-mac-airplay",
+                    ],
+                    "Форма USB-C и надпись Smart TV сами по себе совместимость не подтверждают.",
+                ),
+            ],
+            &[
+                "Обычный USB-порт без заявленного видеовыхода не является HDMI-входом.",
+                "Не покупайте адаптер до проверки точной модели ноутбука и телевизора.",
+            ],
+        ));
+    }
+
+    let mut steps = Vec::new();
+    let (status, headline, explanation) = match (input.primary.as_str(), input.secondary.as_str()) {
+        ("windows", "hdmi") => {
+            steps.push(tv_traffic_task_step(
+                "connect-hdmi",
+                "Соедините HDMI OUT и HDMI IN",
+                "Подключите ноутбук напрямую к телевизору и выберите на ТВ тот номер HDMI, в который вставлен кабель.",
+                &["microsoft-multiple-displays"],
+                "Если видны повреждение, запах или сильный нагрев, отключите питание и прекратите проверку.",
+            ));
+            steps.push(tv_traffic_task_step(
+                "windows-project-mode",
+                "Нажмите Win + P",
+                mode_label,
+                &["microsoft-multiple-displays"],
+                "Если телевизор не появился, не меняйте несколько параметров сразу — сначала проверьте вход и прямую цепочку.",
+            ));
+            (
+                "ready",
+                "Начните с прямого HDMI и Win + P",
+                "Это самый короткий проверяемый маршрут для Windows с полноценным HDMI-выходом.",
+            )
+        }
+        ("windows", "wireless") => {
+            steps.push(tv_traffic_task_step(
+                "confirm-miracast",
+                "Подтвердите Miracast на обоих устройствах",
+                "В руководстве телевизора найдите Miracast, «Беспроводной дисплей» или эквивалент. На Windows откройте панель Win + K.",
+                &["microsoft-wireless-display"],
+                "Если поддержка телевизора не заявлена, не считайте отсутствие в списке ошибкой Windows.",
+            ));
+            if input.detail == "yes" {
+                steps.push(tv_traffic_task_step(
+                    "windows-wireless-connect",
+                    "Выберите телевизор через Win + K",
+                    "Разрешите подключение на телевизоре, затем задайте режим экранов через Win + P.",
+                    &["microsoft-wireless-display"],
+                    "Для игры или точной работы оцените задержку; беспроводной путь не гарантирует её отсутствие.",
+                ));
+                (
+                    "ready",
+                    "Подключитесь через совместимый Miracast",
+                    "Поддержка подтверждена вручную, поэтому можно переходить к сопряжению.",
+                )
+            } else if input.detail == "no" {
+                (
+                    "no-direct-path",
+                    "Беспроводной путь не подтверждён",
+                    "Не подменяйте Miracast общей надписью Wi-Fi или Smart TV. Проверьте проводной видеовыход отдельно.",
+                )
+            } else {
+                (
+                    "needs-check",
+                    "Сначала подтвердите Miracast",
+                    "Win + K показывает приёмники, но совместимость должна быть заявлена для обоих устройств.",
+                )
+            }
+        }
+        ("windows", "usb-c") => {
+            steps.push(tv_traffic_task_step(
+                "verify-usb-c-video",
+                "Проверьте видеовыход USB-C",
+                "В официальной спецификации точной модели ноутбука найдите DisplayPort Alt Mode, Thunderbolt либо явную поддержку внешнего дисплея.",
+                &["vesa-displayport"],
+                "Не выбирайте кабель по форме разъёма: USB-C может передавать только данные и питание.",
+            ));
+            if input.detail == "yes" {
+                steps.push(tv_traffic_task_step(
+                    "usb-c-display-mode",
+                    "Подключите совместимый видеотракт",
+                    mode_label,
+                    &["vesa-displayport", "microsoft-multiple-displays"],
+                    "Разрешение и частота ограничены всей цепочкой: ноутбуком, адаптером, кабелем и телевизором.",
+                ));
+                (
+                    "ready",
+                    "USB-C видеовыход подтверждён",
+                    "Теперь можно выбирать режим экрана; тип адаптера определяется подтверждённым видеовыходом.",
+                )
+            } else if input.detail == "no" {
+                (
+                    "no-direct-path",
+                    "Этот USB-C не подтверждает видео",
+                    "Для него нужен другой, отдельно подтверждённый способ подключения.",
+                )
+            } else {
+                (
+                    "needs-check",
+                    "USB-C ещё не видеовыход",
+                    "Сначала нужна официальная спецификация точной модели ноутбука.",
+                )
+            }
+        }
+        ("macos", "hdmi") => {
+            steps.push(tv_traffic_task_step(
+                "mac-connect-hdmi",
+                "Подключите видеокабель к телевизору",
+                "Соедините HDMI или подтверждённый видеовыход Mac с видеовходом телевизора и выберите этот вход на ТВ.",
+                &["apple-mac-tv"],
+                "Если нужен адаптер, сначала сверьте порты и число поддерживаемых дисплеев точной модели Mac.",
+            ));
+            steps.push(tv_traffic_task_step(
+                "mac-display-mode",
+                "Откройте «Системные настройки → Дисплеи»",
+                "Выберите видеоповтор либо расширение экрана; для звука отдельно выберите телевизор в настройках выхода.",
+                &["apple-mac-tv"],
+                "Не назначайте неподдерживаемое разрешение или частоту по совету для другой модели.",
+            ));
+            (
+                "ready",
+                "Подключите Mac как внешний дисплей",
+                "Apple документирует проводное подключение и выбор режима в настройках дисплеев.",
+            )
+        }
+        ("macos", "wireless") => {
+            steps.push(tv_traffic_task_step(
+                "confirm-airplay",
+                "Подтвердите AirPlay на телевизоре",
+                "Нужен Apple TV или телевизор с явно заявленной поддержкой AirPlay; устройства подключите к одной сети Wi-Fi.",
+                &["apple-mac-airplay"],
+                "Надпись Smart TV без AirPlay не подтверждает этот маршрут.",
+            ));
+            if input.detail == "yes" {
+                steps.push(tv_traffic_task_step(
+                    "mac-airplay-connect",
+                    "Выберите телевизор в «Видеоповторе экрана»",
+                    "Откройте Пункт управления Mac, выберите видеоповтор и подтвердите код с телевизора, если он появится.",
+                    &["apple-mac-airplay"],
+                    "Отдельное приложение или защищённый контент могут ограничивать передачу видео.",
+                ));
+                (
+                    "ready",
+                    "Используйте подтверждённый AirPlay",
+                    "Оба конца маршрута известны; можно переходить к видеоповтору.",
+                )
+            } else if input.detail == "no" {
+                (
+                    "no-direct-path",
+                    "AirPlay на телевизоре не подтверждён",
+                    "Проверьте проводной видеовход или другой документированный путь для точных моделей.",
+                )
+            } else {
+                (
+                    "needs-check",
+                    "Сначала подтвердите AirPlay",
+                    "Одна сеть Wi-Fi не добавляет поддержку протокола телевизору.",
+                )
+            }
+        }
+        ("macos", "usb-c") => {
+            steps.push(tv_traffic_task_step(
+                "mac-usb-c-video",
+                "Проверьте число и тип внешних дисплеев",
+                "Сверьте официальные характеристики точной модели Mac и используйте только заявленный видеовыход или совместимый адаптер.",
+                &["apple-mac-tv"],
+                "USB-C описывает разъём, но не снимает модельные ограничения дисплеев.",
+            ));
+            if input.detail == "yes" {
+                steps.push(tv_traffic_task_step(
+                    "mac-usb-c-display-mode",
+                    "Настройте внешний дисплей",
+                    "После подключения откройте «Системные настройки → Дисплеи» и выберите видеоповтор либо расширение.",
+                    &["apple-mac-tv"],
+                    "Если изображение нестабильно, верните рекомендуемое системой разрешение и частоту.",
+                ));
+                (
+                    "ready",
+                    "Видеовыход Mac подтверждён",
+                    "Можно подключать телевизор как внешний дисплей в пределах спецификации Mac.",
+                )
+            } else if input.detail == "no" {
+                (
+                    "no-direct-path",
+                    "Проводной видеовыход не подтверждён",
+                    "Не подбирайте адаптер без другого явно заявленного видеовыхода.",
+                )
+            } else {
+                (
+                    "needs-check",
+                    "Сначала проверьте модель Mac",
+                    "Поддержка и число внешних дисплеев различаются между моделями.",
+                )
+            }
+        }
+        _ => {
+            steps.push(tv_traffic_task_step(
+                "use-system-manual",
+                "Откройте руководство системы ноутбука",
+                "Проверьте заявленные видеовыходы и беспроводные протоколы точной модели, затем сопоставьте их со входом телевизора.",
+                &["vesa-displayport"],
+                "Не переносите сочетания клавиш Windows или macOS на другую систему.",
+            ));
+            (
+                "needs-check",
+                "Нужна инструкция точной системы",
+                "Для выбранной системы нельзя безопасно дать универсальное сочетание клавиш.",
+            )
+        }
+    };
+
+    Ok(tv_traffic_task_plan(
+        status,
+        "laptop-to-tv",
+        headline,
+        explanation,
+        steps,
+        &[
+            "USB-C, Wi-Fi и Smart TV сами по себе не доказывают совместимый видеопротокол.",
+            "Если изображение уже работало и внезапно пропало, используйте отдельный мастер «Нет сигнала».",
+        ],
+    ))
+}
+
+fn calculate_digital_channels_task(
+    input: &TvTrafficTaskInput,
+) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["antenna", "cable", "provider-box", "satellite", "unknown"],
+        "Источник каналов",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["built-in", "external", "unknown"],
+        "Устройство настройки",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &["first-setup", "zero-channels", "some-missing"],
+        "Состояние списка каналов",
+    )?;
+    require_choice(
+        &input.detail,
+        &["yes", "no", "unknown"],
+        "Подключение кабеля",
+    )?;
+
+    if input.primary == "provider-box"
+        || input.primary == "satellite"
+        || input.secondary == "external"
+    {
+        return Ok(tv_traffic_task_plan(
+            "provider-path",
+            "digital-channels",
+            "Настраивайте каналы на внешней приставке",
+            "Если антенный или операторский кабель подключён к приставке, телевизор показывает только её HDMI/AV-сигнал и не владеет списком каналов.",
+            vec![
+                tv_traffic_task_step(
+                    "select-box-input",
+                    "Выберите вход приставки на телевизоре",
+                    "Проследите кабель от приставки до HDMI/AV телевизора и выберите тот же вход кнопкой Source/Input.",
+                    &["samsung-channel-setup"],
+                    "Не запускайте поиск эфирных каналов на телевизоре, если список показывает приставка.",
+                ),
+                tv_traffic_task_step(
+                    "use-box-remote",
+                    "Откройте меню приставки её пультом",
+                    "Автопоиск, параметры оператора и сортировку выполняйте по инструкции своей приставки или оператора.",
+                    &["samsung-channel-setup"],
+                    "Не применяйте параметры другого оператора и не выполняйте заводской сброс как первый шаг.",
+                ),
+            ],
+            &[
+                "Повторный поиск может изменить или заменить сохранённый список каналов.",
+                "Спутниковую антенну и недоступный кабель должен проверять специалист.",
+            ],
+        ));
+    }
+
+    if input.primary == "unknown" || input.secondary == "unknown" {
+        return Ok(tv_traffic_task_plan(
+            "needs-check",
+            "digital-channels",
+            "Сначала определите источник каналов",
+            "Меню и параметры поиска различаются для эфирной антенны, кабельного оператора и внешней приставки.",
+            vec![
+                tv_traffic_task_step(
+                    "trace-tv-cable",
+                    "Проследите подключённый кабель",
+                    "Коаксиальный кабель прямо в разъёме ANT/RF телевизора означает встроенный тюнер; HDMI/AV от отдельной коробки означает внешнюю приставку.",
+                    &["samsung-channel-setup"],
+                    "Не отсоединяйте повреждённый кабель и не работайте с недоступной антенной.",
+                ),
+                tv_traffic_task_step(
+                    "check-tuner-standard",
+                    "Сверьте стандарт точной модели",
+                    "Для российского эфирного ТВ нужен DVB-T2, для прямого кабеля обычно DVB-C и параметры оператора.",
+                    &["samsung-channel-setup", "rtrs-dtv"],
+                    "Не угадывайте поддержку тюнера по году или внешнему виду телевизора.",
+                ),
+            ],
+            &["До определения источника не запускайте повторный поиск — он может заменить список."],
+        ));
+    }
+
+    if input.primary == "antenna" {
+        let mut steps = vec![
+            tv_traffic_task_step(
+                "verify-dvb-t2",
+                "Проверьте DVB-T2 у точной модели",
+                "Найдите DVB-T2 в официальных характеристиках телевизора; если его нет, поиск встроенным тюнером не решит задачу.",
+                &["samsung-channel-setup", "rtrs-dtv"],
+                "Не покупайте приставку до проверки точной модели и существующего оборудования.",
+            ),
+            tv_traffic_task_step(
+                "check-antenna-connection",
+                "Проверьте доступное антенное соединение",
+                if input.detail == "no" {
+                    "Подключите исправный доступный коаксиальный кабель к входу ANT/RF телевизора."
+                } else {
+                    "Убедитесь, что доступный коаксиальный кабель подключён к входу ANT/RF телевизора."
+                },
+                &["samsung-channel-setup", "rtrs-dtv"],
+                "Не поднимайтесь на крышу и не ремонтируйте общедомовую сеть самостоятельно.",
+            ),
+            tv_traffic_task_step(
+                "scan-terrestrial-digital",
+                "Выберите «Антенна/Эфир» и цифровой поиск",
+                "Откройте настройку каналов точной модели, выберите эфирную антенну и цифровые каналы, затем запустите автопоиск.",
+                &["samsung-channel-setup", "rtrs-dtv"],
+                "Перед запуском подтвердите сохранение или замену существующего списка каналов.",
+            ),
+        ];
+        if input.tertiary != "first-setup" {
+            steps.push(tv_traffic_task_step(
+                "check-rtrs-data",
+                "Сверьте доступность эфирного сигнала",
+                "Проверьте карту и параметры ближайших передатчиков РТРС; частоту ручного поиска берите только для своего адреса и мультиплекса.",
+                &["rtrs-dtv"],
+                "Не направляйте антенну с крыши и не объявляйте телевизор неисправным по нулевому поиску.",
+            ));
+        }
+        let status = if input.detail == "yes" {
+            "ready"
+        } else {
+            "needs-check"
+        };
+        return Ok(tv_traffic_task_plan(
+            status,
+            "digital-channels",
+            if status == "ready" {
+                "Запустите цифровой поиск для эфирной антенны"
+            } else {
+                "Сначала подтвердите кабель и DVB-T2"
+            },
+            "Эфирный сценарий отделён от кабельного оператора и внешней приставки.",
+            steps,
+            &[
+                "Автопоиск может изменить текущий порядок и состав списка.",
+                "Один пропавший канал не является основанием менять антенну.",
+            ],
+        ));
+    }
+
+    let mut steps = vec![
+        tv_traffic_task_step(
+            "verify-dvb-c",
+            "Проверьте DVB-C и прямое подключение",
+            "Найдите DVB-C в характеристиках точной модели и убедитесь, что операторский коаксиальный кабель подключён прямо к телевизору, а не к приставке.",
+            &["samsung-channel-setup", "lg-digital-channels"],
+            "Если кабель идёт в приставку, вернитесь к её меню и пульту.",
+        ),
+        tv_traffic_task_step(
+            "get-provider-parameters",
+            "Возьмите параметры у своего оператора",
+            "Уточните тип поиска, частоты и другие обязательные параметры в официальной поддержке кабельного оператора.",
+            &["samsung-channel-setup", "lg-digital-channels"],
+            "Не копируйте частоты и сетевые параметры другого города или оператора.",
+        ),
+        tv_traffic_task_step(
+            "scan-cable-digital",
+            "Выберите «Кабель» и цифровые каналы",
+            "Запустите поиск по инструкции точной модели, используя подтверждённые параметры оператора.",
+            &["samsung-channel-setup", "lg-digital-channels"],
+            "Перед повторным поиском подтвердите, что существующий список можно заменить.",
+        ),
+    ];
+    if input.tertiary == "some-missing" {
+        steps.push(tv_traffic_task_step(
+            "provider-channel-list",
+            "Сверьте пакет и список оператора",
+            "Если отсутствуют отдельные каналы, сначала проверьте действующий пакет и изменения сетки у оператора, а не перенастраивайте телевизор вслепую.",
+            &[],
+            "Не объявляйте тюнер неисправным по одному отсутствующему каналу.",
+        ));
+    }
+    Ok(tv_traffic_task_plan(
+        "needs-check",
+        "digital-channels",
+        "Для кабельного поиска нужны данные оператора",
+        "DVB-C и прямое подключение телевизора — только половина маршрута; параметры сети зависят от оператора.",
+        steps,
+        &[
+            "Не смешивайте режимы «Антенна» и «Кабель».",
+            "Не выполняйте заводской сброс как первый способ поиска каналов.",
+        ],
+    ))
+}
+
+fn calculate_picture_setup_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.primary,
+        &["everyday", "movie", "sports", "game"],
+        "Сценарий просмотра",
+    )?;
+    require_choice(
+        &input.secondary,
+        &["dark", "mixed", "bright"],
+        "Освещение комнаты",
+    )?;
+    require_choice(
+        &input.tertiary,
+        &[
+            "baseline",
+            "too-dark",
+            "too-bright",
+            "unnatural",
+            "motion",
+            "lag",
+        ],
+        "Наблюдение за изображением",
+    )?;
+    require_choice(&input.detail, &["yes", "no", "unknown"], "HDR-сигнал")?;
+
+    let start_mode = match input.primary.as_str() {
+        "movie" => {
+            "Начните с режима «Кино», «Filmmaker» или ближайшего спокойного режима, если он есть у модели."
+        }
+        "game" => {
+            "Для игровой приставки или ПК начните с игрового режима на конкретном HDMI-входе."
+        }
+        "sports" => "Начните со «Стандартного» режима и сравнивайте обработку движения отдельно.",
+        _ => "Начните со «Стандартного» или спокойного заводского режима, а не с «Динамического».",
+    };
+    let room_step = match input.secondary.as_str() {
+        "dark" => {
+            "Проводите сравнение при обычном вечернем освещении и уменьшайте свет экрана постепенно, сохраняя детали в тенях."
+        }
+        "bright" => {
+            "Проводите сравнение при обычном дневном свете; сначала проверьте отражения и работу датчика освещения, а не максимизируйте все ползунки."
+        }
+        _ => {
+            "Зафиксируйте обычное освещение комнаты и не сравнивайте режимы при постоянно меняющемся свете."
+        }
+    };
+    let symptom_step = match input.tertiary.as_str() {
+        "too-dark" => (
+            "compare-dark-picture",
+            "Отделите источник от общей яркости",
+            "Сравните меню телевизора, другой встроенный источник и тот же материал. Проверьте режим энергосбережения или датчик освещения и верните только настройки изображения текущего режима, если ранее их меняли.",
+            "Если меню и все источники остаются необычно тёмными после сброса только режима изображения, остановитесь и обратитесь в поддержку модели.",
+        ),
+        "too-bright" => (
+            "compare-bright-picture",
+            "Уменьшайте свет экрана, сохраняя белые детали",
+            "Сравните ступени серого и постепенно уменьшите параметр подсветки/яркости экрана, название которого указано в руководстве модели. Не копируйте чужое числовое значение.",
+            "Если белые детали не различаются ни в одном заводском режиме, верните настройки изображения текущего режима и проверьте источник.",
+        ),
+        "unnatural" => (
+            "restore-neutral-colour",
+            "Верните нейтральную отправную точку",
+            "Сбросьте только настройки текущего режима изображения, сравните «Стандартный» и «Кино», затем проверьте оттенки серого без усилителей цвета.",
+            "Не изменяйте баланс белого и цветовое пространство по значениям для другой панели без измерительного прибора.",
+        ),
+        "motion" => (
+            "compare-motion-processing",
+            "Сравните обработку движения включённой и выключенной",
+            "На одном спортивном или панорамном фрагменте изменяйте только интерполяцию движения. Для фильма начните с минимальной обработки; для спорта выберите самое слабое значение без заметных артефактов.",
+            "Если двоение или рывки есть только у одного источника, сначала проверьте его частоту и качество сигнала.",
+        ),
+        "lag" => (
+            "enable-game-mode",
+            "Используйте игровой режим только для игры",
+            "Включите игровой режим на том HDMI-входе, где подключена приставка или ПК, затем сравните задержку управления. Не оставляйте его обязательным для обычного телевидения.",
+            "Если режим недоступен, проверьте источник и поддерживаемую частоту по руководству точной модели.",
+        ),
+        _ => (
+            "compare-test-patterns",
+            "Проверьте три простых паттерна",
+            "На шкале серого ищите различимые соседние ступени, на чёрно-белой сетке — лишние ореолы, на равномерном поле — только явно повторяемые пятна. Меняйте один параметр за раз.",
+            "Браузерный паттерн не является измерительным прибором и не доказывает заводской дефект панели.",
+        ),
+    };
+
+    let mut steps = vec![
+        tv_traffic_task_step(
+            "record-picture-state",
+            "Запишите вход, режим и исходные значения",
+            "Настройки могут храниться отдельно для ТВ, приложений, HDMI и HDR. Сначала сфотографируйте экран параметров, чтобы можно было вернуться назад.",
+            &["sony-picture-guide", "samsung-picture-settings"],
+            "Не выполняйте общий заводской сброс телевизора ради сравнения изображения.",
+        ),
+        tv_traffic_task_step(
+            "select-reversible-mode",
+            "Выберите обратимую базовую точку",
+            start_mode,
+            &["sony-picture-guide", "samsung-game-mode"],
+            "Названия и доступность режимов зависят от модели, источника и типа сигнала.",
+        ),
+        tv_traffic_task_step(
+            "stabilize-room-light",
+            "Зафиксируйте освещение комнаты",
+            room_step,
+            &["sony-picture-guide", "samsung-adaptive-picture"],
+            "Не закрывайте вентиляцию телевизора и не направляйте яркий источник света прямо в экран.",
+        ),
+        tv_traffic_task_step(
+            symptom_step.0,
+            symptom_step.1,
+            symptom_step.2,
+            &[
+                "sony-picture-guide",
+                "samsung-picture-settings",
+                "samsung-game-mode",
+            ],
+            symptom_step.3,
+        ),
+    ];
+
+    if input.detail == "yes" {
+        steps.push(tv_traffic_task_step(
+            "keep-hdr-context",
+            "Настраивайте HDR на реальном HDR-сигнале",
+            "HDR может включать отдельный набор параметров. Сравнивайте их только во время воспроизведения подтверждённого HDR-материала на том же входе.",
+            &["sony-hdr-picture-mode", "samsung-picture-settings"],
+            "Не переносите SDR-значения в HDR и не включайте псевдо-HDR как универсальное улучшение.",
+        ));
+    } else if input.detail == "unknown" {
+        steps.push(tv_traffic_task_step(
+            "identify-hdr",
+            "Не смешивайте SDR и HDR",
+            "Проверьте информационную панель телевизора или приложения. Если HDR не подтверждён, оставьте его отдельные параметры без изменений.",
+            &["sony-hdr-picture-mode"],
+            "Яркая надпись в интерфейсе приложения не всегда подтверждает фактический HDR-сигнал.",
+        ));
+    }
+
+    Ok(tv_traffic_task_plan(
+        "reversible-baseline",
+        "picture-setup",
+        "Получен обратимый план настройки",
+        "Он помогает сравнить режимы и наблюдаемые признаки, но не заменяет профессиональную калибровку с измерительным прибором.",
+        steps,
+        &[
+            "Не копируйте числовые настройки для другой модели или экземпляра панели.",
+            "Изменяйте один параметр за раз и сохраняйте возможность вернуть исходное значение.",
+            "Проверяйте один и тот же материал на одном и том же входе и при неизменном освещении.",
+        ],
+    ))
+}
+
+/// Строит один безопасный план для выбранного самостоятельного TV-интента.
+pub fn calculate_tv_traffic_task(input: &TvTrafficTaskInput) -> Result<TvTrafficTaskPlan, String> {
+    require_choice(
+        &input.task,
+        &["laptop-to-tv", "digital-channels", "picture-setup"],
+        "Инструмент",
+    )?;
+    match input.task.as_str() {
+        "laptop-to-tv" => calculate_laptop_tv_task(input),
+        "digital-channels" => calculate_digital_channels_task(input),
+        "picture-setup" => calculate_picture_setup_task(input),
+        _ => unreachable!(),
+    }
+}
+
 /// Рассчитывает, хватит ли вылета кронштейна для горизонтального поворота ТВ.
 ///
 /// Геометрия намеренно консервативна: signed-смещение VESA преобразуется в модуль,
@@ -3281,6 +3990,27 @@ pub fn calculate_tv_no_signal_json(
 
     match calculate_tv_no_signal(&input) {
         Ok(plan) => serde_json::to_string(&plan).expect("TV no-signal plan is serializable"),
+        Err(error) => serde_json::json!({ "error": error }).to_string(),
+    }
+}
+
+#[wasm_bindgen]
+pub fn tv_traffic_task_plan_json(
+    task: &str,
+    primary: &str,
+    secondary: &str,
+    tertiary: &str,
+    detail: &str,
+) -> String {
+    let input = TvTrafficTaskInput {
+        task: task.to_string(),
+        primary: primary.to_string(),
+        secondary: secondary.to_string(),
+        tertiary: tertiary.to_string(),
+        detail: detail.to_string(),
+    };
+    match calculate_tv_traffic_task(&input) {
+        Ok(plan) => serde_json::to_string(&plan).expect("TV traffic task plan is serializable"),
         Err(error) => serde_json::json!({ "error": error }).to_string(),
     }
 }
@@ -5066,6 +5796,207 @@ mod tests {
         let invalid = tv_zone_socket_plan_json(
             5.0, 114.2, 45.0, 20.0, 0.0, 0.0, 14.0, 8.0, 35.0, 0.0, 2.0, 3.5, 5.0, 4, 1, 1, 1,
         );
+        let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
+        assert!(invalid.get("error").is_some());
+    }
+
+    fn tv_traffic_task_input(
+        task: &str,
+        primary: &str,
+        secondary: &str,
+        tertiary: &str,
+        detail: &str,
+    ) -> TvTrafficTaskInput {
+        TvTrafficTaskInput {
+            task: task.to_string(),
+            primary: primary.to_string(),
+            secondary: secondary.to_string(),
+            tertiary: tertiary.to_string(),
+            detail: detail.to_string(),
+        }
+    }
+
+    #[test]
+    fn tv_traffic_task_laptop_hdmi_and_wireless_are_distinct() {
+        let hdmi = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "laptop-to-tv",
+            "windows",
+            "hdmi",
+            "extend",
+            "unknown",
+        ))
+        .unwrap();
+        assert_eq!(hdmi.status, "ready");
+        assert!(
+            hdmi.steps
+                .iter()
+                .any(|step| step.id == "windows-project-mode")
+        );
+        assert!(
+            hdmi.steps
+                .iter()
+                .any(|step| step.instruction.contains("Расширить"))
+        );
+
+        let wireless_unknown = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "laptop-to-tv",
+            "windows",
+            "wireless",
+            "mirror",
+            "unknown",
+        ))
+        .unwrap();
+        assert_eq!(wireless_unknown.status, "needs-check");
+        assert!(wireless_unknown.headline.contains("Miracast"));
+
+        let wireless_no = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "laptop-to-tv",
+            "windows",
+            "wireless",
+            "mirror",
+            "no",
+        ))
+        .unwrap();
+        assert_eq!(wireless_no.status, "no-direct-path");
+    }
+
+    #[test]
+    fn tv_traffic_task_usb_c_fails_closed_without_model_support() {
+        for system in ["windows", "macos"] {
+            let unknown = calculate_tv_traffic_task(&tv_traffic_task_input(
+                "laptop-to-tv",
+                system,
+                "usb-c",
+                "mirror",
+                "unknown",
+            ))
+            .unwrap();
+            assert_eq!(unknown.status, "needs-check");
+            assert!(
+                unknown
+                    .steps
+                    .iter()
+                    .any(|step| step.stop_condition.contains("USB-C")
+                        || step.instruction.contains("модел"))
+            );
+
+            let unsupported = calculate_tv_traffic_task(&tv_traffic_task_input(
+                "laptop-to-tv",
+                system,
+                "usb-c",
+                "mirror",
+                "no",
+            ))
+            .unwrap();
+            assert_eq!(unsupported.status, "no-direct-path");
+        }
+    }
+
+    #[test]
+    fn tv_traffic_task_digital_channels_separates_tuner_and_provider() {
+        let antenna = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "digital-channels",
+            "antenna",
+            "built-in",
+            "first-setup",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(antenna.status, "ready");
+        assert!(antenna.steps.iter().any(|step| step.id == "verify-dvb-t2"));
+        assert!(
+            !antenna
+                .steps
+                .iter()
+                .any(|step| step.id == "get-provider-parameters")
+        );
+
+        let provider = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "digital-channels",
+            "provider-box",
+            "external",
+            "zero-channels",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(provider.status, "provider-path");
+        assert!(
+            provider
+                .steps
+                .iter()
+                .any(|step| step.id == "use-box-remote")
+        );
+        assert!(
+            provider
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("список каналов"))
+        );
+
+        let unknown = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "digital-channels",
+            "unknown",
+            "unknown",
+            "first-setup",
+            "unknown",
+        ))
+        .unwrap();
+        assert_eq!(unknown.status, "needs-check");
+    }
+
+    #[test]
+    fn tv_traffic_task_picture_plan_is_reversible_and_non_numeric() {
+        let plan = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "picture-setup",
+            "game",
+            "mixed",
+            "lag",
+            "yes",
+        ))
+        .unwrap();
+        assert_eq!(plan.status, "reversible-baseline");
+        assert!(plan.steps.iter().any(|step| step.id == "enable-game-mode"));
+        assert!(plan.steps.iter().any(|step| step.id == "keep-hdr-context"));
+        assert!(
+            plan.warnings
+                .iter()
+                .any(|warning| warning.contains("Не копируйте числовые"))
+        );
+        let serialized = serde_json::to_string(&plan).unwrap();
+        assert!(!serialized.contains("100%"));
+        assert!(!serialized.contains("50%"));
+    }
+
+    #[test]
+    fn tv_traffic_task_rejects_unknown_values_and_wasm_shape_is_stable() {
+        let invalid = calculate_tv_traffic_task(&tv_traffic_task_input(
+            "laptop-to-tv",
+            "linux<script>",
+            "hdmi",
+            "mirror",
+            "unknown",
+        ))
+        .unwrap_err();
+        assert!(invalid.contains("Система ноутбука"));
+
+        let response =
+            tv_traffic_task_plan_json("picture-setup", "movie", "dark", "baseline", "unknown");
+        let response: serde_json::Value = serde_json::from_str(&response).unwrap();
+        for field in [
+            "status",
+            "task",
+            "headline",
+            "explanation",
+            "steps",
+            "warnings",
+            "privacy",
+        ] {
+            assert!(response.get(field).is_some(), "missing field {field}");
+        }
+        assert!(response.get("error").is_none());
+
+        let invalid =
+            tv_traffic_task_plan_json("unknown-task", "movie", "dark", "baseline", "unknown");
         let invalid: serde_json::Value = serde_json::from_str(&invalid).unwrap();
         assert!(invalid.get("error").is_some());
     }

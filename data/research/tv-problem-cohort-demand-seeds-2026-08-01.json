@@ -1,0 +1,50 @@
+[
+  {
+    "candidate_id": "tv-wont-turn-on",
+    "candidate_path": "/televizor-ne-vklyuchaetsya/",
+    "query": "телевизор не включается",
+    "variant": "head"
+  },
+  {
+    "candidate_id": "tv-sound-no-picture",
+    "candidate_path": "/televizor-zvuk-est-izobrazheniya-net/",
+    "query": "телевизор звук есть изображения нет",
+    "variant": "head"
+  },
+  {
+    "candidate_id": "tv-no-sound",
+    "candidate_path": "/net-zvuka-na-televizore/",
+    "query": "нет звука на телевизоре",
+    "variant": "head"
+  },
+  {
+    "candidate_id": "tv-freezes",
+    "candidate_path": "/televizor-zavis/",
+    "query": "телевизор завис",
+    "variant": "head"
+  },
+  {
+    "candidate_id": "tv-turns-off",
+    "candidate_path": "/televizor-sam-vyklyuchaetsya/",
+    "query": "телевизор сам выключается",
+    "variant": "head"
+  },
+  {
+    "candidate_id": "tv-remote-not-working",
+    "candidate_path": "/ne-rabotaet-pult-ot-televizora/",
+    "query": "не работает пульт от телевизора",
+    "variant": "head"
+  },
+  {
+    "candidate_id": "tv-no-internet",
+    "candidate_path": "/televizor-ne-podklyuchaetsya-k-internetu/",
+    "query": "телевизор не подключается к интернету",
+    "variant": "head"
+  },
+  {
+    "candidate_id": "tv-usb-not-seen",
+    "candidate_path": "/televizor-ne-vidit-fleshku/",
+    "query": "телевизор не видит флешку",
+    "variant": "head"
+  }
+]

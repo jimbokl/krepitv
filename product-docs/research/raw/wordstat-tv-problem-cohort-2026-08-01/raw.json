@@ -1,0 +1,702 @@
+[
+  {
+    "seed": {
+      "candidate_id": "tv-wont-turn-on",
+      "candidate_path": "/televizor-ne-vklyuchaetsya/",
+      "query": "телевизор не включается",
+      "variant": "head"
+    },
+    "operator_query": "\"[телевизор не включается]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "10795",
+          "text": "что идет по телевизору"
+        },
+        {
+          "isAssociations": true,
+          "value": "13819",
+          "text": "телемастер"
+        },
+        {
+          "isAssociations": true,
+          "value": "5441",
+          "text": "включи ляпота тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "642",
+          "text": "включи видео ляпота тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "51408",
+          "text": "включить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "4972",
+          "text": "алиса включи тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "4377",
+          "text": "телемастерская"
+        },
+        {
+          "isAssociations": true,
+          "value": "257",
+          "text": "включи даринелка тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "59",
+          "text": "тв 1нд"
+        },
+        {
+          "isAssociations": true,
+          "value": "339",
+          "text": "включи димас тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "603",
+          "text": "включи канал ляпота тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "73943",
+          "text": "телевизор не включайся"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-sound-no-picture",
+      "candidate_path": "/televizor-zvuk-est-izobrazheniya-net/",
+      "query": "телевизор звук есть изображения нет",
+      "variant": "head"
+    },
+    "operator_query": "\"[телевизор звук есть изображения нет]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "19088",
+          "text": "оме тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "28536",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1521",
+          "text": "куда пропал нагиев с телевидения и почему"
+        },
+        {
+          "isAssociations": true,
+          "value": "1789",
+          "text": "телекомпания вид заставка"
+        },
+        {
+          "isAssociations": true,
+          "value": "13819",
+          "text": "телемастер"
+        },
+        {
+          "isAssociations": true,
+          "value": "208",
+          "text": "найти муз тв бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "1789",
+          "text": "заставка телекомпании вид"
+        },
+        {
+          "isAssociations": true,
+          "value": "4162",
+          "text": "телеателье"
+        },
+        {
+          "isAssociations": true,
+          "value": "10592",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "5835",
+          "text": "10 самых на муз тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "642",
+          "text": "включи видео ляпота тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "4377",
+          "text": "телемастерская"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "14478",
+          "text": "телевизор звук есть изображения нет"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-no-sound",
+      "candidate_path": "/net-zvuka-na-televizore/",
+      "query": "нет звука на телевизоре",
+      "variant": "head"
+    },
+    "operator_query": "\"[нет звука на телевизоре]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "18752",
+          "text": "оме тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "7267",
+          "text": "сделать из видео аудио"
+        },
+        {
+          "isAssociations": true,
+          "value": "28297",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1605",
+          "text": "куда пропал нагиев с телевидения и почему"
+        },
+        {
+          "isAssociations": true,
+          "value": "569",
+          "text": "где соловьев куда пропал с телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "701",
+          "text": "муз тв ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "1460",
+          "text": "om tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "202527",
+          "text": "не тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "8451",
+          "text": "извлечь аудио из видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "13598",
+          "text": "телемастер"
+        },
+        {
+          "isAssociations": true,
+          "value": "900",
+          "text": "bit tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "205",
+          "text": "найти муз тв бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "4049",
+          "text": "телеателье"
+        },
+        {
+          "isAssociations": true,
+          "value": "10481",
+          "text": "оне тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "14476",
+          "text": "нет звука на телевизоре"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-freezes",
+      "candidate_path": "/televizor-zavis/",
+      "query": "телевизор завис",
+      "variant": "head"
+    },
+    "operator_query": "\"[телевизор завис]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "2932",
+          "text": "хл тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "165742",
+          "text": "ремонт телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "13142",
+          "text": "ремонт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "5547",
+          "text": "телевизор мистери"
+        },
+        {
+          "isAssociations": true,
+          "value": "6170",
+          "text": "телевизор на ножках"
+        },
+        {
+          "isAssociations": true,
+          "value": "459",
+          "text": "юбуст на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "2825",
+          "text": "стабилизатор для телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "1579",
+          "text": "ремонт тв приставок"
+        },
+        {
+          "isAssociations": true,
+          "value": "2546",
+          "text": "телевизор на стойке"
+        },
+        {
+          "isAssociations": true,
+          "value": "1993",
+          "text": "упал телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1317",
+          "text": "где отремонтировать телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "150",
+          "text": "ремонт телевизоров ржев"
+        },
+        {
+          "isAssociations": true,
+          "value": "4553",
+          "text": "телевизор на подставке"
+        },
+        {
+          "isAssociations": true,
+          "value": "1166",
+          "text": "как настроить телевизор тсл"
+        },
+        {
+          "isAssociations": true,
+          "value": "2438",
+          "text": "телевизор акай"
+        },
+        {
+          "isAssociations": true,
+          "value": "186",
+          "text": "телевизор xiaomi тормозит что делать"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "13963",
+          "text": "телевизор зависай"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-turns-off",
+      "candidate_path": "/televizor-sam-vyklyuchaetsya/",
+      "query": "телевизор сам выключается",
+      "variant": "head"
+    },
+    "operator_query": "\"[телевизор сам выключается]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "1022",
+          "text": "вытащить аудио из видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "8451",
+          "text": "извлечь аудио из видео"
+        },
+        {
+          "isAssociations": true,
+          "value": "190",
+          "text": "off on включено выключено как понять"
+        },
+        {
+          "isAssociations": true,
+          "value": "681",
+          "text": "воспроизведение видео невозможно устройство не поддерживается"
+        },
+        {
+          "isAssociations": true,
+          "value": "851",
+          "text": "выключи его нахуй"
+        },
+        {
+          "isAssociations": true,
+          "value": "157",
+          "text": "ремонт микроволновки своими руками подробно диагностика"
+        },
+        {
+          "isAssociations": true,
+          "value": "3115",
+          "text": "не все дома фильм"
+        },
+        {
+          "isAssociations": true,
+          "value": "338",
+          "text": "как сдать квартиру в аренду правильно самостоятельно"
+        },
+        {
+          "isAssociations": true,
+          "value": "10481",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1062",
+          "text": "холодильник постоянно работает и не отключается причины"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "5893",
+          "text": "телевизор сам выключается"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-remote-not-working",
+      "candidate_path": "/ne-rabotaet-pult-ot-televizora/",
+      "query": "не работает пульт от телевизора",
+      "variant": "head"
+    },
+    "operator_query": "\"[не работает пульт от телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "16707",
+          "text": "с пультом по жизни"
+        },
+        {
+          "isAssociations": true,
+          "value": "165742",
+          "text": "ремонт телевизоров"
+        },
+        {
+          "isAssociations": true,
+          "value": "16006",
+          "text": "ремонт телевизоров на дому"
+        },
+        {
+          "isAssociations": true,
+          "value": "202229",
+          "text": "не тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "35810",
+          "text": "пульт дистанционного управления"
+        },
+        {
+          "isAssociations": true,
+          "value": "5514",
+          "text": "ми пульт"
+        },
+        {
+          "isAssociations": true,
+          "value": "3389",
+          "text": "как настроить каналы на телевизоре lg"
+        },
+        {
+          "isAssociations": true,
+          "value": "7412",
+          "text": "почему нет сигнала на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "197777",
+          "text": "как настроить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "13142",
+          "text": "ремонт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "80068",
+          "text": "как настроить пульт"
+        },
+        {
+          "isAssociations": true,
+          "value": "5432",
+          "text": "нет сигнала на телевизоре что делать"
+        },
+        {
+          "isAssociations": true,
+          "value": "93",
+          "text": "устранение неполадок с обнаружением наушников"
+        },
+        {
+          "isAssociations": true,
+          "value": "1438",
+          "text": "ремонт мелкой бытовой техники"
+        },
+        {
+          "isAssociations": true,
+          "value": "4377",
+          "text": "телемастерская"
+        },
+        {
+          "isAssociations": true,
+          "value": "110",
+          "text": "неисправности микроволновки и способы устранения"
+        },
+        {
+          "isAssociations": true,
+          "value": "10259",
+          "text": "ремонт пультов"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "5627",
+          "text": "не работает пульт от телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-no-internet",
+      "candidate_path": "/televizor-ne-podklyuchaetsya-k-internetu/",
+      "query": "телевизор не подключается к интернету",
+      "variant": "head"
+    },
+    "operator_query": "\"[телевизор не подключается к интернету]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "427822",
+          "text": "как подключить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "80",
+          "text": "исправление проблем с подключением к ethernet"
+        },
+        {
+          "isAssociations": true,
+          "value": "1080",
+          "text": "как поставить впн на телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "197777",
+          "text": "как настроить телевизор"
+        },
+        {
+          "isAssociations": true,
+          "value": "1332",
+          "text": "как включить впн на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1106",
+          "text": "схема подключения интернет кабеля"
+        },
+        {
+          "isAssociations": true,
+          "value": "3061",
+          "text": "как настроить смарт тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "15275",
+          "text": "как настроить антенну на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "473",
+          "text": "как включить вай фай на телевизоре lg"
+        },
+        {
+          "isAssociations": true,
+          "value": "1577",
+          "text": "как настроить кабельное тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "84",
+          "text": "иптв онлайн тв смотреть бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "1447",
+          "text": "как подключить смарт тв на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "13263",
+          "text": "как подключить смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "82369",
+          "text": "подключить тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "8011",
+          "text": "как подключить каналы на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1984",
+          "text": "как подключить кабельное телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "2416",
+          "text": "как настроить кабельное тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "4727",
+          "text": "телевизор не подключается к интернету"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "tv-usb-not-seen",
+      "candidate_path": "/televizor-ne-vidit-fleshku/",
+      "query": "телевизор не видит флешку",
+      "variant": "head"
+    },
+    "operator_query": "\"[телевизор не видит флешку]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "28297",
+          "text": "см тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1605",
+          "text": "куда пропал нагиев с телевидения и почему"
+        },
+        {
+          "isAssociations": true,
+          "value": "7964",
+          "text": "тв родное кино"
+        },
+        {
+          "isAssociations": true,
+          "value": "10481",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1827",
+          "text": "диагонали тв в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "37343",
+          "text": "а тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "144",
+          "text": "send files to tv 4pda"
+        },
+        {
+          "isAssociations": true,
+          "value": "616",
+          "text": "включи видео ляпота тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "200",
+          "text": "как зайти на кинозал тв в 2026"
+        },
+        {
+          "isAssociations": true,
+          "value": "61",
+          "text": "тв 1нд"
+        },
+        {
+          "isAssociations": true,
+          "value": "188",
+          "text": "телеантенна своими руками для цифрового телевидения"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3662",
+          "text": "телевизор не видит флешку"
+        }
+      ]
+    }
+  }
+]

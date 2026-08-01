@@ -20,20 +20,20 @@ const footerLinks = [
 export function SiteFooter() {
   return (
     <footer className="border-t-2 border-ink bg-paper text-ink">
-      <div className="mx-auto grid max-w-[1440px] gap-6 px-5 py-7 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-end">
-        <div>
+      <div className="mx-auto grid min-w-0 max-w-[1440px] gap-6 px-5 py-7 [overflow-wrap:anywhere] sm:px-8 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div className="min-w-0">
           <Brand compact />
           <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
             Независимый справочный сервис. Не магазин и не представитель производителей.
           </p>
         </div>
         <nav
-          className="flex flex-wrap gap-x-6 gap-y-3 font-display text-sm font-bold uppercase"
+          className="flex min-w-0 flex-wrap gap-x-6 gap-y-3 font-display text-sm font-bold uppercase"
           aria-label="Инструменты и информация о сервисе"
         >
           {footerLinks.map((link) => (
             <a
-              className="rounded-sm underline decoration-line underline-offset-4 transition hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
+              className="max-w-full rounded-sm underline decoration-line underline-offset-4 [overflow-wrap:anywhere] transition hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
               href={link.href}
               key={link.href}
             >

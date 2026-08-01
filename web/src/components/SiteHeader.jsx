@@ -19,8 +19,8 @@ export function SiteHeader({ active = "" }) {
   return (
     <>
       <header className="border-b-2 border-ink bg-paper">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-6 px-5 py-4 sm:px-8">
-          <div className="flex items-center gap-6">
+        <div className="mx-auto flex min-w-0 max-w-[1440px] items-center justify-between gap-3 px-5 py-4 sm:gap-6 sm:px-8">
+          <div className="flex min-w-0 items-center gap-6">
             <Brand compact />
             <p className="hidden max-w-[17rem] border-l border-line pl-6 font-mono text-xs uppercase leading-tight lg:block">
               Независимый сервис проверки совместимости кронштейнов и телевизоров
@@ -28,7 +28,7 @@ export function SiteHeader({ active = "" }) {
           </div>
 
           <button
-            className="rounded p-2 focus:outline-none focus:ring-2 focus:ring-action lg:hidden"
+            className="shrink-0 rounded p-2 focus:outline-none focus:ring-2 focus:ring-action lg:hidden"
             onClick={() => setMenuOpen((value) => !value)}
             type="button"
             aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}

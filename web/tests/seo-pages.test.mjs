@@ -9,18 +9,29 @@ import {
 
 test("home features only explicitly prioritized indexable traffic tools", () => {
   const catalog = [
-    { id: "vesa", home_priority: 4, indexable: true },
+    { id: "vesa", indexable: true },
     { id: "wall-planner", home_priority: 3, indexable: true },
     { id: "tv-dimensions", home_priority: 2, indexable: true },
     { id: "phone-to-tv", home_priority: 1, indexable: true },
     { id: "tv-no-signal", home_priority: 1, indexable: true },
+    { id: "laptop-to-tv", home_priority: 4, indexable: true },
+    { id: "digital-channels", home_priority: 5, indexable: true },
+    { id: "picture-setup", home_priority: 6, indexable: true },
     { id: "thin", home_priority: 5, indexable: false },
     { id: "unprioritized", indexable: true },
   ];
 
   assert.deepEqual(
-    getHomeFeaturedPages(catalog).map((page) => page.id),
-    ["phone-to-tv", "tv-no-signal", "tv-dimensions", "wall-planner"],
+    getHomeFeaturedPages(catalog, 7).map((page) => page.id),
+    [
+      "phone-to-tv",
+      "tv-no-signal",
+      "tv-dimensions",
+      "wall-planner",
+      "laptop-to-tv",
+      "digital-channels",
+      "picture-setup",
+    ],
   );
 });
 
@@ -30,15 +41,18 @@ test("traffic utilities link to each other without creating diagnostic variants"
     { id: "tv-no-signal", kind: "calculator", indexable: true },
     { id: "tv-dimensions", kind: "calculator", indexable: true },
     { id: "wall-planner", kind: "calculator", indexable: true },
+    { id: "laptop-to-tv", kind: "calculator", indexable: true },
+    { id: "digital-channels", kind: "calculator", indexable: true },
+    { id: "picture-setup", kind: "calculator", indexable: true },
   ];
 
   assert.deepEqual(
     getRelatedPages(catalog[0], catalog).map((page) => page.id),
-    ["tv-no-signal", "tv-dimensions", "wall-planner"],
+    ["laptop-to-tv", "tv-no-signal", "picture-setup", "tv-dimensions", "wall-planner", "digital-channels"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[1], catalog).map((page) => page.id),
-    ["phone-to-tv", "tv-dimensions", "wall-planner"],
+    ["digital-channels", "laptop-to-tv", "phone-to-tv", "picture-setup", "tv-dimensions", "wall-planner"],
   );
 });
 

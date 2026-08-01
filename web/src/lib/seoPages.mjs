@@ -142,8 +142,11 @@ function preferredRelatedIds(pageId) {
   }
 
   const groups = {
-    "tv-no-signal": ["phone-to-tv", "tv-dimensions", "viewing-distance", "wall-planner", "vesa", "mounting-height"],
-    "phone-to-tv": ["tv-no-signal", "tv-dimensions", "wall-planner", "viewing-distance", "vesa", "mounting-height"],
+    "tv-no-signal": ["digital-channels", "laptop-to-tv", "phone-to-tv", "picture-setup", "tv-dimensions", "viewing-distance"],
+    "phone-to-tv": ["laptop-to-tv", "tv-no-signal", "picture-setup", "tv-dimensions", "wall-planner", "viewing-distance"],
+    "laptop-to-tv": ["tv-no-signal", "phone-to-tv", "picture-setup", "digital-channels", "tv-dimensions", "viewing-distance"],
+    "digital-channels": ["tv-no-signal", "picture-setup", "laptop-to-tv", "phone-to-tv", "tv-dimensions", "viewing-distance"],
+    "picture-setup": ["viewing-distance", "tv-dimensions", "wall-planner", "tv-no-signal", "laptop-to-tv", "phone-to-tv"],
     "wall-mounted-tv": ["mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height"],
     "wall-planner": ["tv-dimensions", "mounting-height", "mounting-map", "tv-zone-sockets", "viewing-distance", "wall-mounted-tv"],
     "tv-dimensions": ["wall-planner", "viewing-distance", "diagonal-43", "diagonal-55", "diagonal-65", "mounting-height"],

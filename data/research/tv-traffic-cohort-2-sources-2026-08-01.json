@@ -1,0 +1,793 @@
+{
+  "version": 1,
+  "cohort_id": "tv-traffic-cohort-2",
+  "retrieved_at": "2026-08-01",
+  "checked_at": "2026-08-01T12:56:56Z",
+  "scope": {
+    "market": "Russia",
+    "language": "ru",
+    "source_policy": "primary-official-only",
+    "allowed_organizations": [
+      "Microsoft",
+      "Apple",
+      "VESA",
+      "Samsung",
+      "LG",
+      "Sony",
+      "РТРС"
+    ],
+    "purpose": "Source and claim boundaries for three independent KREPI TV traffic utilities; not public copy and not a compatibility database."
+  },
+  "canonicals": [
+    {
+      "id": "laptop-to-tv",
+      "path": "/kak-podklyuchit-noutbuk-k-televizoru/",
+      "job": "Select a supportable wired or wireless path from a Windows or Mac laptop to a television and provide the next verifiable step.",
+      "source_ids": [
+        "microsoft-multiple-displays",
+        "microsoft-wireless-display",
+        "apple-mac-tv-display",
+        "apple-mac-airplay",
+        "vesa-displayport",
+        "samsung-pc-hdmi",
+        "lg-pc-to-tv"
+      ],
+      "fail_closed": [
+        "exact-laptop-output-port-or-wireless-protocol-unknown",
+        "exact-tv-input-or-wireless-protocol-unknown",
+        "usb-c-video-output-not-explicitly-confirmed",
+        "windows-k-reports-miracast-unsupported",
+        "airplay-receiver-support-not-explicitly-confirmed",
+        "adapter-or-dock-chain-not-identifiable",
+        "displayport-source-or-usb-c-dp-alt-mode-not-confirmed",
+        "displayport-adapter-direction-or-video-capability-not-confirmed"
+      ]
+    },
+    {
+      "id": "digital-channels",
+      "path": "/kak-nastroit-tsifrovye-kanaly-na-televizore/",
+      "job": "Distinguish terrestrial antenna, cable provider and external set-top-box paths before giving a model-scoped channel scan plan.",
+      "source_ids": [
+        "rtrs-digital-terrestrial",
+        "samsung-channel-setup",
+        "lg-channel-autotune",
+        "sony-channel-autotune"
+      ],
+      "fail_closed": [
+        "signal-source-unknown",
+        "external-set-top-box-controls-channels",
+        "cable-provider-parameters-unknown",
+        "tv-tuner-standard-not-confirmed",
+        "antenna-location-requires-roof-or-live-electrical-work"
+      ]
+    },
+    {
+      "id": "picture-setup",
+      "path": "/nastroyka-izobrazheniya-televizora/",
+      "job": "Explain model-scoped picture controls, separate a source problem from a television self-test result and avoid presenting preferences as calibration.",
+      "source_ids": [
+        "samsung-picture-test",
+        "samsung-picture-menu-availability",
+        "samsung-game-mode",
+        "lg-screen-self-diagnosis",
+        "lg-dark-picture",
+        "sony-picture-settings",
+        "sony-hdr-picture-mode",
+        "sony-picture-sound-test"
+      ],
+      "fail_closed": [
+        "exact-model-or-input-mode-unknown",
+        "hdr-sdr-or-content-type-unknown",
+        "built-in-test-unavailable",
+        "panel-defect-alleged-from-browser-pattern-alone",
+        "instrument-calibration-requested-without-measurement-hardware",
+        "game-mode-availability-or-effect-not-confirmed-for-model-and-input",
+        "hdr-picture-mode-locked-without-model-content-and-input-context"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-multiple-displays",
+      "organization": "Microsoft",
+      "title": "Использование нескольких мониторов в Windows",
+      "url": "https://support.microsoft.com/ru-RU/Windows/Hardware/Display-Graphics/how-to-use-multiple-monitors-in-windows",
+      "source_region": "ru-RU",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "laptop-to-tv",
+        "windows-11",
+        "windows-10",
+        "wired-external-display",
+        "display-modes"
+      ],
+      "allowed_claims": [
+        "windows-p-selects-pc-only-duplicate-extend-or-second-screen",
+        "windows-can-detect-an-attached-external-display",
+        "windows-k-opens-wireless-display-selection-when-supported"
+      ],
+      "conflicts": [
+        "the-page-does-not-confirm-that-a-specific-laptop-port-or-adapter-carries-video",
+        "windows-10-is-listed-but-free-microsoft-support-ended-on-2025-10-14"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://support.microsoft.com/ru-RU/Windows/Hardware/Display-Graphics/how-to-use-multiple-monitors-in-windows",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "microsoft-wireless-display",
+      "organization": "Microsoft",
+      "title": "Зеркальное отображение экрана и проецирование на беспроводной дисплей",
+      "url": "https://support.microsoft.com/ru-ru/windows/%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%83-%D0%B8%D0%BB%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D1%83-7e170c39-58dc-c866-7d55-be2372632892",
+      "source_region": "ru-RU",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "laptop-to-tv",
+        "windows-11",
+        "windows-10",
+        "miracast",
+        "wireless-display"
+      ],
+      "allowed_claims": [
+        "windows-k-lists-available-wireless-displays",
+        "wireless-receiver-must-support-miracast",
+        "windows-device-must-support-miracast"
+      ],
+      "conflicts": [
+        "miracast-support-cannot-be-inferred-from-windows-version-or-smart-tv-label",
+        "the-source-does-not-authorize-airplay-or-google-cast-instructions"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://support.microsoft.com/ru-RU/Windows/Hardware/Display-Graphics/screen-mirroring-and-projecting-to-your-pc-or-wireless-display",
+        "interpretation": "reachable-after-official-redirect"
+      }
+    },
+    {
+      "id": "apple-mac-tv-display",
+      "organization": "Apple",
+      "title": "Использование телевизора в качестве дисплея для Mac",
+      "url": "https://support.apple.com/ru-ru/guide/mac-help/mchlp1206/mac",
+      "source_region": "ru-RU",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "laptop-to-tv",
+        "mac",
+        "wired-external-display",
+        "hdmi",
+        "thunderbolt"
+      ],
+      "allowed_claims": [
+        "mac-can-use-a-tv-as-an-external-display-through-a-compatible-video-cable",
+        "an-adapter-may-be-required-for-the-specific-mac-port",
+        "mac-can-mirror-extend-or-share-a-window-when-the-connection-is-supported",
+        "tv-audio-output-can-be-selected-in-macos-sound-settings"
+      ],
+      "conflicts": [
+        "the-guide-does-not-confirm-video-output-for-every-usb-c-port-cable-dock-or-adapter",
+        "overscan-controls-are-available-only-on-compatible-televisions"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://support.apple.com/ru-ru/guide/mac-help/mchlp1206/mac",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "apple-mac-airplay",
+      "organization": "Apple",
+      "title": "Потоковая передача видео и аудио с помощью AirPlay",
+      "url": "https://support.apple.com/ru-ru/guide/mac-help/mchld7e543a0/mac",
+      "source_region": "ru-RU",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "laptop-to-tv",
+        "mac",
+        "airplay",
+        "wireless-display"
+      ],
+      "allowed_claims": [
+        "mac-and-airplay-receiver-use-the-same-wifi-network",
+        "mac-can-stream-video-or-mirror-to-an-apple-tv-or-compatible-smart-tv",
+        "the-receiver-may-display-a-code",
+        "macos-can-offer-window-sharing-mirroring-or-extension"
+      ],
+      "conflicts": [
+        "smart-tv-does-not-mean-airplay-compatible",
+        "application-level-streaming-and-whole-screen-mirroring-are-different-results"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://support.apple.com/ru-ru/guide/mac-help/mchld7e543a0/mac",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "vesa-displayport",
+      "organization": "VESA",
+      "title": "DisplayPort FAQ",
+      "url": "https://www.displayport.org/faq/",
+      "source_region": "global-en",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T12:56:56Z",
+      "applies_to": [
+        "laptop-to-tv",
+        "displayport",
+        "displayport-over-usb-c",
+        "displayport-alt-mode",
+        "displayport-to-hdmi-adapter",
+        "audio-over-displayport"
+      ],
+      "allowed_claims": [
+        "a-displayport-source-can-use-an-adapter-for-an-hdmi-display",
+        "displayport-supports-multichannel-audio-and-displayport-to-hdmi-adapters-can-support-hdmi-audio",
+        "usb-c-carries-displayport-video-only-when-the-device-supports-displayport-alt-mode",
+        "device-documentation-or-a-dp-logo-near-usb-c-can-identify-displayport-alt-mode-support",
+        "a-usb-c-port-without-displayport-alt-mode-sends-no-video-to-the-display"
+      ],
+      "conflicts": [
+        "usb-c-connector-shape-alone-does-not-prove-displayport-alt-mode",
+        "displayport-standard-maximums-do-not-prove-the-resolution-refresh-rate-hdr-or-audio-capability-of-a-specific-source-adapter-cable-or-tv",
+        "the-adapter-path-described-is-from-a-displayport-source-to-an-hdmi-display-and-does-not-authorize-reversing-signal-direction"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.displayport.org/faq/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "samsung-pc-hdmi",
+      "organization": "Samsung",
+      "title": "Как подключить компьютер на Windows к телевизору через кабель HDMI",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-pc-to-tv/",
+      "source_region": "ru-RU",
+      "source_updated_at": "2025-11-05",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "laptop-to-tv",
+        "windows",
+        "samsung-tv",
+        "hdmi"
+      ],
+      "allowed_claims": [
+        "connect-hdmi-output-to-a-free-samsung-tv-hdmi-input",
+        "select-the-corresponding-tv-source",
+        "use-windows-p-to-select-duplicate-extend-or-second-screen"
+      ],
+      "conflicts": [
+        "the-menu-path-and-pc-source-label-are-samsung-specific",
+        "micro-hdmi-and-adapter-examples-do-not-authorize-a-generic-adapter-recommendation"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-pc-to-tv/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "lg-pc-to-tv",
+      "organization": "LG",
+      "title": "Как отображать экран ПК на телевизоре LG проводным или беспроводным способом",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155311464279",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-07-13",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "laptop-to-tv",
+        "windows",
+        "mac",
+        "lg-tv",
+        "hdmi",
+        "miracast",
+        "airplay"
+      ],
+      "allowed_claims": [
+        "lg-tv-can-use-a-corresponding-hdmi-input-for-a-pc-when-both-ends-support-hdmi",
+        "windows-p-selects-the-display-mode-after-wired-connection",
+        "supported-windows-and-lg-pairs-can-use-wireless-display",
+        "supported-mac-and-lg-pairs-can-use-airplay-on-the-same-wifi"
+      ],
+      "conflicts": [
+        "the-page-is-a-generic-lg-guide-and-does-not-prove-protocol-support-for-every-lg-model",
+        "windows-wireless-display-and-mac-airplay-are-not-interchangeable"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.lg.com/ru/support/product-help/CT20206007-20155311464279",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "rtrs-digital-terrestrial",
+      "organization": "РТРС",
+      "title": "РТРС.ПЛЮС: настройка цифрового эфирного телевидения",
+      "url": "https://plus.rtrs.ru/info/",
+      "source_region": "RU",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "digital-channels",
+        "russia",
+        "terrestrial-tv",
+        "antenna",
+        "dtv"
+      ],
+      "allowed_claims": [
+        "digital-terrestrial-tv-requires-an-antenna",
+        "first-setup-uses-the-dtv-source-and-automatic-channel-search"
+      ],
+      "conflicts": [
+        "the-page-is-centered-on-the-rtrs-plus-hbbtv-service-and-does-not-provide-a-universal-menu-path",
+        "the-page-does-not-authorize-an-exact-channel-count-frequency-or-coverage-claim-for-a-user-location"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://plus.rtrs.ru/info/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "samsung-channel-setup",
+      "organization": "Samsung",
+      "title": "Как найти и настроить эфирные и кабельные каналы на телевизоре Samsung",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-find-free-channels-on-my-samsung-tv/",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-06-04",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "digital-channels",
+        "samsung-tv",
+        "terrestrial-tv",
+        "cable-tv",
+        "auto-scan"
+      ],
+      "allowed_claims": [
+        "connect-the-rf-feed-and-select-tv-before-channel-scan",
+        "distinguish-terrestrial-antenna-from-cable-provider-scan",
+        "automatic-scan-menu-paths-vary-by-samsung-series",
+        "manual-cable-search-parameters-come-from-the-provider",
+        "a-tv-without-dvb-t2-needs-a-separate-dvb-t2-receiver-for-russian-terrestrial-digital-tv"
+      ],
+      "conflicts": [
+        "a-physical-common-building-coax-cable-can-still-carry-terrestrial-tv-and-use-the-antenna-choice-in-samsung-wording",
+        "the-cable-choice-in-the-menu-means-cable-provider-service-not-merely-the-presence-of-a-coax-cable",
+        "all-menu-paths-are-samsung-series-specific"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-find-free-channels-on-my-samsung-tv/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "lg-channel-autotune",
+      "organization": "LG",
+      "title": "Как установить и подключить цифровую антенну и выполнить автонастройку",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413221090",
+      "source_region": "ru-RU",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "digital-channels",
+        "lg-tv",
+        "terrestrial-tv",
+        "antenna",
+        "auto-scan"
+      ],
+      "allowed_claims": [
+        "supported-lg-tvs-provide-an-automatic-channel-tuning-path",
+        "lg-menu-paths-differ-by-webos-generation"
+      ],
+      "conflicts": [
+        "the-exact-title-and-menu-examples-cover-specific-lg-product-generations-not-every-lg-tv",
+        "the-source-does-not-provide-cable-provider-parameters-or-location-specific-terrestrial-frequencies"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.lg.com/ru/support/product-help/CT20206007-20153413221090",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "sony-channel-autotune",
+      "organization": "Sony",
+      "title": "Как настроить или перенастроить телевизор Sony Android TV или Google TV",
+      "url": "https://www.sony.ru/electronics/support/articles/00115215",
+      "source_region": "ru-RU",
+      "source_updated_at": null,
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "digital-channels",
+        "sony-tv",
+        "android-tv",
+        "google-tv",
+        "terrestrial-tv",
+        "cable-tv",
+        "auto-scan"
+      ],
+      "allowed_claims": [
+        "sony-menu-paths-differ-between-google-tv-android-tv-and-other-bravia-models",
+        "the-user-selects-antenna-or-cable-before-autotune",
+        "cable-channel-problems-and-parameters-can-require-the-provider"
+      ],
+      "conflicts": [
+        "factory-reset-and-firmware-update-appear-as-later-vendor-options-but-are-not-authorized-as-first-line-krepi-steps",
+        "the-exact-menu-path-requires-the-sony-platform-and-model-generation"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 403,
+        "final_url": "https://www.sony.ru/electronics/support/articles/00115215",
+        "interpretation": "automated-request-blocked; content was available through browser-indexed retrieval; do-not-mark-dead"
+      }
+    },
+    {
+      "id": "samsung-picture-test",
+      "organization": "Samsung",
+      "title": "Как запустить тест изображения на телевизоре Samsung",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-run-test-image-on-samsung-tv/",
+      "source_region": "ru-RU",
+      "source_updated_at": "2025-09-10",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "picture-setup",
+        "samsung-tv",
+        "built-in-picture-test",
+        "source-vs-tv-isolation"
+      ],
+      "allowed_claims": [
+        "supported-samsung-models-have-a-built-in-picture-test",
+        "the-test-menu-path-varies-by-series-and-year",
+        "a-defect-visible-in-the-built-in-test-is-a-reason-to-continue-with-official-samsung-support"
+      ],
+      "conflicts": [
+        "the-test-is-a-diagnostic-observation-not-a-panel-calibration-or-fault-certificate",
+        "the-source-does-not-authorize-browser-test-patterns-as-equivalent-to-the-built-in-test"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-run-test-image-on-samsung-tv/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "samsung-picture-menu-availability",
+      "organization": "Samsung",
+      "title": "Почему неактивен пункт в меню Изображение на телевизоре Samsung",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/menu-item-in-image-settings-has-greyed-out/",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-04-21",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "picture-setup",
+        "samsung-tv",
+        "picture-settings",
+        "input-specific-settings",
+        "energy-saving"
+      ],
+      "allowed_claims": [
+        "available-picture-controls-can-depend-on-the-current-input-and-picture-mode",
+        "energy-saving-can-disable-or-change-some-brightness-controls",
+        "missing-menu-items-can-be-model-specific"
+      ],
+      "conflicts": [
+        "specific-menu-paths-and-hdr-controls-must-not-be-applied-to-an-unverified-model",
+        "enabling-a-control-is-not-the-same-as-recommending-a-universal-value"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.samsung.com/ru/support/tv-audio-video/menu-item-in-image-settings-has-greyed-out/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "samsung-game-mode",
+      "organization": "Samsung",
+      "title": "Как включить игровой режим на телевизоре Samsung?",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/smart-tv-game-mode-turn-on/",
+      "source_region": "ru-RU",
+      "source_updated_at": "2023-04-17",
+      "checked_at": "2026-08-01T12:56:56Z",
+      "applies_to": [
+        "picture-setup",
+        "samsung-tv",
+        "game-mode",
+        "game-console",
+        "input-latency",
+        "samsung-series-2014-2021"
+      ],
+      "allowed_claims": [
+        "game-mode-optimizes-samsung-tv-video-processing-for-a-connected-game-console",
+        "game-mode-can-reduce-frame-delay-caused-by-tv-video-processing",
+        "game-mode-menu-paths-vary-by-samsung-series-model-and-software",
+        "game-mode-can-be-unavailable-for-specific-input-labels-hdr-plus-or-unsupported-refresh-rates",
+        "game-mode-can-activate-automatically-when-a-game-device-is-detected"
+      ],
+      "conflicts": [
+        "the-listed-menu-paths-cover-samsung-series-from-2014-through-2021-and-do-not-authorize-a-universal-path-for-newer-or-unlisted-models",
+        "the-source-warns-of-possible-picture-quality-changes-and-does-not-recommend-game-mode-for-ordinary-tv-viewing",
+        "the-source-does-not-quantify-input-lag-or-guarantee-the-same-improvement-for-every-model-source-and-refresh-rate"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.samsung.com/ru/support/tv-audio-video/smart-tv-game-mode-turn-on/",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "lg-screen-self-diagnosis",
+      "organization": "LG",
+      "title": "Самодиагностика экрана телевизора LG",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20154860121914",
+      "source_region": "ru-RU",
+      "source_updated_at": "2025-11-05",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "picture-setup",
+        "lg-tv",
+        "built-in-picture-test",
+        "source-vs-tv-isolation"
+      ],
+      "allowed_claims": [
+        "supported-lg-models-provide-screen-self-diagnosis-or-picture-test",
+        "lg-menu-paths-vary-by-webos-generation-and-panel-family",
+        "a-normal-built-in-test-shifts-the-next-check-to-the-input-signal-or-external-device-without-proving-a-cause",
+        "an-abnormal-built-in-test-is-a-reason-to-contact-lg-support"
+      ],
+      "conflicts": [
+        "the-page-covers-several-lg-generations-and-does-not-prove-that-every-model-has-the-same-test",
+        "a-browser-pattern-is-not-equivalent-to-lg-built-in-self-diagnosis"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.lg.com/ru/support/product-help/CT20206007-20154860121914",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "lg-dark-picture",
+      "organization": "LG",
+      "title": "Как исправить тёмное или тусклое изображение на телевизоре LG",
+      "url": "https://www.lg.com/ru/support/product-help/CT20206007-20155311265650",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-07-13",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "picture-setup",
+        "lg-tv",
+        "picture-mode",
+        "energy-saving",
+        "brightness"
+      ],
+      "allowed_claims": [
+        "picture-mode-and-energy-saving-can-affect-perceived-screen-brightness",
+        "lg-menu-paths-differ-by-webos-generation",
+        "picture-settings-can-differ-by-input"
+      ],
+      "conflicts": [
+        "standard-or-vivid-is-a-vendor-troubleshooting-choice-not-proof-of-color-accuracy",
+        "disabling-energy-saving-is-not-a-universal-recommendation-for-every-user-or-viewing-goal"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 200,
+        "final_url": "https://www.lg.com/ru/support/product-help/CT20206007-20155311265650",
+        "interpretation": "reachable"
+      }
+    },
+    {
+      "id": "sony-picture-settings",
+      "organization": "Sony",
+      "title": "Регулировка настроек изображения на телевизоре с Android TV",
+      "url": "https://www.sony.ru/electronics/support/articles/00190409",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-02-10",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "picture-setup",
+        "sony-tv",
+        "android-tv",
+        "picture-mode",
+        "brightness",
+        "contrast",
+        "color",
+        "sharpness"
+      ],
+      "allowed_claims": [
+        "sony-picture-controls-and-presets-have-different-goals",
+        "available-controls-vary-by-model",
+        "ambient-light-settings-can-change-screen-brightness",
+        "picture-settings-can-be-input-specific"
+      ],
+      "conflicts": [
+        "the-numeric-ranges-are-sony-interface-ranges-not-cross-brand-calibration-targets",
+        "vivid-standard-cinema-game-and-graphics-modes-cannot-be-ranked-universally-without-a-user-goal-and-model"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 403,
+        "final_url": "https://www.sony.ru/electronics/support/articles/00190409",
+        "interpretation": "automated-request-blocked; content was available through browser-indexed retrieval; do-not-mark-dead"
+      }
+    },
+    {
+      "id": "sony-hdr-picture-mode",
+      "organization": "Sony",
+      "title": "Настройки режима изображения невозможно изменить при воспроизведении контента HDR через IPTV, USB или HDMI",
+      "url": "https://www.sony.ru/electronics/support/articles/00133796",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-01-16",
+      "checked_at": "2026-08-01T12:56:56Z",
+      "applies_to": [
+        "picture-setup",
+        "sony-tv",
+        "hdr-content",
+        "iptv",
+        "usb-input",
+        "hdmi-input",
+        "listed-sony-4k-hdr-models-2015-2016"
+      ],
+      "allowed_claims": [
+        "on-the-listed-sony-4k-hdr-models-picture-mode-can-be-locked-while-playing-hdr-content",
+        "for-hdr-over-usb-or-hdmi-the-listed-models-can-still-offer-brightness-color-or-advanced-picture-controls",
+        "hdr-picture-control-availability-depends-on-the-content-source-and-exact-sony-model"
+      ],
+      "conflicts": [
+        "the-article-lists-only-specific-sony-4k-hdr-models-from-2015-and-2016-and-does-not-authorize-a-cross-model-hdr-rule",
+        "locked-picture-mode-during-hdr-on-an-applicable-model-is-documented-behavior-not-evidence-of-a-tv-defect",
+        "the-official-url-suffix-and-the-article-number-displayed-on-the-page-differ-so-the-final-title-and-content-must-be-rechecked-if-sony-redirects-or-replaces-the-page"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 403,
+        "final_url": "https://www.sony.ru/electronics/support/articles/00133796",
+        "interpretation": "automated-request-blocked; content was available through browser-indexed retrieval; do-not-mark-dead"
+      }
+    },
+    {
+      "id": "sony-picture-sound-test",
+      "organization": "Sony",
+      "title": "Как проверить качество изображения и звука на телевизоре Sony",
+      "url": "https://www.sony.ru/electronics/support/articles/00173823",
+      "source_region": "ru-RU",
+      "source_updated_at": "2026-01-16",
+      "checked_at": "2026-08-01T12:45:43Z",
+      "applies_to": [
+        "picture-setup",
+        "sony-tv",
+        "built-in-picture-test",
+        "source-vs-tv-isolation"
+      ],
+      "allowed_claims": [
+        "supported-sony-models-can-run-a-built-in-picture-and-sound-diagnostic",
+        "the-test-runs-from-the-help-or-problem-diagnosis-menu-on-applicable-models",
+        "the-test-can-be-restarted-or-completed-without-changing-picture-settings"
+      ],
+      "conflicts": [
+        "test-menu-availability-is-model-specific",
+        "the-test-does-not-authorize-a-hardware-fault-diagnosis-by-krepi-tv"
+      ],
+      "http_check": {
+        "method": "GET-follow-redirects",
+        "status_code": 403,
+        "final_url": "https://www.sony.ru/electronics/support/articles/00173823",
+        "interpretation": "automated-request-blocked; content was available through browser-indexed retrieval; do-not-mark-dead"
+      }
+    }
+  ],
+  "known_conflicts": [
+    {
+      "id": "wireless-protocols-are-not-interchangeable",
+      "canonicals": [
+        "laptop-to-tv"
+      ],
+      "resolution": "Windows Miracast and Mac AirPlay are separate paths. Require matching support at both endpoints and never infer either from Smart TV branding."
+    },
+    {
+      "id": "usb-c-connector-is-not-a-video-capability",
+      "canonicals": [
+        "laptop-to-tv"
+      ],
+      "resolution": "Require device documentation or an explicit DisplayPort Alt Mode or Thunderbolt capability. Connector shape alone is insufficient, and adapter direction must match a video source to a display input."
+    },
+    {
+      "id": "physical-coax-does-not-name-the-service",
+      "canonicals": [
+        "digital-channels"
+      ],
+      "resolution": "Ask whether the feed is terrestrial antenna, cable provider or an external box before selecting Antenna or Cable in the television menu."
+    },
+    {
+      "id": "vendor-picture-modes-are-not-calibration",
+      "canonicals": [
+        "picture-setup"
+      ],
+      "resolution": "Treat presets and sliders as model/input/user-goal controls. Never publish universal numeric values or claim measured calibration without instruments."
+    },
+    {
+      "id": "game-mode-is-model-input-and-content-scoped",
+      "canonicals": [
+        "picture-setup"
+      ],
+      "resolution": "Describe Game Mode only for a confirmed model, input and gaming use. Do not promise a numeric latency reduction, force it through hidden menus or recommend it for ordinary television viewing."
+    },
+    {
+      "id": "hdr-lock-is-not-a-defect-by-itself",
+      "canonicals": [
+        "picture-setup"
+      ],
+      "resolution": "A locked Picture Mode can be documented HDR behavior on an applicable Sony model. Verify model, input and HDR content before exposing only the controls the official source says remain available."
+    },
+    {
+      "id": "browser-pattern-vs-built-in-test",
+      "canonicals": [
+        "picture-setup"
+      ],
+      "resolution": "Browser patterns can reveal an observation but cannot replace a television built-in self-test or diagnose a panel fault."
+    }
+  ],
+  "global_denials": [
+    "universal-cable-or-adapter-recommendation-from-connector-shape-alone",
+    "claim-that-any-usb-c-port-carries-displayport-video",
+    "specific-resolution-refresh-rate-hdr-or-audio-claim-from-displayport-standard-maximums-alone",
+    "claim-that-any-windows-laptop-supports-miracast",
+    "claim-that-any-mac-or-smart-tv-supports-airplay",
+    "claim-that-any-smart-tv-supports-the-selected-wireless-protocol",
+    "purchase-before-port-protocol-and-output-isolation",
+    "factory-reset-first",
+    "firmware-update-first",
+    "driver-download-from-unofficial-source",
+    "hardware-fault-diagnosis",
+    "live-voltage-work",
+    "roof-access-or-antenna-rotation",
+    "invented-terrestrial-frequency-coverage-or-channel-count",
+    "invented-cable-provider-parameters",
+    "automatic-tv-channel-scan-when-an-external-box-controls-the-channel-list",
+    "universal-cross-brand-picture-values",
+    "quantified-game-mode-latency-improvement-without-model-specific-measurement",
+    "game-mode-as-a-universal-choice-for-non-game-content",
+    "treating-a-documented-hdr-picture-mode-lock-as-a-hardware-defect",
+    "claim-of-professional-calibration-without-measurement-instruments",
+    "service-menu-or-hidden-menu-instructions",
+    "panel-defect-certificate-from-browser-patterns",
+    "affiliate-or-product-cta-before-the-independent-result"
+  ],
+  "global_fail_closed": [
+    "When an exact model, operating system, input, output or protocol is unknown, return manual verification rather than a compatibility claim.",
+    "When official sources conflict, use the narrower model-scoped claim and display the conflict.",
+    "When a Windows device reports that Miracast is unsupported, do not keep a wireless success result visible.",
+    "When a Mac receiver is not explicitly AirPlay-compatible, do not output an AirPlay success path.",
+    "When an adapter or dock is present and its video capability is unknown, stop before recommending a cable or purchase.",
+    "When USB-C DisplayPort Alt Mode or DisplayPort source capability is not confirmed in device documentation, do not output a wired success result.",
+    "When adapter signal direction or the capability of any source-adapter-cable-display link is unknown, stop before promising video, audio, resolution, refresh rate or HDR.",
+    "When an external set-top box controls channels, do not run television auto-tuning; route to the box or provider instructions.",
+    "When cable parameters are unknown, request them from the provider; do not guess frequencies, modulation or symbol rate.",
+    "When antenna access requires a roof, live electrical work or an unsafe location, stop self-service guidance.",
+    "When a picture control is absent or disabled, do not infer a defect; require the exact model, input and mode.",
+    "When Samsung Game Mode availability or effect is not confirmed for the exact model, input and refresh rate, show model-specific verification and do not promise reduced latency.",
+    "When Sony Picture Mode is locked during HDR playback, verify that the exact model, content type and input fall within the official source before treating the behavior as expected; never diagnose a defect from the lock alone.",
+    "When a browser pattern and built-in television test disagree, prefer the built-in test for source isolation and direct the user to official model support without diagnosing hardware.",
+    "When a source returns 403 to automated checking but remains available through browser retrieval, mark automation_blocked and keep it pending manual recheck rather than dead."
+  ]
+}
