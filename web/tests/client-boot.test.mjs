@@ -23,6 +23,31 @@ test("страница доверия отрисовывается сразу и
   assert.deepEqual(await boot, { status: "rendered" });
 });
 
+test("страница 404 сохраняет полезный статический DOM после загрузки JavaScript", async () => {
+  let loadCalls = 0;
+  let renderCalls = 0;
+  const rootElement = {
+    dataset: { pageKind: "not-found" },
+    innerHTML: '<main data-not-found-page="true">Страница не найдена</main>',
+  };
+
+  const result = await bootClient({
+    rootElement,
+    loadCatalog() {
+      loadCalls += 1;
+      return Promise.resolve({});
+    },
+    render() {
+      renderCalls += 1;
+    },
+  });
+
+  assert.deepEqual(result, { status: "static" });
+  assert.equal(loadCalls, 0);
+  assert.equal(renderCalls, 0);
+  assert.match(rootElement.innerHTML, /data-not-found-page="true"/);
+});
+
 test("статический DOM сохраняется до готовности каталога", async () => {
   let resolveCatalog;
   let renderedCatalog;

@@ -12,6 +12,7 @@ import {
 import AffiliateOffer from "../components/AffiliateOffer.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { CommercialProfile } from "../components/CommercialProfile.jsx";
+import { MountTechnicalScheme } from "../components/MountTechnicalScheme.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
@@ -95,6 +96,8 @@ export function MountPage({ catalog, mountId }) {
         </nav>
 
         <CommercialProfile profile={commercialProfile} />
+
+        <MountTechnicalScheme mount={mount} />
 
         {affiliateOffer ? (
           <section className="border-b-2 border-ink py-7">

@@ -5,6 +5,36 @@ import {
   findExactModelSearchResult,
 } from "../lib/catalog.js";
 
+const MODEL_REQUEST_URL =
+  "https://github.com/jimbokl/krepitv/issues/new?template=model-request.yml";
+
+export function ModelSearchEmptyState({ message }) {
+  return (
+    <div className="px-5 py-4" data-model-search-empty="true">
+      <p className="text-muted">{message}</p>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        <a
+          className="inline-flex min-h-11 items-center justify-center rounded-md border-2 border-ink px-4 text-center font-display text-sm font-bold text-ink transition hover:border-action hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
+          href="/vesa/"
+        >
+          Проверить VESA вручную
+        </a>
+        <a
+          className="inline-flex min-h-11 items-center justify-center rounded-md bg-ink px-4 text-center font-display text-sm font-bold text-white transition hover:bg-technical focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
+          href={MODEL_REQUEST_URL}
+          rel="noreferrer"
+          target="_blank"
+        >
+          Предложить модель
+        </a>
+      </div>
+      <p className="mt-3 text-xs leading-relaxed text-muted">
+        Не отправляйте серийный номер или персональные данные: обращение в GitHub будет публичным.
+      </p>
+    </div>
+  );
+}
+
 export function ModelSearch({
   search,
   value,
@@ -103,8 +133,9 @@ export function ModelSearch({
           <div
             className={`${compact ? "relative mt-2 lg:absolute lg:inset-x-0 lg:top-[calc(100%+0.5rem)] lg:mt-0" : "absolute inset-x-0 top-[calc(100%+0.5rem)]"} z-30 overflow-hidden rounded-md border border-line bg-white shadow-menu`}
             id="варианты-моделей"
-            role="listbox"
-            aria-label="Найденные модели"
+            aria-live={results.length ? undefined : "polite"}
+            role={results.length ? "listbox" : "region"}
+            aria-label={results.length ? "Найденные модели" : "Модель не найдена"}
           >
             {results.length ? (
               results.map((item) => (
@@ -122,9 +153,7 @@ export function ModelSearch({
                 </button>
               ))
             ) : (
-              <p className="px-5 py-4 text-muted">
-                {emptyMessage}
-              </p>
+              <ModelSearchEmptyState message={emptyMessage} />
             )}
           </div>
         ) : null}

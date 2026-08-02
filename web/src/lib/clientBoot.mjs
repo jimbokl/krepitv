@@ -3,6 +3,10 @@ export function bootClient({ rootElement, loadCatalog, render, onError = reportL
     throw new Error("Не найден корневой элемент приложения.");
   }
 
+  if (rootElement.dataset.pageKind === "not-found") {
+    return Promise.resolve({ status: "static" });
+  }
+
   if (rootElement.dataset.pageKind === "trust") {
     render();
     return Promise.resolve({ status: "rendered" });

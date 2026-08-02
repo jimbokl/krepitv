@@ -118,6 +118,7 @@ function assertUnique(items, label) {
 function routeFromHtmlFile(file) {
   const relative = path.relative(docs, file).split(path.sep).join("/");
   if (relative === "index.html") return "/";
+  if (relative === "404.html") return "/404.html";
   return `/${relative.replace(/index\.html$/, "")}`;
 }
 
@@ -1539,6 +1540,26 @@ for (const route of ["/", "/podbor/", "/modeli/", "/kronshteyny/"]) {
   }
 }
 const sitemapPaths = new Set(sitemapUrls.map((value) => new URL(value).pathname));
+
+const notFoundHtml = htmlByRoute.get("/404.html");
+if (!notFoundHtml) {
+  throw new Error("Нет собственной русской страницы 404.html");
+}
+if (
+  !/<html\b[^>]*\blang=["']ru["']/i.test(notFoundHtml) ||
+  !/<h1\b[^>]*>Страница не найдена<\/h1>/i.test(notFoundHtml) ||
+  !/\bnoindex\b/i.test(metaContent(notFoundHtml, "robots")) ||
+  !/\bfollow\b/i.test(metaContent(notFoundHtml, "robots")) ||
+  canonicalFromHtml(notFoundHtml) !== `${origin}/404.html` ||
+  sitemapPaths.has("/404.html")
+) {
+  throw new Error("Русская 404 должна быть noindex,follow, иметь точный canonical и отсутствовать в sitemap");
+}
+for (const href of ["/podbor/", "/modeli/", "/vesa/"]) {
+  if (!notFoundHtml.includes(`href="${href}"`)) {
+    throw new Error(`Русская 404 не содержит полезный выход ${href}`);
+  }
+}
 
 for (const model of models) {
   const route = `/modeli/${model.id}/`;

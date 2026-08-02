@@ -11,13 +11,18 @@ function collectHtmlFiles(directory) {
     if (["dist", "node_modules", "public"].includes(entry.name)) return [];
     const absolute = path.join(directory, entry.name);
     if (entry.isDirectory()) return collectHtmlFiles(absolute);
-    return entry.name === "index.html" ? [absolute] : [];
+    return entry.name === "index.html" || (directory === root && entry.name === "404.html")
+      ? [absolute]
+      : [];
   });
 }
 
 const htmlInputs = Object.fromEntries(
   collectHtmlFiles(root).map((file) => [
-    path.relative(root, file).replace(/\/index\.html$/, "").replace(/\//g, "-") || "главная",
+    path.relative(root, file)
+      .replace(/^404\.html$/, "404")
+      .replace(/\/index\.html$/, "")
+      .replace(/\//g, "-") || "главная",
     file,
   ]),
 );

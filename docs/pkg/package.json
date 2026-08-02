@@ -1,6 +1,7 @@
 {
   "name": "krepitv-engine",
   "type": "module",
+  "description": "Детерминированный Rust/WASM-движок совместимости телевизоров и кронштейнов",
   "version": "0.1.0",
   "license": "MIT",
   "repository": {

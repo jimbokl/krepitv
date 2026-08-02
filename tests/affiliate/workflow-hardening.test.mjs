@@ -13,6 +13,12 @@ const pagesWorkflowUrl = new URL(
   "../../.github/workflows/pages.yml",
   import.meta.url,
 );
+const ciWorkflowUrl = new URL(
+  "../../.github/workflows/ci.yml",
+  import.meta.url,
+);
+const nodeVersionUrl = new URL("../../.node-version", import.meta.url);
+const rustToolchainUrl = new URL("../../rust-toolchain.toml", import.meta.url);
 const webPackageUrl = new URL("../../web/package.json", import.meta.url);
 
 test("Vite SSR tests are serialized on constrained GitHub runners", async () => {
@@ -96,6 +102,43 @@ test("Pages deploys only the committed production artifact", async () => {
   );
   assert.match(workflow, /persist-credentials:\s*false/);
   assert.match(workflow, /actions\/upload-pages-artifact@[0-9a-f]{40}[\s\S]*?path:\s*docs/);
+});
+
+test("source CI runs the complete pinned build without deploy or secrets", async () => {
+  const [workflow, nodeVersion, rustToolchain] = await Promise.all([
+    readFile(ciWorkflowUrl, "utf8"),
+    readFile(nodeVersionUrl, "utf8").then((value) => value.trim()),
+    readFile(rustToolchainUrl, "utf8"),
+  ]);
+  const actions = [...workflow.matchAll(/^\s*uses:\s*([^\s#]+)/gm)].map(
+    (match) => match[1],
+  );
+
+  assert.equal(nodeVersion, "22.23.2");
+  assert.match(rustToolchain, /channel\s*=\s*"1\.93\.1"/);
+  assert.match(rustToolchain, /components\s*=\s*\["rustfmt"\]/);
+  assert.match(rustToolchain, /targets\s*=\s*\["wasm32-unknown-unknown"\]/);
+
+  assert.equal(actions.length, 4);
+  for (const action of actions) {
+    assert.match(action, /^[^@\s]+@[0-9a-f]{40}$/);
+  }
+  assert.match(workflow, /push:[\s\S]*?branches:[\s\S]*?- main/);
+  assert.match(workflow, /pull_request:[\s\S]*?paths:/);
+  assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/);
+  assert.match(workflow, /persist-credentials:\s*false/);
+  assert.match(workflow, /node-version-file:\s*\.node-version/);
+  assert.match(workflow, /toolchain:\s*1\.93\.1/);
+  assert.match(workflow, /components:\s*rustfmt/);
+  assert.match(workflow, /targets:\s*wasm32-unknown-unknown/);
+  assert.match(workflow, /wasm-pack --version 0\.13\.1 --locked/);
+  assert.match(workflow, /npm --prefix web ci --no-audit --no-fund/);
+  assert.match(workflow, /npm run build/);
+  assert.match(workflow, /git diff --exit-code -- \./);
+  assert.doesNotMatch(
+    workflow,
+    /secrets\.|contents:\s*write|pages:\s*write|id-token:\s*write|deploy-pages|upload-pages-artifact|git push/,
+  );
 });
 
 test("orders workflow keeps raw ledger ephemeral and retains only a safe aggregate", async () => {

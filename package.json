@@ -2,9 +2,13 @@
   "name": "krepitv",
   "private": true,
   "version": "0.1.0",
+  "engines": {
+    "node": "22.23.2"
+  },
+  "packageManager": "npm@10.9.8",
   "scripts": {
-    "build:content": "cargo run -p krepitv-sitegen --release",
-    "build:wasm": "wasm-pack build crates/engine --target web --out-dir ../../web/public/pkg --release",
+    "build:content": "cargo run --locked -p krepitv-sitegen --release",
+    "build:wasm": "node scripts/build-wasm.mjs",
     "build:web": "npm --prefix web run build",
     "build:publish": "node scripts/copy-dist.mjs",
     "build": "node scripts/clean.mjs && npm run build:content && npm run build:wasm && npm run build:web && npm run build:publish && npm run verify",
@@ -51,6 +55,7 @@
     "analytics:test": "node --test tests/analytics/*.test.mjs",
     "dev:prepare": "npm run build:content && npm run build:wasm",
     "dev": "npm run dev:prepare && npm --prefix web run dev",
-    "verify": "cargo test --workspace && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && npm run dataset:check && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test"
+    "verify:wasm-repro": "node scripts/verify-wasm-reproducibility.mjs",
+    "verify": "cargo fmt --all --check && cargo test --workspace --locked && npm run verify:wasm-repro && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run catalog:verify && npm run catalog:test && npm run dataset:check && node scripts/verify.mjs && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test"
   }
 }

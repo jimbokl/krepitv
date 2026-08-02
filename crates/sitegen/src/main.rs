@@ -810,6 +810,31 @@ fn static_layout(content: &str) -> String {
     )
 }
 
+fn not_found_page_body() -> String {
+    static_layout(
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-not-found-page=\"true\"><nav class=\"flex flex-wrap items-center gap-2 font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a class=\"hover:text-action\" href=\"/\">Главная</a><span aria-hidden=\"true\">/</span><span>Страница не найдена</span></nav><header class=\"mt-8 border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Ошибка 404</p><h1 class=\"mt-3 max-w-[900px] font-display text-[clamp(3.2rem,8vw,7rem)] font-extrabold leading-[0.9] tracking-[-0.035em]\">Страница не найдена</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted sm:text-xl\">Адрес мог измениться или в нём есть ошибка. Начните с точной модели телевизора либо откройте проверенный справочник VESA.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Подобрать кронштейн</a></header><section class=\"grid gap-px border-b border-ink bg-ink sm:grid-cols-2\" aria-label=\"Полезные разделы\"><a class=\"group min-w-0 bg-paper p-6 transition hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-inset\" href=\"/modeli/\"><span class=\"font-mono text-xs uppercase text-action\">Точная модель</span><strong class=\"mt-2 block font-display text-3xl font-extrabold\">Каталог телевизоров</strong><span class=\"mt-3 block leading-relaxed text-muted\">Найдите паспортные VESA, массу и подходящие кронштейны.</span><span class=\"mt-5 inline-flex font-semibold text-action\">Открыть каталог →</span></a><a class=\"group min-w-0 bg-paper p-6 transition hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-inset\" href=\"/vesa/\"><span class=\"font-mono text-xs uppercase text-technical\">Проверка отверстий</span><strong class=\"mt-2 block font-display text-3xl font-extrabold\">Справочник VESA</strong><span class=\"mt-3 block leading-relaxed text-muted\">Узнайте размер крепления и сравните его с кронштейном.</span><span class=\"mt-5 inline-flex font-semibold text-action\">Проверить VESA →</span></a></section><p class=\"py-7 text-sm leading-relaxed text-muted\">Если вы перешли по внутренней ссылке KREPI TV, вернитесь на <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/\">главную страницу</a> и выберите нужный инструмент.</p></article>",
+    )
+}
+
+fn not_found_page_html() -> String {
+    let canonical = "https://krepitv.ru/404.html";
+    html_shell(
+        "Страница не найдена — KREPI TV",
+        "Страница не найдена. Перейдите к подбору кронштейна, каталогу телевизоров или справочнику VESA.",
+        canonical,
+        "not-found",
+        None,
+        Some(&not_found_page_body()),
+        HeadExtras {
+            robots: Some("noindex,follow"),
+            json_ld: &breadcrumb_json_ld(&[
+                ("Главная", "https://krepitv.ru/"),
+                ("Страница не найдена", canonical),
+            ]),
+        },
+    )
+}
+
 fn brand_catalog_html(
     rows: Vec<(String, String)>,
     count_label: &str,
@@ -951,6 +976,62 @@ fn formatted_vesa_list(mount: &Mount) -> String {
         .map(|pair| pair.replace('x', "×"))
         .collect::<Vec<_>>()
         .join(" · ")
+}
+
+fn mount_technical_scheme_html(mount: &Mount) -> String {
+    let (mechanism, description, diagram_label, drawing) = match mount.mechanism.as_str() {
+        "fixed" => (
+            "Фиксированный",
+            "Экран удерживается в одном положении близко к стене.",
+            "фиксированный механизм между стеной и телевизором",
+            r#"<g data-mechanism-part="fixed-rails"><line class="stroke-ink" stroke-linecap="round" stroke-width="14" vector-effect="non-scaling-stroke" x1="106" x2="256" y1="132" y2="132"></line><line class="stroke-ink" stroke-linecap="round" stroke-width="14" vector-effect="non-scaling-stroke" x1="106" x2="256" y1="196" y2="196"></line><rect class="fill-paper stroke-ink" height="220" rx="5" stroke-width="5" vector-effect="non-scaling-stroke" width="48" x="256" y="54"></rect><rect class="fill-ink" height="94" rx="2" width="8" x="256" y="117"></rect><text class="fill-muted font-mono text-[16px]" x="178" y="238">БЕЗ ПОВОРОТА</text></g>"#,
+        ),
+        "tilt" => (
+            "Наклонный",
+            "Экран можно наклонить. Наклон на схеме условный: паспортного угла в каталоге нет.",
+            "наклонный механизм между стеной и телевизором",
+            r#"<g data-mechanism-part="tilt-joint"><line class="stroke-ink" stroke-linecap="round" stroke-width="16" vector-effect="non-scaling-stroke" x1="106" x2="412" y1="164" y2="164"></line><circle class="fill-action stroke-ink" cx="412" cy="164" r="14" stroke-width="3" vector-effect="non-scaling-stroke"></circle><g transform="rotate(-8 442 164)"><rect class="fill-paper stroke-ink" height="220" rx="5" stroke-width="5" vector-effect="non-scaling-stroke" width="48" x="418" y="54"></rect><rect class="fill-ink" height="94" rx="2" width="8" x="418" y="117"></rect></g><path class="fill-none stroke-technical" d="M 380 118 A 60 60 0 0 1 447 104" stroke-dasharray="6 5" stroke-width="3" vector-effect="non-scaling-stroke"></path><text class="fill-muted font-mono text-[16px]" x="318" y="88">НАКЛОН УСЛОВНЫЙ</text></g>"#,
+        ),
+        "full-motion" => (
+            "Поворотный",
+            "Экран можно отвести от стены на шарнирном рычаге. Сложенное и выдвинутое положения показаны без масштаба.",
+            "поворотный шарнирный механизм между стеной и телевизором",
+            r#"<g data-mechanism-part="articulated-arm"><rect class="fill-none stroke-line" height="194" stroke-dasharray="9 8" stroke-width="3" vector-effect="non-scaling-stroke" width="36" x="190" y="66"></rect><text class="fill-muted font-mono text-[16px]" x="172" y="52">СЛОЖЕНО</text><polyline class="fill-none stroke-ink" points="106,164 228,104 365,205 514,164" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" vector-effect="non-scaling-stroke"></polyline><circle class="fill-action stroke-ink" cx="228" cy="104" r="12" stroke-width="3" vector-effect="non-scaling-stroke"></circle><circle class="fill-action stroke-ink" cx="365" cy="205" r="12" stroke-width="3" vector-effect="non-scaling-stroke"></circle><rect class="fill-paper stroke-ink" height="220" rx="5" stroke-width="5" vector-effect="non-scaling-stroke" width="48" x="514" y="54"></rect><rect class="fill-ink" height="94" rx="2" width="8" x="514" y="117"></rect></g>"#,
+        ),
+        _ => (
+            "Не указан",
+            "Положение экрана показано условно: тип механизма не указан в исходных данных.",
+            "механизм между стеной и телевизором без указанного типа",
+            r#"<g data-mechanism-part="unspecified"><line class="stroke-line" stroke-dasharray="9 8" stroke-width="8" vector-effect="non-scaling-stroke" x1="106" x2="256" y1="164" y2="164"></line><rect class="fill-paper stroke-ink" height="220" rx="5" stroke-width="5" vector-effect="non-scaling-stroke" width="48" x="256" y="54"></rect></g>"#,
+        ),
+    };
+    let distance = if (mount.wall_distance_min_mm - mount.wall_distance_max_mm).abs() < f64::EPSILON
+    {
+        format!("{} мм", format_mm(mount.wall_distance_min_mm))
+    } else {
+        format!(
+            "{}–{} мм",
+            format_mm(mount.wall_distance_min_mm),
+            format_mm(mount.wall_distance_max_mm)
+        )
+    };
+    let note_id = format!("mount-scheme-note-{}", mount.id);
+
+    format!(
+        r#"<section class="min-w-0 border-b-2 border-ink py-7 [overflow-wrap:anywhere]" data-mount-technical-scheme="{mount_id}" data-mount-mechanism="{mechanism_key}"><div class="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,0.82fr)_minmax(22rem,1.18fr)] lg:items-start"><div class="min-w-0"><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Техническая схема, не фотография</p><h2 class="mt-2 font-display text-3xl font-extrabold sm:text-4xl">Как кронштейн располагает телевизор</h2><p class="mt-3 max-w-2xl leading-relaxed text-muted">{description}</p><dl class="mt-5 grid min-w-0 grid-cols-2 gap-px border border-ink bg-ink sm:grid-cols-3"><div class="min-w-0 bg-paper p-3"><dt class="font-mono text-[0.68rem] uppercase text-muted">Механизм</dt><dd class="mt-1 break-words font-display text-xl font-extrabold text-ink">{mechanism}</dd></div><div class="min-w-0 bg-paper p-3"><dt class="font-mono text-[0.68rem] uppercase text-muted">От стены</dt><dd class="mt-1 break-words font-display text-xl font-extrabold text-ink">{distance}</dd></div><div class="min-w-0 bg-paper p-3"><dt class="font-mono text-[0.68rem] uppercase text-muted">Диагональ</dt><dd class="mt-1 break-words font-display text-xl font-extrabold text-ink">{min_diagonal}–{max_diagonal}″</dd></div><div class="min-w-0 bg-paper p-3"><dt class="font-mono text-[0.68rem] uppercase text-muted">Нагрузка</dt><dd class="mt-1 break-words font-display text-xl font-extrabold text-ink">до {load} кг</dd></div><div class="min-w-0 bg-paper p-3"><dt class="font-mono text-[0.68rem] uppercase text-muted">VESA</dt><dd class="mt-1 break-words font-display text-xl font-extrabold text-ink">{vesa_count} схем</dd></div></dl><p class="mt-4 text-sm leading-relaxed text-muted" id="{note_id}">Габариты деталей, длина рычагов и углы условные. Схема передаёт только тип механизма и паспортный диапазон расстояния от стены.</p></div><div class="min-w-0 overflow-hidden border border-ink bg-white p-3 sm:p-5"><svg aria-label="Условная техническая схема: {diagram_label}. Расстояние от стены {distance}." aria-describedby="{note_id}" class="block h-auto w-full max-w-full text-ink" data-mount-scheme-svg="true" preserveAspectRatio="xMidYMid meet" role="img" viewBox="0 0 640 340"><rect class="fill-line" height="244" width="22" x="54" y="42"></rect><line class="stroke-ink" stroke-width="3" vector-effect="non-scaling-stroke" x1="88" x2="88" y1="42" y2="286"></line><rect class="fill-action" height="116" rx="3" width="18" x="88" y="106"></rect><text class="fill-muted font-mono text-[18px]" x="42" y="316">СТЕНА</text>{drawing}<line class="stroke-technical" stroke-width="2" vector-effect="non-scaling-stroke" x1="98" x2="548" y1="302" y2="302"></line><line class="stroke-technical" stroke-width="2" vector-effect="non-scaling-stroke" x1="98" x2="98" y1="292" y2="312"></line><line class="stroke-technical" stroke-width="2" vector-effect="non-scaling-stroke" x1="548" x2="548" y1="292" y2="312"></line><rect class="fill-white" height="30" width="220" x="213" y="287"></rect><text class="fill-technical font-mono text-[18px]" text-anchor="middle" x="323" y="308">ОТ СТЕНЫ: {distance}</text></svg><p class="mt-3 border-t border-line pt-3 font-mono text-xs uppercase text-muted">Стена → механизм → телевизор</p></div></div></section>"#,
+        mount_id = escape_html(&mount.id),
+        mechanism_key = escape_html(&mount.mechanism),
+        mechanism = mechanism,
+        description = description,
+        diagram_label = diagram_label,
+        drawing = drawing,
+        distance = escape_html(&distance),
+        min_diagonal = format_mm(mount.min_diagonal_in),
+        max_diagonal = format_mm(mount.max_diagonal_in),
+        load = format_mm(mount.max_load_kg),
+        vesa_count = mount.vesa.len(),
+        note_id = escape_html(&note_id),
+    )
 }
 
 fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
@@ -1478,9 +1559,10 @@ fn mount_page_body(
     let commercial_section = commercial_profile
         .map(commercial_profile_html)
         .unwrap_or_default();
+    let technical_scheme = mount_technical_scheme_html(mount);
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{context_section}{commercial_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{context_section}{commercial_section}{technical_scheme}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -1494,6 +1576,7 @@ fn mount_page_body(
         affiliate_section = affiliate_section,
         context_section = context_section,
         commercial_section = commercial_section,
+        technical_scheme = technical_scheme,
         verified_rows = verified_rows,
         conditional_section = conditional_section,
     ))
@@ -3437,6 +3520,8 @@ fn main() {
         ),
     );
 
+    write(&web.join("404.html"), &not_found_page_html());
+
     write(
         &web.join("podbor/index.html"),
         &html_shell(
@@ -3813,12 +3898,13 @@ mod tests {
         commercial_profile_for, dataset_json_ld, escape_html, home_page_body, html_shell,
         is_indexable_model, is_indexable_mount, is_indexable_seo_page,
         is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, model_mount_matches,
-        model_page_body, mount_page_body, mounts_catalog_body, parse_rfc3339_utc_seconds,
-        read_json, related_seo_pages, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_page_body, seo_page_lastmod,
-        seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer, static_header,
-        trust_page_body, tv_product_json_ld, validate_commercial_profiles, validate_seo_pages,
-        validate_trust_pages, wall_mount_screws_html, workspace_root,
+        model_page_body, mount_page_body, mount_technical_scheme_html, mounts_catalog_body,
+        not_found_page_html, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
+        seo_brand_mount_matcher_html, seo_buy_mount_comparison_html, seo_calculator_note,
+        seo_catalog_html, seo_page_body, seo_page_lastmod, seo_screw_catalog_html,
+        seo_vesa_model_catalog_html, static_footer, static_header, trust_page_body,
+        tv_product_json_ld, validate_commercial_profiles, validate_seo_pages, validate_trust_pages,
+        wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -3829,6 +3915,24 @@ mod tests {
             escape_html("<ТВ & \"стена\">"),
             "&lt;ТВ &amp; &quot;стена&quot;&gt;"
         );
+    }
+
+    #[test]
+    fn russian_404_is_useful_noindex_and_keeps_required_routes() {
+        let html = not_found_page_html();
+
+        assert!(html.contains("<html lang=\"ru\">"));
+        assert!(html.contains("<meta name=\"robots\" content=\"noindex,follow\">"));
+        assert!(html.contains("<link rel=\"canonical\" href=\"https://krepitv.ru/404.html\">"));
+        assert!(html.contains("data-page-kind=\"not-found\""));
+        assert!(html.contains("data-not-found-page=\"true\""));
+        assert!(html.contains("Страница не найдена"));
+        assert!(html.contains("BreadcrumbList"));
+        for route in ["/podbor/", "/modeli/", "/vesa/"] {
+            assert!(html.contains(&format!("href=\"{route}\"")));
+        }
+        assert!(!html.contains("market.yandex"));
+        assert!(!html.contains("Партнёрская ссылка"));
     }
 
     #[test]
@@ -5505,6 +5609,62 @@ mod tests {
     }
 
     #[test]
+    fn every_mount_gets_an_honest_responsive_technical_scheme_in_ssr() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let graph = build_compatibility_graph(&models, &mounts);
+
+        for mount in &mounts {
+            let scheme = mount_technical_scheme_html(mount);
+            let page = mount_page_body(mount, &models, &graph, &[], 0, None);
+            let distance =
+                if (mount.wall_distance_min_mm - mount.wall_distance_max_mm).abs() < f64::EPSILON {
+                    format!("{} мм", super::format_mm(mount.wall_distance_min_mm))
+                } else {
+                    format!(
+                        "{}–{} мм",
+                        super::format_mm(mount.wall_distance_min_mm),
+                        super::format_mm(mount.wall_distance_max_mm)
+                    )
+                };
+            let mechanism_part = match mount.mechanism.as_str() {
+                "fixed" => "fixed-rails",
+                "tilt" => "tilt-joint",
+                "full-motion" => "articulated-arm",
+                other => panic!("Неизвестный механизм в тестовом каталоге: {other}"),
+            };
+
+            assert!(scheme.contains(&format!(
+                "data-mount-technical-scheme=\"{}\"",
+                escape_html(&mount.id)
+            )));
+            assert!(scheme.contains("Техническая схема, не фотография"));
+            assert!(scheme.contains("role=\"img\""));
+            assert!(scheme.contains("viewBox=\"0 0 640 340\""));
+            assert!(scheme.contains("block h-auto w-full max-w-full"));
+            assert!(scheme.contains(&distance));
+            assert!(scheme.contains(&format!(
+                "{}–{}″",
+                super::format_mm(mount.min_diagonal_in),
+                super::format_mm(mount.max_diagonal_in)
+            )));
+            assert!(scheme.contains(&format!("до {} кг", super::format_mm(mount.max_load_kg))));
+            assert!(scheme.contains(&format!("{} схем", mount.vesa.len())));
+            assert!(scheme.contains(&format!("data-mechanism-part=\"{mechanism_part}\"")));
+            assert!(!scheme.contains("<img"));
+            assert!(!scheme.contains("market.yandex"));
+            assert!(!scheme.contains(&mount.source_url));
+            assert_eq!(
+                page.matches("data-mount-technical-scheme=").count(),
+                1,
+                "SSR-страница {} должна содержать ровно одну схему",
+                mount.id
+            );
+        }
+    }
+
+    #[test]
     fn compatibility_graph_contains_only_useful_edges_and_mount_pages_are_reciprocal() {
         let root = workspace_root();
         let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
@@ -5588,6 +5748,9 @@ mod tests {
         let slot_position = body
             .find("data-affiliate-slot=")
             .expect("Статический affiliate slot отсутствует");
+        let scheme_position = body
+            .find("data-mount-technical-scheme=")
+            .expect("Техническая схема кронштейна отсутствует");
         let models_position = body
             .find("Подтверждённые популярные телевизоры")
             .expect("Список телевизоров отсутствует");
@@ -5595,6 +5758,7 @@ mod tests {
             .find("Поддерживаемые VESA")
             .expect("Технический блок VESA отсутствует");
 
+        assert!(scheme_position < slot_position);
         assert!(slot_position < models_position);
         assert!(slot_position < vesa_position);
         assert!(!body.contains("data-affiliate-offer-id="));

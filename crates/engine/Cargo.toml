@@ -4,6 +4,7 @@ version = "0.1.0"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
+description = "Детерминированный Rust/WASM-движок совместимости телевизоров и кронштейнов"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
