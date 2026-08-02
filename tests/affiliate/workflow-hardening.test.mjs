@@ -79,29 +79,48 @@ test("affiliate workflow is scheduled with pinned actions and one scoped OAuth s
   assert.doesNotMatch(workflow, /pages\/builds/);
 });
 
-test("Pages deploys only the committed production artifact", async () => {
+test("Pages builds and deploys the current source artifact", async () => {
   const workflow = await readFile(pagesWorkflowUrl, "utf8");
   const actions = [...workflow.matchAll(/^\s*uses:\s*([^\s#]+)/gm)].map(
     (match) => match[1],
   );
 
-  assert.equal(actions.length, 4);
+  assert.equal(actions.length, 7);
   for (const action of actions) {
     assert.match(action, /^[^@\s]+@[0-9a-f]{40}$/);
   }
   assert.match(workflow, /workflow_dispatch:/);
   assert.match(
     workflow,
-    /push:[\s\S]*?branches:[\s\S]*?- main[\s\S]*?paths:[\s\S]*?- "docs\/\*\*"/,
+    /push:[\s\S]*?branches:[\s\S]*?- main[\s\S]*?paths:[\s\S]*?- "crates\/\*\*"[\s\S]*?- "docs\/\*\*"/,
   );
-  assert.doesNotMatch(workflow, /schedule:|\.private|secrets\.|npm run|cargo|wasm/);
+  assert.doesNotMatch(workflow, /schedule:|\.private|secrets\.|git push/);
   assert.match(workflow, /permissions:\s*\{\}/);
   assert.match(
     workflow,
-    /permissions:[\s\S]*?contents:\s*read[\s\S]*?pages:\s*write[\s\S]*?id-token:\s*write/,
+    /build:[\s\S]*?permissions:\s*\n\s*contents:\s*read/,
+  );
+  assert.match(
+    workflow,
+    /deploy:[\s\S]*?needs:\s*build[\s\S]*?permissions:[\s\S]*?pages:\s*write[\s\S]*?id-token:\s*write/,
   );
   assert.match(workflow, /persist-credentials:\s*false/);
+  assert.match(workflow, /node-version-file:\s*\.node-version/);
+  assert.match(workflow, /toolchain:\s*1\.93\.1/);
+  assert.match(workflow, /wasm-pack --version 0\.13\.1 --locked/);
+  assert.match(workflow, /npm --prefix web ci --no-audit --no-fund/);
+  assert.match(workflow, /npm run build/);
+  assert.match(
+    workflow,
+    /git diff --exit-code -- \. ':\(exclude\)docs\/pkg\/krepitv_engine_bg\.wasm'/,
+  );
+  assert.match(
+    workflow,
+    /cmp -s web\/public\/pkg\/krepitv_engine_bg\.wasm docs\/pkg\/krepitv_engine_bg\.wasm/,
+  );
   assert.match(workflow, /actions\/upload-pages-artifact@[0-9a-f]{40}[\s\S]*?path:\s*docs/);
+  assert.ok(workflow.indexOf("npm run build") < workflow.indexOf("actions/upload-pages-artifact"));
+  assert.ok(workflow.indexOf("actions/upload-pages-artifact") < workflow.indexOf("deploy:"));
 });
 
 test("source CI runs the complete pinned build without deploy or secrets", async () => {
