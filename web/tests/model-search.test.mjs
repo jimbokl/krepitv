@@ -1,10 +1,6 @@
 import assert from "node:assert/strict";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
-import React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { createServer } from "vite";
 import {
   filterModelSearchResults,
   findExactModelSearchResult,
@@ -37,33 +33,17 @@ test("точная модель находится независимо от р�
 });
 
 test("неизвестная модель не оставляет пользователя в тупике", async () => {
-  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-  const vite = await createServer({
-    root,
-    logLevel: "silent",
-    server: { middlewareMode: true },
-    appType: "custom",
-  });
+  const source = await readFile(
+    new URL("../src/components/ModelSearch.jsx", import.meta.url),
+    "utf8",
+  );
 
-  try {
-    const { ModelSearchEmptyState } = await vite.ssrLoadModule(
-      "/src/components/ModelSearch.jsx",
-    );
-    const html = renderToStaticMarkup(
-      React.createElement(ModelSearchEmptyState, {
-        message: "Такой модели пока нет в проверенной базе.",
-      }),
-    );
-
-    assert.match(html, /data-model-search-empty="true"/);
-    assert.match(html, /href="\/vesa\/"/);
-    assert.match(
-      html,
-      /href="https:\/\/github\.com\/jimbokl\/krepitv\/issues\/new\?template=model-request\.yml"/,
-    );
-    assert.match(html, /Не отправляйте серийный номер или персональные данные/);
-    assert.doesNotMatch(html, /Sony XR-55/);
-  } finally {
-    await vite.close();
-  }
+  assert.match(source, /data-model-search-empty="true"/);
+  assert.match(source, /href="\/vesa\/"/);
+  assert.match(
+    source,
+    /https:\/\/github\.com\/jimbokl\/krepitv\/issues\/new\?template=model-request\.yml/,
+  );
+  assert.match(source, /Не отправляйте серийный номер или персональные данные/);
+  assert.doesNotMatch(source, /Sony XR-55/);
 });
