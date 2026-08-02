@@ -134,7 +134,15 @@ test("source CI runs the complete pinned build without deploy or secrets", async
   assert.match(workflow, /wasm-pack --version 0\.13\.1 --locked/);
   assert.match(workflow, /npm --prefix web ci --no-audit --no-fund/);
   assert.match(workflow, /npm run build/);
-  assert.match(workflow, /git diff --exit-code -- \./);
+  assert.match(
+    workflow,
+    /git diff --exit-code -- \. ':\(exclude\)docs\/pkg\/krepitv_engine_bg\.wasm'/,
+  );
+  assert.match(
+    workflow,
+    /cmp -s web\/public\/pkg\/krepitv_engine_bg\.wasm docs\/pkg\/krepitv_engine_bg\.wasm/,
+  );
+  assert.match(workflow, /timeout-minutes:\s*20/);
   assert.doesNotMatch(
     workflow,
     /secrets\.|contents:\s*write|pages:\s*write|id-token:\s*write|deploy-pages|upload-pages-artifact|git push/,

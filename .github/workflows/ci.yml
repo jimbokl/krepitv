@@ -44,7 +44,7 @@ jobs:
   verify:
     if: github.repository == 'jimbokl/krepitv'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 20
     steps:
       - name: Получить репозиторий без write-credential
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -87,4 +87,8 @@ jobs:
         run: npm run build
 
       - name: Проверить, что сборка совпадает с tracked artifact
-        run: git diff --exit-code -- .
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- . ':(exclude)docs/pkg/krepitv_engine_bg.wasm'
+          cmp -s web/public/pkg/krepitv_engine_bg.wasm docs/pkg/krepitv_engine_bg.wasm
