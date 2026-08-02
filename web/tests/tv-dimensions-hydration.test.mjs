@@ -139,11 +139,36 @@ test("после client boot таблица, методика и мобильн�
     assert.deepEqual(mobileSearch, { separated: true });
   } finally {
     socket?.close();
-    chrome.kill("SIGTERM");
+    await stopChrome(chrome);
     await new Promise((resolve) => server.http.close(resolve));
-    await rm(profile, { force: true, recursive: true });
+    await rm(profile, {
+      force: true,
+      recursive: true,
+      maxRetries: 5,
+      retryDelay: 100,
+    });
   }
 });
+
+async function stopChrome(chrome) {
+  if (chrome.exitCode !== null || chrome.signalCode !== null) return;
+
+  let timeout;
+  const exited = new Promise((resolve) => chrome.once("exit", resolve));
+  chrome.kill("SIGTERM");
+  const stopped = await Promise.race([
+    exited.then(() => true),
+    new Promise((resolve) => {
+      timeout = setTimeout(() => resolve(false), 5_000);
+    }),
+  ]);
+  clearTimeout(timeout);
+
+  if (!stopped) {
+    chrome.kill("SIGKILL");
+    await exited;
+  }
+}
 
 async function findChrome() {
   const candidates = [

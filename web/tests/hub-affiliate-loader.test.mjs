@@ -111,6 +111,7 @@ test("hub loader принимает только свежий same-origin snapsh
 test("catalog загружает product и hub affiliate snapshots в разные поля", async () => {
   const originalFetch = globalThis.fetch;
   const originalLocation = Object.getOwnPropertyDescriptor(globalThis, "location");
+  const originalDateNow = Date.now;
   const core = new Map([
     ["/data/tv-models.json", []],
     ["/data/mounts.json", []],
@@ -129,6 +130,7 @@ test("catalog загружает product и hub affiliate snapshots в разн�
     configurable: true,
     value: { origin: "https://krepitv.ru", pathname: "/" },
   });
+  Date.now = () => now;
   globalThis.fetch = async (input) => {
     const url = String(input);
     requested.push(url);
@@ -156,6 +158,7 @@ test("catalog загружает product и hub affiliate snapshots в разн�
     assert.ok(requested.includes("https://krepitv.ru/data/affiliate-hub-offers.json"));
     assert.ok(!requested.includes("https://krepitv.ru/data/affiliate-model-offers.json"));
   } finally {
+    Date.now = originalDateNow;
     globalThis.fetch = originalFetch;
     if (originalLocation) {
       Object.defineProperty(globalThis, "location", originalLocation);
