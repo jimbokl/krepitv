@@ -17,14 +17,14 @@
     "availability_rule": "Карточка присутствует в выдаче и содержит доступный оффер на момент сбора",
     "catalog_match_rule": "Точный нормализованный токен модели и совместимый бренд; без нечёткого совпадения"
   },
-  "observed_at": "2026-08-04T19:12:11.074Z",
-  "batch_sha256": "d348c08bee5970e6e77881d8a294167ce706be53214c761885a280ca3b8b8869",
+  "observed_at": "2026-08-04T19:21:38.566Z",
+  "batch_sha256": "0df6a2ddbe55fe0723e34d19c3af3b5e42369dc8535608ae1e6bb60ddcd53177",
   "summary": {
     "pages_collected": 19,
     "page_count_observed": 30,
     "requested_max_pages": 30,
     "collection_complete": false,
-    "stop_reason": "Сбор остановлен перед страницей 20: Page 20 failed after 1 attempts: Market category state was not found in HTML",
+    "stop_reason": "Локально пересчитаны сохранённые страницы; следующая страница источника ранее возвращала внутреннюю ошибку.",
     "reported_total_min": 551,
     "reported_total_max": 2820,
     "extracted_rows": 296,
@@ -248,7 +248,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5446820981",
@@ -272,7 +272,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "95843083",
@@ -296,7 +296,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5735194159",
@@ -320,7 +320,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1827561750",
@@ -344,7 +344,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5717719779",
@@ -368,7 +368,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5769987456",
@@ -392,7 +392,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1388541761",
@@ -416,7 +416,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5650604432",
@@ -440,7 +440,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5602282654",
@@ -464,7 +464,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5798461774",
@@ -488,7 +488,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5803187162",
@@ -512,7 +512,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5880485218",
@@ -536,7 +536,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5738925007",
@@ -560,7 +560,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5714159428",
@@ -584,7 +584,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5878931879",
@@ -608,13 +608,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1915593419",
       "market_title": "Телевизор 32 дюйма Topdevice Full HD, Smart TV Google TV, Wi-Fi, Bluetooth, VA, черный (TDHTV32GFD_BK)",
       "brand": "TopDevice",
-      "model_candidate": "TDHTV32GFD",
+      "model_candidate": "TDHTV32GFD_BK",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-topdevice-tv-32-full-hd-va-matritsa-smart-google-tv-wi-fi-bluetooth-51-chernyy-tdhtv32gfd_bk",
       "market_url": "https://market.yandex.ru/card/televizor-topdevice-tv-32-full-hd-va-matritsa-smart-google-tv-wi-fi-bluetooth-51-chernyy-tdhtv32gfd_bk/1915593419",
@@ -632,7 +632,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5874737950",
@@ -656,13 +656,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5909273078",
       "market_title": "Телевизор 32 дюйма Topdevice Smart TV, HD, VA, Wi-Fi, Google TV, Bluetooth, TDHTV32GHD_BK",
       "brand": "TopDevice",
-      "model_candidate": "TDHTV32GHD",
+      "model_candidate": "TDHTV32GHD_BK",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-topdevice-tv-32-hd-va-matritsa-smart-google-tv-wi-fi-bluetooth-51-chernyy-tdhtv32ghd_bk",
       "market_url": "https://market.yandex.ru/card/televizor-topdevice-tv-32-hd-va-matritsa-smart-google-tv-wi-fi-bluetooth-51-chernyy-tdhtv32ghd_bk/5909273078",
@@ -680,7 +680,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1866873835",
@@ -704,7 +704,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1874979175",
@@ -728,7 +728,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5803059551",
@@ -752,7 +752,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5799601865",
@@ -776,14 +776,14 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5843768957",
       "market_title": "Телевизор TCL 50\" V6C 4K HDR MEMC Google TV, Смарт ТВ, 50 дюймов",
       "brand": "TCL",
       "model_candidate": "V6C",
-      "model_candidate_confidence": "medium",
+      "model_candidate_confidence": "high",
       "market_slug": "televizor-tcl-50-v6c-4k-hdr-google-tv",
       "market_url": "https://market.yandex.ru/card/televizor-tcl-50-v6c-4k-hdr-google-tv/5843768957",
       "page": 3,
@@ -800,7 +800,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "235327440",
@@ -824,7 +824,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1078047596",
@@ -848,7 +848,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "6062302519",
@@ -872,7 +872,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5714129330",
@@ -896,7 +896,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5781553689",
@@ -920,7 +920,7 @@
       "catalog_brand": "Hisense",
       "catalog_model": "55E77SL",
       "match_type": "exact_model_token",
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5717361236",
@@ -944,7 +944,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5107385175",
@@ -968,13 +968,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1118845745",
       "market_title": "Телевизор HAIER 40 Smart TV D1 Full HD, Android TV, DBX-TV разрешение 1920х1080",
       "brand": "Haier",
-      "model_candidate": "40",
+      "model_candidate": "D1",
       "model_candidate_confidence": "medium",
       "market_slug": "televizor-haier-40-smart-tv-d1",
       "market_url": "https://market.yandex.ru/card/televizor-haier-40-smart-tv-d1/1118845745",
@@ -992,7 +992,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "882427625",
@@ -1016,7 +1016,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1432253833",
@@ -1040,7 +1040,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5188818159",
@@ -1064,7 +1064,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5926953647",
@@ -1088,7 +1088,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "6064011646",
@@ -1112,7 +1112,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1802429756",
@@ -1136,7 +1136,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5754446042",
@@ -1160,7 +1160,7 @@
       "catalog_brand": "TCL",
       "catalog_model": "55C6K",
       "match_type": "exact_model_token",
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1154464501",
@@ -1184,7 +1184,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1874335070",
@@ -1208,13 +1208,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5909323732",
       "market_title": "Телевизор 24 дюйма Topdevice Smart TV, HD, IPS, YaOS с Алисой, Wi-Fi, Bluetooth, TDHTV24Y1HD_BK",
       "brand": "TopDevice",
-      "model_candidate": "TDHTV24Y1HD",
+      "model_candidate": "TDHTV24Y1HD_BK",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-topdevice-tv-24-hd-ips-matritsa-smart-yaos-wi-fi-bluetooth-51-chernyy-tdhtv24y1hd_bk",
       "market_url": "https://market.yandex.ru/card/televizor-topdevice-tv-24-hd-ips-matritsa-smart-yaos-wi-fi-bluetooth-51-chernyy-tdhtv24y1hd_bk/5909323732",
@@ -1232,13 +1232,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1210181779",
       "market_title": "Телевизор TCL 32\" V4C QLED HD HDR Google TV, Смарт ТВ, 32 дюйма",
       "brand": "TCL",
-      "model_candidate": "V4C QLED HD HDR Google TV",
+      "model_candidate": "V4C",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-tcl-32-v4c-qled-hd-hdr-google-tv-smart-tv-32-dyuyma",
       "market_url": "https://market.yandex.ru/card/televizor-tcl-32-v4c-qled-hd-hdr-google-tv-smart-tv-32-dyuyma/1210181779",
@@ -1256,7 +1256,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1744194708",
@@ -1280,7 +1280,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1739996739",
@@ -1304,7 +1304,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "4854117316",
@@ -1328,7 +1328,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5691292305",
@@ -1352,7 +1352,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5444518205",
@@ -1376,7 +1376,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5880994338",
@@ -1400,7 +1400,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5485346034",
@@ -1424,7 +1424,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1568795033",
@@ -1448,7 +1448,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1772449253",
@@ -1472,7 +1472,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1567817558",
@@ -1496,7 +1496,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5699921748",
@@ -1520,7 +1520,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5239148260",
@@ -1544,7 +1544,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5770051995",
@@ -1568,7 +1568,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5770253397",
@@ -1592,7 +1592,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5227027558",
@@ -1616,14 +1616,14 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5878700647",
       "market_title": "Телевизор Haier 50 LED H1, 4K UHD, HDR10, Android TV, Smart TV, evo tv",
       "brand": "Haier",
-      "model_candidate": "HDR10",
-      "model_candidate_confidence": "high",
+      "model_candidate": "H1",
+      "model_candidate_confidence": "medium",
       "market_slug": "televizor-haier-50-led-h1",
       "market_url": "https://market.yandex.ru/card/televizor-haier-50-led-h1/5878700647",
       "page": 9,
@@ -1640,7 +1640,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "101535739",
@@ -1664,7 +1664,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5020185375",
@@ -1688,14 +1688,14 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5633566305",
       "market_title": "Телевизор Smart TV Full HD 4k 32 дюйма, пульт-аэромышь с голосовым управлением, черный",
       "brand": "Smart",
-      "model_candidate": "TV",
-      "model_candidate_confidence": "medium",
+      "model_candidate": null,
+      "model_candidate_confidence": "low",
       "market_slug": "televizor-smart-tv-full-hd-4k-32-dyuyma-pult-aeromysh-s-golosovym-upravleniyem-chernyy",
       "market_url": "https://market.yandex.ru/card/televizor-smart-tv-full-hd-4k-32-dyuyma-pult-aeromysh-s-golosovym-upravleniyem-chernyy/5633566305",
       "page": 10,
@@ -1712,13 +1712,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1821811994",
       "market_title": "Телевизор TCL 55\" Q6CS QD-Mini LED 4K HDR Google TV, Смарт ТВ, 55 дюймов",
       "brand": "TCL",
-      "model_candidate": "Q6CS QD-Mini LED",
+      "model_candidate": "Q6CS",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-tcl-55-q6cs-qd-mini-led-4k-hdr-google-tv",
       "market_url": "https://market.yandex.ru/card/televizor-tcl-55-q6cs-qd-mini-led-4k-hdr-google-tv/1821811994",
@@ -1736,7 +1736,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5778499426",
@@ -1760,7 +1760,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5729232526",
@@ -1784,7 +1784,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1173736160",
@@ -1808,7 +1808,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5747044129",
@@ -1832,7 +1832,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1573087485",
@@ -1856,7 +1856,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "4854117332",
@@ -1880,7 +1880,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "4939838850",
@@ -1904,7 +1904,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1563974817",
@@ -1928,7 +1928,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5719401357",
@@ -1952,7 +1952,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1373440508",
@@ -1976,7 +1976,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "4854117324",
@@ -2000,7 +2000,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1813039169",
@@ -2024,7 +2024,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5083570802",
@@ -2048,7 +2048,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "113334201",
@@ -2072,7 +2072,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5296615915",
@@ -2096,7 +2096,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5778497339",
@@ -2120,7 +2120,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5783398014",
@@ -2144,7 +2144,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5717516735",
@@ -2168,7 +2168,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5150300466",
@@ -2192,7 +2192,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1136791785",
@@ -2216,7 +2216,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5782142199",
@@ -2240,13 +2240,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1340176712",
       "market_title": "Телевизор TCL 55\" T8D QLED 144 Гц 4K HDR Google TV, Смарт ТВ, 55 дюймов",
       "brand": "TCL",
-      "model_candidate": "T8D QLED 144 Гц",
+      "model_candidate": "T8D",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-tcl-55-t8d-qled-144-gts-4k-hdr-google-tv-smart-tv-55-dyuymov",
       "market_url": "https://market.yandex.ru/card/televizor-tcl-55-t8d-qled-144-gts-4k-hdr-google-tv-smart-tv-55-dyuymov/1340176712",
@@ -2264,7 +2264,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5803078432",
@@ -2288,7 +2288,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1865218254",
@@ -2312,7 +2312,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5815811859",
@@ -2336,7 +2336,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5709175315",
@@ -2360,7 +2360,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5879932855",
@@ -2384,14 +2384,14 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5190478149",
       "market_title": "Телевизор Haier 32 LED S2",
       "brand": "Haier",
-      "model_candidate": "32 LED S2",
-      "model_candidate_confidence": "high",
+      "model_candidate": "S2",
+      "model_candidate_confidence": "medium",
       "market_slug": "televizor-haier-32-led-s2",
       "market_url": "https://market.yandex.ru/card/televizor-haier-32-led-s2/5190478149",
       "page": 14,
@@ -2408,7 +2408,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "4850022588",
@@ -2432,7 +2432,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5565322352",
@@ -2456,7 +2456,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5704774367",
@@ -2480,7 +2480,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1093227948",
@@ -2504,7 +2504,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1724895801",
@@ -2528,7 +2528,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1431279234",
@@ -2552,13 +2552,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1418435475",
       "market_title": "Телевизор XIAOMI TV S Pro Mini LED 55 2026 4K HDR10+ Dolby Atmos",
       "brand": "Xiaomi",
-      "model_candidate": "HDR10",
+      "model_candidate": "TV S Pro Mini LED 55 2026",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-xiaomi-tv-s-pro-mini-led-55-2026-4k-hdr10-dolby-atmos",
       "market_url": "https://market.yandex.ru/card/televizor-xiaomi-tv-s-pro-mini-led-55-2026-4k-hdr10-dolby-atmos/1418435475",
@@ -2576,7 +2576,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5729222271",
@@ -2600,7 +2600,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5891562672",
@@ -2624,7 +2624,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1563910346",
@@ -2648,13 +2648,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "882566140",
       "market_title": "Телевизор на кухню, в авто 12В, Смарт ТВ, DVB-T2, 17.1\"(42.5см) FULL HD",
       "brand": "XPX",
-      "model_candidate": "DVB-T2",
+      "model_candidate": "12В",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-na-kukhnyu-v-avto-12v-smart-tv-dvb-t2-171425sm-full-hd",
       "market_url": "https://market.yandex.ru/card/televizor-na-kukhnyu-v-avto-12v-smart-tv-dvb-t2-171425sm-full-hd/882566140",
@@ -2672,7 +2672,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1777919657",
@@ -2696,7 +2696,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "608255948",
@@ -2720,7 +2720,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "329279021",
@@ -2744,7 +2744,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1567112175",
@@ -2768,7 +2768,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "721451696",
@@ -2792,7 +2792,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1871650085",
@@ -2816,14 +2816,14 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1474509177",
       "market_title": "Телевизор Haier Телевизор Haier 43 LED S2 на базе Android 11, 43",
       "brand": "Haier",
-      "model_candidate": "Телевизор Haier 43 LED S2 на базе",
-      "model_candidate_confidence": "high",
+      "model_candidate": "S2",
+      "model_candidate_confidence": "medium",
       "market_slug": "televizor-haier-43-led-s2",
       "market_url": "https://market.yandex.ru/card/televizor-haier-43-led-s2/1474509177",
       "page": 15,
@@ -2840,7 +2840,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5729299185",
@@ -2864,7 +2864,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5758718287",
@@ -2888,13 +2888,13 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5851317479",
       "market_title": "Телевизор TCL 65\" Q7D RGB-Mini LED 144 Гц 4K HDR Google TV, Смарт ТВ, 65 дюймов",
       "brand": "TCL",
-      "model_candidate": "Q7D RGB-Mini LED 144 Гц",
+      "model_candidate": "Q7D",
       "model_candidate_confidence": "high",
       "market_slug": "televizor-tcl-65-q7d-rgb-mini-led-144-gts-4k-hdr-google-tv-smart-tv-65-dyuymov",
       "market_url": "https://market.yandex.ru/card/televizor-tcl-65-q7d-rgb-mini-led-144-gts-4k-hdr-google-tv-smart-tv-65-dyuymov/5851317479",
@@ -2912,7 +2912,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5673344861",
@@ -2936,7 +2936,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5810312024",
@@ -2960,7 +2960,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5829371587",
@@ -2984,7 +2984,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5145016589",
@@ -3008,7 +3008,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5857304311",
@@ -3032,7 +3032,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5059787472",
@@ -3056,7 +3056,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1739996272",
@@ -3080,7 +3080,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "663358007",
@@ -3104,7 +3104,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5810253465",
@@ -3128,7 +3128,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5718479093",
@@ -3152,7 +3152,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1334465032",
@@ -3176,7 +3176,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1963169709",
@@ -3200,7 +3200,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "6030758680",
@@ -3224,7 +3224,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5208036848",
@@ -3248,7 +3248,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5643921334",
@@ -3272,7 +3272,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1353617538",
@@ -3296,7 +3296,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "139942360",
@@ -3320,7 +3320,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5059785032",
@@ -3344,7 +3344,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5519220327",
@@ -3368,7 +3368,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "1770266281",
@@ -3392,7 +3392,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
       "market_product_id": "5810294879",
@@ -3416,7 +3416,7 @@
       "catalog_brand": null,
       "catalog_model": null,
       "match_type": null,
-      "observed_at": "2026-08-04T19:12:11.074Z"
+      "observed_at": "2026-08-04T19:21:38.566Z"
     }
   ]
 }

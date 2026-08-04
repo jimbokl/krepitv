@@ -114,6 +114,10 @@ test("catalog загружает product и hub affiliate snapshots в разн�
   const originalDateNow = Date.now;
   const core = new Map([
     ["/data/tv-models.json", []],
+    ["/data/market-tv-models.json", {
+      schema_version: 1,
+      records: Array.from({ length: 133 }, (_, index) => ({ id: `market-${index}` })),
+    }],
     ["/data/mounts.json", []],
     ["/data/model-search.json", []],
     ["/data/seo-pages.json", []],

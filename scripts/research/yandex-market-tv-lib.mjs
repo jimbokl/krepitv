@@ -77,6 +77,7 @@ export function inferModelCandidate(title, brand, slug = "") {
         && /\d/u.test(token)
         && !/^\d+[xх]\d+$/iu.test(token)
         && !/^(?:4k|8k|hd|fhd|uhd|3d)$/iu.test(token)
+        && !/^(?:hdr\d*|dvb(?:-[a-z0-9]+)*|hdmi\d*|usb\d*)$/iu.test(token)
         && !/телевизор/iu.test(token);
     })
     .sort((left, right) => normalizeComparable(right).length - normalizeComparable(left).length) ?? [];

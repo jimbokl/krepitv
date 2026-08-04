@@ -5,6 +5,7 @@ export function useCatalog() {
   const [state, setState] = useState({
     status: "loading",
     models: [],
+    marketModels: [],
     mounts: [],
     search: [],
     seoPages: [],

@@ -10,6 +10,7 @@ const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
 const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
 const CORE_PAGES_UPDATED_AT: &str = "2026-07-31";
 const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-01";
+const MARKET_MODELS_UPDATED_AT: &str = "2026-08-04";
 const DATASET_DOWNLOAD_BASE: &str =
     "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0";
 const DATASET_LICENSE_URL: &str =
@@ -107,6 +108,59 @@ struct TvModel {
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
+struct MarketTvModelsFile {
+    schema_version: u32,
+    observed_at: String,
+    source_url: String,
+    source_scope: String,
+    summary: MarketTvModelsSummary,
+    records: Vec<MarketTvModel>,
+    batch_sha256: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct MarketTvModelsSummary {
+    market_observations: usize,
+    unique_identities: usize,
+    verified_routes: usize,
+    observed_canonicals: usize,
+    indexable_observed_canonicals: usize,
+    alias_routes: usize,
+    low_confidence_routes: usize,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct MarketTvModel {
+    record_id: String,
+    id: String,
+    canonical_id: String,
+    canonical_path: String,
+    route_path: String,
+    page_kind: String,
+    indexable: bool,
+    identity_confidence: String,
+    brand: String,
+    model: String,
+    title: String,
+    market_title: String,
+    diagonal_inches: Option<f64>,
+    market_product_id: String,
+    market_url: String,
+    purchase_count: Option<u64>,
+    purchase_label: Option<String>,
+    rating_value: Option<f64>,
+    rating_count: Option<u64>,
+    observed_rank: usize,
+    observed_at: String,
+    checked_at: String,
+    verified_model_id: Option<String>,
+    source_label: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 struct WallMountScrews {
     groups: Vec<WallMountScrewGroup>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -153,11 +207,11 @@ struct VesaSourceConflict {
 }
 
 #[derive(Debug, Serialize)]
-struct SearchItem<'a> {
-    id: &'a str,
-    title: &'a str,
-    brand: &'a str,
-    model: &'a str,
+struct SearchItem {
+    id: String,
+    title: String,
+    brand: String,
+    model: String,
     href: String,
     search: String,
 }
@@ -1113,7 +1167,7 @@ fn matcher_page_body(models: &[TvModel]) -> String {
     ))
 }
 
-fn models_catalog_body(models: &[TvModel]) -> String {
+fn models_catalog_body(models: &[TvModel], market_models: &[MarketTvModel]) -> String {
     let items = models
         .iter()
         .map(|tv| {
@@ -1134,8 +1188,38 @@ fn models_catalog_body(models: &[TvModel]) -> String {
         })
         .collect::<Vec<_>>();
     let items = brand_catalog_html(items, "Моделей", "div", "border-b border-line");
+    let observed_items = market_models
+        .iter()
+        .filter(|model| model.page_kind == "observed")
+        .map(|model| {
+            let diagonal = model
+                .diagonal_inches
+                .map(|value| format!(" · {}″", value))
+                .unwrap_or_default();
+            let status = if model.indexable {
+                "Модель идентифицирована · VESA и масса проверяются"
+            } else {
+                "Нужно сверить точный код на шильдике"
+            };
+            (
+                model.brand.clone(),
+                format!(
+                    "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"{route}\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{status}{diagonal} · замечена на Маркете {checked_at}</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
+                    route = escape_html(&model.route_path),
+                    title = escape_html(&model.title),
+                    status = status,
+                    diagonal = diagonal,
+                    checked_at = escape_html(&model.checked_at),
+                ),
+            )
+        })
+        .collect::<Vec<_>>();
+    let observed_count = observed_items.len();
+    let observed_items =
+        brand_catalog_html(observed_items, "Моделей", "div", "border-b border-line");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная база</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Точные модели с подтверждёнными VESA, массой без подставки и источником. На каждой странице показаны кронштейны, прошедшие единый Rust-расчёт.</p><nav class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2\" aria-label=\"Инструменты перед выбором модели\"><a class=\"bg-paper p-5\" href=\"/razmery-televizora-po-diagonali/\"><span class=\"font-mono text-xs uppercase text-action\">Размер до покупки</span><strong class=\"mt-1 block font-display text-2xl\">Ширина и высота по диагонали</strong><span class=\"mt-2 block text-sm leading-relaxed text-muted\">Таблица 16:9, обратный замер и проверка ниши.</span></a><a class=\"bg-paper p-5\" href=\"/vinty-dlya-krepleniya-televizora/\"><span class=\"font-mono text-xs uppercase text-action\">Технический справочник</span><strong class=\"mt-1 block font-display text-2xl\">Винты VESA по точной модели</strong><span class=\"mt-2 block text-sm leading-relaxed text-muted\">Резьба, длина, вставки и официальное руководство.</span></a></nav><nav class=\"mt-9\" aria-label=\"Модели телевизоров\">{items}</nav></article>"
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Два уровня проверки</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Модели телевизоров</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала идут точные паспорта с подтверждёнными VESA и массой. Ниже — модели из актуального снимка Маркета: для них уже собрана точная идентичность и план проверки, но совместимость не показывается до подтверждения характеристик.</p><nav class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2\" aria-label=\"Инструменты перед выбором модели\"><a class=\"bg-paper p-5\" href=\"/razmery-televizora-po-diagonali/\"><span class=\"font-mono text-xs uppercase text-action\">Размер до покупки</span><strong class=\"mt-1 block font-display text-2xl\">Ширина и высота по диагонали</strong><span class=\"mt-2 block text-sm leading-relaxed text-muted\">Таблица 16:9, обратный замер и проверка ниши.</span></a><a class=\"bg-paper p-5\" href=\"/vinty-dlya-krepleniya-televizora/\"><span class=\"font-mono text-xs uppercase text-action\">Технический справочник</span><strong class=\"mt-1 block font-display text-2xl\">Винты VESA по точной модели</strong><span class=\"mt-2 block text-sm leading-relaxed text-muted\">Резьба, длина, вставки и официальное руководство.</span></a></nav><section class=\"mt-10\"><p class=\"font-mono text-xs uppercase text-verified\">Проверено по источникам · {verified_count}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Паспорта с VESA и массой</h2><nav class=\"mt-5\" aria-label=\"Проверенные модели телевизоров\">{items}</nav></section><section class=\"mt-12 border-t-2 border-ink pt-8\" data-market-model-catalog=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Найдены в выдаче Маркета · {observed_count}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Модели до паспортной проверки</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Страница каждой модели рассчитывает размер активной области и даёт законченный план сверки VESA. Числа VESA, масса и подходящие кронштейны не угадываются.</p><nav class=\"mt-5\" aria-label=\"Наблюдаемые модели телевизоров\">{observed_items}</nav></section></article>",
+        verified_count = models.len(),
     ))
 }
 
@@ -1427,6 +1511,90 @@ fn model_page_body(
         context_section = context_section,
         commercial_section = commercial_section,
         compatibility_lead = escape_html(compatibility_lead),
+    ))
+}
+
+fn russian_integer(value: u64) -> String {
+    let digits = value.to_string();
+    let mut output = String::new();
+    for (index, character) in digits.chars().enumerate() {
+        if index > 0 && (digits.len() - index) % 3 == 0 {
+            output.push(' ');
+        }
+        output.push(character);
+    }
+    output
+}
+
+fn observed_screen_geometry(model: &MarketTvModel) -> String {
+    let Some(diagonal) = model.diagonal_inches else {
+        return "<section class=\"border-y-2 border-ink py-7\" data-observed-screen-geometry=\"unknown\"><p class=\"font-mono text-xs uppercase text-action\">Диагональ требует сверки</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Измерьте активную область экрана</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">В карточке недостаточно точных данных для расчёта. Измерьте диагональ только видимой области от угла до противоположного угла, не включая рамку.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/razmery-televizora-po-diagonali/\">Открыть калькулятор размеров →</a></section>".to_string();
+    };
+    let denominator = 337_f64.sqrt();
+    let width_cm = diagonal * 16.0 / denominator * 2.54;
+    let height_cm = diagonal * 9.0 / denominator * 2.54;
+    let diagonal_cm = diagonal * 2.54;
+    let number = |value: f64| format!("{value:.1}").replace('.', ",");
+    format!(
+        "<section class=\"border-y-2 border-ink py-7\" data-observed-screen-geometry=\"calculated\"><p class=\"font-mono text-xs uppercase text-action\">Первый полезный результат</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Размер активного экрана {diagonal}″ при пропорции 16:9</h2><dl class=\"mt-5 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal_cm} см</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Ширина экрана</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{width_cm} см</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Высота экрана</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{height_cm} см</dd></div></dl><p class=\"mt-4 max-w-3xl text-sm leading-relaxed text-muted\">Это расчёт активной области 16:9, а не паспортный размер корпуса. Рамка, нижний блок и толщина конкретной модели в него не входят.</p><a class=\"mt-4 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/razmery-televizora-po-diagonali/\">Проверить нишу или ввести точные размеры →</a></section>",
+        diagonal = diagonal,
+        diagonal_cm = number(diagonal_cm),
+        width_cm = number(width_cm),
+        height_cm = number(height_cm),
+    )
+}
+
+fn observed_model_page_body(model: &MarketTvModel) -> String {
+    let geometry = observed_screen_geometry(model);
+    let diagonal = model
+        .diagonal_inches
+        .map(|value| format!("{}″", value))
+        .unwrap_or_else(|| "Нужно сверить".to_string());
+    let purchase_signal = model.purchase_count.map_or_else(
+        || "Публичный счётчик покупок не показан в сохранённой выдаче.".to_string(),
+        |count| {
+            format!(
+                "В сохранённой выдаче рядом с карточкой отображалось «{} купили». Это интерфейсный сигнал Маркета, а не подтверждённая статистика продаж конкретной модификации.",
+                russian_integer(count)
+            )
+        },
+    );
+    let rating_signal = match (model.rating_value, model.rating_count) {
+        (Some(value), Some(count)) => format!(
+            "Рейтинг в снимке: {} из 5 · оценок: {}.",
+            format!("{value:.1}").replace('.', ","),
+            russian_integer(count)
+        ),
+        _ => "Рейтинг в сохранённой выдаче не указан.".to_string(),
+    };
+    let alias_notice = if model.page_kind == "alias" {
+        format!(
+            "<aside class=\"mt-6 border-2 border-action bg-white p-5\" data-market-model-alias=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Повтор карточки одной модели</p><p class=\"mt-2 max-w-3xl leading-relaxed text-muted\">Маркет показал эту же модель в нескольких товарных карточках. Для поиска используется одна основная страница без конкурирующих дублей.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"{}\">Открыть основную страницу модели →</a></aside>",
+            escape_html(&model.canonical_path),
+        )
+    } else {
+        String::new()
+    };
+    let identity_status = if model.identity_confidence == "low" {
+        "Точный заводской код не подтверждён: перед поиском кронштейна перепишите модель с шильдика на задней панели."
+    } else {
+        "Модель идентифицирована по карточке Маркета. Технические параметры настенного монтажа пока не подтверждены официальным руководством."
+    };
+
+    static_layout(&format!(
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-market-model-page=\"true\"><nav class=\"flex flex-wrap items-center gap-2 font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a href=\"/\">Главная</a><span aria-hidden=\"true\">/</span><a href=\"/modeli/\">Телевизоры</a><span aria-hidden=\"true\">/</span><span>{model}</span></nav><header class=\"mt-6 border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Модель найдена на Маркете · паспорт проверяется</p><h1 class=\"mt-3 break-words font-display text-[clamp(2.8rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]\">Кронштейн для {title}</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">{identity_status}</p><p class=\"mt-4 border-l-2 border-action pl-4 font-semibold\">Без подтверждённых VESA и массы KREPI TV не показывает «подходящие» кронштейны и не подменяет проверку догадкой.</p></header>{alias_notice}<dl class=\"grid gap-px border-b-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4\"><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Бренд</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{brand}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Модель</dt><dd class=\"mt-1 break-words font-display text-2xl font-extrabold\">{model}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{diagonal}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Проверено в выдаче</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{checked_at}</dd></div></dl>{geometry}<section class=\"py-8\"><p class=\"font-mono text-xs uppercase text-action\">Три проверки до покупки</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Как подобрать кронштейн без ошибки</h2><ol class=\"mt-6 grid gap-px border border-ink bg-ink md:grid-cols-3\"><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">01 · Модель</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Сверьте шильдик</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Сравните полный код на задней панели с «{model}». Суффикс и диагональ могут менять корпус, массу и VESA.</p></li><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">02 · VESA</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Измерьте отверстия</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Снимите подставку только по инструкции. Измерьте горизонталь × вертикаль между центрами четырёх резьбовых отверстий.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/kak-uznat-vesa-televizora/\">Инструкция по VESA →</a></li><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">03 · Масса</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Найдите вес без ножек</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Берите массу без подставки из руководства и закладывайте минимум 25% запаса. Стеновой крепёж проверяется отдельно.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Границы проверки →</a></li></ol></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что зафиксировано в источнике</h2><p class=\"mt-4 max-w-4xl leading-relaxed\"><strong>Название карточки:</strong> {market_title}</p><p class=\"mt-3 max-w-4xl text-sm leading-relaxed text-muted\">{purchase_signal} {rating_signal}</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" data-market-source=\"identity\" href=\"{market_url}\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Открыть исходную карточку Яндекс Маркета →</a><p class=\"mt-3 text-xs leading-relaxed text-muted\">Источник используется для идентификации и сигнала наличия на дату {checked_at}. Цена не сохраняется; доступность и характеристики могли измениться.</p></section><nav class=\"grid gap-px border-y border-ink bg-ink sm:grid-cols-2\" aria-label=\"Следующие проверки\"><a class=\"bg-paper p-5\" href=\"/vesa/\"><span class=\"font-mono text-xs uppercase text-action\">После измерения</span><strong class=\"mt-1 block font-display text-2xl\">Справочник VESA</strong><span class=\"mt-2 block text-sm text-muted\">Сравнить пару отверстий с проверенными моделями.</span></a><a class=\"bg-paper p-5\" href=\"/na-kakoy-vysote-veshat-televizor/\"><span class=\"font-mono text-xs uppercase text-action\">План стены</span><strong class=\"mt-1 block font-display text-2xl\">Высота установки</strong><span class=\"mt-2 block text-sm text-muted\">Рассчитать центр и края экрана по комнате.</span></a></nav></article>",
+        title = escape_html(&model.title),
+        brand = escape_html(&model.brand),
+        model = escape_html(&model.model),
+        diagonal = escape_html(&diagonal),
+        checked_at = escape_html(&model.checked_at),
+        identity_status = escape_html(identity_status),
+        alias_notice = alias_notice,
+        geometry = geometry,
+        market_title = escape_html(&model.market_title),
+        purchase_signal = escape_html(&purchase_signal),
+        rating_signal = escape_html(&rating_signal),
+        market_url = escape_html(&model.market_url),
     ))
 }
 
@@ -2987,6 +3155,174 @@ fn validate_models(models: &[TvModel]) {
     }
 }
 
+fn validate_market_models(manifest: &MarketTvModelsFile, models: &[TvModel]) {
+    assert_eq!(
+        manifest.schema_version, 1,
+        "Неподдерживаемая версия реестра моделей Маркета"
+    );
+    assert_eq!(
+        manifest.records.len(),
+        133,
+        "Реестр Маркета должен сохранять все 133 наблюдения"
+    );
+    assert!(
+        manifest.source_url.starts_with("https://market.yandex.ru/")
+            && !manifest.source_scope.trim().is_empty()
+            && parse_rfc3339_utc_seconds(&manifest.observed_at).is_some()
+            && manifest.batch_sha256.len() == 64
+            && manifest
+                .batch_sha256
+                .chars()
+                .all(|character| character.is_ascii_hexdigit()),
+        "Некорректные метаданные реестра моделей Маркета"
+    );
+
+    let verified_model_ids = models
+        .iter()
+        .map(|model| model.id.as_str())
+        .collect::<HashSet<_>>();
+    let mut route_paths = HashSet::new();
+    let mut record_ids = HashSet::new();
+    let mut canonical_ids = HashSet::new();
+    let mut verified_routes = 0usize;
+    let mut observed_canonicals = 0usize;
+    let mut indexable_observed_canonicals = 0usize;
+    let mut alias_routes = 0usize;
+    let mut low_confidence_routes = 0usize;
+
+    for record in &manifest.records {
+        assert!(
+            record_ids.insert(record.record_id.as_str()),
+            "Повторяется карточка Маркета {}",
+            record.record_id
+        );
+        assert!(
+            route_paths.insert(record.route_path.as_str()),
+            "Повторяется маршрут Маркета {}",
+            record.route_path
+        );
+        canonical_ids.insert(record.canonical_id.as_str());
+
+        let route_id = record
+            .route_path
+            .strip_prefix("/modeli/")
+            .and_then(|value| value.strip_suffix('/'))
+            .filter(|value| {
+                !value.is_empty()
+                    && value.chars().all(|character| {
+                        character.is_ascii_lowercase()
+                            || character.is_ascii_digit()
+                            || character == '-'
+                    })
+            });
+        let canonical_id = record
+            .canonical_path
+            .strip_prefix("/modeli/")
+            .and_then(|value| value.strip_suffix('/'));
+        assert_eq!(
+            route_id,
+            Some(record.id.as_str()),
+            "Некорректный маршрут {}",
+            record.route_path
+        );
+        assert_eq!(
+            canonical_id,
+            Some(record.canonical_id.as_str()),
+            "Некорректный canonical {}",
+            record.canonical_path
+        );
+        assert!(
+            !record.brand.trim().is_empty()
+                && !record.model.trim().is_empty()
+                && !record.title.trim().is_empty()
+                && !record.market_title.trim().is_empty()
+                && record
+                    .market_product_id
+                    .chars()
+                    .all(|character| character.is_ascii_digit())
+                && is_valid_iso_date(&record.checked_at)
+                && record.source_label == "Карточка телевизора в выдаче Яндекс Маркета"
+                && record
+                    .market_url
+                    .starts_with("https://market.yandex.ru/card/")
+                && !record.market_url.contains(['?', '#', '@'])
+                && record.observed_rank > 0,
+            "Некорректные данные карточки Маркета {}",
+            record.record_id
+        );
+        if let Some(diagonal) = record.diagonal_inches {
+            assert!(
+                (10.0..=150.0).contains(&diagonal),
+                "Некорректная диагональ у {}",
+                record.record_id
+            );
+        }
+        if record.identity_confidence == "low" {
+            low_confidence_routes += 1;
+            assert!(
+                !record.indexable,
+                "Модель с низкой уверенностью не должна индексироваться: {}",
+                record.record_id
+            );
+        }
+
+        match record.page_kind.as_str() {
+            "verified" => {
+                verified_routes += 1;
+                assert!(
+                    !record.indexable
+                        && record.route_path == record.canonical_path
+                        && record.verified_model_id.as_deref() == Some(record.id.as_str())
+                        && verified_model_ids.contains(record.id.as_str()),
+                    "Карточка {} неверно привязана к проверенной модели",
+                    record.record_id
+                );
+            }
+            "observed" => {
+                observed_canonicals += 1;
+                if record.indexable {
+                    indexable_observed_canonicals += 1;
+                }
+                assert!(
+                    record.route_path == record.canonical_path
+                        && record.verified_model_id.is_none()
+                        && matches!(
+                            record.identity_confidence.as_str(),
+                            "high" | "medium" | "low"
+                        ),
+                    "Некорректная наблюдаемая модель {}",
+                    record.record_id
+                );
+            }
+            "alias" => {
+                alias_routes += 1;
+                assert!(
+                    !record.indexable
+                        && record.route_path != record.canonical_path
+                        && record.verified_model_id.is_none(),
+                    "Некорректный алиас {}",
+                    record.record_id
+                );
+            }
+            page_kind => panic!("Неизвестный тип модельной страницы {page_kind}"),
+        }
+    }
+
+    assert_eq!(manifest.summary.market_observations, manifest.records.len());
+    assert_eq!(manifest.summary.unique_identities, canonical_ids.len());
+    assert_eq!(manifest.summary.verified_routes, verified_routes);
+    assert_eq!(manifest.summary.observed_canonicals, observed_canonicals);
+    assert_eq!(
+        manifest.summary.indexable_observed_canonicals,
+        indexable_observed_canonicals
+    );
+    assert_eq!(manifest.summary.alias_routes, alias_routes);
+    assert_eq!(
+        manifest.summary.low_confidence_routes,
+        low_confidence_routes
+    );
+}
+
 fn validate_mounts(mounts: &[Mount]) {
     let mut ids = HashSet::new();
     for mount in mounts {
@@ -3413,10 +3749,16 @@ fn main() {
     let root = workspace_root();
     let data = root.join("data");
     let web = root.join("web");
+    let generated_model_pages = web.join("modeli");
+    if generated_model_pages.exists() {
+        fs::remove_dir_all(&generated_model_pages)
+            .expect("Не удалось удалить устаревшие сгенерированные страницы моделей");
+    }
     let public_data = web.join("public/data");
     fs::create_dir_all(&public_data).expect("Не удалось создать каталог публичных данных");
 
     let models: Vec<TvModel> = read_json(&data.join("tv_models.json"));
+    let market_models: MarketTvModelsFile = read_json(&data.join("market_tv_models.json"));
     let mounts: Vec<Mount> = read_json(&data.join("mounts.json"));
     let seo_pages: Vec<SeoPage> = read_json(&data.join("seo_pages.json"));
     let trust_pages: Vec<TrustPage> = read_json(&data.join("trust_pages.json"));
@@ -3435,6 +3777,7 @@ fn main() {
     let affiliate_now_seconds = unix_now_seconds();
     let compatibility_graph = build_compatibility_graph(&models, &mounts);
     validate_models(&models);
+    validate_market_models(&market_models, &models);
     validate_mounts(&mounts);
     validate_seo_pages(&seo_pages);
     validate_trust_pages(&trust_pages);
@@ -3445,6 +3788,11 @@ fn main() {
         public_data.join("tv-models.json"),
     )
     .expect("Не удалось скопировать модели телевизоров");
+    fs::copy(
+        data.join("market_tv_models.json"),
+        public_data.join("market-tv-models.json"),
+    )
+    .expect("Не удалось скопировать наблюдаемые модели Маркета");
     fs::copy(data.join("mounts.json"), public_data.join("mounts.json"))
         .expect("Не удалось скопировать кронштейны");
     fs::copy(
@@ -3488,17 +3836,35 @@ fn main() {
     )
     .expect("Не удалось скопировать публичный снимок размещений модельных страниц");
 
-    let search = models
+    let mut search = models
         .iter()
         .map(|tv| SearchItem {
-            id: &tv.id,
-            title: &tv.title,
-            brand: &tv.brand,
-            model: &tv.model,
+            id: tv.id.clone(),
+            title: tv.title.clone(),
+            brand: tv.brand.clone(),
+            model: tv.model.clone(),
             href: format!("/modeli/{}/", tv.id),
             search: format!("{} {} {}", tv.brand, tv.model, tv.title).to_lowercase(),
         })
         .collect::<Vec<_>>();
+    search.extend(
+        market_models
+            .records
+            .iter()
+            .filter(|model| model.page_kind == "observed")
+            .map(|model| SearchItem {
+                id: model.id.clone(),
+                title: model.title.clone(),
+                brand: model.brand.clone(),
+                model: model.model.clone(),
+                href: model.route_path.clone(),
+                search: format!(
+                    "{} {} {} {}",
+                    model.brand, model.model, model.title, model.market_title
+                )
+                .to_lowercase(),
+            }),
+    );
     write(
         &public_data.join("model-search.json"),
         &serde_json::to_string_pretty(&search).expect("Индекс поиска сериализуется"),
@@ -3545,11 +3911,11 @@ fn main() {
         &web.join("modeli/index.html"),
         &html_shell(
             "Модели телевизоров и совместимые кронштейны — KREPI TV",
-            "Проверенные модели телевизоров с точными VESA, массой без подставки и двусторонним списком совместимых кронштейнов.",
+            "Модели телевизоров из проверенной базы и актуальной выдачи Маркета: точные паспорта там, где подтверждены VESA и масса, и безопасная ручная проверка для остальных.",
             "https://krepitv.ru/modeli/",
             "models-catalog",
             None,
-            Some(&models_catalog_body(&models)),
+            Some(&models_catalog_body(&models, &market_models.records)),
             HeadExtras {
                 robots: None,
                 json_ld: &breadcrumb_json_ld(&[
@@ -3630,6 +3996,57 @@ fn main() {
                 Some(&static_body),
                 HeadExtras {
                     robots: if is_indexable_model(&tv.id, &compatibility_graph) {
+                        None
+                    } else {
+                        Some("noindex,follow")
+                    },
+                    json_ld: &structured_data,
+                },
+            ),
+        );
+    }
+
+    for model in market_models
+        .records
+        .iter()
+        .filter(|model| model.page_kind != "verified")
+    {
+        let canonical = format!("https://krepitv.ru{}", model.canonical_path);
+        let title = if model.page_kind == "alias" {
+            format!(
+                "{}: карточка из выдачи №{} — KREPI TV",
+                model.title, model.observed_rank
+            )
+        } else {
+            format!(
+                "Кронштейн для {}: как проверить VESA и вес — KREPI TV",
+                model.title
+            )
+        };
+        let description = format!(
+            "Как безопасно подобрать кронштейн для {}: сверка точной модели, VESA, массы без подставки и размеров экрана. Без выдуманных характеристик.",
+            model.title
+        );
+        let structured_data = breadcrumb_json_ld(&[
+            ("Главная", "https://krepitv.ru/"),
+            ("Модели телевизоров", "https://krepitv.ru/modeli/"),
+            (&model.title, &canonical),
+        ]);
+        let route_id = model
+            .route_path
+            .trim_start_matches("/modeli/")
+            .trim_end_matches('/');
+        write(
+            &web.join(format!("modeli/{route_id}/index.html")),
+            &html_shell(
+                &title,
+                &description,
+                &canonical,
+                "market-model",
+                Some(&model.id),
+                Some(&observed_model_page_body(model)),
+                HeadExtras {
+                    robots: if model.indexable {
                         None
                     } else {
                         Some("noindex,follow")
@@ -3771,6 +4188,14 @@ fn main() {
         is_valid_iso_date(CORE_PAGES_UPDATED_AT),
         "Некорректная дата обновления основных страниц"
     );
+    assert!(
+        is_valid_iso_date(MARKET_MODELS_UPDATED_AT)
+            && market_models
+                .records
+                .iter()
+                .all(|model| model.checked_at.as_str() <= MARKET_MODELS_UPDATED_AT),
+        "Дата каталога Маркета старше зависимых карточек"
+    );
     for dependent_date in models
         .iter()
         .map(|model| model.checked_at.as_str())
@@ -3799,7 +4224,7 @@ fn main() {
         ),
         (
             "https://krepitv.ru/modeli/".to_string(),
-            CORE_PAGES_UPDATED_AT.to_string(),
+            MARKET_MODELS_UPDATED_AT.to_string(),
         ),
         (
             "https://krepitv.ru/kronshteyny/".to_string(),
@@ -3822,6 +4247,18 @@ fn main() {
                 (
                     format!("https://krepitv.ru/modeli/{}/", tv.id),
                     lastmod.to_string(),
+                )
+            }),
+    );
+    urls.extend(
+        market_models
+            .records
+            .iter()
+            .filter(|model| model.page_kind == "observed" && model.indexable)
+            .map(|model| {
+                (
+                    format!("https://krepitv.ru{}", model.route_path),
+                    model.checked_at.clone(),
                 )
             }),
     );
@@ -3892,19 +4329,19 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        CommercialProfilesFile, HeadExtras, PublicAffiliateSnapshot, SeoPage,
+        CommercialProfilesFile, HeadExtras, MarketTvModelsFile, PublicAffiliateSnapshot, SeoPage,
         TRAFFIC_PAGES_UPDATED_AT, TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage, TvModel,
         affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
         commercial_profile_for, dataset_json_ld, escape_html, home_page_body, html_shell,
         is_indexable_model, is_indexable_mount, is_indexable_seo_page,
         is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, model_mount_matches,
         model_page_body, mount_page_body, mount_technical_scheme_html, mounts_catalog_body,
-        not_found_page_html, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
-        seo_brand_mount_matcher_html, seo_buy_mount_comparison_html, seo_calculator_note,
-        seo_catalog_html, seo_page_body, seo_page_lastmod, seo_screw_catalog_html,
-        seo_vesa_model_catalog_html, static_footer, static_header, trust_page_body,
-        tv_product_json_ld, validate_commercial_profiles, validate_seo_pages, validate_trust_pages,
-        wall_mount_screws_html, workspace_root,
+        not_found_page_html, observed_model_page_body, parse_rfc3339_utc_seconds, read_json,
+        related_seo_pages, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
+        seo_calculator_note, seo_catalog_html, seo_page_body, seo_page_lastmod,
+        seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer, static_header,
+        trust_page_body, tv_product_json_ld, validate_commercial_profiles, validate_market_models,
+        validate_seo_pages, validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -3915,6 +4352,28 @@ mod tests {
             escape_html("<ТВ & \"стена\">"),
             "&lt;ТВ &amp; &quot;стена&quot;&gt;"
         );
+    }
+
+    #[test]
+    fn every_market_observation_resolves_without_invented_mount_facts() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let manifest: MarketTvModelsFile = read_json(&root.join("data/market_tv_models.json"));
+        validate_market_models(&manifest, &models);
+
+        assert_eq!(manifest.records.len(), 133);
+        for model in manifest
+            .records
+            .iter()
+            .filter(|model| model.page_kind != "verified")
+        {
+            let body = observed_model_page_body(model);
+            assert!(body.contains("data-market-model-page=\"true\""));
+            assert!(body.contains("Как подобрать кронштейн без ошибки"));
+            assert!(body.contains(&escape_html(&model.market_url)));
+            assert!(!body.contains("data-affiliate-offer-id="));
+            assert!(!body.contains("Product\""));
+        }
     }
 
     #[test]

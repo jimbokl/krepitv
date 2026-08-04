@@ -16,6 +16,7 @@ const width = Number(argument("--width", "1440"));
 const height = Number(argument("--height", "1100"));
 const selector = argument("--selector", null);
 const modelQuery = argument("--model-query", null);
+const observedModelState = argument("--observed-model-state", null);
 const phoneTvState = argument("--phone-tv-state", null);
 const tvNoSignalState = argument("--tv-no-signal-state", null);
 const tvTrafficState = argument("--tv-traffic-state", null);
@@ -31,6 +32,17 @@ if (!Number.isInteger(width) || width < 320 || width > 3840) throw new Error("In
 if (!Number.isInteger(height) || height < 480 || height > 5000) throw new Error("Invalid viewport height");
 if (!["denied", "granted", "prompt"].includes(consent)) throw new Error("Invalid consent mode");
 if (![100, 200].includes(textZoom)) throw new Error("Invalid text zoom; use 100 or 200");
+if (observedModelState && ![
+  "default",
+  "loading",
+  "empty",
+  "error",
+  "success",
+  "disabled",
+  "focus",
+].includes(observedModelState)) {
+  throw new Error("Invalid observed model page state");
+}
 if (phoneTvState && ![
   "empty",
   "default",
@@ -804,6 +816,54 @@ try {
     }
     modelInteractionReport = interaction.result.value;
   }
+  let observedModelReport = null;
+  if (observedModelState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(() => {
+        const state = ${JSON.stringify(observedModelState)};
+        const page = document.querySelector('[data-market-model-page="true"]');
+        if (!page) return Promise.reject(new Error("Observed model page not found"));
+        const input = page.querySelector('input[aria-label="Модель телевизора"]');
+        if (["empty", "disabled", "focus", "success"].includes(state) && !input) {
+          return Promise.reject(new Error("Observed model search not hydrated"));
+        }
+        if (["empty", "disabled"].includes(state)) {
+          const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+          if (!setter) return Promise.reject(new Error("Native input setter not found"));
+          setter.call(input, "");
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+        if (state === "focus") input.focus();
+        return new Promise((resolve) => setTimeout(() => {
+          const button = page.querySelector('form button[type="submit"]');
+          resolve({
+            state,
+            hydratedSearch: Boolean(input),
+            buttonDisabled: button?.disabled ?? null,
+            focused: document.activeElement === input,
+            marketSourceLinks: page.querySelectorAll('a[data-market-source="identity"]').length,
+            affiliateLinks: page.querySelectorAll('[data-affiliate-offer-id]').length,
+          });
+        }, 150));
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error("Observed model page interaction failed");
+    }
+    observedModelReport = interaction.result.value;
+    if (observedModelReport.affiliateLinks !== 0 || observedModelReport.marketSourceLinks !== 1) {
+      throw new Error("Observed model page has an invalid Market link boundary");
+    }
+    if (["empty", "disabled"].includes(observedModelState) && !observedModelReport.buttonDisabled) {
+      throw new Error("Observed model empty state must keep submit disabled");
+    }
+    if (observedModelState === "focus" && !observedModelReport.focused) {
+      throw new Error("Observed model focus state is not visible on the search input");
+    }
+  }
   const effectiveSelector = selector
     || (["success", "needs-check", "no-direct-path", "retry"].includes(phoneTvState)
       ? "[data-phone-tv-result]"
@@ -961,6 +1021,7 @@ try {
   }));
   process.stdout.write(`${output}\n${JSON.stringify(dimensions.result.value)}\n`);
   if (modelInteractionReport) process.stdout.write(`${JSON.stringify(modelInteractionReport)}\n`);
+  if (observedModelReport) process.stdout.write(`${JSON.stringify(observedModelReport)}\n`);
   if (phoneTvReport) process.stdout.write(`${JSON.stringify(phoneTvReport)}\n`);
   if (tvNoSignalReport) process.stdout.write(`${JSON.stringify(tvNoSignalReport)}\n`);
   if (tvTrafficReport) process.stdout.write(`${JSON.stringify(tvTrafficReport)}\n`);

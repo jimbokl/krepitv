@@ -117,6 +117,10 @@ test("catalog loader прокидывает проверенные профил�
   const originalFetch = globalThis.fetch;
   const responses = new Map([
     ["/data/tv-models.json", []],
+    ["/data/market-tv-models.json", {
+      schema_version: 1,
+      records: Array.from({ length: 133 }, (_, index) => ({ id: `market-${index}` })),
+    }],
     ["/data/mounts.json", []],
     ["/data/model-search.json", []],
     ["/data/seo-pages.json", []],

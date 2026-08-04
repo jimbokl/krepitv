@@ -14,20 +14,23 @@ const mountBrandHubs = [
 export function CatalogIndexPage({ catalog, kind }) {
   const models = kind === "models";
   const items = models ? catalog.models : catalog.mounts;
+  const observedModels = models
+    ? catalog.marketModels.filter((item) => item.page_kind === "observed")
+    : [];
 
   return (
     <main className="min-h-screen bg-paper text-ink">
       <SiteHeader active={models ? "/modeli/" : "/kronshteyny/"} />
       <article className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8">
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
-          Проверенная база
+          {models ? "Два уровня проверки" : "Проверенная база"}
         </p>
         <h1 className="mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]">
           {models ? "Модели телевизоров" : "Кронштейны для телевизоров"}
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted">
           {models
-            ? "Точные модели с подтверждёнными VESA, массой без подставки и двусторонним списком кронштейнов."
+            ? "Сначала идут точные паспорта с подтверждёнными VESA и массой. Ниже — модели из актуального снимка Маркета: для них уже собрана точная идентичность и план проверки, но совместимость не показывается до подтверждения характеристик."
             : "Точные изделия с явными VESA, нагрузкой, механизмом и списком подходящих популярных телевизоров."}
         </p>
 
@@ -63,7 +66,14 @@ export function CatalogIndexPage({ catalog, kind }) {
           </aside>
         ) : null}
 
-        <nav className="mt-9" aria-label={models ? "Модели телевизоров" : "Кронштейны"}>
+        <section className="mt-9">
+          {models ? (
+            <>
+              <p className="font-mono text-xs uppercase text-verified">Проверено по источникам · {items.length}</p>
+              <h2 className="mt-2 font-display text-3xl font-extrabold">Паспорта с VESA и массой</h2>
+            </>
+          ) : null}
+        <nav className={models ? "mt-5" : ""} aria-label={models ? "Проверенные модели телевизоров" : "Кронштейны"}>
           <CatalogBrandGroups
             countLabel={models ? "Моделей" : "Кронштейнов"}
             items={items}
@@ -94,6 +104,42 @@ export function CatalogIndexPage({ catalog, kind }) {
             )}
           />
         </nav>
+        </section>
+
+        {models ? (
+          <section className="mt-12 border-t-2 border-ink pt-8" data-market-model-catalog="true">
+            <p className="font-mono text-xs uppercase text-action">Найдены в выдаче Маркета · {observedModels.length}</p>
+            <h2 className="mt-2 font-display text-3xl font-extrabold">Модели до паспортной проверки</h2>
+            <p className="mt-3 max-w-3xl leading-relaxed text-muted">
+              Страница каждой модели рассчитывает размер активной области и даёт законченный план сверки VESA. Числа VESA, масса и подходящие кронштейны не угадываются.
+            </p>
+            <nav className="mt-5" aria-label="Наблюдаемые модели телевизоров">
+              <CatalogBrandGroups
+                countLabel="Моделей"
+                items={observedModels}
+                listClassName="border-b border-line"
+                renderItem={(item) => (
+                  <a
+                    className="group grid gap-4 border-t border-line py-5 sm:grid-cols-[3rem_minmax(0,1fr)_auto] sm:items-center"
+                    href={item.route_path}
+                    key={item.id}
+                  >
+                    <TelevisionSimple aria-hidden="true" className="size-9 text-action" />
+                    <span>
+                      <strong className="font-display text-2xl font-extrabold">{item.title}</strong>
+                      <span className="mt-1 block text-sm leading-relaxed text-muted">
+                        {item.diagonal_inches ? `${formatNumber(item.diagonal_inches)}″ · ` : ""}VESA и масса проверяются
+                      </span>
+                    </span>
+                    <span className="inline-flex items-center gap-2 font-semibold text-action group-hover:underline">
+                      Проверить <ArrowRight aria-hidden="true" />
+                    </span>
+                  </a>
+                )}
+              />
+            </nav>
+          </section>
+        ) : null}
       </article>
     </main>
   );

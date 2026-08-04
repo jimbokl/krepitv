@@ -63,6 +63,14 @@ test("model inference handles diagonal before the brand", () => {
     value: "D1",
     confidence: "medium",
   });
+  assert.deepEqual(inferModelCandidate("Телевизор Haier 50 LED H1, 4K UHD, HDR10, Android TV", "Haier"), {
+    value: "H1",
+    confidence: "medium",
+  });
+  assert.deepEqual(inferModelCandidate("Телевизор XIAOMI TV S Pro Mini LED 55 2026 4K HDR10+ Dolby Atmos", "Xiaomi"), {
+    value: "TV S Pro Mini LED 55 2026",
+    confidence: "high",
+  });
 });
 
 test("deduplication keeps the best observed rank", () => {

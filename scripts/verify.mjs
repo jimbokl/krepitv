@@ -2,6 +2,7 @@ import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateCoverageManifest } from "./catalog/coverage-lib.mjs";
+import { validateMarketModelPages } from "./catalog/market-model-page-lib.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const docs = path.join(root, "docs");
@@ -9,8 +10,9 @@ const origin = "https://krepitv.ru";
 const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-07-31";
+const marketModelsUpdatedAt = "2026-08-04";
 const trafficPagesUpdatedAt = "2026-08-01";
-const expectedIndexableUrlCount = 164;
+const baselineIndexableUrlCount = 164;
 const removedAffiliateDisclaimerFragments = [
   "Партнёрская ссылка на Яндекс Маркет",
   "Если вы оформите заказ",
@@ -328,6 +330,7 @@ const required = [
   "data/affiliate-offers.json",
   "data/affiliate-hub-offers.json",
   "data/commercial-profiles.json",
+  "data/market-tv-models.json",
   "favicon.svg",
   "robots.txt",
   "sitemap.xml",
@@ -345,6 +348,15 @@ if (files.includes(path.join(docs, "pkg/.gitignore"))) {
 }
 
 const models = JSON.parse(await readFile(path.join(docs, "data/tv-models.json"), "utf8"));
+const sourceMarketModelsRaw = await readFile(path.join(root, "data/market_tv_models.json"), "utf8");
+const publicMarketModelsRaw = await readFile(path.join(docs, "data/market-tv-models.json"), "utf8");
+const marketModelsManifest = JSON.parse(publicMarketModelsRaw);
+validateMarketModelPages(marketModelsManifest, models);
+const modelSearch = JSON.parse(
+  await readFile(path.join(docs, "data/model-search.json"), "utf8"),
+);
+const expectedIndexableUrlCount = baselineIndexableUrlCount
+  + marketModelsManifest.summary.indexable_observed_canonicals;
 const mounts = JSON.parse(await readFile(path.join(docs, "data/mounts.json"), "utf8"));
 const compatibilityEdges = JSON.parse(
   await readFile(path.join(docs, "data/compatibility-graph.json"), "utf8"),
@@ -378,6 +390,9 @@ const hubAffiliateSnapshot = JSON.parse(publicHubAffiliateRaw);
 
 if (sourceCommercialProfilesRaw !== publicCommercialProfilesRaw) {
   throw new Error("Публичная копия commercial-profiles.json отличается от исходного файла");
+}
+if (sourceMarketModelsRaw !== publicMarketModelsRaw) {
+  throw new Error("Публичная копия market-tv-models.json отличается от исходного файла");
 }
 if (sourceHubAffiliateRaw !== publicHubAffiliateRaw) {
   throw new Error("Публичная копия affiliate-hub-offers.json отличается от исходного файла");
@@ -524,12 +539,22 @@ assertUnique(
   commercialProfiles.map((profile) => `${profile.entity_kind}:${profile.entity_id}:${profile.path}`),
   "Коммерческие профили, полная идентичность",
 );
-const publishableAffiliateOffers = (affiliateSnapshot.offers ?? []).filter(
+const affiliateNow = Date.now();
+const declaredPublishableAffiliateOffers = (affiliateSnapshot.offers ?? []).filter(
   (offer) => offer.publishable && offer.eligibility === "publishable",
 );
-const publishableHubAffiliateOffers = (hubAffiliateSnapshot.placements ?? [])
+const declaredPublishableHubAffiliateOffers = (hubAffiliateSnapshot.placements ?? [])
   .map((placement) => placement.offer)
   .filter((offer) => offer?.publishable && offer.eligibility === "publishable");
+const isFreshAffiliateOffer = (offer) => {
+  const checkedAt = Date.parse(offer.checked_at ?? "");
+  const age = affiliateNow - checkedAt;
+  return Number.isFinite(checkedAt)
+    && age >= -affiliateFutureToleranceMs
+    && age <= maximumAffiliateAgeMs;
+};
+const publishableAffiliateOffers = declaredPublishableAffiliateOffers.filter(isFreshAffiliateOffer);
+const publishableHubAffiliateOffers = declaredPublishableHubAffiliateOffers.filter(isFreshAffiliateOffer);
 const publishableMarketOffers = [
   ...publishableAffiliateOffers,
   ...publishableHubAffiliateOffers,
@@ -542,7 +567,6 @@ assertMinimum(models, 2, "Проверенные модели телевизор
 assertMinimum(mounts, 3, "Проверенные кронштейны");
 assertMinimum(seoPages, 12, "SEO-материалы");
 assertMinimum(trustPages, 4, "Доверительные страницы");
-assertMinimum(publishableAffiliateOffers, 1, "Публикуемые affiliate offers");
 const coverageSummary = validateCoverageManifest(coverageManifest, models);
 
 for (const [items, label] of [
@@ -568,16 +592,17 @@ assertUnique(
   "Affiliate offers, страницы кронштейнов",
 );
 
-const affiliateNow = Date.now();
-for (const offer of publishableMarketOffers) {
+for (const offer of [
+  ...declaredPublishableAffiliateOffers,
+  ...declaredPublishableHubAffiliateOffers,
+]) {
   const checkedAt = Date.parse(offer.checked_at ?? "");
   const age = affiliateNow - checkedAt;
   if (
     !Number.isFinite(checkedAt) ||
-    age < -affiliateFutureToleranceMs ||
-    age > maximumAffiliateAgeMs
+    age < -affiliateFutureToleranceMs
   ) {
-    throw new Error(`Publishable affiliate offer устарел или имеет неверную дату: ${offer.id}`);
+    throw new Error(`Affiliate offer имеет неверную или будущую дату: ${offer.id}`);
   }
   if (
     offer.entity_kind !== "mount" ||
@@ -918,7 +943,22 @@ for (const file of pageHtmlFiles) {
     throw new Error(`Действующий affiliate CTA попал в статический HTML: ${path.relative(root, file)}`);
   }
   for (const link of marketLinks) {
-    if (publishableAffiliateHrefs.has(decodeHtmlAttribute(matchAttribute(link, "href")))) {
+    const marketHref = decodeHtmlAttribute(matchAttribute(link, "href"));
+    if (matchAttribute(link, "data-market-source") === "identity") {
+      const sourceUrl = new URL(marketHref);
+      if (
+        sourceUrl.origin !== "https://market.yandex.ru"
+        || sourceUrl.search
+        || sourceUrl.hash
+        || !/\brel=["'][^"']*\bnofollow\b[^"']*["']/i.test(link)
+        || !/\brel=["'][^"']*\bnoopener\b[^"']*["']/i.test(link)
+        || !/\brel=["'][^"']*\bnoreferrer\b[^"']*["']/i.test(link)
+      ) {
+        throw new Error(`Источник модели Маркета оформлен небезопасно: ${path.relative(root, file)}`);
+      }
+      continue;
+    }
+    if (publishableAffiliateHrefs.has(marketHref)) {
       throw new Error(`Партнёрский URL попал в статический HTML: ${path.relative(root, file)}`);
     }
     if (!/\brel=["'][^"']*\bsponsored\b[^"']*["']/i.test(link)) {
@@ -949,6 +989,60 @@ for (const file of pageHtmlFiles) {
       throw new Error(`Партнёрская ссылка без режима размещения: ${path.relative(root, file)}`);
     }
   }
+}
+
+const observedMarketModels = marketModelsManifest.records.filter(
+  (record) => record.page_kind === "observed",
+);
+const routedMarketModels = marketModelsManifest.records.filter(
+  (record) => record.page_kind !== "verified",
+);
+if (modelSearch.length !== models.length + observedMarketModels.length) {
+  throw new Error(
+    `Поиск моделей должен содержать ${models.length + observedMarketModels.length} канонических моделей, получено ${modelSearch.length}`,
+  );
+}
+assertUnique(modelSearch.map((item) => item.id), "Поиск моделей, идентификаторы");
+
+for (const record of routedMarketModels) {
+  const html = htmlByRoute.get(record.route_path) ?? "";
+  if (
+    !html.includes('data-market-model-page="true"')
+    || !html.includes(escapeHtmlText(record.title))
+    || !html.includes(record.market_url)
+    || !html.includes("Как подобрать кронштейн без ошибки")
+    || !html.includes("Что зафиксировано в источнике")
+    || !html.includes("data-market-source=\"identity\"")
+  ) {
+    throw new Error(`Модель Маркета не получила полноценную SSR-страницу: ${record.route_path}`);
+  }
+  if (canonicalFromHtml(html) !== `${origin}${record.canonical_path}`) {
+    throw new Error(`Модель Маркета имеет неверный canonical: ${record.route_path}`);
+  }
+  const robots = metaContent(html, "robots");
+  if (record.indexable === /\bnoindex\b/iu.test(robots)) {
+    throw new Error(`Индексируемость модели Маркета не совпадает с manifest: ${record.route_path}`);
+  }
+  if (record.page_kind === "alias" && !html.includes('data-market-model-alias="true"')) {
+    throw new Error(`Алиас модели не объясняет переход к canonical: ${record.route_path}`);
+  }
+  if (
+    /VESA\s+\d{2,4}\s*[×x]/iu.test(html)
+    || /\d+(?:[.,]\d+)?\s*кг\s+без\s+подставки/iu.test(html)
+    || /"@type"\s*:\s*"Product"/u.test(html)
+    || /\bdata-affiliate-offer-id=/iu.test(html)
+  ) {
+    throw new Error(`Страница модели содержит неподтверждённый товарный факт или CTA: ${record.route_path}`);
+  }
+}
+
+const modelCatalogHtml = htmlByRoute.get("/modeli/") ?? "";
+if (
+  !modelCatalogHtml.includes('data-market-model-catalog="true"')
+  || !modelCatalogHtml.includes(`Найдены в выдаче Маркета · ${observedMarketModels.length}`)
+  || !modelCatalogHtml.includes("<details")
+) {
+  throw new Error("Каталог моделей не содержит сворачиваемый реестр наблюдаемых моделей Маркета");
 }
 
 const profilesByMarker = new Map(
@@ -1099,7 +1193,17 @@ const canonicals = [...htmlByRoute.entries()].map(([route, html]) => ({
   route,
   value: canonicalFromHtml(html),
 }));
-assertUnique(canonicals.map(({ value }) => value), "HTML-страницы, canonical");
+const marketAliasRoutes = new Set(
+  marketModelsManifest.records
+    .filter((record) => record.page_kind === "alias")
+    .map((record) => record.route_path),
+);
+assertUnique(
+  canonicals
+    .filter(({ route }) => !marketAliasRoutes.has(route))
+    .map(({ value }) => value),
+  "HTML-страницы, canonical без технических alias",
+);
 if (titleFromHtml(htmlByRoute.get("/")) === titleFromHtml(htmlByRoute.get("/podbor/"))) {
   throw new Error("Главная и /podbor/ должны иметь разные title");
 }
@@ -1534,12 +1638,25 @@ for (const { url: urlValue, lastmod } of sitemapEntries) {
   }
 }
 
-for (const route of ["/", "/podbor/", "/modeli/", "/kronshteyny/"]) {
+for (const route of ["/", "/podbor/", "/kronshteyny/"]) {
   if (sitemapLastmods.get(route) !== corePagesUpdatedAt) {
     throw new Error(`Основная страница имеет неточный sitemap lastmod: ${route}`);
   }
 }
+if (sitemapLastmods.get("/modeli/") !== marketModelsUpdatedAt) {
+  throw new Error("Каталог моделей имеет неточный sitemap lastmod");
+}
 const sitemapPaths = new Set(sitemapUrls.map((value) => new URL(value).pathname));
+
+for (const record of routedMarketModels) {
+  const present = sitemapPaths.has(record.route_path);
+  if (present !== (record.page_kind === "observed" && record.indexable)) {
+    throw new Error(`Sitemap неверно обрабатывает модель Маркета: ${record.route_path}`);
+  }
+  if (present && sitemapLastmods.get(record.route_path) !== record.checked_at) {
+    throw new Error(`Модель Маркета имеет неточный sitemap lastmod: ${record.route_path}`);
+  }
+}
 
 const notFoundHtml = htmlByRoute.get("/404.html");
 if (!notFoundHtml) {

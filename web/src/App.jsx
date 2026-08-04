@@ -5,6 +5,7 @@ import { GuidedSelectionPage } from "./pages/GuidedSelectionPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { ModelPage } from "./pages/ModelPage.jsx";
 import { MountPage } from "./pages/MountPage.jsx";
+import { ObservedModelPage } from "./pages/ObservedModelPage.jsx";
 import { SeoPage } from "./pages/SeoPage.jsx";
 import { TrustPage } from "./pages/TrustPage.jsx";
 
@@ -30,7 +31,12 @@ export function App({ catalog }) {
 
   const modelMatch = path.match(/^\/modeli\/([^/]+)\/?/);
   if (modelMatch) {
-    return withSiteFooter(<ModelPage catalog={catalog} modelId={decodeURIComponent(modelMatch[1])} />);
+    const modelId = decodeURIComponent(modelMatch[1]);
+    const observedModel = catalog.marketModels.find((item) => item.id === modelId && item.page_kind !== "verified");
+    if (observedModel) {
+      return withSiteFooter(<ObservedModelPage catalog={catalog} model={observedModel} />);
+    }
+    return withSiteFooter(<ModelPage catalog={catalog} modelId={modelId} />);
   }
 
   const mountMatch = path.match(/^\/kronshteyny\/([^/]+)\/?/);

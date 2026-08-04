@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "run": "20260804-market-model-pages",
+  "generated_at": "2026-08-04T19:47:02.183956+00:00",
+  "scanned_files": [
+    "web/src/App.jsx",
+    "web/src/hooks/useCatalog.js",
+    "web/src/lib/catalog.js",
+    "web/src/pages/CatalogIndexPage.jsx",
+    "web/src/pages/ObservedModelPage.jsx"
+  ],
+  "findings": []
+}

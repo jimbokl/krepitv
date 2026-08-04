@@ -1,0 +1,144 @@
+{
+  "version": 1,
+  "id": "20260804-market-model-pages",
+  "kind": "ui",
+  "status": "verified",
+  "implementer": "Codex",
+  "created_at": "2026-08-04T19:22:58.026678+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "data/market_tv_models.json",
+    "data/research/yandex-market-tv-models.json",
+    "scripts/catalog/market-model-page-lib.mjs",
+    "scripts/catalog/sync-market-model-pages.mjs",
+    "scripts/research/collect-yandex-market-tv-models.mjs",
+    "scripts/research/yandex-market-tv-lib.mjs",
+    "scripts/qa/capture-page.mjs",
+    "crates/sitegen/src/main.rs",
+    "web/src/App.jsx",
+    "web/src/hooks/useCatalog.js",
+    "web/src/lib/catalog.js",
+    "web/src/pages/CatalogIndexPage.jsx",
+    "web/src/pages/ModelPage.jsx",
+    "web/src/pages/ObservedModelPage.jsx",
+    "tests/catalog/market-model-pages.test.mjs",
+    "tests/catalog/yandex-market-tv-lib.test.mjs",
+    "scripts/verify.mjs",
+    "package.json",
+    "product-docs/research/yandex-market-tv-models-2026-08-04.csv",
+    "product-docs/research/yandex-market-tv-models-2026-08-04.md",
+    ".design-harness/runs/20260804-market-model-pages"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-sync-dataset",
+      "command": "npm run catalog:sync-market-models",
+      "required": true,
+      "covers": ["provenance", "deduplication", "canonical", "fail-closed"]
+    },
+    {
+      "id": "cmd-catalog-tests",
+      "command": "npm run catalog:test",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+    },
+    {
+      "id": "cmd-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "React", "SSR", "sitemap", "Russian UI"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260804-market-model-pages --files web/src/App.jsx web/src/hooks/useCatalog.js web/src/lib/catalog.js web/src/pages/CatalogIndexPage.jsx web/src/pages/ObservedModelPage.jsx",
+      "required": true,
+      "covers": ["design tokens", "components", "allowed files"]
+    },
+    {
+      "id": "cmd-design-final",
+      "command": "./.design-harness/design-harness check --workspace $PWD --run .design-harness/runs/20260804-market-model-pages --phase final",
+      "required": true,
+      "covers": ["mobile", "tablet", "desktop", "exact content"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "coverage",
+      "value": "133 наблюдения Маркета представлены страницами или существующими проверенными каноникалами",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "unknown-facts",
+      "value": "Неподтверждённые VESA и масса прямо обозначены как неизвестные",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "purchase-boundary",
+      "value": "Публичный счётчик «купили» не называется статистикой продаж",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "market-observation",
+      "text": "Присутствие карточки и публичные сигналы фиксируются только на дату сохранённого снимка",
+      "source_ids": ["market-snapshot"]
+    },
+    {
+      "id": "screen-geometry",
+      "text": "Размер экрана 16:9 является расчётом активной области, а не корпуса",
+      "source_ids": ["verified-model-method"]
+    },
+    {
+      "id": "compatibility-boundary",
+      "text": "Совместимость не рассчитывается без VESA и массы",
+      "source_ids": ["verified-model-method"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "market-snapshot",
+      "path": "data/research/yandex-market-tv-models.json",
+      "retrieved_at": "2026-08-04T19:06:32Z",
+      "notes": "133 уникальные карточки из сохранённого верхнего среза выдачи; raw HTML находится в .private"
+    },
+    {
+      "id": "verified-model-method",
+      "path": "data/tv_models.json",
+      "retrieved_at": "2026-08-04T19:22:58Z",
+      "notes": "80 паспортов с официальными источниками; наблюдаемые модели не добавляются в этот набор"
+    },
+    {
+      "id": "market-category",
+      "url": "https://market.yandex.ru/category/televizory-hd-tv",
+      "retrieved_at": "2026-08-04T19:06:32Z",
+      "notes": "Публичная категория телевизоров"
+    }
+  ]
+}

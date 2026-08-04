@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
-import { gzip } from "node:zlib";
+import { gunzip, gzip } from "node:zlib";
 import { promisify } from "node:util";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   deduplicateMarketProducts,
@@ -10,6 +10,7 @@ import {
 } from "./yandex-market-tv-lib.mjs";
 
 const gzipAsync = promisify(gzip);
+const gunzipAsync = promisify(gunzip);
 const ROOT = path.resolve(import.meta.dirname, "../..");
 const PUBLIC_SOURCE_URL = "https://market.yandex.ru/category/televizory-hd-tv";
 const FETCH_URL = "https://marketapp.integration.market.yandex.ru/category/televizory-hd-tv";
@@ -134,13 +135,17 @@ const delayMs = integerArgument("--delay-ms", 2_500);
 const attempts = integerArgument("--attempts", 4);
 const resumePartialArgument = argument("--resume", null);
 const resumePartialPath = resumePartialArgument ? path.resolve(ROOT, resumePartialArgument) : null;
+const rawInputArgument = argument("--input-raw-dir", null);
+const rawInputPath = rawInputArgument ? path.resolve(ROOT, rawInputArgument) : null;
 const catalogPath = path.resolve(ROOT, argument("--catalog", "data/tv_models.json"));
 const outputPath = path.resolve(ROOT, argument("--output", "data/research/yandex-market-tv-models.json"));
 const csvPath = path.resolve(ROOT, argument("--csv", `product-docs/research/yandex-market-tv-models-${date}.csv`));
 const reportPath = path.resolve(ROOT, argument("--report", `product-docs/research/yandex-market-tv-models-${date}.md`));
 const rawDirectory = path.resolve(ROOT, argument(
   "--raw-dir",
-  resumePartialPath
+  rawInputPath
+    ? rawInputPath
+    : resumePartialPath
     ? path.dirname(resumePartialPath)
     : `.private/research/yandex-market-tv-models-${observedAt.replaceAll(":", "-")}`,
 ));
@@ -154,16 +159,37 @@ await Promise.all([
   mkdir(rawDirectory, { recursive: true }),
 ]);
 
-const resumed = resumePartialPath
+let resumed = resumePartialPath
   ? JSON.parse(await readFile(resumePartialPath, "utf8"))
   : { pages: [], products: [] };
+if (rawInputPath) {
+  const rawFiles = (await readdir(rawInputPath))
+    .filter((file) => /^page-\d+\.html\.gz$/u.test(file))
+    .sort();
+  if (!rawFiles.length) throw new Error("Raw Market snapshot directory has no page HTML files");
+  const pages = [];
+  const products = [];
+  for (const file of rawFiles) {
+    const page = Number(file.match(/page-(\d+)/u)[1]);
+    const html = (await gunzipAsync(await readFile(path.join(rawInputPath, file)))).toString("utf8");
+    const parsed = parseMarketCategoryPage(html, page);
+    pages.push(parsed.metadata);
+    products.push(...parsed.products);
+  }
+  resumed = { observed_at: observedAt, pages, products };
+  process.stdout.write(`Local reparse: ${pages.length} saved pages\n`);
+}
 const pageMetadata = Array.isArray(resumed.pages) ? resumed.pages : [];
 const collected = Array.isArray(resumed.products) ? resumed.products : [];
-let pageCount = pageMetadata.length
+let pageCount = rawInputPath
+  ? pageMetadata.length
+  : pageMetadata.length
   ? Math.min(maxPages, pageMetadata.at(-1).page_count)
   : maxPages;
 const startPage = pageMetadata.length + 1;
-let stopReason = null;
+let stopReason = rawInputPath
+  ? "Локально пересчитаны сохранённые страницы; следующая страница источника ранее возвращала внутреннюю ошибку."
+  : null;
 if (startPage > 1) process.stdout.write(`Resume: ${pageMetadata.length} pages already collected\n`);
 for (let page = startPage; page <= Math.min(maxPages, pageCount); page += 1) {
   let fetched;
@@ -227,7 +253,7 @@ const manifest = {
     pages_collected: pageMetadata.length,
     page_count_observed: Math.max(...pageMetadata.map((page) => page.page_count)),
     requested_max_pages: maxPages,
-    collection_complete: pageMetadata.length >= Math.min(maxPages, pageCount),
+    collection_complete: !rawInputPath && pageMetadata.length >= Math.min(maxPages, pageCount),
     stop_reason: stopReason,
     reported_total_min: Math.min(...reportedTotals),
     reported_total_max: Math.max(...reportedTotals),

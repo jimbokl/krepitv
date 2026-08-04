@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "task_id": "20260804-market-model-pages",
+  "commands": [
+    {
+      "id": "cmd-sync-dataset",
+      "command": "npm run catalog:sync-market-models",
+      "exit_code": 0,
+      "covers": ["133 observations", "deduplication", "canonical", "fail-closed"]
+    },
+    {
+      "id": "cmd-catalog-tests",
+      "command": "npm run catalog:test",
+      "exit_code": 0,
+      "covers": ["18 catalog tests", "133 observations", "deduplication", "fail-closed"]
+    },
+    {
+      "id": "cmd-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["104 engine tests", "40 sitegen tests", "192 web tests", "Rust", "WASM", "React", "SSR", "280 sitemap URLs"]
+    },
+    {
+      "id": "cmd-release-static-audit",
+      "command": "ru-seo-affiliate-site-harness audit:static + audit:affiliate",
+      "exit_code": 0,
+      "covers": ["280 indexable HTML", "depth 3", "sitemap", "affiliate link policy"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260804-market-model-pages --files web/src/App.jsx web/src/hooks/useCatalog.js web/src/lib/catalog.js web/src/pages/CatalogIndexPage.jsx web/src/pages/ObservedModelPage.jsx",
+      "exit_code": 0,
+      "covers": ["Tailwind tokens", "allowed files", "no UI drift findings"]
+    },
+    {
+      "id": "cmd-design-final",
+      "command": "./.design-harness/design-harness check --workspace $PWD --run .design-harness/runs/20260804-market-model-pages --phase final",
+      "exit_code": 0,
+      "covers": ["mobile", "tablet", "desktop", "exact content", "rollback"]
+    },
+    {
+      "id": "cmd-browser-captures",
+      "command": "scripts/qa/capture-page.mjs at 320, 768 and 1440 CSS px",
+      "exit_code": 0,
+      "covers": ["mobile", "tablet", "desktop", "hydrated React", "no horizontal overflow"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-model-mobile",
+      "path": "evidence/screenshots/model-mobile.png",
+      "state": "long-low-confidence-model",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "width": 320}
+    },
+    {
+      "id": "shot-catalog-tablet",
+      "path": "evidence/screenshots/catalog-tablet.png",
+      "state": "collapsed-brand-groups",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "width": 768}
+    },
+    {
+      "id": "shot-model-desktop",
+      "path": "evidence/screenshots/model-desktop.png",
+      "state": "identified-model-with-geometry",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "width": 1440}
+    },
+    {
+      "id": "shot-default",
+      "path": "evidence/screenshots/default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "hydrated_search": true, "market_source_links": 1, "affiliate_links": 0}
+    },
+    {
+      "id": "shot-loading",
+      "path": "evidence/screenshots/loading.png",
+      "state": "loading",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "ssr_preserved": true, "hydrated_search": false, "market_source_links": 1, "affiliate_links": 0}
+    },
+    {
+      "id": "shot-empty",
+      "path": "evidence/screenshots/empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "affiliate_links": 0}
+    },
+    {
+      "id": "shot-error",
+      "path": "evidence/screenshots/error.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "ssr_preserved": true, "hydrated_search": false, "affiliate_links": 0}
+    },
+    {
+      "id": "shot-success",
+      "path": "evidence/screenshots/success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "hydrated_search": true, "market_source_links": 1, "affiliate_links": 0}
+    },
+    {
+      "id": "shot-disabled",
+      "path": "evidence/screenshots/disabled.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true, "affiliate_links": 0}
+    },
+    {
+      "id": "shot-focus",
+      "path": "evidence/screenshots/focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "affiliate_links": 0}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Автоматизированный Chrome/CDP и design-harness; визуальная инспекция Codex",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Все 133 наблюдения разрешаются: 124 канонических наблюдаемых страницы, 7 noindex-алиасов и 2 существующих паспортных страницы.",
+      "На наблюдаемых страницах нет числовых VESA, массы, Product JSON-LD или партнёрского CTA до подтверждения паспорта.",
+      "Каталог использует закрытые группы по брендам и не превращается в длинную открытую простыню.",
+      "Снимки 320/768/1440 CSS px не имеют горизонтального overflow; длинное имя переносится без обрезания.",
+      "Открытых визуальных P0-P2 нет."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

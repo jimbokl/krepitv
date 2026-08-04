@@ -38,6 +38,7 @@ export function loadCatalog() {
     const activeModelId = modelIdFromPath(globalThis.location?.pathname);
     catalogPromise = Promise.all([
       fetch("/data/tv-models.json").then(assertResponse),
+      fetch("/data/market-tv-models.json").then(assertResponse),
       fetch("/data/mounts.json").then(assertResponse),
       fetch("/data/model-search.json").then(assertResponse),
       fetch("/data/seo-pages.json").then(assertResponse),
@@ -50,6 +51,7 @@ export function loadCatalog() {
         : Promise.resolve([]),
     ]).then(async ([
       models,
+      marketModels,
       mounts,
       search,
       seoPages,
@@ -60,6 +62,7 @@ export function loadCatalog() {
       modelAffiliateOffers,
     ]) => ({
       models: await models.json(),
+      marketModels: parseMarketModels(await marketModels.json()),
       mounts: await mounts.json(),
       search: await search.json(),
       seoPages: await seoPages.json(),
@@ -71,6 +74,18 @@ export function loadCatalog() {
     }));
   }
   return catalogPromise;
+}
+
+export function parseMarketModels(manifest) {
+  if (
+    !manifest
+    || manifest.schema_version !== 1
+    || !Array.isArray(manifest.records)
+    || manifest.records.length !== 133
+  ) {
+    throw new Error("Реестр моделей Маркета повреждён или имеет неподдерживаемую версию.");
+  }
+  return manifest.records;
 }
 
 export async function loadFreshAffiliateOffers({
