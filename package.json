@@ -18,6 +18,7 @@
     "dataset:generate": "node scripts/datasets/generate-tv-vesa-screws.mjs && node scripts/datasets/generate-tv-vesa-sizes.mjs",
     "dataset:check": "node scripts/datasets/generate-tv-vesa-screws.mjs --check && node scripts/datasets/generate-tv-vesa-sizes.mjs --check",
     "research:tv-demand": "node scripts/research/collect-tv-model-demand.mjs",
+    "research:market-tv-models": "node scripts/research/collect-yandex-market-tv-models.mjs",
     "research:seo-hubs": "node scripts/research/collect-seo-hub-demand.mjs",
     "research:merge-tv-demand": "node scripts/research/merge-tv-model-demand.mjs",
     "qa:screenshot": "node scripts/qa/capture-page.mjs",
