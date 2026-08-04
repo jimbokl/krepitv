@@ -1893,6 +1893,28 @@
       "dimension_source_url": "https://sberdevices.ru/shop/product/sdx_43f3000dba/",
       "dimension_source_label": "Официальные характеристики SberDevices",
       "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "tuvio-td43ufbhh13",
+      "brand": "Tuvio",
+      "series": "Tuvio",
+      "diagonal_inches": 43,
+      "model_year": 2025,
+      "catalog_source_url": "https://tuvio.yandex.ru/card/43-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td43ufbhh13-chernyy",
+      "dimension_source_url": "https://tuvio.yandex.ru/card/43-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td43ufbhh13-chernyy",
+      "dimension_source_label": "Официальные характеристики Tuvio",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "tuvio-tq65ufghh13",
+      "brand": "Tuvio",
+      "series": "Tuvio",
+      "diagonal_inches": 65,
+      "model_year": null,
+      "catalog_source_url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-qled-frameless-na-platforme-yaos-tq65ufghh13",
+      "dimension_source_url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-qled-frameless-na-platforme-yaos-tq65ufghh13",
+      "dimension_source_label": "Официальные характеристики Tuvio",
+      "checked_at": "2026-08-04"
     }
   ]
 }

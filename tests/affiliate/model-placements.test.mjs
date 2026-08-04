@@ -391,7 +391,7 @@ test("builds complete private decisions and a publishable public subset", () => 
   );
 });
 
-test("real catalog produces deterministic top-three placements for all 100 models", async () => {
+test("real catalog produces deterministic top-three placements for all 102 models", async () => {
   const [realSource, realModels, realMounts, rustGraph] = await Promise.all([
     readFile(new URL("../../data/affiliate/market-products.json", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../../data/tv_models.json", import.meta.url), "utf8").then(JSON.parse),
@@ -403,9 +403,9 @@ test("real catalog produces deterministic top-three placements for all 100 model
     models: realModels,
     catalogMounts: realMounts,
   });
-  assert.equal(realModels.length, 100);
-  assert.equal(generated.models.length, 100);
-  assert.equal(generated.expected_offer_count, 297);
+  assert.equal(realModels.length, 102);
+  assert.equal(generated.models.length, 102);
+  assert.equal(generated.expected_offer_count, 303);
   assert.equal(
     generated.models.every((entry) =>
       entry.expected_offer_count >= 1 &&
@@ -433,7 +433,7 @@ test("real catalog produces deterministic top-three placements for all 100 model
   );
   assert.equal(
     new Set(generated.models.flatMap((entry) => entry.placements.map((placement) => placement.vid))).size,
-    297,
+    303,
   );
   const sourceBackedMounts = new Set(realSource.cards.map((card) => card.entity_id));
   for (const modelEntry of generated.models) {
@@ -457,7 +457,7 @@ test("CLI writes canonical output and --check detects any byte drift", async () 
   try {
     const written = await runGenerateModelPlacements(["--out", output]);
     assert.equal(written.status, "written");
-    assert.equal(written.manifest.models.length, 100);
+    assert.equal(written.manifest.models.length, 102);
     const current = await runGenerateModelPlacements(["--check", output]);
     assert.equal(current.status, "current");
 

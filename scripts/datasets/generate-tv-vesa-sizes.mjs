@@ -80,8 +80,8 @@ function buildRecord(model) {
 }
 
 function validateRecords(rows) {
-  if (rows.length !== 100) {
-    throw new Error(`Ожидалось 100 точных моделей, получено ${rows.length}`);
+  if (rows.length !== 102) {
+    throw new Error(`Ожидалось 102 точные модели, получено ${rows.length}`);
   }
   const ids = new Set();
   for (const [index, row] of rows.entries()) {

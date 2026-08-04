@@ -6,8 +6,8 @@
   "summary": {
     "market_observations": 133,
     "unique_identities": 126,
-    "verified_routes": 22,
-    "observed_canonicals": 104,
+    "verified_routes": 24,
+    "observed_canonicals": 102,
     "indexable_observed_canonicals": 0,
     "alias_routes": 7,
     "low_confidence_routes": 9
@@ -1319,9 +1319,9 @@
       "canonical_id": "tuvio-tq65ufghh13",
       "canonical_path": "/modeli/tuvio-tq65ufghh13/",
       "route_path": "/modeli/tuvio-tq65ufghh13/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Tuvio",
       "model": "TQ65UFGHH13",
       "title": "Tuvio TQ65UFGHH13",
@@ -1336,7 +1336,7 @@
       "observed_rank": 51,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "tuvio-tq65ufghh13",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -1683,9 +1683,9 @@
       "canonical_id": "tuvio-td43ufbhh13",
       "canonical_path": "/modeli/tuvio-td43ufbhh13/",
       "route_path": "/modeli/tuvio-td43ufbhh13/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Tuvio",
       "model": "TD43UFBHH13",
       "title": "Tuvio TD43UFBHH13",
@@ -1700,7 +1700,7 @@
       "observed_rank": 65,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "tuvio-td43ufbhh13",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3472,5 +3472,5 @@
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     }
   ],
-  "batch_sha256": "1393f287bebb54fc3f977165d56b7934fd0aaadc2407ec21897844820b7dccdf"
+  "batch_sha256": "f03d2a4d089aa1b985f0eaf4016fa6b07bb20866c64cdefc9fda23bb19a0f2d7"
 }

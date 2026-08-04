@@ -2278,5 +2278,41 @@
     "source_url": "https://sberdevices.ru/shop/product/sdx_43f3000dba/",
     "source_label": "Официальные характеристики SberDevices",
     "checked_at": "2026-08-04"
+  },
+  {
+    "id": "tuvio-td43ufbhh13",
+    "brand": "Tuvio",
+    "model": "TD43UFBHH13",
+    "title": "Tuvio TD43UFBHH13",
+    "series": "Tuvio",
+    "model_year": 2025,
+    "diagonal_inches": 43,
+    "weight_kg": 5.2,
+    "width_mm": 957,
+    "height_mm": 561,
+    "depth_mm": 70,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://tuvio.yandex.ru/card/43-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td43ufbhh13-chernyy",
+    "source_label": "Официальные характеристики Tuvio",
+    "checked_at": "2026-08-04"
+  },
+  {
+    "id": "tuvio-tq65ufghh13",
+    "brand": "Tuvio",
+    "model": "TQ65UFGHH13",
+    "title": "Tuvio TQ65UFGHH13",
+    "series": "Tuvio",
+    "model_year": null,
+    "diagonal_inches": 65,
+    "weight_kg": 12.8,
+    "width_mm": 1444,
+    "height_mm": 835,
+    "depth_mm": 74,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 300,
+    "source_url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-qled-frameless-na-platforme-yaos-tq65ufghh13",
+    "source_label": "Официальные характеристики Tuvio",
+    "checked_at": "2026-08-04"
   }
 ]

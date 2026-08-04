@@ -1443,11 +1443,11 @@
       "rating_count": 1734,
       "purchase_count": 5900,
       "purchase_label": "5.9K купили",
-      "already_in_catalog": false,
-      "catalog_model_id": null,
-      "catalog_brand": null,
-      "catalog_model": null,
-      "match_type": null,
+      "already_in_catalog": true,
+      "catalog_model_id": "tuvio-tq65ufghh13",
+      "catalog_brand": "Tuvio",
+      "catalog_model": "TQ65UFGHH13",
+      "match_type": "manual_exact_identity",
       "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {
@@ -1779,11 +1779,11 @@
       "rating_count": 8138,
       "purchase_count": 33800,
       "purchase_label": "33.8K купили",
-      "already_in_catalog": false,
-      "catalog_model_id": null,
-      "catalog_brand": null,
-      "catalog_model": null,
-      "match_type": null,
+      "already_in_catalog": true,
+      "catalog_model_id": "tuvio-td43ufbhh13",
+      "catalog_brand": "Tuvio",
+      "catalog_model": "TD43UFBHH13",
+      "match_type": "manual_exact_identity",
       "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {

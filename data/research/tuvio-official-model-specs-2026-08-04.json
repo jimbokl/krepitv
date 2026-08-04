@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "scope": "Точные модели Tuvio из снимка Яндекс Маркета; официальные карточки Tuvio",
+  "decision_rule": "В индексируемый каталог попадают только модели с точной идентичностью, VESA, массой без подставки и размерами корпуса без подставки.",
+  "accepted": [
+    {"model":"TD43UFBHH13","source_url":"https://tuvio.yandex.ru/card/43-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td43ufbhh13-chernyy","model_year":2025,"diagonal_inches":43,"vesa_mm":"200×200","weight_without_stand_kg":5.2,"body_without_stand_mm":"957×561×70"},
+    {"model":"TQ65UFGHH13","source_url":"https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-qled-frameless-na-platforme-yaos-tq65ufghh13","model_year":null,"diagonal_inches":65,"vesa_mm":"300×300","weight_without_stand_kg":12.8,"body_without_stand_mm":"1444×835×74"}
+  ],
+  "rejected": [
+    {"models":["TD24HBCH11","TD32HFBCH12","TD50UFBHH12","TD55UFBTH51","TM75UFGCH52","TM85UFBCH51"],"reason":"Официальная карточка не подтверждает массу без подставки; запас нагрузки рассчитать нельзя."},
+    {"model":"TD100UFBHH12","reason":"Паспортные VESA 800×400 мм и масса 62,8 кг подтверждены, но в текущем каталоге нет кронштейна, проходящего все ограничения с запасом 25%."},
+    {"model":"TD50UFBHH11","reason":"Точная модель отсутствует в официальном каталоге и перечне инструкций; подмена на H12 запрещена."}
+  ]
+}

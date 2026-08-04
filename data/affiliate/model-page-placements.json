@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "clid": "15238076",
-  "expected_offer_count": 297,
+  "expected_offer_count": 303,
   "models": [
     {
       "model_id": "hisense-32a4s",
@@ -2611,6 +2611,62 @@
           "entity_id": "itech-plb440nt",
           "source_card_id": "market-itech-plb440nt-103195508438",
           "vid": "krepitvmodeltcl75c6kr03itechplb440ntf165c262661c"
+        }
+      ]
+    },
+    {
+      "model_id": "tuvio-td43ufbhh13",
+      "model_path": "/modeli/tuvio-td43ufbhh13/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tuvio-td43ufbhh13-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodeltuviotd43ufbhh13r01holderlcds5036092b2540e102"
+        },
+        {
+          "placement_id": "model-tuvio-td43ufbhh13-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodeltuviotd43ufbhh13r02holderlcds506605879229fd16"
+        },
+        {
+          "placement_id": "model-tuvio-td43ufbhh13-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltuviotd43ufbhh13r03kromaxatlantis4553a043b83d44"
+        }
+      ]
+    },
+    {
+      "model_id": "tuvio-tq65ufghh13",
+      "model_path": "/modeli/tuvio-tq65ufghh13/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tuvio-tq65ufghh13-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltuviotq65ufghh13r01kromaxatlantis452346104628ac"
+        },
+        {
+          "placement_id": "model-tuvio-tq65ufghh13-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltuviotq65ufghh13r02kromaxdix18fe89fd49d888"
+        },
+        {
+          "placement_id": "model-tuvio-tq65ufghh13-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltuviotq65ufghh13r03kromaxflat4b10d714eb424"
         }
       ]
     },

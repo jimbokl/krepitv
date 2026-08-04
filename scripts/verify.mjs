@@ -12,7 +12,7 @@ const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-08-04";
 const marketModelsUpdatedAt = "2026-08-04";
 const trafficPagesUpdatedAt = "2026-08-01";
-const baselineIndexableUrlCount = 184;
+const baselineIndexableUrlCount = 186;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -1296,8 +1296,8 @@ if (!screwLookupHtml.includes('data-screw-catalog="true"') || !screwLookupHtml.i
   throw new Error("Страница подбора винтов не содержит самостоятельный сворачиваемый каталог");
 }
 for (const required of [
-  'data-searchable-model-count="100"',
-  'data-model-search-count="100"',
+  'data-searchable-model-count="102"',
+  'data-model-search-count="102"',
   'data-known-model-fallback="true"',
   "паспорт винтов ещё не подтверждён",
   "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv",
@@ -1468,8 +1468,8 @@ if (
 const vesaLookupHtml = htmlByRoute.get(vesaLookupPage.path) ?? "";
 for (const required of [
   'data-vesa-model-catalog="true"',
-  'data-searchable-model-count="100"',
-  'data-vesa-model-search-count="100"',
+  'data-searchable-model-count="102"',
+  'data-vesa-model-search-count="102"',
   "Найдите VESA по модели телевизора",
   "Таблица VESA телевизоров",
   "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv",

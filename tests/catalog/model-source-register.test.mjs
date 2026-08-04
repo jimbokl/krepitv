@@ -31,7 +31,7 @@ const operationalModel = (row) => ({
 });
 
 test("verified source register is the exact operational catalog source", () => {
-  assert.equal(register.length, 100);
+  assert.equal(register.length, 102);
   assert.equal(new Set(register.map((row) => row.id)).size, register.length);
   assert.equal(new Set(register.map((row) => row.model)).size, register.length);
   assert.deepEqual(
