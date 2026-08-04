@@ -1581,7 +1581,7 @@ fn observed_model_page_body(model: &MarketTvModel) -> String {
         "Модель идентифицирована по карточке Маркета. Технические параметры настенного монтажа пока не подтверждены официальным руководством."
     };
 
-    static_layout(&format!(
+    let body = static_layout(&format!(
         "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-market-model-page=\"true\"><nav class=\"flex flex-wrap items-center gap-2 font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a href=\"/\">Главная</a><span aria-hidden=\"true\">/</span><a href=\"/modeli/\">Телевизоры</a><span aria-hidden=\"true\">/</span><span>{model}</span></nav><header class=\"mt-6 border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Модель найдена на Маркете · паспорт проверяется</p><h1 class=\"mt-3 break-words font-display text-[clamp(2.8rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]\">Кронштейн для {title}</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">{identity_status}</p><p class=\"mt-4 border-l-2 border-action pl-4 font-semibold\">Без подтверждённых VESA и массы KREPI TV не показывает «подходящие» кронштейны и не подменяет проверку догадкой.</p></header>{alias_notice}<dl class=\"grid gap-px border-b-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4\"><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Бренд</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{brand}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Модель</dt><dd class=\"mt-1 break-words font-display text-2xl font-extrabold\">{model}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{diagonal}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Проверено в выдаче</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{checked_at}</dd></div></dl>{geometry}<section class=\"py-8\"><p class=\"font-mono text-xs uppercase text-action\">Три проверки до покупки</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Как подобрать кронштейн без ошибки</h2><ol class=\"mt-6 grid gap-px border border-ink bg-ink md:grid-cols-3\"><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">01 · Модель</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Сверьте шильдик</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Сравните полный код на задней панели с «{model}». Суффикс и диагональ могут менять корпус, массу и VESA.</p></li><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">02 · VESA</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Измерьте отверстия</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Снимите подставку только по инструкции. Измерьте горизонталь × вертикаль между центрами четырёх резьбовых отверстий.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/kak-uznat-vesa-televizora/\">Инструкция по VESA →</a></li><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">03 · Масса</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Найдите вес без ножек</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Берите массу без подставки из руководства и закладывайте минимум 25% запаса. Стеновой крепёж проверяется отдельно.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Границы проверки →</a></li></ol></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что зафиксировано в источнике</h2><p class=\"mt-4 max-w-4xl leading-relaxed\"><strong>Название карточки:</strong> {market_title}</p><p class=\"mt-3 max-w-4xl text-sm leading-relaxed text-muted\">{purchase_signal} {rating_signal}</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" data-market-source=\"identity\" href=\"{market_url}\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Открыть исходную карточку Яндекс Маркета →</a><p class=\"mt-3 text-xs leading-relaxed text-muted\">Источник используется для идентификации и сигнала наличия на дату {checked_at}. Цена не сохраняется; доступность и характеристики могли измениться.</p></section><nav class=\"grid gap-px border-y border-ink bg-ink sm:grid-cols-2\" aria-label=\"Следующие проверки\"><a class=\"bg-paper p-5\" href=\"/vesa/\"><span class=\"font-mono text-xs uppercase text-action\">После измерения</span><strong class=\"mt-1 block font-display text-2xl\">Справочник VESA</strong><span class=\"mt-2 block text-sm text-muted\">Сравнить пару отверстий с проверенными моделями.</span></a><a class=\"bg-paper p-5\" href=\"/na-kakoy-vysote-veshat-televizor/\"><span class=\"font-mono text-xs uppercase text-action\">План стены</span><strong class=\"mt-1 block font-display text-2xl\">Высота установки</strong><span class=\"mt-2 block text-sm text-muted\">Рассчитать центр и края экрана по комнате.</span></a></nav></article>",
         title = escape_html(&model.title),
         brand = escape_html(&model.brand),
@@ -1595,7 +1595,21 @@ fn observed_model_page_body(model: &MarketTvModel) -> String {
         purchase_signal = escape_html(&purchase_signal),
         rating_signal = escape_html(&rating_signal),
         market_url = escape_html(&model.market_url),
-    ))
+    ));
+    body.replace(
+        "data-market-model-page=\"true\"",
+        "data-market-model-page=\"true\" data-compatibility-status=\"unverified\"",
+    )
+    .replacen(
+        "Кронштейн для ",
+        "Проверка крепления для ",
+        1,
+    )
+    .replacen(
+        "</header>",
+        "</header><section class=\"border-b-2 border-ink py-8\" data-unverified-fit=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Статус совместимости</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Точный крепёж пока не подтверждён</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Для этой карточки ещё нет одновременно подтверждённых VESA, массы без подставки и паспортного диапазона конкретного кронштейна. Поэтому здесь нет товарной рекомендации и кнопки покупки.</p><p class=\"mt-3 max-w-3xl text-sm font-semibold leading-relaxed\">Страница станет каталогом совместимых кронштейнов только после проверки источника и автоматического расчёта запаса нагрузки.</p></section>",
+        1,
+    )
 }
 
 fn mount_page_body(
@@ -3186,7 +3200,7 @@ fn validate_market_models(manifest: &MarketTvModelsFile, models: &[TvModel]) {
     let mut canonical_ids = HashSet::new();
     let mut verified_routes = 0usize;
     let mut observed_canonicals = 0usize;
-    let mut indexable_observed_canonicals = 0usize;
+    let indexable_observed_canonicals = 0usize;
     let mut alias_routes = 0usize;
     let mut low_confidence_routes = 0usize;
 
@@ -3280,11 +3294,9 @@ fn validate_market_models(manifest: &MarketTvModelsFile, models: &[TvModel]) {
             }
             "observed" => {
                 observed_canonicals += 1;
-                if record.indexable {
-                    indexable_observed_canonicals += 1;
-                }
                 assert!(
-                    record.route_path == record.canonical_path
+                    !record.indexable
+                        && record.route_path == record.canonical_path
                         && record.verified_model_id.is_none()
                         && matches!(
                             record.identity_confidence.as_str(),
@@ -4019,7 +4031,7 @@ fn main() {
             )
         } else {
             format!(
-                "Кронштейн для {}: как проверить VESA и вес — KREPI TV",
+                "Проверка крепления для {}: VESA и вес — KREPI TV",
                 model.title
             )
         };

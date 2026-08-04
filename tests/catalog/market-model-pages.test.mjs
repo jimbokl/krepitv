@@ -34,10 +34,10 @@ test("real Market snapshot resolves all observations without unverified compatib
   assert.equal(generated.summary.verified_routes, 2);
   assert.ok(generated.summary.observed_canonicals >= 120);
   assert.ok(generated.summary.alias_routes >= 5);
-  assert.ok(generated.summary.indexable_observed_canonicals < generated.summary.observed_canonicals);
+  assert.equal(generated.summary.indexable_observed_canonicals, 0);
   assert.equal(validateMarketModelPages(generated, verifiedModels), true);
   assert.ok(generated.records.every((record) => !Object.hasOwn(record, "weight_kg")));
   assert.ok(generated.records.every((record) => !Object.hasOwn(record, "vesa_width_mm")));
   assert.ok(generated.records.filter((record) => record.page_kind === "alias").every((record) => !record.indexable));
+  assert.ok(generated.records.filter((record) => record.page_kind === "observed").every((record) => !record.indexable));
 });
-

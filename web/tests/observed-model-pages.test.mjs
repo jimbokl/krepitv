@@ -17,7 +17,7 @@ test("133 наблюдения Маркета сведены в канониче
   assert.equal(manifest.summary.unique_identities, 126);
   assert.equal(manifest.summary.verified_routes, 2);
   assert.equal(manifest.summary.observed_canonicals, 124);
-  assert.equal(manifest.summary.indexable_observed_canonicals, 116);
+  assert.equal(manifest.summary.indexable_observed_canonicals, 0);
   assert.equal(manifest.summary.alias_routes, 7);
   assert.equal(manifest.summary.low_confidence_routes, 9);
   assert.equal(
@@ -67,6 +67,8 @@ test("страница наблюдаемой модели полезна без
     }));
 
     assert.match(html, /data-market-model-page="true"/u);
+    assert.match(html, /data-compatibility-status="unverified"/u);
+    assert.match(html, /Точный крепёж пока не подтверждён/u);
     assert.match(html, /Как подобрать кронштейн без ошибки/u);
     assert.match(html, /Расчёт активной области 16:9/u);
     assert.match(html, /data-market-source="identity"/u);

@@ -24,7 +24,7 @@ export function ObservedModelPage({ catalog, model }) {
   }
 
   return (
-    <main className="min-h-screen bg-paper text-ink" data-market-model-page="true">
+    <main className="min-h-screen bg-paper text-ink" data-market-model-page="true" data-compatibility-status="unverified">
       <SiteHeader active="/modeli/" />
       <article className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8">
         <nav className="flex flex-wrap items-center gap-2 font-mono text-xs text-muted" aria-label="Навигационная цепочка">
@@ -38,13 +38,24 @@ export function ObservedModelPage({ catalog, model }) {
             Модель найдена на Маркете · паспорт проверяется
           </p>
           <h1 className="mt-3 break-words font-display text-[clamp(2.8rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]">
-            Кронштейн для {model.title}
+            Проверка крепления для {model.title}
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted">{identityStatus}</p>
           <p className="mt-4 border-l-2 border-action pl-4 font-semibold">
             Без подтверждённых VESA и массы KREPI TV не показывает «подходящие» кронштейны и не подменяет проверку догадкой.
           </p>
         </header>
+
+        <section className="border-b-2 border-ink py-8" data-unverified-fit="true">
+          <p className="font-mono text-xs uppercase text-action">Статус совместимости</p>
+          <h2 className="mt-2 font-display text-3xl font-extrabold">Точный крепёж пока не подтверждён</h2>
+          <p className="mt-3 max-w-3xl leading-relaxed text-muted">
+            Для этой карточки ещё нет одновременно подтверждённых VESA, массы без подставки и паспортного диапазона конкретного кронштейна. Поэтому здесь нет товарной рекомендации и кнопки покупки.
+          </p>
+          <p className="mt-3 max-w-3xl text-sm font-semibold leading-relaxed">
+            Страница станет каталогом совместимых кронштейнов только после проверки источника и автоматического расчёта запаса нагрузки.
+          </p>
+        </section>
 
         {model.page_kind === "alias" ? (
           <aside className="mt-6 border-2 border-action bg-white p-5" data-market-model-alias="true">

@@ -216,7 +216,11 @@ export function buildMarketModelPages(research, verifiedModels) {
         canonical_path: `/modeli/${canonicalId}/`,
         route_path: `/modeli/${id}/`,
         page_kind: verified ? "verified" : alias ? "alias" : "observed",
-        indexable: !verified && !alias && item.confidence !== "low",
+        // A Market observation proves only that a product card was visible. It does
+        // not prove VESA, weight or a compatible mount. Keep the verification
+        // route accessible, but fail closed for search indexing until this model
+        // is promoted into the source-backed TV catalog.
+        indexable: false,
         identity_confidence: item.confidence,
         brand: item.brand,
         model: item.model,
@@ -286,6 +290,9 @@ export function validateMarketModelPages(manifest, verifiedModels) {
     }
     if (record.page_kind === "alias" && (record.indexable || record.id === record.canonical_id)) {
       throw new Error(`Alias must be noindex and point to another canonical: ${record.record_id}`);
+    }
+    if (record.page_kind === "observed" && record.indexable) {
+      throw new Error(`Observed route without verified fit must be noindex: ${record.record_id}`);
     }
     for (const forbidden of ["vesa_width_mm", "vesa_height_mm", "weight_kg", "compatible_mounts"]) {
       if (Object.hasOwn(record, forbidden)) throw new Error(`Observed record contains unverified ${forbidden}`);
