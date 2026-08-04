@@ -6,6 +6,80 @@ import { renderToStaticMarkup } from "react-dom/server";
 import test from "node:test";
 import { createServer } from "vite";
 
+const SSR_LOAD_TIMEOUT_MS = 20_000;
+const SSR_CLOSE_TIMEOUT_MS = 5_000;
+const SSR_LOAD_ATTEMPTS = 2;
+
+let vite;
+let SeoPage;
+
+async function withTimeout(promise, milliseconds, message) {
+  let timer;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error(message)), milliseconds);
+      }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function closeViteServer(server) {
+  if (!server) return;
+  let timer;
+  try {
+    await Promise.race([
+      server.close(),
+      new Promise((resolve) => {
+        timer = setTimeout(resolve, SSR_CLOSE_TIMEOUT_MS);
+      }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function loadSeoPageModule() {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  let lastError;
+
+  for (let attempt = 1; attempt <= SSR_LOAD_ATTEMPTS; attempt += 1) {
+    const candidate = await createServer({
+      root,
+      logLevel: "silent",
+      server: { middlewareMode: true },
+      appType: "custom",
+    });
+
+    try {
+      const loaded = await withTimeout(
+        candidate.ssrLoadModule("/src/pages/SeoPage.jsx"),
+        SSR_LOAD_TIMEOUT_MS,
+        `Vite SSR не загрузил SeoPage за ${SSR_LOAD_TIMEOUT_MS} мс (попытка ${attempt})`,
+      );
+      return { server: candidate, SeoPage: loaded.SeoPage };
+    } catch (error) {
+      lastError = error;
+      await closeViteServer(candidate);
+    }
+  }
+
+  throw lastError;
+}
+
+test.before(async () => {
+  const loaded = await loadSeoPageModule();
+  vite = loaded.server;
+  SeoPage = loaded.SeoPage;
+});
+
+test.after(async () => {
+  await closeViteServer(vite);
+});
+
 function offer(entityId, rank) {
   const pathname = `/card/kronshteyn-${entityId}/123`;
   const clid = "12345678";
@@ -41,16 +115,6 @@ function offer(entityId, rank) {
 }
 
 test("финальный React DOM ставит короткое сравнение и три CTA раньше полного каталога", async () => {
-  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-  const vite = await createServer({
-    root,
-    logLevel: "silent",
-    server: { middlewareMode: true },
-    appType: "custom",
-  });
-
-  try {
-    const { SeoPage } = await vite.ssrLoadModule("/src/pages/SeoPage.jsx");
     const ids = ["itech-plb440nt", "itech-ptrb440ln", "itech-slt-460"];
     const mounts = ids.map((id, index) => ({
       id,
@@ -142,22 +206,9 @@ test("финальный React DOM ставит короткое сравнен�
       assert.equal(html.includes(fragment), false);
     }
     assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
-  } finally {
-    await vite.close();
-  }
 });
 
 test("ONKRON hub shows comparison and internal verification before Market exit", async () => {
-  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-  const vite = await createServer({
-    root,
-    logLevel: "silent",
-    server: { middlewareMode: true },
-    appType: "custom",
-  });
-
-  try {
-    const { SeoPage } = await vite.ssrLoadModule("/src/pages/SeoPage.jsx");
     const mounts = [
       ["onkron-tm6", "ONKRON TM6", "tilt"],
       ["onkron-m6l", "ONKRON M6L-B", "full-motion"],
@@ -220,7 +271,4 @@ test("ONKRON hub shows comparison and internal verification before Market exit",
     assert.equal((html.match(/href=\"\/kronshteyny\/onkron-/g) ?? []).length >= 7, true);
     assert.equal((html.match(/href=\"https:\/\/market\.yandex\.ru\/card\//g) ?? []).length, 2);
     assert.equal(html.includes("100×100 · 200×200 · 300×300 · 400×400"), true);
-  } finally {
-    await vite.close();
-  }
 });
