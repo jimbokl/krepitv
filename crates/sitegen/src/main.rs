@@ -4707,9 +4707,9 @@ mod tests {
         assert!(catalog_html.contains(
             "Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">26"
         ));
-        assert!(catalog_html.contains("data-searchable-model-count=\"84\""));
-        assert!(catalog_html.contains("data-model-search-count=\"84\""));
-        assert_eq!(catalog_html.matches("<option value=").count(), 84);
+        assert!(catalog_html.contains("data-searchable-model-count=\"85\""));
+        assert!(catalog_html.contains("data-model-search-count=\"85\""));
+        assert_eq!(catalog_html.matches("<option value=").count(), 85);
         assert!(catalog_html.contains("data-known-model-fallback=\"true\""));
         assert!(catalog_html.contains("паспорт винтов ещё не подтверждён"));
         assert!(
@@ -4878,9 +4878,9 @@ mod tests {
         let html = seo_vesa_model_catalog_html(&models, &graph);
 
         assert!(html.contains("data-vesa-model-catalog=\"true\""));
-        assert!(html.contains("data-searchable-model-count=\"84\""));
-        assert!(html.contains("data-vesa-model-search-count=\"84\""));
-        assert_eq!(html.matches("<option value=").count(), 84);
+        assert!(html.contains("data-searchable-model-count=\"85\""));
+        assert!(html.contains("data-vesa-model-search-count=\"85\""));
+        assert_eq!(html.matches("<option value=").count(), 85);
         assert_eq!(html.matches("<details").count(), 5);
         assert!(html.contains("Таблица VESA телевизоров"));
         assert!(html.contains(
@@ -4927,7 +4927,7 @@ mod tests {
         ] {
             assert!(html.contains(&format!("data-home-tv-diagnostic=\"{id}\"")));
         }
-        assert!(html.contains("84 моделей с источниками"));
+        assert!(html.contains("85 моделей с источниками"));
         assert!(html.contains("href=\"/modeli/\""));
         assert!(html.contains("href=\"/kronshteyny/\""));
         for model in &models {

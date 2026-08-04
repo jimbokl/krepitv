@@ -1491,11 +1491,11 @@
       "rating_count": 409,
       "purchase_count": 1700,
       "purchase_label": "1.7K купили",
-      "already_in_catalog": false,
-      "catalog_model_id": null,
-      "catalog_brand": null,
-      "catalog_model": null,
-      "match_type": null,
+      "already_in_catalog": true,
+      "catalog_model_id": "samsung-qe85qef1auxru",
+      "catalog_brand": "Samsung",
+      "catalog_model": "QE85QEF1AUXRU",
+      "match_type": "manual_exact_identity",
       "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {

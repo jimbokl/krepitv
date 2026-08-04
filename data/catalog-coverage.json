@@ -1717,6 +1717,17 @@
       "dimension_source_url": "https://www.tcl.com/ru/ru/tvs/q7d",
       "dimension_source_label": "Официальные российские характеристики TCL",
       "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "samsung-qe85qef1auxru",
+      "brand": "Samsung",
+      "series": "QEF1",
+      "diagonal_inches": 85,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qef1-85-inch-qled-4k-smart-tv-qe85qef1auxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qef1-85-inch-qled-4k-smart-tv-qe85qef1auxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-08-04"
     }
   ]
 }

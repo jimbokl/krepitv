@@ -2097,5 +2097,24 @@
     "source_label": "Официальные российские характеристики TCL",
     "source_fact": "Интерактивная карточка TCL Россия для точного SKU 65Q7D подтверждает серию Q7D 2026 года, VESA 600×400 мм, корпус 1447×832×56 мм и массу 18 кг без подставки. Дополнительное значение «1500» в поле VESA не интерпретируется как отдельный размер.",
     "checked_at": "2026-08-04"
+  },
+  {
+    "id": "samsung-qe85qef1auxru",
+    "brand": "Samsung",
+    "model": "QE85QEF1AUXRU",
+    "title": "Samsung QE85QEF1AUXRU",
+    "series": "QEF1",
+    "model_year": 2025,
+    "diagonal_inches": 85,
+    "weight_kg": 32.5,
+    "width_mm": 1901.2,
+    "height_mm": 1088.4,
+    "depth_mm": 61.4,
+    "vesa_width_mm": 600,
+    "vesa_height_mm": 400,
+    "source_url": "https://www.samsung.com/ru/tvs/qled-tv/qef1-85-inch-qled-4k-smart-tv-qe85qef1auxru/",
+    "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка Samsung Россия подтверждает полный российский SKU QE85QEF1AUXRU, серию QEF1 2025 года, VESA 600×400 мм, корпус 1901,2×1088,4×61,4 мм и массу 32,5 кг без подставки.",
+    "checked_at": "2026-08-04"
   }
 ]

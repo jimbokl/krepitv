@@ -20737,5 +20737,62 @@
     ],
     "warnings": [],
     "required_load_kg": 22.5
+  },
+  {
+    "tv_id": "samsung-qe85qef1auxru",
+    "mount_id": "onkron-tm6",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 110,
+    "reasons": [
+      "Поддерживает VESA 600x400",
+      "Нагрузка до 68.2 кг покрывает запас 25%",
+      "Диагональ 85″ входит в диапазон 43–85″"
+    ],
+    "warnings": [],
+    "required_load_kg": 40.6
+  },
+  {
+    "tv_id": "samsung-qe85qef1auxru",
+    "mount_id": "kromax-atlantis-65",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 102,
+    "reasons": [
+      "Поддерживает VESA 600x400",
+      "Нагрузка до 45 кг покрывает запас 25%",
+      "Диагональ 85″ входит в диапазон 40–90″"
+    ],
+    "warnings": [],
+    "required_load_kg": 40.6
+  },
+  {
+    "tv_id": "samsung-qe85qef1auxru",
+    "mount_id": "itech-plb640nt",
+    "fit_status": "verified-fit",
+    "compatible": true,
+    "score": 102,
+    "reasons": [
+      "Поддерживает VESA 600x400",
+      "Нагрузка до 45 кг покрывает запас 25%",
+      "Диагональ 85″ входит в диапазон 37–86″"
+    ],
+    "warnings": [],
+    "required_load_kg": 40.6
+  },
+  {
+    "tv_id": "samsung-qe85qef1auxru",
+    "mount_id": "onkron-m6l",
+    "fit_status": "conditional-fit",
+    "compatible": true,
+    "score": 98,
+    "reasons": [
+      "Поддерживает VESA 600x400",
+      "Нагрузка до 70 кг покрывает запас 25%"
+    ],
+    "warnings": [
+      "Диагональ вне рекомендованного диапазона 40–75″; перепроверьте геометрию пластины"
+    ],
+    "required_load_kg": 40.6
   }
 ]

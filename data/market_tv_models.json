@@ -6,8 +6,8 @@
   "summary": {
     "market_observations": 133,
     "unique_identities": 126,
-    "verified_routes": 6,
-    "observed_canonicals": 120,
+    "verified_routes": 7,
+    "observed_canonicals": 119,
     "indexable_observed_canonicals": 0,
     "alias_routes": 7,
     "low_confidence_routes": 9
@@ -1371,9 +1371,9 @@
       "canonical_id": "samsung-qe85qef1auxru",
       "canonical_path": "/modeli/samsung-qe85qef1auxru/",
       "route_path": "/modeli/samsung-qe85qef1auxru/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Samsung",
       "model": "QE85QEF1AUXRU",
       "title": "Samsung QE85QEF1AUXRU",
@@ -1388,7 +1388,7 @@
       "observed_rank": 53,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "samsung-qe85qef1auxru",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3472,5 +3472,5 @@
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     }
   ],
-  "batch_sha256": "a355e462b6adec7a5a22acff8afb21bee0d91dfbdfd4af68363c55884e526ea6"
+  "batch_sha256": "3107efd47c9c53bb3eb884ecbb7264c516673d8ec92d21c3ad3fec2a543881f3"
 }

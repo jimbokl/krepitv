@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "clid": "15238076",
-  "expected_offer_count": 251,
+  "expected_offer_count": 253,
   "models": [
     {
       "model_id": "hisense-43e7s",
@@ -1505,6 +1505,27 @@
           "entity_id": "itech-plb640nt",
           "source_card_id": "market-itech-plb640nt-102190438184",
           "vid": "krepitvmodelsamsungqe85q7faauxrur02itechplb640nt4f7d11f1581f"
+        }
+      ]
+    },
+    {
+      "model_id": "samsung-qe85qef1auxru",
+      "model_path": "/modeli/samsung-qe85qef1auxru/",
+      "expected_offer_count": 2,
+      "placements": [
+        {
+          "placement_id": "model-samsung-qe85qef1auxru-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodelsamsungqe85qef1auxrur01onkrontm695d8801cb9af"
+        },
+        {
+          "placement_id": "model-samsung-qe85qef1auxru-r02-itech-plb640nt",
+          "rank": 2,
+          "entity_id": "itech-plb640nt",
+          "source_card_id": "market-itech-plb640nt-102190438184",
+          "vid": "krepitvmodelsamsungqe85qef1auxrur02itechplb640nte6e945c5af79"
         }
       ]
     },
