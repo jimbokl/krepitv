@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "clid": "15238076",
-  "expected_offer_count": 239,
+  "expected_offer_count": 251,
   "models": [
     {
       "model_id": "hisense-43e7s",
@@ -1789,6 +1789,34 @@
       ]
     },
     {
+      "model_id": "tcl-50v6c",
+      "model_path": "/modeli/tcl-50v6c/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-50v6c-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodeltcl50v6cr01holderlcds50361b248ade21fe"
+        },
+        {
+          "placement_id": "model-tcl-50v6c-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodeltcl50v6cr02holderlcds506646c153f1fb78"
+        },
+        {
+          "placement_id": "model-tcl-50v6c-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl50v6cr03kromaxatlantis45938b557a36fb"
+        }
+      ]
+    },
+    {
       "model_id": "tcl-55c6k",
       "model_path": "/modeli/tcl-55c6k/",
       "expected_offer_count": 3,
@@ -2013,6 +2041,62 @@
       ]
     },
     {
+      "model_id": "tcl-55q6cs",
+      "model_path": "/modeli/tcl-55q6cs/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55q6cs-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55q6csr01kromaxatlantis45d4e7091525e5"
+        },
+        {
+          "placement_id": "model-tcl-55q6cs-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55q6csr02kromaxdix18343631182c41"
+        },
+        {
+          "placement_id": "model-tcl-55q6cs-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55q6csr03kromaxflat4f48ac5b9f95a"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-55t8d",
+      "model_path": "/modeli/tcl-55t8d/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-55t8d-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodeltcl55t8dr01kromaxatlantis45f945858af8c4"
+        },
+        {
+          "placement_id": "model-tcl-55t8d-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltcl55t8dr02kromaxdix18a16306f2f65a"
+        },
+        {
+          "placement_id": "model-tcl-55t8d-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodeltcl55t8dr03kromaxflat43ff31e158463"
+        }
+      ]
+    },
+    {
       "model_id": "tcl-65c7k",
       "model_path": "/modeli/tcl-65c7k/",
       "expected_offer_count": 3,
@@ -2037,6 +2121,34 @@
           "entity_id": "onkron-nn24",
           "source_card_id": "market-onkron-nn24-102126398329",
           "vid": "krepitvmodeltcl65c7kr03onkronnn244cdbcab99e7d"
+        }
+      ]
+    },
+    {
+      "model_id": "tcl-65q7d",
+      "model_path": "/modeli/tcl-65q7d/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tcl-65q7d-r01-onkron-tm6",
+          "rank": 1,
+          "entity_id": "onkron-tm6",
+          "source_card_id": "market-onkron-tm6-5720427358",
+          "vid": "krepitvmodeltcl65q7dr01onkrontm6c12c8f385ded"
+        },
+        {
+          "placement_id": "model-tcl-65q7d-r02-itech-plb640nt",
+          "rank": 2,
+          "entity_id": "itech-plb640nt",
+          "source_card_id": "market-itech-plb640nt-102190438184",
+          "vid": "krepitvmodeltcl65q7dr02itechplb640nt4b8de308f8f2"
+        },
+        {
+          "placement_id": "model-tcl-65q7d-r03-itech-ptrb460ln",
+          "rank": 3,
+          "entity_id": "itech-ptrb460ln",
+          "source_card_id": "market-itech-ptrb460ln-101935604187",
+          "vid": "krepitvmodeltcl65q7dr03itechptrb460ln25280b9ac408"
         }
       ]
     },

@@ -640,6 +640,38 @@
     "search": "samsung qe77s85faexru samsung qe77s85faexru"
   },
   {
+    "id": "tcl-50v6c",
+    "title": "TCL 50V6C",
+    "brand": "TCL",
+    "model": "50V6C",
+    "href": "/modeli/tcl-50v6c/",
+    "search": "tcl 50v6c tcl 50v6c"
+  },
+  {
+    "id": "tcl-55q6cs",
+    "title": "TCL 55Q6CS",
+    "brand": "TCL",
+    "model": "55Q6CS",
+    "href": "/modeli/tcl-55q6cs/",
+    "search": "tcl 55q6cs tcl 55q6cs"
+  },
+  {
+    "id": "tcl-55t8d",
+    "title": "TCL 55T8D",
+    "brand": "TCL",
+    "model": "55T8D",
+    "href": "/modeli/tcl-55t8d/",
+    "search": "tcl 55t8d tcl 55t8d"
+  },
+  {
+    "id": "tcl-65q7d",
+    "title": "TCL 65Q7D",
+    "brand": "TCL",
+    "model": "65Q7D",
+    "href": "/modeli/tcl-65q7d/",
+    "search": "tcl 65q7d tcl 65q7d"
+  },
+  {
     "id": "hi-ht-32h01fb",
     "title": "Hi HT-32H01FB",
     "brand": "Hi",
@@ -814,14 +846,6 @@
     "model": "HY-40F01FB",
     "href": "/modeli/hi-hy-40f01fb/",
     "search": "hi hy-40f01fb hi hy-40f01fb телевизор hi hy-40f01fb"
-  },
-  {
-    "id": "tcl-v6c",
-    "title": "TCL V6C 50″",
-    "brand": "TCL",
-    "model": "V6C",
-    "href": "/modeli/tcl-v6c/",
-    "search": "tcl v6c tcl v6c 50″ телевизор tcl 50\" v6c 4k hdr memc google tv, смарт тв, 50 дюймов"
   },
   {
     "id": "samsung-ue32h5000fuxru",
@@ -1112,14 +1136,6 @@
     "search": "smart телевизор 32″ smart телевизор 32″ телевизор smart tv full hd 4k 32 дюйма, пульт-аэромышь с голосовым управлением, черный"
   },
   {
-    "id": "tcl-q6cs",
-    "title": "TCL Q6CS 55″",
-    "brand": "TCL",
-    "model": "Q6CS",
-    "href": "/modeli/tcl-q6cs/",
-    "search": "tcl q6cs tcl q6cs 55″ телевизор tcl 55\" q6cs qd-mini led 4k hdr google tv, смарт тв, 55 дюймов"
-  },
-  {
     "id": "general-electronics-ge50lus2",
     "title": "General Electronics GE50LUS2",
     "brand": "General Electronics",
@@ -1270,14 +1286,6 @@
     "model": "32E9000",
     "href": "/modeli/yasin-32e9000/",
     "search": "yasin 32e9000 yasin 32e9000 телевизор смарт yasin 32e9000, android tv, bluetooth, wi-f, диагональ 32\", разрешение hd"
-  },
-  {
-    "id": "tcl-t8d",
-    "title": "TCL T8D 55″",
-    "brand": "TCL",
-    "model": "T8D",
-    "href": "/modeli/tcl-t8d/",
-    "search": "tcl t8d tcl t8d 55″ телевизор tcl 55\" t8d qled 144 гц 4k hdr google tv, смарт тв, 55 дюймов"
   },
   {
     "id": "haier-h55k85gux",
@@ -1470,14 +1478,6 @@
     "model": "H-LED40BS5011",
     "href": "/modeli/hyundai-h-led40bs5011/",
     "search": "hyundai h-led40bs5011 hyundai h-led40bs5011 телевизор led hyundai h-led40bs5011, диагональ 40\", разрешение 1920 x 1080"
-  },
-  {
-    "id": "tcl-q7d",
-    "title": "TCL Q7D 65″",
-    "brand": "TCL",
-    "model": "Q7D",
-    "href": "/modeli/tcl-q7d/",
-    "search": "tcl q7d tcl q7d 65″ телевизор tcl 65\" q7d rgb-mini led 144 гц 4k hdr google tv, смарт тв, 65 дюймов"
   },
   {
     "id": "asano-24lf1210t",

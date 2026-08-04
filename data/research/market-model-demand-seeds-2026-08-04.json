@@ -1,0 +1,22 @@
+[
+  { "brand": "Tuvio", "model": "TD50UFBHH12", "series": "TD UFBHH12", "diagonal_inches": 50 },
+  { "brand": "Tuvio", "model": "TD43UFBHH13", "series": "TD UFBHH13", "diagonal_inches": 43 },
+  { "brand": "TCL", "model": "55Q6CS", "series": "Q6CS", "diagonal_inches": 55 },
+  { "brand": "Starwind", "model": "SW-LED32BG200", "series": "BG200", "diagonal_inches": 32 },
+  { "brand": "Starwind", "model": "SW-LED40SG300", "series": "SG300", "diagonal_inches": 40 },
+  { "brand": "Tuvio", "model": "TD24HBCH11", "series": "TD HBCH11", "diagonal_inches": 24 },
+  { "brand": "Hi", "model": "HT-32H01FB", "series": "HT H01FB", "diagonal_inches": 32 },
+  { "brand": "Tuvio", "model": "TQ65UFGHH13", "series": "TQ UFGHH13", "diagonal_inches": 65 },
+  { "brand": "TCL", "model": "50V6C", "series": "V6C", "diagonal_inches": 50 },
+  { "brand": "TCL", "model": "32V4C", "series": "V4C", "diagonal_inches": 32 },
+  { "brand": "Digma", "model": "DM-LED32SBB39", "series": "SBB39", "diagonal_inches": 32 },
+  { "brand": "Tuvio", "model": "TD50UFBHH11", "series": "TD UFBHH11", "diagonal_inches": 50 },
+  { "brand": "TCL", "model": "55T8D", "series": "T8D", "diagonal_inches": 55 },
+  { "brand": "Tuvio", "model": "TD32HFBCH12", "series": "TD HFBCH12", "diagonal_inches": 32 },
+  { "brand": "TopDevice", "model": "TDHTV32GFD_BK", "series": "GFD", "diagonal_inches": 32 },
+  { "brand": "TopDevice", "model": "TDHTV32GHD_BK", "series": "GHD", "diagonal_inches": 32 },
+  { "brand": "TCL", "model": "65Q7D", "series": "Q7D", "diagonal_inches": 65 },
+  { "brand": "Sber", "model": "SDX-32H3114", "series": "H3114", "diagonal_inches": 32 },
+  { "brand": "Hi", "model": "HY-40F01FB", "series": "HY F01FB", "diagonal_inches": 40 },
+  { "brand": "Samsung", "model": "QE85QEF1AUXRU", "series": "QEF1", "diagonal_inches": 85 }
+]

@@ -1673,6 +1673,50 @@
       "dimension_source_url": "https://www.samsung.com/ru/tvs/oled-tv/s85f-77-inch-oled-4k-smart-tv-qe77s85faexru/",
       "dimension_source_label": "Официальные российские характеристики Samsung",
       "checked_at": "2026-07-30"
+    },
+    {
+      "model_id": "tcl-50v6c",
+      "brand": "TCL",
+      "series": "V6C",
+      "diagonal_inches": 50,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.tcl.com/ru/ru/tvs/v6c",
+      "dimension_source_url": "https://www.tcl.com/ru/ru/tvs/v6c",
+      "dimension_source_label": "Официальные российские характеристики TCL",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "tcl-55q6cs",
+      "brand": "TCL",
+      "series": "Q6CS",
+      "diagonal_inches": 55,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.tcl.com/ru/ru/tvs/q6cs",
+      "dimension_source_url": "https://www.tcl.com/ru/ru/tvs/q6cs",
+      "dimension_source_label": "Официальные российские характеристики TCL",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "tcl-55t8d",
+      "brand": "TCL",
+      "series": "T8D",
+      "diagonal_inches": 55,
+      "model_year": 2026,
+      "catalog_source_url": "https://www.tcl.com/ru/ru/tvs/t8d",
+      "dimension_source_url": "https://www.tcl.com/ru/ru/tvs/t8d",
+      "dimension_source_label": "Официальные российские характеристики TCL",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "tcl-65q7d",
+      "brand": "TCL",
+      "series": "Q7D",
+      "diagonal_inches": 65,
+      "model_year": 2026,
+      "catalog_source_url": "https://www.tcl.com/ru/ru/tvs/q7d",
+      "dimension_source_url": "https://www.tcl.com/ru/ru/tvs/q7d",
+      "dimension_source_label": "Официальные российские характеристики TCL",
+      "checked_at": "2026-08-04"
     }
   ]
 }

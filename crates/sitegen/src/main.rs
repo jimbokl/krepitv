@@ -8,9 +8,15 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
 const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
-const CORE_PAGES_UPDATED_AT: &str = "2026-07-31";
+const CORE_PAGES_UPDATED_AT: &str = "2026-08-04";
 const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-01";
 const MARKET_MODELS_UPDATED_AT: &str = "2026-08-04";
+const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
+    ("tcl-v6c", "tcl-50v6c"),
+    ("tcl-q6cs", "tcl-55q6cs"),
+    ("tcl-t8d", "tcl-55t8d"),
+    ("tcl-q7d", "tcl-65q7d"),
+];
 const DATASET_DOWNLOAD_BASE: &str =
     "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0";
 const DATASET_LICENSE_URL: &str =
@@ -4069,6 +4075,60 @@ fn main() {
         );
     }
 
+    // These routes were published while the Market observation did not yet
+    // carry a source-backed exact SKU. Keep them as full noindex aliases after
+    // promotion so bookmarks and crawler history do not turn into 404 pages.
+    for (legacy_id, verified_id) in LEGACY_VERIFIED_MODEL_ROUTES {
+        let tv = models
+            .iter()
+            .find(|model| model.id == verified_id)
+            .expect("Legacy model alias must resolve to a verified model");
+        let commercial_profile =
+            commercial_profile_for(&commercial_profiles.profiles, "model", &tv.id);
+        let title = format!(
+            "Крепление для {}: VESA {}×{} — прежний адрес",
+            tv.title, tv.vesa_width_mm, tv.vesa_height_mm
+        );
+        let description = format!(
+            "Совместимые кронштейны для {}: VESA {}×{}, масса без подставки {} кг. Проверка по данным производителя.",
+            tv.title, tv.vesa_width_mm, tv.vesa_height_mm, tv.weight_kg
+        );
+        let matches = model_mount_matches(tv, &mounts);
+        let static_body = model_page_body(
+            tv,
+            &matches,
+            &affiliate_snapshot.offers,
+            affiliate_now_seconds,
+            &seo_pages,
+            commercial_profile,
+        );
+        let canonical = format!("https://krepitv.ru/modeli/{}/", tv.id);
+        let structured_data = format!(
+            "{}{}",
+            breadcrumb_json_ld(&[
+                ("Главная", "https://krepitv.ru/"),
+                ("Модели телевизоров", "https://krepitv.ru/modeli/"),
+                (&tv.title, &canonical),
+            ]),
+            tv_product_json_ld(tv, &canonical)
+        );
+        write(
+            &web.join(format!("modeli/{legacy_id}/index.html")),
+            &html_shell(
+                &title,
+                &description,
+                &canonical,
+                "model",
+                Some(&tv.id),
+                Some(&static_body),
+                HeadExtras {
+                    robots: Some("noindex,follow"),
+                    json_ld: &structured_data,
+                },
+            ),
+        );
+    }
+
     for mount in &mounts {
         let commercial_profile =
             commercial_profile_for(&commercial_profiles.profiles, "mount", &mount.id);
@@ -4647,9 +4707,9 @@ mod tests {
         assert!(catalog_html.contains(
             "Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">26"
         ));
-        assert!(catalog_html.contains("data-searchable-model-count=\"80\""));
-        assert!(catalog_html.contains("data-model-search-count=\"80\""));
-        assert_eq!(catalog_html.matches("<option value=").count(), 80);
+        assert!(catalog_html.contains("data-searchable-model-count=\"84\""));
+        assert!(catalog_html.contains("data-model-search-count=\"84\""));
+        assert_eq!(catalog_html.matches("<option value=").count(), 84);
         assert!(catalog_html.contains("data-known-model-fallback=\"true\""));
         assert!(catalog_html.contains("паспорт винтов ещё не подтверждён"));
         assert!(
@@ -4818,9 +4878,9 @@ mod tests {
         let html = seo_vesa_model_catalog_html(&models, &graph);
 
         assert!(html.contains("data-vesa-model-catalog=\"true\""));
-        assert!(html.contains("data-searchable-model-count=\"80\""));
-        assert!(html.contains("data-vesa-model-search-count=\"80\""));
-        assert_eq!(html.matches("<option value=").count(), 80);
+        assert!(html.contains("data-searchable-model-count=\"84\""));
+        assert!(html.contains("data-vesa-model-search-count=\"84\""));
+        assert_eq!(html.matches("<option value=").count(), 84);
         assert_eq!(html.matches("<details").count(), 5);
         assert!(html.contains("Таблица VESA телевизоров"));
         assert!(html.contains(
@@ -4867,7 +4927,7 @@ mod tests {
         ] {
             assert!(html.contains(&format!("data-home-tv-diagnostic=\"{id}\"")));
         }
-        assert!(html.contains("80 моделей с источниками"));
+        assert!(html.contains("84 моделей с источниками"));
         assert!(html.contains("href=\"/modeli/\""));
         assert!(html.contains("href=\"/kronshteyny/\""));
         for model in &models {

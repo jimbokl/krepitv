@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "market": "Россия",
+  "method": "Официальная российская страница серии TCL вызывает product_spec.<base64 productDataPath>.json; значения ниже извлечены без преобразования единиц.",
+  "models": [
+    {
+      "model": "50V6C",
+      "series_page_url": "https://www.tcl.com/ru/ru/tvs/v6c",
+      "support_page_url": "https://www.tcl.com/ru/ru/support/model/50v6c",
+      "spec_endpoint_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/v6c/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3Y2Yy81MHY2Yw==.json",
+      "response_sha256": "114c165bca956d63c389c795045131e13f5011d9f227282d4a9504622d6814e1",
+      "year": 2025,
+      "vesa_mm": "200x200",
+      "weight_without_stand_kg": 7.2,
+      "dimensions_without_stand_mm": "1111x644x70"
+    },
+    {
+      "model": "55Q6CS",
+      "series_page_url": "https://www.tcl.com/ru/ru/tvs/q6cs",
+      "support_page_url": "https://www.tcl.com/ru/ru/support/model/55q6cs",
+      "spec_endpoint_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/q6cs/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3E2Y3MvNTVxNmNz.json",
+      "response_sha256": "a70d7689be2a39218f8549c9b6025faef44901e099f2f11db67d8e54c1cde9e0",
+      "year": 2025,
+      "vesa_mm": "300x300",
+      "weight_without_stand_kg": 12.2,
+      "dimensions_without_stand_mm": "1229x713x55.9"
+    },
+    {
+      "model": "55T8D",
+      "series_page_url": "https://www.tcl.com/ru/ru/tvs/t8d",
+      "support_page_url": "https://www.tcl.com/ru/ru/support-tv/model/55t8d",
+      "spec_endpoint_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/t8d/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3Q4ZC81NXQ4ZA==.json",
+      "response_sha256": "c488ae3a4603e1e2bb91091afb6152ae4e18f0f3ab7aebc31c47cb1371d440b0",
+      "year": 2026,
+      "vesa_mm": "300x300",
+      "weight_without_stand_kg": 11,
+      "dimensions_without_stand_mm": "1224x708x69.5"
+    },
+    {
+      "model": "65Q7D",
+      "series_page_url": "https://www.tcl.com/ru/ru/tvs/q7d",
+      "support_page_url": "https://www.tcl.com/ru/ru/support-tv/model/65q7d",
+      "spec_endpoint_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/q7d/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3E3ZC82NXE3ZA==.json",
+      "response_sha256": "b18b985835372faf95c5c43a5af76d4e0d15dcf9ed4e94c460fc2f02743580b9",
+      "year": 2026,
+      "vesa_mm": "600x400",
+      "vesa_raw_value": "600×400 / 1500",
+      "vesa_note": "Для совместимости используется только явно указанная пара VESA 600×400 мм; дополнительное значение 1500 не интерпретируется.",
+      "weight_without_stand_kg": 18,
+      "dimensions_without_stand_mm": "1447x832x56"
+    }
+  ]
+}

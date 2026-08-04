@@ -9,10 +9,17 @@ const docs = path.join(root, "docs");
 const origin = "https://krepitv.ru";
 const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
-const corePagesUpdatedAt = "2026-07-31";
+const corePagesUpdatedAt = "2026-08-04";
 const marketModelsUpdatedAt = "2026-08-04";
 const trafficPagesUpdatedAt = "2026-08-01";
-const baselineIndexableUrlCount = 164;
+const baselineIndexableUrlCount = 168;
+const legacyVerifiedModelAliases = new Map([
+  ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
+  ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
+  ["/modeli/tcl-t8d/", "/modeli/tcl-55t8d/"],
+  ["/modeli/tcl-q7d/", "/modeli/tcl-65q7d/"],
+]);
+const legacyVerifiedModelRoutes = new Set(legacyVerifiedModelAliases.keys());
 const removedAffiliateDisclaimerFragments = [
   "Партнёрская ссылка на Яндекс Маркет",
   "Если вы оформите заказ",
@@ -1194,9 +1201,12 @@ const canonicals = [...htmlByRoute.entries()].map(([route, html]) => ({
   value: canonicalFromHtml(html),
 }));
 const marketAliasRoutes = new Set(
-  marketModelsManifest.records
-    .filter((record) => record.page_kind === "alias")
-    .map((record) => record.route_path),
+  [
+    ...marketModelsManifest.records
+      .filter((record) => record.page_kind === "alias")
+      .map((record) => record.route_path),
+    ...legacyVerifiedModelRoutes,
+  ],
 );
 assertUnique(
   canonicals
@@ -1219,6 +1229,24 @@ for (const model of models) {
     .map((edge) => edge.mount_id);
   if (!compatibleMountIds.every((id) => html.includes(`/kronshteyny/${id}/`))) {
     throw new Error(`Страница модели не содержит все взаимные ссылки: ${route}`);
+  }
+}
+for (const [legacyRoute, verifiedRoute] of legacyVerifiedModelAliases) {
+  const html = htmlByRoute.get(legacyRoute);
+  const modelId = verifiedRoute.split("/").at(-2);
+  const model = models.find((item) => item.id === modelId);
+  const compatibleMountIds = compatibilityEdges
+    .filter((edge) => edge.tv_id === modelId && edge.compatible)
+    .map((edge) => edge.mount_id);
+  if (
+    !model
+    || !html
+    || !/<meta\s+name="robots"\s+content="noindex,follow"/u.test(html)
+    || canonicalFromHtml(html) !== `${origin}${verifiedRoute}`
+    || !html.includes(model.source_url)
+    || !compatibleMountIds.every((id) => html.includes(`/kronshteyny/${id}/`))
+  ) {
+    throw new Error(`Прежний адрес модели не содержит полный noindex alias: ${legacyRoute}`);
   }
 }
 for (const mount of mounts) {
@@ -1268,8 +1296,8 @@ if (!screwLookupHtml.includes('data-screw-catalog="true"') || !screwLookupHtml.i
   throw new Error("Страница подбора винтов не содержит самостоятельный сворачиваемый каталог");
 }
 for (const required of [
-  'data-searchable-model-count="80"',
-  'data-model-search-count="80"',
+  'data-searchable-model-count="84"',
+  'data-model-search-count="84"',
   'data-known-model-fallback="true"',
   "паспорт винтов ещё не подтверждён",
   "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv",
@@ -1440,8 +1468,8 @@ if (
 const vesaLookupHtml = htmlByRoute.get(vesaLookupPage.path) ?? "";
 for (const required of [
   'data-vesa-model-catalog="true"',
-  'data-searchable-model-count="80"',
-  'data-vesa-model-search-count="80"',
+  'data-searchable-model-count="84"',
+  'data-vesa-model-search-count="84"',
   "Найдите VESA по модели телевизора",
   "Таблица VESA телевизоров",
   "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv",
