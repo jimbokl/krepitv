@@ -11,6 +11,7 @@ const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-08-04";
 const marketModelsUpdatedAt = "2026-08-04";
+const modelPagesUpdatedAt = "2026-08-04";
 const trafficPagesUpdatedAt = "2026-08-01";
 const baselineIndexableUrlCount = 216;
 const legacyVerifiedModelAliases = new Map([
@@ -1726,6 +1727,7 @@ for (const model of models) {
       model.checked_at,
       model.wall_mount_screws?.checked_at,
       profile ? commercialProfilesManifest.updated_at : undefined,
+      modelPagesUpdatedAt,
     ].filter(Boolean).sort().at(-1);
     if (sitemapLastmods.get(route) !== expectedLastmod) {
       throw new Error(`Модель имеет неточный sitemap lastmod: ${route}`);

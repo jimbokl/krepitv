@@ -101,14 +101,15 @@ test("карточка модели выводит только три model-spe
       mount("kromax-dix-18", "KROMAX", "full-motion"),
       mount("kromax-flat-4", "KROMAX", "fixed"),
       mount("onkron-tm6", "ONKRON", "tilt"),
+      mount("holder-conditional", "Holder", "fixed"),
     ];
-    const compatibilityEdges = mounts.map((item) => ({
+    const compatibilityEdges = mounts.map((item, index) => ({
       tv_id: model.id,
       mount_id: item.id,
       compatible: true,
-      fit_status: "verified-fit",
+      fit_status: index === mounts.length - 1 ? "conditional-fit" : "verified-fit",
       reasons: ["VESA совпадает", "Запас нагрузки достаточен"],
-      warnings: [],
+      warnings: index === mounts.length - 1 ? ["Нужна проверка диагонали"] : [],
       required_load_kg: 16.7,
     }));
     const catalog = {
@@ -153,7 +154,9 @@ test("карточка модели выводит только три model-spe
     assert.equal(html.includes("data-wall-mount-screws=\"true\""), true);
     assert.equal(html.includes("data-compatibility-proof=\"true\""), true);
     assert.equal(html.includes("Точная пара 300×300 мм"), true);
-    assert.equal(html.includes("4 вариантов"), true);
+    assert.equal(html.includes("Подтверждено: 4"), true);
+    assert.equal(html.includes("Дополнительно условных вариантов: 1"), true);
+    assert.equal(html.includes("Нужна проверка диагонали"), true);
     assert.equal(html.includes("Какие винты нужны для TCL 55C7K"), true);
     assert.equal(html.includes("4 шт. · M6×16 мм"), true);
     assert.equal(html.includes("Это паспортный размер винта, а не глубина резьбового отверстия"), true);

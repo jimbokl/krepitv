@@ -49,6 +49,8 @@ export function ModelPage({ catalog, modelId }) {
     pagePath: `/modeli/${model.id}/`,
   });
   const vesaConflict = model.wall_mount_screws?.vesa_conflict;
+  const verifiedCount = compatible.filter((edge) => edge.fit_status === "verified-fit").length;
+  const conditionalCount = compatible.filter((edge) => edge.fit_status === "conditional-fit").length;
 
   function openModel(item) {
     window.location.assign(item.href || `/modeli/${item.id}/`);
@@ -138,12 +140,14 @@ export function ModelPage({ catalog, modelId }) {
               </span>
               <div>
                 <h2 className={`font-display text-3xl font-extrabold sm:text-4xl lg:text-5xl ${vesaConflict ? "text-action" : "text-verified"}`}>
-                  {vesaConflict ? "Кандидаты после проверки VESA" : "Совместимые варианты"}
+                  {vesaConflict ? "Кандидаты после проверки VESA" : "Подтверждённые варианты"}
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed sm:text-base">
                   {vesaConflict
                     ? "Официальные источники расходятся по VESA. До измерения отверстий не считайте автоматический список окончательным."
-                    : `Все варианты проходят точную VESA и запас нагрузки для ${model.title}. Диапазон диагонали проверяется отдельно в статусе каждой позиции.`}
+                    : conditionalCount > 0
+                      ? `Полностью подтверждено: ${verifiedCount}. Условных вариантов из-за диапазона диагонали: ${conditionalCount}.`
+                      : `Все ${verifiedCount} вариантов прошли точную VESA, нагрузку с запасом и паспортный диапазон диагонали для ${model.title}.`}
                 </p>
               </div>
             </div>
@@ -184,6 +188,8 @@ export function ModelPage({ catalog, modelId }) {
 function CompatibilityProof({ matches, model, vesaConflict }) {
   const requiredLoad = formatNumber(model.weight_kg * 1.25);
   const vesa = `${formatNumber(model.vesa_width_mm)}×${formatNumber(model.vesa_height_mm)} мм`;
+  const verifiedCount = matches.filter((edge) => edge.fit_status === "verified-fit").length;
+  const conditionalCount = matches.filter((edge) => edge.fit_status === "conditional-fit").length;
 
   return (
     <section
@@ -211,9 +217,15 @@ function CompatibilityProof({ matches, model, vesaConflict }) {
       </article>
       <article className="bg-paper p-5">
         <p className="font-mono text-xs uppercase text-action">03 · Результат</p>
-        <h2 className="mt-2 font-display text-2xl font-extrabold">{matches.length} вариантов</h2>
+        <h2 className="mt-2 font-display text-2xl font-extrabold">
+          {vesaConflict ? `Кандидатов: ${matches.length}` : `Подтверждено: ${verifiedCount}`}
+        </h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          Для каждого кронштейна отдельно показан диапазон диагоналей. Крепёж к стене выбирают после проверки основания.
+          {vesaConflict
+            ? "Из-за расхождения официальных источников кандидаты требуют ручного измерения VESA."
+            : conditionalCount > 0
+              ? `Дополнительно условных вариантов: ${conditionalCount}. Они требуют ручной проверки диапазона диагонали. Крепёж к стене выбирают после проверки основания.`
+              : "Все показанные варианты прошли три проверки. Крепёж к стене выбирают после проверки основания."}
         </p>
       </article>
     </section>

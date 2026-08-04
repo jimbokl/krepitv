@@ -94,6 +94,7 @@ export async function main() {
   const siteUrl = argument("--site", "https://krepitv.ru/");
   const sitemapFile = path.resolve(root, argument("--sitemap-file", "docs/sitemap.xml"));
   const sitemapUrl = argument("--sitemap-url", "https://krepitv.ru/sitemap.xml");
+  const skipUrlInspection = process.argv.includes("--skip-url-inspection");
   const date2Default = isoDateDaysBefore(now, 2);
   const date2 = argument("--date2", date2Default);
   const date1 = argument("--date1", isoDateDaysBefore(`${date2}T12:00:00Z`, 27));
@@ -108,6 +109,7 @@ export async function main() {
     now,
     siteUrl,
     sitemapUrl,
+    skipUrlInspection,
   });
   await writePrivateReport(outputValue, report);
   process.stdout.write(`${JSON.stringify({
@@ -118,6 +120,7 @@ export async function main() {
     inspected: report.url_inspection.inspected_count,
     indexed_pass: report.url_inspection.indexed_pass_count,
     observed_indexed_pass: report.url_inspection.observed_indexed_pass_count,
+    page_opportunities: report.search_analytics.page_rows.rows.length,
     query_page_opportunities: report.search_analytics.query_page_rows.rows.length,
   }, null, 2)}\n`);
 }

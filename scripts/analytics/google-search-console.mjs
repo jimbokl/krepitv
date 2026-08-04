@@ -327,6 +327,32 @@ function validateQueryPageRows(payload) {
   });
 }
 
+function validatePageRows(payload) {
+  if (payload.rows === undefined) return [];
+  if (!Array.isArray(payload.rows)) {
+    throw new Error("Search Analytics page response has invalid rows");
+  }
+  return payload.rows.map((row) => {
+    if (
+      !row
+      || typeof row !== "object"
+      || Array.isArray(row)
+      || !Array.isArray(row.keys)
+      || row.keys.length !== 1
+      || typeof row.keys[0] !== "string"
+    ) {
+      throw new Error("Search Analytics page response has invalid keys");
+    }
+    const metrics = [row.clicks, row.impressions, row.ctr, row.position]
+      .map(requiredAnalyticsNumber);
+    if (metrics.some((value) => value === null)) {
+      throw new Error("Search Analytics page response has invalid metrics");
+    }
+    const [clicks, impressions, ctr, position] = metrics;
+    return { keys: row.keys, clicks, impressions, ctr, position };
+  });
+}
+
 function normalizeQueryPageRows(rows, { minImpressions, siteUrl }) {
   const kept = [];
   let belowThreshold = 0;
@@ -366,6 +392,38 @@ function normalizeQueryPageRows(rows, { minImpressions, siteUrl }) {
   };
 }
 
+function normalizePageRows(rows, { minImpressions, siteUrl }) {
+  const kept = [];
+  let belowThreshold = 0;
+  let invalidPage = 0;
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const path = sameOriginPath(row?.keys?.[0], siteUrl);
+    const impressions = safeNumber(row?.impressions);
+    if (impressions < minImpressions) {
+      belowThreshold += 1;
+      continue;
+    }
+    if (!path) {
+      invalidPage += 1;
+      continue;
+    }
+    kept.push({
+      path,
+      clicks: safeNumber(row.clicks),
+      impressions,
+      ctr: safeNumber(row.ctr),
+      position: safeNumber(row.position),
+    });
+  }
+  kept.sort((left, right) => right.impressions - left.impressions
+    || right.clicks - left.clicks
+    || left.path.localeCompare(right.path, "ru"));
+  return {
+    rows: kept,
+    suppressed: { below_threshold: belowThreshold, invalid_page: invalidPage },
+  };
+}
+
 async function fetchQueryPageRows({
   date1,
   date2,
@@ -397,6 +455,43 @@ async function fetchQueryPageRows({
       url: searchEndpoint(siteUrl),
     });
     const pageRows = validateQueryPageRows(payload);
+    rows.push(...pageRows);
+    if (pageRows.length < rowLimit) return { rows, truncated: false };
+  }
+  return { rows, truncated: true };
+}
+
+async function fetchPageRows({
+  date1,
+  date2,
+  fetchImpl,
+  siteUrl,
+  requestTimeoutMs,
+  sleepImpl,
+  token,
+  maxPages = 4,
+}) {
+  const rows = [];
+  const rowLimit = 25_000;
+  for (let page = 0; page < maxPages; page += 1) {
+    const payload = await apiJson({
+      body: {
+        startDate: date1,
+        endDate: date2,
+        type: "web",
+        dataState: "final",
+        dimensions: ["page"],
+        rowLimit,
+        startRow: page * rowLimit,
+      },
+      fetchImpl,
+      method: "POST",
+      requestTimeoutMs,
+      sleepImpl,
+      token,
+      url: searchEndpoint(siteUrl),
+    });
+    const pageRows = validatePageRows(payload);
     rows.push(...pageRows);
     if (pageRows.length < rowLimit) return { rows, truncated: false };
   }
@@ -514,6 +609,25 @@ function summarizeInspection(results, requestedCount) {
   };
 }
 
+function skippedInspection(sitemapUrlCount) {
+  return {
+    state: "skipped",
+    mode: "skipped_on_request",
+    sitemap_url_count: sitemapUrlCount,
+    requested_count: 0,
+    inspected_count: 0,
+    indexed_pass_count: null,
+    observed_indexed_pass_count: null,
+    with_last_crawl: 0,
+    verdict_counts: {},
+    coverage_counts: {},
+    family_verdict_counts: {},
+    failure_counts: {},
+    indexed_paths: [],
+    rows: [],
+  };
+}
+
 function sanitizeSitemapStatus(payload, sitemapUrl) {
   if (payload.sitemap !== undefined && !Array.isArray(payload.sitemap)) {
     throw new Error("Google Search Console sitemap response has invalid entries");
@@ -578,11 +692,14 @@ export async function fetchGoogleSearchConsoleReport({
   inspectionConcurrency = 6,
   localSitemapXml,
   maxQueryPages = 4,
+  maxPagePages = 4,
+  minPageImpressions = 10,
   minQueryImpressions = 10,
   now = new Date(),
   requestTimeoutMs = 30_000,
   siteUrl: siteValue = "https://krepitv.ru/",
   sitemapUrl: sitemapValue = "https://krepitv.ru/sitemap.xml",
+  skipUrlInspection = false,
   sleepImpl = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)),
 }) {
   const credentials = validateServiceAccountCredentials(credentialsValue);
@@ -597,11 +714,17 @@ export async function fetchGoogleSearchConsoleReport({
   if (!Number.isInteger(minQueryImpressions) || minQueryImpressions < 10) {
     throw new Error("minQueryImpressions must be at least 10");
   }
+  if (!Number.isInteger(minPageImpressions) || minPageImpressions < 10) {
+    throw new Error("minPageImpressions must be at least 10");
+  }
   if (!Number.isInteger(inspectionConcurrency) || inspectionConcurrency < 1 || inspectionConcurrency > 8) {
     throw new Error("inspectionConcurrency must be between 1 and 8");
   }
   if (!Number.isInteger(requestTimeoutMs) || requestTimeoutMs < 1 || requestTimeoutMs > 120_000) {
     throw new Error("requestTimeoutMs must be between 1 and 120000");
+  }
+  if (typeof skipUrlInspection !== "boolean") {
+    throw new Error("skipUrlInspection must be boolean");
   }
 
   const localUrls = parseSitemapUrls(localSitemapXml, siteUrl);
@@ -647,7 +770,7 @@ export async function fetchGoogleSearchConsoleReport({
     throw new Error("production and local sitemap URL sets differ");
   }
 
-  const [totalsPayload, queryPagePayload, sitemapsPayload] = await Promise.all([
+  const [totalsPayload, queryPagePayload, pagePayload, sitemapsPayload] = await Promise.all([
     apiJson({
       body: { startDate: date1, endDate: date2, type: "web", dataState: "final", rowLimit: 1 },
       fetchImpl,
@@ -667,20 +790,36 @@ export async function fetchGoogleSearchConsoleReport({
       sleepImpl,
       token,
     }),
+    fetchPageRows({
+      date1,
+      date2,
+      fetchImpl,
+      maxPages: maxPagePages,
+      requestTimeoutMs,
+      siteUrl,
+      sleepImpl,
+      token,
+    }),
     apiJson({ fetchImpl, requestTimeoutMs, sleepImpl, token, url: sitemapEndpoint(siteUrl) }),
   ]);
   const queryPages = normalizeQueryPageRows(queryPagePayload.rows, {
     minImpressions: minQueryImpressions,
     siteUrl,
   });
-  const inspections = await mapLimit(productionUrls, inspectionConcurrency, (url) => inspectOne({
-    fetchImpl,
-    requestTimeoutMs,
+  const pages = normalizePageRows(pagePayload.rows, {
+    minImpressions: minPageImpressions,
     siteUrl,
-    sleepImpl,
-    token,
-    url,
-  }));
+  });
+  const inspections = skipUrlInspection
+    ? []
+    : await mapLimit(productionUrls, inspectionConcurrency, (url) => inspectOne({
+      fetchImpl,
+      requestTimeoutMs,
+      siteUrl,
+      sleepImpl,
+      token,
+      url,
+    }));
 
   const report = {
     schema_version: 1,
@@ -698,6 +837,13 @@ export async function fetchGoogleSearchConsoleReport({
         truncated: queryPagePayload.truncated,
         ...queryPages,
       },
+      page_rows: {
+        coverage: "top_rows_not_exhaustive",
+        min_impressions: minPageImpressions,
+        received_rows: pagePayload.rows.length,
+        truncated: pagePayload.truncated,
+        ...pages,
+      },
     },
     sitemap: {
       production_url_count: productionUrls.length,
@@ -705,7 +851,9 @@ export async function fetchGoogleSearchConsoleReport({
       exact_match: true,
       console: sanitizeSitemapStatus(sitemapsPayload, sitemapUrl),
     },
-    url_inspection: summarizeInspection(inspections, productionUrls.length),
+    url_inspection: skipUrlInspection
+      ? skippedInspection(productionUrls.length)
+      : summarizeInspection(inspections, productionUrls.length),
   };
   assertSanitizedReport(report, credentials, token);
   return report;

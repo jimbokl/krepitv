@@ -11,6 +11,7 @@ const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
 const CORE_PAGES_UPDATED_AT: &str = "2026-08-04";
 const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-01";
 const MARKET_MODELS_UPDATED_AT: &str = "2026-08-04";
+const MODEL_PAGES_UPDATED_AT: &str = "2026-08-04";
 const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
     ("tcl-v6c", "tcl-50v6c"),
     ("tcl-q6cs", "tcl-55q6cs"),
@@ -1399,6 +1400,14 @@ fn model_page_body(
 ) -> String {
     let required_load_kg = tv.weight_kg * 1.25;
     let compatible_count = matches.iter().filter(|matched| matched.compatible).count();
+    let verified_count = matches
+        .iter()
+        .filter(|matched| matched.compatible && matched.fit_status == "verified-fit")
+        .count();
+    let conditional_count = matches
+        .iter()
+        .filter(|matched| matched.compatible && matched.fit_status == "conditional-fit")
+        .count();
     let compatible = matches
         .iter()
         .filter(|matched| matched.compatible)
@@ -1513,14 +1522,31 @@ fn model_page_body(
             )
         })
         .unwrap_or_else(|| format!("{}×{} мм", tv.vesa_width_mm, tv.vesa_height_mm));
-    let compatibility_lead = if vesa_conflict.is_some() {
-        "Официальные источники расходятся по VESA. Не считайте список окончательным до измерения отверстий; отдельно проверьте VESA, нагрузку и диапазон диагонали каждого кронштейна."
+    let result_heading;
+    let result_explanation;
+    let compatibility_lead;
+    if vesa_conflict.is_some() {
+        result_heading = format!("Кандидатов: {compatible_count}");
+        result_explanation = "Из-за расхождения официальных источников ни один кандидат не считается окончательно подтверждённым до ручного измерения VESA.".to_string();
+        compatibility_lead = "Официальные источники расходятся по VESA. Не считайте список окончательным до измерения отверстий; отдельно проверьте VESA, нагрузку и диапазон диагонали каждого кронштейна.".to_string();
+    } else if conditional_count > 0 {
+        result_heading = format!("Подтверждено: {verified_count}");
+        result_explanation = format!(
+            "Дополнительно условных вариантов: {conditional_count}. Они проходят VESA и нагрузку, но требуют ручной проверки паспортного диапазона диагонали. Крепёж к стене выбирают после проверки основания."
+        );
+        compatibility_lead = format!(
+            "Полностью подтверждено: {verified_count}. Условных вариантов из-за диапазона диагонали: {conditional_count}. Перед монтажом сверьте комплект винтов с официальной инструкцией телевизора."
+        );
     } else {
-        "Все варианты проходят точную пару VESA и запас нагрузки 25%. Паспортный диапазон диагонали показан отдельно в статусе каждой позиции. Перед монтажом сверьте комплект винтов с официальной инструкцией телевизора."
-    };
+        result_heading = format!("Подтверждено: {verified_count}");
+        result_explanation = "Все показанные варианты прошли проверку точной VESA, нагрузки с запасом 25% и паспортного диапазона диагонали. Крепёж к стене выбирают после проверки основания.".to_string();
+        compatibility_lead = format!(
+            "Число полностью подтверждённых вариантов: {verified_count}. Перед монтажом сверьте комплект винтов с официальной инструкцией телевизора."
+        );
+    }
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Паспортная масса</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">К паспортной массе {weight} кг добавлен запас 25%. Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{compatible_count} вариантов</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">Для каждого варианта отдельно показан паспортный диапазон диагоналей. Крепёж к стене выбирают только после проверки материала основания.</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Паспортная масса</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">К паспортной массе {weight} кг добавлен запас 25%. Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = model_year_label(tv.model_year),
@@ -1537,9 +1563,10 @@ fn model_page_body(
         affiliate_section = affiliate_section,
         context_section = context_section,
         commercial_section = commercial_section,
-        compatibility_lead = escape_html(compatibility_lead),
+        compatibility_lead = escape_html(&compatibility_lead),
+        result_heading = escape_html(&result_heading),
+        result_explanation = escape_html(&result_explanation),
         required_load = required_load_kg,
-        compatible_count = compatible_count,
     ))
 }
 
@@ -4286,6 +4313,10 @@ fn main() {
         "Некорректная дата обновления основных страниц"
     );
     assert!(
+        is_valid_iso_date(MODEL_PAGES_UPDATED_AT),
+        "Некорректная дата обновления модельных страниц"
+    );
+    assert!(
         is_valid_iso_date(MARKET_MODELS_UPDATED_AT)
             && market_models
                 .records
@@ -4333,7 +4364,7 @@ fn main() {
             .iter()
             .filter(|tv| is_indexable_model(&tv.id, &compatibility_graph))
             .map(|tv| {
-                let mut lastmod = tv.checked_at.as_str();
+                let mut lastmod = tv.checked_at.as_str().max(MODEL_PAGES_UPDATED_AT);
                 if let Some(hardware) = &tv.wall_mount_screws {
                     lastmod = lastmod.max(hardware.checked_at.as_str());
                 }
@@ -5788,6 +5819,31 @@ mod tests {
             .expect("Нет проверенного коммерческого профиля");
         assert_eq!(profile.path, "/modeli/tcl-55c6k/");
         assert!(commercial_profile_for(&profiles.profiles, "model", "lg-oled65c4").is_none());
+
+        let tcl_65c7k = models
+            .iter()
+            .find(|tv| tv.id == "tcl-65c7k")
+            .expect("Нет модели TCL 65C7K");
+        let tcl_matches = model_mount_matches(tcl_65c7k, &mounts);
+        assert_eq!(
+            tcl_matches
+                .iter()
+                .filter(|matched| matched.compatible && matched.fit_status == "verified-fit")
+                .count(),
+            15
+        );
+        assert_eq!(
+            tcl_matches
+                .iter()
+                .filter(|matched| matched.compatible && matched.fit_status == "conditional-fit")
+                .count(),
+            3
+        );
+        let tcl_profile = commercial_profile_for(&profiles.profiles, "model", "tcl-65c7k");
+        let tcl_body = model_page_body(tcl_65c7k, &tcl_matches, &[], 0, &seo_pages, tcl_profile);
+        assert!(tcl_body.contains("Подтверждено: 15"));
+        assert!(tcl_body.contains("Дополнительно условных вариантов: 3"));
+        assert!(!tcl_body.contains(">18 вариантов<"));
     }
 
     #[test]

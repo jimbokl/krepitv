@@ -127,6 +127,13 @@ test("report keeps authoritative zero, filters query rows and strips credentials
     if (String(url).includes("searchAnalytics/query")) {
       const body = JSON.parse(options.body);
       if (!body.dimensions) return response({ rows: [] });
+      if (body.dimensions.length === 1 && body.dimensions[0] === "page") {
+        return response({ rows: [
+          { keys: ["https://krepitv.ru/vesa/"], clicks: 1, impressions: 10, ctr: 0.1, position: 8 },
+          { keys: ["https://krepitv.ru/"], clicks: 0, impressions: 9, ctr: 0, position: 20 },
+          { keys: ["https://other.invalid/page/"], clicks: 0, impressions: 12, ctr: 0, position: 20 },
+        ] });
+      }
       return response({ rows: [
         { keys: ["кронштейн для телевизора", "https://krepitv.ru/vesa/"], clicks: 1, impressions: 10, ctr: 0.1, position: 8 },
         { keys: ["редкий запрос", "https://krepitv.ru/"], clicks: 0, impressions: 9, ctr: 0, position: 20 },
@@ -171,6 +178,17 @@ test("report keeps authoritative zero, filters query rows and strips credentials
     below_threshold: 1,
     unsafe_query: 6,
     invalid_page: 0,
+  });
+  assert.deepEqual(report.search_analytics.page_rows.rows, [{
+    path: "/vesa/",
+    clicks: 1,
+    impressions: 10,
+    ctr: 0.1,
+    position: 8,
+  }]);
+  assert.deepEqual(report.search_analytics.page_rows.suppressed, {
+    below_threshold: 1,
+    invalid_page: 1,
   });
   assert.equal(report.sitemap.console.submitted_web_urls, 2);
   assert.equal("indexed" in report.sitemap.console, false);
@@ -271,6 +289,25 @@ test("invalid URL Inspection payloads remain unknown or partial, never authorita
   assert.equal(partial.url_inspection.indexed_pass_count, null);
   assert.equal(partial.url_inspection.observed_indexed_pass_count, 1);
   assert.deepEqual(partial.url_inspection.failure_counts, { INVALID_RESPONSE: 1 });
+});
+
+test("query and page opportunities can be refreshed without claiming URL Inspection", async () => {
+  const fixture = createFixtureFetch();
+  const report = await fetchGoogleSearchConsoleReport({
+    credentials,
+    date1: "2026-07-01",
+    date2: "2026-07-29",
+    fetchImpl: fixture.fetchImpl,
+    localSitemapXml: sitemap,
+    skipUrlInspection: true,
+    sleepImpl: async () => {},
+  });
+  assert.equal(report.url_inspection.state, "skipped");
+  assert.equal(report.url_inspection.sitemap_url_count, 2);
+  assert.equal(report.url_inspection.indexed_pass_count, null);
+  assert.equal(report.url_inspection.observed_indexed_pass_count, null);
+  assert.equal(fixture.counts.get(googleSearchConsoleConstants.inspectionEndpoint), undefined);
+  assert.equal(report.search_analytics.page_rows.rows.length, 0);
 });
 
 test("common bounded retries recover network, 429 and 503 failures", async () => {
@@ -380,7 +417,7 @@ test("malformed query and sitemap schemas fail instead of becoming empty data", 
   const queryFixture = createFixtureFetch(async ({ options, url }) => {
     if (!url.includes("searchAnalytics/query")) return undefined;
     const body = JSON.parse(options.body);
-    return body.dimensions ? response({ rows: "broken" }) : undefined;
+    return body.dimensions?.length === 2 ? response({ rows: "broken" }) : undefined;
   });
   await assert.rejects(
     fetchGoogleSearchConsoleReport({
@@ -397,7 +434,7 @@ test("malformed query and sitemap schemas fail instead of becoming empty data", 
   const queryMetricFixture = createFixtureFetch(async ({ options, url }) => {
     if (!url.includes("searchAnalytics/query")) return undefined;
     const body = JSON.parse(options.body);
-    return body.dimensions ? response({ rows: [{
+    return body.dimensions?.length === 2 ? response({ rows: [{
       keys: ["кронштейн", "https://krepitv.ru/"],
       clicks: false,
       impressions: 10,
@@ -415,6 +452,25 @@ test("malformed query and sitemap schemas fail instead of becoming empty data", 
       sleepImpl: async () => {},
     }),
     /query-page response has invalid metrics/,
+  );
+
+  const pageFixture = createFixtureFetch(async ({ options, url }) => {
+    if (!url.includes("searchAnalytics/query")) return undefined;
+    const body = JSON.parse(options.body);
+    return body.dimensions?.length === 1 && body.dimensions[0] === "page"
+      ? response({ rows: "broken" })
+      : undefined;
+  });
+  await assert.rejects(
+    fetchGoogleSearchConsoleReport({
+      credentials,
+      date1: "2026-07-01",
+      date2: "2026-07-29",
+      fetchImpl: pageFixture.fetchImpl,
+      localSitemapXml: sitemap,
+      sleepImpl: async () => {},
+    }),
+    /page response has invalid rows/,
   );
 
   const sitemapFixture = createFixtureFetch(async ({ url }) => (
