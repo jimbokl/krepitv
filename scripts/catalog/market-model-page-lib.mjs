@@ -202,8 +202,8 @@ export function buildMarketModelPages(research, verifiedModels) {
     const canonicalId = canonicalIds.get(key);
     for (let index = 0; index < group.length; index += 1) {
       const item = group[index];
-      const verified = Boolean(item.verified_model_id);
-      const alias = !verified && index > 0;
+      const verified = Boolean(item.verified_model_id) && index === 0;
+      const alias = index > 0;
       let id = verified || !alias
         ? canonicalId
         : capId(canonicalId, `-market-${item.source.market_product_id}`);
@@ -236,7 +236,7 @@ export function buildMarketModelPages(research, verifiedModels) {
         observed_rank: item.source.observed_rank,
         observed_at: research.observed_at,
         checked_at: String(research.observed_at).slice(0, 10),
-        verified_model_id: item.verified_model_id,
+        verified_model_id: verified ? item.verified_model_id : null,
         source_label: "Карточка телевизора в выдаче Яндекс Маркета",
       });
     }

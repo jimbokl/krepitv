@@ -64,7 +64,9 @@ export function ModelPage({ catalog, modelId }) {
           </h1>
           <div className="mt-4 grid gap-2 border-y border-ink py-3 font-mono text-xs text-muted sm:grid-cols-3">
             <span>Источник: база Крепи ТВ · {model.brand} · {model.model}</span>
-            <span className="sm:text-center">{model.series} · {model.model_year}</span>
+            <span className="sm:text-center">
+              {model.series} · {model.model_year ?? "год не указан производителем"}
+            </span>
             <span className="sm:text-right">Данные проверены: {formatCheckedDate(model.checked_at)}</span>
           </div>
         </section>

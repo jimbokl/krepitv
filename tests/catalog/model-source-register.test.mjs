@@ -31,7 +31,7 @@ const operationalModel = (row) => ({
 });
 
 test("verified source register is the exact operational catalog source", () => {
-  assert.equal(register.length, 95);
+  assert.equal(register.length, 100);
   assert.equal(new Set(register.map((row) => row.id)).size, register.length);
   assert.equal(new Set(register.map((row) => row.model)).size, register.length);
   assert.deepEqual(
@@ -39,6 +39,10 @@ test("verified source register is the exact operational catalog source", () => {
     register.map(operationalModel),
   );
   assert.ok(register.every((row) => row.source_fact?.trim()));
+  assert.equal(
+    register.filter((row) => row.brand === "Sber").every((row) => row.model_year === null),
+    true,
+  );
   for (const id of [
     "tcl-55p6k",
     "tcl-55p7k",

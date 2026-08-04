@@ -6,8 +6,8 @@
   "summary": {
     "market_observations": 133,
     "unique_identities": 126,
-    "verified_routes": 17,
-    "observed_canonicals": 109,
+    "verified_routes": 22,
+    "observed_canonicals": 104,
     "indexable_observed_canonicals": 0,
     "alias_routes": 7,
     "low_confidence_routes": 9
@@ -201,9 +201,9 @@
       "canonical_id": "sber-sdx-32h3114",
       "canonical_path": "/modeli/sber-sdx-32h3114/",
       "route_path": "/modeli/sber-sdx-32h3114/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Sber",
       "model": "SDX-32H3114",
       "title": "Sber SDX-32H3114",
@@ -218,7 +218,7 @@
       "observed_rank": 8,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "sber-sdx-32h3114",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -669,9 +669,9 @@
       "canonical_id": "sber-sdx-32h3113",
       "canonical_path": "/modeli/sber-sdx-32h3113/",
       "route_path": "/modeli/sber-sdx-32h3113/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Sber",
       "model": "SDX-32H3113",
       "title": "Sber SDX-32H3113",
@@ -686,7 +686,7 @@
       "observed_rank": 26,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "sber-sdx-32h3113",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -721,9 +721,9 @@
       "canonical_id": "sber-sdx-43f3000dba",
       "canonical_path": "/modeli/sber-sdx-43f3000dba/",
       "route_path": "/modeli/sber-sdx-43f3000dba/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Sber",
       "model": "SDX-43F3000DBA",
       "title": "Sber SDX-43F3000DBA",
@@ -738,7 +738,7 @@
       "observed_rank": 28,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "sber-sdx-43f3000dba",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -1815,7 +1815,7 @@
       "route_path": "/modeli/sber-sdx-32h3114-market-4939838850/",
       "page_kind": "alias",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Sber",
       "model": "SDX-32H3114",
       "title": "Sber SDX-32H3114",
@@ -2021,9 +2021,9 @@
       "canonical_id": "sber-sdx-32f3112",
       "canonical_path": "/modeli/sber-sdx-32f3112/",
       "route_path": "/modeli/sber-sdx-32f3112/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Sber",
       "model": "SDX-32F3112",
       "title": "Sber SDX-32F3112",
@@ -2038,7 +2038,7 @@
       "observed_rank": 78,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "sber-sdx-32f3112",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3269,9 +3269,9 @@
       "canonical_id": "sber-sdx-32f2139",
       "canonical_path": "/modeli/sber-sdx-32f2139/",
       "route_path": "/modeli/sber-sdx-32f2139/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Sber",
       "model": "SDX-32F2139",
       "title": "Sber SDX-32F2139",
@@ -3286,7 +3286,7 @@
       "observed_rank": 126,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "sber-sdx-32f2139",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3472,5 +3472,5 @@
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     }
   ],
-  "batch_sha256": "f6e19bbe7f699080424230f83c49bede9cfef0b8537e60ca290fe38d47409109"
+  "batch_sha256": "1393f287bebb54fc3f977165d56b7934fd0aaadc2407ec21897844820b7dccdf"
 }

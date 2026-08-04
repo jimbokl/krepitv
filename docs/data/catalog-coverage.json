@@ -1838,6 +1838,61 @@
       "dimension_source_url": "https://ru.hisense.com/catalog/tvs/85E7S/",
       "dimension_source_label": "Официальные российские характеристики Hisense",
       "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "sber-sdx-32h3114",
+      "brand": "Sber",
+      "series": "SDX",
+      "diagonal_inches": 32,
+      "model_year": null,
+      "catalog_source_url": "https://sberdevices.ru/shop/product/sdx_32h3114/",
+      "dimension_source_url": "https://sberdevices.ru/shop/product/sdx_32h3114/",
+      "dimension_source_label": "Официальные характеристики SberDevices",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "sber-sdx-32h3113",
+      "brand": "Sber",
+      "series": "SDX",
+      "diagonal_inches": 32,
+      "model_year": null,
+      "catalog_source_url": "https://sberdevices.ru/shop/product/sdx_32h3113/",
+      "dimension_source_url": "https://sberdevices.ru/shop/product/sdx_32h3113/",
+      "dimension_source_label": "Официальные характеристики SberDevices",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "sber-sdx-32f3112",
+      "brand": "Sber",
+      "series": "SDX",
+      "diagonal_inches": 32,
+      "model_year": null,
+      "catalog_source_url": "https://sberdevices.ru/shop/product/sdx_32f3112/",
+      "dimension_source_url": "https://sberdevices.ru/shop/product/sdx_32f3112/",
+      "dimension_source_label": "Официальные характеристики SberDevices",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "sber-sdx-32f2139",
+      "brand": "Sber",
+      "series": "SDX",
+      "diagonal_inches": 32,
+      "model_year": null,
+      "catalog_source_url": "https://sberdevices.ru/shop/product/sdx_32f2139/",
+      "dimension_source_url": "https://sberdevices.ru/shop/product/sdx_32f2139/",
+      "dimension_source_label": "Официальные характеристики SberDevices",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "sber-sdx-43f3000dba",
+      "brand": "Sber",
+      "series": "SDX",
+      "diagonal_inches": 43,
+      "model_year": null,
+      "catalog_source_url": "https://sberdevices.ru/shop/product/sdx_43f3000dba/",
+      "dimension_source_url": "https://sberdevices.ru/shop/product/sdx_43f3000dba/",
+      "dimension_source_label": "Официальные характеристики SberDevices",
+      "checked_at": "2026-08-04"
     }
   ]
 }

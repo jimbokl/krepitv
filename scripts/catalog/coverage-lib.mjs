@@ -122,8 +122,10 @@ function validateCatalogCoverageRows(rows, catalogModels, issues) {
     if (typeof row.series !== "string" || !row.series.trim()) {
       add(issues, `${location}.series`, "must be a non-empty verified series");
     }
-    if (!Number.isInteger(row.model_year) || row.model_year < 2000 || row.model_year > 2100) {
-      add(issues, `${location}.model_year`, "must be a four-digit product year");
+    if (row.model_year !== null && (
+      !Number.isInteger(row.model_year) || row.model_year < 2000 || row.model_year > 2100
+    )) {
+      add(issues, `${location}.model_year`, "must be null or a four-digit sourced product year");
     }
     if (!isHttpsUrl(row.dimension_source_url)) {
       add(issues, `${location}.dimension_source_url`, "must be a credential-free HTTPS URL");

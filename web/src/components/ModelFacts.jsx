@@ -34,7 +34,7 @@ export function ModelFacts({ model, detailed = false }) {
     facts.push(
       {
         label: "Серия и модельный год",
-        value: `${model.series} · ${model.model_year}`,
+        value: `${model.series} · ${model.model_year ?? "год не указан производителем"}`,
         Icon: Tag,
       },
       {

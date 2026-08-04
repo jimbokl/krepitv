@@ -25,9 +25,9 @@ test("current manifest reports a growing catalog that now passes the measured co
   assert.equal(result.catalog_status, "growing");
   assert.equal(result.full_catalog_claim, false);
   assert.equal(result.full_catalog_ready, true);
-  assert.equal(result.actual.verified_models, 95);
-  assert.deepEqual(result.actual.brands, ["Hisense", "LG", "Samsung", "TCL", "Xiaomi"]);
-  assert.equal(result.actual.series.length, 56);
+  assert.equal(result.actual.verified_models, 100);
+  assert.deepEqual(result.actual.brands, ["Hisense", "LG", "Samsung", "Sber", "TCL", "Xiaomi"]);
+  assert.equal(result.actual.series.length, 57);
   assert.deepEqual(result.actual.diagonals_inches, [32, 42, 43, 48, 50, 55, 65, 75, 77, 85]);
   assert.deepEqual(result.actual.model_years, [2022, 2023, 2024, 2025, 2026]);
   assert.equal(result.target.demand_status, "measured");
@@ -64,7 +64,13 @@ test("the completion threshold cannot be lowered to make a demo pass", () => {
   );
 });
 
-test("every catalog model must have sourced series, diagonal and year dimensions", () => {
+test("every catalog model has sourced series and diagonal; unknown year stays null", () => {
+  assert.equal(
+    manifest.catalog_models
+      .filter((row) => row.brand === "Sber")
+      .every((row) => row.model_year === null),
+    true,
+  );
   const missing = copy(manifest);
   const removed = missing.catalog_models.pop();
   assert.throws(

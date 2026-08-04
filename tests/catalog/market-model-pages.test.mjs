@@ -31,11 +31,25 @@ test("real Market snapshot resolves all observations without unverified compatib
   const generated = buildMarketModelPages(research, verifiedModels);
   assert.deepEqual(committed, generated);
   assert.equal(generated.records.length, 133);
-  assert.equal(generated.summary.verified_routes, 17);
-  assert.ok(generated.summary.observed_canonicals >= 109);
+  assert.equal(generated.summary.verified_routes, 22);
+  assert.ok(generated.summary.observed_canonicals >= 104);
   assert.ok(generated.summary.alias_routes >= 5);
   assert.equal(generated.summary.indexable_observed_canonicals, 0);
   assert.equal(validateMarketModelPages(generated, verifiedModels), true);
+  const duplicatedVerifiedModel = generated.records.filter(
+    (record) => record.market_product_id === "1388541761" || record.market_product_id === "4939838850",
+  );
+  assert.deepEqual(
+    duplicatedVerifiedModel.map((record) => record.page_kind).sort(),
+    ["alias", "verified"],
+  );
+  assert.equal(
+    duplicatedVerifiedModel.every(
+      (record) => record.canonical_path === "/modeli/sber-sdx-32h3114/",
+    ),
+    true,
+  );
+  assert.equal(new Set(duplicatedVerifiedModel.map((record) => record.route_path)).size, 2);
   assert.ok(generated.records.every((record) => !Object.hasOwn(record, "weight_kg")));
   assert.ok(generated.records.every((record) => !Object.hasOwn(record, "vesa_width_mm")));
   assert.ok(generated.records.filter((record) => record.page_kind === "alias").every((record) => !record.indexable));

@@ -760,6 +760,46 @@
     "search": "hisense 85e7s hisense 85e7s"
   },
   {
+    "id": "sber-sdx-32h3114",
+    "title": "Sber SDX-32H3114",
+    "brand": "Sber",
+    "model": "SDX-32H3114",
+    "href": "/modeli/sber-sdx-32h3114/",
+    "search": "sber sdx-32h3114 sber sdx-32h3114"
+  },
+  {
+    "id": "sber-sdx-32h3113",
+    "title": "Sber SDX-32H3113",
+    "brand": "Sber",
+    "model": "SDX-32H3113",
+    "href": "/modeli/sber-sdx-32h3113/",
+    "search": "sber sdx-32h3113 sber sdx-32h3113"
+  },
+  {
+    "id": "sber-sdx-32f3112",
+    "title": "Sber SDX-32F3112",
+    "brand": "Sber",
+    "model": "SDX-32F3112",
+    "href": "/modeli/sber-sdx-32f3112/",
+    "search": "sber sdx-32f3112 sber sdx-32f3112"
+  },
+  {
+    "id": "sber-sdx-32f2139",
+    "title": "Sber SDX-32F2139",
+    "brand": "Sber",
+    "model": "SDX-32F2139",
+    "href": "/modeli/sber-sdx-32f2139/",
+    "search": "sber sdx-32f2139 sber sdx-32f2139"
+  },
+  {
+    "id": "sber-sdx-43f3000dba",
+    "title": "Sber SDX-43F3000DBA",
+    "brand": "Sber",
+    "model": "SDX-43F3000DBA",
+    "href": "/modeli/sber-sdx-43f3000dba/",
+    "search": "sber sdx-43f3000dba sber sdx-43f3000dba"
+  },
+  {
     "id": "hi-ht-32h01fb",
     "title": "Hi HT-32H01FB",
     "brand": "Hi",
@@ -806,14 +846,6 @@
     "model": "GE24LHN0",
     "href": "/modeli/general-electronics-ge24lhn0/",
     "search": "general electronics ge24lhn0 general electronics ge24lhn0 телевизор general electronics ge24lhn0"
-  },
-  {
-    "id": "sber-sdx-32h3114",
-    "title": "Sber SDX-32H3114",
-    "brand": "Sber",
-    "model": "SDX-32H3114",
-    "href": "/modeli/sber-sdx-32h3114/",
-    "search": "sber sdx-32h3114 sber sdx-32h3114 умный телевизор sber sdx-32h3114"
   },
   {
     "id": "artel-ua32h4101",
@@ -920,28 +952,12 @@
     "search": "hi hy-40f01fb hi hy-40f01fb телевизор hi hy-40f01fb"
   },
   {
-    "id": "sber-sdx-32h3113",
-    "title": "Sber SDX-32H3113",
-    "brand": "Sber",
-    "model": "SDX-32H3113",
-    "href": "/modeli/sber-sdx-32h3113/",
-    "search": "sber sdx-32h3113 sber sdx-32h3113 умный телевизор sber sdx-32h3113"
-  },
-  {
     "id": "hyundai-h-led32bs5003",
     "title": "Hyundai H-LED32BS5003",
     "brand": "Hyundai",
     "model": "H-LED32BS5003",
     "href": "/modeli/hyundai-h-led32bs5003/",
     "search": "hyundai h-led32bs5003 hyundai h-led32bs5003 телевизор hyundai h-led32bs5003 32\" led, hd, черный, смарт тв, yaos"
-  },
-  {
-    "id": "sber-sdx-43f3000dba",
-    "title": "Sber SDX-43F3000DBA",
-    "brand": "Sber",
-    "model": "SDX-43F3000DBA",
-    "href": "/modeli/sber-sdx-43f3000dba/",
-    "search": "sber sdx-43f3000dba sber sdx-43f3000dba телевизор sber 43\" sdx-43f3000dba, чёрный"
   },
   {
     "id": "lg-32lm55",
@@ -1256,14 +1272,6 @@
     "search": "leff 24h690t leff 24h690t телевизор leff 24h690t 24\" hd 1366 x 768, 60 гц, smart tv (салют тв)"
   },
   {
-    "id": "sber-sdx-32f3112",
-    "title": "Sber SDX-32F3112",
-    "brand": "Sber",
-    "model": "SDX-32F3112",
-    "href": "/modeli/sber-sdx-32f3112/",
-    "search": "sber sdx-32f3112 sber sdx-32f3112 телевизор sber sdx-32f3112, fhd, смарт (салют)"
-  },
-  {
     "id": "general-electronics-ge40lfn0",
     "title": "General Electronics GE40LFN0",
     "brand": "General Electronics",
@@ -1574,14 +1582,6 @@
     "model": "32H690T",
     "href": "/modeli/leff-32h690t/",
     "search": "leff 32h690t leff 32h690t телевизор leff 32h690t hd smart tv салют"
-  },
-  {
-    "id": "sber-sdx-32f2139",
-    "title": "Sber SDX-32F2139",
-    "brand": "Sber",
-    "model": "SDX-32F2139",
-    "href": "/modeli/sber-sdx-32f2139/",
-    "search": "sber sdx-32f2139 sber sdx-32f2139 32\" умный телевизор sber sdx-32f2139, full hd, черный, смарт тв, салют тв"
   },
   {
     "id": "sony-k-75xr50b",

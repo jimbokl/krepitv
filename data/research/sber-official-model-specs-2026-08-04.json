@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "scope": "Точные модели Sber из снимка Яндекс Маркета; только официальные карточки SberDevices",
+  "decision_rule": "Совместимость считается только по точной модели, VESA, массе без подставки и размерам корпуса. Отсутствующий модельный год сохраняется как null и не подменяется предположением.",
+  "accepted": [
+    {"model":"SDX-32H3114","source_url":"https://sberdevices.ru/shop/product/sdx_32h3114/","model_year":null,"diagonal_inches":32,"vesa_mm":"100×100","weight_without_stand_kg":3.3,"body_without_stand_mm":"719,2×422,5×81,6"},
+    {"model":"SDX-32H3113","source_url":"https://sberdevices.ru/shop/product/sdx_32h3113/","model_year":null,"diagonal_inches":32,"vesa_mm":"100×100","weight_without_stand_kg":3.2,"body_without_stand_mm":"719,2×422,5×81,6"},
+    {"model":"SDX-32F3112","source_url":"https://sberdevices.ru/shop/product/sdx_32f3112/","model_year":null,"diagonal_inches":32,"vesa_mm":"100×100","weight_without_stand_kg":3.2,"body_without_stand_mm":"719,2×422,5×81,6"},
+    {"model":"SDX-32F2139","source_url":"https://sberdevices.ru/shop/product/sdx_32f2139/","model_year":null,"diagonal_inches":32,"vesa_mm":"100×100","weight_without_stand_kg":3.2,"body_without_stand_mm":"720×423×80"},
+    {"model":"SDX-43F3000DBA","source_url":"https://sberdevices.ru/shop/product/sdx_43f3000dba/","model_year":null,"diagonal_inches":43,"vesa_mm":"200×200","weight_without_stand_kg":5.2,"body_without_stand_mm":"954,3×555,7×71,2"}
+  ],
+  "rejected": [
+    {"market_identity":"Sber SDX-43U5500DBA","reason":"Официальная карточка точной модели не найдена; предполагаемый URL возвращает 404."}
+  ]
+}

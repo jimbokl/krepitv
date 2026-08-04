@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "clid": "15238076",
-  "expected_offer_count": 282,
+  "expected_offer_count": 297,
   "models": [
     {
       "model_id": "hisense-32a4s",
@@ -2023,6 +2023,146 @@
           "entity_id": "onkron-tm5-bw",
           "source_card_id": "market-onkron-tm5-bw-4559285774",
           "vid": "krepitvmodelsamsungue85u8000fuxrur03onkrontm5bw25afc6cb7162"
+        }
+      ]
+    },
+    {
+      "model_id": "sber-sdx-32f2139",
+      "model_path": "/modeli/sber-sdx-32f2139/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-sber-sdx-32f2139-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsbersdx32f2139r01holderlcds5036f9fad046d45d"
+        },
+        {
+          "placement_id": "model-sber-sdx-32f2139-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsbersdx32f2139r02holderlcds5066c87c1bf07105"
+        },
+        {
+          "placement_id": "model-sber-sdx-32f2139-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsbersdx32f2139r03kromaxatlantis4535ed59984bfe"
+        }
+      ]
+    },
+    {
+      "model_id": "sber-sdx-32f3112",
+      "model_path": "/modeli/sber-sdx-32f3112/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-sber-sdx-32f3112-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsbersdx32f3112r01holderlcds503629a85b1caecd"
+        },
+        {
+          "placement_id": "model-sber-sdx-32f3112-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsbersdx32f3112r02holderlcds50664f200f9d504f"
+        },
+        {
+          "placement_id": "model-sber-sdx-32f3112-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsbersdx32f3112r03kromaxatlantis4565b6d9cdc42b"
+        }
+      ]
+    },
+    {
+      "model_id": "sber-sdx-32h3113",
+      "model_path": "/modeli/sber-sdx-32h3113/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-sber-sdx-32h3113-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsbersdx32h3113r01holderlcds50360b92477c1c08"
+        },
+        {
+          "placement_id": "model-sber-sdx-32h3113-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsbersdx32h3113r02holderlcds50662e2af7bb8d8a"
+        },
+        {
+          "placement_id": "model-sber-sdx-32h3113-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsbersdx32h3113r03kromaxatlantis4567ebba372d22"
+        }
+      ]
+    },
+    {
+      "model_id": "sber-sdx-32h3114",
+      "model_path": "/modeli/sber-sdx-32h3114/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-sber-sdx-32h3114-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsbersdx32h3114r01holderlcds503691d276a66ad1"
+        },
+        {
+          "placement_id": "model-sber-sdx-32h3114-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsbersdx32h3114r02holderlcds50660d16b684e5cd"
+        },
+        {
+          "placement_id": "model-sber-sdx-32h3114-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsbersdx32h3114r03kromaxatlantis4501393ba13dd0"
+        }
+      ]
+    },
+    {
+      "model_id": "sber-sdx-43f3000dba",
+      "model_path": "/modeli/sber-sdx-43f3000dba/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-sber-sdx-43f3000dba-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelsbersdx43f3000dbar01holderlcds503655ba419d6c86"
+        },
+        {
+          "placement_id": "model-sber-sdx-43f3000dba-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelsbersdx43f3000dbar02holderlcds5066f30eb6f0b664"
+        },
+        {
+          "placement_id": "model-sber-sdx-43f3000dba-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelsbersdx43f3000dbar03kromaxatlantis45d783e7cb893a"
         }
       ]
     },
