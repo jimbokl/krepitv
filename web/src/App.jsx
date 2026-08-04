@@ -1,13 +1,48 @@
+import { lazy, Suspense } from "react";
 import trustPages from "../../data/trust_pages.json";
 import { SiteFooter } from "./components/SiteFooter.jsx";
-import { CatalogIndexPage } from "./pages/CatalogIndexPage.jsx";
-import { GuidedSelectionPage } from "./pages/GuidedSelectionPage.jsx";
-import { HomePage } from "./pages/HomePage.jsx";
-import { ModelPage } from "./pages/ModelPage.jsx";
-import { MountPage } from "./pages/MountPage.jsx";
-import { ObservedModelPage } from "./pages/ObservedModelPage.jsx";
-import { SeoPage } from "./pages/SeoPage.jsx";
-import { TrustPage } from "./pages/TrustPage.jsx";
+
+const routeLoaders = {
+  home: () => import("./pages/HomePage.jsx"),
+  matcher: () => import("./pages/GuidedSelectionPage.jsx"),
+  catalog: () => import("./pages/CatalogIndexPage.jsx"),
+  model: () => import("./pages/ModelPage.jsx"),
+  observedModel: () => import("./pages/ObservedModelPage.jsx"),
+  mount: () => import("./pages/MountPage.jsx"),
+  seo: () => import("./pages/SeoPage.jsx"),
+  trust: () => import("./pages/TrustPage.jsx"),
+};
+
+const HomePage = lazyNamed(routeLoaders.home, "HomePage");
+const GuidedSelectionPage = lazyNamed(routeLoaders.matcher, "GuidedSelectionPage");
+const CatalogIndexPage = lazyNamed(routeLoaders.catalog, "CatalogIndexPage");
+const ModelPage = lazyNamed(routeLoaders.model, "ModelPage");
+const ObservedModelPage = lazyNamed(routeLoaders.observedModel, "ObservedModelPage");
+const MountPage = lazyNamed(routeLoaders.mount, "MountPage");
+const SeoPage = lazyNamed(routeLoaders.seo, "SeoPage");
+const TrustPage = lazyNamed(routeLoaders.trust, "TrustPage");
+
+const loaderByPageKind = new Map([
+  ["home", routeLoaders.home],
+  ["matcher", routeLoaders.matcher],
+  ["models-catalog", routeLoaders.catalog],
+  ["mounts-catalog", routeLoaders.catalog],
+  ["model", routeLoaders.model],
+  ["market-model", routeLoaders.observedModel],
+  ["mount", routeLoaders.mount],
+  ["seo", routeLoaders.seo],
+  ["trust", routeLoaders.trust],
+]);
+
+export function preloadAppRoute(rootElement) {
+  const pageKind = rootElement?.dataset?.pageKind;
+  if (pageKind === "not-found") return Promise.resolve();
+  const loader = loaderByPageKind.get(pageKind);
+  if (!loader) {
+    return Promise.reject(new Error("Не удалось определить интерактивный модуль страницы."));
+  }
+  return loader().then(() => undefined);
+}
 
 export function App({ catalog }) {
   const path = normalizePath(window.location.pathname);
@@ -54,11 +89,15 @@ export function App({ catalog }) {
 
 function withSiteFooter(page) {
   return (
-    <>
+    <Suspense fallback={null}>
       {page}
       <SiteFooter />
-    </>
+    </Suspense>
   );
+}
+
+function lazyNamed(loader, exportName) {
+  return lazy(() => loader().then((module) => ({ default: module[exportName] })));
 }
 
 function normalizePath(value) {

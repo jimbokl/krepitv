@@ -13,6 +13,9 @@ const corePagesUpdatedAt = "2026-08-04";
 const marketModelsUpdatedAt = "2026-08-04";
 const modelPagesUpdatedAt = "2026-08-04";
 const trafficPagesUpdatedAt = "2026-08-01";
+const maximumInitialJsBytes = 300 * 1024;
+const maximumModelChunkBytes = 40 * 1024;
+const maximumSeoChunkBytes = 400 * 1024;
 const baselineIndexableUrlCount = 216;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
@@ -261,6 +264,17 @@ function containsNumberToken(value, number) {
   return new RegExp(`(?:^|\\D)${escaped}(?:\\D|$)`, "u").test(value);
 }
 
+async function assertRouteChunkBudget(files, pattern, maximumBytes, label) {
+  const matches = files.filter((file) => pattern.test(path.basename(file)));
+  if (matches.length !== 1) {
+    throw new Error(`Ожидался один отдельный JS-чанк для «${label}», найдено ${matches.length}`);
+  }
+  const bytes = (await stat(matches[0])).size;
+  if (bytes > maximumBytes) {
+    throw new Error(`JS-чанк «${label}» слишком велик: ${bytes} байт из ${maximumBytes}`);
+  }
+}
+
 const files = await walk(docs);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
 const yandexVerificationFiles = htmlFiles.filter((file) =>
@@ -272,6 +286,47 @@ const googleVerificationFiles = htmlFiles.filter((file) =>
 const verificationFiles = [...yandexVerificationFiles, ...googleVerificationFiles];
 const pageHtmlFiles = htmlFiles.filter((file) => !verificationFiles.includes(file));
 assertMinimum(pageHtmlFiles, 25, "HTML-страницы");
+
+const entryScriptPaths = new Set();
+for (const file of pageHtmlFiles) {
+  const html = await readFile(file, "utf8");
+  const entryScripts = [...html.matchAll(/<script\b[^>]*>/giu)]
+    .map((match) => match[0])
+    .filter((tag) => matchAttribute(tag, "type") === "module")
+    .map((tag) => matchAttribute(tag, "src"))
+    .filter((src) => /^\/assets\/main-[A-Za-z0-9_-]+\.js$/u.test(src));
+  if (entryScripts.length !== 1) {
+    throw new Error(
+      `Страница ${path.relative(docs, file)} должна подключать ровно один начальный JS-бандл`,
+    );
+  }
+  entryScriptPaths.add(entryScripts[0]);
+}
+if (entryScriptPaths.size !== 1) {
+  throw new Error("HTML-страницы подключают разные начальные JS-бандлы");
+}
+const [entryScriptPath] = entryScriptPaths;
+const entryScriptFile = path.join(docs, entryScriptPath.replace(/^\//u, ""));
+const entryScriptBytes = (await stat(entryScriptFile)).size;
+if (entryScriptBytes > maximumInitialJsBytes) {
+  throw new Error(
+    `Начальный JS-бандл слишком велик: ${entryScriptBytes} байт из ${maximumInitialJsBytes}`,
+  );
+}
+
+const assetFiles = files.filter((file) => file.startsWith(path.join(docs, "assets")));
+await assertRouteChunkBudget(
+  assetFiles,
+  /^ModelPage-[A-Za-z0-9_-]+\.js$/u,
+  maximumModelChunkBytes,
+  "модель",
+);
+await assertRouteChunkBudget(
+  assetFiles,
+  /^SeoPage-[A-Za-z0-9_-]+\.js$/u,
+  maximumSeoChunkBytes,
+  "SEO-страница",
+);
 
 const runtimeTextFiles = files.filter((file) => /\.(?:html|js|json)$/u.test(file));
 for (const file of runtimeTextFiles) {
