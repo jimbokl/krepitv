@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "scope": "Точные модели Samsung и LG из наблюдаемого каталога Яндекс Маркета",
+  "policy": "В каталог попадают только точные SKU; характеристики подтверждаются официальными страницами производителя. Сокращённые продавцами обозначения без точного официального совпадения отклоняются.",
+  "models": [
+    {
+      "id": "samsung-ue32h5000fuxru",
+      "sources": [
+        "https://www.samsung.com/ru/tvs/hd-tv/h5000-32-inch-ue32h5000fuxru/",
+        "https://www.samsung.com/ru/support/model/UE32H5000FUXRU/"
+      ]
+    },
+    {
+      "id": "lg-50nano81a6a",
+      "sources": [
+        "https://www.lg.com/ru/televisions/lg-50nano81a6a",
+        "https://www.lg.com/ua/televisions/lg-50nano81a6a"
+      ]
+    },
+    {
+      "id": "lg-32lq63006la",
+      "sources": [
+        "https://www.lg.com/ru/televisions/lg-32lq63006la",
+        "https://www.lg.com/ua/televisions/lg-32lq63006la"
+      ]
+    },
+    {
+      "id": "lg-32lq630b6la",
+      "sources": [
+        "https://www.lg.com/ru/televisions/lg-32lq630b6la",
+        "https://www.lg.com/at/tv-soundbars/smart-tvs/32lq630b6la/",
+        "https://www.lg.com/ua/televisions/lg-32lq630b6la"
+      ]
+    },
+    {
+      "id": "lg-32lq63806lc",
+      "sources": [
+        "https://www.lg.com/ru/televisions/lg-32lq63806lc",
+        "https://www.lg.com/rs/televizori/lg-32lq63806lc",
+        "https://www.lg.com/ua/televisions/lg-32lq63806lc"
+      ]
+    }
+  ],
+  "rejected_unresolved_market_labels": [
+    "LG 32LM55",
+    "LG 32LM57",
+    "LG 43LM55"
+  ]
+}

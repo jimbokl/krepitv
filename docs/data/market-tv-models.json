@@ -6,8 +6,8 @@
   "summary": {
     "market_observations": 133,
     "unique_identities": 126,
-    "verified_routes": 7,
-    "observed_canonicals": 119,
+    "verified_routes": 17,
+    "observed_canonicals": 109,
     "indexable_observed_canonicals": 0,
     "alias_routes": 7,
     "low_confidence_routes": 9
@@ -175,9 +175,9 @@
       "canonical_id": "hisense-32e44sl",
       "canonical_path": "/modeli/hisense-32e44sl/",
       "route_path": "/modeli/hisense-32e44sl/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hisense",
       "model": "32E44SL",
       "title": "Hisense 32E44SL",
@@ -192,7 +192,7 @@
       "observed_rank": 7,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hisense-32e44sl",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -227,9 +227,9 @@
       "canonical_id": "hisense-32e55sl",
       "canonical_path": "/modeli/hisense-32e55sl/",
       "route_path": "/modeli/hisense-32e55sl/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hisense",
       "model": "32E55SL",
       "title": "Hisense 32E55SL",
@@ -244,7 +244,7 @@
       "observed_rank": 9,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hisense-32e55sl",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -643,9 +643,9 @@
       "canonical_id": "samsung-ue32h5000fuxru",
       "canonical_path": "/modeli/samsung-ue32h5000fuxru/",
       "route_path": "/modeli/samsung-ue32h5000fuxru/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Samsung",
       "model": "UE32H5000FUXRU",
       "title": "Samsung UE32H5000FUXRU",
@@ -660,7 +660,7 @@
       "observed_rank": 25,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "samsung-ue32h5000fuxru",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -1137,9 +1137,9 @@
       "canonical_id": "lg-50nano81a6a",
       "canonical_path": "/modeli/lg-50nano81a6a/",
       "route_path": "/modeli/lg-50nano81a6a/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "LG",
       "model": "50NANO81A6A",
       "title": "LG 50NANO81A6A",
@@ -1154,7 +1154,7 @@
       "observed_rank": 44,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "lg-50nano81a6a",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -1163,9 +1163,9 @@
       "canonical_id": "lg-32lq63806lc",
       "canonical_path": "/modeli/lg-32lq63806lc/",
       "route_path": "/modeli/lg-32lq63806lc/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "LG",
       "model": "32LQ63806LC",
       "title": "LG 32LQ63806LC",
@@ -1180,7 +1180,7 @@
       "observed_rank": 45,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "lg-32lq63806lc",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -1267,12 +1267,12 @@
       "canonical_id": "hisense-32a4s",
       "canonical_path": "/modeli/hisense-32a4s/",
       "route_path": "/modeli/hisense-32a4s/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hisense",
       "model": "32A4S",
-      "title": "Hisense 32A4S 60″",
+      "title": "Hisense 32A4S",
       "market_title": "Телевизор Hisense 32A4S RU 2026, Smart TV, VA, 60 Гц, HD, Wi-Fi, Bluetooth",
       "diagonal_inches": 60,
       "market_product_id": "5880994338",
@@ -1284,7 +1284,7 @@
       "observed_rank": 49,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hisense-32a4s",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -1449,9 +1449,9 @@
       "canonical_id": "hisense-43e66sl",
       "canonical_path": "/modeli/hisense-43e66sl/",
       "route_path": "/modeli/hisense-43e66sl/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hisense",
       "model": "43E66SL",
       "title": "Hisense 43E66SL",
@@ -1466,7 +1466,7 @@
       "observed_rank": 56,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hisense-43e66sl",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3087,9 +3087,9 @@
       "canonical_id": "lg-32lq630b6la",
       "canonical_path": "/modeli/lg-32lq630b6la/",
       "route_path": "/modeli/lg-32lq630b6la/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "LG",
       "model": "32LQ630B6LA",
       "title": "LG 32LQ630B6LA",
@@ -3104,7 +3104,7 @@
       "observed_rank": 119,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "lg-32lq630b6la",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3139,9 +3139,9 @@
       "canonical_id": "hisense-85e7s",
       "canonical_path": "/modeli/hisense-85e7s/",
       "route_path": "/modeli/hisense-85e7s/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hisense",
       "model": "85E7S",
       "title": "Hisense 85E7S",
@@ -3156,7 +3156,7 @@
       "observed_rank": 121,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hisense-85e7s",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3217,9 +3217,9 @@
       "canonical_id": "lg-32lq63006la",
       "canonical_path": "/modeli/lg-32lq63006la/",
       "route_path": "/modeli/lg-32lq63006la/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "LG",
       "model": "32LQ63006LA",
       "title": "LG 32LQ63006LA",
@@ -3234,7 +3234,7 @@
       "observed_rank": 124,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "lg-32lq63006la",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3472,5 +3472,5 @@
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     }
   ],
-  "batch_sha256": "3107efd47c9c53bb3eb884ecbb7264c516673d8ec92d21c3ad3fec2a543881f3"
+  "batch_sha256": "f6e19bbe7f699080424230f83c49bede9cfef0b8537e60ca290fe38d47409109"
 }

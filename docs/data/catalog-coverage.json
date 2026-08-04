@@ -1728,6 +1728,116 @@
       "dimension_source_url": "https://www.samsung.com/ru/tvs/qled-tv/qef1-85-inch-qled-4k-smart-tv-qe85qef1auxru/",
       "dimension_source_label": "Официальные российские характеристики Samsung",
       "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "samsung-ue32h5000fuxru",
+      "brand": "Samsung",
+      "series": "H5000",
+      "diagonal_inches": 32,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.samsung.com/ru/tvs/hd-tv/h5000-32-inch-ue32h5000fuxru/",
+      "dimension_source_url": "https://www.samsung.com/ru/tvs/hd-tv/h5000-32-inch-ue32h5000fuxru/",
+      "dimension_source_label": "Официальные российские характеристики Samsung",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "lg-50nano81a6a",
+      "brand": "LG",
+      "series": "NANO81",
+      "diagonal_inches": 50,
+      "model_year": 2025,
+      "catalog_source_url": "https://www.lg.com/ua/televisions/lg-50nano81a6a",
+      "dimension_source_url": "https://www.lg.com/ua/televisions/lg-50nano81a6a",
+      "dimension_source_label": "Официальные характеристики LG",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "lg-32lq63006la",
+      "brand": "LG",
+      "series": "LQ6300",
+      "diagonal_inches": 32,
+      "model_year": 2022,
+      "catalog_source_url": "https://www.lg.com/ru/televisions/lg-32lq63006la",
+      "dimension_source_url": "https://www.lg.com/ru/televisions/lg-32lq63006la",
+      "dimension_source_label": "Официальные характеристики LG",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "lg-32lq630b6la",
+      "brand": "LG",
+      "series": "LQ630",
+      "diagonal_inches": 32,
+      "model_year": 2022,
+      "catalog_source_url": "https://www.lg.com/at/tv-soundbars/smart-tvs/32lq630b6la/",
+      "dimension_source_url": "https://www.lg.com/at/tv-soundbars/smart-tvs/32lq630b6la/",
+      "dimension_source_label": "Официальные характеристики LG",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "lg-32lq63806lc",
+      "brand": "LG",
+      "series": "LQ6380",
+      "diagonal_inches": 32,
+      "model_year": 2022,
+      "catalog_source_url": "https://www.lg.com/rs/televizori/lg-32lq63806lc",
+      "dimension_source_url": "https://www.lg.com/rs/televizori/lg-32lq63806lc",
+      "dimension_source_label": "Официальные характеристики LG",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "hisense-32e44sl",
+      "brand": "Hisense",
+      "series": "E44SL",
+      "diagonal_inches": 32,
+      "model_year": 2026,
+      "catalog_source_url": "https://ru.hisense.com/catalog/tvs/32E44SL/",
+      "dimension_source_url": "https://ru.hisense.com/catalog/tvs/32E44SL/",
+      "dimension_source_label": "Официальные российские характеристики Hisense",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "hisense-32e55sl",
+      "brand": "Hisense",
+      "series": "E55SL",
+      "diagonal_inches": 32,
+      "model_year": 2026,
+      "catalog_source_url": "https://ru.hisense.com/catalog/tvs/32E55SL/",
+      "dimension_source_url": "https://ru.hisense.com/catalog/tvs/32E55SL/",
+      "dimension_source_label": "Официальные российские характеристики Hisense",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "hisense-32a4s",
+      "brand": "Hisense",
+      "series": "A4S",
+      "diagonal_inches": 32,
+      "model_year": 2026,
+      "catalog_source_url": "https://ru.hisense.com/catalog/tvs/32A4S/",
+      "dimension_source_url": "https://ru.hisense.com/catalog/tvs/32A4S/",
+      "dimension_source_label": "Официальные российские характеристики Hisense",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "hisense-43e66sl",
+      "brand": "Hisense",
+      "series": "E66SL",
+      "diagonal_inches": 43,
+      "model_year": 2026,
+      "catalog_source_url": "https://ru.hisense.com/catalog/tvs/43E66SL/",
+      "dimension_source_url": "https://ru.hisense.com/catalog/tvs/43E66SL/",
+      "dimension_source_label": "Официальные российские характеристики Hisense",
+      "checked_at": "2026-08-04"
+    },
+    {
+      "model_id": "hisense-85e7s",
+      "brand": "Hisense",
+      "series": "E7S",
+      "diagonal_inches": 85,
+      "model_year": 2026,
+      "catalog_source_url": "https://ru.hisense.com/catalog/tvs/85E7S/",
+      "dimension_source_url": "https://ru.hisense.com/catalog/tvs/85E7S/",
+      "dimension_source_label": "Официальные российские характеристики Hisense",
+      "checked_at": "2026-08-04"
     }
   ]
 }

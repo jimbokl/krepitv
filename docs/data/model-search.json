@@ -680,6 +680,86 @@
     "search": "samsung qe85qef1auxru samsung qe85qef1auxru"
   },
   {
+    "id": "samsung-ue32h5000fuxru",
+    "title": "Samsung UE32H5000FUXRU",
+    "brand": "Samsung",
+    "model": "UE32H5000FUXRU",
+    "href": "/modeli/samsung-ue32h5000fuxru/",
+    "search": "samsung ue32h5000fuxru samsung ue32h5000fuxru"
+  },
+  {
+    "id": "lg-50nano81a6a",
+    "title": "LG 50NANO81A6A",
+    "brand": "LG",
+    "model": "50NANO81A6A",
+    "href": "/modeli/lg-50nano81a6a/",
+    "search": "lg 50nano81a6a lg 50nano81a6a"
+  },
+  {
+    "id": "lg-32lq63006la",
+    "title": "LG 32LQ63006LA",
+    "brand": "LG",
+    "model": "32LQ63006LA",
+    "href": "/modeli/lg-32lq63006la/",
+    "search": "lg 32lq63006la lg 32lq63006la"
+  },
+  {
+    "id": "lg-32lq630b6la",
+    "title": "LG 32LQ630B6LA",
+    "brand": "LG",
+    "model": "32LQ630B6LA",
+    "href": "/modeli/lg-32lq630b6la/",
+    "search": "lg 32lq630b6la lg 32lq630b6la"
+  },
+  {
+    "id": "lg-32lq63806lc",
+    "title": "LG 32LQ63806LC",
+    "brand": "LG",
+    "model": "32LQ63806LC",
+    "href": "/modeli/lg-32lq63806lc/",
+    "search": "lg 32lq63806lc lg 32lq63806lc"
+  },
+  {
+    "id": "hisense-32e44sl",
+    "title": "Hisense 32E44SL",
+    "brand": "Hisense",
+    "model": "32E44SL",
+    "href": "/modeli/hisense-32e44sl/",
+    "search": "hisense 32e44sl hisense 32e44sl"
+  },
+  {
+    "id": "hisense-32e55sl",
+    "title": "Hisense 32E55SL",
+    "brand": "Hisense",
+    "model": "32E55SL",
+    "href": "/modeli/hisense-32e55sl/",
+    "search": "hisense 32e55sl hisense 32e55sl"
+  },
+  {
+    "id": "hisense-32a4s",
+    "title": "Hisense 32A4S",
+    "brand": "Hisense",
+    "model": "32A4S",
+    "href": "/modeli/hisense-32a4s/",
+    "search": "hisense 32a4s hisense 32a4s"
+  },
+  {
+    "id": "hisense-43e66sl",
+    "title": "Hisense 43E66SL",
+    "brand": "Hisense",
+    "model": "43E66SL",
+    "href": "/modeli/hisense-43e66sl/",
+    "search": "hisense 43e66sl hisense 43e66sl"
+  },
+  {
+    "id": "hisense-85e7s",
+    "title": "Hisense 85E7S",
+    "brand": "Hisense",
+    "model": "85E7S",
+    "href": "/modeli/hisense-85e7s/",
+    "search": "hisense 85e7s hisense 85e7s"
+  },
+  {
     "id": "hi-ht-32h01fb",
     "title": "Hi HT-32H01FB",
     "brand": "Hi",
@@ -728,28 +808,12 @@
     "search": "general electronics ge24lhn0 general electronics ge24lhn0 телевизор general electronics ge24lhn0"
   },
   {
-    "id": "hisense-32e44sl",
-    "title": "Hisense 32E44SL",
-    "brand": "Hisense",
-    "model": "32E44SL",
-    "href": "/modeli/hisense-32e44sl/",
-    "search": "hisense 32e44sl hisense 32e44sl телевизор 32 дюйма hisense 32e44sl (2026) смарт тв hd"
-  },
-  {
     "id": "sber-sdx-32h3114",
     "title": "Sber SDX-32H3114",
     "brand": "Sber",
     "model": "SDX-32H3114",
     "href": "/modeli/sber-sdx-32h3114/",
     "search": "sber sdx-32h3114 sber sdx-32h3114 умный телевизор sber sdx-32h3114"
-  },
-  {
-    "id": "hisense-32e55sl",
-    "title": "Hisense 32E55SL",
-    "brand": "Hisense",
-    "model": "32E55SL",
-    "href": "/modeli/hisense-32e55sl/",
-    "search": "hisense 32e55sl hisense 32e55sl телевизор 32 дюйма hisense 32e55sl (2026) смарт тв hd"
   },
   {
     "id": "artel-ua32h4101",
@@ -854,14 +918,6 @@
     "model": "HY-40F01FB",
     "href": "/modeli/hi-hy-40f01fb/",
     "search": "hi hy-40f01fb hi hy-40f01fb телевизор hi hy-40f01fb"
-  },
-  {
-    "id": "samsung-ue32h5000fuxru",
-    "title": "Samsung UE32H5000FUXRU",
-    "brand": "Samsung",
-    "model": "UE32H5000FUXRU",
-    "href": "/modeli/samsung-ue32h5000fuxru/",
-    "search": "samsung ue32h5000fuxru samsung ue32h5000fuxru 32\" телевизор samsung ue32h5000fuxru hd, смарт тв, tizen os, черный"
   },
   {
     "id": "sber-sdx-32h3113",
@@ -992,22 +1048,6 @@
     "search": "tcl v4c tcl v4c 32″ телевизор tcl 32\" v4c qled hd hdr google tv, смарт тв, 32 дюйма"
   },
   {
-    "id": "lg-50nano81a6a",
-    "title": "LG 50NANO81A6A",
-    "brand": "LG",
-    "model": "50NANO81A6A",
-    "href": "/modeli/lg-50nano81a6a/",
-    "search": "lg 50nano81a6a lg 50nano81a6a телевизор lg 50nano81a6a. arug"
-  },
-  {
-    "id": "lg-32lq63806lc",
-    "title": "LG 32LQ63806LC",
-    "brand": "LG",
-    "model": "32LQ63806LC",
-    "href": "/modeli/lg-32lq63806lc/",
-    "search": "lg 32lq63806lc lg 32lq63806lc телевизор lg 32lq63806lc. arug, 32 дюйма, full hd, смарт тв, webos, белый"
-  },
-  {
     "id": "tuvio-td50ufbhh12",
     "title": "Tuvio TD50UFBHH12",
     "brand": "Tuvio",
@@ -1030,14 +1070,6 @@
     "model": "43LM55",
     "href": "/modeli/lg-43lm55/",
     "search": "lg 43lm55 lg 43lm55 телевизор lg 43lm55 webos-smart, голосовое управление, диагональ 43\""
-  },
-  {
-    "id": "hisense-32a4s",
-    "title": "Hisense 32A4S 60″",
-    "brand": "Hisense",
-    "model": "32A4S",
-    "href": "/modeli/hisense-32a4s/",
-    "search": "hisense 32a4s hisense 32a4s 60″ телевизор hisense 32a4s ru 2026, smart tv, va, 60 гц, hd, wi-fi, bluetooth"
   },
   {
     "id": "tuvio-td32hfbch12",
@@ -1078,14 +1110,6 @@
     "model": "43Q67H",
     "href": "/modeli/skyworth-43q67h/",
     "search": "skyworth 43q67h skyworth 43q67h телевизор skyworth 43q67h, qled+, 4k ultra hd, 120 гц, hdr10+"
-  },
-  {
-    "id": "hisense-43e66sl",
-    "title": "Hisense 43E66SL",
-    "brand": "Hisense",
-    "model": "43E66SL",
-    "href": "/modeli/hisense-43e66sl/",
-    "search": "hisense 43e66sl hisense 43e66sl телевизор 43 дюйма hisense 43e66sl (2026) смарт тв 4к"
   },
   {
     "id": "hisense-50e77sl",
@@ -1528,14 +1552,6 @@
     "search": "candy uno 32\" candy uno 32\" телевизор candy uno 32\", разрешение hd, android tv, wi-fi, bluetooth, черный"
   },
   {
-    "id": "lg-32lq630b6la",
-    "title": "LG 32LQ630B6LA",
-    "brand": "LG",
-    "model": "32LQ630B6LA",
-    "href": "/modeli/lg-32lq630b6la/",
-    "search": "lg 32lq630b6la lg 32lq630b6la телевизор lg 32lq630b6la"
-  },
-  {
     "id": "harper-40f720t",
     "title": "HARPER 40F720T",
     "brand": "HARPER",
@@ -1544,28 +1560,12 @@
     "search": "harper 40f720t harper 40f720t телевизор harper 40f720t, 1920x1080 (fullhd), 250 кд/м2 , черный"
   },
   {
-    "id": "hisense-85e7s",
-    "title": "Hisense 85E7S",
-    "brand": "Hisense",
-    "model": "85E7S",
-    "href": "/modeli/hisense-85e7s/",
-    "search": "hisense 85e7s hisense 85e7s жк-телевизор 85\" hisense 85e7s, qled, 4k ultra hd, смарт тв, черный"
-  },
-  {
     "id": "hi-hx-32h01fb",
     "title": "Hi HX-32H01FB",
     "brand": "Hi",
     "model": "HX-32H01FB",
     "href": "/modeli/hi-hx-32h01fb/",
     "search": "hi hx-32h01fb hi hx-32h01fb телевизор hi hx-32h01fb"
-  },
-  {
-    "id": "lg-32lq63006la",
-    "title": "LG 32LQ63006LA",
-    "brand": "LG",
-    "model": "32LQ63006LA",
-    "href": "/modeli/lg-32lq63006la/",
-    "search": "lg 32lq63006la lg 32lq63006la телевизор led lg 32\" 32lq63006la. arug черный full hd 60hz dvb-t dvb-t2 dvb-c dvb-s dvb-s2 usb wifi smart tv"
   },
   {
     "id": "leff-32h690t",

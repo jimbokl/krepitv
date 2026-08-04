@@ -71,6 +71,12 @@ export function ModelPage({ catalog, modelId }) {
 
         <CommercialProfile profile={commercialProfile} />
 
+        <CompatibilityProof
+          matches={compatible}
+          model={model}
+          vesaConflict={vesaConflict}
+        />
+
         <section className="grid border-b-2 border-ink lg:grid-cols-[minmax(22rem,0.9fr)_minmax(0,1.15fr)]">
           <div className="border-b border-ink py-6 lg:border-b-0 lg:border-r lg:pr-8">
             <h2 className="mb-3 text-base font-semibold">Введите модель телевизора</h2>
@@ -170,6 +176,45 @@ export function ModelPage({ catalog, modelId }) {
         <HeightCalculator model={model} />
       </div>
     </main>
+  );
+}
+
+function CompatibilityProof({ matches, model, vesaConflict }) {
+  const requiredLoad = formatNumber(model.weight_kg * 1.25);
+  const vesa = `${formatNumber(model.vesa_width_mm)}×${formatNumber(model.vesa_height_mm)} мм`;
+
+  return (
+    <section
+      aria-label="Как проверена совместимость"
+      className="mt-6 grid gap-px border border-ink bg-ink md:grid-cols-3"
+      data-compatibility-proof="true"
+    >
+      <article className="bg-paper p-5">
+        <p className="font-mono text-xs uppercase text-action">01 · Отверстия</p>
+        <h2 className="mt-2 font-display text-2xl font-extrabold">
+          {vesaConflict ? "VESA требует сверки" : `Точная пара ${vesa}`}
+        </h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          {vesaConflict
+            ? "Официальные источники расходятся. До ручного замера список остаётся набором кандидатов."
+            : "Максимальный размер рамки не считается совпадением: проверяется именно заявленная пара отверстий."}
+        </p>
+      </article>
+      <article className="bg-paper p-5">
+        <p className="font-mono text-xs uppercase text-action">02 · Нагрузка</p>
+        <h2 className="mt-2 font-display text-2xl font-extrabold">Минимум {requiredLoad} кг</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          К массе телевизора без подставки добавлен запас 25%. Нагрузка каждого показанного варианта не ниже порога.
+        </p>
+      </article>
+      <article className="bg-paper p-5">
+        <p className="font-mono text-xs uppercase text-action">03 · Результат</p>
+        <h2 className="mt-2 font-display text-2xl font-extrabold">{matches.length} вариантов</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          Для каждого кронштейна отдельно показан диапазон диагоналей. Крепёж к стене выбирают после проверки основания.
+        </p>
+      </article>
+    </section>
   );
 }
 

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "scope": "Точные модели Hisense из снимка Яндекс Маркета; только официальные страницы производителя",
+  "decision_rule": "Модель допускается в индексируемый каталог, только если одна официальная страница точной модификации подтверждает диагональ, VESA, массу без подставки и размеры корпуса без подставки.",
+  "accepted": [
+    {
+      "model": "32E44SL",
+      "source_url": "https://ru.hisense.com/catalog/tvs/32E44SL/",
+      "model_year": 2026,
+      "diagonal_inches": 32,
+      "vesa_mm": "100×100",
+      "weight_without_stand_kg": 3.4,
+      "body_without_stand_mm": "722×426×78"
+    },
+    {
+      "model": "32E55SL",
+      "source_url": "https://ru.hisense.com/catalog/tvs/32E55SL/",
+      "model_year": 2026,
+      "diagonal_inches": 32,
+      "vesa_mm": "100×100",
+      "weight_without_stand_kg": 3.5,
+      "body_without_stand_mm": "725×426×78"
+    },
+    {
+      "model": "32A4S",
+      "source_url": "https://ru.hisense.com/catalog/tvs/32A4S/",
+      "model_year": 2026,
+      "diagonal_inches": 32,
+      "vesa_mm": "100×100",
+      "weight_without_stand_kg": 3.4,
+      "body_without_stand_mm": "722×426×78"
+    },
+    {
+      "model": "43E66SL",
+      "source_url": "https://ru.hisense.com/catalog/tvs/43E66SL/",
+      "model_year": 2026,
+      "diagonal_inches": 43,
+      "vesa_mm": "200×300",
+      "weight_without_stand_kg": 5.9,
+      "body_without_stand_mm": "963×562×79"
+    },
+    {
+      "model": "85E7S",
+      "source_url": "https://ru.hisense.com/catalog/tvs/85E7S/",
+      "model_year": 2026,
+      "diagonal_inches": 85,
+      "vesa_mm": "500×400",
+      "weight_without_stand_kg": 26.9,
+      "body_without_stand_mm": "1890×1087×75"
+    }
+  ],
+  "rejected": [
+    {
+      "market_identity": "Hisense 50E77SL PRO",
+      "reason": "Найдена официальная страница 50E77SL без суффикса PRO; строгая идентичность модификации не доказана."
+    },
+    {
+      "market_identity": "Haier H55K85GUX",
+      "reason": "Характеристики подтверждаются разными региональными страницами, а модельный год не указан; оставлено вне индексируемого каталога."
+    }
+  ]
+}

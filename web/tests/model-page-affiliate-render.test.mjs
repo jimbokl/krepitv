@@ -151,6 +151,9 @@ test("карточка модели выводит только три model-spe
     assert.equal((html.match(/data-mount-detail-placement="compatibility_result"/g) ?? []).length, mounts.length);
     assert.equal(html.includes("data-affiliate-placement-id=\"market-onkron-tm6\""), false);
     assert.equal(html.includes("data-wall-mount-screws=\"true\""), true);
+    assert.equal(html.includes("data-compatibility-proof=\"true\""), true);
+    assert.equal(html.includes("Точная пара 300×300 мм"), true);
+    assert.equal(html.includes("4 вариантов"), true);
     assert.equal(html.includes("Какие винты нужны для TCL 55C7K"), true);
     assert.equal(html.includes("4 шт. · M6×16 мм"), true);
     assert.equal(html.includes("Это паспортный размер винта, а не глубина резьбового отверстия"), true);
