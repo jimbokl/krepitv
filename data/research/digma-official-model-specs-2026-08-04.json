@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "scope": "Точная модель DIGMA из текущего наблюдения Яндекс Маркета",
+  "policy": "В каталог допускается только точное совпадение модели с официальной карточкой и официальным API характеристик производителя.",
+  "models": [
+    {
+      "model": "DM-LED32SBB39",
+      "official_url": "https://digma.ru/catalog/tv/tvs/dm-led32sbb39-2024401/",
+      "official_characteristics_endpoint": "https://digma.ru/product/get-characteristics-product/",
+      "official_item_id": 2024401,
+      "diagonal_inches": 32,
+      "vesa_mm": "200x200",
+      "weight_without_stand_kg": 3.6,
+      "dimensions_without_stand_mm": "718x421.6x84.1",
+      "model_year": null,
+      "decision": "promote"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "weight_policy": "TopDevice публикует массу нетто без уточнения режима подставки. Для расчёта нагрузки значение используется целиком как консервативная паспортная масса.",
+  "models": [
+    {"model":"TDHTV32GFD_BK","official_url":"https://topdevice.ru/products/tv/topdevice-32-google-tv-2/","diagonal_inches":32,"vesa_mm":"100x100","published_net_weight_kg":3.35,"dimensions_without_stand_mm":"719x423x82","year":null,"decision":"promote"},
+    {"model":"TDHTV32GHD_BK","official_url":"https://topdevice.ru/products/tv/topdevice-32-google-tv/","diagonal_inches":32,"vesa_mm":"200x100","published_net_weight_kg":2.9,"dimensions_without_stand_mm":"715x421x58","year":null,"decision":"promote"},
+    {"model":"TDHTV24Y1HD_BK","official_url":"https://topdevice.ru/products/tv/topdevice-24-smart-tv-yaos/","diagonal_inches":24,"vesa_mm":"100x100","published_net_weight_kg":2.2,"dimensions_without_stand_mm":"538x326x75","year":null,"decision":"promote"}
+  ]
+}

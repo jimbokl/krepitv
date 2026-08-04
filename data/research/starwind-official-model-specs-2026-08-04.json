@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "scope": "Точные модели Starwind из текущего наблюдения Яндекс Маркета",
+  "policy": "В каталог допускаются только модели, для которых официальная карточка производителя одновременно подтверждает точный артикул, диагональ, VESA, массу и размеры корпуса без подставки.",
+  "models": [
+    {
+      "model": "SW-LED32BG200",
+      "official_url": "https://starwind.com.ru/catalog/item/1779075/",
+      "diagonal_inches": 32,
+      "vesa_mm": "200x200",
+      "weight_without_stand_kg": 3.9,
+      "dimensions_without_stand_mm": "724.3x425x84.2",
+      "source_conflict": "Карточка: 3.8 кг и 724.3x425x84.2 мм; руководство: 3.9 кг и 724x425x84 мм. Для нагрузки взято большее значение, размеры — из текущей карточки.",
+      "model_year": null,
+      "decision": "promote"
+    },
+    {
+      "model": "SW-LED40SG300",
+      "official_url": "https://starwind.com.ru/catalog/item/1779078/",
+      "diagonal_inches": 40,
+      "vesa_mm": "200x200",
+      "weight_without_stand_kg": 5.8,
+      "dimensions_without_stand_mm": "897.9x514.5x86.7",
+      "source_conflict": "Карточка: 5.7 кг и 897.9x514.5x86.7 мм; руководство: 5.8 кг и 898x515x87 мм. Для нагрузки взято большее значение, размеры — из текущей карточки.",
+      "model_year": null,
+      "decision": "promote"
+    },
+    {
+      "model": "SW-LED24SG304",
+      "official_url": "https://starwind.com.ru/catalog/item/1875241/",
+      "diagonal_inches": 24,
+      "vesa_mm": "200x100",
+      "weight_without_stand_kg": 2.9,
+      "dimensions_without_stand_mm": "552.9x332.6x86.3",
+      "source_conflict": "Карточка: 2.9 кг и 552.9x332.6x86.3 мм; руководство: 2.5 кг и 552.9x332.6x75 мм. Для нагрузки взято большее значение, размеры — из текущей карточки и не смешиваются с руководством.",
+      "model_year": null,
+      "decision": "promote"
+    }
+  ]
+}

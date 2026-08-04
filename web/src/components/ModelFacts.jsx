@@ -19,7 +19,7 @@ export function ModelFacts({ model, detailed = false }) {
       Icon: BracketsSquare,
     },
     {
-      label: "Масса без подставки",
+      label: "Паспортная масса",
       value: `${formatNumber(model.weight_kg)} кг`,
       Icon: Barbell,
     },

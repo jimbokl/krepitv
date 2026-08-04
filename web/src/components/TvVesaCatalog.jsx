@@ -130,7 +130,7 @@ export function TvVesaCatalog({ compatibilityEdges, models, search }) {
           target="_blank"
         >
           JSON
-        </a>. В файлах 80 точных моделей, размеры VESA и официальные источники; {" "}
+        </a>. В файлах 132 точные модели, размеры VESA и официальные источники; {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
           href="https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE"

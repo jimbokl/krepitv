@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "policy": "Точное совпадение модели с официальной страницей производителя; региональные расхождения фиксируются, а конфликтующие или усечённые идентификаторы не привязываются.",
+  "models": [
+    {"model":"Xiaomi TV A Pro 55 2026","official_url":"https://www.mi.com/global/product/xiaomi-tv-a-pro-55-2026/specs/","support_url":"https://www.mi.com/global/support/faq/details/KA-548463/","diagonal_inches":55,"vesa_mm":"200x300","weight_without_stand_kg":9.1,"dimensions_without_stand_mm":"1226x711x76","year":2026,"decision":"promote"},
+    {"model":"Xiaomi TV S Pro Mini LED 55 2026","official_url":"https://www.mi.com/global/product/xiaomi-tv-s-pro-mini-led-55-2026/specs/","support_url":"https://www.mi.com/co/support/faq/details/KA-943499/","diagonal_inches":55,"vesa_mm":"300x300","weight_without_stand_kg":12.9,"dimensions_without_stand_mm":"1225x709x71","year":2026,"decision":"promote"},
+    {"model":"Xiaomi TV S Pro Mini LED 75 2026","official_url":"https://www.mi.com/global/product/xiaomi-tv-s-pro-mini-led-75-2026/specs/","support_url":"https://www.mi.com/fr/support/faq/details/KA-917942/","diagonal_inches":75,"vesa_mm":"400x300","weight_without_stand_kg":25.6,"dimensions_without_stand_mm":"1667x958x73","year":2026,"decision":"promote"},
+    {"model":"TCL 50P7L","official_url":"https://www.tcl.com/ru/ru/tvs/p7l","support_url":"https://www.tcl.com/ru/ru/support-tv/model/50p7l","diagonal_inches":50,"vesa_mm":"300x300","weight_without_stand_kg":8.7,"dimensions_without_stand_mm":"1111x646x68.7","year":2026,"decision":"promote"},
+    {"model":"Samsung UE55DU7100UXRU","official_url":"https://www.samsung.com/ru/tvs/uhd-4k-tv/du7000-55-inch-crystal-uhd-4k-tizen-os-smart-tv-ue55du7100uxru/","diagonal_inches":55,"vesa_mm":"200x200","weight_without_stand_kg":11.2,"dimensions_without_stand_mm":"1234.1x710.8x60.3","year":2024,"market_identity":"UE55DU7100U","decision":"promote_with_ru_suffix_normalization"}
+  ],
+  "rejected": [
+    {"market_identity":"Xiaomi TV A Pro","reason":"Заголовок наблюдения не содержит точный аппаратный код или полный размерно-годовой идентификатор."},
+    {"market_identity":"TCL V4C","reason":"Официальная карточка содержит противоречивые массу и порядок размеров; значения не исправляются догадкой."},
+    {"market_identity":"Hisense 50E77SL PRO","reason":"Официальная модель подтверждена без суффикса PRO, поэтому маркетинговый вариант не привязывается автоматически."},
+    {"market_identity":"Sony K-75XR50B","reason":"Официально подтверждён K-75XR50 без суффикса B; точная модификация не доказана."}
+  ]
+}

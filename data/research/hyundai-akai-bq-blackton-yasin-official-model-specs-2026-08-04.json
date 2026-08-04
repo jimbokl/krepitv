@@ -1,0 +1,79 @@
+{
+  "checked_at": "2026-08-04",
+  "policy": "В каталог допускается только точная модель с официально подтверждёнными диагональю, VESA, массой и размерами корпуса. Если источник даёт несколько масс, используется большая; масса с подставкой или общая масса допустима как консервативная паспортная нагрузка.",
+  "accepted_models": [
+    {
+      "id": "hyundai-h-led32bs5002",
+      "official_url": "https://hyundai-electronics.com.ru/catalog/item/hyundai-H-LED32BS5002-1892510/",
+      "diagonal_inches": 32,
+      "vesa_mm": "200x200",
+      "passport_mass_kg": 3.9,
+      "body_without_stand_mm": "724.3x425x84.2",
+      "decision": "accepted_exact_official"
+    },
+    {
+      "id": "hyundai-h-led32bs5003",
+      "official_url": "https://hyundai-electronics.com.ru/catalog/item/hyundai-H-LED32BS5003-1783621/",
+      "diagonal_inches": 32,
+      "vesa_mm": "200x200",
+      "passport_mass_kg": 4.0,
+      "body_without_stand_mm": "724.3x425x84.2",
+      "decision": "accepted_exact_official"
+    },
+    {
+      "id": "hyundai-h-led40bs5011",
+      "official_url": "https://hyundai-electronics.com.ru/catalog/item/hyundai-H-LED40BS5011-2125094/",
+      "diagonal_inches": 40,
+      "vesa_mm": "200x200",
+      "passport_mass_kg": 4.7,
+      "body_without_stand_mm": "892x509x70",
+      "model_year": 2026,
+      "decision": "accepted_exact_official"
+    },
+    {
+      "id": "akai-ta32bh500",
+      "official_url": "https://akai.ru/index.php?product_id=292&route=product%2Fproduct",
+      "diagonal_inches": 32,
+      "vesa_mm": "100x100",
+      "passport_mass_kg": 3.35,
+      "body_without_stand_mm": "719.2x422.5x81.6",
+      "model_year": 2024,
+      "decision": "accepted_exact_official"
+    },
+    {
+      "id": "bq-32f40b",
+      "official_url": "https://bq.ru/catalog/televizory/vse-televizory/bq-32f40b/",
+      "diagonal_inches": 32,
+      "vesa_mm": "100x100",
+      "passport_mass_kg": 3.1,
+      "body_without_stand_mm": "713x420x67",
+      "decision": "accepted_exact_official"
+    },
+    {
+      "id": "blackton-bt-24fs34b",
+      "official_url": "https://www.blackton.tv/catalog/tv/bt-24fs34b/",
+      "diagonal_inches": 24,
+      "vesa_mm": "100x100",
+      "passport_mass_kg": 2.1,
+      "body_without_stand_mm": "537x318x78",
+      "decision": "accepted_exact_official"
+    },
+    {
+      "id": "yasin-32e9000",
+      "official_url": "https://yasintv.kz/ProductDetail/11047970.html",
+      "diagonal_inches": 32,
+      "vesa_mm": "100x100",
+      "passport_mass_kg": 3.2,
+      "body_without_stand_mm": "718x419x61",
+      "model_year": 2025,
+      "decision": "accepted_exact_official"
+    }
+  ],
+  "rejected_models": [
+    {
+      "market_identity": "Hyundai H-LED50QBU7500",
+      "official_url": "https://hyundai-electronics.com.ru/",
+      "reason": "Официальные карточка и руководство противоречат друг другу по VESA: 400x200 против 200x200. Совместимость не публикуется до разрешения противоречия."
+    }
+  ]
+}

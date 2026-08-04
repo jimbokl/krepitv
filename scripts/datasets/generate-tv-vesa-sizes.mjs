@@ -65,7 +65,7 @@ function buildRecord(model) {
     series: model.series,
     model_year: model.model_year,
     diagonal_inches: model.diagonal_inches,
-    weight_without_stand_kg: model.weight_kg,
+    passport_mass_kg: model.weight_kg,
     vesa_width_mm: model.vesa_width_mm,
     vesa_height_mm: model.vesa_height_mm,
     vesa_source_conflict: Boolean(conflict),
@@ -80,8 +80,8 @@ function buildRecord(model) {
 }
 
 function validateRecords(rows) {
-  if (rows.length !== 102) {
-    throw new Error(`Ожидалось 102 точные модели, получено ${rows.length}`);
+  if (rows.length !== 132) {
+    throw new Error(`Ожидалось 132 точные модели, получено ${rows.length}`);
   }
   const ids = new Set();
   for (const [index, row] of rows.entries()) {

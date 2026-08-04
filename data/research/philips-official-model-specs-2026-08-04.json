@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "scope": "Точная карточка Philips из снимка Яндекс Маркета; официальный паспорт Philips",
+  "accepted": [
+    {
+      "market_product_id": "5107385175",
+      "catalog_id": "philips-50pud7029",
+      "model": "50PUD7029/71",
+      "official_url": "https://www.documents.philips.com/assets/20240206/ccf74d9fb1344aa1a8b1b10e0100a682.pdf",
+      "market_identity_note": "Полный суффикс /71 присутствует в slug URL карточки Маркета.",
+      "diagonal_inches": 50,
+      "vesa_mm": "300×300",
+      "mass_without_stand_kg": 9,
+      "mass_with_stand_kg": 9.5,
+      "body_without_stand_mm": "1110.4×642.7×88.4",
+      "model_year": null,
+      "compatible_mount_id": "itech-slt-460",
+      "fit_check": "50 входит в 37–80 дюймов; VESA 300×300 точный; 40 кг ≥ 9×1,25 = 11,25 кг."
+    }
+  ]
+}

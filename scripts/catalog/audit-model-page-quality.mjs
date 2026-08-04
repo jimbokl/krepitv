@@ -34,7 +34,7 @@ for (const model of models) {
   requireValue(model.source_url?.startsWith("https://"), model.id, "нет HTTPS-источника характеристик");
   requireValue(/^\d{4}-\d{2}-\d{2}$/u.test(model.checked_at), model.id, "нет даты проверки источника");
   requireValue(model.vesa_width_mm > 0 && model.vesa_height_mm > 0, model.id, "нет подтверждённого VESA");
-  requireValue(model.weight_kg > 0, model.id, "нет массы без подставки");
+  requireValue(model.weight_kg > 0, model.id, "нет паспортной массы для расчёта");
   requireValue(matches.length > 0, model.id, "нет ни одного проверенного кронштейна");
   requireValue(sitemapPaths.has(route), model.id, "полная модель отсутствует в sitemap");
 

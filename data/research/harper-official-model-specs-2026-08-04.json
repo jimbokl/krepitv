@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-04",
+  "scope": "Точные модели HARPER из текущего наблюдения Яндекс Маркета",
+  "weight_policy": "Официальные карточки дают одну паспортную массу без разделения с подставкой и без неё. Для проверки нагрузки она используется целиком как консервативная верхняя граница; на публичной странице поле называется «Паспортная масса».",
+  "models": [
+    {"model":"24R470T","official_url":"https://harper.ru/24r470t/","diagonal_inches":24,"vesa_mm":"100x100","published_weight_kg":2.3,"dimensions_without_stand_mm":"551x332x71","model_year":null,"decision":"promote"},
+    {"model":"32R670T","official_url":"https://harper.ru/32r670t/","diagonal_inches":32,"vesa_mm":"200x200","published_weight_kg":3.5,"dimensions_without_stand_mm":"718x420x70","model_year":null,"decision":"promote"},
+    {"model":"43F670TS","official_url":"https://harper.ru/43f670ts/","diagonal_inches":43,"vesa_mm":"200x200","published_weight_kg":5.3,"dimensions_without_stand_mm":"955x556x72","model_year":null,"decision":"promote"},
+    {"model":"40F720T","official_url":"https://harper.ru/40f720t/","diagonal_inches":40,"vesa_mm":"200x100","published_weight_kg":4.8,"dimensions_without_stand_mm":"892x511x74","model_year":null,"decision":"promote"}
+  ]
+}
