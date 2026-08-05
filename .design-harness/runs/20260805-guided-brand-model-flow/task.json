@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "id": "20260805-guided-brand-model-flow",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-05T16:52:28.194120+00:00",
+  "states": ["default", "loading", "empty", "error", "success", "disabled", "focus"],
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800},
+    {"id": "tablet", "width": 768, "height": 1024},
+    {"id": "desktop", "width": 1440, "height": 900}
+  ],
+  "allowed_files": [
+    "web/src/pages/GuidedSelectionPage.jsx",
+    "web/src/hooks/useCompatibility.js",
+    "web/src/components/TrustMark.jsx",
+    "web/tailwind.config.js",
+    "web/tests/guided-selection-flow.test.mjs",
+    "web/tests/guided-selection-result.test.mjs",
+    "scripts/qa/capture-page.mjs",
+    "crates/sitegen/src/main.rs",
+    "docs",
+    ".design-harness/runs/20260805-guided-brand-model-flow"
+  ],
+  "verification_commands": [
+    {
+      "id": "guided-flow-tests",
+      "command": "node --test web/tests/guided-selection-flow.test.mjs web/tests/guided-selection-result.test.mjs web/tests/result-instrumentation.test.mjs && cargo test -p krepitv-sitegen matcher_starts_with_brand_then_model_without_phantom_selection",
+      "required": true,
+      "covers": ["brand-first", "filtered model search", "four steps", "deep link", "analytics privacy", "SSR"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "whole artifact"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260805-guided-brand-model-flow --files web/src/pages/GuidedSelectionPage.jsx",
+      "required": true,
+      "covers": ["Tailwind tokens", "responsive flow", "focus"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id": "step-one", "value": "Марка", "strategy": "deterministic-overlay"},
+    {"id": "step-two", "value": "Модель", "strategy": "deterministic-overlay"},
+    {"id": "step-three", "value": "Стена", "strategy": "deterministic-overlay"},
+    {"id": "step-four", "value": "Кронштейн", "strategy": "deterministic-overlay"}
+  ],
+  "claims": [
+    {
+      "id": "verified-catalog",
+      "text": "Марки и количество моделей вычисляются только из текущего проверенного каталога телевизоров.",
+      "source_ids": ["verified-models"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "verified-models",
+      "path": "data/research/verified-tv-models.json",
+      "retrieved_at": "2026-08-05T16:52:28Z",
+      "notes": "Курируемый реестр точных моделей с брендом, VESA, массой и источниками"
+    }
+  ]
+}

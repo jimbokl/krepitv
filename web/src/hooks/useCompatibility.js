@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { findCompatibleMounts } from "../lib/catalog.js";
 
-export function useCompatibility(model, mounts, mechanism = "any") {
+export function useCompatibility(model, mounts, mechanism = "any", retryKey = 0) {
   const [state, setState] = useState({
     status: "idle",
     matches: [],
@@ -38,7 +38,7 @@ export function useCompatibility(model, mounts, mechanism = "any") {
     return () => {
       active = false;
     };
-  }, [mechanism, model, mounts]);
+  }, [mechanism, model, mounts, retryKey]);
 
   return state;
 }

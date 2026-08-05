@@ -21,6 +21,7 @@ const phoneTvState = argument("--phone-tv-state", null);
 const tvNoSignalState = argument("--tv-no-signal-state", null);
 const tvTrafficState = argument("--tv-traffic-state", null);
 const tvEnergyState = argument("--tv-energy-state", null);
+const guidedSelectionState = argument("--guided-selection-state", null);
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
 const consent = argument("--consent", "denied");
@@ -100,7 +101,18 @@ if (tvEnergyState && ![
 ].includes(tvEnergyState)) {
   throw new Error("Invalid TV energy state");
 }
-if ([phoneTvState, tvNoSignalState, tvTrafficState, tvEnergyState].filter(Boolean).length > 1) {
+if (guidedSelectionState && ![
+  "empty",
+  "default",
+  "disabled",
+  "focus",
+  "loading",
+  "error",
+  "success",
+].includes(guidedSelectionState)) {
+  throw new Error("Invalid guided selection state");
+}
+if ([phoneTvState, tvNoSignalState, tvTrafficState, tvEnergyState, guidedSelectionState].filter(Boolean).length > 1) {
   throw new Error("Choose only one interactive QA state");
 }
 if (placementAttributionRequired && !affiliateReportEnabled) {
@@ -193,7 +205,7 @@ try {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
     });
   }
-  const wasmQaState = phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState;
+  const wasmQaState = phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState || guidedSelectionState;
   if (["loading", "error", "retry"].includes(wasmQaState)) {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: wasmQaState === "loading"
@@ -745,6 +757,167 @@ try {
       throw new Error("TV energy route contains Market links");
     }
   }
+  let guidedSelectionReport = null;
+  if (guidedSelectionState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(guidedSelectionState)};
+        const waitFor = (predicate, message, timeout = 10000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            const value = predicate();
+            if (value) {
+              clearInterval(timer);
+              resolve(value);
+            } else if (Date.now() - startedAt > timeout) {
+              clearInterval(timer);
+              reject(new Error(message));
+            }
+          }, 25);
+        });
+        const page = await waitFor(
+          () => document.querySelector('[data-guided-selection-page="true"]'),
+          "Guided selection page did not hydrate",
+        );
+        const brandSelect = await waitFor(
+          () => page.querySelector("#guided-tv-brand"),
+          "Guided brand select not found",
+        );
+        const brandForm = brandSelect.closest("form");
+        const brandSubmit = brandForm?.querySelector('button[type="submit"]');
+        const brandOptionCount = brandSelect.querySelectorAll('option:not([value=""])').length;
+        let initialBrandSubmitDisabled = Boolean(brandSubmit?.disabled);
+
+        if (state === "focus") {
+          brandSelect.focus();
+        } else if (!["default", "disabled"].includes(state)) {
+          const selectSetter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
+          if (!selectSetter) throw new Error("Native select setter not found");
+          selectSetter.call(brandSelect, "TCL");
+          brandSelect.dispatchEvent(new Event("change", { bubbles: true }));
+          const enabledBrandSubmit = await waitFor(
+            () => {
+              const button = brandForm?.querySelector('button[type="submit"]');
+              return button && !button.disabled ? button : null;
+            },
+            "Choosing TCL did not enable the brand step",
+          );
+          enabledBrandSubmit.click();
+          await waitFor(
+            () => page.getAttribute("data-guided-selection-step") === "2",
+            "Brand choice did not open the model step",
+          );
+        }
+
+        if (["loading", "error", "success"].includes(state)) {
+          const input = await waitFor(
+            () => page.querySelector('input[aria-label="Модель телевизора"]'),
+            "Guided model input not found",
+          );
+          const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+          if (!inputSetter) throw new Error("Native input setter not found");
+          inputSetter.call(input, "TCL 65C7K");
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+          const modelSubmit = await waitFor(
+            () => {
+              const button = input.closest("form")?.querySelector('button[type="submit"]');
+              return button && !button.disabled ? button : null;
+            },
+            "Exact TCL model did not enable the model step",
+          );
+          modelSubmit.click();
+          await waitFor(
+            () => page.getAttribute("data-guided-selection-step") === "3",
+            "Model choice did not open the wall step",
+          );
+          const wall = await waitFor(
+            () => page.querySelector('input[value="solid"]'),
+            "Solid wall choice not found",
+          );
+          wall.click();
+          const mechanismStep = await waitFor(
+            () => Array.from(page.querySelectorAll('button[type="button"]')).find(
+              (button) => button.textContent.includes("Выбрать механизм") && !button.disabled,
+            ),
+            "Wall choice did not enable the mechanism step",
+          );
+          mechanismStep.click();
+          await waitFor(
+            () => page.getAttribute("data-guided-selection-step") === "4",
+            "Wall choice did not open the mechanism step",
+          );
+          const fixed = await waitFor(
+            () => page.querySelector('input[value="fixed"]'),
+            "Fixed mount choice not found",
+          );
+          fixed.click();
+        }
+
+        const expected = state === "loading"
+          ? () => page.querySelector('[data-guided-compatibility-state="loading"]')
+          : state === "error"
+            ? () => page.querySelector('[data-guided-compatibility-state="error"]')
+            : state === "success"
+              ? () => page.querySelector('[data-guided-compatibility-state="success"]')
+              : state === "empty"
+                ? () => page.getAttribute("data-guided-selection-step") === "2"
+                : () => true;
+        await waitFor(expected, "Guided selection state timed out");
+
+        const modelInput = page.querySelector('input[aria-label="Модель телевизора"]');
+        return {
+          state,
+          step: page.getAttribute("data-guided-selection-step"),
+          brandOptionCount,
+          initialBrandSubmitDisabled,
+          focusedBrand: document.activeElement === brandSelect,
+          modelSearchCount: Number(page.querySelector("[data-model-search-count]")?.getAttribute("data-model-search-count") ?? 0),
+          modelSubmitDisabled: modelInput
+            ? Boolean(modelInput.closest("form")?.querySelector('button[type="submit"]')?.disabled)
+            : null,
+          resultStatus: page.querySelector("[data-guided-compatibility-state]")?.getAttribute("data-guided-compatibility-state") ?? null,
+          resultCards: page.querySelectorAll('[data-result-tier="featured_result"]').length,
+          hasRetry: Array.from(page.querySelectorAll('button[type="button"]')).some(
+            (button) => button.textContent.includes("Повторить проверку"),
+          ),
+          marketLinks: page.querySelectorAll('a[href*="market.yandex.ru"]').length,
+        };
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error("Guided selection interaction failed");
+    }
+    guidedSelectionReport = interaction.result.value;
+    if (guidedSelectionReport.brandOptionCount < 1) {
+      throw new Error("Guided selection has no brand options");
+    }
+    if (["default", "disabled"].includes(guidedSelectionState) && !guidedSelectionReport.initialBrandSubmitDisabled) {
+      throw new Error("Guided selection must start with a disabled brand submit");
+    }
+    if (guidedSelectionState === "focus" && !guidedSelectionReport.focusedBrand) {
+      throw new Error("Guided selection focus state is not visible on the brand select");
+    }
+    if (guidedSelectionState === "empty" && (
+      guidedSelectionReport.step !== "2"
+      || guidedSelectionReport.modelSearchCount < 1
+      || !guidedSelectionReport.modelSubmitDisabled
+    )) {
+      throw new Error("Guided selection empty model state is invalid");
+    }
+    if (["loading", "error", "success"].includes(guidedSelectionState)
+      && guidedSelectionReport.resultStatus !== guidedSelectionState) {
+      throw new Error(`Guided selection did not reach ${guidedSelectionState}`);
+    }
+    if (guidedSelectionState === "success" && guidedSelectionReport.resultCards < 1) {
+      throw new Error("Guided selection success has no featured result cards");
+    }
+    if (guidedSelectionState === "error" && !guidedSelectionReport.hasRetry) {
+      throw new Error("Guided selection error has no retry action");
+    }
+  }
   let modelInteractionReport = null;
   if (modelQuery) {
     const interaction = await send("Runtime.evaluate", {
@@ -891,7 +1064,15 @@ try {
                           ? '[data-tv-energy-calculator] [role="alert"]'
                           : tvEnergyState
                             ? "[data-tv-energy-calculator]"
-                            : null);
+                            : guidedSelectionState === "success"
+                              ? '[data-guided-compatibility-state="success"]'
+                              : guidedSelectionState === "error"
+                                ? '[data-guided-compatibility-state="error"]'
+                                : guidedSelectionState === "loading"
+                                  ? '[data-guided-compatibility-state="loading"]'
+                                  : guidedSelectionState
+                                    ? '[data-guided-selection-page="true"]'
+                                    : null);
   if (effectiveSelector) {
     const selected = await send("Runtime.evaluate", {
       expression: `(() => {
@@ -1026,6 +1207,7 @@ try {
   if (tvNoSignalReport) process.stdout.write(`${JSON.stringify(tvNoSignalReport)}\n`);
   if (tvTrafficReport) process.stdout.write(`${JSON.stringify(tvTrafficReport)}\n`);
   if (tvEnergyReport) process.stdout.write(`${JSON.stringify(tvEnergyReport)}\n`);
+  if (guidedSelectionReport) process.stdout.write(`${JSON.stringify(guidedSelectionReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();

@@ -104,6 +104,16 @@ test("результат подбора сначала показывает тр
     assert.equal(html.includes("Открыть карточку модели"), false);
     assert.equal(html.includes("https://market.yandex.ru"), false);
     assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
+
+    const errorHtml = renderToStaticMarkup(React.createElement(CompatibilityResult, {
+      compatibility: { status: "error", error: "Локальный модуль недоступен" },
+      matches: [],
+      model,
+      onRetry: () => {},
+    }));
+    assert.equal(errorHtml.includes('data-guided-compatibility-state="error"'), true);
+    assert.equal(errorHtml.includes('role="alert"'), true);
+    assert.equal(errorHtml.includes("Повторить проверку"), true);
   } finally {
     await vite.close();
   }

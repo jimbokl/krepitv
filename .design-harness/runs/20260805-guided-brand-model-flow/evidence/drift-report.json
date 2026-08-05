@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "run": "20260805-guided-brand-model-flow",
+  "generated_at": "2026-08-05T17:14:29.459267+00:00",
+  "scanned_files": [
+    "web/src/pages/GuidedSelectionPage.jsx"
+  ],
+  "findings": []
+}

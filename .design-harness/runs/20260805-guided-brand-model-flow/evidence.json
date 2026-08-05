@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "task_id": "20260805-guided-brand-model-flow",
+  "commands": [
+    {
+      "id": "guided-flow-tests",
+      "command": "node --test web/tests/guided-selection-flow.test.mjs web/tests/guided-selection-result.test.mjs web/tests/result-instrumentation.test.mjs && cargo test -p krepitv-sitegen matcher_starts_with_brand_then_model_without_phantom_selection",
+      "exit_code": 0,
+      "covers": ["brand-first", "filtered model search", "four steps", "deep link", "retry", "analytics privacy", "SSR"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "whole artifact"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260805-guided-brand-model-flow --files web/src/pages/GuidedSelectionPage.jsx",
+      "exit_code": 0,
+      "covers": ["Tailwind tokens", "responsive flow", "focus"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "screenshots/default-320.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "brand_first": true}
+    },
+    {
+      "id": "empty-mobile",
+      "path": "screenshots/empty-320.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "brand_filtered_models": true}
+    },
+    {
+      "id": "focus-tablet",
+      "path": "screenshots/focus-768.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "error-tablet",
+      "path": "screenshots/error-768.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "retry_visible": true}
+    },
+    {
+      "id": "disabled-desktop",
+      "path": "screenshots/disabled-1440.png",
+      "state": "disabled",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true}
+    },
+    {
+      "id": "loading-desktop",
+      "path": "screenshots/loading-1440.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "loading_visible": true}
+    },
+    {
+      "id": "success-desktop",
+      "path": "screenshots/success-1440.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "three_results": true}
+    },
+    {
+      "id": "reflow-200-mobile",
+      "path": "screenshots/reflow-200-320.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_200": true, "text_spacing": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + headless Chrome QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Свежий подбор начинается с одной обязательной марки и не подставляет случайную модель.",
+      "После выбора TCL поиск содержит только 18 моделей TCL; точная модель продолжает поток к стене и механизму.",
+      "Успешный расчёт показывает три приоритетных кронштейна, а ошибка имеет явное повторное действие.",
+      "320, 768 и 1440 CSS px, а также 200% текста с расширенным интервалом не имеют горизонтального переполнения.",
+      "Новых URL, цен и прямых ссылок Маркета в мастере не добавлено."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

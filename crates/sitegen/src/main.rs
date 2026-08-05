@@ -1,7 +1,7 @@
 use krepitv_engine::{Mount, MountMatch, match_mounts};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
-use std::collections::HashSet;
+use std::collections::{BTreeMap, HashSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -1196,6 +1196,27 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
 }
 
 fn matcher_page_body(models: &[TvModel]) -> String {
+    let mut brand_counts = BTreeMap::<String, usize>::new();
+    for model in models {
+        *brand_counts.entry(model.brand.clone()).or_default() += 1;
+    }
+    let mut brand_counts = brand_counts.into_iter().collect::<Vec<_>>();
+    brand_counts.sort_by(|(left_brand, left_count), (right_brand, right_count)| {
+        right_count
+            .cmp(left_count)
+            .then_with(|| left_brand.cmp(right_brand))
+    });
+    let brand_options = brand_counts
+        .iter()
+        .map(|(brand, count)| {
+            format!(
+                "<option data-guided-brand-option=\"true\" value=\"{brand}\">{brand} — {count}</option>",
+                brand = escape_html(brand),
+                count = count,
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
     let model_links = models
         .iter()
         .map(|tv| {
@@ -1220,7 +1241,8 @@ fn matcher_page_body(models: &[TvModel]) -> String {
     );
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Локальная проверка совместимости</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Подбор кронштейна по модели телевизора</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Выберите точную модель, затем укажите основание стены и нужный механизм. Сервис проверит VESA, диапазон диагоналей и запас нагрузки; решение о крепеже принимается после осмотра стены.</p><h2 class=\"mt-10 font-display text-3xl font-extrabold\">Проверенные модели</h2><div class=\"mt-5\">{model_links}</div><p class=\"mt-8\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Как устроена проверка и где её границы</a></p></div>"
+        "<div class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Локальная проверка совместимости</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Подбор кронштейна по модели телевизора</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала выберите марку, затем точную модель телевизора. После этого сервис уточнит основание стены и механизм, проверит VESA, диапазон диагоналей и запас нагрузки.</p><section class=\"mt-10 border-y-2 border-ink py-7\" data-guided-brand-step-static=\"true\" data-guided-brand-count=\"{brand_count}\"><p class=\"font-mono text-xs uppercase text-action\">Шаг 1 из 4</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сначала выберите марку телевизора</h2><label class=\"mt-5 block font-display text-lg font-bold\" for=\"static-guided-brand\">Марка телевизора</label><select class=\"mt-3 h-16 w-full rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-guided-brand\"><option value=\"\">Выберите марку</option>{brand_options}</select><p class=\"mt-3 text-sm leading-relaxed text-muted\">После загрузки интерактивного мастера выбор марки ограничит поиск только её проверенными моделями.</p></section><details class=\"mt-8 border-y border-line\"><summary class=\"cursor-pointer py-5 font-display text-2xl font-extrabold focus:outline-none focus-visible:ring-2 focus-visible:ring-action\">Все проверенные модели по маркам</summary><div class=\"pb-5\">{model_links}</div></details><p class=\"mt-8\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Как устроена проверка и где её границы</a></p></div>",
+        brand_count = brand_counts.len(),
     ))
 }
 
@@ -4843,18 +4865,20 @@ mod tests {
         build_compatibility_graph, commercial_profile_for, contains_verified_compatibility_count,
         dataset_json_ld, escape_html, exact_metric_screw_claims, home_page_body, html_shell,
         is_indexable_model, is_indexable_mount, is_indexable_seo_page,
-        is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, model_mount_matches,
-        model_offer_shard_key, model_page_body, mount_page_body, mount_technical_scheme_html,
-        mounts_catalog_body, not_found_page_html, observed_model_page_body,
-        parse_rfc3339_utc_seconds, read_json, related_seo_pages, russian_plural_label,
-        seo_brand_mount_matcher_html, seo_buy_mount_comparison_html, seo_calculator_note,
-        seo_catalog_html, seo_page_body, seo_page_kind_label, seo_page_lastmod,
-        seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer, static_header,
-        trust_page_body, tv_product_json_ld, validate_commercial_profiles, validate_market_models,
-        validate_seo_pages, validate_trust_pages, wall_mount_screws_html, workspace_root,
+        is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, matcher_page_body,
+        model_mount_matches, model_offer_shard_key, model_page_body, mount_page_body,
+        mount_technical_scheme_html, mounts_catalog_body, not_found_page_html,
+        observed_model_page_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
+        russian_plural_label, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
+        seo_calculator_note, seo_catalog_html, seo_page_body, seo_page_kind_label,
+        seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer,
+        static_header, trust_page_body, tv_product_json_ld, validate_commercial_profiles,
+        validate_market_models, validate_seo_pages, validate_trust_pages, wall_mount_screws_html,
+        workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
+    use std::collections::HashSet;
 
     #[test]
     fn escapes_html_attributes() {
@@ -5428,6 +5452,30 @@ mod tests {
         }
         assert_eq!(html.matches("data-home-model-spotlight=").count(), 1);
         assert!(html.contains("data-home-model-spotlight=\"tcl-65c7k\""));
+    }
+
+    #[test]
+    fn matcher_starts_with_brand_then_model_without_phantom_selection() {
+        let models: Vec<TvModel> = read_json(&workspace_root().join("data/tv_models.json"));
+        let html = matcher_page_body(&models);
+        let brand_count = models
+            .iter()
+            .map(|model| model.brand.as_str())
+            .collect::<HashSet<_>>()
+            .len();
+
+        assert!(html.contains("data-guided-brand-step-static=\"true\""));
+        assert!(html.contains("Шаг 1 из 4"));
+        assert!(html.contains("Сначала выберите марку телевизора"));
+        assert_eq!(
+            html.matches("data-guided-brand-option=\"true\"").count(),
+            brand_count
+        );
+        assert!(html.contains(&format!("data-guided-brand-count=\"{brand_count}\"")));
+        assert!(!html.contains("Результат для модели"));
+        for model in &models {
+            assert!(html.contains(&format!("href=\"/modeli/{}/\"", model.id)));
+        }
     }
 
     #[test]
