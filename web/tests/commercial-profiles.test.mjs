@@ -60,8 +60,13 @@ test("публичный набор коммерческих профилей п
     entityId: "tcl-55c6k",
     pagePath: "/modeli/tcl-55c6k/",
   });
+  const lgOled55c5 = selectCommercialProfile(profiles, {
+    entityKind: "model",
+    entityId: "lg-oled55c5rla",
+    pagePath: "/modeli/lg-oled55c5rla/",
+  });
 
-  assert.equal(profiles.length, 31);
+  assert.equal(profiles.length, 32);
   assert.equal(new Set(profiles.map((item) => item.path)).size, profiles.length);
   assert.ok(tcl55c6k);
   assert.ok(
@@ -73,6 +78,8 @@ test("публичный набор коммерческих профилей п
     tcl55c6k.faq.some((item) => item.question.startsWith("Сколько кронштейнов")),
     false,
   );
+  assert.equal(lgOled55c5?.updated_at, "2026-08-05");
+  assert.match(lgOled55c5?.answer ?? "", /не переносит их с соседних моделей OLED C5/);
 });
 
 test("валидатор отклоняет массив вместо версионированного объекта", () => {

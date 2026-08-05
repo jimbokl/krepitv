@@ -3739,8 +3739,8 @@ fn validate_commercial_profiles(
     );
     assert_eq!(
         file.profiles.len(),
-        31,
-        "SEO-серия должна содержать ровно 31 проверенный профиль"
+        32,
+        "SEO-серия должна содержать ровно 32 проверенных профиля"
     );
 
     let expected = [
@@ -3766,6 +3766,7 @@ fn validate_commercial_profiles(
         "model:tcl-55c7k",
         "model:tcl-75c6k",
         "model:tcl-65c7k",
+        "model:lg-oled55c5rla",
         "model:samsung-qe43q7faauxru",
         "model:samsung-qe50q7faauxru",
         "model:samsung-ue32f6000fuxru",
@@ -5958,7 +5959,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
 
         validate_commercial_profiles(&profiles, &models, &mounts, &graph);
-        assert_eq!(profiles.profiles.len(), 31);
+        assert_eq!(profiles.profiles.len(), 32);
 
         for profile in &profiles.profiles {
             let marker = format!(
@@ -6033,6 +6034,33 @@ mod tests {
         assert!(tcl_body.contains("Карточки магазинов противоречат друг другу"));
         assert!(tcl_body.contains("400×200 или 200×300"));
         assert!(!tcl_body.contains(">18 вариантов<"));
+
+        let lg_oled55c5 = models
+            .iter()
+            .find(|tv| tv.id == "lg-oled55c5rla")
+            .expect("Нет модели LG OLED55C5RLA");
+        let lg_matches = model_mount_matches(lg_oled55c5, &mounts);
+        assert_eq!(
+            lg_matches
+                .iter()
+                .filter(|matched| matched.compatible && matched.fit_status == "verified-fit")
+                .count(),
+            16
+        );
+        let lg_profile = commercial_profile_for(&profiles.profiles, "model", "lg-oled55c5rla")
+            .expect("Нет SEO-профиля LG OLED55C5RLA");
+        let lg_body = model_page_body(
+            lg_oled55c5,
+            &lg_matches,
+            &[],
+            0,
+            &seo_pages,
+            Some(lg_profile),
+        );
+        assert!(lg_body.contains("VESA 300×200"));
+        assert!(lg_body.contains("массу 14,1 кг без подставки"));
+        assert!(lg_body.contains("в официальных российских характеристиках не указаны"));
+        assert!(lg_body.contains("Подтверждено: 16"));
     }
 
     #[test]
