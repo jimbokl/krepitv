@@ -18,11 +18,11 @@ const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
     ("tcl-t8d", "tcl-55t8d"),
     ("tcl-q7d", "tcl-65q7d"),
 ];
-const VESA_DATASET_VERSION: &str = "2.1.0";
+const VESA_DATASET_VERSION: &str = "2.2.0";
 const VESA_DATASET_DOWNLOAD_BASE: &str =
-    "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.1.0";
+    "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.2.0";
 const VESA_DATASET_RELEASE_URL: &str =
-    "https://github.com/jimbokl/krepitv/releases/tag/datasets-v2.1.0";
+    "https://github.com/jimbokl/krepitv/releases/tag/datasets-v2.2.0";
 const SCREW_DATASET_VERSION: &str = "1.1.0";
 const SCREW_DATASET_DOWNLOAD_BASE: &str =
     "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.1.0";
@@ -603,7 +603,7 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
             "vesa" => (
                 "Размеры VESA популярных в России телевизоров",
                 "Проверяемая таблица из 151 точной модели телевизора: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и источник паспорта.",
-                "KREPI-TV-RU-VESA-SIZES-2.1.0",
+                "KREPI-TV-RU-VESA-SIZES-2.2.0",
                 VESA_DATASET_VERSION,
                 VESA_DATASET_DOWNLOAD_BASE,
                 vec![
@@ -4866,9 +4866,9 @@ mod tests {
             assert!(!structured.contains("market.yandex.ru"));
             assert!(!structured.contains("?"));
         }
-        assert!(sizes.contains("KREPI-TV-RU-VESA-SIZES-2.1.0"));
-        assert!(sizes.contains("\"version\":\"2.1.0\""));
-        assert!(sizes.contains("datasets-v2.1.0/tv-vesa-sizes.csv"));
+        assert!(sizes.contains("KREPI-TV-RU-VESA-SIZES-2.2.0"));
+        assert!(sizes.contains("\"version\":\"2.2.0\""));
+        assert!(sizes.contains("datasets-v2.2.0/tv-vesa-sizes.csv"));
         assert!(sizes.contains("tv-vesa-sizes.csv"));
         assert!(sizes.contains("tv-vesa-sizes.json"));
         assert!(screws.contains("KREPI-TV-RU-VESA-SCREWS-1.1.0"));
@@ -5182,7 +5182,7 @@ mod tests {
         );
         assert!(html.contains("Таблица VESA телевизоров"));
         assert!(html.contains("href=\"/data/tv-vesa-sizes.csv\""));
-        assert!(html.contains("GitHub release 2.1.0"));
+        assert!(html.contains("GitHub release 2.2.0"));
         assert!(html.contains(VESA_DATASET_RELEASE_URL));
         assert!(html.contains("data-vesa-source-conflict=\"true\""));
         assert!(html.contains("Источники расходятся: 400×300 мм / 400×400 мм"));

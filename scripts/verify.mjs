@@ -1751,8 +1751,8 @@ for (const required of [
   `data-vesa-model-search-count="${models.length}"`,
   "Найдите VESA по модели телевизора",
   "Таблица VESA телевизоров",
-  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.1.0/tv-vesa-sizes.csv",
-  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.1.0/tv-vesa-sizes.json",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.2.0/tv-vesa-sizes.csv",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.2.0/tv-vesa-sizes.json",
 ]) {
   if (!vesaLookupHtml.includes(required)) {
     throw new Error(`Сырой HTML страницы VESA не содержит обязательный фрагмент: ${required}`);
@@ -2149,8 +2149,8 @@ for (const [route, html] of htmlByRoute) {
   const datasetRoutes = new Map([
     ["/vesa/", {
       files: ["tv-vesa-sizes.csv", "tv-vesa-sizes.json"],
-      version: "2.1.0",
-      downloadBase: "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.1.0/",
+      version: "2.2.0",
+      downloadBase: "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.2.0/",
     }],
     ["/vinty-dlya-krepleniya-televizora/", {
       files: ["tv-vesa-screws.csv", "tv-vesa-screws.json"],

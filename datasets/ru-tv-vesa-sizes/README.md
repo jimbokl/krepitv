@@ -6,9 +6,9 @@
 
 ## Скачать
 
-- [CSV, версия набора 2.1.0](v1/tv-vesa-sizes.csv)
-- [JSON, версия набора 2.1.0](v1/tv-vesa-sizes.json)
-- [Неизменяемая копия релиза 2.1.0](https://github.com/jimbokl/krepitv/releases/tag/datasets-v2.1.0)
+- [CSV, версия набора 2.2.0](v1/tv-vesa-sizes.csv)
+- [JSON, версия набора 2.2.0](v1/tv-vesa-sizes.json)
+- [Неизменяемая копия релиза 2.2.0](https://github.com/jimbokl/krepitv/releases/tag/datasets-v2.2.0)
 - [Живой поиск и ручная проверка VESA](https://krepitv.ru/vesa/)
 
 Выгрузка не содержит цен, остатков или партнёрских ссылок. Для каждой строки
