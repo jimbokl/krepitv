@@ -3752,6 +3752,82 @@ fn contains_number_token(value: &str, number: usize) -> bool {
     })
 }
 
+fn contains_verified_compatibility_count(value: &str, count: usize) -> bool {
+    value
+        .split(['.', ';', '!', '?'])
+        .map(str::to_lowercase)
+        .any(|segment| {
+            contains_number_token(&segment, count)
+                && [
+                    "совместим",
+                    "кронштейн",
+                    "креплен",
+                    "модел",
+                    "кандидат",
+                    "провер",
+                ]
+                .iter()
+                .any(|marker| segment.contains(marker))
+        })
+}
+
+fn exact_metric_screw_claims(value: &str) -> Vec<(String, u32)> {
+    let characters = value.chars().collect::<Vec<_>>();
+    let mut claims = Vec::new();
+
+    for (separator, character) in characters.iter().enumerate() {
+        if *character != '×' {
+            continue;
+        }
+        let mut thread_start = separator;
+        while thread_start > 0 && characters[thread_start - 1].is_ascii_digit() {
+            thread_start -= 1;
+        }
+        if thread_start == separator
+            || thread_start == 0
+            || !matches!(characters[thread_start - 1], 'M' | 'm')
+        {
+            continue;
+        }
+        let thread = characters[thread_start..separator]
+            .iter()
+            .collect::<String>();
+        let thread = format!("M{thread}");
+
+        let mut length_end = separator + 1;
+        while length_end < characters.len() && characters[length_end].is_ascii_digit() {
+            length_end += 1;
+        }
+        if length_end == separator + 1 {
+            continue;
+        }
+        let length = characters[separator + 1..length_end]
+            .iter()
+            .collect::<String>()
+            .parse::<u32>()
+            .expect("Длина винта состоит только из цифр");
+        claims.push((thread.clone(), length));
+
+        if characters.get(length_end) == Some(&'/') {
+            let alternate_start = length_end + 1;
+            let mut alternate_end = alternate_start;
+            while alternate_end < characters.len() && characters[alternate_end].is_ascii_digit() {
+                alternate_end += 1;
+            }
+            if alternate_end > alternate_start {
+                let alternate = characters[alternate_start..alternate_end]
+                    .iter()
+                    .collect::<String>()
+                    .parse::<u32>()
+                    .expect("Альтернативная длина винта состоит только из цифр");
+                claims.push((thread, alternate));
+            }
+        }
+    }
+
+    claims
+}
+
 fn validate_commercial_profiles(
     file: &CommercialProfilesFile,
     models: &[TvModel],
@@ -3869,6 +3945,38 @@ fn validate_commercial_profiles(
             validate_commercial_text(&item.answer, 600, &format!("{key}.faq[{index}].answer"));
         }
 
+        if profile.entity_kind == "model" {
+            let tv = models
+                .iter()
+                .find(|tv| tv.id == profile.entity_id)
+                .expect("Модель SEO-профиля уже должна быть проверена");
+            let allowed_exact_screws = tv
+                .wall_mount_screws
+                .as_ref()
+                .map(|screws| {
+                    screws
+                        .groups
+                        .iter()
+                        .filter_map(|group| {
+                            group.length_mm.map(|length| (group.thread.clone(), length))
+                        })
+                        .collect::<HashSet<_>>()
+                })
+                .unwrap_or_default();
+            let profile_text = format!(
+                "{} {} {}",
+                profile.title, profile.description, profile.answer
+            );
+            for claim in exact_metric_screw_claims(&profile_text) {
+                assert!(
+                    allowed_exact_screws.contains(&claim),
+                    "SEO-профиль {key} заявляет неподтверждённый точный винт {}×{}",
+                    claim.0,
+                    claim.1
+                );
+            }
+        }
+
         let verified_count = graph
             .iter()
             .filter(|edge| {
@@ -3882,8 +3990,8 @@ fn validate_commercial_profiles(
             .count();
         assert!(
             verified_count > 0
-                && contains_number_token(&profile.answer, verified_count)
-                && contains_number_token(&profile.description, verified_count),
+                && contains_verified_compatibility_count(&profile.answer, verified_count)
+                && contains_verified_compatibility_count(&profile.description, verified_count),
             "SEO-профиль {key} не совпадает с текущим числом verified-fit: {verified_count}"
         );
 
@@ -4671,8 +4779,9 @@ mod tests {
         CommercialProfilesFile, HeadExtras, MarketTvModelsFile, PublicAffiliateSnapshot, SeoPage,
         TRAFFIC_PAGES_UPDATED_AT, TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage, TvModel,
         VESA_DATASET_RELEASE_URL, affiliate_offer_placeholder_html, brand_catalog_html,
-        build_compatibility_graph, commercial_profile_for, dataset_json_ld, escape_html,
-        home_page_body, html_shell, is_indexable_model, is_indexable_mount, is_indexable_seo_page,
+        build_compatibility_graph, commercial_profile_for, contains_verified_compatibility_count,
+        dataset_json_ld, escape_html, exact_metric_screw_claims, home_page_body, html_shell,
+        is_indexable_model, is_indexable_mount, is_indexable_seo_page,
         is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, model_mount_matches,
         model_offer_shard_key, model_page_body, mount_page_body, mount_technical_scheme_html,
         mounts_catalog_body, not_found_page_html, observed_model_page_body,
@@ -4691,6 +4800,25 @@ mod tests {
         assert_eq!(
             escape_html("<ТВ & \"стена\">"),
             "&lt;ТВ &amp; &quot;стена&quot;&gt;"
+        );
+    }
+
+    #[test]
+    fn screw_length_cannot_mask_a_wrong_compatibility_count() {
+        let text = "Сверху 2 винта M6×17. В графе подтверждены 15 совместимых кронштейнов.";
+        assert!(!contains_verified_compatibility_count(text, 17));
+        assert!(contains_verified_compatibility_count(text, 15));
+    }
+
+    #[test]
+    fn exact_screw_claim_parser_ignores_vesa_and_keeps_shorthand_lengths() {
+        assert_eq!(
+            exact_metric_screw_claims("VESA 300×300; M6×16/12 и ошибочный M6×17"),
+            vec![
+                ("M6".to_string(), 16),
+                ("M6".to_string(), 12),
+                ("M6".to_string(), 17),
+            ]
         );
     }
 
