@@ -17,7 +17,7 @@ const trafficPagesUpdatedAt = "2026-08-01";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 215;
+const baselineIndexableUrlCount = 230;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -67,6 +67,7 @@ const expectedCommercialProfiles = new Set([
   "model:tcl-43s5k:/modeli/tcl-43s5k/",
 ]);
 const expectedWallMountScrewPassports = new Set([
+  "candy-uno-32",
   "tcl-55c6k",
   "tcl-55c7l",
   "tcl-55c7k",
@@ -778,6 +779,15 @@ for (const offer of [
 
 const actualWallMountScrewPassports = new Set();
 const expectedConservativeWeightBasis = new Map([
+  ["bbk-32lem-1045-ts2c", "with_stand"],
+  ["bbk-32lem-1075-ts2c", "with_stand"],
+  ["bbk-32lex-7235-fts2c", "with_stand"],
+  ["bbk-32lex-7244-ts2c", "with_stand"],
+  ["bbk-40lem-1030-fts2c", "with_stand"],
+  ["bbk-43lex-7247-fts2c", "with_stand"],
+  ["hi-hx-24h01fb", "published_unspecified"],
+  ["hi-hx-43f01fb", "published_unspecified"],
+  ["skyline-43lst6575", "published_unspecified"],
   ["harper-24r470t", "published_unspecified"],
   ["harper-32r670t", "published_unspecified"],
   ["harper-43f670ts", "published_unspecified"],
@@ -805,7 +815,7 @@ for (const model of models) {
   const expectedWeightBasis = expectedConservativeWeightBasis.get(model.id);
   if (
     (expectedWeightBasis && model.weight_basis !== expectedWeightBasis)
-    || (!expectedWeightBasis && model.weight_basis !== undefined)
+    || (!expectedWeightBasis && model.weight_basis != null)
   ) {
     throw new Error(`Модель ${model.id}: неверно обозначено основание массы`);
   }
@@ -1549,8 +1559,8 @@ if (
   throw new Error("Нет единой индексируемой страницы подбора винтов по точной модели");
 }
 const screwModels = models.filter((model) => model.wall_mount_screws?.groups?.length);
-if (screwModels.length !== 26) {
-  throw new Error(`Ожидалось 26 официальных паспортов винтов, получено ${screwModels.length}`);
+if (screwModels.length !== 27) {
+  throw new Error(`Ожидалось 27 официальных паспортов винтов, получено ${screwModels.length}`);
 }
 const screwLookupHtml = htmlByRoute.get(screwLookupPage.path) ?? "";
 if (!screwLookupHtml.includes('data-screw-catalog="true"') || !screwLookupHtml.includes("<details")) {
