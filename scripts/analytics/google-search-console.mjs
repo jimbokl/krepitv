@@ -828,8 +828,8 @@ export async function fetchGoogleSearchConsoleReport({
   if (!Number.isInteger(minQueryImpressions) || minQueryImpressions < 10) {
     throw new Error("minQueryImpressions must be at least 10");
   }
-  if (!Number.isInteger(minPageImpressions) || minPageImpressions < 10) {
-    throw new Error("minPageImpressions must be at least 10");
+  if (!Number.isInteger(minPageImpressions) || minPageImpressions < 1) {
+    throw new Error("minPageImpressions must be at least 1");
   }
   if (!Number.isInteger(inspectionConcurrency) || inspectionConcurrency < 1 || inspectionConcurrency > 8) {
     throw new Error("inspectionConcurrency must be between 1 and 8");

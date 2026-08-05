@@ -98,6 +98,7 @@ export async function main() {
   const date2Default = isoDateDaysBefore(now, 2);
   const date2 = argument("--date2", date2Default);
   const date1 = argument("--date1", isoDateDaysBefore(`${date2}T12:00:00Z`, 27));
+  const minPageImpressions = Number(argument("--min-page-impressions", "10"));
   const outputValue = argument("--out", ".private/search/google-search-console-daily.json");
   const credentials = await loadGoogleCredentials(credentialsValue);
   const localSitemapXml = await readFile(sitemapFile, "utf8");
@@ -106,6 +107,7 @@ export async function main() {
     date1,
     date2,
     localSitemapXml,
+    minPageImpressions,
     now,
     siteUrl,
     sitemapUrl,

@@ -169,6 +169,19 @@ test("sitemap parser rejects duplicates, queries and another origin", () => {
   assert.throws(() => parseSitemapUrls(sitemap.replace("/vesa/", "/"), "https://krepitv.ru/"), /duplicate/);
 });
 
+test("page-only diagnostics may observe one impression but never accept zero", async () => {
+  await assert.rejects(
+    fetchGoogleSearchConsoleReport({
+      credentials,
+      date1: "2026-07-01",
+      date2: "2026-07-29",
+      localSitemapXml: sitemap,
+      minPageImpressions: 0,
+    }),
+    /minPageImpressions must be at least 1/,
+  );
+});
+
 test("report keeps authoritative zero, filters query rows and strips credentials", async () => {
   const calls = [];
   const fetchImpl = async (url, options = {}) => {
@@ -235,6 +248,7 @@ test("report keeps authoritative zero, filters query rows and strips credentials
     date2: "2026-07-29",
     fetchImpl,
     localSitemapXml: sitemap,
+    minPageImpressions: 1,
     now: new Date("2026-07-31T10:00:00Z"),
     sleepImpl: async () => {},
   });
@@ -246,15 +260,24 @@ test("report keeps authoritative zero, filters query rows and strips credentials
     unsafe_query: 6,
     invalid_page: 0,
   });
-  assert.deepEqual(report.search_analytics.page_rows.rows, [{
-    path: "/vesa/",
-    clicks: 1,
-    impressions: 10,
-    ctr: 0.1,
-    position: 8,
-  }]);
+  assert.deepEqual(report.search_analytics.page_rows.rows, [
+    {
+      path: "/vesa/",
+      clicks: 1,
+      impressions: 10,
+      ctr: 0.1,
+      position: 8,
+    },
+    {
+      path: "/",
+      clicks: 0,
+      impressions: 9,
+      ctr: 0,
+      position: 20,
+    },
+  ]);
   assert.deepEqual(report.search_analytics.page_rows.suppressed, {
-    below_threshold: 1,
+    below_threshold: 0,
     invalid_page: 1,
   });
   assert.equal(report.sitemap.console.submitted_web_urls, 2);
