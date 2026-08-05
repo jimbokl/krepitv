@@ -104,7 +104,7 @@ export function ModelSearch({
           aria-expanded={open}
           aria-controls="варианты-моделей"
           role="combobox"
-          className={`min-w-0 w-full border-2 bg-white pl-16 pr-14 font-sans text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 ${compact ? "h-[4.4rem] rounded-md border-ink text-xl" : "h-[5rem] rounded-md border-action text-2xl sm:text-3xl"}`}
+          className={`min-w-0 w-full border-2 bg-white pl-16 font-sans text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 ${value ? "pr-14" : "pr-4"} ${compact ? "h-[4.4rem] rounded-md border-ink text-xl" : "h-[5rem] rounded-md border-action text-lg sm:text-xl lg:text-3xl"}`}
           onChange={(event) => {
             onChange(event.target.value);
             onSelect?.(null);

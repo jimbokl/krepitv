@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "run": "20260805-home-model-spotlight",
+  "generated_at": "2026-08-05T03:59:24.139041+00:00",
+  "scanned_files": [
+    "web/src/components/ModelFacts.jsx",
+    "web/src/components/ModelSearch.jsx",
+    "web/src/pages/HomePage.jsx"
+  ],
+  "findings": []
+}

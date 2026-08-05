@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "task_id": "20260805-home-model-spotlight",
+  "commands": [
+    {
+      "id": "full-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["SSR", "Rust/WASM", "React", "Russian UI", "responsive production artifact", "145/145 verified model-page audit"]
+    },
+    {
+      "id": "spotlight-contract",
+      "command": "node --test web/tests/home-model-spotlight.test.mjs",
+      "exit_code": 0,
+      "covers": ["one exact spotlight", "verified model identity", "hydrated link"]
+    },
+    {
+      "id": "model-page-quality",
+      "command": "npm run catalog:audit-model-pages",
+      "exit_code": 0,
+      "covers": ["source-backed facts", "verified-fit mount", "25% load reserve", "reciprocal links", "non-placeholder content"]
+    },
+    {
+      "id": "seo-affiliate-audits",
+      "command": "npm run audit:static -- --project /Volumes/DevSim/Projects/krepitv --dist docs && npm run audit:affiliate -- --project /Volumes/DevSim/Projects/krepitv --dist docs --affiliate-host market.yandex.ru",
+      "exit_code": 0,
+      "covers": ["230 indexable canonicals", "sitemap", "direct Market links", "static artifact"]
+    },
+    {
+      "id": "security-audit",
+      "command": "npm run audit:security -- --project /Volumes/DevSim/Projects/krepitv",
+      "exit_code": 0,
+      "covers": ["tracked release artifact", "credential boundaries", "public verification files"]
+    },
+    {
+      "id": "design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260805-home-model-spotlight --files crates/sitegen/src/main.rs web/src/components/ModelFacts.jsx web/src/components/ModelSearch.jsx web/src/pages/HomePage.jsx web/tests/home-model-spotlight.test.mjs product-docs/operations/seo-improvement-cycle-2026-08-05.md",
+      "exit_code": 0,
+      "covers": ["approved Tailwind tokens", "no design-system drift"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "home-mobile",
+      "path": "evidence/mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "hierarchy_preserved": true, "spotlight_visible": true}
+    },
+    {
+      "id": "home-tablet",
+      "path": "evidence/tablet.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "hierarchy_preserved": true, "spotlight_visible": true}
+    },
+    {
+      "id": "home-desktop",
+      "path": "evidence/desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "hierarchy_preserved": true, "spotlight_visible": true}
+    },
+    {
+      "id": "spotlight-loading-invariant",
+      "path": "evidence/desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "spotlight_state_invariant": true}
+    },
+    {
+      "id": "spotlight-empty-invariant",
+      "path": "evidence/mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "spotlight_state_invariant": true}
+    },
+    {
+      "id": "spotlight-error-invariant",
+      "path": "evidence/mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "spotlight_state_invariant": true}
+    },
+    {
+      "id": "spotlight-success-invariant",
+      "path": "evidence/desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "spotlight_state_invariant": true}
+    },
+    {
+      "id": "spotlight-disabled-invariant",
+      "path": "evidence/tablet.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "spotlight_state_invariant": true}
+    },
+    {
+      "id": "spotlight-focus-invariant",
+      "path": "evidence/focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "spotlight_state_invariant": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent reviewer /root/mount_visual",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "320, 768 and 1440 px captures pass without horizontal overflow, text clipping or overlap.",
+      "The approved brutalist visual hierarchy and Tailwind token system are preserved.",
+      "Exactly one TCL 65C7K spotlight is visible and it disappears after another exact model is selected.",
+      "The initially clipped tablet placeholder was corrected and independently re-reviewed."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

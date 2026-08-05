@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { modelWeightLabel, modelWeightSuffix } from "../lib/modelWeight.js";
 
-export function ModelFacts({ model, detailed = false }) {
+export function ModelFacts({ model, detailed = false, deferColumns = false }) {
   const vesaConflict = model.wall_mount_screws?.vesa_conflict;
   const facts = [
     {
@@ -57,7 +57,15 @@ export function ModelFacts({ model, detailed = false }) {
   }
 
   return (
-    <dl className={detailed ? "divide-y divide-dashed divide-line border-y border-ink" : "grid gap-5 sm:grid-cols-3"}>
+    <dl
+      className={
+        detailed
+          ? "divide-y divide-dashed divide-line border-y border-ink"
+          : deferColumns
+            ? "grid gap-5 lg:grid-cols-3"
+            : "grid gap-5 sm:grid-cols-3"
+      }
+    >
       {facts.map(({ label, value, Icon }) => (
         <div
           className={detailed ? "grid grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-x-4 px-2 py-3 sm:grid-cols-[2.5rem_13rem_minmax(0,1fr)]" : "flex items-center gap-3"}

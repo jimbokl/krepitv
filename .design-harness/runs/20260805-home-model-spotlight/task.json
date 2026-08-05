@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "id": "20260805-home-model-spotlight",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-05T03:49:04.650091+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "crates/sitegen/src/main.rs",
+    "web/src/components/ModelFacts.jsx",
+    "web/src/components/ModelSearch.jsx",
+    "web/src/pages/HomePage.jsx",
+    "web/tests/home-model-spotlight.test.mjs",
+    "product-docs/operations/seo-improvement-cycle-2026-08-05.md"
+  ],
+  "verification_commands": [
+    {
+      "id": "full-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["SSR", "React", "Russian UI", "responsive production artifact"]
+    },
+    {
+      "id": "spotlight-contract",
+      "command": "node --test web/tests/home-model-spotlight.test.mjs",
+      "required": true,
+      "covers": ["one exact spotlight", "verified model identity", "hydrated link"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [],
+  "claims": [
+    {
+      "id": "spotlight-model-facts",
+      "text": "Spotlight показывает только паспортные факты TCL 65C7K из проверенного реестра.",
+      "source_ids": ["model-register"]
+    },
+    {
+      "id": "spotlight-search-signal",
+      "text": "TCL 65C7K является единственной страницей, достигшей порога 10 показов в текущем финальном окне Google.",
+      "source_ids": ["private-gsc-page-diagnostic"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "model-register",
+      "path": "data/tv_models.json",
+      "retrieved_at": "2026-08-05T03:49:04Z",
+      "notes": "Проверенный паспорт модели, VESA, диагональ, масса и источники."
+    },
+    {
+      "id": "private-gsc-page-diagnostic",
+      "path": ".private/search/google-search-console-page-diagnostic-2026-08-05.json",
+      "retrieved_at": "2026-08-05T03:36:56Z",
+      "notes": "Приватный page-only отчёт; запросы и идентификаторы аккаунта не публикуются."
+    }
+  ]
+}

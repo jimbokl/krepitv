@@ -19,6 +19,8 @@ import { TrustMark } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
 import { getHomeDiagnosticPages, getHomeFeaturedPages } from "../lib/seoPages.mjs";
 
+const HOME_MODEL_SPOTLIGHT_ID = "tcl-65c7k";
+
 export function HomePage({ catalog }) {
   const [query, setQuery] = useState("");
   const [selectedSearch, setSelectedSearch] = useState(null);
@@ -47,6 +49,10 @@ export function HomePage({ catalog }) {
     () => getHomeDiagnosticPages(catalog.seoPages),
     [catalog.seoPages],
   );
+  const spotlightModel = useMemo(
+    () => catalog.models.find((model) => model.id === HOME_MODEL_SPOTLIGHT_ID),
+    [catalog.models],
+  );
 
   function openModel(item) {
     window.location.assign(item.href || `/modeli/${item.id}/`);
@@ -64,7 +70,7 @@ export function HomePage({ catalog }) {
               для вашего телевизора
             </p>
           </div>
-          <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-3 lg:max-w-[560px]">
+          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 lg:w-auto lg:flex-1 lg:max-w-[560px]">
             <HeaderTrust Icon={ShieldCheck} text="Точные данные от производителей" />
             <HeaderTrust Icon={Medal} text="Сверено по источникам" />
             <HeaderTrust Icon={LockKey} text="Проверка вместо догадок" />
@@ -88,7 +94,7 @@ export function HomePage({ catalog }) {
         </div>
 
         <section className="grid items-center gap-6 pt-1 lg:grid-cols-[minmax(0,1.75fr)_minmax(26rem,1fr)]">
-          <h1 className="max-w-[1000px] font-display text-[clamp(3.8rem,6.1vw,6.2rem)] font-extrabold uppercase leading-[0.89] tracking-[-0.04em]">
+          <h1 className="max-w-[1000px] font-display text-[3.25rem] font-extrabold uppercase leading-[0.89] tracking-[-0.04em] sm:text-[clamp(3.8rem,6.1vw,6.2rem)]">
             Кронштейн для
             <br />
             вашего телевизора
@@ -143,6 +149,30 @@ export function HomePage({ catalog }) {
               </div>
               <ArrowRight aria-hidden="true" className="size-8 shrink-0 text-action" />
             </div>
+          </a>
+        ) : null}
+
+        {!selectedModel && spotlightModel ? (
+          <a
+            className="mt-5 grid items-center gap-4 border border-line bg-white px-5 py-5 transition hover:border-action focus:outline-none focus:ring-2 focus:ring-action sm:grid-cols-[minmax(0,1fr)_auto]"
+            data-home-model-spotlight={spotlightModel.id}
+            href={modelHref(spotlightModel)}
+          >
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
+                Пример точной проверки
+              </p>
+              <h2 className="mt-1 font-display text-2xl font-bold sm:text-3xl">
+                {spotlightModel.title}
+              </h2>
+              <div className="mt-3">
+                <ModelFacts deferColumns model={spotlightModel} />
+              </div>
+            </div>
+            <span className="flex items-center gap-3 font-semibold text-action">
+              Открыть паспорт и крепления
+              <ArrowRight aria-hidden="true" className="size-5 shrink-0" />
+            </span>
           </a>
         ) : null}
 
