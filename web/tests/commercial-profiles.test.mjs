@@ -39,6 +39,17 @@ test("строгая схема очищает текст и сохраняет 
   assert.equal(parsed[0].faq.length, 3);
 });
 
+test("профиль может иметь собственную дату, но не новее даты набора", () => {
+  const parsed = parseCommercialProfiles(payload([
+    profile({ updated_at: "2026-07-30" }),
+  ]));
+  assert.equal(parsed[0].updated_at, "2026-07-30");
+  assert.throws(
+    () => parseCommercialProfiles(payload([profile({ updated_at: "2026-08-01" })])),
+    /не может быть новее/,
+  );
+});
+
 test("публичный набор коммерческих профилей проходит клиентскую схему", async () => {
   const source = JSON.parse(
     await readFile(new URL("../../data/commercial_profiles.json", import.meta.url), "utf8"),

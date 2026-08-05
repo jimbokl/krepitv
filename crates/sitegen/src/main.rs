@@ -301,6 +301,8 @@ struct CommercialProfile {
     entity_kind: String,
     entity_id: String,
     path: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    updated_at: Option<String>,
     title: String,
     description: String,
     kicker: String,
@@ -967,6 +969,13 @@ fn commercial_profile_for<'a>(
     profiles
         .iter()
         .find(|profile| profile.entity_kind == entity_kind && profile.entity_id == entity_id)
+}
+
+fn commercial_profile_updated_at<'a>(
+    file: &'a CommercialProfilesFile,
+    profile: &'a CommercialProfile,
+) -> &'a str {
+    profile.updated_at.as_deref().unwrap_or(&file.updated_at)
 }
 
 fn commercial_profile_html(profile: &CommercialProfile) -> String {
@@ -3779,6 +3788,16 @@ fn validate_commercial_profiles(
             "Неожиданный SEO-профиль {key}"
         );
         assert!(keys.insert(key.clone()), "Повторяется SEO-профиль {key}");
+        if let Some(updated_at) = &profile.updated_at {
+            assert!(
+                is_valid_iso_date(updated_at),
+                "Некорректная дата обновления SEO-профиля {key}"
+            );
+            assert!(
+                updated_at <= &file.updated_at,
+                "Дата SEO-профиля {key} не может быть новее даты набора"
+            );
+        }
         assert!(
             paths.insert(profile.path.as_str()),
             "Повторяется путь SEO-профиля {}",
@@ -4437,9 +4456,11 @@ fn main() {
                 if let Some(hardware) = &tv.wall_mount_screws {
                     lastmod = lastmod.max(hardware.checked_at.as_str());
                 }
-                if commercial_profile_for(&commercial_profiles.profiles, "model", &tv.id).is_some()
+                if let Some(profile) =
+                    commercial_profile_for(&commercial_profiles.profiles, "model", &tv.id)
                 {
-                    lastmod = lastmod.max(commercial_profiles.updated_at.as_str());
+                    lastmod =
+                        lastmod.max(commercial_profile_updated_at(&commercial_profiles, profile));
                 }
                 (
                     format!("https://krepitv.ru/modeli/{}/", tv.id),
@@ -4464,17 +4485,16 @@ fn main() {
             .iter()
             .filter(|mount| is_indexable_mount(&mount.id, &compatibility_graph))
             .map(|mount| {
-                let lastmod =
-                    if commercial_profile_for(&commercial_profiles.profiles, "mount", &mount.id)
-                        .is_some()
-                    {
-                        mount
-                            .checked_at
-                            .as_str()
-                            .max(commercial_profiles.updated_at.as_str())
-                    } else {
-                        mount.checked_at.as_str()
-                    };
+                let lastmod = if let Some(profile) =
+                    commercial_profile_for(&commercial_profiles.profiles, "mount", &mount.id)
+                {
+                    mount
+                        .checked_at
+                        .as_str()
+                        .max(commercial_profile_updated_at(&commercial_profiles, profile))
+                } else {
+                    mount.checked_at.as_str()
+                };
                 (
                     format!("https://krepitv.ru/kronshteyny/{}/", mount.id),
                     lastmod.to_string(),
@@ -5997,10 +6017,21 @@ mod tests {
                 .count(),
             3
         );
-        let tcl_profile = commercial_profile_for(&profiles.profiles, "model", "tcl-65c7k");
-        let tcl_body = model_page_body(tcl_65c7k, &tcl_matches, &[], 0, &seo_pages, tcl_profile);
+        let tcl_profile = commercial_profile_for(&profiles.profiles, "model", "tcl-65c7k")
+            .expect("Нет SEO-профиля TCL 65C7K");
+        assert_eq!(tcl_profile.updated_at.as_deref(), Some("2026-08-05"));
+        let tcl_body = model_page_body(
+            tcl_65c7k,
+            &tcl_matches,
+            &[],
+            0,
+            &seo_pages,
+            Some(tcl_profile),
+        );
         assert!(tcl_body.contains("Подтверждено: 15"));
         assert!(tcl_body.contains("Дополнительно условных вариантов: 3"));
+        assert!(tcl_body.contains("Карточки магазинов противоречат друг другу"));
+        assert!(tcl_body.contains("400×200 или 200×300"));
         assert!(!tcl_body.contains(">18 вариантов<"));
     }
 

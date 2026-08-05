@@ -583,19 +583,21 @@ if (commercialProfiles.length !== expectedCommercialProfiles.size) {
 
 for (const profile of commercialProfiles) {
   const identity = `${profile?.entity_kind}:${profile?.entity_id}:${profile?.path}`;
+  const profileKeys = [
+    "entity_kind",
+    "entity_id",
+    "path",
+    "title",
+    "description",
+    "kicker",
+    "heading",
+    "answer",
+    "faq",
+  ];
+  if (profile.updated_at !== undefined) profileKeys.push("updated_at");
   assertExactKeys(
     profile,
-    [
-      "entity_kind",
-      "entity_id",
-      "path",
-      "title",
-      "description",
-      "kicker",
-      "heading",
-      "answer",
-      "faq",
-    ],
+    profileKeys,
     `Коммерческий профиль ${identity}`,
   );
   for (const field of [
@@ -609,6 +611,15 @@ for (const profile of commercialProfiles) {
     "answer",
   ]) {
     assertNonEmptyString(profile[field], `Коммерческий профиль ${identity}, поле ${field}`);
+  }
+  if (
+    profile.updated_at !== undefined
+    && (
+      !/^\d{4}-\d{2}-\d{2}$/u.test(profile.updated_at)
+      || profile.updated_at > commercialProfilesManifest.updated_at
+    )
+  ) {
+    throw new Error(`Коммерческий профиль ${identity}: некорректный updated_at`);
   }
   if (!expectedCommercialProfiles.has(identity)) {
     throw new Error(`Коммерческий профиль вне разрешённого набора: ${identity}`);
@@ -1974,7 +1985,7 @@ for (const model of models) {
     const expectedLastmod = [
       model.checked_at,
       model.wall_mount_screws?.checked_at,
-      profile ? commercialProfilesManifest.updated_at : undefined,
+      profile ? (profile.updated_at ?? commercialProfilesManifest.updated_at) : undefined,
       modelPagesUpdatedAt,
     ].filter(Boolean).sort().at(-1);
     if (sitemapLastmods.get(route) !== expectedLastmod) {
@@ -2000,7 +2011,7 @@ for (const mount of mounts) {
       (item) => item.entity_kind === "mount" && item.entity_id === mount.id,
     );
     const expectedLastmod = profile
-      ? [mount.checked_at, commercialProfilesManifest.updated_at].sort().at(-1)
+      ? [mount.checked_at, profile.updated_at ?? commercialProfilesManifest.updated_at].sort().at(-1)
       : mount.checked_at;
     if (sitemapLastmods.get(route) !== expectedLastmod) {
       throw new Error(`Кронштейн имеет неточный sitemap lastmod: ${route}`);

@@ -14,6 +14,7 @@ const PROFILE_KEYS = Object.freeze([
   "path",
   "title",
 ]);
+const OPTIONAL_PROFILE_KEYS = Object.freeze(["updated_at"]);
 
 const FAQ_KEYS = Object.freeze(["answer", "question"]);
 const ENTITY_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -70,7 +71,10 @@ function parseProfile(profile, index) {
   if (!profile || typeof profile !== "object" || Array.isArray(profile)) {
     fail(location, "ожидался объект");
   }
-  assertExactKeys(profile, PROFILE_KEYS, location);
+  const profileKeys = profile.updated_at === undefined
+    ? PROFILE_KEYS
+    : [...PROFILE_KEYS, ...OPTIONAL_PROFILE_KEYS];
+  assertExactKeys(profile, profileKeys, location);
 
   const entityKind = profile.entity_kind;
   if (!Object.hasOwn(ENTITY_PATH_PREFIX, entityKind)) {
@@ -85,10 +89,18 @@ function parseProfile(profile, index) {
     fail(`${location}.path`, "путь не соответствует типу и идентификатору сущности");
   }
 
+  const updatedAt = profile.updated_at === undefined
+    ? undefined
+    : cleanText(profile.updated_at, `${location}.updated_at`, 10);
+  if (updatedAt !== undefined && !/^\d{4}-\d{2}-\d{2}$/u.test(updatedAt)) {
+    fail(`${location}.updated_at`, "ожидалась дата YYYY-MM-DD");
+  }
+
   return {
     entity_kind: entityKind,
     entity_id: entityId,
     path,
+    ...(updatedAt === undefined ? {} : { updated_at: updatedAt }),
     title: cleanText(profile.title, `${location}.title`, 65),
     description: cleanText(profile.description, `${location}.description`, 160),
     kicker: cleanText(profile.kicker, `${location}.kicker`, 80),
@@ -110,6 +122,9 @@ export function parseCommercialProfiles(payload) {
   if (!Array.isArray(payload.profiles)) fail("profiles", "ожидался массив");
 
   const profiles = payload.profiles.map(parseProfile);
+  if (profiles.some((profile) => profile.updated_at > payload.updated_at)) {
+    fail("profiles.updated_at", "дата профиля не может быть новее даты набора");
+  }
   const identities = new Set();
   const paths = new Set();
   for (const profile of profiles) {
