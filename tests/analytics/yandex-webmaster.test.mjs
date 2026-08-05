@@ -344,6 +344,48 @@ test("unknown query analytics stays null in the CLI summary", async () => {
   );
 });
 
+test("query analytics retries without date sorting when Yandex rejects the restriction", async () => {
+  const safeQuery = "кронштейн для телевизора";
+  const bodies = [];
+  const fixture = createFixtureFetch(({ options, url }) => {
+    if (!url.endsWith("/query-analytics/list")) return undefined;
+    const body = JSON.parse(options.body);
+    bodies.push(body);
+    if (body.sort_by_date) {
+      return response({ error_code: "RESTRICTIONS_VIOLATED" }, 400);
+    }
+    return response({
+      count: 1,
+      text_indicator_to_statistics: [queryRow(safeQuery, "https://krepitv.ru/vesa/", 10)],
+    });
+  });
+  const report = await fetchYandexWebmasterReport({
+    credentials,
+    date1: "2026-07-17",
+    date2: "2026-07-30",
+    fetchImpl: fixture.fetchImpl,
+    localSitemapXml: sitemap,
+    sleepImpl: async () => {},
+  });
+
+  assert.equal(bodies.length, 2);
+  assert.deepEqual(bodies[0].sort_by_date, {
+    by: "DESC",
+    date: "2026-07-30",
+    statistic_field: "IMPRESSIONS",
+  });
+  assert.equal("sort_by_date" in bodies[1], false);
+  assert.equal(report.search_analytics.query_url_rows.state, "available");
+  assert.deepEqual(report.search_analytics.query_url_rows.rows, [{
+    clicks: 1,
+    ctr: 0.1,
+    impressions: 10,
+    mean_of_daily_positions: 8,
+    path: "/vesa/",
+    query: safeQuery,
+  }]);
+});
+
 test("a truncated sitemap list cannot prove the target is absent", async () => {
   const otherSitemaps = Array.from({ length: 100 }, (_, index) => ({
     sitemap_url: `https://krepitv.ru/other-${index}.xml`,

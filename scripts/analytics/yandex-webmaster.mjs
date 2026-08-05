@@ -756,20 +756,35 @@ export async function fetchYandexWebmasterReport({
       url.searchParams.set("date_to", date2);
       return url.href;
     };
+    const queryAnalyticsUrl = `${base}/query-analytics/list`;
+    const queryAnalyticsBody = {
+      offset: 0,
+      limit: queryLimit,
+      device_type_indicator: "ALL",
+      search_location: "WEB_LOCATION",
+      text_indicator: "QUERY",
+    };
+    const fetchQueryAnalytics = async () => {
+      let result = await request(queryAnalyticsUrl, {
+        method: "POST",
+        body: {
+          ...queryAnalyticsBody,
+          sort_by_date: { date: date2, statistic_field: "IMPRESSIONS", by: "DESC" },
+        },
+      });
+      if (result.ok || result.status !== 400 || result.code !== "RESTRICTIONS_VIOLATED") {
+        return result;
+      }
+      result = await request(queryAnalyticsUrl, {
+        method: "POST",
+        body: queryAnalyticsBody,
+      });
+      return result;
+    };
     [showsResult, clicksResult, queryResult, inSearchResult, eventsResult] = await Promise.all([
       request(historyUrl("TOTAL_SHOWS")),
       request(historyUrl("TOTAL_CLICKS")),
-      request(`${base}/query-analytics/list`, {
-        method: "POST",
-        body: {
-          offset: 0,
-          limit: queryLimit,
-          device_type_indicator: "ALL",
-          search_location: "WEB_LOCATION",
-          text_indicator: "QUERY",
-          sort_by_date: { date: date2, statistic_field: "IMPRESSIONS", by: "DESC" },
-        },
-      }),
+      fetchQueryAnalytics(),
       request(`${base}/search-urls/in-search/samples?offset=0&limit=100`),
       request(`${base}/search-urls/events/samples?offset=0&limit=100`),
     ]);
