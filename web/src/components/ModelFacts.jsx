@@ -60,20 +60,22 @@ export function ModelFacts({ model, detailed = false, deferColumns = false }) {
     <dl
       className={
         detailed
-          ? "divide-y divide-dashed divide-line border-y border-ink"
+          ? "min-w-0 divide-y divide-dashed divide-line border-y border-ink"
           : deferColumns
             ? "grid gap-5 lg:grid-cols-3"
             : "grid gap-5 sm:grid-cols-3"
       }
+      data-model-facts={detailed ? "detailed" : "summary"}
     >
       {facts.map(({ label, value, Icon }) => (
         <div
-          className={detailed ? "grid grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-x-4 px-2 py-3 sm:grid-cols-[2.5rem_13rem_minmax(0,1fr)]" : "flex items-center gap-3"}
+          className={detailed ? "grid min-w-0 grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-x-4 px-2 py-3 sm:grid-cols-[2.5rem_minmax(7rem,1fr)_minmax(0,1fr)]" : "flex items-center gap-3"}
+          data-model-fact-row={detailed ? "true" : undefined}
           key={label}
         >
           <Icon aria-hidden="true" className="size-8 text-ink" weight="regular" />
-          <dt className="text-sm text-muted sm:text-base">{label}</dt>
-          <dd className={`${detailed ? "col-start-2 font-medium text-technical sm:col-start-3" : "font-display text-2xl font-bold text-ink"}`}>
+          <dt className="min-w-0 break-words text-sm text-muted sm:text-base">{label}</dt>
+          <dd className={`${detailed ? "col-start-2 min-w-0 break-words font-medium text-technical [overflow-wrap:anywhere] sm:col-start-3" : "font-display text-2xl font-bold text-ink"}`}>
             {value}
           </dd>
         </div>

@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "task_id": "20260805-model-facts-overlap-fix",
+  "commands": [
+    {
+      "id": "targeted-tests",
+      "command": "node --test web/tests/model-page-affiliate-render.test.mjs web/tests/guided-selection-flow.test.mjs",
+      "exit_code": 0,
+      "covers": ["detailed ModelFacts layout", "guided result", "adaptive fact columns"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["whole artifact", "Russian UI", "regressions", "237 sitemap URLs"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260805-model-facts-overlap-fix --files web/src/components/ModelFacts.jsx web/src/pages/GuidedSelectionPage.jsx",
+      "exit_code": 0,
+      "covers": ["Tailwind tokens", "responsive layout", "existing design language"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "screenshots/default-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "empty-mobile",
+      "path": "screenshots/empty-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "model_submit_disabled": true}
+    },
+    {
+      "id": "facts-mobile",
+      "path": "screenshots/mobile.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "facts_before_illustration": true}
+    },
+    {
+      "id": "focus-tablet",
+      "path": "screenshots/focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "error-tablet",
+      "path": "screenshots/error-tablet.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "retry_visible": true}
+    },
+    {
+      "id": "facts-tablet",
+      "path": "screenshots/tablet.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "facts_clear_of_illustration": true}
+    },
+    {
+      "id": "disabled-desktop",
+      "path": "screenshots/disabled-desktop.png",
+      "state": "disabled",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "model_submit_disabled": true}
+    },
+    {
+      "id": "loading-desktop",
+      "path": "screenshots/loading-desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "loading_visible": true}
+    },
+    {
+      "id": "success-desktop",
+      "path": "screenshots/success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_cards": 3, "automatic_facts_illustration_collision_check": true}
+    },
+    {
+      "id": "external-chrome-width",
+      "path": "screenshots/external-chrome.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "facts_clear_of_illustration": true, "matches_external_chrome_width": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + headless Chromium QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Скриншот текущей вкладки внешнего Chrome подтвердил выход значений паспорта модели из фиксированной колонки в область иллюстрации.",
+      "Фиксированная ширина подписи 13rem заменена на две сжимаемые колонки с minmax(0,1fr), а длинным значениям разрешён безопасный перенос.",
+      "На 320, 768 и 1470 CSS px текст не перекрывает изображение, не обрезается и не создаёт горизонтального переполнения.",
+      "Browser QA теперь отдельно сравнивает прямоугольники dt/dd и иллюстрации и завершает проверку ошибкой при реальном пересечении.",
+      "Существующая композиция, русский текст, шрифты, цвета и Tailwind-дизайн сохранены; новых URL и ссылок Маркета нет."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

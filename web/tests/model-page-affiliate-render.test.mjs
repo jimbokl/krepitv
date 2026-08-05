@@ -219,12 +219,16 @@ test("паспорт Hisense отличает диапазон L от полно
 
     const passport = renderToStaticMarkup(React.createElement(WallMountScrews, { model }));
     const facts = renderToStaticMarkup(React.createElement(ModelFacts, { model }));
+    const detailedFacts = renderToStaticMarkup(React.createElement(ModelFacts, { detailed: true, model }));
 
     assert.equal(passport.includes("data-vesa-source-conflict=\"true\""), true);
     assert.equal(passport.includes("4 шт. · M6 · диапазон L 9,5–11,5 мм"), true);
     assert.equal(passport.includes("не готовая полная длина винта"), true);
     assert.equal(passport.includes("Установите промежуточные вставки"), true);
     assert.equal(facts.includes("Проверить: 400×300 мм / 400×400 мм"), true);
+    assert.equal(detailedFacts.includes("data-model-facts=\"detailed\""), true);
+    assert.equal(detailedFacts.includes("sm:grid-cols-[2.5rem_minmax(7rem,1fr)_minmax(0,1fr)]"), true);
+    assert.equal(detailedFacts.includes("[overflow-wrap:anywhere]"), true);
     assert.equal(passport.includes("M6×9"), false);
     const samsung = {
       title: "Samsung UE55U8000FUXRU",

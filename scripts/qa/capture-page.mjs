@@ -1101,6 +1101,39 @@ try {
     expression: "({ innerWidth, innerHeight, scrollX, scrollY, scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight })",
     returnByValue: true,
   });
+  const modelFactsLayout = await send("Runtime.evaluate", {
+    expression: `(() => {
+      const facts = document.querySelector('[data-model-facts="detailed"]');
+      const illustration = document.querySelector('[data-guided-model-illustration="true"]');
+      if (!facts || !illustration) return null;
+      const illustrationRect = illustration.getBoundingClientRect();
+      const offenders = Array.from(facts.querySelectorAll("dt,dd"), (element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          tag: element.tagName,
+          text: element.textContent.trim().replace(/\\s+/g, " ").slice(0, 80),
+          left: Math.round(rect.left),
+          right: Math.round(rect.right),
+          top: Math.round(rect.top),
+          bottom: Math.round(rect.bottom),
+        };
+      }).filter((rect) => (
+        rect.bottom > illustrationRect.top + 1
+        && rect.top < illustrationRect.bottom - 1
+        && rect.right > illustrationRect.left + 1
+        && rect.left < illustrationRect.right - 1
+      ));
+      return {
+        illustrationLeft: Math.round(illustrationRect.left),
+        overlaps: offenders.length > 0,
+        offenders,
+      };
+    })()`,
+    returnByValue: true,
+  });
+  if (modelFactsLayout.result.value?.overlaps) {
+    throw new Error(`Model facts overlap the guided illustration: ${JSON.stringify(modelFactsLayout.result.value)}`);
+  }
   if (dimensions.result.value.innerWidth !== width || dimensions.result.value.scrollWidth > width) {
     const overflow = await send("Runtime.evaluate", {
       expression: `Array.from(document.querySelectorAll("body *")).map((element) => {

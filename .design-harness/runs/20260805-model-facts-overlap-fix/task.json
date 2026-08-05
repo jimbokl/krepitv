@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "id": "20260805-model-facts-overlap-fix",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-05T18:05:06.817793+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1470,
+      "height": 956
+    }
+  ],
+  "allowed_files": [
+    "web/src/components/ModelFacts.jsx",
+    "web/src/pages/GuidedSelectionPage.jsx",
+    "web/tests/model-page-affiliate-render.test.mjs",
+    "scripts/qa/capture-page.mjs",
+    "docs",
+    ".design-harness/runs/20260805-model-facts-overlap-fix"
+  ],
+  "verification_commands": [
+    {
+      "id": "targeted-tests",
+      "command": "node --test web/tests/model-page-affiliate-render.test.mjs web/tests/guided-selection-flow.test.mjs",
+      "required": true,
+      "covers": ["detailed ModelFacts layout", "guided result"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["whole artifact", "Russian UI", "regressions"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260805-model-facts-overlap-fix --files web/src/components/ModelFacts.jsx web/src/pages/GuidedSelectionPage.jsx",
+      "required": true,
+      "covers": ["Tailwind tokens", "responsive layout"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id": "facts", "value": "Значения паспорта модели без сокращения", "strategy": "deterministic-overlay"}
+  ],
+  "claims": [],
+  "sources": []
+}

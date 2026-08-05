@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "run_id": "20260805-model-facts-overlap-fix",
+  "sealed_at": "2026-08-05T18:14:50.644807+00:00",
+  "task_hash": "sha256:09edd960e5bcc8668f649f8b4617db638c89e0b5dcf619a351c0682a6c815ccf",
+  "evidence_hash": "sha256:b6a52a639b765cca72e5fe834acd8c7ee150d8dec6c941c111a11489abcf60a2",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/SPEC.md": "sha256:f3cb926314dac2a48d8676aeaeb53a518a6f342b6b627f4e28d6c9ae4fc16fb4",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/brief.md": "sha256:522eed698fefc2c4f0a213247fc8d83bef85738a750f4139737c738578ed4015",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/component-map.md": "sha256:634a7bcc609d3f0a39e23e2c0f0c01c91f66e38d3b7d4559c948848e54dc1af7",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/discovery.md": "sha256:66de47ca0d46d2655d6d56852321692a6da79786db00fe59cae474b60ffafcaa",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/evidence/drift-report.json": "sha256:5c933f0ca180e8b736799b66e7c294917bb4ecd50dbd399c1bbd6c5e2d45372d",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/evidence.json": "sha256:b6a52a639b765cca72e5fe834acd8c7ee150d8dec6c941c111a11489abcf60a2",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/review.md": "sha256:3fcac664d3cd84f6ca304cb9bf856a271604a1dd0a05b8fe270571587db45523",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/default-mobile.png": "sha256:ce6dd5f246706c6e29564658f7e612ccf3296af451b0bb044066f86d224ab77a",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/disabled-desktop.png": "sha256:918ca329531f413077c2f043838096441de64a5d1662c96544ca584a79aa1939",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/empty-mobile.png": "sha256:1a58d69f2fd7d59e53af27b655602a1db3f885b58dd1c09dfe02269ac69376f2",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/error-tablet.png": "sha256:085ba68bcfa46402871c6be147fdfe13aa22fd7b23246d6cfd23345d0e9fc06d",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/external-chrome.png": "sha256:be7d58945899273918d2aeed7de347eff0fd06f3964bdf3573f4a2207738afc0",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/focus-tablet.png": "sha256:a6da000d41dcec65ecd1bd2f970cf7c119a5455fdd9702c08921997220eff0d5",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/loading-desktop.png": "sha256:9b2c1118b7e8ff50909ecb1d15aea288a0dbf7efb838b992e334eb70d1cb6b3a",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/mobile.png": "sha256:e3637fda879ee99e5445f7cd58d0fc8ee5a2ea2ecd50dffea5d0ed7e10fb0da8",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/success-desktop.png": "sha256:9a6e9126d82018c359fefbf18ab0fe4f2ea8a23460afec097b36c829f74e6852",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/screenshots/tablet.png": "sha256:5830a53744864f915648523e99b188b4a8cc6c9c2637be0e979e613e5337a6d5",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/task.json": "sha256:09edd960e5bcc8668f649f8b4617db638c89e0b5dcf619a351c0682a6c815ccf",
+    ".design-harness/runs/20260805-model-facts-overlap-fix/visual-direction.md": "sha256:ba6d29da0a2e7d559e48ded012096ecba1a2ebcf34d1f3d338f61f1c7ce886e9"
+  },
+  "packet_hash": "sha256:15ae9c9f976dd5c0a6be8eb5733f495f9a1c3a5a2dac33cd18920696a88e0ec6"
+}

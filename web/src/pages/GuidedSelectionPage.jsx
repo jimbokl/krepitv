@@ -403,7 +403,7 @@ export function GuidedSelectionPage({ catalog }) {
                   </div>
                 </div>
 
-                <div>
+                <div data-guided-model-illustration="true">
                   <h2 className="font-display text-lg font-bold">
                     Как крепление соединяет телевизор со стеной
                   </h2>

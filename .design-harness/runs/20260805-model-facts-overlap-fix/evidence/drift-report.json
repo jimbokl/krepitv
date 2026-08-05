@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "run": "20260805-model-facts-overlap-fix",
+  "generated_at": "2026-08-05T18:11:57.004231+00:00",
+  "scanned_files": [
+    "web/src/components/ModelFacts.jsx",
+    "web/src/pages/GuidedSelectionPage.jsx"
+  ],
+  "findings": []
+}
