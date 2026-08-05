@@ -25,14 +25,14 @@ test("current manifest reports a growing catalog that now passes the measured co
   assert.equal(result.catalog_status, "growing");
   assert.equal(result.full_catalog_claim, false);
   assert.equal(result.full_catalog_ready, true);
-  assert.equal(result.actual.verified_models, 145);
+  assert.equal(result.actual.verified_models, 151);
   assert.deepEqual(result.actual.brands, [
-    "AKAI", "BBK", "Blackton", "BQ", "Candy", "DIGMA", "HARPER", "Hi", "Hisense",
+    "AKAI", "Asano", "BBK", "Blackton", "BQ", "Candy", "DIGMA", "HARPER", "Hi", "Hisense",
     "Hyundai", "LG", "Philips", "Samsung", "Sber", "SkyLine", "Starwind", "TCL",
     "TopDevice", "Tuvio", "Xiaomi", "YASIN",
   ]);
-  assert.equal(result.actual.series.length, 94);
-  assert.deepEqual(result.actual.diagonals_inches, [24, 31.5, 32, 40, 42, 43, 48, 50, 55, 65, 75, 77, 85]);
+  assert.equal(result.actual.series.length, 99);
+  assert.deepEqual(result.actual.diagonals_inches, [24, 31.5, 32, 40, 42, 43, 48, 50, 55, 65, 75, 77, 85, 100]);
   assert.deepEqual(result.actual.model_years, [2022, 2023, 2024, 2025, 2026]);
   assert.equal(result.target.demand_status, "measured");
   assert.equal(result.target.models, 50);

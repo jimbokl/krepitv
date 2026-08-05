@@ -1,6 +1,7 @@
 {
   "schema_version": "market-observed-tv-verification-batch-a/1",
   "checked_at": "2026-08-05",
+  "deep_research_completed_at": "2026-08-05",
   "source_dataset": "data/market_tv_models.json",
   "scope": {
     "brands": ["BBK", "General Electronics", "Haier", "Hi"],
@@ -14,33 +15,47 @@
     "unverifiable": "Модель неоднозначна, официальный паспорт не найден либо официальные данные неполны/некорректны."
   },
   "summary": {
-    "canonical": {"verified": 8, "conflict": 1, "unverifiable": 22},
-    "observed": {"verified": 9, "conflict": 1, "unverifiable": 23}
+    "canonical": {"verified": 12, "conflict": 2, "unverifiable": 17},
+    "observed": {"verified": 13, "conflict": 2, "unverifiable": 18}
+  },
+  "deep_research_log": {
+    "haier-32h6gfg": {"status":"unverifiable","checked_urls":["https://haieronline.ru/sitemap-iblock-10.xml","https://haieronline.ru/catalog/electronics/tvs/32h6gfg/"],"evidence":"Exact URL is present in the official RU sitemap, but origin is protected by StormWall and no exact official PDF with the complete mounting tuple was found."},
+    "haier-50h5gux-fx": {"status":"unverifiable","checked_urls":["https://haieronline.ru/sitemap-iblock-10.xml","https://haieronline.ru/catalog/electronics/tvs/50h5gux/"],"evidence":"Official URL identifies bare 50H5GUX; exact /FX alias or passport was not found, so the suffix was not normalized away."},
+    "haier-d1": {"status":"unverifiable","checked_urls":["https://haieronline.ru/sitemap-iblock-10.xml","https://haieronline.ru/catalog/electronics/tvs/40-Smart-TV-D1/"],"evidence":"Series plus diagonal does not identify an exact SKU; no complete exact official tuple was found."},
+    "haier-dh1zh0d00ru": {"status":"unverifiable","checked_urls":["https://haieronline.ru/sitemap-iblock-10.xml","https://haieronline.ru/catalog/electronics/tvs/55-mini-led-m4/","https://haieronline.ru/catalog/electronics/tvs/55-Mini-LED/"],"evidence":"The exact code cannot be bound to either official 55-inch Mini LED page from accessible official content."},
+    "haier-h1": {"status":"unverifiable","checked_urls":["https://haieronline.ru/sitemap-iblock-10.xml","https://haieronline.ru/catalog/electronics/tvs/50-LED-H1/"],"evidence":"Series plus diagonal does not identify an exact SKU; no complete exact official tuple was found."},
+    "haier-h55k85gux": {"status":"conflict","checked_urls":["https://www.haier-europe.com/es_ES/products/36200158-h55k85gux","https://d15v10x8t3bz3x.cloudfront.net/Libretti/2026/5/17785766/MAN-000196022_002","https://www.haier.com/th/tvs/h55k85gux.shtml"],"evidence":"ES and TH official pages disagree on mass and overall dimensions; neither region alone supplies the complete safe tuple."},
+    "haier-s2-32": {"status":"unverifiable","checked_urls":["https://haieronline.ru/catalog/electronics/tvs/32-LED-S2/","https://haieronline.kz/catalog/electronics/tvs/32-led-s2/","https://haieronline.kz/upload/iblock/ccb/uziwck0c1axdjf6rhn3d1zeqp9pmx1l8/UM_32_LED_S2.pdf"],"evidence":"RU observation is series-only; the complete KZ tuple belongs to exact regional SKU DH1ZP0M00 and was not transferred."},
+    "haier-s2-43": {"status":"unverifiable","checked_urls":["https://haieronline.ru/catalog/electronics/tvs/43-LED-S2/","https://haieronline.kz/catalog/electronics/tvs/43-led-s2/","https://haieronline.kz/upload/iblock/0bb/1a26ehyvsrh86b63quwbmfk9frk1a3o7/UM_43_LED_S2.pdf"],"evidence":"RU observation is series-only; the complete KZ tuple belongs to exact regional SKU DH1ZR7M00 and was not transferred."}
   },
   "records": [
     {
       "id": "bbk-24lem-1032-ts2c", "observed_ids": ["bbk-24lem-1032-ts2c"], "brand": "BBK", "model": "24LEM-1032/TS2C", "title": "BBK 24LEM-1032/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 23.6, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
       "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/24lem_1032_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "23,6 дюйма; 536×326×77 мм; 2,15 кг с подставкой; VESA опубликована как 100×0 мм.",
-      "conflicts": ["VESA 100×0 мм неполна и не может использоваться для подбора крепления."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,77], "weight_kg_with_stand": 2.15, "vesa_raw": "100×0"}
+      "conflicts": ["VESA 100×0 мм неполна и не может использоваться для подбора крепления."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,77], "weight_kg_with_stand": 2.15, "vesa_raw": "100×0"},
+      "checked_urls": ["https://bbk.ru/production/tv_audio_video/led_tv/24lem-1032_ts2c/", "https://bbk.ru/upload/iblock/a47/t4dvnuuo478qkqy5z9r9rk91rf81eaxy.pdf", "https://bbk.ru/upload/iblock/abb/n6a0su0ikuemfw5ds2nwg7nhjw9cf23j.pdf"]
     },
     {
       "id": "bbk-24lem-1033-ts2c", "observed_ids": ["bbk-24lem-1033-ts2c"], "brand": "BBK", "model": "24LEM-1033/TS2C", "title": "BBK 24LEM-1033/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 23.6, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
       "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/24lem_1033_ts2c/", "source_label": "Официальная карточка и приложение BBK", "source_region": "RU", "source_fact": "VESA опубликована как 100×0 мм; карточка и официальное приложение расходятся в глубине и округлении массы.",
-      "conflicts": ["VESA 100×0 мм неполна.", "Карточка: 536×326×77 мм и 2,15 кг; приложение: 536×326×76/79,5 мм и 2,2 кг."], "limitations": ["Нельзя безопасно выбрать крепление."], "published_values": {"official_appendix_url": "https://bbk.ru/upload/iblock/fba/7rso8sz4pzdfcnajldf21ms99xur9nmn.pdf", "vesa_raw": "100×0"}
+      "conflicts": ["VESA 100×0 мм неполна.", "Карточка: 536×326×77 мм и 2,15 кг; приложения: 536×326×76/79,5 мм и 2,2 кг."], "limitations": ["Нельзя безопасно выбрать крепление."], "published_values": {"official_appendix_url": "https://bbk.ru/upload/iblock/fba/7rso8sz4pzdfcnajldf21ms99xur9nmn.pdf", "vesa_raw": "100×0"},
+      "checked_urls": ["https://bbk.ru/production/tv_audio_video/led_tv/24lem-1033_ts2c/", "https://bbk.ru/upload/iblock/0df/91njyar6q3dx0pd57rmxmzf1075jz8on.pdf", "https://bbk.ru/upload/iblock/fba/7rso8sz4pzdfcnajldf21ms99xur9nmn.pdf", "https://bbk.ru/upload/iblock/7eb/z5v52q55zkk4qcotfwyyu6ouupjy57hl.pdf"]
     },
     {
       "id": "bbk-24lem-1045-ts2c", "observed_ids": ["bbk-24lem-1045-ts2c"], "brand": "BBK", "model": "24LEM-1045/TS2C", "title": "BBK 24LEM-1045/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 23.6, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
       "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/24lem_1045_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "23,6 дюйма; 536×326×82 мм; 2,2 кг с подставкой; VESA опубликована как 100×0 мм.",
-      "conflicts": ["VESA 100×0 мм неполна."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,82], "weight_kg_with_stand": 2.2, "vesa_raw": "100×0"}
+      "conflicts": ["VESA 100×0 мм неполна."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,82], "weight_kg_with_stand": 2.2, "vesa_raw": "100×0"},
+      "checked_urls": ["https://bbk.ru/production/tv_audio_video/led_tv/24lem-1045_ts2c/", "https://bbk.ru/upload/iblock/ff9/s913i4w8dhmx875mt4rpbrih7ft2wt6p.pdf", "https://bbk.ru/upload/iblock/544/v7jy07wl5zct3htadf6i6vrmus7khbg2.pdf"]
     },
     {
       "id": "bbk-24lem-1047-ts2c", "observed_ids": ["bbk-24lem-1047-ts2c"], "brand": "BBK", "model": "24LEM-1047/TS2C", "title": "BBK 24LEM-1047/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 23.6, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
       "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/24lem_1047_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "23,6 дюйма; 536×326×82 мм; 2,15 кг с подставкой; VESA опубликована как 100×0 мм.",
-      "conflicts": ["VESA 100×0 мм неполна."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,82], "weight_kg_with_stand": 2.15, "vesa_raw": "100×0"}
+      "conflicts": ["VESA 100×0 мм неполна."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,82], "weight_kg_with_stand": 2.15, "vesa_raw": "100×0"},
+      "checked_urls": ["https://bbk.ru/production/tv_audio_video/led_tv/24lem-1047_ts2c/", "https://bbk.ru/upload/iblock/e04/rhkkpi4ntgazkhbmrr1enwppzwlq3rw7.pdf", "https://bbk.ru/upload/iblock/0d9/pwn3z02qcsg07eawrfahzm9az07vclnf.pdf"]
     },
     {
       "id": "bbk-32lem-1045-ts2c", "observed_ids": ["bbk-32lem-1045-ts2c"], "brand": "BBK", "model": "32LEM-1045/TS2C", "title": "BBK 32LEM-1045/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
@@ -70,7 +85,8 @@
     {
       "id": "bbk-42lem-1016-fts2c", "observed_ids": ["bbk-42lem-1016-fts2c"], "brand": "BBK", "model": "42LEM-1016/FTS2C", "title": "BBK 42LEM-1016/FTS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/42lem_1016_fts2c/", "source_label": "Официальный URL BBK", "source_region": "RU", "source_fact": "Официальный URL точной модели отвечает 404.", "conflicts": [], "limitations": ["Кэш и сторонние страницы не использованы."], "published_values": {"http_status": 404}
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/42lem-1016_fts2c/", "source_label": "Официальный URL BBK", "source_region": "RU", "source_fact": "Официальный URL точной модели отвечает 404; воспроизводимый официальный PDF не найден.", "conflicts": [], "limitations": ["Поисковый кэш официальной карточки и сторонние страницы не использованы для экспорта."], "published_values": {"http_status": 404, "cached_official_snippet_non_exportable": {"diagonal_inches": 41.5, "vesa_mm": [200,100], "body_dimensions_mm": [955,542,85], "weight_kg_with_stand": 6.2}},
+      "checked_urls": ["https://bbk.ru/production/tv_audio_video/led_tv/42lem-1016_fts2c/", "https://bbk.ru/production/tv_audio_video/led_tv/42lem_1016_fts2c/"]
     },
     {
       "id": "bbk-43lex-7247-fts2c", "observed_ids": ["bbk-43lex-7247-fts2c"], "brand": "BBK", "model": "43LEX-7247/FTS2C", "title": "BBK 43LEX-7247/FTS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
@@ -80,27 +96,32 @@
     {
       "id": "general-electronics-ge24lhn0", "observed_ids": ["general-electronics-ge24lhn0"], "brand": "General Electronics", "model": "GE24LHN0", "title": "General Electronics GE24LHN0", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 24, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": "https://general-electronics.com/product/led-televizor-ge24lhn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 24 дюйма подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {"dimensions_unspecified_mm": [536,364,166]}
+      "source_url": "https://general-electronics.com/product/led-televizor-ge24lhn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 24 дюйма подтверждены; карточка, REST-запись и официальный медиакаталог не содержат VESA, массы и корпуса без подставки.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {"dimensions_unspecified_mm": [536,364,166]},
+      "checked_urls": ["https://general-electronics.com/product/led-televizor-ge24lhn0/", "https://general-electronics.com/wp-json/wp/v2/product?slug=led-televizor-ge24lhn0&_embed=1", "https://general-electronics.com/wp-json/wp/v2/media?parent=5290&per_page=100"]
     },
     {
       "id": "general-electronics-ge32lhn0", "observed_ids": ["general-electronics-ge32lhn0"], "brand": "General Electronics", "model": "GE32LHN0", "title": "General Electronics GE32LHN0", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 32, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": "https://general-electronics.com/product/led-televizor-ge32lhn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 32 дюйма подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {}
+      "source_url": "https://general-electronics.com/product/led-televizor-ge32lhn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 32 дюйма подтверждены; карточка, REST-запись и официальный медиакаталог не содержат полного монтажного набора.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {},
+      "checked_urls": ["https://general-electronics.com/product/led-televizor-ge32lhn0/", "https://general-electronics.com/wp-json/wp/v2/product?slug=led-televizor-ge32lhn0&_embed=1", "https://general-electronics.com/wp-json/wp/v2/media?parent=5306&per_page=100"]
     },
     {
       "id": "general-electronics-ge40lfn0", "observed_ids": ["general-electronics-ge40lfn0"], "brand": "General Electronics", "model": "GE40LFN0", "title": "General Electronics GE40LFN0", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 40, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": "https://general-electronics.com/product/led-televizor-ge40lfn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 40 дюймов подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {}
+      "source_url": "https://general-electronics.com/product/led-televizor-ge40lfn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 40 дюймов подтверждены; карточка, REST-запись и официальный медиакаталог не содержат полного монтажного набора.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {},
+      "checked_urls": ["https://general-electronics.com/product/led-televizor-ge40lfn0/", "https://general-electronics.com/wp-json/wp/v2/product?slug=led-televizor-ge40lfn0&_embed=1", "https://general-electronics.com/wp-json/wp/v2/media?parent=5326&per_page=100"]
     },
     {
       "id": "general-electronics-ge50lqy2", "observed_ids": ["general-electronics-ge50lqy2"], "brand": "General Electronics", "model": "GE50LQY2", "title": "General Electronics GE50LQY2", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 50, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": "https://general-electronics.com/product/qled-televizor-ge50lqy2/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 50 дюймов подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {}
+      "source_url": "https://general-electronics.com/product/qled-televizor-ge50lqy2/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 50 дюймов подтверждены; карточка, REST-запись и официальный медиакаталог не содержат полного монтажного набора.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {},
+      "checked_urls": ["https://general-electronics.com/product/qled-televizor-ge50lqy2/", "https://general-electronics.com/wp-json/wp/v2/product?slug=qled-televizor-ge50lqy2&_embed=1", "https://general-electronics.com/wp-json/wp/v2/media?parent=5379&per_page=100"]
     },
     {
       "id": "general-electronics-ge50lus2", "observed_ids": ["general-electronics-ge50lus2"], "brand": "General Electronics", "model": "GE50LUS2", "title": "General Electronics GE50LUS2", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
       "diagonal_inches": 50, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": "https://general-electronics.com/product/led-televizor-ge50lus2/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 50 дюймов подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {"dimensions_unspecified_mm": [1111,700,279]}
+      "source_url": "https://general-electronics.com/product/led-televizor-ge50lus2/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 50 дюймов подтверждены; карточка, REST-запись и официальный медиакаталог не содержат VESA, массы и корпуса без подставки.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {"dimensions_unspecified_mm": [1111,700,279]},
+      "checked_urls": ["https://general-electronics.com/product/led-televizor-ge50lus2/", "https://general-electronics.com/wp-json/wp/v2/product?slug=led-televizor-ge50lus2&_embed=1", "https://general-electronics.com/wp-json/wp/v2/media?parent=5424&per_page=100"]
     },
     {
       "id": "haier-32h6gfg", "observed_ids": ["haier-32h6gfg"], "brand": "Haier", "model": "32H6GFG", "title": "Haier 32H6GFG", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
@@ -146,14 +167,20 @@
       "source_url": null, "source_label": "Недостаточная идентификация", "source_region": null, "source_fact": "S2 и диагональ не образуют однозначный официальный SKU.", "conflicts": [], "limitations": ["Нужен полный код с шильдика."], "published_values": {}
     },
     {
-      "id": "hi-hs-32f01fb", "observed_ids": ["hi-hs-32f01fb"], "brand": "Hi", "model": "HS-32F01FB", "title": "Hi HS-32F01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
-      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": null, "source_label": "Официальная инструкция не найдена", "source_region": "RU", "source_fact": "Не найден воспроизводимый официальный паспорт точной модели.", "conflicts": [], "limitations": ["Похожие модели не использованы."], "published_values": {}
+      "id": "hi-hs-32f01fb", "observed_ids": ["hi-hs-32f01fb"], "brand": "Hi", "model": "HS-32F01FB", "title": "Hi HS-32F01FB", "series": null, "model_year": 2025, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 32, "weight_kg": 3.6, "weight_basis": "without_stand", "width_mm": 718, "height_mm": 421.6, "depth_mm": 83.2, "vesa_width_mm": 200, "vesa_height_mm": 200, "screw_spec": null,
+      "source_url": "https://static.mvideo.ru/ins/400514044.pdf", "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда", "source_region": "RU", "source_fact": "Exact HS-32F01FB; 32 дюйма; VESA 200×200 мм; карточка: корпус без подставки 718×421,6×83,2 мм и 3,6 кг; инструкция: 718×83×422 мм и 3,7 кг.", "conflicts": [], "limitations": ["Инструкция округляет размеры и массу; экспорт использует явно помеченные значения без подставки из exact карточки. Винт не указан."],
+      "published_values": {"official_card":{"dimensions_without_stand_mm":[718,421.6,83.2],"weight_kg_without_stand":3.6},"official_manual":{"raw_dimensions_mm":[718,83,422],"weight_kg":3.7,"vesa_mm":[200,200]}},
+      "sources": [{"url":"https://www.mvideo.ru/bff/product-details?productId=400514044","fact":"Exact model and without-stand values."},{"url":"https://static.mvideo.ru/ins/400514044.pdf","fact":"Exact model, diagonal and VESA."},{"url":"https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573","fact":"M.Video-Eldorado identifies Hi as its private label."}],
+      "checked_urls": ["https://www.mvideo.ru/products/televizor-hi-hs-32f01fb-400514044", "https://www.mvideo.ru/bff/product-details?productId=400514044", "https://static.mvideo.ru/ins/400514044.pdf", "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573"]
     },
     {
-      "id": "hi-ht-32h01fb", "observed_ids": ["hi-ht-32h01fb"], "brand": "Hi", "model": "HT-32H01FB", "title": "Hi HT-32H01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
-      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": null, "source_label": "Официальная инструкция не найдена", "source_region": "RU", "source_fact": "Не найден официальный паспорт точной модели.", "conflicts": [], "limitations": ["Инструкция HT-24H01FB не относится к этой модели."], "published_values": {}
+      "id": "hi-ht-32h01fb", "observed_ids": ["hi-ht-32h01fb"], "brand": "Hi", "model": "HT-32H01FB", "title": "Hi HT-32H01FB", "series": null, "model_year": 2024, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 32, "weight_kg": 3.3, "weight_basis": "without_stand", "width_mm": 715.7, "height_mm": 426.1, "depth_mm": 78.5, "vesa_width_mm": 200, "vesa_height_mm": 200, "screw_spec": null,
+      "source_url": "https://www.mvideo.ru/bff/product-details?productId=10033074", "source_label": "Официальная карточка Hi на сайте владельца бренда", "source_region": "RU", "source_fact": "Exact HT-32H01FB; 32 дюйма; VESA 200×200 мм; корпус без подставки 715,7×426,1×78,5 мм; масса без подставки 3,3 кг.", "conflicts": [], "limitations": ["Связанная инструкция маркирована WT-24H01FB/WT-32H01FB и исключена как другая идентичность; винт не указан."],
+      "published_values": {"dimensions_without_stand_cm_raw":"42.61*71.57*7.85","weight_kg_without_stand":3.3,"vesa_raw":"VESA 200x200"},
+      "sources": [{"url":"https://www.mvideo.ru/bff/product-details?productId=10033074","fact":"Exact model and complete mounting tuple."},{"url":"https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573","fact":"M.Video-Eldorado identifies Hi as its private label."}],
+      "checked_urls": ["https://www.mvideo.ru/products/televizor-hi-ht-32h01fb-10033074", "https://www.mvideo.ru/bff/product-details?productId=10033074", "https://static.mvideo.ru/ins/10033074.pdf", "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573"]
     },
     {
       "id": "hi-hx-24h01fb", "observed_ids": ["hi-hx-24h01fb"], "brand": "Hi", "model": "HX-24H01FB", "title": "Hi HX-24H01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
@@ -162,9 +189,12 @@
       "conflicts": [], "limitations": ["База массы не уточнена; винт не указан."], "published_values": {"raw_dimensions_mm":[536,80,326],"net_weight_kg_max":2.2}
     },
     {
-      "id": "hi-hx-32h01fb", "observed_ids": ["hi-hx-32h01fb"], "brand": "Hi", "model": "HX-32H01FB", "title": "Hi HX-32H01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
-      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": null, "source_label": "Официальная инструкция не найдена", "source_region": "RU", "source_fact": "Не найден официальный паспорт точной модели.", "conflicts": [], "limitations": ["Соседние диагонали не использованы."], "published_values": {}
+      "id": "hi-hx-32h01fb", "observed_ids": ["hi-hx-32h01fb"], "brand": "Hi", "model": "HX-32H01FB", "title": "Hi HX-32H01FB", "series": null, "model_year": 2024, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 32, "weight_kg": 3.3, "weight_basis": "without_stand", "width_mm": 715.7, "height_mm": 426.1, "depth_mm": 78.5, "vesa_width_mm": 100, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://www.mvideo.ru/bff/product-details?productId=10033073", "source_label": "Официальная карточка Hi на сайте владельца бренда", "source_region": "RU", "source_fact": "Exact HX-32H01FB; 32 дюйма; VESA 100×100 мм; корпус без подставки 715,7×426,1×78,5 мм; масса без подставки 3,3 кг.", "conflicts": [], "limitations": ["Связанная инструкция маркирована HX-32F01FB и исключена как другая модель; винт не указан."],
+      "published_values": {"dimensions_without_stand_cm_raw":"42.61*71.57*7.85","weight_kg_without_stand":3.3,"vesa_raw":"VESA 100х100"},
+      "sources": [{"url":"https://www.mvideo.ru/bff/product-details?productId=10033073","fact":"Exact model and complete mounting tuple."},{"url":"https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573","fact":"M.Video-Eldorado identifies Hi as its private label."}],
+      "checked_urls": ["https://www.mvideo.ru/products/televizor-hi-hx-32h01fb-10033073", "https://www.mvideo.ru/bff/product-details?productId=10033073", "https://static.mvideo.ru/ins/10033073.pdf", "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573"]
     },
     {
       "id": "hi-hx-43f01fb", "observed_ids": ["hi-hx-43f01fb"], "brand": "Hi", "model": "HX-43F01FB", "title": "Hi HX-43F01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
@@ -173,15 +203,20 @@
       "conflicts": [], "limitations": ["База массы не уточнена; винт не указан."], "published_values": {"raw_dimensions_mm":[955,70,560],"net_weight_kg_max":5.4}
     },
     {
-      "id": "hi-hy-24h01fw", "observed_ids": ["hi-hy-24h01fw"], "brand": "Hi", "model": "HY-24H01FW", "title": "Hi HY-24H01FW", "series": null, "model_year": null, "identity_kind": "exact_model_with_color_suffix", "status": "unverifiable",
-      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
-      "source_url": null, "source_label": "Официальная инструкция не найдена", "source_region": "RU", "source_fact": "Не найден паспорт именно версии FW.", "conflicts": [], "limitations": ["Данные FB-версий не подставлялись."], "published_values": {}
+      "id": "hi-hy-24h01fw", "observed_ids": ["hi-hy-24h01fw"], "brand": "Hi", "model": "HY-24H01FW", "title": "Hi HY-24H01FW", "series": null, "model_year": 2024, "identity_kind": "exact_model_with_color_suffix", "status": "conflict",
+      "diagonal_inches": 24, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://static.mvideo.ru/ins/10033079.pdf", "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда", "source_region": "RU", "source_fact": "Exact HY-24H01FW подтверждён, но официальная карточка публикует VESA 200×200 мм, а exact инструкция — 100×100 мм.", "conflicts": ["VESA: официальная карточка 200×200 мм; официальная инструкция 100×100 мм."], "limitations": ["Монтажный tuple не экспортируется до разрешения противоречия владельцем бренда."],
+      "published_values": {"official_card":{"diagonal_inches":24,"vesa_mm":[200,200],"dimensions_without_stand_mm":[536,325.6,79.5],"weight_kg_without_stand":2.15},"official_manual":{"diagonal_inches":24,"vesa_mm":[100,100],"raw_dimensions_mm":[536,80,326],"weight_kg":2.2}},
+      "sources": [{"url":"https://www.mvideo.ru/bff/product-details?productId=10033079","fact":"Exact model; VESA 200×200."},{"url":"https://static.mvideo.ru/ins/10033079.pdf","fact":"Exact model; VESA 100×100 on p.7."},{"url":"https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573","fact":"M.Video-Eldorado identifies Hi as its private label."}],
+      "checked_urls": ["https://www.mvideo.ru/products/televizor-hi-hy-24h01fw-10033079", "https://www.mvideo.ru/bff/product-details?productId=10033079", "https://static.mvideo.ru/ins/10033079.pdf", "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573"]
     },
     {
-      "id": "hi-hy-40f01fb", "observed_ids": ["hi-hy-40f01fb"], "brand": "Hi", "model": "HY-40F01FB", "title": "Hi HY-40F01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
-      "diagonal_inches": 40, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": 100, "vesa_height_mm": 100, "screw_spec": null,
-      "source_url": "https://static.mvideo.ru/ins/10033082.pdf", "source_label": "Официальная инструкция Hi", "source_region": "RU", "source_fact": "Инструкция подтверждает точную модель, 40 дюймов и VESA 100×100 мм, но безопасный полный набор массы и габаритов не подтверждён.",
-      "conflicts": [], "limitations": ["Статус unverifiable до однозначных массы и габаритов корпуса."], "published_values": {"diagonal_inches":40,"vesa_mm":[100,100]}
+      "id": "hi-hy-40f01fb", "observed_ids": ["hi-hy-40f01fb"], "brand": "Hi", "model": "HY-40F01FB", "title": "Hi HY-40F01FB", "series": null, "model_year": 2024, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 40, "weight_kg": 4.5, "weight_basis": "without_stand", "width_mm": 892.2, "height_mm": 512.4, "depth_mm": 71.2, "vesa_width_mm": 100, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://static.mvideo.ru/ins/10033082.pdf", "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда", "source_region": "RU", "source_fact": "Exact HY-40F01FB; 40 дюймов; VESA 100×100 мм; карточка: корпус без подставки 892,2×512,4×71,2 мм и 4,5 кг; инструкция: 892×71×512 мм и масса нетто ≤4,6 кг.", "conflicts": [], "limitations": ["Инструкция округляет размеры и задаёт верхнюю границу массы; экспорт использует явно помеченные значения без подставки из exact карточки. Винт не указан."],
+      "published_values": {"official_card":{"dimensions_without_stand_mm":[892.2,512.4,71.2],"weight_kg_without_stand":4.5,"vesa_mm":[100,100]},"official_manual":{"raw_dimensions_mm":[892,71,512],"net_weight_kg_max":4.6,"vesa_mm":[100,100]}},
+      "sources": [{"url":"https://www.mvideo.ru/bff/product-details?productId=10033082","fact":"Exact model and explicitly without-stand values."},{"url":"https://static.mvideo.ru/ins/10033082.pdf","fact":"Exact model, diagonal, VESA, body dimensions and net mass."},{"url":"https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573","fact":"M.Video-Eldorado identifies Hi as its private label."}],
+      "checked_urls": ["https://www.mvideo.ru/products/televizor-hi-hy-40f01fb-10033082", "https://www.mvideo.ru/bff/product-details?productId=10033082", "https://static.mvideo.ru/ins/10033082.pdf", "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573"]
     }
   ]
 }

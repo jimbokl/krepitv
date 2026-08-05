@@ -1160,12 +1160,52 @@
     "search": "candy uno 32 candy uno 32"
   },
   {
+    "id": "hi-hs-32f01fb",
+    "title": "Hi HS-32F01FB",
+    "brand": "Hi",
+    "model": "HS-32F01FB",
+    "href": "/modeli/hi-hs-32f01fb/",
+    "search": "hi hs-32f01fb hi hs-32f01fb"
+  },
+  {
     "id": "hi-ht-32h01fb",
     "title": "Hi HT-32H01FB",
     "brand": "Hi",
     "model": "HT-32H01FB",
     "href": "/modeli/hi-ht-32h01fb/",
-    "search": "hi ht-32h01fb hi ht-32h01fb телевизор hi ht-32h01fb"
+    "search": "hi ht-32h01fb hi ht-32h01fb"
+  },
+  {
+    "id": "hi-hx-32h01fb",
+    "title": "Hi HX-32H01FB",
+    "brand": "Hi",
+    "model": "HX-32H01FB",
+    "href": "/modeli/hi-hx-32h01fb/",
+    "search": "hi hx-32h01fb hi hx-32h01fb"
+  },
+  {
+    "id": "hi-hy-40f01fb",
+    "title": "Hi HY-40F01FB",
+    "brand": "Hi",
+    "model": "HY-40F01FB",
+    "href": "/modeli/hi-hy-40f01fb/",
+    "search": "hi hy-40f01fb hi hy-40f01fb"
+  },
+  {
+    "id": "tuvio-td100ufbhh12",
+    "title": "Tuvio TD100UFBHH12",
+    "brand": "Tuvio",
+    "model": "TD100UFBHH12",
+    "href": "/modeli/tuvio-td100ufbhh12/",
+    "search": "tuvio td100ufbhh12 tuvio td100ufbhh12"
+  },
+  {
+    "id": "asano-32lh1110t",
+    "title": "Asano 32LH1110T",
+    "brand": "Asano",
+    "model": "32LH1110T",
+    "href": "/modeli/asano-32lh1110t/",
+    "search": "asano 32lh1110t asano 32lh1110t"
   },
   {
     "id": "bbk-24lem-1047-ts2c",
@@ -1246,14 +1286,6 @@
     "model": "32H6GFG",
     "href": "/modeli/haier-32h6gfg/",
     "search": "haier 32h6gfg haier 32h6gfg телевизор haier 32\" 32h6gfg, fhd 1920 x 1080, android tv, 60 гц, 1\\32 гб"
-  },
-  {
-    "id": "hi-hy-40f01fb",
-    "title": "Hi HY-40F01FB",
-    "brand": "Hi",
-    "model": "HY-40F01FB",
-    "href": "/modeli/hi-hy-40f01fb/",
-    "search": "hi hy-40f01fb hi hy-40f01fb телевизор hi hy-40f01fb"
   },
   {
     "id": "lg-32lm55",
@@ -1400,14 +1432,6 @@
     "search": "tuvio tm85ufbch51 tuvio tm85ufbch51 85” телевизор tuvio 4к ultra hd miniled frameless на платформе google tv, tm85ufbch51, черный"
   },
   {
-    "id": "hi-hs-32f01fb",
-    "title": "Hi HS-32F01FB",
-    "brand": "Hi",
-    "model": "HS-32F01FB",
-    "href": "/modeli/hi-hs-32f01fb/",
-    "search": "hi hs-32f01fb hi hs-32f01fb телевизор hi hs-32f01fb, 32 дюйма, full hd, салют тв, чёрный"
-  },
-  {
     "id": "leff-24h690t",
     "title": "Leff 24H690T",
     "brand": "Leff",
@@ -1520,14 +1544,6 @@
     "search": "xpx 12в xpx 12в 17.1″ телевизор на кухню, в авто 12в, смарт тв, dvb-t2, 17.1\"(42.5см) full hd"
   },
   {
-    "id": "asano-32lh1110t",
-    "title": "Asano 32LH1110T",
-    "brand": "Asano",
-    "model": "32LH1110T",
-    "href": "/modeli/asano-32lh1110t/",
-    "search": "asano 32lh1110t asano 32lh1110t телевизор asano 32lh1110t, 32 дюйма, hd, 1366x768, led подсветка, черный"
-  },
-  {
     "id": "konka-kt50-q682wb",
     "title": "KONKA KT50-Q682WB",
     "brand": "KONKA",
@@ -1542,14 +1558,6 @@
     "model": "S2",
     "href": "/modeli/haier-s2-43/",
     "search": "haier s2 haier s2 43″ телевизор haier телевизор haier 43 led s2 на базе android 11, 43"
-  },
-  {
-    "id": "tuvio-td100ufbhh12",
-    "title": "Tuvio TD100UFBHH12",
-    "brand": "Tuvio",
-    "model": "TD100UFBHH12",
-    "href": "/modeli/tuvio-td100ufbhh12/",
-    "search": "tuvio td100ufbhh12 tuvio td100ufbhh12 100” телевизор tuvio 4к ultra hd dled frameless на платформе yaos, td100ufbhh12"
   },
   {
     "id": "asano-24lf1210t",
@@ -1582,14 +1590,6 @@
     "model": "19-дюймовый",
     "href": "/modeli/brend-ne-ukazan-19-dyuymovyy/",
     "search": "бренд не указан 19-дюймовый 19-дюймовый 19-дюймовый ультратонкий hd-телевизор, поддерживает антенну t2, подходит для дома, тренажерного зала, караоке или бара, поддерживает wi-fi"
-  },
-  {
-    "id": "hi-hx-32h01fb",
-    "title": "Hi HX-32H01FB",
-    "brand": "Hi",
-    "model": "HX-32H01FB",
-    "href": "/modeli/hi-hx-32h01fb/",
-    "search": "hi hx-32h01fb hi hx-32h01fb телевизор hi hx-32h01fb"
   },
   {
     "id": "leff-32h690t",

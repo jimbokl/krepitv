@@ -39,23 +39,43 @@
     "series": null,
     "model_year": null,
     "diagonal_inches": 32,
-    "weight_kg": null,
-    "weight_basis": null,
-    "width_mm": null,
-    "height_mm": null,
-    "depth_mm": null,
+    "weight_kg": 4.1,
+    "weight_basis": "published_unspecified",
+    "width_mm": 721,
+    "height_mm": 427,
+    "depth_mm": 83.2,
     "vesa_width_mm": null,
     "vesa_height_mm": null,
-    "source_url": "https://artelelectronics-new.s3.amazonaws.com/pdf/artel-normal-tv-local_finish_uzbqr_proiz_11zon.2024-07-22.10-55-46.pdf",
-    "source_label": "Официальное руководство Artel для линейки телевизоров",
-    "source_fact": "В таблице энергоэффективности указана точная модель UA32H4101 и диагональ 32 дюйма.",
-    "source_region": "Узбекистан",
+    "source_url": "https://artel-avesto.tj/en/product/artel-tv-ua32h4101-81-sm-en/",
+    "source_label": "Официальная региональная карточка Artel Avesto UA32H4101",
+    "source_fact": "Официальная карточка подтверждает точный SKU, диагональ 32 дюйма, корпус без подставки 721×427×83,2 мм и массу нетто 4,1 кг; официальное руководство Artel также перечисляет точный SKU.",
+    "source_region": "Таджикистан/Узбекистан",
     "checked_at": "2026-08-05",
-    "status": "unverifiable",
-    "conflicts": [],
+    "status": "conflict",
+    "conflicts": [
+      {
+        "field": "vesa",
+        "observed_values": [
+          {
+            "value": "200x200",
+            "source_url": "https://ek.ua/ARTEL-UA32H4101.htm"
+          },
+          {
+            "value": "100x100",
+            "source_url": "https://rozetka.com.ua/408473361/p408473361/"
+          }
+        ],
+        "resolution": "Официальная карточка и официальное руководство VESA не публикуют, поэтому конфликт продавцов не разрешён и модель не допускается в совместимость."
+      }
+    ],
     "limitations": [
-      "Руководство общее для нескольких моделей.",
-      "Для UA32H4101 отсутствуют точные VESA, масса и габариты корпуса без подставки."
+      "Официальное руководство является общим для нескольких моделей и не содержит VESA для UA32H4101.",
+      "База массы 4,1 кг обозначена как net weight без уточнения подставки; значение помечено published_unspecified.",
+      "До появления официального VESA модель остаётся fail-closed."
+    ],
+    "checked_official_urls": [
+      "https://artel-avesto.tj/en/product/artel-tv-ua32h4101-81-sm-en/",
+      "https://artelelectronics-new.s3.amazonaws.com/pdf/artel-normal-tv-local_finish_uzbqr_proiz_11zon.2024-07-22.10-55-46.pdf"
     ]
   },
   {
@@ -381,24 +401,29 @@
     "model": "24LH15",
     "title": "Doffler 24LH15",
     "series": null,
-    "model_year": null,
-    "diagonal_inches": null,
+    "model_year": 2026,
+    "diagonal_inches": 24,
     "weight_kg": null,
     "weight_basis": null,
-    "width_mm": null,
-    "height_mm": null,
-    "depth_mm": null,
-    "vesa_width_mm": null,
-    "vesa_height_mm": null,
-    "source_url": null,
-    "source_label": null,
-    "source_fact": "Официальный источник производителя для точной модели не найден.",
-    "source_region": null,
+    "width_mm": 551,
+    "height_mm": 332,
+    "depth_mm": 71,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 100,
+    "source_url": "https://cdn.rbt.ru/images/itm/file_manual/883/882442_-679808392_956858a568315517c73266fdd3591085.pdf",
+    "source_label": "Официальное руководство Doffler 24LH15 на CDN официального магазина Leran/RBT, стр. 46",
+    "source_fact": "Точное руководство подтверждает модель 24LH15, диагональ 24 дюйма, VESA 100×100 и размеры корпуса без подставки 551×332×71 мм.",
+    "source_region": "Россия",
     "checked_at": "2026-08-05",
     "status": "unverifiable",
     "conflicts": [],
     "limitations": [
-      "Точные характеристики доступны только в торговых карточках и исключены."
+      "В официальной карточке и руководстве масса телевизора не опубликована; безопасную совместимость по нагрузке подтвердить нельзя.",
+      "Противоречащие официальному VESA значения из карточек сторонних продавцов исключены."
+    ],
+    "checked_official_urls": [
+      "https://www.leran.pro/product/628355-4556/doffler_24lh15/",
+      "https://cdn.rbt.ru/images/itm/file_manual/883/882442_-679808392_956858a568315517c73266fdd3591085.pdf"
     ]
   },
   {
@@ -490,26 +515,29 @@
     "title": "Asano 32LH1110T",
     "series": null,
     "model_year": null,
-    "diagonal_inches": null,
-    "weight_kg": null,
-    "weight_basis": null,
-    "width_mm": null,
-    "height_mm": null,
-    "depth_mm": null,
-    "vesa_width_mm": null,
-    "vesa_height_mm": null,
-    "source_url": null,
-    "source_label": null,
-    "source_fact": "Точная модель не найдена в доступном официальном каталоге Asano.",
-    "source_region": null,
+    "diagonal_inches": 32,
+    "weight_kg": 4.25,
+    "weight_basis": "published_unspecified",
+    "width_mm": 730,
+    "height_mm": 465,
+    "depth_mm": 177,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.technopark.ru/photos/768718/instruction/instrukciya-televizor-asano-32lh1110t-768718.pdf",
+    "source_label": "Руководство по эксплуатации Asano 32LH1110T, стр. 4–5",
+    "source_fact": "Точное руководство распространяется на 32LH1110T и подтверждает диагональ 32 дюйма, VESA 200×100, габариты без опор 730×177×465 мм и опубликованную массу не более 4,25 кг.",
+    "source_region": "Россия/Беларусь",
     "checked_at": "2026-08-05",
-    "status": "unverifiable",
+    "status": "verified",
     "conflicts": [],
     "limitations": [
-      "Торговые характеристики не считаются официальным подтверждением."
+      "Производительское руководство доступно как точная архивная PDF-копия у официального ритейлера; страницы проверены по содержимому.",
+      "База массы 4,25 кг в руководстве не уточнена; значение помечено published_unspecified и должно использоваться консервативно.",
+      "В таблице порядок размеров указан как 730×177×465 мм; поля нормализованы как ширина 730, высота 465, глубина 177 мм по обозначению «без опор»."
     ],
     "checked_official_urls": [
-      "http://www.asano.com.cn/en/"
+      "http://www.asano.com.cn/en/",
+      "https://www.technopark.ru/photos/768718/instruction/instrukciya-televizor-asano-32lh1110t-768718.pdf"
     ]
   },
   {
@@ -520,7 +548,7 @@
     "title": "KONKA KT50-Q682WB",
     "series": null,
     "model_year": null,
-    "diagonal_inches": null,
+    "diagonal_inches": 50,
     "weight_kg": null,
     "weight_basis": null,
     "width_mm": null,
@@ -528,15 +556,15 @@
     "depth_mm": null,
     "vesa_width_mm": null,
     "vesa_height_mm": null,
-    "source_url": null,
-    "source_label": null,
-    "source_fact": "Официальная карточка или руководство KONKA для точного SKU не найдены.",
-    "source_region": null,
+    "source_url": "https://konka.com.kz/kt50-q682wb",
+    "source_label": "Официальная региональная карточка KONKA KT50-Q682WB",
+    "source_fact": "Официальная карточка подтверждает точный артикул KT50-Q682WB и диагональ 50 дюймов.",
+    "source_region": "Казахстан",
     "checked_at": "2026-08-05",
     "status": "unverifiable",
     "conflicts": [],
     "limitations": [
-      "Характеристики продавцов исключены."
+      "Официальная карточка не публикует VESA, массу и размеры корпуса без подставки; характеристики продавцов исключены."
     ]
   },
   {
@@ -547,26 +575,29 @@
     "title": "Asano 24LF1210T",
     "series": null,
     "model_year": null,
-    "diagonal_inches": null,
-    "weight_kg": null,
-    "weight_basis": null,
+    "diagonal_inches": 24,
+    "weight_kg": 2.45,
+    "weight_basis": "published_unspecified",
     "width_mm": null,
     "height_mm": null,
     "depth_mm": null,
-    "vesa_width_mm": null,
-    "vesa_height_mm": null,
-    "source_url": null,
-    "source_label": null,
-    "source_fact": "Точная модель не найдена в доступном официальном каталоге Asano.",
-    "source_region": null,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 100,
+    "source_url": "https://mcgrp.ru/files/viewer/1034911/6",
+    "source_label": "Руководство по эксплуатации Asano 24LF1210T, стр. 4–5",
+    "source_fact": "Точное руководство подтверждает модель 24LF1210T, диагональ 24 дюйма, VESA 100×100 и опубликованную массу не более 2,45 кг.",
+    "source_region": "Россия/Беларусь",
     "checked_at": "2026-08-05",
     "status": "unverifiable",
     "conflicts": [],
     "limitations": [
-      "Торговые характеристики не считаются официальным подтверждением."
+      "Руководство указывает только общие габариты 551×177×370 мм и не обозначает их как размеры корпуса без опоры; поля корпуса оставлены пустыми.",
+      "База массы 2,45 кг не уточнена, поэтому одного этого значения недостаточно для полной верификации."
     ],
     "checked_official_urls": [
-      "http://www.asano.com.cn/en/"
+      "http://www.asano.com.cn/en/",
+      "https://mcgrp.ru/files/viewer/1034911/6",
+      "https://mcgrp.ru/files/viewer/1034911/7"
     ]
   },
   {

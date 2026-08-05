@@ -18,11 +18,23 @@
     "source_url": "https://sberdevices.ru/shop/product/sdx_43u5500dba/",
     "source_label": "Официальный каталог SberDevices — ожидаемый маршрут точной модели",
     "source_region": "RU",
-    "source_fact": "Ожидаемая официальная карточка точной модели возвращает 404; перенос характеристик с соседних SDX-моделей запрещён.",
+    "source_fact": "Ожидаемая официальная карточка точной модели возвращает 404; точный SKU также отсутствует в актуальной официальной карте сайта, перенос характеристик с соседних SDX-моделей запрещён.",
     "checked_at": "2026-08-05",
     "status": "unverifiable",
     "conflicts": [],
-    "limitations": ["Нет доступного официального паспорта точного SKU с VESA, массой и габаритами корпуса без подставки."]
+    "limitations": ["Нет доступного официального паспорта точного SKU с VESA, массой и габаритами корпуса без подставки."],
+    "sources": [
+      {
+        "url": "https://sberdevices.ru/shop/product/sdx_43u5500dba/",
+        "label": "Ожидаемая официальная карточка SberDevices — HTTP 404",
+        "region": "RU"
+      },
+      {
+        "url": "https://sberdevices.ru/sitemap-sites-0.xml",
+        "label": "Актуальная официальная карта сайта SberDevices — точный SKU отсутствует",
+        "region": "RU"
+      }
+    ]
   },
   {
     "id": "lg-32lm55",
@@ -83,21 +95,33 @@
     "title": "Skyworth 43Q66H",
     "series": "Q66H",
     "model_year": null,
-    "diagonal_inches": null,
+    "diagonal_inches": 43,
     "weight_kg": null,
     "width_mm": null,
     "height_mm": null,
     "depth_mm": null,
-    "vesa_width_mm": null,
-    "vesa_height_mm": null,
-    "source_url": "https://ru.skyworth.com/",
-    "source_label": "Официальный российский сайт SKYWORTH",
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://ru.skyworth.com/ru/classify/detail/548",
+    "source_label": "Официальная страница серии SKYWORTH Q66H",
     "source_region": "RU",
-    "source_fact": "Российский сайт производителя не отдаёт карточку или руководство точной модели с паспортными полями.",
+    "source_fact": "Официальные страница и API серии подтверждают вариант 43Q66H, диагональ 43 дюйма и VESA 200×200; массы и габаритов корпуса для точного SKU нет.",
     "checked_at": "2026-08-05",
     "status": "unverifiable",
     "conflicts": [],
-    "limitations": ["Сертификационные списки подтверждают существование кода, но не паспортные VESA, массу и размеры."]
+    "limitations": ["Нет официальных массы и размеров корпуса без подставки для точного SKU; статус остаётся unverifiable."],
+    "sources": [
+      {
+        "url": "https://ru.skyworth.com/ru/classify/detail/548",
+        "label": "Официальная страница SKYWORTH Q66H",
+        "region": "RU"
+      },
+      {
+        "url": "https://webapi.skyworth.com/api/sub/detail?type=goods&id=548&language=ru",
+        "label": "Официальный API SKYWORTH — Q66H",
+        "region": "RU"
+      }
+    ]
   },
   {
     "id": "skyworth-100q79h",
@@ -108,21 +132,33 @@
     "title": "Skyworth 100Q79H",
     "series": "Q79H",
     "model_year": null,
-    "diagonal_inches": null,
+    "diagonal_inches": 100,
     "weight_kg": null,
     "width_mm": null,
     "height_mm": null,
     "depth_mm": null,
     "vesa_width_mm": null,
     "vesa_height_mm": null,
-    "source_url": "https://ru.skyworth.com/",
-    "source_label": "Официальный российский сайт SKYWORTH",
+    "source_url": "https://ru.skyworth.com/ru/classify/detail/559",
+    "source_label": "Официальная страница серии SKYWORTH Q79H",
     "source_region": "RU",
-    "source_fact": "Российский сайт производителя не отдаёт карточку или руководство точной модели с паспортными полями.",
+    "source_fact": "Официальные страница и API серии подтверждают вариант 100Q79H и диагональ 100 дюймов, но встроенная таблица VESA относится к размерам 55/65, которых нет в актуальном перечне Q79H.",
     "checked_at": "2026-08-05",
     "status": "unverifiable",
     "conflicts": [],
-    "limitations": ["Не использовать характеристики другой 100-дюймовой региональной модели Skyworth."]
+    "limitations": ["VESA, масса и размеры корпуса точного 100Q79H не подтверждены; таблица для 55/65 не переносится на 100-дюймовый SKU."],
+    "sources": [
+      {
+        "url": "https://ru.skyworth.com/ru/classify/detail/559",
+        "label": "Официальная страница SKYWORTH Q79H",
+        "region": "RU"
+      },
+      {
+        "url": "https://webapi.skyworth.com/api/sub/detail?type=goods&id=559&language=ru",
+        "label": "Официальный API SKYWORTH — Q79H",
+        "region": "RU"
+      }
+    ]
   },
   {
     "id": "xiaomi-tv-a-pro-32-2026",
@@ -171,21 +207,33 @@
     "title": "Skyworth 50Q66H",
     "series": "Q66H",
     "model_year": null,
-    "diagonal_inches": null,
+    "diagonal_inches": 50,
     "weight_kg": null,
     "width_mm": null,
     "height_mm": null,
     "depth_mm": null,
-    "vesa_width_mm": null,
-    "vesa_height_mm": null,
-    "source_url": "https://ru.skyworth.com/",
-    "source_label": "Официальный российский сайт SKYWORTH",
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://ru.skyworth.com/ru/classify/detail/548",
+    "source_label": "Официальная страница серии SKYWORTH Q66H",
     "source_region": "RU",
-    "source_fact": "Российский сайт производителя не отдаёт карточку или руководство точной модели с паспортными полями.",
+    "source_fact": "Официальные страница и API серии подтверждают вариант 50Q66H, диагональ 50 дюймов и VESA 200×200; массы и габаритов корпуса для точного SKU нет.",
     "checked_at": "2026-08-05",
     "status": "unverifiable",
     "conflicts": [],
-    "limitations": ["Не подменять на украинскую Q66G или другую региональную серию."]
+    "limitations": ["Нет официальных массы и размеров корпуса без подставки для точного SKU; статус остаётся unverifiable."],
+    "sources": [
+      {
+        "url": "https://ru.skyworth.com/ru/classify/detail/548",
+        "label": "Официальная страница SKYWORTH Q66H",
+        "region": "RU"
+      },
+      {
+        "url": "https://webapi.skyworth.com/api/sub/detail?type=goods&id=548&language=ru",
+        "label": "Официальный API SKYWORTH — Q66H",
+        "region": "RU"
+      }
+    ]
   },
   {
     "id": "tcl-32v4c",
@@ -207,14 +255,31 @@
     "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/v4c/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3Y0Yy92NGM=.json",
     "source_label": "Официальный endpoint характеристик TCL Россия для V4C",
     "source_region": "RU",
-    "source_fact": "Endpoint подтверждает модель 32V4C, 2026 год, 32 дюйма и VESA 100×100, но содержит внутренне противоречивые массу и порядок размеров.",
+    "source_fact": "Официальные российский и итальянский endpoints подтверждают точный SKU 32V4C, 32 дюйма и VESA 100×100, но оба сохраняют внутренне противоречивые массу и порядок размеров.",
     "checked_at": "2026-08-05",
     "status": "conflict",
     "conflicts": [
       "Официальный endpoint публикует 3,19 кг без подставки и 3,15 кг с подставкой.",
       "Строка «Ш×В×Г» содержит 715×75×422 мм; физически правдоподобная перестановка осей не выполняется догадкой."
     ],
-    "limitations": ["Нормализованные height_mm и depth_mm закрыты до исправления производителем."]
+    "limitations": ["Нормализованные width_mm, height_mm и depth_mm закрыты до исправления производителем; региональное поле года также расходится: 2026 в RU и 2025 в IT."],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/v4c/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3Y0Yy92NGM=.json",
+        "label": "Официальный endpoint TCL Россия — 32V4C",
+        "region": "RU"
+      },
+      {
+        "url": "https://www.tcl.com/content/brandsite/it/it/tvs/v4c/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvaXQvaXQvdHZzL3Y0Yy8zMnY0Yw==.json",
+        "label": "Официальный endpoint TCL Италия — 32V4C",
+        "region": "IT"
+      },
+      {
+        "url": "https://www.tcl.com/it/it/support-tv/model-tv/32v4c",
+        "label": "Официальная поддержка TCL — точный SKU 32V4C",
+        "region": "IT"
+      }
+    ]
   },
   {
     "id": "lg-32lm57",
@@ -275,21 +340,33 @@
     "title": "Skyworth 43Q67H",
     "series": "Q67H",
     "model_year": null,
-    "diagonal_inches": null,
+    "diagonal_inches": 43,
     "weight_kg": null,
     "width_mm": null,
     "height_mm": null,
     "depth_mm": null,
-    "vesa_width_mm": null,
-    "vesa_height_mm": null,
-    "source_url": "https://ru.skyworth.com/",
-    "source_label": "Официальный российский сайт SKYWORTH",
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://ru.skyworth.com/ru/classify/detail/549",
+    "source_label": "Официальная страница серии SKYWORTH Q67H",
     "source_region": "RU",
-    "source_fact": "Российский сайт производителя не отдаёт карточку или руководство точной модели с паспортными полями.",
+    "source_fact": "Официальные страница и API серии подтверждают вариант 43Q67H, диагональ 43 дюйма и VESA 200×200; массы и габаритов корпуса для точного SKU нет.",
     "checked_at": "2026-08-05",
     "status": "unverifiable",
     "conflicts": [],
-    "limitations": ["Не подменять на Q67D, Q66G или другую созвучную региональную серию."]
+    "limitations": ["Нет официальных массы и размеров корпуса без подставки для точного SKU; статус остаётся unverifiable."],
+    "sources": [
+      {
+        "url": "https://ru.skyworth.com/ru/classify/detail/549",
+        "label": "Официальная страница SKYWORTH Q67H",
+        "region": "RU"
+      },
+      {
+        "url": "https://webapi.skyworth.com/api/sub/detail?type=goods&id=549&language=ru",
+        "label": "Официальный API SKYWORTH — Q67H",
+        "region": "RU"
+      }
+    ]
   },
   {
     "id": "hisense-50e77sl-pro",
@@ -337,7 +414,7 @@
     "source_url": "https://tuvio.yandex.ru/card/85-televizor-tuvio-4k-ultra-hd-miniled-frameless-na-platforme-google-tv-tm85ufbcv51-chernyy-4854117340",
     "source_label": "Официальная карточка Tuvio TM85UFBCH51",
     "source_region": "RU",
-    "source_fact": "Карточка и руководство подтверждают точный SKU, 85 дюймов, VESA 600×400 и корпус 1890×1089,9×63,6 мм; для безопасной нагрузки сохранено большее опубликованное значение массы с подставкой.",
+    "source_fact": "Карточка и актуальное руководство подтверждают точный SKU, 85 дюймов, VESA 600×400 и корпус 1890×1089,9×63,6 мм; расхождение массы с подставкой в текущей ревизии руководства сохраняется.",
     "checked_at": "2026-08-05",
     "status": "conflict",
     "conflicts": ["Официальная карточка публикует 41,6 кг с подставкой, официальное руководство семейства — 41,0 кг с подставкой."],
@@ -349,8 +426,13 @@
         "region": "RU"
       },
       {
-        "url": "https://marketdo.s3.yandex.net/tuvio/Tuvio_TV_Google_MiniLED_TM50UFBCH51_TM55UFBCH51_TM65UFBCH51_TM75UFBCH51_TM85UFBCH51_UM-01%20FULL.pdf",
-        "label": "Официальное руководство семейства Tuvio TM UFBCH51",
+        "url": "https://marketdo.s3.yandex.net/tuvio/Tuvio_TV_Google_MiniLED_TM50UFBCH51_TM55UFBCH51_TM65UFBCH51_TM75UFBCH51_TM85UFBCH51_UM-01_FULL_1.pdf",
+        "label": "Актуальное официальное руководство семейства Tuvio TM UFBCH51",
+        "region": "RU"
+      },
+      {
+        "url": "https://yandex.ru/support/yandex-factory/tuvio/ru/tv-accessories/tv",
+        "label": "Официальный каталог руководств Tuvio",
         "region": "RU"
       }
     ]
@@ -396,16 +478,33 @@
     "width_mm": 2232,
     "height_mm": 1282,
     "depth_mm": 101,
-    "vesa_width_mm": null,
-    "vesa_height_mm": null,
+    "vesa_width_mm": 800,
+    "vesa_height_mm": 400,
     "source_url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
     "source_label": "Официальная карточка Tuvio TD100UFBHH12",
     "source_region": "RU",
-    "source_fact": "Карточка подтверждает точный SKU, 100 дюймов, 62,8 кг и корпус 2232×1282×101 мм без подставки, но не публикует VESA.",
+    "source_fact": "Точные официальные карточка и руководство подтверждают SKU TD100UFBHH12, 100 дюймов, VESA 800×400, массу 62,8 кг и корпус 2232×1282×101 мм без подставки.",
     "checked_at": "2026-08-05",
-    "status": "unverifiable",
+    "status": "verified",
     "conflicts": [],
-    "limitations": ["Без официального VESA совместимость с кронштейном не вычисляется; болты также не специфицированы."]
+    "limitations": ["Руководство публикует более точные размеры 2231,5×1281,9×100,6 мм и массу 65,6 кг с подставкой; в нормализованных полях сохранены округлённые размеры и масса без подставки из официальной карточки."],
+    "sources": [
+      {
+        "url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
+        "label": "Официальная карточка Tuvio TD100UFBHH12",
+        "region": "RU"
+      },
+      {
+        "url": "https://marketdo.s3.yandex.net/tuvio/9_Q2_TD-43-100%20UM-01..pdf",
+        "label": "Официальное руководство Tuvio TD43–TD100 UFBHH12",
+        "region": "RU"
+      },
+      {
+        "url": "https://yandex.ru/support/yandex-factory/tuvio/ru/tv-accessories/tv",
+        "label": "Официальный каталог руководств Tuvio",
+        "region": "RU"
+      }
+    ]
   },
   {
     "id": "sony-k-75xr50b",
@@ -452,7 +551,7 @@
     "source_url": "https://hyundai-electronics.com.ru/catalog/item/hyundai-H-LED50QBU7500-1783567/",
     "source_label": "Официальная карточка Hyundai H-LED50QBU7500",
     "source_region": "RU",
-    "source_fact": "Официальное руководство подтверждает точный SKU, 50 дюймов, 8,8 кг и корпус 1111×642×89 мм без подставки, но официальные источники расходятся по VESA.",
+    "source_fact": "Две доступные официальные копии руководства подтверждают точный SKU, 50 дюймов, 8,8 кг и корпус 1111×642×89 мм без подставки, но обе расходятся с официальной карточкой по VESA.",
     "checked_at": "2026-08-05",
     "status": "conflict",
     "conflicts": ["Официальная карточка указывает VESA 400×200, официальное руководство — VESA 200×200."],
@@ -464,8 +563,13 @@
         "region": "RU"
       },
       {
+        "url": "https://static.hyundai-electronics.com.ru/data/downloads/manual/Rukovodstvo_po_ekspluatacii_506.pdf",
+        "label": "Официальное руководство Hyundai H-LED50QBU7500/H-LED55QBU7500 — копия 506",
+        "region": "RU"
+      },
+      {
         "url": "https://static.hyundai-electronics.com.ru/data/downloads/manual/Rukovodstvo_po_ekspluatacii_507.pdf",
-        "label": "Официальное руководство Hyundai H-LED50QBU7500/H-LED55QBU7500",
+        "label": "Официальное руководство Hyundai H-LED50QBU7500/H-LED55QBU7500 — копия 507",
         "region": "RU"
       }
     ]

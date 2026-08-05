@@ -393,8 +393,8 @@
   {
     "id": "onkron-uf4",
     "brand": "ONKRON",
-    "model": "UF4-B",
-    "title": "ONKRON UF4-B",
+    "model": "UF4",
+    "title": "ONKRON UF4",
     "mechanism": "fixed",
     "min_diagonal_in": 55,
     "max_diagonal_in": 100,
@@ -403,8 +403,25 @@
     "wall_distance_min_mm": 35,
     "wall_distance_max_mm": 35,
     "source_url": "https://onkron.ru/product-onkron-kronshtejn-dlja-televizora-40-80-phiksirovannyj-chjornyj-uf4.html",
-    "source_label": "Официальная русская карточка ONKRON UF4-B",
-    "source_fact": "Точная карточка с артикулом UF4-B подтверждает фиксированный механизм, диагонали 55–100, нагрузку 80 кг, перечисленные VESA до 800×600 и расстояние от стены 35 мм.",
+    "source_label": "Официальная русская карточка ONKRON UF4 (артикул UF4-B)",
+    "source_fact": "Карточка модели UF4 с чёрным артикулом UF4-B подтверждает фиксированный механизм, диагонали 55–100, нагрузку 80 кг, перечисленные VESA до 800×600 и расстояние от стены 35 мм.",
+    "checked_at": "2026-08-05"
+  },
+  {
+    "id": "godoo-gd77-696",
+    "brand": "GoDoo",
+    "model": "GD77-696",
+    "title": "GoDoo GD77-696",
+    "mechanism": "full-motion",
+    "min_diagonal_in": 60,
+    "max_diagonal_in": 120,
+    "max_load_kg": 120,
+    "vesa": ["200x200", "300x200", "300x300", "400x200", "400x300", "400x400", "600x400", "800x400", "800x600", "900x600"],
+    "wall_distance_min_mm": 75,
+    "wall_distance_max_mm": 703,
+    "source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-godoo-60-120-dyuymov-gd77-696--2/103485542332",
+    "source_label": "Официальная карточка магазина бренда GoDoo на Яндекс Маркете",
+    "source_fact": "Карточка точной модели GD77-696 от магазина бренда подтверждает поворотно-наклонный механизм, диагонали 60–120, нагрузку 120 кг, перечисленные VESA до 900×600 и вылет 75–703 мм.",
     "checked_at": "2026-08-05"
   }
 ]

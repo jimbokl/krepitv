@@ -15,8 +15,8 @@ test("133 наблюдения Маркета сведены в канониче
 
   assert.equal(manifest.records.length, 133);
   assert.equal(manifest.summary.unique_identities, 126);
-  assert.equal(manifest.summary.verified_routes, 67);
-  assert.equal(manifest.summary.observed_canonicals, 59);
+  assert.equal(manifest.summary.verified_routes, 73);
+  assert.equal(manifest.summary.observed_canonicals, 53);
   assert.equal(manifest.summary.indexable_observed_canonicals, 0);
   assert.equal(manifest.summary.alias_routes, 7);
   assert.equal(manifest.summary.low_confidence_routes, 9);

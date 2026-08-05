@@ -216,6 +216,30 @@
       "vid": "krepitvOnkronNN24",
       "expected_title_tokens": ["ONKRON", "NN24"],
       "creative": null
+    },
+    {
+      "id": "market-onkron-uf4-103480537422",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-uf4-55-100-nastennyy-fiksirovannyy-chernyy/103480537422",
+      "page_path": "/kronshteyny/onkron-uf4/",
+      "entity_kind": "mount",
+      "entity_id": "onkron-uf4",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvOnkronUF4",
+      "expected_title_tokens": ["ONKRON", "UF4"],
+      "creative": null
+    },
+    {
+      "id": "market-godoo-gd77-696-103485542332",
+      "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-godoo-60-120-dyuymov-gd77-696--2/103485542332",
+      "page_path": "/kronshteyny/godoo-gd77-696/",
+      "entity_kind": "mount",
+      "entity_id": "godoo-gd77-696",
+      "compliance_mode": "non_ad_storefront",
+      "clid": "15238076",
+      "vid": "krepitvGodooGD77696",
+      "expected_title_tokens": ["GoDoo", "GD77-696"],
+      "creative": null
     }
   ]
 }

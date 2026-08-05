@@ -3024,13 +3024,13 @@
     "depth_mm": 60,
     "vesa_width_mm": 200,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem-1045_ts2c/",
-    "source_label": "Официальная карточка BBK 32LEM-1045/TS2C",
-    "source_fact": "Точная модель: 31,5 дюйма, VESA 200x100, корпус без подставки 716x425x60 мм; опубликованная масса 3,3 кг расположена в разделе размеров с подставкой и используется консервативно.",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1045_ts2c/",
+    "source_label": "Официальная карточка BBK",
+    "source_fact": "31,5 дюйма; VESA 200×100 мм; корпус 716×425×60 мм; 3,3 кг с подставкой.",
     "checked_at": "2026-08-05",
     "source_region": "RU",
     "limitations": [
-      "Тип и длина винтов для настенного крепления явно не опубликованы."
+      "Винт официально не указан."
     ]
   },
   {
@@ -3048,13 +3048,13 @@
     "depth_mm": 74,
     "vesa_width_mm": 100,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem-1075_ts2c/",
-    "source_label": "Официальная карточка BBK 32LEM-1075/TS2C",
-    "source_fact": "Точная модель: 31,5 дюйма, VESA 100x100, корпус без подставки 716x430x74 мм; опубликованная масса 3,2 кг расположена в разделе размеров с подставкой и используется консервативно.",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1075_ts2c/",
+    "source_label": "Официальная карточка BBK",
+    "source_fact": "31,5 дюйма; VESA 100×100 мм; корпус 716×430×74 мм; 3,2 кг с подставкой.",
     "checked_at": "2026-08-05",
     "source_region": "RU",
     "limitations": [
-      "Тип и длина винтов для настенного крепления явно не опубликованы."
+      "Винт официально не указан."
     ]
   },
   {
@@ -3072,13 +3072,13 @@
     "depth_mm": 79,
     "vesa_width_mm": 100,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex-7235_fts2c/",
-    "source_label": "Официальная карточка BBK 32LEX-7235/FTS2C",
-    "source_fact": "Точная модель: 32 дюйма, VESA 100x100, корпус без подставки 716x426x79 мм; опубликованная масса 3,35 кг находится в разделе размеров с подставкой.",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7235_fts2c/",
+    "source_label": "Официальная карточка BBK",
+    "source_fact": "32 дюйма; VESA 100×100 мм; корпус 716×426×79 мм; 3,35 кг с подставкой.",
     "checked_at": "2026-08-05",
     "source_region": "RU",
     "limitations": [
-      "Две observed-карточки сведены к одной точной модели; тип винтов явно не опубликован."
+      "Винт официально не указан."
     ]
   },
   {
@@ -3096,13 +3096,13 @@
     "depth_mm": 60,
     "vesa_width_mm": 200,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex-7244_ts2c/",
-    "source_label": "Официальная карточка BBK 32LEX-7244/TS2C",
-    "source_fact": "Точная модель: 31,5 дюйма, VESA 200x100, корпус без подставки 716x425x60 мм; опубликованная масса 3,2 кг находится в разделе размеров с подставкой.",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7244_ts2c/",
+    "source_label": "Официальная карточка BBK",
+    "source_fact": "31,5 дюйма; VESA 200×100 мм; корпус 716×425×60 мм; 3,2 кг с подставкой.",
     "checked_at": "2026-08-05",
     "source_region": "RU",
     "limitations": [
-      "Тип и длина винтов для настенного крепления явно не опубликованы."
+      "Винт официально не указан."
     ]
   },
   {
@@ -3120,13 +3120,13 @@
     "depth_mm": 74,
     "vesa_width_mm": 100,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem-1030_fts2c/",
-    "source_label": "Официальная карточка BBK 40LEM-1030/FTS2C",
-    "source_fact": "Точная модель: 40 дюймов, VESA 100x100, корпус без подставки 892x515x74 мм; масса 4,5 кг опубликована в разделе размеров с подставкой.",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem_1030_fts2c/",
+    "source_label": "Официальная карточка BBK",
+    "source_fact": "40 дюймов; VESA 100×100 мм; корпус 892×515×74 мм; 4,5 кг с подставкой.",
     "checked_at": "2026-08-05",
     "source_region": "RU",
     "limitations": [
-      "Тип и длина винтов для настенного крепления явно не опубликованы."
+      "Винт официально не указан."
     ]
   },
   {
@@ -3144,13 +3144,13 @@
     "depth_mm": 82,
     "vesa_width_mm": 200,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex-7247_fts2c/",
-    "source_label": "Официальная карточка BBK 43LEX-7247/FTS2C",
-    "source_fact": "Точная модель: 43 дюйма, VESA 200x100, корпус без подставки 970x564x82 мм; масса 6,2 кг опубликована в разделе размеров с подставкой.",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex_7247_fts2c/",
+    "source_label": "Официальная карточка BBK",
+    "source_fact": "43 дюйма; VESA 200×100 мм; корпус 970×564×82 мм; 6,2 кг с подставкой.",
     "checked_at": "2026-08-05",
     "source_region": "RU",
     "limitations": [
-      "Тип и длина винтов для настенного крепления явно не опубликованы."
+      "Винт официально не указан."
     ]
   },
   {
@@ -3169,12 +3169,12 @@
     "vesa_width_mm": 100,
     "vesa_height_mm": 100,
     "source_url": "https://static.mvideo.ru/ins/10033080.pdf",
-    "source_label": "Руководство по эксплуатации Hi HX-24H01FB",
-    "source_fact": "Официальное руководство точной модели указывает 24 дюйма, VESA 100x100, габариты 536x80x326 мм и массу телевизора нетто не более 2,2 кг.",
+    "source_label": "Официальная инструкция Hi",
+    "source_fact": "24 дюйма; VESA 100×100 мм; 536×80×326 мм нормализованы как Ш×В×Г 536×326×80; масса нетто ≤2,2 кг.",
     "checked_at": "2026-08-05",
     "source_region": "RU",
     "limitations": [
-      "Руководство не отделяет массу корпуса от массы с подставкой; значение используется как published_unspecified. Размеры нормализованы из порядка ШxГxВ."
+      "База массы не уточнена; винт не указан."
     ]
   },
   {
@@ -3193,12 +3193,12 @@
     "vesa_width_mm": 200,
     "vesa_height_mm": 200,
     "source_url": "https://static.mvideo.ru/ins/10033083.pdf",
-    "source_label": "Руководство по эксплуатации Hi HX-43F01FB",
-    "source_fact": "Официальное руководство точной модели указывает 43 дюйма, VESA 200x200, габариты 955x70x560 мм и массу телевизора нетто не более 5,4 кг.",
+    "source_label": "Официальная инструкция Hi",
+    "source_fact": "43 дюйма; VESA 200×200 мм; 955×70×560 мм нормализованы как Ш×В×Г 955×560×70; масса нетто ≤5,4 кг.",
     "checked_at": "2026-08-05",
     "source_region": "RU",
     "limitations": [
-      "Руководство не отделяет массу корпуса от массы с подставкой; значение используется как published_unspecified. Размеры нормализованы из порядка ШxГxВ."
+      "База массы не уточнена; винт не указан."
     ]
   },
   {
@@ -3367,6 +3367,212 @@
     "source_region": "Россия",
     "limitations": [
       "Производительское руководство доступно как точная архивная копия у стороннего хоста; страницы проверены визуально."
+    ]
+  },
+  {
+    "id": "hi-hs-32f01fb",
+    "brand": "Hi",
+    "model": "HS-32F01FB",
+    "title": "Hi HS-32F01FB",
+    "series": "HS",
+    "model_year": 2025,
+    "diagonal_inches": 32,
+    "weight_kg": 3.6,
+    "width_mm": 718,
+    "height_mm": 421.6,
+    "depth_mm": 83.2,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://static.mvideo.ru/ins/400514044.pdf",
+    "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда",
+    "source_fact": "Exact HS-32F01FB; 32 дюйма; VESA 200×200 мм; карточка: корпус без подставки 718×421,6×83,2 мм и 3,6 кг; инструкция: 718×83×422 мм и 3,7 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Инструкция округляет размеры и массу; экспорт использует явно помеченные значения без подставки из exact карточки. Винт не указан."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mvideo.ru/bff/product-details?productId=400514044",
+        "fact": "Exact model and without-stand values."
+      },
+      {
+        "url": "https://static.mvideo.ru/ins/400514044.pdf",
+        "fact": "Exact model, diagonal and VESA."
+      },
+      {
+        "url": "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573",
+        "fact": "M.Video-Eldorado identifies Hi as its private label."
+      }
+    ]
+  },
+  {
+    "id": "hi-ht-32h01fb",
+    "brand": "Hi",
+    "model": "HT-32H01FB",
+    "title": "Hi HT-32H01FB",
+    "series": "HT",
+    "model_year": 2024,
+    "diagonal_inches": 32,
+    "weight_kg": 3.3,
+    "width_mm": 715.7,
+    "height_mm": 426.1,
+    "depth_mm": 78.5,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://www.mvideo.ru/bff/product-details?productId=10033074",
+    "source_label": "Официальная карточка Hi на сайте владельца бренда",
+    "source_fact": "Exact HT-32H01FB; 32 дюйма; VESA 200×200 мм; корпус без подставки 715,7×426,1×78,5 мм; масса без подставки 3,3 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Связанная инструкция маркирована WT-24H01FB/WT-32H01FB и исключена как другая идентичность; винт не указан."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mvideo.ru/bff/product-details?productId=10033074",
+        "fact": "Exact model and complete mounting tuple."
+      },
+      {
+        "url": "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573",
+        "fact": "M.Video-Eldorado identifies Hi as its private label."
+      }
+    ]
+  },
+  {
+    "id": "hi-hx-32h01fb",
+    "brand": "Hi",
+    "model": "HX-32H01FB",
+    "title": "Hi HX-32H01FB",
+    "series": "HX",
+    "model_year": 2024,
+    "diagonal_inches": 32,
+    "weight_kg": 3.3,
+    "width_mm": 715.7,
+    "height_mm": 426.1,
+    "depth_mm": 78.5,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.mvideo.ru/bff/product-details?productId=10033073",
+    "source_label": "Официальная карточка Hi на сайте владельца бренда",
+    "source_fact": "Exact HX-32H01FB; 32 дюйма; VESA 100×100 мм; корпус без подставки 715,7×426,1×78,5 мм; масса без подставки 3,3 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Связанная инструкция маркирована HX-32F01FB и исключена как другая модель; винт не указан."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mvideo.ru/bff/product-details?productId=10033073",
+        "fact": "Exact model and complete mounting tuple."
+      },
+      {
+        "url": "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573",
+        "fact": "M.Video-Eldorado identifies Hi as its private label."
+      }
+    ]
+  },
+  {
+    "id": "hi-hy-40f01fb",
+    "brand": "Hi",
+    "model": "HY-40F01FB",
+    "title": "Hi HY-40F01FB",
+    "series": "HY",
+    "model_year": 2024,
+    "diagonal_inches": 40,
+    "weight_kg": 4.5,
+    "width_mm": 892.2,
+    "height_mm": 512.4,
+    "depth_mm": 71.2,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 100,
+    "source_url": "https://static.mvideo.ru/ins/10033082.pdf",
+    "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда",
+    "source_fact": "Exact HY-40F01FB; 40 дюймов; VESA 100×100 мм; карточка: корпус без подставки 892,2×512,4×71,2 мм и 4,5 кг; инструкция: 892×71×512 мм и масса нетто ≤4,6 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Инструкция округляет размеры и задаёт верхнюю границу массы; экспорт использует явно помеченные значения без подставки из exact карточки. Винт не указан."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mvideo.ru/bff/product-details?productId=10033082",
+        "fact": "Exact model and explicitly without-stand values."
+      },
+      {
+        "url": "https://static.mvideo.ru/ins/10033082.pdf",
+        "fact": "Exact model, diagonal, VESA, body dimensions and net mass."
+      },
+      {
+        "url": "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573",
+        "fact": "M.Video-Eldorado identifies Hi as its private label."
+      }
+    ]
+  },
+  {
+    "id": "tuvio-td100ufbhh12",
+    "brand": "Tuvio",
+    "model": "TD100UFBHH12",
+    "title": "Tuvio TD100UFBHH12",
+    "series": "TD UFBHH12",
+    "model_year": null,
+    "diagonal_inches": 100,
+    "weight_kg": 62.8,
+    "width_mm": 2232,
+    "height_mm": 1282,
+    "depth_mm": 101,
+    "vesa_width_mm": 800,
+    "vesa_height_mm": 400,
+    "source_url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
+    "source_label": "Официальная карточка Tuvio TD100UFBHH12",
+    "source_fact": "Точные официальные карточка и руководство подтверждают SKU TD100UFBHH12, 100 дюймов, VESA 800×400, массу 62,8 кг и корпус 2232×1282×101 мм без подставки.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Руководство публикует более точные размеры 2231,5×1281,9×100,6 мм и массу 65,6 кг с подставкой; в нормализованных полях сохранены округлённые размеры и масса без подставки из официальной карточки."
+    ],
+    "sources": [
+      {
+        "url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
+        "label": "Официальная карточка Tuvio TD100UFBHH12",
+        "region": "RU"
+      },
+      {
+        "url": "https://marketdo.s3.yandex.net/tuvio/9_Q2_TD-43-100%20UM-01..pdf",
+        "label": "Официальное руководство Tuvio TD43–TD100 UFBHH12",
+        "region": "RU"
+      },
+      {
+        "url": "https://yandex.ru/support/yandex-factory/tuvio/ru/tv-accessories/tv",
+        "label": "Официальный каталог руководств Tuvio",
+        "region": "RU"
+      }
+    ]
+  },
+  {
+    "id": "asano-32lh1110t",
+    "brand": "Asano",
+    "model": "32LH1110T",
+    "title": "Asano 32LH1110T",
+    "series": "LH1110T",
+    "model_year": null,
+    "diagonal_inches": 32,
+    "weight_kg": 4.25,
+    "weight_basis": "published_unspecified",
+    "width_mm": 730,
+    "height_mm": 465,
+    "depth_mm": 177,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.technopark.ru/photos/768718/instruction/instrukciya-televizor-asano-32lh1110t-768718.pdf",
+    "source_label": "Руководство по эксплуатации Asano 32LH1110T, стр. 4–5",
+    "source_fact": "Точное руководство распространяется на 32LH1110T и подтверждает диагональ 32 дюйма, VESA 200×100, габариты без опор 730×177×465 мм и опубликованную массу не более 4,25 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "Россия/Беларусь",
+    "limitations": [
+      "Производительское руководство доступно как точная архивная PDF-копия у официального ритейлера; страницы проверены по содержимому.",
+      "База массы 4,25 кг в руководстве не уточнена; значение помечено published_unspecified и должно использоваться консервативно.",
+      "В таблице порядок размеров указан как 730×177×465 мм; поля нормализованы как ширина 730, высота 465, глубина 177 мм по обозначению «без опор»."
     ]
   }
 ]

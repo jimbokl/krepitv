@@ -66,7 +66,7 @@ test("публичный набор коммерческих профилей п
     pagePath: "/modeli/lg-oled55c5rla/",
   });
 
-  assert.equal(profiles.length, 32);
+  assert.equal(profiles.length, 33);
   assert.equal(new Set(profiles.map((item) => item.path)).size, profiles.length);
   assert.ok(tcl55c6k);
   assert.ok(

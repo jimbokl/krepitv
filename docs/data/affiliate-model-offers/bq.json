@@ -1,5 +1,78 @@
 {
-  "generated_at": "2026-08-04T18:07:05.732Z",
-  "placements": [],
+  "generated_at": "2026-08-05T05:08:40.462Z",
+  "placements": [
+    {
+      "model_id": "bq-32f40b",
+      "model_path": "/modeli/bq-32f40b/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=zvae3ebvbni8gyoacrmf54dz19kryiwc&utm_referral_context=kakFYgHx3VESGOGMGq5L_qwB26uoyqjElV3xmO5Hl-9OuwQoj_aWIhcQR7fbw98IKwhcuaAxXBOIh_QOGRhPC6wM5k2hdxYefkevPCBZA24kXzbg31jZjlS_f023UcISS1HtVW6mmhZHuGSVw_4kdb9t7GSuUAgT5VoQv75Yeq2xq_gzgEbAcHT5kRzyGZpZ77dsZQqmE98cQjzhheVhooss1jcFC5jP&clid=15238076&vid=krepitvmodelbq32f40br01holderlcds50360fbd014e9f05&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-05T05:02:58.385Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5036",
+        "entity_kind": "mount",
+        "id": "model-bq-32f40b-r01-holder-lcds-5036",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5036/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/18082423/2a0000019c751e07fd72f523f7d4e237150e/optimize",
+        "publishable": true,
+        "title": "Кронштейн Holder LCDS-5036 металлик, 19\"-37\", макс.30кг, настенный, поворот/наклон",
+        "vid": "krepitvmodelbq32f40br01holderlcds50360fbd014e9f05"
+      },
+      "placement_id": "model-bq-32f40b-r01-holder-lcds-5036",
+      "rank": 1
+    },
+    {
+      "model_id": "bq-32f40b",
+      "model_path": "/modeli/bq-32f40b/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=kc95u6774f097tgcpj2zqpxnr9xrlzm7&utm_referral_context=gsY7YWrstzhwfsiLi0-qCrNRDlUBRwTqS95kGswApgYcJ52l-UjkGH6v1ZVVCh1HnQcJocmBsozdCpBNDgeqzwcgyFn20GVsdyLAGsmVe0tUu8_I3asOz2O105vHEsk0Xaoh73R88tFzKtRLEMgO7_NHWphVfWCntS6o5r3XT_fhplqcP8J8IJOwgkboURAli4cnxhNFVJtQEXLh-mjM0WezPafbPIjo&clid=15238076&vid=krepitvmodelbq32f40br02holderlcds50666af727706b25&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-05T05:02:59.146Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-bq-32f40b-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelbq32f40br02holderlcds50666af727706b25"
+      },
+      "placement_id": "model-bq-32f40b-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
+      "model_id": "bq-32f40b",
+      "model_path": "/modeli/bq-32f40b/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=9npr3j4a4qbv8fussvhcbw0goowxczoq&utm_referral_context=HEyIRMmPrUHHnxg9gJUgOfa3yRGuxU1qZ5E_HDlOZERmN-xkD_C1E4rIVen7YkaRvegIwnZG3e1zZbuBg2nwa5tZfZj2SSZv6ikSyyNCwkmzFl4PbyKRXaj5mh4AMU0zr1M9oK6sVuLFIesxsudfZ6t_U9u9b7eCT7S-uFecw3TbzDVcLpbMqSCQrwQLHNNMvSIdXw9zoXRWciMdNBS7D9Jv7xahOBDz&clid=15238076&vid=krepitvmodelbq32f40br03kromaxatlantis45672ce22c2bd0&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-05T05:02:59.926Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "kromax-atlantis-45",
+        "entity_kind": "mount",
+        "id": "model-bq-32f40b-r03-kromax-atlantis-45",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/kromax-atlantis-45/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/18207042/2a0000019a9b76101cbf1678097257740f59/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора настенный наклонно-поворотный Kromax ATLANTIS-45 / до 65 дюймов / vesa 400x400",
+        "vid": "krepitvmodelbq32f40br03kromaxatlantis45672ce22c2bd0"
+      },
+      "placement_id": "model-bq-32f40b-r03-kromax-atlantis-45",
+      "rank": 3
+    }
+  ],
   "schema_version": 1
 }

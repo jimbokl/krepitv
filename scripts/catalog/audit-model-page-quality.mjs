@@ -5,11 +5,13 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const DOCS = path.join(ROOT, "docs");
 
-const [models, mounts, market, graph, sitemap] = await Promise.all([
+const [models, mounts, market, graph, publicModelOffers, publicOffers, sitemap] = await Promise.all([
   readJson("data/tv_models.json"),
   readJson("data/mounts.json"),
   readJson("data/market_tv_models.json"),
   readJson("docs/data/compatibility-graph.json"),
+  readJson("data/affiliate/public-model-offers.json"),
+  readJson("data/affiliate/public-offers.json"),
   readFile(path.join(DOCS, "sitemap.xml"), "utf8"),
 ]);
 
@@ -26,6 +28,12 @@ const sitemapPaths = new Set(
 );
 const failures = [];
 const compatibleMountsByModel = new Map();
+const publicOffersByModel = new Map();
+const currentOfferMountIds = new Set(
+  publicOffers.offers
+    .filter((offer) => offer.entity_kind === "mount" && offer.publishable === true)
+    .map((offer) => offer.entity_id),
+);
 
 for (const edge of graph) {
   if (!edge.compatible || edge.fit_status !== "verified-fit") continue;
@@ -34,15 +42,36 @@ for (const edge of graph) {
   compatibleMountsByModel.set(edge.tv_id, group);
 }
 
+for (const placement of publicModelOffers.placements) {
+  const group = publicOffersByModel.get(placement.model_id) ?? [];
+  group.push(placement);
+  publicOffersByModel.set(placement.model_id, group);
+}
+
 for (const model of models) {
   const route = `/modeli/${model.id}/`;
   const matches = compatibleMountsByModel.get(model.id) ?? [];
+  const publicOffers = publicOffersByModel.get(model.id) ?? [];
   requireValue(model.source_url?.startsWith("https://"), model.id, "нет HTTPS-источника характеристик");
   requireValue(/^\d{4}-\d{2}-\d{2}$/u.test(model.checked_at), model.id, "нет даты проверки источника");
   requireValue(model.vesa_width_mm > 0 && model.vesa_height_mm > 0, model.id, "нет подтверждённого VESA");
   requireValue(model.weight_kg > 0, model.id, "нет паспортной массы для расчёта");
   requireValue(matches.length > 0, model.id, "нет ни одного проверенного кронштейна");
+  requireValue(publicOffers.length > 0, model.id, "нет ни одного актуального предложения крепежа Маркета");
   requireValue(sitemapPaths.has(route), model.id, "полная модель отсутствует в sitemap");
+
+  for (const placement of publicOffers) {
+    requireValue(
+      matches.includes(placement.offer.entity_id),
+      model.id,
+      `предложение Маркета ведёт на неподтверждённый кронштейн ${placement.offer.entity_id}`,
+    );
+    requireValue(
+      placement.offer.publishable === true,
+      model.id,
+      `предложение ${placement.placement_id} не прошло проверку доступности`,
+    );
+  }
 
   for (const mountId of matches) {
     const mount = mountsById.get(mountId);
@@ -69,6 +98,15 @@ for (const model of models) {
     matches.every((mountId) => html.includes(`/kronshteyny/${mountId}/`)),
     model.id,
     "на странице показаны не все проверенные кронштейны",
+  );
+  requireValue(
+    matches.some((mountId) => (
+      currentOfferMountIds.has(mountId)
+        && html.includes('data-entity-kind="mount"')
+        && html.includes(`data-entity-id="${escapeHtml(mountId)}"`)
+    )),
+    model.id,
+    "на странице нет слота для актуального предложения крепежа Яндекс Маркета",
   );
   requireValue(html.includes("Точная пара VESA"), model.id, "нет объяснения проверки точной VESA");
   requireValue(html.includes("запас 25%"), model.id, "нет объяснения запаса нагрузки 25%");
@@ -116,6 +154,8 @@ if (failures.length) {
 
 process.stdout.write(
   `Аудит пройден: ${models.length}/${models.length} паспортных моделей имеют проверенный крепёж; `
+    + `${publicOffersByModel.size}/${models.length} имеют актуальное предложение Яндекс Маркета `
+    + `(${publicModelOffers.placements.length} проверенных размещений); `
     + `${market.summary.verified_routes} наблюдений Маркета ведут на проверенные модели; `
     + `${market.summary.alias_routes} дублей закрыты от индекса и канонизированы; `
     + `${market.summary.observed_canonicals} неподтверждённых карточек безопасно закрыты от индекса без рекомендации крепежа.\n`,

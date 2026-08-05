@@ -15,6 +15,7 @@ const batchPaths = [
 ].map((relative) => path.join(ROOT, relative));
 
 const EXPECTED_PROMOTIONS = new Set([
+  "asano-32lh1110t",
   "bbk-32lem-1045-ts2c",
   "bbk-32lem-1075-ts2c",
   "bbk-32lex-7235-fts2c",
@@ -22,13 +23,34 @@ const EXPECTED_PROMOTIONS = new Set([
   "bbk-40lem-1030-fts2c",
   "bbk-43lex-7247-fts2c",
   "hi-hx-24h01fb",
+  "hi-hs-32f01fb",
+  "hi-ht-32h01fb",
+  "hi-hx-32h01fb",
   "hi-hx-43f01fb",
+  "hi-hy-40f01fb",
   "xiaomi-tv-a-pro-32-2026",
   "hisense-50e77sl-pro",
   "tuvio-td50ufbhh11",
+  "tuvio-td100ufbhh12",
   "candy-uno-43-uhd",
   "skyline-43lst6575",
   "candy-uno-32",
+]);
+
+const VERIFIED_SERIES = new Map([
+  ["asano-32lh1110t", "LH1110T"],
+  ["bbk-32lem-1045-ts2c", "LEM-1045"],
+  ["bbk-32lem-1075-ts2c", "LEM-1075"],
+  ["bbk-32lex-7235-fts2c", "LEX-7235"],
+  ["bbk-32lex-7244-ts2c", "LEX-7244"],
+  ["bbk-40lem-1030-fts2c", "LEM-1030"],
+  ["bbk-43lex-7247-fts2c", "LEX-7247"],
+  ["hi-hs-32f01fb", "HS"],
+  ["hi-ht-32h01fb", "HT"],
+  ["hi-hx-24h01fb", "HX"],
+  ["hi-hx-32h01fb", "HX"],
+  ["hi-hx-43f01fb", "HX"],
+  ["hi-hy-40f01fb", "HY"],
 ]);
 
 const readJson = async (file) => JSON.parse(await readFile(file, "utf8"));
@@ -39,7 +61,13 @@ const [register, marketResearch, marketManifest, ...batches] = await Promise.all
   ...batchPaths.map(readJson),
 ]);
 
-const rawRecords = batches.flatMap((batch) => Array.isArray(batch) ? batch : batch.records);
+const rawRecords = batches.flatMap((batch) => {
+  const records = Array.isArray(batch) ? batch : batch.records;
+  return records.map((record) => ({
+    ...record,
+    checked_at: record.checked_at ?? batch.checked_at,
+  }));
+});
 const verified = rawRecords.filter((record) => record.status === "verified");
 const verifiedIds = new Set(verified.map((record) => record.id));
 if (verified.length !== EXPECTED_PROMOTIONS.size
@@ -59,6 +87,9 @@ for (const record of verified) {
     if (record[field] === undefined) throw new Error(`${record.id}: отсутствует ${field}`);
   }
   if (!/^https:\/\//u.test(record.source_url)) throw new Error(`${record.id}: источник должен быть HTTPS`);
+  if (!(record.series?.trim() || VERIFIED_SERIES.has(record.id))) {
+    throw new Error(`${record.id}: серия должна быть подтверждена явно`);
+  }
   if (!(record.diagonal_inches > 0 && record.weight_kg > 0
     && record.width_mm > 0 && record.height_mm > 0 && record.depth_mm > 0
     && record.vesa_width_mm > 0 && record.vesa_height_mm > 0)) {
@@ -74,7 +105,7 @@ const operationalRecord = (record) => ({
   brand: record.brand,
   model: record.model,
   title: record.title,
-  series: record.series,
+  series: record.series ?? VERIFIED_SERIES.get(record.id),
   model_year: record.model_year,
   diagonal_inches: record.diagonal_inches,
   weight_kg: record.weight_kg,

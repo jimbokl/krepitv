@@ -172,6 +172,8 @@ test("model snapshot загружается только same-origin и филь
 test("model snapshot выбирает безопасный брендовый шард до сетевого запроса", async () => {
   assert.equal(modelOfferShardKey("tcl-65c7k"), "tcl");
   assert.equal(modelOfferShardKey("lg-oled65c5rla"), "lg");
+  assert.equal(modelOfferShardKey("samsung-qe55q7faauxru"), "samsung-qe");
+  assert.equal(modelOfferShardKey("samsung-ue55u8000fuxru"), "samsung-ue");
   assert.equal(modelOfferShardKey("../tcl-65c7k"), null);
   assert.equal(modelOfferShardKey("TCL-65C7K"), null);
 

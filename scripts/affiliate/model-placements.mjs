@@ -657,6 +657,18 @@ function validateModelSnapshot(snapshot, {
   if (!publicOnly && expected && snapshot.placements.length !== expected.size) {
     add(issues, "$.placements", "private snapshot must contain every manifest placement");
   }
+  if (publicOnly && Array.isArray(models)) {
+    const publishableModelIds = new Set(
+      snapshot.placements
+        .filter((entry) => entry.offer?.publishable === true)
+        .map((entry) => entry.model_id),
+    );
+    for (const model of models) {
+      if (!publishableModelIds.has(model.id)) {
+        add(issues, "$.placements", `missing a publishable offer for catalog model ${model.id}`);
+      }
+    }
+  }
   finish(issues);
 
   const standardSnapshot = {

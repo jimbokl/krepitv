@@ -122,8 +122,9 @@ export function MountPage({ catalog, mountId }) {
             </dl>
             <a
               className="mt-5 inline-flex items-center gap-2 font-semibold text-technical underline underline-offset-4"
+              data-market-source={mount.source_url.startsWith("https://market.yandex.ru/") ? "identity" : undefined}
               href={mount.source_url}
-              rel="noreferrer"
+              rel={mount.source_url.startsWith("https://market.yandex.ru/") ? "nofollow noopener noreferrer" : "noreferrer"}
               target="_blank"
             >
               Источник характеристик <LinkSimple aria-hidden="true" />
@@ -268,6 +269,7 @@ function mountContextLinks(mount) {
     itechmount: { href: "/kronshteyny-itechmount/", label: "Все кронштейны iTECHmount" },
     kromax: { href: "/kronshteyny-kromax/", label: "Все кронштейны KROMAX" },
     onkron: { href: "/kronshteyny-onkron/", label: "Все кронштейны ONKRON" },
+    godoo: { href: "/kronshteyny-godoo/", label: "Все кронштейны GoDoo" },
   }[brandKey];
   if (brandHub) {
     links.push(brandHub);

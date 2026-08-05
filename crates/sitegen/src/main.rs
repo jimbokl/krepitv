@@ -602,7 +602,7 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
         match page_id {
             "vesa" => (
                 "Размеры VESA популярных в России телевизоров",
-                "Проверяемая таблица из 145 точных моделей телевизора: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и источник паспорта.",
+                "Проверяемая таблица из 151 точной модели телевизора: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и источник паспорта.",
                 "KREPI-TV-RU-VESA-SIZES-2.1.0",
                 VESA_DATASET_VERSION,
                 VESA_DATASET_DOWNLOAD_BASE,
@@ -1295,6 +1295,7 @@ fn mounts_catalog_body(mounts: &[Mount]) -> String {
         .collect::<Vec<_>>();
     let items = brand_catalog_html(items, "Кронштейнов", "div", "border-b border-line");
     let brand_hubs = [
+        ("/kronshteyny-godoo/", "GoDoo"),
         ("/kronshteyny-onkron/", "ONKRON"),
         ("/kronshteyny-kromax/", "KROMAX"),
         ("/kronshteyny-holder/", "Holder"),
@@ -1848,6 +1849,7 @@ fn mount_page_body(
         "itechmount" => Some(("/kronshteyny-itechmount/", "Все кронштейны iTECHmount")),
         "kromax" => Some(("/kronshteyny-kromax/", "Все кронштейны KROMAX")),
         "onkron" => Some(("/kronshteyny-onkron/", "Все кронштейны ONKRON")),
+        "godoo" => Some(("/kronshteyny-godoo/", "Все кронштейны GoDoo")),
         _ => None,
     };
     if let Some(link) = brand_hub {
@@ -1871,9 +1873,14 @@ fn mount_page_body(
         .map(commercial_profile_html)
         .unwrap_or_default();
     let technical_scheme = mount_technical_scheme_html(mount);
+    let source_attributes = if mount.source_url.starts_with("https://market.yandex.ru/") {
+        "data-market-source=\"identity\" rel=\"nofollow noopener noreferrer\" target=\"_blank\""
+    } else {
+        "rel=\"noreferrer\" target=\"_blank\""
+    };
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{context_section}{commercial_section}{technical_scheme}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{context_section}{commercial_section}{technical_scheme}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" {source_attributes}>Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -1884,6 +1891,7 @@ fn mount_page_body(
         checked_at = escape_html(&mount.checked_at),
         source = escape_html(&mount.source_url),
         source_label = escape_html(&mount.source_label),
+        source_attributes = source_attributes,
         affiliate_section = affiliate_section,
         context_section = context_section,
         commercial_section = commercial_section,
@@ -1913,6 +1921,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             "mount-brand-kromax",
             "mount-brand-holder",
             "mount-brand-itechmount",
+            "mount-brand-godoo",
         ]
     } else if page.kind == "brand" {
         &[
@@ -3759,8 +3768,8 @@ fn validate_commercial_profiles(
     );
     assert_eq!(
         file.profiles.len(),
-        32,
-        "SEO-серия должна содержать ровно 32 проверенных профиля"
+        33,
+        "SEO-серия должна содержать ровно 33 проверенных профиля"
     );
 
     let expected = [
@@ -3796,6 +3805,7 @@ fn validate_commercial_profiles(
         "model:tcl-55p6k",
         "model:tcl-55p7k",
         "model:tcl-43s5k",
+        "model:tuvio-td100ufbhh12",
     ]
     .into_iter()
     .collect::<HashSet<_>>();
@@ -4565,13 +4575,28 @@ fn main() {
 }
 
 fn model_offer_shard_key(model_id: &str) -> &str {
-    let key = model_id.split('-').next().unwrap_or_default();
+    let key = if model_id
+        .strip_prefix("samsung-qe")
+        .is_some_and(|rest| rest.starts_with(|character: char| character.is_ascii_digit()))
+    {
+        "samsung-qe"
+    } else if model_id
+        .strip_prefix("samsung-ue")
+        .is_some_and(|rest| rest.starts_with(|character: char| character.is_ascii_digit()))
+    {
+        "samsung-ue"
+    } else {
+        model_id.split('-').next().unwrap_or_default()
+    };
     assert!(
         key.len() >= 2
             && key.len() <= 40
+            && !key.starts_with('-')
+            && !key.ends_with('-')
+            && !key.contains("--")
             && key
                 .bytes()
-                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit()),
+                .all(|byte| { byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-' }),
         "Идентификатор модели не даёт безопасный ключ шарда: {model_id}"
     );
     key
@@ -4673,6 +4698,11 @@ mod tests {
     fn model_offer_shards_use_only_safe_brand_keys() {
         assert_eq!(model_offer_shard_key("tcl-65c7k"), "tcl");
         assert_eq!(model_offer_shard_key("lg-oled65c5rla"), "lg");
+        assert_eq!(model_offer_shard_key("samsung-qe55q7faauxru"), "samsung-qe");
+        assert_eq!(
+            model_offer_shard_key("samsung-ue55u8000fuxru"),
+            "samsung-ue"
+        );
         assert!(std::panic::catch_unwind(|| model_offer_shard_key("TCL-65C7K")).is_err());
         assert!(std::panic::catch_unwind(|| model_offer_shard_key("../tcl-65c7k")).is_err());
     }
@@ -4963,9 +4993,11 @@ mod tests {
         assert!(catalog_html.contains(
             "Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">27"
         ));
-        assert!(catalog_html.contains("data-searchable-model-count=\"145\""));
-        assert!(catalog_html.contains("data-model-search-count=\"145\""));
-        assert_eq!(catalog_html.matches("<option value=").count(), 145);
+        assert!(
+            catalog_html.contains(&format!("data-searchable-model-count=\"{}\"", models.len()))
+        );
+        assert!(catalog_html.contains(&format!("data-model-search-count=\"{}\"", models.len())));
+        assert_eq!(catalog_html.matches("<option value=").count(), models.len());
         assert!(catalog_html.contains("data-known-model-fallback=\"true\""));
         assert!(catalog_html.contains("паспорт винтов ещё не подтверждён"));
         assert!(
@@ -5134,10 +5166,20 @@ mod tests {
         let html = seo_vesa_model_catalog_html(&models, &graph);
 
         assert!(html.contains("data-vesa-model-catalog=\"true\""));
-        assert!(html.contains("data-searchable-model-count=\"145\""));
-        assert!(html.contains("data-vesa-model-search-count=\"145\""));
-        assert_eq!(html.matches("<option value=").count(), 145);
-        assert_eq!(html.matches("<details").count(), 21);
+        assert!(html.contains(&format!("data-searchable-model-count=\"{}\"", models.len())));
+        assert!(html.contains(&format!(
+            "data-vesa-model-search-count=\"{}\"",
+            models.len()
+        )));
+        assert_eq!(html.matches("<option value=").count(), models.len());
+        assert_eq!(
+            html.matches("<details").count(),
+            models
+                .iter()
+                .map(|model| model.brand.as_str())
+                .collect::<std::collections::HashSet<_>>()
+                .len()
+        );
         assert!(html.contains("Таблица VESA телевизоров"));
         assert!(html.contains("href=\"/data/tv-vesa-sizes.csv\""));
         assert!(html.contains("GitHub release 2.1.0"));
@@ -5183,7 +5225,7 @@ mod tests {
         ] {
             assert!(html.contains(&format!("data-home-tv-diagnostic=\"{id}\"")));
         }
-        assert!(html.contains("Точные модели с источниками · 145"));
+        assert!(html.contains(&format!("Точные модели с источниками · {}", models.len())));
         assert!(html.contains("href=\"/modeli/\""));
         assert!(html.contains("href=\"/kronshteyny/\""));
         for model in &models {
@@ -5883,6 +5925,7 @@ mod tests {
         );
 
         for (page_id, brand) in [
+            ("mount-brand-godoo", "GoDoo"),
             ("mount-brand-kromax", "KROMAX"),
             ("mount-brand-holder", "Holder"),
             ("mount-brand-itechmount", "iTECHmount"),
@@ -5937,6 +5980,7 @@ mod tests {
         let html = mounts_catalog_body(&mounts);
 
         for path in [
+            "/kronshteyny-godoo/",
             "/kronshteyny-onkron/",
             "/kronshteyny-kromax/",
             "/kronshteyny-holder/",
@@ -5985,7 +6029,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
 
         validate_commercial_profiles(&profiles, &models, &mounts, &graph);
-        assert_eq!(profiles.profiles.len(), 32);
+        assert_eq!(profiles.profiles.len(), 33);
 
         for profile in &profiles.profiles {
             let marker = format!(
@@ -6035,7 +6079,7 @@ mod tests {
                 .iter()
                 .filter(|matched| matched.compatible && matched.fit_status == "verified-fit")
                 .count(),
-            16
+            17
         );
         assert_eq!(
             tcl_matches
@@ -6055,11 +6099,11 @@ mod tests {
             &seo_pages,
             Some(tcl_profile),
         );
-        assert!(tcl_body.contains("Подтверждено: 16"));
+        assert!(tcl_body.contains("Подтверждено: 17"));
         assert!(tcl_body.contains("Дополнительно условных вариантов: 3"));
         assert!(tcl_body.contains("Карточки магазинов противоречат друг другу"));
         assert!(tcl_body.contains("400×200 или 200×300"));
-        assert!(!tcl_body.contains(">18 вариантов<"));
+        assert!(!tcl_body.contains(">19 вариантов<"));
 
         let lg_oled55c5 = models
             .iter()
@@ -6555,6 +6599,7 @@ mod tests {
                 "iTECHmount" => "/kronshteyny-itechmount/",
                 "KROMAX" => "/kronshteyny-kromax/",
                 "ONKRON" => "/kronshteyny-onkron/",
+                "GoDoo" => "/kronshteyny-godoo/",
                 other => panic!("Нет брендового хаба для {other}"),
             };
             assert!(body.contains(brand_path));

@@ -6,6 +6,7 @@ import { modelHref, mountHref } from "../lib/catalog.js";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
 
 const mountBrandHubs = [
+  { href: "/kronshteyny-godoo/", label: "GoDoo" },
   { href: "/kronshteyny-onkron/", label: "ONKRON" },
   { href: "/kronshteyny-kromax/", label: "KROMAX" },
   { href: "/kronshteyny-holder/", label: "Holder" },

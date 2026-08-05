@@ -32,7 +32,7 @@ const operationalModel = (row) => ({
 });
 
 test("verified source register is the exact operational catalog source", () => {
-  assert.equal(register.length, 145);
+  assert.equal(register.length, 151);
   assert.equal(new Set(register.map((row) => row.id)).size, register.length);
   assert.equal(new Set(register.map((row) => row.model)).size, register.length);
   assert.deepEqual(
@@ -64,7 +64,7 @@ test("verified source register is the exact operational catalog source", () => {
 });
 
 test("verified mount register excludes unresolved identities and drives the catalog", () => {
-  assert.equal(mountRegister.length, 24);
+  assert.equal(mountRegister.length, 25);
   assert.equal(new Set(mountRegister.map((row) => row.id)).size, mountRegister.length);
   assert.equal(new Set(mountRegister.map((row) => row.source_url)).size, mountRegister.length);
   assert.deepEqual(
@@ -127,7 +127,7 @@ test("revenue-weighted mount wave preserves exact verified SKUs and specificatio
       vesa: ["75x75", "100x100", "100x200", "200x100", "200x200", "200x300", "200x400", "300x100", "300x200", "300x300", "300x400", "400x200", "400x300", "400x400"],
     },
     "onkron-uf4": {
-      model: "UF4-B",
+      model: "UF4",
       mechanism: "fixed",
       diagonal: [55, 100],
       load: 80,

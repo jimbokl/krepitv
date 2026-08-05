@@ -2870,8 +2870,8 @@
     "depth_mm": 60,
     "vesa_width_mm": 200,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem-1045_ts2c/",
-    "source_label": "Официальная карточка BBK 32LEM-1045/TS2C",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1045_ts2c/",
+    "source_label": "Официальная карточка BBK",
     "checked_at": "2026-08-05"
   },
   {
@@ -2889,8 +2889,8 @@
     "depth_mm": 74,
     "vesa_width_mm": 100,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem-1075_ts2c/",
-    "source_label": "Официальная карточка BBK 32LEM-1075/TS2C",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1075_ts2c/",
+    "source_label": "Официальная карточка BBK",
     "checked_at": "2026-08-05"
   },
   {
@@ -2908,8 +2908,8 @@
     "depth_mm": 79,
     "vesa_width_mm": 100,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex-7235_fts2c/",
-    "source_label": "Официальная карточка BBK 32LEX-7235/FTS2C",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7235_fts2c/",
+    "source_label": "Официальная карточка BBK",
     "checked_at": "2026-08-05"
   },
   {
@@ -2927,8 +2927,8 @@
     "depth_mm": 60,
     "vesa_width_mm": 200,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex-7244_ts2c/",
-    "source_label": "Официальная карточка BBK 32LEX-7244/TS2C",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7244_ts2c/",
+    "source_label": "Официальная карточка BBK",
     "checked_at": "2026-08-05"
   },
   {
@@ -2946,8 +2946,8 @@
     "depth_mm": 74,
     "vesa_width_mm": 100,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem-1030_fts2c/",
-    "source_label": "Официальная карточка BBK 40LEM-1030/FTS2C",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem_1030_fts2c/",
+    "source_label": "Официальная карточка BBK",
     "checked_at": "2026-08-05"
   },
   {
@@ -2965,8 +2965,8 @@
     "depth_mm": 82,
     "vesa_width_mm": 200,
     "vesa_height_mm": 100,
-    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex-7247_fts2c/",
-    "source_label": "Официальная карточка BBK 43LEX-7247/FTS2C",
+    "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex_7247_fts2c/",
+    "source_label": "Официальная карточка BBK",
     "checked_at": "2026-08-05"
   },
   {
@@ -2985,7 +2985,7 @@
     "vesa_width_mm": 100,
     "vesa_height_mm": 100,
     "source_url": "https://static.mvideo.ru/ins/10033080.pdf",
-    "source_label": "Руководство по эксплуатации Hi HX-24H01FB",
+    "source_label": "Официальная инструкция Hi",
     "checked_at": "2026-08-05"
   },
   {
@@ -3004,7 +3004,7 @@
     "vesa_width_mm": 200,
     "vesa_height_mm": 200,
     "source_url": "https://static.mvideo.ru/ins/10033083.pdf",
-    "source_label": "Руководство по эксплуатации Hi HX-43F01FB",
+    "source_label": "Официальная инструкция Hi",
     "checked_at": "2026-08-05"
   },
   {
@@ -3129,6 +3129,115 @@
     },
     "source_url": "https://manual.holod.ru/manual/337/1096211_8140811.pdf",
     "source_label": "Руководство пользователя Candy Uno 32, стр. 7 и 23",
+    "checked_at": "2026-08-05"
+  },
+  {
+    "id": "hi-hs-32f01fb",
+    "brand": "Hi",
+    "model": "HS-32F01FB",
+    "title": "Hi HS-32F01FB",
+    "series": "HS",
+    "model_year": 2025,
+    "diagonal_inches": 32,
+    "weight_kg": 3.6,
+    "width_mm": 718,
+    "height_mm": 421.6,
+    "depth_mm": 83.2,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://static.mvideo.ru/ins/400514044.pdf",
+    "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда",
+    "checked_at": "2026-08-05"
+  },
+  {
+    "id": "hi-ht-32h01fb",
+    "brand": "Hi",
+    "model": "HT-32H01FB",
+    "title": "Hi HT-32H01FB",
+    "series": "HT",
+    "model_year": 2024,
+    "diagonal_inches": 32,
+    "weight_kg": 3.3,
+    "width_mm": 715.7,
+    "height_mm": 426.1,
+    "depth_mm": 78.5,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://www.mvideo.ru/bff/product-details?productId=10033074",
+    "source_label": "Официальная карточка Hi на сайте владельца бренда",
+    "checked_at": "2026-08-05"
+  },
+  {
+    "id": "hi-hx-32h01fb",
+    "brand": "Hi",
+    "model": "HX-32H01FB",
+    "title": "Hi HX-32H01FB",
+    "series": "HX",
+    "model_year": 2024,
+    "diagonal_inches": 32,
+    "weight_kg": 3.3,
+    "width_mm": 715.7,
+    "height_mm": 426.1,
+    "depth_mm": 78.5,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.mvideo.ru/bff/product-details?productId=10033073",
+    "source_label": "Официальная карточка Hi на сайте владельца бренда",
+    "checked_at": "2026-08-05"
+  },
+  {
+    "id": "hi-hy-40f01fb",
+    "brand": "Hi",
+    "model": "HY-40F01FB",
+    "title": "Hi HY-40F01FB",
+    "series": "HY",
+    "model_year": 2024,
+    "diagonal_inches": 40,
+    "weight_kg": 4.5,
+    "width_mm": 892.2,
+    "height_mm": 512.4,
+    "depth_mm": 71.2,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 100,
+    "source_url": "https://static.mvideo.ru/ins/10033082.pdf",
+    "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда",
+    "checked_at": "2026-08-05"
+  },
+  {
+    "id": "tuvio-td100ufbhh12",
+    "brand": "Tuvio",
+    "model": "TD100UFBHH12",
+    "title": "Tuvio TD100UFBHH12",
+    "series": "TD UFBHH12",
+    "model_year": null,
+    "diagonal_inches": 100,
+    "weight_kg": 62.8,
+    "width_mm": 2232,
+    "height_mm": 1282,
+    "depth_mm": 101,
+    "vesa_width_mm": 800,
+    "vesa_height_mm": 400,
+    "source_url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
+    "source_label": "Официальная карточка Tuvio TD100UFBHH12",
+    "checked_at": "2026-08-05"
+  },
+  {
+    "id": "asano-32lh1110t",
+    "brand": "Asano",
+    "model": "32LH1110T",
+    "title": "Asano 32LH1110T",
+    "series": "LH1110T",
+    "model_year": null,
+    "diagonal_inches": 32,
+    "weight_kg": 4.25,
+    "weight_basis": "published_unspecified",
+    "width_mm": 730,
+    "height_mm": 465,
+    "depth_mm": 177,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.technopark.ru/photos/768718/instruction/instrukciya-televizor-asano-32lh1110t-768718.pdf",
+    "source_label": "Руководство по эксплуатации Asano 32LH1110T, стр. 4–5",
     "checked_at": "2026-08-05"
   }
 ]

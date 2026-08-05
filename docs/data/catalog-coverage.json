@@ -2241,9 +2241,9 @@
       "series": "LEM-1045",
       "diagonal_inches": 31.5,
       "model_year": null,
-      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem-1045_ts2c/",
-      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem-1045_ts2c/",
-      "dimension_source_label": "Официальная карточка BBK 32LEM-1045/TS2C",
+      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1045_ts2c/",
+      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1045_ts2c/",
+      "dimension_source_label": "Официальная карточка BBK",
       "checked_at": "2026-08-05"
     },
     {
@@ -2252,9 +2252,9 @@
       "series": "LEM-1075",
       "diagonal_inches": 31.5,
       "model_year": null,
-      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem-1075_ts2c/",
-      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem-1075_ts2c/",
-      "dimension_source_label": "Официальная карточка BBK 32LEM-1075/TS2C",
+      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1075_ts2c/",
+      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1075_ts2c/",
+      "dimension_source_label": "Официальная карточка BBK",
       "checked_at": "2026-08-05"
     },
     {
@@ -2263,9 +2263,9 @@
       "series": "LEX-7235",
       "diagonal_inches": 32,
       "model_year": null,
-      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex-7235_fts2c/",
-      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex-7235_fts2c/",
-      "dimension_source_label": "Официальная карточка BBK 32LEX-7235/FTS2C",
+      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7235_fts2c/",
+      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7235_fts2c/",
+      "dimension_source_label": "Официальная карточка BBK",
       "checked_at": "2026-08-05"
     },
     {
@@ -2274,9 +2274,9 @@
       "series": "LEX-7244",
       "diagonal_inches": 31.5,
       "model_year": null,
-      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex-7244_ts2c/",
-      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex-7244_ts2c/",
-      "dimension_source_label": "Официальная карточка BBK 32LEX-7244/TS2C",
+      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7244_ts2c/",
+      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7244_ts2c/",
+      "dimension_source_label": "Официальная карточка BBK",
       "checked_at": "2026-08-05"
     },
     {
@@ -2285,9 +2285,9 @@
       "series": "LEM-1030",
       "diagonal_inches": 40,
       "model_year": null,
-      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem-1030_fts2c/",
-      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem-1030_fts2c/",
-      "dimension_source_label": "Официальная карточка BBK 40LEM-1030/FTS2C",
+      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem_1030_fts2c/",
+      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem_1030_fts2c/",
+      "dimension_source_label": "Официальная карточка BBK",
       "checked_at": "2026-08-05"
     },
     {
@@ -2296,9 +2296,9 @@
       "series": "LEX-7247",
       "diagonal_inches": 43,
       "model_year": null,
-      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex-7247_fts2c/",
-      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex-7247_fts2c/",
-      "dimension_source_label": "Официальная карточка BBK 43LEX-7247/FTS2C",
+      "catalog_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex_7247_fts2c/",
+      "dimension_source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex_7247_fts2c/",
+      "dimension_source_label": "Официальная карточка BBK",
       "checked_at": "2026-08-05"
     },
     {
@@ -2309,7 +2309,7 @@
       "model_year": null,
       "catalog_source_url": "https://static.mvideo.ru/ins/10033080.pdf",
       "dimension_source_url": "https://static.mvideo.ru/ins/10033080.pdf",
-      "dimension_source_label": "Руководство по эксплуатации Hi HX-24H01FB",
+      "dimension_source_label": "Официальная инструкция Hi",
       "checked_at": "2026-08-05"
     },
     {
@@ -2320,7 +2320,7 @@
       "model_year": null,
       "catalog_source_url": "https://static.mvideo.ru/ins/10033083.pdf",
       "dimension_source_url": "https://static.mvideo.ru/ins/10033083.pdf",
-      "dimension_source_label": "Руководство по эксплуатации Hi HX-43F01FB",
+      "dimension_source_label": "Официальная инструкция Hi",
       "checked_at": "2026-08-05"
     },
     {
@@ -2387,6 +2387,72 @@
       "catalog_source_url": "https://manual.holod.ru/manual/337/1096211_8140811.pdf",
       "dimension_source_url": "https://manual.holod.ru/manual/337/1096211_8140811.pdf",
       "dimension_source_label": "Руководство пользователя Candy Uno 32, стр. 7 и 23",
+      "checked_at": "2026-08-05"
+    },
+    {
+      "model_id": "hi-hs-32f01fb",
+      "brand": "Hi",
+      "series": "HS",
+      "diagonal_inches": 32,
+      "model_year": 2025,
+      "catalog_source_url": "https://static.mvideo.ru/ins/400514044.pdf",
+      "dimension_source_url": "https://static.mvideo.ru/ins/400514044.pdf",
+      "dimension_source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда",
+      "checked_at": "2026-08-05"
+    },
+    {
+      "model_id": "hi-ht-32h01fb",
+      "brand": "Hi",
+      "series": "HT",
+      "diagonal_inches": 32,
+      "model_year": 2024,
+      "catalog_source_url": "https://www.mvideo.ru/bff/product-details?productId=10033074",
+      "dimension_source_url": "https://www.mvideo.ru/bff/product-details?productId=10033074",
+      "dimension_source_label": "Официальная карточка Hi на сайте владельца бренда",
+      "checked_at": "2026-08-05"
+    },
+    {
+      "model_id": "hi-hx-32h01fb",
+      "brand": "Hi",
+      "series": "HX",
+      "diagonal_inches": 32,
+      "model_year": 2024,
+      "catalog_source_url": "https://www.mvideo.ru/bff/product-details?productId=10033073",
+      "dimension_source_url": "https://www.mvideo.ru/bff/product-details?productId=10033073",
+      "dimension_source_label": "Официальная карточка Hi на сайте владельца бренда",
+      "checked_at": "2026-08-05"
+    },
+    {
+      "model_id": "hi-hy-40f01fb",
+      "brand": "Hi",
+      "series": "HY",
+      "diagonal_inches": 40,
+      "model_year": 2024,
+      "catalog_source_url": "https://static.mvideo.ru/ins/10033082.pdf",
+      "dimension_source_url": "https://static.mvideo.ru/ins/10033082.pdf",
+      "dimension_source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда",
+      "checked_at": "2026-08-05"
+    },
+    {
+      "model_id": "tuvio-td100ufbhh12",
+      "brand": "Tuvio",
+      "series": "TD UFBHH12",
+      "diagonal_inches": 100,
+      "model_year": null,
+      "catalog_source_url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
+      "dimension_source_url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
+      "dimension_source_label": "Официальная карточка Tuvio TD100UFBHH12",
+      "checked_at": "2026-08-05"
+    },
+    {
+      "model_id": "asano-32lh1110t",
+      "brand": "Asano",
+      "series": "LH1110T",
+      "diagonal_inches": 32,
+      "model_year": null,
+      "catalog_source_url": "https://www.technopark.ru/photos/768718/instruction/instrukciya-televizor-asano-32lh1110t-768718.pdf",
+      "dimension_source_url": "https://www.technopark.ru/photos/768718/instruction/instrukciya-televizor-asano-32lh1110t-768718.pdf",
+      "dimension_source_label": "Руководство по эксплуатации Asano 32LH1110T, стр. 4–5",
       "checked_at": "2026-08-05"
     }
   ]

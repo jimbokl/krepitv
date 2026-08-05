@@ -115,6 +115,7 @@ function preferredRelatedIds(pageId) {
       "mount-brand-kromax",
       "mount-brand-holder",
       "mount-brand-itechmount",
+      "mount-brand-godoo",
     ];
   }
   if (pageId.startsWith("brand-")) {

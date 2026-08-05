@@ -17,7 +17,7 @@ const trafficPagesUpdatedAt = "2026-08-01";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 230;
+const baselineIndexableUrlCount = 237;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -40,6 +40,7 @@ const expectedCommercialProfiles = new Set([
   "mount:itech-ptrb440ln:/kronshteyny/itech-ptrb440ln/",
   "mount:itech-slt-460:/kronshteyny/itech-slt-460/",
   "model:tcl-55c6k:/modeli/tcl-55c6k/",
+  "model:tuvio-td100ufbhh12:/modeli/tuvio-td100ufbhh12/",
   "model:tcl-55c7l:/modeli/tcl-55c7l/",
   "model:hisense-55u7s:/modeli/hisense-55u7s/",
   "model:hisense-65u7s:/modeli/hisense-65u7s/",
@@ -507,8 +508,14 @@ if (
 }
 
 const modelOfferShardKey = (modelId) => {
-  const key = typeof modelId === "string" ? modelId.split("-", 1)[0] : "";
-  if (!/^[a-z0-9]{2,40}$/u.test(key)) {
+  const key = typeof modelId !== "string"
+    ? ""
+    : /^samsung-qe\d/u.test(modelId)
+      ? "samsung-qe"
+      : /^samsung-ue\d/u.test(modelId)
+        ? "samsung-ue"
+        : modelId.split("-", 1)[0];
+  if (!/^[a-z0-9]{2,20}(?:-[a-z0-9]{2,20})?$/u.test(key)) {
     throw new Error(`Небезопасный ключ шарда модельного оффера: ${modelId}`);
   }
   return key;
@@ -806,6 +813,7 @@ const expectedConservativeWeightBasis = new Map([
   ["tuvio-td32hfbch12", "with_stand"],
   ["tuvio-td55ufbth51", "published_unspecified"],
   ["tuvio-td24hbch11", "with_stand"],
+  ["asano-32lh1110t", "published_unspecified"],
 ]);
 for (const model of models) {
   assertHttpsSource(model, `Модель ${model.id}`);
@@ -1567,8 +1575,8 @@ if (!screwLookupHtml.includes('data-screw-catalog="true"') || !screwLookupHtml.i
   throw new Error("Страница подбора винтов не содержит самостоятельный сворачиваемый каталог");
 }
 for (const required of [
-  'data-searchable-model-count="145"',
-  'data-model-search-count="145"',
+  `data-searchable-model-count="${models.length}"`,
+  `data-model-search-count="${models.length}"`,
   'data-known-model-fallback="true"',
   "паспорт винтов ещё не подтверждён",
   "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.1.0/tv-vesa-screws.csv",
@@ -1739,8 +1747,8 @@ if (
 const vesaLookupHtml = htmlByRoute.get(vesaLookupPage.path) ?? "";
 for (const required of [
   'data-vesa-model-catalog="true"',
-  'data-searchable-model-count="145"',
-  'data-vesa-model-search-count="145"',
+  `data-searchable-model-count="${models.length}"`,
+  `data-vesa-model-search-count="${models.length}"`,
   "Найдите VESA по модели телевизора",
   "Таблица VESA телевизоров",
   "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.1.0/tv-vesa-sizes.csv",

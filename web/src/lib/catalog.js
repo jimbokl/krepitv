@@ -146,8 +146,12 @@ export function modelOfferShardKey(modelId) {
   if (typeof modelId !== "string" || !/^[a-z0-9][a-z0-9-]{2,79}$/u.test(modelId)) {
     return null;
   }
-  const key = modelId.split("-", 1)[0];
-  return /^[a-z0-9]{2,40}$/u.test(key) ? key : null;
+  const key = /^samsung-qe\d/u.test(modelId)
+    ? "samsung-qe"
+    : /^samsung-ue\d/u.test(modelId)
+      ? "samsung-ue"
+      : modelId.split("-", 1)[0];
+  return /^[a-z0-9]{2,20}(?:-[a-z0-9]{2,20})?$/u.test(key) ? key : null;
 }
 
 async function loadSameOriginSnapshot({ fetchImpl, now, origin, path, parse }) {

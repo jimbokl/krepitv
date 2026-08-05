@@ -376,6 +376,21 @@ test("builds complete private decisions and a publishable public subset", () => 
     allowExampleHosts: true,
   });
 
+  const missingModel = structuredClone(publicSnapshot);
+  missingModel.placements = missingModel.placements.filter(
+    (placement) => placement.model_id !== "model-beta",
+  );
+  assert.throws(
+    () => validateModelPublicSnapshot(missingModel, {
+      manifest,
+      source,
+      models,
+      catalogMounts,
+      allowExampleHosts: true,
+    }),
+    /missing a publishable offer for catalog model model-beta/,
+  );
+
   const tampered = structuredClone(publicSnapshot);
   tampered.placements[0].model_path = "/modeli/another-model/";
   assert.throws(
@@ -390,7 +405,7 @@ test("builds complete private decisions and a publishable public subset", () => 
   );
 });
 
-test("real catalog produces deterministic top-three placements for all 145 models", async () => {
+test("real catalog produces deterministic top-three placements for all 151 models", async () => {
   const [realSource, realModels, realMounts, rustGraph] = await Promise.all([
     readFile(new URL("../../data/affiliate/market-products.json", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../../data/tv_models.json", import.meta.url), "utf8").then(JSON.parse),
@@ -402,9 +417,9 @@ test("real catalog produces deterministic top-three placements for all 145 model
     models: realModels,
     catalogMounts: realMounts,
   });
-  assert.equal(realModels.length, 145);
-  assert.equal(generated.models.length, 145);
-  assert.equal(generated.expected_offer_count, 430);
+  assert.equal(realModels.length, 151);
+  assert.equal(generated.models.length, 151);
+  assert.equal(generated.expected_offer_count, 452);
   assert.equal(
     generated.models.every((entry) =>
       entry.expected_offer_count >= 1 &&
@@ -416,13 +431,7 @@ test("real catalog produces deterministic top-three placements for all 145 model
     generated.models
       .filter((entry) => entry.expected_offer_count < 3)
       .map((entry) => [entry.model_id, entry.expected_offer_count]),
-    [
-      ["hisense-85e7s", 2],
-      ["samsung-qe77s85faexru", 2],
-      ["samsung-qe85q7faauxru", 2],
-      ["samsung-qe85qef1auxru", 2],
-      ["samsung-ue85u8000fuxru", 2],
-    ],
+    [["tuvio-td100ufbhh12", 2]],
   );
   assert.equal(
     generated.models
@@ -434,7 +443,7 @@ test("real catalog produces deterministic top-three placements for all 145 model
   );
   assert.equal(
     new Set(generated.models.flatMap((entry) => entry.placements.map((placement) => placement.vid))).size,
-    430,
+    452,
   );
   const sourceBackedMounts = new Set(realSource.cards.map((card) => card.entity_id));
   for (const modelEntry of generated.models) {
@@ -459,7 +468,7 @@ test("CLI writes canonical output and --check detects any byte drift", async () 
   try {
     const written = await runGenerateModelPlacements(["--out", output]);
     assert.equal(written.status, "written");
-    assert.equal(written.manifest.models.length, 145);
+    assert.equal(written.manifest.models.length, 151);
     const current = await runGenerateModelPlacements(["--check", output]);
     assert.equal(current.status, "current");
 

@@ -6,8 +6,8 @@
   "summary": {
     "market_observations": 133,
     "unique_identities": 126,
-    "verified_routes": 67,
-    "observed_canonicals": 59,
+    "verified_routes": 73,
+    "observed_canonicals": 53,
     "indexable_observed_canonicals": 0,
     "alias_routes": 7,
     "low_confidence_routes": 9
@@ -19,9 +19,9 @@
       "canonical_id": "hi-ht-32h01fb",
       "canonical_path": "/modeli/hi-ht-32h01fb/",
       "route_path": "/modeli/hi-ht-32h01fb/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hi",
       "model": "HT-32H01FB",
       "title": "Hi HT-32H01FB",
@@ -36,7 +36,7 @@
       "observed_rank": 1,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hi-ht-32h01fb",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -591,9 +591,9 @@
       "canonical_id": "hi-hy-40f01fb",
       "canonical_path": "/modeli/hi-hy-40f01fb/",
       "route_path": "/modeli/hi-hy-40f01fb/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hi",
       "model": "HY-40F01FB",
       "title": "Hi HY-40F01FB",
@@ -608,7 +608,7 @@
       "observed_rank": 23,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hi-hy-40f01fb",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -1969,9 +1969,9 @@
       "canonical_id": "hi-hs-32f01fb",
       "canonical_path": "/modeli/hi-hs-32f01fb/",
       "route_path": "/modeli/hi-hs-32f01fb/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hi",
       "model": "HS-32F01FB",
       "title": "Hi HS-32F01FB",
@@ -1986,7 +1986,7 @@
       "observed_rank": 76,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hi-hs-32f01fb",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -2671,9 +2671,9 @@
       "canonical_id": "asano-32lh1110t",
       "canonical_path": "/modeli/asano-32lh1110t/",
       "route_path": "/modeli/asano-32lh1110t/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Asano",
       "model": "32LH1110T",
       "title": "Asano 32LH1110T",
@@ -2688,7 +2688,7 @@
       "observed_rank": 103,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "asano-32lh1110t",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -2853,9 +2853,9 @@
       "canonical_id": "tuvio-td100ufbhh12",
       "canonical_path": "/modeli/tuvio-td100ufbhh12/",
       "route_path": "/modeli/tuvio-td100ufbhh12/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Tuvio",
       "model": "TD100UFBHH12",
       "title": "Tuvio TD100UFBHH12",
@@ -2870,7 +2870,7 @@
       "observed_rank": 110,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "tuvio-td100ufbhh12",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3191,9 +3191,9 @@
       "canonical_id": "hi-hx-32h01fb",
       "canonical_path": "/modeli/hi-hx-32h01fb/",
       "route_path": "/modeli/hi-hx-32h01fb/",
-      "page_kind": "observed",
+      "page_kind": "verified",
       "indexable": false,
-      "identity_confidence": "high",
+      "identity_confidence": "verified",
       "brand": "Hi",
       "model": "HX-32H01FB",
       "title": "Hi HX-32H01FB",
@@ -3208,7 +3208,7 @@
       "observed_rank": 123,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": null,
+      "verified_model_id": "hi-hx-32h01fb",
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3472,5 +3472,5 @@
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     }
   ],
-  "batch_sha256": "a2a067e9f2a18ff026b00d59015b99a60b7efda3d0fd56388b866a5a61320f87"
+  "batch_sha256": "88f262743e33851c6ea071c4cd66f976129b2c661f54e9124f4f7e7857e762aa"
 }
