@@ -27,11 +27,12 @@ const mountOperationalFields = [
 ];
 const operationalModel = (row) => ({
   ...Object.fromEntries(operationalFields.map((field) => [field, row[field]])),
+  ...(row.weight_basis ? { weight_basis: row.weight_basis } : {}),
   ...(row.wall_mount_screws ? { wall_mount_screws: row.wall_mount_screws } : {}),
 });
 
 test("verified source register is the exact operational catalog source", () => {
-  assert.equal(register.length, 132);
+  assert.equal(register.length, 131);
   assert.equal(new Set(register.map((row) => row.id)).size, register.length);
   assert.equal(new Set(register.map((row) => row.model)).size, register.length);
   assert.deepEqual(

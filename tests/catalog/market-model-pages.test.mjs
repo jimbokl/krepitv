@@ -31,8 +31,8 @@ test("real Market snapshot resolves all observations without unverified compatib
   const generated = buildMarketModelPages(research, verifiedModels);
   assert.deepEqual(committed, generated);
   assert.equal(generated.records.length, 133);
-  assert.equal(generated.summary.verified_routes, 54);
-  assert.equal(generated.summary.observed_canonicals, 72);
+  assert.equal(generated.summary.verified_routes, 53);
+  assert.equal(generated.summary.observed_canonicals, 73);
   assert.equal(generated.summary.alias_routes, 7);
   assert.equal(generated.summary.indexable_observed_canonicals, 0);
   assert.equal(validateMarketModelPages(generated, verifiedModels), true);

@@ -8,6 +8,7 @@ import {
 } from "@phosphor-icons/react";
 import { modelHref } from "../lib/catalog.js";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
+import { modelWeightSuffix } from "../lib/modelWeight.js";
 import {
   classifyVesaLookupSelection,
   findVesaModel,
@@ -113,24 +114,20 @@ export function TvVesaCatalog({ compatibilityEdges, models, search }) {
 
       <p className="mt-5 text-sm leading-relaxed text-muted">
         Открытый датасет «Размеры VESA популярных в России телевизоров», версия
-        1.0.0: {" "}
+        1.0.1: {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
-          href="https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv"
-          rel="noreferrer"
-          target="_blank"
+          href="/data/tv-vesa-sizes.csv"
         >
           скачать CSV
         </a>{" "}
         или {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
-          href="https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.json"
-          rel="noreferrer"
-          target="_blank"
+          href="/data/tv-vesa-sizes.json"
         >
           JSON
-        </a>. В файлах 132 точные модели, размеры VESA и официальные источники; {" "}
+        </a>. В файлах 131 точная модель, размеры VESA, основание массы и официальные источники; {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
           href="https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE"
@@ -177,7 +174,7 @@ export function TvVesaCatalog({ compatibilityEdges, models, search }) {
                     VESA {model.vesa_width_mm}×{model.vesa_height_mm} мм
                   </p>
                   <p className="mt-1 text-sm text-muted">
-                    {model.diagonal_inches}″ · {model.weight_kg} кг без подставки · {conflict
+                    {model.diagonal_inches}″ · {model.weight_kg} кг {modelWeightSuffix(model)} · {conflict
                       ? "автоподбор остановлен"
                       : `${matchCount} проверенных кронштейнов`}
                   </p>
@@ -248,7 +245,7 @@ function VesaLookupResult({ compatibilityEdges, model }) {
           <p className="mt-3 max-w-3xl leading-relaxed text-muted">
             {conflict
               ? `${conflict.note} До ручного замера не выбирайте кронштейн по одному из значений.`
-              : `${model.diagonal_inches}″ · ${model.weight_kg} кг без подставки. В каталоге ${matchCount} кронштейнов проходят точную VESA, диапазон диагонали и запас нагрузки.`}
+              : `${model.diagonal_inches}″ · ${model.weight_kg} кг ${modelWeightSuffix(model)}. В каталоге ${matchCount} кронштейнов проходят точную VESA, диапазон диагонали и запас нагрузки.`}
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             {conflict ? (

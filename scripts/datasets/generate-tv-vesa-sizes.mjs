@@ -21,7 +21,7 @@ validateRecords(records);
 
 const dataset = {
   schema_version: 1,
-  dataset_version: "1.0.0",
+  dataset_version: "1.0.1",
   language: "ru",
   market: "RU",
   generated_from: "data/tv_models.json",
@@ -66,6 +66,7 @@ function buildRecord(model) {
     model_year: model.model_year,
     diagonal_inches: model.diagonal_inches,
     passport_mass_kg: model.weight_kg,
+    weight_basis: model.weight_basis ?? "without_stand",
     vesa_width_mm: model.vesa_width_mm,
     vesa_height_mm: model.vesa_height_mm,
     vesa_source_conflict: Boolean(conflict),
@@ -80,8 +81,8 @@ function buildRecord(model) {
 }
 
 function validateRecords(rows) {
-  if (rows.length !== 132) {
-    throw new Error(`Ожидалось 132 точные модели, получено ${rows.length}`);
+  if (rows.length !== 131) {
+    throw new Error(`Ожидалась 131 точная модель, получено ${rows.length}`);
   }
   const ids = new Set();
   for (const [index, row] of rows.entries()) {

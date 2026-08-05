@@ -6,8 +6,8 @@
   "summary": {
     "market_observations": 133,
     "unique_identities": 126,
-    "verified_routes": 54,
-    "observed_canonicals": 72,
+    "verified_routes": 53,
+    "observed_canonicals": 73,
     "indexable_observed_canonicals": 0,
     "alias_routes": 7,
     "low_confidence_routes": 9
@@ -1917,9 +1917,9 @@
       "canonical_id": "tuvio-tm85ufbch51",
       "canonical_path": "/modeli/tuvio-tm85ufbch51/",
       "route_path": "/modeli/tuvio-tm85ufbch51/",
-      "page_kind": "verified",
+      "page_kind": "observed",
       "indexable": false,
-      "identity_confidence": "verified",
+      "identity_confidence": "high",
       "brand": "Tuvio",
       "model": "TM85UFBCH51",
       "title": "Tuvio TM85UFBCH51",
@@ -1934,7 +1934,7 @@
       "observed_rank": 74,
       "observed_at": "2026-08-04T19:21:38.566Z",
       "checked_at": "2026-08-04",
-      "verified_model_id": "tuvio-tm85ufbch51",
+      "verified_model_id": null,
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     },
     {
@@ -3472,5 +3472,5 @@
       "source_label": "Карточка телевизора в выдаче Яндекс Маркета"
     }
   ],
-  "batch_sha256": "31c2c4cc8e4b921d0a369484a6b17b93d7b4a99f2a62131afed21cdac1f4f562"
+  "batch_sha256": "f72c6d43590d85588333b1d7d08a9336e1c310ef249239dcd47c11b2c029f161"
 }

@@ -21,6 +21,7 @@ import { WallMountScrews } from "../components/WallMountScrews.jsx";
 import { mountHref } from "../lib/catalog.js";
 import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
 import { selectModelAffiliateOffers } from "../lib/modelAffiliateOffers.mjs";
+import { modelWeightReserveText } from "../lib/modelWeight.js";
 import { getModelContextPages } from "../lib/seoPages.mjs";
 
 export function ModelPage({ catalog, modelId }) {
@@ -212,7 +213,7 @@ function CompatibilityProof({ matches, model, vesaConflict }) {
         <p className="font-mono text-xs uppercase text-action">02 · Нагрузка</p>
         <h2 className="mt-2 font-display text-2xl font-extrabold">Минимум {requiredLoad} кг</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          К массе телевизора без подставки добавлен запас 25%. Нагрузка каждого показанного варианта не ниже порога.
+          {modelWeightReserveText(model)} Нагрузка каждого показанного варианта не ниже порога.
         </p>
       </article>
       <article className="bg-paper p-5">

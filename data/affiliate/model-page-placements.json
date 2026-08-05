@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "clid": "15238076",
-  "expected_offer_count": 391,
+  "expected_offer_count": 390,
   "models": [
     {
       "model_id": "akai-ta32bh500",
@@ -3339,20 +3339,6 @@
           "entity_id": "itech-plb440nt",
           "source_card_id": "market-itech-plb440nt-103195508438",
           "vid": "krepitvmodeltuviotm75ufgch52r03itechplb440nt92f73baed390"
-        }
-      ]
-    },
-    {
-      "model_id": "tuvio-tm85ufbch51",
-      "model_path": "/modeli/tuvio-tm85ufbch51/",
-      "expected_offer_count": 1,
-      "placements": [
-        {
-          "placement_id": "model-tuvio-tm85ufbch51-r01-onkron-tm6",
-          "rank": 1,
-          "entity_id": "onkron-tm6",
-          "source_card_id": "market-onkron-tm6-5720427358",
-          "vid": "krepitvmodeltuviotm85ufbch51r01onkrontm65a9078ddff9d"
         }
       ]
     },

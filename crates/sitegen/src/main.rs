@@ -8,10 +8,10 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
 const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
-const CORE_PAGES_UPDATED_AT: &str = "2026-08-04";
+const CORE_PAGES_UPDATED_AT: &str = "2026-08-05";
 const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-01";
-const MARKET_MODELS_UPDATED_AT: &str = "2026-08-04";
-const MODEL_PAGES_UPDATED_AT: &str = "2026-08-04";
+const MARKET_MODELS_UPDATED_AT: &str = "2026-08-05";
+const MODEL_PAGES_UPDATED_AT: &str = "2026-08-05";
 const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
     ("tcl-v6c", "tcl-50v6c"),
     ("tcl-q6cs", "tcl-55q6cs"),
@@ -102,6 +102,8 @@ struct TvModel {
     model_year: Option<u32>,
     diagonal_inches: f64,
     weight_kg: f64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    weight_basis: Option<String>,
     width_mm: f64,
     height_mm: f64,
     depth_mm: f64,
@@ -591,7 +593,7 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
     let (name, description, identifier, keywords, variables, files) = match page_id {
         "vesa" => (
             "Размеры VESA популярных в России телевизоров",
-            "Проверяемая таблица из 132 точных моделей телевизоров: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и официальный источник.",
+            "Проверяемая таблица из 131 точной модели телевизора: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и официальный источник.",
             "KREPI-TV-RU-VESA-SIZES-1.0.0",
             vec![
                 "VESA",
@@ -767,7 +769,7 @@ fn tv_product_json_ld(tv: &TvModel, canonical: &str) -> String {
         json!({ "@type": "PropertyValue", "name": "VESA", "value": vesa_value }),
         json!({ "@type": "PropertyValue", "name": "Серия", "value": tv.series }),
         json!({ "@type": "PropertyValue", "name": "Диагональ", "value": format!("{} дюймов", tv.diagonal_inches) }),
-        json!({ "@type": "PropertyValue", "name": "Паспортная масса", "value": format!("{} кг", tv.weight_kg) }),
+        json!({ "@type": "PropertyValue", "name": model_weight_label(tv), "value": format!("{} кг ({})", tv.weight_kg, model_weight_suffix(tv)) }),
     ];
     if let Some(model_year) = tv.model_year {
         properties.push(json!({
@@ -1146,7 +1148,7 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
     .join("\n");
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">{model_count} моделей с источниками</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section><section class=\"border-t border-line py-9\" data-home-tv-diagnostics=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Без разборки и догадок</p><div class=\"mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end\"><h2 class=\"font-display text-3xl font-extrabold\">Диагностика телевизора</h2><p class=\"max-w-2xl leading-relaxed text-muted\">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class=\"mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3\" aria-label=\"Диагностика телевизора\">{diagnostic_links}</nav></section></div>",
+        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">Точные модели с источниками · {model_count}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section><section class=\"border-t border-line py-9\" data-home-tv-diagnostics=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Без разборки и догадок</p><div class=\"mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end\"><h2 class=\"font-display text-3xl font-extrabold\">Диагностика телевизора</h2><p class=\"max-w-2xl leading-relaxed text-muted\">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class=\"mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3\" aria-label=\"Диагностика телевизора\">{diagnostic_links}</nav></section></div>",
         model_count = models.len(),
     ))
 }
@@ -1187,7 +1189,7 @@ fn models_catalog_body(models: &[TvModel], market_models: &[MarketTvModel]) -> S
             (
                 tv.brand.clone(),
                 format!(
-                    "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/modeli/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{series} · {year} · VESA {vesa_w}×{vesa_h} мм · {diagonal}″ · {weight} кг без подставки</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
+                    "<a class=\"grid gap-2 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" href=\"/modeli/{id}/\"><span><strong class=\"font-display text-2xl\">{title}</strong><span class=\"mt-1 block text-sm text-muted\">{series} · {year} · VESA {vesa_w}×{vesa_h} мм · {diagonal}″ · {weight} кг {weight_suffix}</span></span><span class=\"font-mono text-xs uppercase text-action\">Открыть проверку</span></a>",
                     id = escape_html(&tv.id),
                     title = escape_html(&tv.title),
                     series = escape_html(&tv.series),
@@ -1196,6 +1198,7 @@ fn models_catalog_body(models: &[TvModel], market_models: &[MarketTvModel]) -> S
                     vesa_h = tv.vesa_height_mm,
                     diagonal = tv.diagonal_inches,
                     weight = tv.weight_kg,
+                    weight_suffix = model_weight_suffix(tv),
                 ),
             )
         })
@@ -1390,6 +1393,33 @@ fn model_year_fact(model_year: Option<u32>) -> String {
         .unwrap_or_else(|| "Модельный год производителем не указан".to_string())
 }
 
+fn model_weight_label(tv: &TvModel) -> &'static str {
+    match tv.weight_basis.as_deref() {
+        Some("with_stand") | Some("published_unspecified") => "Консервативная масса",
+        _ => "Паспортная масса",
+    }
+}
+
+fn model_weight_suffix(tv: &TvModel) -> &'static str {
+    match tv.weight_basis.as_deref() {
+        Some("with_stand") => "с подставкой, консервативно",
+        Some("published_unspecified") => "тип не указан, консервативно",
+        _ => "без подставки",
+    }
+}
+
+fn model_weight_reserve_explanation(tv: &TvModel) -> &'static str {
+    match tv.weight_basis.as_deref() {
+        Some("with_stand") => {
+            "Использована опубликованная масса с подставкой: она выше массы корпуса и даёт консервативный порог. Затем добавлен запас 25%."
+        }
+        Some("published_unspecified") => {
+            "Источник не уточняет тип опубликованной массы, поэтому значение целиком принято как консервативное. Затем добавлен запас 25%."
+        }
+        _ => "К паспортной массе без подставки добавлен запас 25%.",
+    }
+}
+
 fn model_page_body(
     tv: &TvModel,
     matches: &[MountMatch],
@@ -1546,7 +1576,7 @@ fn model_page_body(
     }
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Паспортная масса</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">К паспортной массе {weight} кг добавлен запас 25%. Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Данные проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = model_year_label(tv.model_year),
@@ -1554,6 +1584,9 @@ fn model_page_body(
         vesa_fact = vesa_fact,
         diagonal = tv.diagonal_inches,
         weight = tv.weight_kg,
+        weight_label = model_weight_label(tv),
+        weight_suffix = model_weight_suffix(tv),
+        weight_explanation = model_weight_reserve_explanation(tv),
         width = tv.width_mm,
         height = tv.height_mm,
         depth = tv.depth_mm,
@@ -1688,12 +1721,13 @@ fn mount_page_body(
         Some((
             tv.brand.clone(),
             format!(
-                "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · VESA {vesa_w}×{vesa_h} мм · {weight} кг без подставки</p><p class=\"mt-2 text-sm\">{evidence}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">Телевизор {title}</a></article>",
+                "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · VESA {vesa_w}×{vesa_h} мм · {weight} кг {weight_suffix}</p><p class=\"mt-2 text-sm\">{evidence}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">Телевизор {title}</a></article>",
                 title = escape_html(&tv.title),
                 fit = fit_label(&edge.fit_status),
                 vesa_w = tv.vesa_width_mm,
                 vesa_h = tv.vesa_height_mm,
                 weight = tv.weight_kg,
+                weight_suffix = model_weight_suffix(tv),
                 evidence = evidence,
                 id = escape_html(&tv.id),
             ),
@@ -2383,7 +2417,7 @@ fn verified_model_count(mount_id: &str, graph: &[CompatibilityEdge]) -> usize {
 
 fn seo_model_card(tv: &TvModel, graph: &[CompatibilityEdge]) -> String {
     format!(
-        "<article class=\"border border-line bg-white p-5\"><a class=\"font-display text-xl font-extrabold underline decoration-action decoration-2 underline-offset-4\" href=\"/modeli/{id}/\">{title}</a><p class=\"mt-3 text-sm leading-relaxed text-muted\">{year_fact} · {diagonal}″ · VESA {vesa_width}×{vesa_height} мм · {weight} кг без подставки</p><p class=\"mt-3 font-mono text-xs uppercase text-technical\">Подтверждённых кронштейнов: {mount_count}</p></article>",
+        "<article class=\"border border-line bg-white p-5\"><a class=\"font-display text-xl font-extrabold underline decoration-action decoration-2 underline-offset-4\" href=\"/modeli/{id}/\">{title}</a><p class=\"mt-3 text-sm leading-relaxed text-muted\">{year_fact} · {diagonal}″ · VESA {vesa_width}×{vesa_height} мм · {weight} кг {weight_suffix}</p><p class=\"mt-3 font-mono text-xs uppercase text-technical\">Подтверждённых кронштейнов: {mount_count}</p></article>",
         id = escape_html(&tv.id),
         title = escape_html(&tv.title),
         year_fact = model_year_fact(tv.model_year),
@@ -2391,6 +2425,7 @@ fn seo_model_card(tv: &TvModel, graph: &[CompatibilityEdge]) -> String {
         vesa_width = tv.vesa_width_mm,
         vesa_height = tv.vesa_height_mm,
         weight = tv.weight_kg,
+        weight_suffix = model_weight_suffix(tv),
         mount_count = verified_mount_count(&tv.id, graph),
     )
 }
@@ -2827,7 +2862,7 @@ fn seo_screw_catalog_html(models: &[TvModel]) -> String {
         .join("\n");
 
     format!(
-        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"screw-catalog-title\" data-screw-catalog=\"true\" data-searchable-model-count=\"{searchable_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатная проверка без регистрации</p><h2 id=\"screw-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите точную модель телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Покажем только то, что удалось подтвердить официальным руководством: резьбу, количество, длину или допустимую глубину и обязательные вставки.</p><p class=\"mt-3 max-w-3xl border-l-2 border-action pl-4 text-sm font-semibold leading-relaxed\">Поиск относится к винтам между корпусом телевизора и VESA-пластиной. Это не анкеры для стены и не винты для ножек.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-model-search-count=\"{searchable_count}\"><label class=\"sr-only\" for=\"static-screw-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-screw-model\" list=\"static-screw-models\" name=\"model\" placeholder=\"Например, Samsung QE43Q7FAAUXRU\" autocomplete=\"off\"><datalist id=\"static-screw-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть каталог моделей</button></form><p class=\"mt-4 border-l-2 border-line pl-4 text-sm leading-relaxed text-muted\" data-known-model-fallback=\"true\">Поиск распознаёт все {searchable_count} моделей. Если модель известна, но паспорт винтов ещё не подтверждён, сервис не угадывает M6/M8 по VESA и ведёт в карточку модели с совместимыми кронштейнами.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей в поиске</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{searchable_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённая резьба</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{threads}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Открытый датасет «Винты VESA для популярных в России моделей телевизоров», версия 1.0.0: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv\" rel=\"noreferrer\" target=\"_blank\">скачать CSV</a> или <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.json\" rel=\"noreferrer\" target=\"_blank\">JSON</a>. В файлах 26 точных моделей, паспортные размеры и официальные источники; <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE\" rel=\"noreferrer\" target=\"_blank\">лицензия MIT</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Все проверенные модели</h3>{catalog}</div></section>",
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"screw-catalog-title\" data-screw-catalog=\"true\" data-searchable-model-count=\"{searchable_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатная проверка без регистрации</p><h2 id=\"screw-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите точную модель телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Покажем только то, что удалось подтвердить официальным руководством: резьбу, количество, длину или допустимую глубину и обязательные вставки.</p><p class=\"mt-3 max-w-3xl border-l-2 border-action pl-4 text-sm font-semibold leading-relaxed\">Поиск относится к винтам между корпусом телевизора и VESA-пластиной. Это не анкеры для стены и не винты для ножек.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-model-search-count=\"{searchable_count}\"><label class=\"sr-only\" for=\"static-screw-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-screw-model\" list=\"static-screw-models\" name=\"model\" placeholder=\"Например, Samsung QE43Q7FAAUXRU\" autocomplete=\"off\"><datalist id=\"static-screw-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть каталог моделей</button></form><p class=\"mt-4 border-l-2 border-line pl-4 text-sm leading-relaxed text-muted\" data-known-model-fallback=\"true\">Поиск распознаёт весь проверенный каталог. Если модель известна, но паспорт винтов ещё не подтверждён, сервис не угадывает M6/M8 по VESA и ведёт в карточку модели с совместимыми кронштейнами.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей в поиске</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{searchable_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Подтверждённая резьба</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{threads}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Открытый датасет «Винты VESA для популярных в России моделей телевизоров», версия 1.0.0: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv\" rel=\"noreferrer\" target=\"_blank\">скачать CSV</a> или <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.json\" rel=\"noreferrer\" target=\"_blank\">JSON</a>. В файлах 26 точных моделей, паспортные размеры и официальные источники; <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE\" rel=\"noreferrer\" target=\"_blank\">лицензия MIT</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Все проверенные модели</h3>{catalog}</div></section>",
         searchable_count = models.len(),
         model_count = screw_models.len(),
         brand_count = brand_count,
@@ -2884,13 +2919,14 @@ fn seo_vesa_model_catalog_html(models: &[TvModel], graph: &[CompatibilityEdge]) 
             (
                 model.brand.clone(),
                 format!(
-                    "<article class=\"grid gap-4 border-b border-line py-5 lg:grid-cols-[minmax(0,1fr)_minmax(15rem,0.7fr)] lg:items-start\"><div><a class=\"font-display text-2xl font-extrabold\" href=\"/modeli/{id}/\">{title}</a><p class=\"mt-2 font-display text-2xl font-extrabold text-action\">VESA {vesa_w}×{vesa_h} мм</p><p class=\"mt-1 text-sm text-muted\">{diagonal}″ · {weight} кг без подставки · {match_summary}</p>{conflict}</div><div class=\"grid gap-3 lg:justify-items-end lg:text-right\"><a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{source_url}\" rel=\"noreferrer\" target=\"_blank\">Официальный источник</a><span class=\"font-mono text-xs uppercase text-muted\">Проверено {checked_at}</span><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">{model_link_label} →</a></div></article>",
+                    "<article class=\"grid gap-4 border-b border-line py-5 lg:grid-cols-[minmax(0,1fr)_minmax(15rem,0.7fr)] lg:items-start\"><div><a class=\"font-display text-2xl font-extrabold\" href=\"/modeli/{id}/\">{title}</a><p class=\"mt-2 font-display text-2xl font-extrabold text-action\">VESA {vesa_w}×{vesa_h} мм</p><p class=\"mt-1 text-sm text-muted\">{diagonal}″ · {weight} кг {weight_suffix} · {match_summary}</p>{conflict}</div><div class=\"grid gap-3 lg:justify-items-end lg:text-right\"><a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{source_url}\" rel=\"noreferrer\" target=\"_blank\">Официальный источник</a><span class=\"font-mono text-xs uppercase text-muted\">Проверено {checked_at}</span><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/modeli/{id}/\">{model_link_label} →</a></div></article>",
                     id = escape_html(&model.id),
                     title = escape_html(&model.title),
                     vesa_w = model.vesa_width_mm,
                     vesa_h = model.vesa_height_mm,
                     diagonal = model.diagonal_inches,
                     weight = model.weight_kg,
+                    weight_suffix = model_weight_suffix(model),
                     match_summary = escape_html(&match_summary),
                     conflict = conflict,
                     source_url = escape_html(&model.source_url),
@@ -2912,7 +2948,7 @@ fn seo_vesa_model_catalog_html(models: &[TvModel], graph: &[CompatibilityEdge]) 
         .join("\n");
 
     format!(
-        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"vesa-model-catalog-title\" data-vesa-model-catalog=\"true\" data-searchable-model-count=\"{model_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатный поиск без регистрации</p><h2 id=\"vesa-model-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите VESA по модели телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Введите полный код с шильдика. Покажем расстояние между отверстиями, официальный источник и число кронштейнов, прошедших точную проверку.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-vesa-model-search-count=\"{model_count}\"><label class=\"sr-only\" for=\"static-vesa-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-vesa-model\" list=\"static-vesa-models\" name=\"model\" placeholder=\"Например, TCL 55P6K\" autocomplete=\"off\"><datalist id=\"static-vesa-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть модель</button></form><p class=\"mt-4 border-l-2 border-action pl-4 text-sm leading-relaxed text-muted\">VESA записывается как горизонталь × вертикаль в миллиметрах. Диагональ экрана сама по себе не определяет расположение отверстий.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Точных моделей</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Схем VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_count}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Открытый датасет «Размеры VESA популярных в России телевизоров», версия 1.0.0: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv\" rel=\"noreferrer\" target=\"_blank\">скачать CSV</a> или <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.json\" rel=\"noreferrer\" target=\"_blank\">JSON</a>. В файлах 132 точные модели, размеры VESA и официальные источники; <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE\" rel=\"noreferrer\" target=\"_blank\">лицензия MIT</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Таблица VESA телевизоров</h3>{catalog}</div></section>",
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"vesa-model-catalog-title\" data-vesa-model-catalog=\"true\" data-searchable-model-count=\"{model_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатный поиск без регистрации</p><h2 id=\"vesa-model-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите VESA по модели телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Введите полный код с шильдика. Покажем расстояние между отверстиями, официальный источник и число кронштейнов, прошедших точную проверку.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-vesa-model-search-count=\"{model_count}\"><label class=\"sr-only\" for=\"static-vesa-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-vesa-model\" list=\"static-vesa-models\" name=\"model\" placeholder=\"Например, TCL 55P6K\" autocomplete=\"off\"><datalist id=\"static-vesa-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть модель</button></form><p class=\"mt-4 border-l-2 border-action pl-4 text-sm leading-relaxed text-muted\">VESA записывается как горизонталь × вертикаль в миллиметрах. Диагональ экрана сама по себе не определяет расположение отверстий.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Точных моделей</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Схем VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_count}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Открытый датасет «Размеры VESA популярных в России телевизоров», версия 1.0.1: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.csv\">скачать CSV</a> или <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.json\">JSON</a>. В файлах 131 точная модель, размеры VESA, основание массы и официальные источники; <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE\" rel=\"noreferrer\" target=\"_blank\">лицензия MIT</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Таблица VESA телевизоров</h3>{catalog}</div></section>",
         model_count = models.len(),
         brand_count = brand_count,
         vesa_count = vesa_count,
@@ -3109,6 +3145,10 @@ fn validate_models(models: &[TvModel]) {
                     .map_or(true, |model_year| (2000..=2100).contains(&model_year))
                 && tv.source_url.starts_with("https://")
                 && !tv.source_label.trim().is_empty()
+                && tv.weight_basis.as_deref().map_or(true, |basis| matches!(
+                    basis,
+                    "with_stand" | "published_unspecified"
+                ))
                 && is_valid_iso_date(&tv.checked_at),
             "Некорректный источник или дата проверки у {}",
             tv.id
@@ -3859,6 +3899,16 @@ fn main() {
     )
     .expect("Не удалось скопировать модели телевизоров");
     fs::copy(
+        root.join("datasets/ru-tv-vesa-sizes/v1/tv-vesa-sizes.csv"),
+        public_data.join("tv-vesa-sizes.csv"),
+    )
+    .expect("Не удалось скопировать открытый CSV с VESA");
+    fs::copy(
+        root.join("datasets/ru-tv-vesa-sizes/v1/tv-vesa-sizes.json"),
+        public_data.join("tv-vesa-sizes.json"),
+    )
+    .expect("Не удалось скопировать открытый JSON с VESA");
+    fs::copy(
         data.join("market_tv_models.json"),
         public_data.join("market-tv-models.json"),
     )
@@ -3905,6 +3955,11 @@ fn main() {
         public_data.join("affiliate-model-offers.json"),
     )
     .expect("Не удалось скопировать публичный снимок размещений модельных страниц");
+    write_model_offer_shards(
+        &data.join("affiliate/public-model-offers.json"),
+        &public_data.join("affiliate-model-offers"),
+        &models,
+    );
 
     let mut search = models
         .iter()
@@ -4454,6 +4509,82 @@ fn main() {
     println!("Сгенерировано страниц: {}", urls.len());
 }
 
+fn model_offer_shard_key(model_id: &str) -> &str {
+    let key = model_id.split('-').next().unwrap_or_default();
+    assert!(
+        key.len() >= 2
+            && key.len() <= 40
+            && key
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit()),
+        "Идентификатор модели не даёт безопасный ключ шарда: {model_id}"
+    );
+    key
+}
+
+fn write_model_offer_shards(source: &Path, target: &Path, models: &[TvModel]) {
+    let snapshot: Value = read_json(source);
+    let schema_version = snapshot
+        .get("schema_version")
+        .and_then(Value::as_u64)
+        .expect("Публичный снимок моделей не содержит schema_version");
+    let generated_at = snapshot
+        .get("generated_at")
+        .and_then(Value::as_str)
+        .expect("Публичный снимок моделей не содержит generated_at");
+    let placements = snapshot
+        .get("placements")
+        .and_then(Value::as_array)
+        .expect("Публичный снимок моделей не содержит placements");
+
+    if target.exists() {
+        fs::remove_dir_all(target).expect("Не удалось очистить старые шарды модельных офферов");
+    }
+    fs::create_dir_all(target).expect("Не удалось создать каталог шардов модельных офферов");
+
+    let mut keys = models
+        .iter()
+        .map(|model| model_offer_shard_key(&model.id).to_string())
+        .collect::<Vec<_>>();
+    keys.sort();
+    keys.dedup();
+
+    for placement in placements {
+        let model_id = placement
+            .get("model_id")
+            .and_then(Value::as_str)
+            .expect("Размещение не содержит model_id");
+        let key = model_offer_shard_key(model_id);
+        assert!(
+            keys.binary_search_by(|candidate| candidate.as_str().cmp(key))
+                .is_ok(),
+            "Размещение ссылается на неизвестный шард модели: {model_id}"
+        );
+    }
+
+    for key in keys {
+        let shard_placements = placements
+            .iter()
+            .filter(|placement| {
+                placement
+                    .get("model_id")
+                    .and_then(Value::as_str)
+                    .is_some_and(|model_id| model_offer_shard_key(model_id) == key)
+            })
+            .cloned()
+            .collect::<Vec<_>>();
+        let shard = json!({
+            "schema_version": schema_version,
+            "generated_at": generated_at,
+            "placements": shard_placements,
+        });
+        write(
+            &target.join(format!("{key}.json")),
+            &serde_json::to_string_pretty(&shard).expect("Шард модельных офферов сериализуется"),
+        );
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::{
@@ -4463,13 +4594,14 @@ mod tests {
         commercial_profile_for, dataset_json_ld, escape_html, home_page_body, html_shell,
         is_indexable_model, is_indexable_mount, is_indexable_seo_page,
         is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, model_mount_matches,
-        model_page_body, mount_page_body, mount_technical_scheme_html, mounts_catalog_body,
-        not_found_page_html, observed_model_page_body, parse_rfc3339_utc_seconds, read_json,
-        related_seo_pages, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_page_body, seo_page_lastmod,
-        seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer, static_header,
-        trust_page_body, tv_product_json_ld, validate_commercial_profiles, validate_market_models,
-        validate_seo_pages, validate_trust_pages, wall_mount_screws_html, workspace_root,
+        model_offer_shard_key, model_page_body, mount_page_body, mount_technical_scheme_html,
+        mounts_catalog_body, not_found_page_html, observed_model_page_body,
+        parse_rfc3339_utc_seconds, read_json, related_seo_pages, seo_brand_mount_matcher_html,
+        seo_buy_mount_comparison_html, seo_calculator_note, seo_catalog_html, seo_page_body,
+        seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer,
+        static_header, trust_page_body, tv_product_json_ld, validate_commercial_profiles,
+        validate_market_models, validate_seo_pages, validate_trust_pages, wall_mount_screws_html,
+        workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -4480,6 +4612,14 @@ mod tests {
             escape_html("<ТВ & \"стена\">"),
             "&lt;ТВ &amp; &quot;стена&quot;&gt;"
         );
+    }
+
+    #[test]
+    fn model_offer_shards_use_only_safe_brand_keys() {
+        assert_eq!(model_offer_shard_key("tcl-65c7k"), "tcl");
+        assert_eq!(model_offer_shard_key("lg-oled65c5rla"), "lg");
+        assert!(std::panic::catch_unwind(|| model_offer_shard_key("TCL-65C7K")).is_err());
+        assert!(std::panic::catch_unwind(|| model_offer_shard_key("../tcl-65c7k")).is_err());
     }
 
     #[test]
@@ -4763,9 +4903,9 @@ mod tests {
         assert!(catalog_html.contains(
             "Моделей с паспортом</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">26"
         ));
-        assert!(catalog_html.contains("data-searchable-model-count=\"132\""));
-        assert!(catalog_html.contains("data-model-search-count=\"132\""));
-        assert_eq!(catalog_html.matches("<option value=").count(), 132);
+        assert!(catalog_html.contains("data-searchable-model-count=\"131\""));
+        assert!(catalog_html.contains("data-model-search-count=\"131\""));
+        assert_eq!(catalog_html.matches("<option value=").count(), 131);
         assert!(catalog_html.contains("data-known-model-fallback=\"true\""));
         assert!(catalog_html.contains("паспорт винтов ещё не подтверждён"));
         assert!(
@@ -4934,14 +5074,12 @@ mod tests {
         let html = seo_vesa_model_catalog_html(&models, &graph);
 
         assert!(html.contains("data-vesa-model-catalog=\"true\""));
-        assert!(html.contains("data-searchable-model-count=\"132\""));
-        assert!(html.contains("data-vesa-model-search-count=\"132\""));
-        assert_eq!(html.matches("<option value=").count(), 132);
+        assert!(html.contains("data-searchable-model-count=\"131\""));
+        assert!(html.contains("data-vesa-model-search-count=\"131\""));
+        assert_eq!(html.matches("<option value=").count(), 131);
         assert_eq!(html.matches("<details").count(), 17);
         assert!(html.contains("Таблица VESA телевизоров"));
-        assert!(html.contains(
-            "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv"
-        ));
+        assert!(html.contains("href=\"/data/tv-vesa-sizes.csv\""));
         assert!(html.contains("data-vesa-source-conflict=\"true\""));
         assert!(html.contains("Источники расходятся: 400×300 мм / 400×400 мм"));
         assert!(!html.contains("market.yandex.ru"));
@@ -4983,7 +5121,7 @@ mod tests {
         ] {
             assert!(html.contains(&format!("data-home-tv-diagnostic=\"{id}\"")));
         }
-        assert!(html.contains("132 моделей с источниками"));
+        assert!(html.contains("Точные модели с источниками · 131"));
         assert!(html.contains("href=\"/modeli/\""));
         assert!(html.contains("href=\"/kronshteyny/\""));
         for model in &models {

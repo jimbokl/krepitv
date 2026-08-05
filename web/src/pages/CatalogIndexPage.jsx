@@ -3,6 +3,7 @@ import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { modelHref, mountHref } from "../lib/catalog.js";
+import { modelWeightSuffix } from "../lib/modelWeight.js";
 
 const mountBrandHubs = [
   { href: "/kronshteyny-onkron/", label: "ONKRON" },
@@ -93,7 +94,7 @@ export function CatalogIndexPage({ catalog, kind }) {
                 <strong className="font-display text-2xl font-extrabold">{item.title}</strong>
                 <span className="mt-1 block text-sm leading-relaxed text-muted">
                   {models
-                    ? `VESA ${item.vesa_width_mm}×${item.vesa_height_mm} мм · ${formatNumber(item.diagonal_inches)}″ · ${formatNumber(item.weight_kg)} кг без подставки`
+                    ? `VESA ${item.vesa_width_mm}×${item.vesa_height_mm} мм · ${formatNumber(item.diagonal_inches)}″ · ${formatNumber(item.weight_kg)} кг ${modelWeightSuffix(item)}`
                     : `${mechanismLabel(item.mechanism)} · до ${formatNumber(item.max_load_kg)} кг · VESA ${item.vesa.join(" · ").replaceAll("x", "×")}`}
                 </span>
               </span>

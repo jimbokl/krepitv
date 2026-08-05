@@ -33492,35 +33492,6 @@
     "required_load_kg": 2.8
   },
   {
-    "tv_id": "tuvio-tm85ufbch51",
-    "mount_id": "onkron-tm6",
-    "fit_status": "verified-fit",
-    "compatible": true,
-    "score": 108,
-    "reasons": [
-      "Поддерживает VESA 600x400",
-      "Нагрузка до 68.2 кг покрывает запас 25%",
-      "Диагональ 85″ входит в диапазон 43–85″"
-    ],
-    "warnings": [],
-    "required_load_kg": 52.0
-  },
-  {
-    "tv_id": "tuvio-tm85ufbch51",
-    "mount_id": "onkron-m6l",
-    "fit_status": "conditional-fit",
-    "compatible": true,
-    "score": 97,
-    "reasons": [
-      "Поддерживает VESA 600x400",
-      "Нагрузка до 70 кг покрывает запас 25%"
-    ],
-    "warnings": [
-      "Диагональ вне рекомендованного диапазона 40–75″; перепроверьте геометрию пластины"
-    ],
-    "required_load_kg": 52.0
-  },
-  {
     "tv_id": "philips-50pud7029",
     "mount_id": "kromax-atlantis-45",
     "fit_status": "verified-fit",

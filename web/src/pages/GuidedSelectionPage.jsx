@@ -22,6 +22,7 @@ import { useCompatibility } from "../hooks/useCompatibility.js";
 import { selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
 import { modelHref, mountHref } from "../lib/catalog.js";
 import { groupCatalogItemsByBrand } from "../lib/catalogGroups.mjs";
+import { modelWeightSuffix } from "../lib/modelWeight.js";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 
 const wallOptions = [
@@ -292,7 +293,7 @@ export function GuidedSelectionPage({ catalog }) {
                 <Info aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-verified" />
                 <p>
                   <strong>Проверка по официальным данным производителя:</strong>{" "}
-                  VESA {selectedModel.vesa_width_mm}×{selectedModel.vesa_height_mm}, масса {selectedModel.weight_kg} кг и диагональ {selectedModel.diagonal_inches}″ подтверждены. Тип стены используется только как пометка для последующего подбора крепежа.
+                  VESA {selectedModel.vesa_width_mm}×{selectedModel.vesa_height_mm}, масса {selectedModel.weight_kg} кг ({modelWeightSuffix(selectedModel)}) и диагональ {selectedModel.diagonal_inches}″ подтверждены. Тип стены используется только как пометка для последующего подбора крепежа.
                 </p>
               </div>
 

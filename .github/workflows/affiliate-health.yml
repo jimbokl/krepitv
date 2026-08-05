@@ -248,6 +248,16 @@ jobs:
           const modelSnapshot = JSON.parse(
             fs.readFileSync("data/affiliate/public-model-offers.json", "utf8"),
           );
+          const models = JSON.parse(fs.readFileSync("data/tv_models.json", "utf8"));
+          const modelShardKeys = [...new Set(models.map((model) => model.id.split("-", 1)[0]))]
+            .sort();
+          for (const key of modelShardKeys) {
+            const relative = `data/affiliate-model-offers/${key}.json`;
+            artifacts.set(relative, {
+              file: `docs/${relative}`,
+              url: `https://krepitv.ru/${relative}`,
+            });
+          }
           for (const placement of modelSnapshot.placements) {
             const relative = `${placement.model_path.replace(/^\//, "")}index.html`;
             artifacts.set(relative, {

@@ -40,6 +40,7 @@ import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { WallPlannerCalculator } from "../components/WallPlannerCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
+import { modelWeightSuffix } from "../lib/modelWeight.js";
 import {
   getCatalogItems,
   selectSeoHubAffiliateOffers,
@@ -704,7 +705,7 @@ function CatalogEvidence({ items, page }) {
                     </div>
                     <div>
                       <dt className="text-muted">Масса</dt>
-                      <dd className="mt-1 font-semibold">{formatNumber(item.weight_kg)} кг</dd>
+                      <dd className="mt-1 font-semibold">{formatNumber(item.weight_kg)} кг · {modelWeightSuffix(item)}</dd>
                     </div>
                     <div>
                       <dt className="text-muted">Диагональ</dt>

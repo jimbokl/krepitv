@@ -7,6 +7,7 @@ import {
 import {
   loadFreshModelAffiliateOffers,
   modelIdFromPath,
+  modelOfferShardKey,
 } from "../src/lib/catalog.js";
 
 const now = Date.parse("2026-07-31T04:00:00Z");
@@ -140,7 +141,7 @@ test("model snapshot загружается только same-origin и филь
   ]);
   const loaded = await loadFreshModelAffiliateOffers({
     fetchImpl: async (url, options) => {
-      assert.equal(url, "https://krepitv.ru/data/affiliate-model-offers.json");
+      assert.equal(url, "https://krepitv.ru/data/affiliate-model-offers/tcl.json");
       assert.deepEqual(options, {
         cache: "no-store",
         credentials: "same-origin",
@@ -157,7 +158,7 @@ test("model snapshot загружается только same-origin и филь
 
   const redirected = await loadFreshModelAffiliateOffers({
     fetchImpl: async () => response(
-      "https://example.invalid/data/affiliate-model-offers.json",
+      "https://example.invalid/data/affiliate-model-offers/tcl.json",
       payload,
     ),
     modelId: "tcl-55c6k",
@@ -165,6 +166,26 @@ test("model snapshot загружается только same-origin и филь
     origin: "https://krepitv.ru",
   });
   assert.deepEqual(redirected, []);
+});
+
+test("model snapshot выбирает безопасный брендовый шард до сетевого запроса", async () => {
+  assert.equal(modelOfferShardKey("tcl-65c7k"), "tcl");
+  assert.equal(modelOfferShardKey("lg-oled65c5rla"), "lg");
+  assert.equal(modelOfferShardKey("../tcl-65c7k"), null);
+  assert.equal(modelOfferShardKey("TCL-65C7K"), null);
+
+  let requests = 0;
+  const loaded = await loadFreshModelAffiliateOffers({
+    fetchImpl: async () => {
+      requests += 1;
+      throw new Error("Небезопасный modelId не должен доходить до fetch");
+    },
+    modelId: "../tcl-65c7k",
+    now,
+    origin: "https://krepitv.ru",
+  });
+  assert.deepEqual(loaded, []);
+  assert.equal(requests, 0);
 });
 
 test("model route parser допускает только каноническую карточку", () => {

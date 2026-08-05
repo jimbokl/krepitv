@@ -1,5 +1,6 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
+import { isDeepStrictEqual } from "node:util";
 import { fileURLToPath } from "node:url";
 import { validateCoverageManifest } from "./catalog/coverage-lib.mjs";
 import { validateMarketModelPages } from "./catalog/market-model-page-lib.mjs";
@@ -9,14 +10,14 @@ const docs = path.join(root, "docs");
 const origin = "https://krepitv.ru";
 const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
-const corePagesUpdatedAt = "2026-08-04";
-const marketModelsUpdatedAt = "2026-08-04";
-const modelPagesUpdatedAt = "2026-08-04";
+const corePagesUpdatedAt = "2026-08-05";
+const marketModelsUpdatedAt = "2026-08-05";
+const modelPagesUpdatedAt = "2026-08-05";
 const trafficPagesUpdatedAt = "2026-08-01";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 216;
+const baselineIndexableUrlCount = 215;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -207,6 +208,8 @@ function normalizeInternalHref(href, sourceRoute) {
     return null;
   }
   if (url.origin !== origin) return null;
+  // Downloadable files are verified as build artifacts separately; they are not HTML routes.
+  if (path.posix.extname(url.pathname)) return null;
   return url.pathname.endsWith("/") ? url.pathname : `${url.pathname}/`;
 }
 
@@ -392,8 +395,11 @@ const required = [
   "data/catalog-coverage.json",
   "data/affiliate-offers.json",
   "data/affiliate-hub-offers.json",
+  "data/affiliate-model-offers.json",
   "data/commercial-profiles.json",
   "data/market-tv-models.json",
+  "data/tv-vesa-sizes.csv",
+  "data/tv-vesa-sizes.json",
   "favicon.svg",
   "robots.txt",
   "sitemap.xml",
@@ -411,6 +417,16 @@ if (files.includes(path.join(docs, "pkg/.gitignore"))) {
 }
 
 const models = JSON.parse(await readFile(path.join(docs, "data/tv-models.json"), "utf8"));
+const sourceVesaCsvRaw = await readFile(
+  path.join(root, "datasets/ru-tv-vesa-sizes/v1/tv-vesa-sizes.csv"),
+  "utf8",
+);
+const publicVesaCsvRaw = await readFile(path.join(docs, "data/tv-vesa-sizes.csv"), "utf8");
+const sourceVesaJsonRaw = await readFile(
+  path.join(root, "datasets/ru-tv-vesa-sizes/v1/tv-vesa-sizes.json"),
+  "utf8",
+);
+const publicVesaJsonRaw = await readFile(path.join(docs, "data/tv-vesa-sizes.json"), "utf8");
 const sourceMarketModelsRaw = await readFile(path.join(root, "data/market_tv_models.json"), "utf8");
 const publicMarketModelsRaw = await readFile(path.join(docs, "data/market-tv-models.json"), "utf8");
 const marketModelsManifest = JSON.parse(publicMarketModelsRaw);
@@ -450,15 +466,87 @@ const publicHubAffiliateRaw = await readFile(
   "utf8",
 );
 const hubAffiliateSnapshot = JSON.parse(publicHubAffiliateRaw);
+const sourceModelAffiliateRaw = await readFile(
+  path.join(root, "data/affiliate/public-model-offers.json"),
+  "utf8",
+);
+const publicModelAffiliateRaw = await readFile(
+  path.join(docs, "data/affiliate-model-offers.json"),
+  "utf8",
+);
+const modelAffiliateSnapshot = JSON.parse(publicModelAffiliateRaw);
 
 if (sourceCommercialProfilesRaw !== publicCommercialProfilesRaw) {
   throw new Error("Публичная копия commercial-profiles.json отличается от исходного файла");
+}
+if (sourceVesaCsvRaw !== publicVesaCsvRaw || sourceVesaJsonRaw !== publicVesaJsonRaw) {
+  throw new Error("Публичные файлы открытого VESA-датасета отличаются от проверенных исходников");
 }
 if (sourceMarketModelsRaw !== publicMarketModelsRaw) {
   throw new Error("Публичная копия market-tv-models.json отличается от исходного файла");
 }
 if (sourceHubAffiliateRaw !== publicHubAffiliateRaw) {
   throw new Error("Публичная копия affiliate-hub-offers.json отличается от исходного файла");
+}
+if (sourceModelAffiliateRaw !== publicModelAffiliateRaw) {
+  throw new Error("Публичная копия affiliate-model-offers.json отличается от исходного файла");
+}
+assertExactKeys(
+  modelAffiliateSnapshot,
+  ["schema_version", "generated_at", "placements"],
+  "Публичный снимок размещений моделей",
+);
+if (
+  modelAffiliateSnapshot.schema_version !== 1
+  || !Number.isFinite(Date.parse(modelAffiliateSnapshot.generated_at ?? ""))
+  || !Array.isArray(modelAffiliateSnapshot.placements)
+) {
+  throw new Error("Некорректный публичный снимок размещений моделей");
+}
+
+const modelOfferShardKey = (modelId) => {
+  const key = typeof modelId === "string" ? modelId.split("-", 1)[0] : "";
+  if (!/^[a-z0-9]{2,40}$/u.test(key)) {
+    throw new Error(`Небезопасный ключ шарда модельного оффера: ${modelId}`);
+  }
+  return key;
+};
+const expectedModelOfferShardKeys = [...new Set(models.map((model) => modelOfferShardKey(model.id)))].sort();
+const modelOfferShardDirectory = path.join(docs, "data/affiliate-model-offers");
+const actualModelOfferShardFiles = (await readdir(modelOfferShardDirectory))
+  .filter((file) => file.endsWith(".json"))
+  .sort();
+const expectedModelOfferShardFiles = expectedModelOfferShardKeys.map((key) => `${key}.json`);
+if (JSON.stringify(actualModelOfferShardFiles) !== JSON.stringify(expectedModelOfferShardFiles)) {
+  throw new Error("Набор брендовых шардов модельных офферов не совпадает с каталогом моделей");
+}
+const combinedModelPlacements = [];
+for (const key of expectedModelOfferShardKeys) {
+  const relative = path.join("data/affiliate-model-offers", `${key}.json`);
+  const raw = await readFile(path.join(docs, relative), "utf8");
+  if (Buffer.byteLength(raw) > 150 * 1024) {
+    throw new Error(`Шард модельных офферов слишком велик: ${relative}`);
+  }
+  const shard = JSON.parse(raw);
+  assertExactKeys(shard, ["schema_version", "generated_at", "placements"], `Шард ${key}`);
+  const expectedPlacements = modelAffiliateSnapshot.placements.filter(
+    (placement) => modelOfferShardKey(placement.model_id) === key,
+  );
+  if (
+    shard.schema_version !== modelAffiliateSnapshot.schema_version
+    || shard.generated_at !== modelAffiliateSnapshot.generated_at
+    || !isDeepStrictEqual(shard.placements, expectedPlacements)
+  ) {
+    throw new Error(`Шард ${key} не является точной выборкой полного модельного снимка`);
+  }
+  combinedModelPlacements.push(...shard.placements);
+}
+if (!isDeepStrictEqual(combinedModelPlacements,
+  expectedModelOfferShardKeys.flatMap((key) => modelAffiliateSnapshot.placements.filter(
+    (placement) => modelOfferShardKey(placement.model_id) === key,
+  )),
+)) {
+  throw new Error("Модельные офферы потеряны или продублированы между шардами");
 }
 assertExactKeys(
   hubAffiliateSnapshot,
@@ -677,10 +765,37 @@ for (const offer of [
 }
 
 const actualWallMountScrewPassports = new Set();
+const expectedConservativeWeightBasis = new Map([
+  ["harper-24r470t", "published_unspecified"],
+  ["harper-32r670t", "published_unspecified"],
+  ["harper-43f670ts", "published_unspecified"],
+  ["harper-40f720t", "published_unspecified"],
+  ["topdevice-tdhtv32gfd-bk", "published_unspecified"],
+  ["topdevice-tdhtv32ghd-bk", "published_unspecified"],
+  ["topdevice-tdhtv24y1hd-bk", "published_unspecified"],
+  ["hyundai-h-led32bs5002", "published_unspecified"],
+  ["hyundai-h-led32bs5003", "published_unspecified"],
+  ["akai-ta32bh500", "with_stand"],
+  ["bq-32f40b", "published_unspecified"],
+  ["blackton-bt-24fs34b", "published_unspecified"],
+  ["yasin-32e9000", "with_stand"],
+  ["tuvio-tm75ufgch52", "with_stand"],
+  ["tuvio-td50ufbhh12", "with_stand"],
+  ["tuvio-td32hfbch12", "with_stand"],
+  ["tuvio-td55ufbth51", "published_unspecified"],
+  ["tuvio-td24hbch11", "with_stand"],
+]);
 for (const model of models) {
   assertHttpsSource(model, `Модель ${model.id}`);
   if (!model.source_label?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(model.checked_at ?? "")) {
     throw new Error(`Модель ${model.id}: нет подписи источника или даты проверки`);
+  }
+  const expectedWeightBasis = expectedConservativeWeightBasis.get(model.id);
+  if (
+    (expectedWeightBasis && model.weight_basis !== expectedWeightBasis)
+    || (!expectedWeightBasis && model.weight_basis !== undefined)
+  ) {
+    throw new Error(`Модель ${model.id}: неверно обозначено основание массы`);
   }
   const hardware = model.wall_mount_screws;
   if (hardware) {
@@ -765,6 +880,12 @@ if (
 }
 
 const modelById = new Map(models.map((model) => [model.id, model]));
+const mountById = new Map(mounts.map((mount) => [mount.id, mount]));
+const modelWeightSuffix = (model) => {
+  if (model.weight_basis === "with_stand") return "с подставкой, консервативно";
+  if (model.weight_basis === "published_unspecified") return "тип не указан, консервативно";
+  return "без подставки";
+};
 for (const [id, modelName, fileId] of [
   ["samsung-qe43q7faauxru", "QE43Q7FAAU", "10108131"],
   ["samsung-qe50q7faauxru", "QE50Q7FAAU", "10108143"],
@@ -879,6 +1000,30 @@ for (const edge of compatibilityEdges) {
   }
   if (!edge.compatible || !["verified-fit", "conditional-fit"].includes(edge.fit_status)) {
     throw new Error(`Граф содержит неизвестный статус ${edge.fit_status}`);
+  }
+}
+for (const model of models) {
+  const verifiedEdges = compatibilityEdges.filter(
+    (edge) => edge.tv_id === model.id && edge.compatible && edge.fit_status === "verified-fit",
+  );
+  if (verifiedEdges.length === 0) {
+    throw new Error(`Проверенная модель не имеет ни одного подтверждённого кронштейна: ${model.id}`);
+  }
+  for (const edge of verifiedEdges) {
+    const mount = mountById.get(edge.mount_id);
+    const exactVesa = `${model.vesa_width_mm}x${model.vesa_height_mm}`;
+    if (!mount?.vesa.includes(exactVesa)) {
+      throw new Error(`Пара ${model.id}:${edge.mount_id} не содержит точную VESA ${exactVesa}`);
+    }
+    if (mount.max_load_kg + Number.EPSILON < model.weight_kg * 1.25) {
+      throw new Error(`Пара ${model.id}:${edge.mount_id} не выдерживает паспортную массу с запасом 25%`);
+    }
+    if (
+      model.diagonal_inches < mount.min_diagonal_in
+      || model.diagonal_inches > mount.max_diagonal_in
+    ) {
+      throw new Error(`Подтверждённая пара ${model.id}:${edge.mount_id} выходит за диапазон диагонали`);
+    }
   }
 }
 for (const page of seoPages) {
@@ -1286,6 +1431,52 @@ for (const model of models) {
   if (!compatibleMountIds.every((id) => html.includes(`/kronshteyny/${id}/`))) {
     throw new Error(`Страница модели не содержит все взаимные ссылки: ${route}`);
   }
+  const verifiedMountIds = compatibilityEdges
+    .filter((edge) => edge.tv_id === model.id && edge.fit_status === "verified-fit")
+    .map((edge) => edge.mount_id);
+  if (
+    verifiedMountIds.length === 0
+    || !html.includes("data-page-kind=\"model\"")
+    || !html.includes(`VESA ${model.vesa_width_mm}×${model.vesa_height_mm}`)
+    || !html.includes(`${model.weight_kg} кг`)
+    || !html.includes(modelWeightSuffix(model))
+    || !html.includes("Подходящие кронштейны")
+    || !html.includes("Размеры и источник")
+    || (html.match(/<section\b/gu) ?? []).length < 5
+    || html.length < 7_500
+  ) {
+    throw new Error(`Карточка проверенной модели выглядит как заглушка: ${route}`);
+  }
+}
+for (const record of marketModelsManifest.records) {
+  const html = htmlByRoute.get(record.route_path);
+  if (!html) {
+    throw new Error(`Нет страницы для наблюдения Маркета: ${record.route_path}`);
+  }
+  if (record.page_kind === "verified") {
+    const verifiedModel = modelById.get(record.verified_model_id);
+    const hasVerifiedMount = compatibilityEdges.some(
+      (edge) => edge.tv_id === verifiedModel?.id && edge.fit_status === "verified-fit",
+    );
+    if (!verifiedModel || !hasVerifiedMount || !html.includes("Подходящие кронштейны")) {
+      throw new Error(`Наблюдение Маркета не ведёт на полноценную проверенную модель: ${record.record_id}`);
+    }
+    continue;
+  }
+  if (
+    !/\bnoindex\b/iu.test(metaContent(html, "robots"))
+    || !html.includes("data-compatibility-status=\"unverified\"")
+    || !html.includes("Как подобрать кронштейн без ошибки")
+    || !html.includes("Что зафиксировано в источнике")
+    || !html.includes(escapeHtmlText(record.market_url))
+    || !html.includes("Точный крепёж пока не подтверждён")
+    || html.includes("data-affiliate-slot=")
+    || html.includes("data-affiliate-offer-id=")
+    || (html.match(/<section\b/gu) ?? []).length < 4
+    || html.length < 6_000
+  ) {
+    throw new Error(`Непроверенная карточка Маркета тонкая или выдаёт догадку за совместимость: ${record.route_path}`);
+  }
 }
 for (const [legacyRoute, verifiedRoute] of legacyVerifiedModelAliases) {
   const html = htmlByRoute.get(legacyRoute);
@@ -1352,8 +1543,8 @@ if (!screwLookupHtml.includes('data-screw-catalog="true"') || !screwLookupHtml.i
   throw new Error("Страница подбора винтов не содержит самостоятельный сворачиваемый каталог");
 }
 for (const required of [
-  'data-searchable-model-count="132"',
-  'data-model-search-count="132"',
+  'data-searchable-model-count="131"',
+  'data-model-search-count="131"',
   'data-known-model-fallback="true"',
   "паспорт винтов ещё не подтверждён",
   "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv",
@@ -1524,8 +1715,8 @@ if (
 const vesaLookupHtml = htmlByRoute.get(vesaLookupPage.path) ?? "";
 for (const required of [
   'data-vesa-model-catalog="true"',
-  'data-searchable-model-count="132"',
-  'data-vesa-model-search-count="132"',
+  'data-searchable-model-count="131"',
+  'data-vesa-model-search-count="131"',
   "Найдите VESA по модели телевизора",
   "Таблица VESA телевизоров",
   "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv",

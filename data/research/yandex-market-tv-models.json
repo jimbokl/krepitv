@@ -1995,11 +1995,11 @@
       "rating_count": 233,
       "purchase_count": 831,
       "purchase_label": "831 купили",
-      "already_in_catalog": true,
-      "catalog_model_id": "tuvio-tm85ufbch51",
-      "catalog_brand": "Tuvio",
-      "catalog_model": "TM85UFBCH51",
-      "match_type": "exact_official_identity",
+      "already_in_catalog": false,
+      "catalog_model_id": null,
+      "catalog_brand": null,
+      "catalog_model": null,
+      "match_type": null,
       "observed_at": "2026-08-04T19:21:38.566Z"
     },
     {

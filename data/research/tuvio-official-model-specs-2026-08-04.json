@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-08-04",
+  "checked_at": "2026-08-05",
   "scope": "Точные модели Tuvio из снимка Яндекс Маркета; официальные карточки Tuvio",
-  "decision_rule": "В индексируемый каталог попадают только модели с точной идентичностью, VESA, опубликованной паспортной массой и размерами корпуса без подставки. Общая масса используется целиком как консервативная нагрузка.",
+  "decision_rule": "В индексируемый каталог попадают только модели с точной идентичностью, VESA, опубликованной массой и размерами корпуса без подставки. Основание массы хранится явно; масса с подставкой или без уточнения используется целиком как консервативная нагрузка. Конфликт официальных значений закрывает совместимость.",
   "accepted": [
     {"model":"TD43UFBHH13","source_url":"https://tuvio.yandex.ru/card/43-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td43ufbhh13-chernyy","model_year":2025,"diagonal_inches":43,"vesa_mm":"200×200","weight_without_stand_kg":5.2,"body_without_stand_mm":"957×561×70"},
     {"model":"TQ65UFGHH13","source_url":"https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-qled-frameless-na-platforme-yaos-tq65ufghh13","model_year":null,"diagonal_inches":65,"vesa_mm":"300×300","weight_without_stand_kg":12.8,"body_without_stand_mm":"1444×835×74"},
-    {"model":"TM75UFGCH52","source_url":"https://tuvio.yandex.ru/card/75-televizor-tuvio-4k-ultra-hd-miniled-s-saundvuferom-na-platforme-google-tv-tm75ufgch52-temno-seryy","model_year":null,"diagonal_inches":75,"vesa_mm":"400×400","passport_mass_kg":30.6,"body_without_stand_mm":"1668×960×63"},
-    {"model":"TD50UFBHH12","source_url":"https://tuvio.yandex.ru/card/50-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td50ufbhh12-chernyy","model_year":null,"diagonal_inches":50,"vesa_mm":"300×300","passport_mass_kg":7.6,"body_without_stand_mm":"1111×647×73"},
-    {"model":"TD32HFBCH12","source_url":"https://tuvio.yandex.ru/card/32-televizor-tuvio-hd-ready-dled-frameless-na-platforme-yaos-td32hfbch12-chernyy","model_year":null,"diagonal_inches":32,"vesa_mm":"200×200","passport_mass_kg":3.5,"body_without_stand_mm":"718×421×69"},
-    {"model":"TD55UFBTH51","source_url":"https://tuvio.yandex.ru/card/55-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-google-th-td55ufbth51-chernyy","model_year":2026,"diagonal_inches":55,"vesa_mm":"200×200","passport_mass_kg":9.2,"body_without_stand_mm":"1226×717×65"},
-    {"model":"TD24HBCH11","source_url":"https://tuvio.yandex.ru/card/24-televizor-tuvio-hd-ready-dled-na-platforme-yaos-td24hbch11-chernyy","model_year":null,"diagonal_inches":24,"vesa_mm":"200×200","passport_mass_kg":2.2,"body_without_stand_mm":"535×319×72"},
-    {"model":"TM85UFBCH51","source_url":"https://tuvio.yandex.ru/card/85-televizor-tuvio-4k-ultra-hd-miniled-frameless-na-platforme-google-tv-tm85ufbcv51-chernyy","source_identity_note":"Заголовок официальной карточки содержит TM85UFBCH51; в URL допущена опечатка TM85UFBCV51.","model_year":null,"diagonal_inches":85,"vesa_mm":"600×400","passport_mass_kg":41.6,"body_without_stand_mm":"1890×1090×64"}
+    {"model":"TM75UFGCH52","source_url":"https://tuvio.yandex.ru/card/75-televizor-tuvio-4k-ultra-hd-miniled-s-saundvuferom-na-platforme-google-tv-tm75ufgch52-temno-seryy","model_year":null,"diagonal_inches":75,"vesa_mm":"400×400","passport_mass_kg":30.6,"weight_basis":"with_stand","body_without_stand_mm":"1668×960×63"},
+    {"model":"TD50UFBHH12","source_url":"https://tuvio.yandex.ru/card/50-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td50ufbhh12-chernyy","model_year":null,"diagonal_inches":50,"vesa_mm":"300×300","passport_mass_kg":7.6,"weight_basis":"with_stand","body_without_stand_mm":"1111×647×73"},
+    {"model":"TD32HFBCH12","source_url":"https://tuvio.yandex.ru/card/32-televizor-tuvio-hd-ready-dled-frameless-na-platforme-yaos-td32hfbch12-chernyy","model_year":null,"diagonal_inches":32,"vesa_mm":"200×200","passport_mass_kg":3.5,"weight_basis":"with_stand","body_without_stand_mm":"718×421×69"},
+    {"model":"TD55UFBTH51","source_url":"https://tuvio.yandex.ru/card/55-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-google-th-td55ufbth51-chernyy","model_year":2026,"diagonal_inches":55,"vesa_mm":"200×200","passport_mass_kg":9.2,"weight_basis":"published_unspecified","body_without_stand_mm":"1226×717×65"},
+    {"model":"TD24HBCH11","source_url":"https://tuvio.yandex.ru/card/24-televizor-tuvio-hd-ready-dled-na-platforme-yaos-td24hbch11-chernyy","model_year":null,"diagonal_inches":24,"vesa_mm":"200×200","passport_mass_kg":2.2,"weight_basis":"with_stand","body_without_stand_mm":"535×319×72"}
   ],
   "rejected": [
     {"model":"TD100UFBHH12","reason":"Официальная карточка подтверждает диагональ, массу и корпус, но не публикует VESA; кроме того, текущий каталог кронштейнов не поддерживает диагональ 100 дюймов."},
-    {"model":"TD50UFBHH11","reason":"Точная модель отсутствует в официальном каталоге и перечне инструкций; подмена на H12 запрещена."}
+    {"model":"TD50UFBHH11","reason":"Точная модель отсутствует в официальном каталоге и перечне инструкций; подмена на H12 запрещена."},
+    {"model":"TM85UFBCH51","source_url":"https://marketdo.s3.yandex.net/tuvio/Tuvio_TV_Google_MiniLED_TM50UFBCH51_TM55UFBCH51_TM65UFBCH51_TM75UFBCH51_TM85UFBCH51_UM-01%20FULL.pdf","reason":"Официальная карточка публикует 41,6 кг, а официальное руководство семейства — 41,0 кг с подставкой. До устранения конфликта производителем совместимость не подтверждается."}
   ]
 }

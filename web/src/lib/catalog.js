@@ -122,11 +122,13 @@ export async function loadFreshModelAffiliateOffers({
   now = Date.now(),
   origin = globalThis.location?.origin,
 } = {}) {
+  const shardKey = modelOfferShardKey(modelId);
+  if (!shardKey) return [];
   return loadSameOriginSnapshot({
     fetchImpl,
     now,
     origin,
-    path: "/data/affiliate-model-offers.json",
+    path: `/data/affiliate-model-offers/${shardKey}.json`,
     parse: (snapshot, options) => getFreshModelAffiliateOffers(snapshot, {
       ...options,
       modelId,
@@ -138,6 +140,14 @@ export function modelIdFromPath(value) {
   if (typeof value !== "string") return null;
   const match = value.match(/^\/modeli\/([a-z0-9][a-z0-9-]{2,79})\/?$/i);
   return match ? match[1].toLocaleLowerCase("ru-RU") : null;
+}
+
+export function modelOfferShardKey(modelId) {
+  if (typeof modelId !== "string" || !/^[a-z0-9][a-z0-9-]{2,79}$/u.test(modelId)) {
+    return null;
+  }
+  const key = modelId.split("-", 1)[0];
+  return /^[a-z0-9]{2,40}$/u.test(key) ? key : null;
 }
 
 async function loadSameOriginSnapshot({ fetchImpl, now, origin, path, parse }) {

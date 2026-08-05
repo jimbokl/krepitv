@@ -17,6 +17,7 @@ import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
+import { modelWeightSuffix } from "../lib/modelWeight.js";
 import { selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
 import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
 
@@ -199,7 +200,7 @@ function ModelRows({ conditional = false, items }) {
                     <p className="mt-1 text-sm text-muted">
                       {conditional ? "VESA и нагрузка совпали; диагональ требует проверки" : "Подходит по VESA, нагрузке и диагонали"}
                     </p>
-                    <p className="mt-2 font-mono text-xs">VESA {model.vesa_width_mm}×{model.vesa_height_mm} мм · {formatNumber(model.weight_kg)} кг</p>
+                    <p className="mt-2 font-mono text-xs">VESA {model.vesa_width_mm}×{model.vesa_height_mm} мм · {formatNumber(model.weight_kg)} кг {modelWeightSuffix(model)}</p>
                     {conditional && warnings.length ? (
                       <p className="mt-2 text-sm leading-relaxed text-action">{warnings.join(" · ")}</p>
                     ) : null}

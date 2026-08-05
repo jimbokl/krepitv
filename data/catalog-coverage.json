@@ -2177,8 +2177,8 @@
       "model_year": null,
       "catalog_source_url": "https://tuvio.yandex.ru/card/75-televizor-tuvio-4k-ultra-hd-miniled-s-saundvuferom-na-platforme-google-tv-tm75ufgch52-temno-seryy",
       "dimension_source_url": "https://tuvio.yandex.ru/card/75-televizor-tuvio-4k-ultra-hd-miniled-s-saundvuferom-na-platforme-google-tv-tm75ufgch52-temno-seryy",
-      "dimension_source_label": "Официальные характеристики Tuvio",
-      "checked_at": "2026-08-04"
+      "dimension_source_label": "Официальная карточка Tuvio TM75UFGCH52",
+      "checked_at": "2026-08-05"
     },
     {
       "model_id": "tuvio-td50ufbhh12",
@@ -2188,8 +2188,8 @@
       "model_year": null,
       "catalog_source_url": "https://tuvio.yandex.ru/card/50-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td50ufbhh12-chernyy",
       "dimension_source_url": "https://tuvio.yandex.ru/card/50-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td50ufbhh12-chernyy",
-      "dimension_source_label": "Официальные характеристики Tuvio",
-      "checked_at": "2026-08-04"
+      "dimension_source_label": "Официальная карточка Tuvio TD50UFBHH12",
+      "checked_at": "2026-08-05"
     },
     {
       "model_id": "tuvio-td32hfbch12",
@@ -2199,8 +2199,8 @@
       "model_year": null,
       "catalog_source_url": "https://tuvio.yandex.ru/card/32-televizor-tuvio-hd-ready-dled-frameless-na-platforme-yaos-td32hfbch12-chernyy",
       "dimension_source_url": "https://tuvio.yandex.ru/card/32-televizor-tuvio-hd-ready-dled-frameless-na-platforme-yaos-td32hfbch12-chernyy",
-      "dimension_source_label": "Официальные характеристики Tuvio",
-      "checked_at": "2026-08-04"
+      "dimension_source_label": "Официальная карточка Tuvio TD32HFBCH12",
+      "checked_at": "2026-08-05"
     },
     {
       "model_id": "tuvio-td55ufbth51",
@@ -2210,8 +2210,8 @@
       "model_year": 2026,
       "catalog_source_url": "https://tuvio.yandex.ru/card/55-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-google-th-td55ufbth51-chernyy",
       "dimension_source_url": "https://tuvio.yandex.ru/card/55-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-google-th-td55ufbth51-chernyy",
-      "dimension_source_label": "Официальные характеристики Tuvio",
-      "checked_at": "2026-08-04"
+      "dimension_source_label": "Официальная карточка Tuvio TD55UFBTH51",
+      "checked_at": "2026-08-05"
     },
     {
       "model_id": "tuvio-td24hbch11",
@@ -2221,19 +2221,8 @@
       "model_year": null,
       "catalog_source_url": "https://tuvio.yandex.ru/card/24-televizor-tuvio-hd-ready-dled-na-platforme-yaos-td24hbch11-chernyy",
       "dimension_source_url": "https://tuvio.yandex.ru/card/24-televizor-tuvio-hd-ready-dled-na-platforme-yaos-td24hbch11-chernyy",
-      "dimension_source_label": "Официальные характеристики Tuvio",
-      "checked_at": "2026-08-04"
-    },
-    {
-      "model_id": "tuvio-tm85ufbch51",
-      "brand": "Tuvio",
-      "series": "MiniLED Frameless Google TV",
-      "diagonal_inches": 85,
-      "model_year": null,
-      "catalog_source_url": "https://tuvio.yandex.ru/card/85-televizor-tuvio-4k-ultra-hd-miniled-frameless-na-platforme-google-tv-tm85ufbcv51-chernyy",
-      "dimension_source_url": "https://tuvio.yandex.ru/card/85-televizor-tuvio-4k-ultra-hd-miniled-frameless-na-platforme-google-tv-tm85ufbcv51-chernyy",
-      "dimension_source_label": "Официальные характеристики Tuvio",
-      "checked_at": "2026-08-04"
+      "dimension_source_label": "Официальная карточка Tuvio TD24HBCH11",
+      "checked_at": "2026-08-05"
     },
     {
       "model_id": "philips-50pud7029",

@@ -36,6 +36,7 @@ const catalog = register.map((row) => ({
   model_year: row.model_year,
   diagonal_inches: row.diagonal_inches,
   weight_kg: row.weight_kg,
+  ...(row.weight_basis ? { weight_basis: row.weight_basis } : {}),
   width_mm: row.width_mm,
   height_mm: row.height_mm,
   depth_mm: row.depth_mm,

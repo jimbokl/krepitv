@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   Tag,
 } from "@phosphor-icons/react";
+import { modelWeightLabel, modelWeightSuffix } from "../lib/modelWeight.js";
 
 export function ModelFacts({ model, detailed = false }) {
   const vesaConflict = model.wall_mount_screws?.vesa_conflict;
@@ -19,8 +20,8 @@ export function ModelFacts({ model, detailed = false }) {
       Icon: BracketsSquare,
     },
     {
-      label: "Паспортная масса",
-      value: `${formatNumber(model.weight_kg)} кг`,
+      label: modelWeightLabel(model),
+      value: `${formatNumber(model.weight_kg)} кг · ${modelWeightSuffix(model)}`,
       Icon: Barbell,
     },
     {
