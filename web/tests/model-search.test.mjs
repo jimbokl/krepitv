@@ -40,10 +40,31 @@ test("неизвестная модель не оставляет пользов
 
   assert.match(source, /data-model-search-empty="true"/);
   assert.match(source, /href="\/vesa\/"/);
+  assert.match(source, /href="\/modeli\/"/);
+  assert.match(source, /Проверьте полный код модели на шильдике телевизора/);
   assert.match(
     source,
     /https:\/\/github\.com\/jimbokl\/krepitv\/issues\/new\?template=model-request\.yml/,
   );
   assert.match(source, /Не отправляйте серийный номер или персональные данные/);
   assert.doesNotMatch(source, /Sony XR-55/);
+});
+
+test("поиск моделей поддерживает полный клавиатурный combobox-контракт", async () => {
+  const source = await readFile(
+    new URL("../src/components/ModelSearch.jsx", import.meta.url),
+    "utf8",
+  );
+
+  for (const contract of [
+    "aria-activedescendant",
+    "aria-selected",
+    'event.key === "ArrowDown"',
+    'event.key === "ArrowUp"',
+    'event.key === "Enter"',
+    'event.key === "Escape"',
+    "onSubmit?.(item)",
+  ]) {
+    assert.equal(source.includes(contract), true, `Нет контракта: ${contract}`);
+  }
 });

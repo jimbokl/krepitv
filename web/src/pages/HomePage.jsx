@@ -18,6 +18,7 @@ import { ModelSearch } from "../components/ModelSearch.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
 import { getHomeDiagnosticPages, getHomeFeaturedPages } from "../lib/seoPages.mjs";
+import { pluralizeRu } from "../lib/russianGrammar.js";
 
 const HOME_MODEL_SPOTLIGHT_ID = "tcl-65c7k";
 
@@ -145,7 +146,9 @@ export function HomePage({ catalog }) {
               <div className="border-l border-line pl-5 font-display">
                 <span className="block text-sm font-bold">Подходят</span>
                 <span className="block text-4xl font-extrabold leading-none text-action">{compatibleMountCount}</span>
-                <span className="block text-sm font-bold">кронштейна</span>
+                <span className="block text-sm font-bold">
+                  {pluralizeRu(compatibleMountCount, "кронштейн", "кронштейна", "кронштейнов")}
+                </span>
               </div>
               <ArrowRight aria-hidden="true" className="size-8 shrink-0 text-action" />
             </div>

@@ -32,12 +32,20 @@ test("React-схема честно показывает три типа мех�
   assert.doesNotMatch(source, /href=/u);
 });
 
-test("страница кронштейна ставит техническую схему перед предложением", async () => {
+test("страница кронштейна показывает итог до предложения, а полную схему после совместимости", async () => {
   const source = await readFile(
     new URL("../src/pages/MountPage.jsx", import.meta.url),
     "utf8",
   );
 
   assert.equal((source.match(/<MountTechnicalScheme/gu) ?? []).length, 1);
-  assert.ok(source.indexOf("<MountTechnicalScheme") < source.indexOf("{affiliateOffer ?"));
+  const summaryPosition = source.indexOf('data-mount-fit-summary="true"');
+  const offerPosition = source.indexOf("{affiliateOffer ?");
+  const compatibilityPosition = source.indexOf('className="grid border-b-2 border-ink');
+  const schemePosition = source.indexOf("<MountTechnicalScheme");
+
+  assert.ok(summaryPosition >= 0);
+  assert.ok(summaryPosition < offerPosition);
+  assert.ok(offerPosition < compatibilityPosition);
+  assert.ok(compatibilityPosition < schemePosition);
 });

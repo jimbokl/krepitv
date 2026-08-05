@@ -1,5 +1,5 @@
 import { List, X } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Brand } from "./Brand.jsx";
 import { MetrikaConsent } from "./MetrikaConsent.jsx";
 
@@ -15,6 +15,20 @@ const links = [
 
 export function SiteHeader({ active = "" }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    function closeOnEscape(event) {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuButtonRef.current?.focus();
+    }
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
 
   return (
     <>
@@ -28,10 +42,13 @@ export function SiteHeader({ active = "" }) {
           </div>
 
           <button
+            aria-controls="site-primary-navigation"
+            aria-expanded={menuOpen}
             className="shrink-0 rounded p-2 focus:outline-none focus:ring-2 focus:ring-action lg:hidden"
             onClick={() => setMenuOpen((value) => !value)}
             type="button"
             aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
+            ref={menuButtonRef}
           >
             {menuOpen ? <X className="size-7" /> : <List className="size-7" />}
           </button>
@@ -39,12 +56,14 @@ export function SiteHeader({ active = "" }) {
           <nav
             className={`${menuOpen ? "flex" : "hidden"} absolute inset-x-4 top-[5.3rem] z-40 flex-col gap-1 rounded-md border border-line bg-white p-3 shadow-menu lg:static lg:flex lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none`}
             aria-label="Основная навигация"
+            id="site-primary-navigation"
           >
             {links.map((link) => (
               <a
                 className={`border-b-2 px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2 ${active === link.href ? "border-ink" : "border-transparent"}`}
                 href={link.href}
                 key={link.href}
+                onClick={() => setMenuOpen(false)}
               >
                 {link.label}
               </a>

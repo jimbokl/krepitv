@@ -18,6 +18,7 @@ import { formatNumber } from "../components/ModelFacts.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
+import { pluralizeRu } from "../lib/russianGrammar.js";
 import { selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
 import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
 
@@ -84,21 +85,27 @@ export function MountPage({ catalog, mountId }) {
           </div>
         </header>
 
-        <nav className="mt-5 border-y border-line" aria-label="Связанные подборы кронштейнов">
-          {contextLinks.map((item) => (
-            <a
-              className="flex min-h-12 items-center justify-between gap-3 border-t border-line py-3 font-display font-bold first:border-t-0"
-              href={item.href}
-              key={item.href}
-            >
-              {item.label} <ArrowRight aria-hidden="true" className="size-5 shrink-0" />
-            </a>
-          ))}
-        </nav>
+        <section
+          className="mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3"
+          data-mount-fit-summary="true"
+          aria-label="Краткий итог совместимости"
+        >
+          <SummaryFact
+            label="Поддерживаемые VESA"
+            value={`${mount.vesa.length} ${pluralizeRu(mount.vesa.length, "схема", "схемы", "схем")}`}
+          />
+          <SummaryFact
+            label="Подтверждено"
+            value={`${verifiedModels.length} ${pluralizeRu(verifiedModels.length, "модель", "модели", "моделей")}`}
+            verified
+          />
+          <SummaryFact
+            label="Нужна проверка диагонали"
+            value={`${conditionalModels.length} ${pluralizeRu(conditionalModels.length, "модель", "модели", "моделей")}`}
+          />
+        </section>
 
         <CommercialProfile profile={commercialProfile} />
-
-        <MountTechnicalScheme mount={mount} />
 
         {affiliateOffer ? (
           <section className="border-b-2 border-ink py-7">
@@ -167,6 +174,20 @@ export function MountPage({ catalog, mountId }) {
           </div>
         </section>
 
+        <MountTechnicalScheme mount={mount} />
+
+        <nav className="mt-5 border-y border-line" aria-label="Связанные подборы кронштейнов">
+          {contextLinks.map((item) => (
+            <a
+              className="flex min-h-12 items-center justify-between gap-3 border-t border-line py-3 font-display font-bold first:border-t-0"
+              href={item.href}
+              key={item.href}
+            >
+              {item.label} <ArrowRight aria-hidden="true" className="size-5 shrink-0" />
+            </a>
+          ))}
+        </nav>
+
         <section className="grid gap-5 border-b border-line py-7 lg:grid-cols-[22rem_minmax(0,1fr)]">
           <h2 className="font-display text-3xl font-extrabold">Границы проверки</h2>
           <p className="max-w-3xl leading-relaxed text-muted">
@@ -175,6 +196,17 @@ export function MountPage({ catalog, mountId }) {
         </section>
       </article>
     </main>
+  );
+}
+
+function SummaryFact({ label, value, verified = false }) {
+  return (
+    <div className="bg-paper p-5">
+      <p className="font-mono text-xs uppercase text-muted">{label}</p>
+      <p className={`mt-2 font-display text-3xl font-extrabold ${verified ? "text-verified" : "text-ink"}`}>
+        {value}
+      </p>
+    </div>
   );
 }
 

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "run": "20260805-existing-pages-quality-fix",
+  "generated_at": "2026-08-05T16:16:01.287097+00:00",
+  "scanned_files": [
+    "web/src/components/ModelSearch.jsx",
+    "web/src/components/SiteHeader.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/lib/russianGrammar.js",
+    "web/src/pages/HomePage.jsx",
+    "web/src/pages/ModelPage.jsx",
+    "web/src/pages/MountPage.jsx",
+    "web/src/pages/SeoPage.jsx"
+  ],
+  "findings": []
+}

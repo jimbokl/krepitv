@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "run_id": "20260805-existing-pages-quality-fix",
+  "sealed_at": "2026-08-05T16:16:01.461100+00:00",
+  "task_hash": "sha256:5a34f9934e649264a57b26832ba81779648d4aa406f993ac416f113e676e66dd",
+  "evidence_hash": "sha256:8243692e174b5dd2907bd7b79930257be41a657bc429f6a4beaa81488d2057c8",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/SPEC.md": "sha256:7fca449c48e64c9e851bf8ecd46a9dc4ded36d008c740d177fbfdcef916bdf8d",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/brief.md": "sha256:d2dd2f319f4eda6daf88ca37e14c7cc1d9daf347c5903836fb6979901418f933",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/component-map.md": "sha256:5ab75285b5342df0577757a286ac71e7a419c28979c1c77c846f93aba8baa76d",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/discovery.md": "sha256:3f993d3343c7e0a3aa64e19d7fbe872f047642b6073e22050774d8b23e63710e",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/evidence/drift-report.json": "sha256:3bd99ff1e6aeb69b2b2744d60114b79df5c177945f5fcde178f7b44dc05665f4",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/evidence.json": "sha256:8243692e174b5dd2907bd7b79930257be41a657bc429f6a4beaa81488d2057c8",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/review.md": "sha256:38c4defca1f14ae2ef7a3624de047cd289e4da1eb8e354abecd0aab10922a537",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/home-desktop.png": "sha256:20b2a32142cac58e79c2ad67a7df5256cc743f9a70b313618d3560f50ea15b27",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/mount-desktop.png": "sha256:60f43a176f83220473fa963b4e020c9fc3c3a6cb826143e0d4d237f7df4b40bd",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/mount-mobile.png": "sha256:c0148b38fffb559fb55e36c9ff084aa9ae9a2a7382222d4c6f653e319ac7e4b2",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/search-disabled-mobile.png": "sha256:abbf1fa6a532a958d43bf0add69ca053737031d30dfd2137159254bb2f906a4d",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/search-empty-mobile.png": "sha256:abbf1fa6a532a958d43bf0add69ca053737031d30dfd2137159254bb2f906a4d",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/seo-error-tablet.png": "sha256:0f8c019cbd64ead717a84c89535c8a477a4378e35ff52d637a015eb7d4fe413e",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/seo-focus-mobile.png": "sha256:f36fa735889ed75a8eaca19e1cc9b02a1717c048b3b9888cf7e1abf6fdb405fe",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/seo-loading-tablet.png": "sha256:661aa9451c73b533a13b806f211e5d60d0046633d6f3e81b301118a9d1f9324b",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/seo-success-desktop.png": "sha256:85644d8065032fe08abbf675ea4e2b8ae255a80ec71cd84e90666baff7ae813e",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/screenshots/seo-update-desktop.png": "sha256:824d63018976b934290fad062f21478c752eeb1507d6476abeb5cdc8767f12cd",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/task.json": "sha256:5a34f9934e649264a57b26832ba81779648d4aa406f993ac416f113e676e66dd",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/visual-direction.md": "sha256:af21be98d23b9e81ebe6ade0ba6a4290d05aecb9bbafe89935ddbc7d6620ab19"
+  },
+  "packet_hash": "sha256:d2789956c9f35ac197f066e915c8a22de0a7ac3521579441804776f78e706601"
+}

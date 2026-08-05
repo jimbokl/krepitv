@@ -33,7 +33,7 @@ export function SiteFooter() {
         >
           {footerLinks.map((link) => (
             <a
-              className="max-w-full rounded-sm underline decoration-line underline-offset-4 [overflow-wrap:anywhere] transition hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
+              className="inline-flex min-h-11 max-w-full items-center rounded-sm underline decoration-line underline-offset-4 [overflow-wrap:anywhere] transition hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 sm:min-h-0"
               href={link.href}
               key={link.href}
             >

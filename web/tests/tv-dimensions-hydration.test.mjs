@@ -137,6 +137,93 @@ test("после client boot таблица, методика и мобильн�
       }, 50);
     })`);
     assert.deepEqual(mobileSearch, { separated: true });
+
+    const homeLoaded = browser.once("Page.loadEventFired");
+    await browser.send("Page.navigate", { url: `${server.origin}/` });
+    await homeLoaded;
+    await browser.evaluate(`new Promise((resolve, reject) => {
+      const startedAt = Date.now();
+      const timer = setInterval(() => {
+        const input = document.querySelector('input[aria-label="Модель телевизора"]');
+        if (input) {
+          clearInterval(timer);
+          resolve(true);
+        } else if (Date.now() - startedAt > 10000) {
+          clearInterval(timer);
+          reject(new Error('home model search timeout'));
+        }
+      }, 50);
+    })`);
+
+    const keyboardSelection = await browser.evaluate(`new Promise((resolve, reject) => {
+      const input = document.querySelector('input[aria-label="Модель телевизора"]');
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      setter.call(input, 'TCL 55P6K');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      const startedAt = Date.now();
+      const timer = setInterval(() => {
+        const option = document.querySelector('[role="option"]');
+        if (option) {
+          clearInterval(timer);
+          input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+          requestAnimationFrame(() => resolve({
+            activeDescendant: input.getAttribute('aria-activedescendant'),
+            selected: option.getAttribute('aria-selected'),
+            optionId: option.id,
+          }));
+        } else if (Date.now() - startedAt > 5000) {
+          clearInterval(timer);
+          reject(new Error('keyboard option timeout'));
+        }
+      }, 50);
+    })`);
+    assert.equal(keyboardSelection.activeDescendant, keyboardSelection.optionId);
+    assert.equal(keyboardSelection.selected, "true");
+
+    const modelLoaded = browser.once("Page.loadEventFired");
+    await browser.evaluate(`(() => {
+      document.querySelector('input[aria-label="Модель телевизора"]')
+        .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+      return true;
+    })()`);
+    await modelLoaded;
+    assert.equal(
+      await browser.evaluate("location.pathname"),
+      "/modeli/tcl-55p6k/",
+    );
+    await browser.evaluate(`new Promise((resolve, reject) => {
+      const startedAt = Date.now();
+      const timer = setInterval(() => {
+        if (document.querySelector('button[aria-controls="site-primary-navigation"]')) {
+          clearInterval(timer);
+          resolve(true);
+        } else if (Date.now() - startedAt > 10000) {
+          clearInterval(timer);
+          reject(new Error('mobile navigation hydration timeout'));
+        }
+      }, 50);
+    })`);
+
+    const mobileMenu = await browser.evaluate(`new Promise((resolve) => {
+      const button = document.querySelector('button[aria-controls="site-primary-navigation"]');
+      button.click();
+      requestAnimationFrame(() => {
+        const nav = document.getElementById('site-primary-navigation');
+        const opened = button.getAttribute('aria-expanded') === 'true'
+          && getComputedStyle(nav).display !== 'none';
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+        requestAnimationFrame(() => resolve({
+          opened,
+          closed: button.getAttribute('aria-expanded') === 'false',
+          focusReturned: document.activeElement === button,
+        }));
+      });
+    })`);
+    assert.deepEqual(mobileMenu, {
+      opened: true,
+      closed: true,
+      focusReturned: true,
+    });
   } finally {
     socket?.close();
     await stopChrome(chrome);

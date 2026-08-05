@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "task_id": "20260805-existing-pages-quality-fix",
+  "commands": [
+    {
+      "id": "cmd-targeted-web",
+      "command": "node --test --test-concurrency=1 web/tests/model-search.test.mjs web/tests/mount-technical-scheme.test.mjs web/tests/seo-page-taxonomy.test.mjs web/tests/russian-grammar.test.mjs web/tests/site-header.test.mjs",
+      "exit_code": 0,
+      "covers": ["empty", "success", "disabled", "focus", "keyboard navigation", "Russian labels"]
+    },
+    {
+      "id": "cmd-sitegen",
+      "command": "cargo test -p krepitv-sitegen",
+      "exit_code": 0,
+      "covers": ["SSR taxonomy", "canonical output", "existing-page generation"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-browser-interactions",
+      "command": "node --test --test-concurrency=1 web/tests/tv-dimensions-hydration.test.mjs",
+      "exit_code": 0,
+      "covers": ["real browser", "keyboard selection", "mobile menu", "focus return"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace \"$PWD\" --run .design-harness/runs/20260805-existing-pages-quality-fix --files web/src/components/ModelSearch.jsx web/src/components/SiteHeader.jsx web/src/components/SiteFooter.jsx web/src/lib/russianGrammar.js web/src/pages/HomePage.jsx web/src/pages/ModelPage.jsx web/src/pages/MountPage.jsx web/src/pages/SeoPage.jsx",
+      "exit_code": 0,
+      "output_path": "evidence/drift-report.json",
+      "covers": ["design tokens", "raw colors", "arbitrary spacing", "bounded UI files"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-desktop",
+      "path": "screenshots/home-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "loading-tablet",
+      "path": "screenshots/seo-loading-tablet.png",
+      "state": "loading",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "empty-mobile",
+      "path": "screenshots/search-empty-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "error-tablet",
+      "path": "screenshots/seo-error-tablet.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "success-desktop",
+      "path": "screenshots/seo-success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "disabled-mobile",
+      "path": "screenshots/search-disabled-mobile.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "focus-mobile",
+      "path": "screenshots/seo-focus-mobile.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "mount-desktop",
+      "path": "screenshots/mount-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "mount-mobile",
+      "path": "screenshots/mount-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + headless Chrome QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Новых URL, сырых цветов и произвольных spacing-токенов в изменённых UI-файлах нет.",
+      "На 320, 768 и 1440 CSS px горизонтальное переполнение не обнаружено.",
+      "Клавиатурный выбор модели и закрытие меню Escape проверены в реальном Chrome."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

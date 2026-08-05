@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "id": "20260805-existing-pages-quality-fix",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root",
+  "created_at": "2026-08-05T15:50:40.124772+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "crates/sitegen/src/main.rs",
+    "web/src/components/ModelSearch.jsx",
+    "web/src/components/SiteHeader.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/lib/russianGrammar.js",
+    "web/src/pages/HomePage.jsx",
+    "web/src/pages/ModelPage.jsx",
+    "web/src/pages/MountPage.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/tests",
+    "web",
+    "docs",
+    "product-docs/operations/existing-pages-quality-fix-2026-08-05.md",
+    ".design-harness/runs/20260805-existing-pages-quality-fix/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "cmd-targeted-web",
+      "command": "node --test --test-concurrency=1 web/tests/model-search.test.mjs web/tests/mount-technical-scheme.test.mjs web/tests/seo-page-taxonomy.test.mjs web/tests/russian-grammar.test.mjs web/tests/site-header.test.mjs",
+      "required": true,
+      "covers": ["empty", "success", "disabled", "focus", "keyboard navigation", "Russian labels"]
+    },
+    {
+      "id": "cmd-sitegen",
+      "command": "cargo test -p krepitv-sitegen",
+      "required": true,
+      "covers": ["SSR taxonomy", "canonical output", "existing-page generation"]
+    },
+    {
+      "id": "cmd-production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "whole artifact"]
+    },
+    {
+      "id": "cmd-browser-interactions",
+      "command": "node --test --test-concurrency=1 web/tests/tv-dimensions-hydration.test.mjs",
+      "required": true,
+      "covers": ["real browser", "keyboard selection", "mobile menu", "focus return"]
+    },
+    {
+      "id": "cmd-design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace \"$PWD\" --run .design-harness/runs/20260805-existing-pages-quality-fix --files web/src/components/ModelSearch.jsx web/src/components/SiteHeader.jsx web/src/components/SiteFooter.jsx web/src/lib/russianGrammar.js web/src/pages/HomePage.jsx web/src/pages/ModelPage.jsx web/src/pages/MountPage.jsx web/src/pages/SeoPage.jsx",
+      "required": true,
+      "covers": ["design tokens", "raw colors", "arbitrary spacing", "bounded UI files"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "unknown-model-help",
+      "value": "Проверьте полный код модели на шильдике телевизора",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "seo-category",
+      "value": "Настройка телевизора",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [],
+  "sources": []
+}

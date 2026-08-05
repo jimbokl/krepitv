@@ -70,7 +70,7 @@ export function ModelPage({ catalog, modelId }) {
             <span className="sm:text-center">
               {model.series} · {model.model_year ?? "год не указан производителем"}
             </span>
-            <span className="sm:text-right">Данные проверены: {formatCheckedDate(model.checked_at)}</span>
+            <span className="sm:text-right">Характеристики модели проверены: {formatCheckedDate(model.checked_at)}</span>
           </div>
         </section>
 

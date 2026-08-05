@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import {
   filterModelSearchResults,
@@ -12,6 +12,9 @@ export function ModelSearchEmptyState({ message }) {
   return (
     <div className="px-5 py-4" data-model-search-empty="true">
       <p className="text-muted">{message}</p>
+      <p className="mt-2 text-sm leading-relaxed text-ink">
+        Проверьте полный код модели на шильдике телевизора: он обычно находится на задней панели и отличается от названия серии.
+      </p>
       <div className="mt-4 grid gap-2 sm:grid-cols-2">
         <a
           className="inline-flex min-h-11 items-center justify-center rounded-md border-2 border-ink px-4 text-center font-display text-sm font-bold text-ink transition hover:border-action hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
@@ -21,15 +24,13 @@ export function ModelSearchEmptyState({ message }) {
         </a>
         <a
           className="inline-flex min-h-11 items-center justify-center rounded-md bg-ink px-4 text-center font-display text-sm font-bold text-white transition hover:bg-technical focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
-          href={MODEL_REQUEST_URL}
-          rel="noreferrer"
-          target="_blank"
+          href="/modeli/"
         >
-          Предложить модель
+          Посмотреть проверенные модели
         </a>
       </div>
       <p className="mt-3 text-xs leading-relaxed text-muted">
-        Не отправляйте серийный номер или персональные данные: обращение в GitHub будет публичным.
+        Модели всё ещё нет? <a className="font-semibold text-technical underline underline-offset-4" href={MODEL_REQUEST_URL} rel="noreferrer" target="_blank">Предложите её через публичное обращение</a>. Не отправляйте серийный номер или персональные данные.
       </p>
     </div>
   );
@@ -49,7 +50,10 @@ export function ModelSearch({
   autoFocus = false,
 }) {
   const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const rootRef = useRef(null);
+  const reactId = useId();
+  const listboxId = `model-search-${reactId.replaceAll(":", "")}`;
   const results = useMemo(
     () => filterModelSearchResults(search, value),
     [search, value],
@@ -67,10 +71,49 @@ export function ModelSearch({
     return () => document.removeEventListener("pointerdown", close);
   }, []);
 
+  useEffect(() => {
+    if (!open || !results.length) {
+      setActiveIndex(-1);
+      return;
+    }
+    setActiveIndex((current) => (
+      current >= 0 && current < results.length ? current : 0
+    ));
+  }, [open, results]);
+
   function choose(item) {
     onChange(item.title);
     onSelect?.(item);
     setOpen(false);
+    setActiveIndex(-1);
+  }
+
+  function handleInputKeyDown(event) {
+    if (event.key === "Escape") {
+      setOpen(false);
+      setActiveIndex(-1);
+      return;
+    }
+
+    if (!results.length) return;
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      setOpen(true);
+      setActiveIndex((current) => {
+        if (current < 0) return event.key === "ArrowDown" ? 0 : results.length - 1;
+        const direction = event.key === "ArrowDown" ? 1 : -1;
+        return (current + direction + results.length) % results.length;
+      });
+      return;
+    }
+
+    if (event.key === "Enter" && open && activeIndex >= 0) {
+      event.preventDefault();
+      const item = results[activeIndex];
+      choose(item);
+      onSubmit?.(item);
+    }
   }
 
   function submit(event) {
@@ -102,15 +145,18 @@ export function ModelSearch({
           aria-label="Модель телевизора"
           aria-autocomplete="list"
           aria-expanded={open}
-          aria-controls="варианты-моделей"
+          aria-controls={listboxId}
+          aria-activedescendant={open && activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined}
           role="combobox"
           className={`min-w-0 w-full border-2 bg-white pl-16 font-sans text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 ${value ? "pr-14" : "pr-4"} ${compact ? "h-[4.4rem] rounded-md border-ink text-xl" : "h-[5rem] rounded-md border-action text-lg sm:text-xl lg:text-3xl"}`}
           onChange={(event) => {
             onChange(event.target.value);
             onSelect?.(null);
             setOpen(true);
+            setActiveIndex(0);
           }}
           onFocus={() => setOpen(true)}
+          onKeyDown={handleInputKeyDown}
           placeholder={placeholder}
           value={value}
         />
@@ -121,6 +167,7 @@ export function ModelSearch({
               onChange("");
               onSelect?.(null);
               setOpen(true);
+              setActiveIndex(-1);
             }}
             type="button"
             aria-label="Очистить модель"
@@ -132,18 +179,22 @@ export function ModelSearch({
         {open && (value || results.length) ? (
           <div
             className={`${compact ? "relative mt-2 lg:absolute lg:inset-x-0 lg:top-[calc(100%+0.5rem)] lg:mt-0" : "absolute inset-x-0 top-[calc(100%+0.5rem)]"} z-30 overflow-hidden rounded-md border border-line bg-white shadow-menu`}
-            id="варианты-моделей"
+            id={listboxId}
             aria-live={results.length ? undefined : "polite"}
             role={results.length ? "listbox" : "region"}
             aria-label={results.length ? "Найденные модели" : "Модель не найдена"}
           >
             {results.length ? (
-              results.map((item) => (
+              results.map((item, index) => (
                 <button
-                  className="flex w-full items-center justify-between gap-4 border-b border-line px-5 py-4 text-left text-lg last:border-b-0 hover:bg-paper focus:bg-paper focus:outline-none"
+                  aria-selected={activeIndex === index}
+                  className={`flex w-full items-center justify-between gap-4 border-b border-line px-5 py-4 text-left text-lg last:border-b-0 hover:bg-paper focus:bg-paper focus:outline-none ${activeIndex === index ? "bg-paper" : ""}`}
+                  id={`${listboxId}-option-${index}`}
                   key={item.id}
                   onClick={() => choose(item)}
+                  onPointerMove={() => setActiveIndex(index)}
                   role="option"
+                  tabIndex={-1}
                   type="button"
                 >
                   <span className="font-semibold text-ink">{item.title}</span>

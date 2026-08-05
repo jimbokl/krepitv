@@ -59,6 +59,30 @@ const kindLabels = {
   screws: "Подбор винтов VESA",
 };
 
+const connectionPageIds = new Set([
+  "phone-to-tv", "laptop-to-tv", "soundbar-to-tv", "smart-tv-box",
+  "tv-speakers", "tv-headphones",
+]);
+
+const diagnosticsPageIds = new Set([
+  "tv-no-signal", "tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working",
+  "tv-turns-off", "tv-no-internet", "tv-usb-not-seen",
+]);
+
+const setupPageIds = new Set([
+  "digital-channels", "picture-setup", "tv-firmware-update", "tv-app-install",
+  "tv-factory-reset",
+]);
+
+export function seoPageKindLabel(page) {
+  if (connectionPageIds.has(page.id)) return "Подключение устройств";
+  if (diagnosticsPageIds.has(page.id)) return "Диагностика телевизора";
+  if (setupPageIds.has(page.id)) return "Настройка телевизора";
+  if (page.id === "screen-cleaning") return "Уход за телевизором";
+  if (page.id === "tv-energy-consumption") return "Расчёт электроэнергии";
+  return kindLabels[page.kind] ?? "Технический справочник";
+}
+
 const buyMountShortlist = [
   ["itech-plb440nt", "Наклонный · экран ближе к стене"],
   ["itech-ptrb440ln", "Поворотно-выдвижной · для диагоналей до 55″"],
@@ -286,6 +310,7 @@ function SeoArticle({ catalog, page }) {
       .filter(Boolean);
   }, [catalog.mounts, prioritizesBuyComparison]);
   const trafficUtilityCta = trafficUtilityCtas[page.id];
+  const pageKindLabel = seoPageKindLabel(page);
 
   usePageMetadata(page.title, page.description, page.path);
 
@@ -300,12 +325,12 @@ function SeoArticle({ catalog, page }) {
         <nav className="flex flex-wrap items-center gap-2 font-mono text-xs text-muted" aria-label="Навигационная цепочка">
           <a className="hover:text-action" href="/">Главная</a>
           <span aria-hidden="true">/</span>
-          <span>{kindLabels[page.kind] ?? "Справочник"}</span>
+          <span>{pageKindLabel}</span>
         </nav>
 
         <header className="mt-5 border-b-2 border-ink pb-7">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
-            {kindLabels[page.kind] ?? "Технический справочник"}
+            {pageKindLabel}
           </p>
           <h1 className={`mt-3 max-w-[1180px] font-display font-extrabold leading-[0.92] tracking-[-0.035em] [overflow-wrap:anywhere] ${
             ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner", "tv-dimensions", "phone-to-tv", "tv-no-signal"].includes(page.id)
