@@ -18,7 +18,13 @@ const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
     ("tcl-t8d", "tcl-55t8d"),
     ("tcl-q7d", "tcl-65q7d"),
 ];
-const DATASET_DOWNLOAD_BASE: &str =
+const VESA_DATASET_VERSION: &str = "2.0.0";
+const VESA_DATASET_DOWNLOAD_BASE: &str =
+    "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.0.0";
+const VESA_DATASET_RELEASE_URL: &str =
+    "https://github.com/jimbokl/krepitv/releases/tag/datasets-v2.0.0";
+const SCREW_DATASET_VERSION: &str = "1.0.0";
+const SCREW_DATASET_DOWNLOAD_BASE: &str =
     "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0";
 const DATASET_LICENSE_URL: &str =
     "https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE";
@@ -590,55 +596,60 @@ fn breadcrumb_json_ld(items: &[(&str, &str)]) -> String {
 }
 
 fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
-    let (name, description, identifier, keywords, variables, files) = match page_id {
-        "vesa" => (
-            "Размеры VESA популярных в России телевизоров",
-            "Проверяемая таблица из 131 точной модели телевизора: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и официальный источник.",
-            "KREPI-TV-RU-VESA-SIZES-1.0.0",
-            vec![
-                "VESA",
-                "телевизоры",
-                "кронштейны",
-                "размеры крепления",
-                "Россия",
-            ],
-            vec![
-                "Полный код модели телевизора",
-                "Ширина VESA в миллиметрах",
-                "Высота VESA в миллиметрах",
-                "Официальный источник",
-            ],
-            vec![
-                ("tv-vesa-sizes.csv", "text/csv"),
-                ("tv-vesa-sizes.json", "application/json"),
-            ],
-        ),
-        "tv-mount-screws" => (
-            "Винты VESA для популярных в России моделей телевизоров",
-            "Проверяемая таблица для 26 точных моделей телевизоров: резьба, количество, паспортная длина или диапазон зацепления, обязательные детали и официальный источник.",
-            "KREPI-TV-RU-VESA-SCREWS-1.0.0",
-            vec![
-                "винты VESA",
-                "M6",
-                "M8",
-                "телевизоры",
-                "настенное крепление",
-                "Россия",
-            ],
-            vec![
-                "Полный код модели телевизора",
-                "Резьба винта VESA",
-                "Количество винтов",
-                "Длина или диапазон зацепления",
-                "Официальный источник",
-            ],
-            vec![
-                ("tv-vesa-screws.csv", "text/csv"),
-                ("tv-vesa-screws.json", "application/json"),
-            ],
-        ),
-        _ => return None,
-    };
+    let (name, description, identifier, version, download_base, keywords, variables, files) =
+        match page_id {
+            "vesa" => (
+                "Размеры VESA популярных в России телевизоров",
+                "Проверяемая таблица из 131 точной модели телевизора: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и официальный источник.",
+                "KREPI-TV-RU-VESA-SIZES-2.0.0",
+                VESA_DATASET_VERSION,
+                VESA_DATASET_DOWNLOAD_BASE,
+                vec![
+                    "VESA",
+                    "телевизоры",
+                    "кронштейны",
+                    "размеры крепления",
+                    "Россия",
+                ],
+                vec![
+                    "Полный код модели телевизора",
+                    "Ширина VESA в миллиметрах",
+                    "Высота VESA в миллиметрах",
+                    "Официальный источник",
+                ],
+                vec![
+                    ("tv-vesa-sizes.csv", "text/csv"),
+                    ("tv-vesa-sizes.json", "application/json"),
+                ],
+            ),
+            "tv-mount-screws" => (
+                "Винты VESA для популярных в России моделей телевизоров",
+                "Проверяемая таблица для 26 точных моделей телевизоров: резьба, количество, паспортная длина или диапазон зацепления, обязательные детали и официальный источник.",
+                "KREPI-TV-RU-VESA-SCREWS-1.0.0",
+                SCREW_DATASET_VERSION,
+                SCREW_DATASET_DOWNLOAD_BASE,
+                vec![
+                    "винты VESA",
+                    "M6",
+                    "M8",
+                    "телевизоры",
+                    "настенное крепление",
+                    "Россия",
+                ],
+                vec![
+                    "Полный код модели телевизора",
+                    "Резьба винта VESA",
+                    "Количество винтов",
+                    "Длина или диапазон зацепления",
+                    "Официальный источник",
+                ],
+                vec![
+                    ("tv-vesa-screws.csv", "text/csv"),
+                    ("tv-vesa-screws.json", "application/json"),
+                ],
+            ),
+            _ => return None,
+        };
     let distributions = files
         .iter()
         .map(|(filename, encoding_format)| {
@@ -646,7 +657,7 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
                 "@type": "DataDownload",
                 "name": filename,
                 "encodingFormat": encoding_format,
-                "contentUrl": format!("{DATASET_DOWNLOAD_BASE}/{filename}")
+                "contentUrl": format!("{download_base}/{filename}")
             })
         })
         .collect::<Vec<_>>();
@@ -659,7 +670,7 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
         "description": description,
         "url": canonical,
         "identifier": identifier,
-        "version": "1.0.0",
+        "version": version,
         "isAccessibleForFree": true,
         "license": DATASET_LICENSE_URL,
         "creator": {
@@ -2950,12 +2961,13 @@ fn seo_vesa_model_catalog_html(models: &[TvModel], graph: &[CompatibilityEdge]) 
         .join("\n");
 
     format!(
-        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"vesa-model-catalog-title\" data-vesa-model-catalog=\"true\" data-searchable-model-count=\"{model_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатный поиск без регистрации</p><h2 id=\"vesa-model-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите VESA по модели телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Введите полный код с шильдика. Покажем расстояние между отверстиями, официальный источник и число кронштейнов, прошедших точную проверку.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-vesa-model-search-count=\"{model_count}\"><label class=\"sr-only\" for=\"static-vesa-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-vesa-model\" list=\"static-vesa-models\" name=\"model\" placeholder=\"Например, TCL 55P6K\" autocomplete=\"off\"><datalist id=\"static-vesa-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть модель</button></form><p class=\"mt-4 border-l-2 border-action pl-4 text-sm leading-relaxed text-muted\">VESA записывается как горизонталь × вертикаль в миллиметрах. Диагональ экрана сама по себе не определяет расположение отверстий.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Точных моделей</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Схем VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_count}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Открытый датасет «Размеры VESA популярных в России телевизоров», версия 1.0.1: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.csv\">скачать CSV</a> или <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.json\">JSON</a>. В файлах 131 точная модель, размеры VESA, основание массы и официальные источники; <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE\" rel=\"noreferrer\" target=\"_blank\">лицензия MIT</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Таблица VESA телевизоров</h3>{catalog}</div></section>",
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"vesa-model-catalog-title\" data-vesa-model-catalog=\"true\" data-searchable-model-count=\"{model_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатный поиск без регистрации</p><h2 id=\"vesa-model-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите VESA по модели телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Введите полный код с шильдика. Покажем расстояние между отверстиями, официальный источник и число кронштейнов, прошедших точную проверку.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-vesa-model-search-count=\"{model_count}\"><label class=\"sr-only\" for=\"static-vesa-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-vesa-model\" list=\"static-vesa-models\" name=\"model\" placeholder=\"Например, TCL 55P6K\" autocomplete=\"off\"><datalist id=\"static-vesa-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть модель</button></form><p class=\"mt-4 border-l-2 border-action pl-4 text-sm leading-relaxed text-muted\">VESA записывается как горизонталь × вертикаль в миллиметрах. Диагональ экрана сама по себе не определяет расположение отверстий.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Точных моделей</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Схем VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_count}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Открытый датасет «Размеры VESA популярных в России телевизоров», версия 2.0.0: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.csv\">скачать CSV</a> или <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.json\">JSON</a>. В файлах 131 точная модель, размеры VESA, основание массы и официальные источники; фиксированная копия опубликована в <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{release_url}\" rel=\"noreferrer\" target=\"_blank\">GitHub release 2.0.0</a>. <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE\" rel=\"noreferrer\" target=\"_blank\">Лицензия MIT</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Таблица VESA телевизоров</h3>{catalog}</div></section>",
         model_count = models.len(),
         brand_count = brand_count,
         vesa_count = vesa_count,
         model_options = model_options,
         catalog = catalog,
+        release_url = VESA_DATASET_RELEASE_URL,
     )
 }
 
@@ -4592,9 +4604,9 @@ mod tests {
     use super::{
         CommercialProfilesFile, HeadExtras, MarketTvModelsFile, PublicAffiliateSnapshot, SeoPage,
         TRAFFIC_PAGES_UPDATED_AT, TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage, TvModel,
-        affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
-        commercial_profile_for, dataset_json_ld, escape_html, home_page_body, html_shell,
-        is_indexable_model, is_indexable_mount, is_indexable_seo_page,
+        VESA_DATASET_RELEASE_URL, affiliate_offer_placeholder_html, brand_catalog_html,
+        build_compatibility_graph, commercial_profile_for, dataset_json_ld, escape_html,
+        home_page_body, html_shell, is_indexable_model, is_indexable_mount, is_indexable_seo_page,
         is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, model_mount_matches,
         model_offer_shard_key, model_page_body, mount_page_body, mount_technical_scheme_html,
         mounts_catalog_body, not_found_page_html, observed_model_page_body,
@@ -4783,10 +4795,14 @@ mod tests {
             assert!(!structured.contains("market.yandex.ru"));
             assert!(!structured.contains("?"));
         }
-        assert!(sizes.contains("KREPI-TV-RU-VESA-SIZES-1.0.0"));
+        assert!(sizes.contains("KREPI-TV-RU-VESA-SIZES-2.0.0"));
+        assert!(sizes.contains("\"version\":\"2.0.0\""));
+        assert!(sizes.contains("datasets-v2.0.0/tv-vesa-sizes.csv"));
         assert!(sizes.contains("tv-vesa-sizes.csv"));
         assert!(sizes.contains("tv-vesa-sizes.json"));
         assert!(screws.contains("KREPI-TV-RU-VESA-SCREWS-1.0.0"));
+        assert!(screws.contains("\"version\":\"1.0.0\""));
+        assert!(screws.contains("datasets-v1.0.0/tv-vesa-screws.csv"));
         assert!(screws.contains("tv-vesa-screws.csv"));
         assert!(screws.contains("tv-vesa-screws.json"));
         assert!(dataset_json_ld("mounting-height", "https://krepitv.ru/x/").is_none());
@@ -5082,6 +5098,8 @@ mod tests {
         assert_eq!(html.matches("<details").count(), 17);
         assert!(html.contains("Таблица VESA телевизоров"));
         assert!(html.contains("href=\"/data/tv-vesa-sizes.csv\""));
+        assert!(html.contains("GitHub release 2.0.0"));
+        assert!(html.contains(VESA_DATASET_RELEASE_URL));
         assert!(html.contains("data-vesa-source-conflict=\"true\""));
         assert!(html.contains("Источники расходятся: 400×300 мм / 400×400 мм"));
         assert!(!html.contains("market.yandex.ru"));

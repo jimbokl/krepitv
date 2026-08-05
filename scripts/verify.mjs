@@ -1006,8 +1006,10 @@ for (const model of models) {
   const verifiedEdges = compatibilityEdges.filter(
     (edge) => edge.tv_id === model.id && edge.compatible && edge.fit_status === "verified-fit",
   );
-  if (verifiedEdges.length === 0) {
-    throw new Error(`Проверенная модель не имеет ни одного подтверждённого кронштейна: ${model.id}`);
+  if (verifiedEdges.length < 2) {
+    throw new Error(
+      `Проверенная модель должна иметь минимум два подтверждённых кронштейна: ${model.id} (${verifiedEdges.length})`,
+    );
   }
   for (const edge of verifiedEdges) {
     const mount = mountById.get(edge.mount_id);
@@ -1435,7 +1437,7 @@ for (const model of models) {
     .filter((edge) => edge.tv_id === model.id && edge.fit_status === "verified-fit")
     .map((edge) => edge.mount_id);
   if (
-    verifiedMountIds.length === 0
+    verifiedMountIds.length < 2
     || !html.includes("data-page-kind=\"model\"")
     || !html.includes(`VESA ${model.vesa_width_mm}×${model.vesa_height_mm}`)
     || !html.includes(`${model.weight_kg} кг`)
@@ -1719,8 +1721,8 @@ for (const required of [
   'data-vesa-model-search-count="131"',
   "Найдите VESA по модели телевизора",
   "Таблица VESA телевизоров",
-  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.csv",
-  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-sizes.json",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.0.0/tv-vesa-sizes.csv",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.0.0/tv-vesa-sizes.json",
 ]) {
   if (!vesaLookupHtml.includes(required)) {
     throw new Error(`Сырой HTML страницы VESA не содержит обязательный фрагмент: ${required}`);
@@ -2115,15 +2117,24 @@ for (const [route, html] of htmlByRoute) {
   }
 
   const datasetRoutes = new Map([
-    ["/vesa/", ["tv-vesa-sizes.csv", "tv-vesa-sizes.json"]],
-    ["/vinty-dlya-krepleniya-televizora/", ["tv-vesa-screws.csv", "tv-vesa-screws.json"]],
+    ["/vesa/", {
+      files: ["tv-vesa-sizes.csv", "tv-vesa-sizes.json"],
+      version: "2.0.0",
+      downloadBase: "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.0.0/",
+    }],
+    ["/vinty-dlya-krepleniya-televizora/", {
+      files: ["tv-vesa-screws.csv", "tv-vesa-screws.json"],
+      version: "1.0.0",
+      downloadBase: "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/",
+    }],
   ]);
-  const expectedDownloads = datasetRoutes.get(route);
+  const expectedDataset = datasetRoutes.get(route);
   const dataset = jsonLd.find((item) => item["@type"] === "Dataset");
-  if (expectedDownloads) {
+  if (expectedDataset) {
     if (
       !dataset ||
       dataset.url !== canonical ||
+      dataset.version !== expectedDataset.version ||
       dataset.isAccessibleForFree !== true ||
       dataset.license !==
         "https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE" ||
@@ -2136,16 +2147,14 @@ for (const [route, html] of htmlByRoute) {
       if (
         item?.["@type"] !== "DataDownload" ||
         !["text/csv", "application/json"].includes(item.encodingFormat) ||
-        !item.contentUrl?.startsWith(
-          "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/",
-        ) ||
+        !item.contentUrl?.startsWith(expectedDataset.downloadBase) ||
         item.contentUrl.includes("?")
       ) {
         throw new Error(`Некорректный DataDownload JSON-LD: ${route}`);
       }
       return new URL(item.contentUrl).pathname.split("/").at(-1);
     });
-    if (filenames.join("|") !== expectedDownloads.join("|")) {
+    if (filenames.join("|") !== expectedDataset.files.join("|")) {
       throw new Error(`Dataset ссылается не на те файлы: ${route}`);
     }
   } else if (dataset) {

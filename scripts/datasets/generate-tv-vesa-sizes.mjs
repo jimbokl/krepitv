@@ -20,8 +20,8 @@ const records = models
 validateRecords(records);
 
 const dataset = {
-  schema_version: 1,
-  dataset_version: "1.0.1",
+  schema_version: 2,
+  dataset_version: "2.0.0",
   language: "ru",
   market: "RU",
   generated_from: "data/tv_models.json",
