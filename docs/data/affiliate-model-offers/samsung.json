@@ -1274,30 +1274,6 @@
       "rank": 2
     },
     {
-      "model_id": "samsung-qe77s85faexru",
-      "model_path": "/modeli/samsung-qe77s85faexru/",
-      "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-tm5-bw/4559285774?refid=35ljk75fr2q8h6sk8pj2kjhw62lrnbbf&utm_referral_context=n8gaeTs1SdcuYQ5dvzaSOesB00_VarEZhmyCcAlDlxePwQVGSfDodXM28MrygC_VFqqwkCDsOpuCqInzXaZbGbCDBEgDN1qTh8pXCEGUbs1HUb3SFsfEVZ9ROiYJHI_RT5NwaF9MCfCoLtw51YRrFTG7wVR4lc_29cjT-FkbFBY6nvPj_xqVX7hqYPBMtN3ftCrxOETogcLuI-m5qPVXBbsc5-Hv7hlh&clid=15238076&vid=krepitvmodelsamsungqe77s85faexrur03onkrontm5bw945c4148789e&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-04T18:06:10.018Z",
-        "clid": "15238076",
-        "compliance_mode": "non_ad_storefront",
-        "creative": null,
-        "eligibility": "publishable",
-        "entity_id": "onkron-tm5-bw",
-        "entity_kind": "mount",
-        "id": "model-samsung-qe77s85faexru-r03-onkron-tm5-bw",
-        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-tm5-bw/4559285774",
-        "page_name": "POKUPKI_PRODUCT",
-        "page_path": "/kronshteyny/onkron-tm5-bw/",
-        "product_photo": "https://avatars.mds.yandex.net/get-mpic/16233762/2a000001986183e604e76ed10f90115aebfb/optimize",
-        "publishable": true,
-        "title": "Кронштейн для телевизора Onkron TM5-BW",
-        "vid": "krepitvmodelsamsungqe77s85faexrur03onkrontm5bw945c4148789e"
-      },
-      "placement_id": "model-samsung-qe77s85faexru-r03-onkron-tm5-bw",
-      "rank": 3
-    },
-    {
       "model_id": "samsung-qe85q7faauxru",
       "model_path": "/modeli/samsung-qe85q7faauxru/",
       "offer": {
@@ -1896,30 +1872,6 @@
       },
       "placement_id": "model-samsung-ue85u8000fuxru-r02-itech-plb640nt",
       "rank": 2
-    },
-    {
-      "model_id": "samsung-ue85u8000fuxru",
-      "model_path": "/modeli/samsung-ue85u8000fuxru/",
-      "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-tm5-bw/4559285774?refid=s7fm6nc9ah6e6chv17v8y2cnkl9n8czk&utm_referral_context=OagtlHnNAHr5SHuH-cgpCiHVuJ0hD32TtbJJGWK9CsJLfoUNFaZcZBD1dRZVxXS64x07ABB5YevoGaUJ9BXw7Veb1Tb1Kr5JgooTekgOlMadX49DCCMuvkmucvDUDHUIrYCKjqptgU7QTtKElMd0D-p6uMnAw2NgCDa3Ta3AmQZ76-lQ8QnUuEkSM2BrpH9vyrWuIm1iANEwGxwOf5Sl2rdNCPvlXtzr&clid=15238076&vid=krepitvmodelsamsungue85u8000fuxrur03onkrontm5bw25afc6cb7162&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-04T18:06:28.237Z",
-        "clid": "15238076",
-        "compliance_mode": "non_ad_storefront",
-        "creative": null,
-        "eligibility": "publishable",
-        "entity_id": "onkron-tm5-bw",
-        "entity_kind": "mount",
-        "id": "model-samsung-ue85u8000fuxru-r03-onkron-tm5-bw",
-        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-tm5-bw/4559285774",
-        "page_name": "POKUPKI_PRODUCT",
-        "page_path": "/kronshteyny/onkron-tm5-bw/",
-        "product_photo": "https://avatars.mds.yandex.net/get-mpic/16233762/2a000001986183e604e76ed10f90115aebfb/optimize",
-        "publishable": true,
-        "title": "Кронштейн для телевизора Onkron TM5-BW",
-        "vid": "krepitvmodelsamsungue85u8000fuxrur03onkrontm5bw25afc6cb7162"
-      },
-      "placement_id": "model-samsung-ue85u8000fuxru-r03-onkron-tm5-bw",
-      "rank": 3
     }
   ],
   "schema_version": 1

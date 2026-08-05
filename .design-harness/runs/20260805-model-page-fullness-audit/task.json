@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "id": "20260805-model-page-fullness-audit",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-05T00:50:22.903586+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "docs",
+    "web/src/lib/modelAffiliateOffers.mjs",
+    "web/tests/model-affiliate-offers.test.mjs",
+    "scripts/affiliate/model-placements.mjs",
+    "scripts/catalog/audit-model-page-quality.mjs",
+    "tests/affiliate/model-placements.test.mjs",
+    "crates/sitegen/src/main.rs",
+    "data/affiliate/model-page-placements.json",
+    "data/affiliate/public-model-offers.json"
+  ],
+  "verification_commands": [
+    {
+      "id": "full-verify",
+      "command": "npm run verify",
+      "required": true,
+      "covers": ["catalog", "SSR", "affiliate fail-closed", "Russian UI"]
+    },
+    {
+      "id": "model-page-audit",
+      "command": "npm run catalog:audit-model-pages",
+      "required": true,
+      "covers": ["all verified models", "reciprocal mount links", "non-placeholder content"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [],
+  "claims": [
+    {
+      "id": "verified-fit-only",
+      "text": "Коммерческий блок модельной страницы показывает только крепления со статусом verified-fit.",
+      "source_ids": ["compatibility-graph", "model-register"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "compatibility-graph",
+      "path": "docs/data/compatibility-graph.json",
+      "retrieved_at": "2026-08-05T00:50:22Z",
+      "notes": "Детерминированный граф VESA, нагрузки и диапазона диагонали."
+    },
+    {
+      "id": "model-register",
+      "path": "data/tv_models.json",
+      "retrieved_at": "2026-08-05T00:50:22Z",
+      "notes": "Проверенные паспортные модели с источниками характеристик."
+    }
+  ]
+}

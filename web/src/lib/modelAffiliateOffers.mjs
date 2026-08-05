@@ -125,7 +125,12 @@ export function selectModelAffiliateOffers(model, matches, offers, options) {
   const modelPath = `/modeli/${model.id}/`;
   const matchByMount = new Map(
     matches
-      .filter((match) => match?.compatible === true && typeof match?.mount?.id === "string")
+      .filter(
+        (match) =>
+          match?.compatible === true &&
+          match?.fit_status === "verified-fit" &&
+          typeof match?.mount?.id === "string",
+      )
       .map((match) => [match.mount.id, match]),
   );
 

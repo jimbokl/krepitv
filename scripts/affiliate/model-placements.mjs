@@ -183,16 +183,15 @@ function sourceBackedCompatibility(model, mount, sourceCard) {
   const requiredLoadKg = model.weight_kg * LOAD_SAFETY_FACTOR;
   const compatible =
     mount.vesa.includes(requestedVesa) &&
-    mount.max_load_kg + Number.EPSILON >= requiredLoadKg;
-  if (!compatible) return null;
-  const diagonalInRange =
+    mount.max_load_kg + Number.EPSILON >= requiredLoadKg &&
     model.diagonal_inches >= mount.min_diagonal_in &&
     model.diagonal_inches <= mount.max_diagonal_in;
+  if (!compatible) return null;
   return {
     entity_id: mount.id,
     source_card_id: sourceCard.id,
     score: rustScore(model, mount),
-    fit_status: diagonalInRange ? "verified-fit" : "conditional-fit",
+    fit_status: "verified-fit",
     required_load_kg: Math.round(requiredLoadKg * 10) / 10,
   };
 }

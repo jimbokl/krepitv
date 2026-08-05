@@ -14,6 +14,12 @@ const [models, mounts, market, graph, sitemap] = await Promise.all([
 ]);
 
 const mountsById = new Map(mounts.map((mount) => [mount.id, mount]));
+const mountHtmlById = new Map(await Promise.all(
+  mounts.map(async (mount) => [
+    mount.id,
+    await readFile(path.join(DOCS, "kronshteyny", mount.id, "index.html"), "utf8"),
+  ]),
+));
 const sitemapPaths = new Set(
   [...sitemap.matchAll(/<loc>(https:\/\/krepitv\.ru[^<]+)<\/loc>/gu)]
     .map((match) => new URL(match[1]).pathname),
@@ -59,7 +65,24 @@ for (const model of models) {
   requireValue(html.includes(`VESA ${model.vesa_width_mm}×${model.vesa_height_mm}`), model.id, "на странице нет паспортного VESA");
   requireValue(html.includes(`${model.weight_kg} кг`), model.id, "на странице нет паспортной массы");
   requireValue(html.includes(escapeHtml(model.source_url)), model.id, "на странице нет ссылки на источник модели");
-  requireValue(matches.some((mountId) => html.includes(`/kronshteyny/${mountId}/`)), model.id, "на странице нет ссылки на проверенный кронштейн");
+  requireValue(
+    matches.every((mountId) => html.includes(`/kronshteyny/${mountId}/`)),
+    model.id,
+    "на странице показаны не все проверенные кронштейны",
+  );
+  requireValue(html.includes("Точная пара VESA"), model.id, "нет объяснения проверки точной VESA");
+  requireValue(html.includes("запас 25%"), model.id, "нет объяснения запаса нагрузки 25%");
+  requireValue(/диапазон[а-яё]*\s+диагонал/iu.test(html), model.id, "нет объяснения проверки диагонали");
+
+  for (const mountId of matches) {
+    const mountHtml = mountHtmlById.get(mountId);
+    requireValue(Boolean(mountHtml), model.id, `нет полноценной страницы кронштейна ${mountId}`);
+    requireValue(
+      mountHtml?.includes(route),
+      model.id,
+      `страница кронштейна ${mountId} не ссылается обратно на модель`,
+    );
+  }
 }
 
 for (const record of market.records) {
@@ -93,8 +116,9 @@ if (failures.length) {
 
 process.stdout.write(
   `Аудит пройден: ${models.length}/${models.length} паспортных моделей имеют проверенный крепёж; `
-    + `${market.records.length}/${market.records.length} наблюдений ведут на содержательные страницы; `
-    + `${market.summary.observed_canonicals} непроверенных каноникалов безопасно закрыты от индекса.\n`,
+    + `${market.summary.verified_routes} наблюдений Маркета ведут на проверенные модели; `
+    + `${market.summary.alias_routes} дублей закрыты от индекса и канонизированы; `
+    + `${market.summary.observed_canonicals} неподтверждённых карточек безопасно закрыты от индекса без рекомендации крепежа.\n`,
 );
 
 async function readJson(relative) {

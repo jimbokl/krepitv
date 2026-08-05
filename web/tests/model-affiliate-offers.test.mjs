@@ -120,8 +120,9 @@ test("model parser fail-closed отклоняет коллизии и невер
 test("model selector связывает rank с фактически совместимым кронштейном", () => {
   const model = { id: "tcl-55c6k" };
   const matches = [
-    { compatible: true, mount: { id: "onkron-tm6" } },
-    { compatible: true, mount: { id: "itech-slt-460" } },
+    { compatible: true, fit_status: "verified-fit", mount: { id: "onkron-tm6" } },
+    { compatible: true, fit_status: "verified-fit", mount: { id: "itech-slt-460" } },
+    { compatible: true, fit_status: "conditional-fit", mount: { id: "kromax-atlantis-45" } },
   ];
   const parsed = getFreshModelAffiliateOffers(snapshot([
     offer({ rank: 2, entityId: "itech-slt-460" }),

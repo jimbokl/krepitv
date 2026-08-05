@@ -192,7 +192,6 @@ test("selects only source-backed exact-VESA/load-reserve mounts in Rust score or
     }).map(({ entity_id, score, fit_status }) => ({ entity_id, score, fit_status })),
     [
       { entity_id: "mount-fixed-01", score: 108, fit_status: "verified-fit" },
-      { entity_id: "mount-tilt-02", score: 98, fit_status: "conditional-fit" },
     ],
   );
 });
@@ -405,7 +404,7 @@ test("real catalog produces deterministic top-three placements for all 131 model
   });
   assert.equal(realModels.length, 131);
   assert.equal(generated.models.length, 131);
-  assert.equal(generated.expected_offer_count, 390);
+  assert.equal(generated.expected_offer_count, 388);
   assert.equal(
     generated.models.every((entry) =>
       entry.expected_offer_count >= 1 &&
@@ -419,8 +418,10 @@ test("real catalog produces deterministic top-three placements for all 131 model
       .map((entry) => [entry.model_id, entry.expected_offer_count]),
     [
       ["hisense-85e7s", 2],
+      ["samsung-qe77s85faexru", 2],
       ["samsung-qe85q7faauxru", 2],
       ["samsung-qe85qef1auxru", 2],
+      ["samsung-ue85u8000fuxru", 2],
     ],
   );
   assert.equal(
@@ -433,7 +434,7 @@ test("real catalog produces deterministic top-three placements for all 131 model
   );
   assert.equal(
     new Set(generated.models.flatMap((entry) => entry.placements.map((placement) => placement.vid))).size,
-    390,
+    388,
   );
   const sourceBackedMounts = new Set(realSource.cards.map((card) => card.entity_id));
   for (const modelEntry of generated.models) {
@@ -443,6 +444,7 @@ test("real catalog produces deterministic top-three placements for all 131 model
         .filter((edge) =>
           edge.tv_id === modelEntry.model_id &&
           edge.compatible &&
+          edge.fit_status === "verified-fit" &&
           sourceBackedMounts.has(edge.mount_id))
         .slice(0, 3)
         .map((edge) => edge.mount_id),

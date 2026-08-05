@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "clid": "15238076",
-  "expected_offer_count": 390,
+  "expected_offer_count": 388,
   "models": [
     {
       "model_id": "akai-ta32bh500",
@@ -2043,7 +2043,7 @@
     {
       "model_id": "samsung-qe77s85faexru",
       "model_path": "/modeli/samsung-qe77s85faexru/",
-      "expected_offer_count": 3,
+      "expected_offer_count": 2,
       "placements": [
         {
           "placement_id": "model-samsung-qe77s85faexru-r01-onkron-tm6",
@@ -2058,13 +2058,6 @@
           "entity_id": "itech-plb640nt",
           "source_card_id": "market-itech-plb640nt-102190438184",
           "vid": "krepitvmodelsamsungqe77s85faexrur02itechplb640nt928ce9133577"
-        },
-        {
-          "placement_id": "model-samsung-qe77s85faexru-r03-onkron-tm5-bw",
-          "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelsamsungqe77s85faexrur03onkrontm5bw945c4148789e"
         }
       ]
     },
@@ -2365,7 +2358,7 @@
     {
       "model_id": "samsung-ue85u8000fuxru",
       "model_path": "/modeli/samsung-ue85u8000fuxru/",
-      "expected_offer_count": 3,
+      "expected_offer_count": 2,
       "placements": [
         {
           "placement_id": "model-samsung-ue85u8000fuxru-r01-onkron-tm6",
@@ -2380,13 +2373,6 @@
           "entity_id": "itech-plb640nt",
           "source_card_id": "market-itech-plb640nt-102190438184",
           "vid": "krepitvmodelsamsungue85u8000fuxrur02itechplb640ntd470de99d8a7"
-        },
-        {
-          "placement_id": "model-samsung-ue85u8000fuxru-r03-onkron-tm5-bw",
-          "rank": 3,
-          "entity_id": "onkron-tm5-bw",
-          "source_card_id": "market-onkron-tm5-bw-4559285774",
-          "vid": "krepitvmodelsamsungue85u8000fuxrur03onkrontm5bw25afc6cb7162"
         }
       ]
     },

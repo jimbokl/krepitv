@@ -1465,9 +1465,11 @@ fn model_page_body(
         .iter()
         .filter(|offer| {
             is_publishable_affiliate_offer(offer, affiliate_now_seconds)
-                && matches
-                    .iter()
-                    .any(|matched| matched.compatible && matched.mount.id == offer.entity_id)
+                && matches.iter().any(|matched| {
+                    matched.compatible
+                        && matched.fit_status == "verified-fit"
+                        && matched.mount.id == offer.entity_id
+                })
         })
         .take(3)
         .map(|offer| affiliate_offer_placeholder_html(offer, 3))

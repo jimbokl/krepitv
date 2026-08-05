@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "task_id": "20260805-model-page-fullness-audit",
+  "commands": [
+    {
+      "id": "full-verify",
+      "command": "npm run verify",
+      "exit_code": 0,
+      "covers": ["catalog", "SSR", "affiliate fail-closed", "Russian UI"]
+    },
+    {
+      "id": "model-page-audit",
+      "command": "npm run catalog:audit-model-pages",
+      "exit_code": 0,
+      "covers": ["131 verified models", "2046 verified-fit edges", "reciprocal mount links"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "samsung-qe77-mobile",
+      "path": "samsung-qe77s85faexru-mobile.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "no_horizontal_overflow": true,
+        "hierarchy_preserved": true,
+        "verified_count_visible": true,
+        "conditional_warning_visible": true
+      }
+    },
+    {
+      "id": "samsung-ue85-desktop",
+      "path": "samsung-ue85u8000fuxru-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "no_horizontal_overflow": true,
+        "two_verified_market_cards": true,
+        "conditional_offer_absent": true,
+        "brand_groups_collapsed": true
+      }
+    },
+    {
+      "id": "observed-default-mobile",
+      "path": "observed-default-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "affiliate_links_absent": true
+      }
+    },
+    {
+      "id": "observed-loading-mobile",
+      "path": "observed-loading-mobile.png",
+      "state": "loading",
+      "viewport_id": "mobile",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "observed-empty-mobile",
+      "path": "observed-empty-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "observed-error-tablet",
+      "path": "observed-error-tablet.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "observed-disabled-mobile",
+      "path": "observed-disabled-mobile.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "observed-focus-tablet",
+      "path": "observed-focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Raman the 2nd",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Все 131 индексируемых модельных страниц имеют точный H1, паспортные факты, источник и хотя бы один подтверждённый mount detail.",
+      "На 320 и 1440 CSS px горизонтального переполнения нет; длинные списки закрыты по брендам.",
+      "Непроверенные наблюдения остаются noindex и не показывают выдуманный крепёж."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}
