@@ -1557,12 +1557,12 @@ if (!screwLookupHtml.includes('data-screw-catalog="true"') || !screwLookupHtml.i
   throw new Error("Страница подбора винтов не содержит самостоятельный сворачиваемый каталог");
 }
 for (const required of [
-  'data-searchable-model-count="131"',
-  'data-model-search-count="131"',
+  'data-searchable-model-count="145"',
+  'data-model-search-count="145"',
   'data-known-model-fallback="true"',
   "паспорт винтов ещё не подтверждён",
-  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv",
-  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.json",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.1.0/tv-vesa-screws.csv",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.1.0/tv-vesa-screws.json",
 ]) {
   if (!screwLookupHtml.includes(required)) {
     throw new Error(`Сырой HTML страницы винтов не содержит обязательный фрагмент: ${required}`);
@@ -1729,12 +1729,12 @@ if (
 const vesaLookupHtml = htmlByRoute.get(vesaLookupPage.path) ?? "";
 for (const required of [
   'data-vesa-model-catalog="true"',
-  'data-searchable-model-count="131"',
-  'data-vesa-model-search-count="131"',
+  'data-searchable-model-count="145"',
+  'data-vesa-model-search-count="145"',
   "Найдите VESA по модели телевизора",
   "Таблица VESA телевизоров",
-  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.0.0/tv-vesa-sizes.csv",
-  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.0.0/tv-vesa-sizes.json",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.1.0/tv-vesa-sizes.csv",
+  "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.1.0/tv-vesa-sizes.json",
 ]) {
   if (!vesaLookupHtml.includes(required)) {
     throw new Error(`Сырой HTML страницы VESA не содержит обязательный фрагмент: ${required}`);
@@ -2131,13 +2131,13 @@ for (const [route, html] of htmlByRoute) {
   const datasetRoutes = new Map([
     ["/vesa/", {
       files: ["tv-vesa-sizes.csv", "tv-vesa-sizes.json"],
-      version: "2.0.0",
-      downloadBase: "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.0.0/",
+      version: "2.1.0",
+      downloadBase: "https://github.com/jimbokl/krepitv/releases/download/datasets-v2.1.0/",
     }],
     ["/vinty-dlya-krepleniya-televizora/", {
       files: ["tv-vesa-screws.csv", "tv-vesa-screws.json"],
-      version: "1.0.0",
-      downloadBase: "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/",
+      version: "1.1.0",
+      downloadBase: "https://github.com/jimbokl/krepitv/releases/download/datasets-v1.1.0/",
     }],
   ]);
   const expectedDataset = datasetRoutes.get(route);

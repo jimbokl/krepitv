@@ -7,15 +7,16 @@ import { renderToStaticMarkup } from "react-dom/server";
 import test from "node:test";
 import { createServer } from "vite";
 
-test("официальный датасет содержит 26 паспортов винтов трёх брендов", async () => {
+test("проверенный датасет содержит 27 паспортов винтов четырёх брендов", async () => {
   const models = JSON.parse(await readFile(
     new URL("../../data/tv_models.json", import.meta.url),
     "utf8",
   ));
   const eligible = models.filter((model) => model.wall_mount_screws?.groups?.length);
 
-  assert.equal(eligible.length, 26);
+  assert.equal(eligible.length, 27);
   assert.deepEqual([...new Set(eligible.map((model) => model.brand))].sort(), [
+    "Candy",
     "Hisense",
     "Samsung",
     "TCL",

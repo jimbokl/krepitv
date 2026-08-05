@@ -21,7 +21,7 @@ validateRecords(records);
 
 const dataset = {
   schema_version: 2,
-  dataset_version: "2.0.0",
+  dataset_version: "2.1.0",
   language: "ru",
   market: "RU",
   generated_from: "data/tv_models.json",
@@ -81,8 +81,8 @@ function buildRecord(model) {
 }
 
 function validateRecords(rows) {
-  if (rows.length !== 131) {
-    throw new Error(`Ожидалась 131 точная модель, получено ${rows.length}`);
+  if (rows.length !== 145) {
+    throw new Error(`Ожидалось 145 точных моделей, получено ${rows.length}`);
   }
   const ids = new Set();
   for (const [index, row] of rows.entries()) {

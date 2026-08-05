@@ -1,0 +1,187 @@
+{
+  "schema_version": "market-observed-tv-verification-batch-a/1",
+  "checked_at": "2026-08-05",
+  "source_dataset": "data/market_tv_models.json",
+  "scope": {
+    "brands": ["BBK", "General Electronics", "Haier", "Hi"],
+    "observed_records": 33,
+    "canonical_entities": 31,
+    "method": "Только точное совпадение модели с официальной карточкой или официальной инструкцией; без переноса характеристик между сериями, диагоналями, суффиксами и регионами."
+  },
+  "status_policy": {
+    "verified": "Точная модель и безопасный набор монтажных характеристик подтверждены официальным источником.",
+    "conflict": "Официальные источники точной модели публикуют несовместимые характеристики; значения не объединяются.",
+    "unverifiable": "Модель неоднозначна, официальный паспорт не найден либо официальные данные неполны/некорректны."
+  },
+  "summary": {
+    "canonical": {"verified": 8, "conflict": 1, "unverifiable": 22},
+    "observed": {"verified": 9, "conflict": 1, "unverifiable": 23}
+  },
+  "records": [
+    {
+      "id": "bbk-24lem-1032-ts2c", "observed_ids": ["bbk-24lem-1032-ts2c"], "brand": "BBK", "model": "24LEM-1032/TS2C", "title": "BBK 24LEM-1032/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 23.6, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/24lem_1032_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "23,6 дюйма; 536×326×77 мм; 2,15 кг с подставкой; VESA опубликована как 100×0 мм.",
+      "conflicts": ["VESA 100×0 мм неполна и не может использоваться для подбора крепления."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,77], "weight_kg_with_stand": 2.15, "vesa_raw": "100×0"}
+    },
+    {
+      "id": "bbk-24lem-1033-ts2c", "observed_ids": ["bbk-24lem-1033-ts2c"], "brand": "BBK", "model": "24LEM-1033/TS2C", "title": "BBK 24LEM-1033/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 23.6, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/24lem_1033_ts2c/", "source_label": "Официальная карточка и приложение BBK", "source_region": "RU", "source_fact": "VESA опубликована как 100×0 мм; карточка и официальное приложение расходятся в глубине и округлении массы.",
+      "conflicts": ["VESA 100×0 мм неполна.", "Карточка: 536×326×77 мм и 2,15 кг; приложение: 536×326×76/79,5 мм и 2,2 кг."], "limitations": ["Нельзя безопасно выбрать крепление."], "published_values": {"official_appendix_url": "https://bbk.ru/upload/iblock/fba/7rso8sz4pzdfcnajldf21ms99xur9nmn.pdf", "vesa_raw": "100×0"}
+    },
+    {
+      "id": "bbk-24lem-1045-ts2c", "observed_ids": ["bbk-24lem-1045-ts2c"], "brand": "BBK", "model": "24LEM-1045/TS2C", "title": "BBK 24LEM-1045/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 23.6, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/24lem_1045_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "23,6 дюйма; 536×326×82 мм; 2,2 кг с подставкой; VESA опубликована как 100×0 мм.",
+      "conflicts": ["VESA 100×0 мм неполна."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,82], "weight_kg_with_stand": 2.2, "vesa_raw": "100×0"}
+    },
+    {
+      "id": "bbk-24lem-1047-ts2c", "observed_ids": ["bbk-24lem-1047-ts2c"], "brand": "BBK", "model": "24LEM-1047/TS2C", "title": "BBK 24LEM-1047/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 23.6, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/24lem_1047_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "23,6 дюйма; 536×326×82 мм; 2,15 кг с подставкой; VESA опубликована как 100×0 мм.",
+      "conflicts": ["VESA 100×0 мм неполна."], "limitations": ["Монтажные значения не экспортируются."], "published_values": {"dimensions_mm": [536,326,82], "weight_kg_with_stand": 2.15, "vesa_raw": "100×0"}
+    },
+    {
+      "id": "bbk-32lem-1045-ts2c", "observed_ids": ["bbk-32lem-1045-ts2c"], "brand": "BBK", "model": "32LEM-1045/TS2C", "title": "BBK 32LEM-1045/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 31.5, "weight_kg": 3.3, "weight_basis": "with_stand", "width_mm": 716, "height_mm": 425, "depth_mm": 60, "vesa_width_mm": 200, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1045_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "31,5 дюйма; VESA 200×100 мм; корпус 716×425×60 мм; 3,3 кг с подставкой.", "conflicts": [], "limitations": ["Винт официально не указан."], "published_values": {}
+    },
+    {
+      "id": "bbk-32lem-1075-ts2c", "observed_ids": ["bbk-32lem-1075-ts2c"], "brand": "BBK", "model": "32LEM-1075/TS2C", "title": "BBK 32LEM-1075/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 31.5, "weight_kg": 3.2, "weight_basis": "with_stand", "width_mm": 716, "height_mm": 430, "depth_mm": 74, "vesa_width_mm": 100, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1075_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "31,5 дюйма; VESA 100×100 мм; корпус 716×430×74 мм; 3,2 кг с подставкой.", "conflicts": [], "limitations": ["Винт официально не указан."], "published_values": {}
+    },
+    {
+      "id": "bbk-32lex-7235-fts2c", "observed_ids": ["bbk-32lex-7235-fts2c", "bbk-32lex-7235-fts2c-market-1874979175"], "brand": "BBK", "model": "32LEX-7235/FTS2C", "title": "BBK 32LEX-7235/FTS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 32, "weight_kg": 3.35, "weight_basis": "with_stand", "width_mm": 716, "height_mm": 426, "depth_mm": 79, "vesa_width_mm": 100, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7235_fts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "32 дюйма; VESA 100×100 мм; корпус 716×426×79 мм; 3,35 кг с подставкой.", "conflicts": [], "limitations": ["Винт официально не указан."], "published_values": {}
+    },
+    {
+      "id": "bbk-32lex-7244-ts2c", "observed_ids": ["bbk-32lex-7244-ts2c"], "brand": "BBK", "model": "32LEX-7244/TS2C", "title": "BBK 32LEX-7244/TS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 31.5, "weight_kg": 3.2, "weight_basis": "with_stand", "width_mm": 716, "height_mm": 425, "depth_mm": 60, "vesa_width_mm": 200, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7244_ts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "31,5 дюйма; VESA 200×100 мм; корпус 716×425×60 мм; 3,2 кг с подставкой.", "conflicts": [], "limitations": ["Винт официально не указан."], "published_values": {}
+    },
+    {
+      "id": "bbk-40lem-1030-fts2c", "observed_ids": ["bbk-40lem-1030-fts2c"], "brand": "BBK", "model": "40LEM-1030/FTS2C", "title": "BBK 40LEM-1030/FTS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 40, "weight_kg": 4.5, "weight_basis": "with_stand", "width_mm": 892, "height_mm": 515, "depth_mm": 74, "vesa_width_mm": 100, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem_1030_fts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "40 дюймов; VESA 100×100 мм; корпус 892×515×74 мм; 4,5 кг с подставкой.", "conflicts": [], "limitations": ["Винт официально не указан."], "published_values": {}
+    },
+    {
+      "id": "bbk-42lem-1016-fts2c", "observed_ids": ["bbk-42lem-1016-fts2c"], "brand": "BBK", "model": "42LEM-1016/FTS2C", "title": "BBK 42LEM-1016/FTS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/42lem_1016_fts2c/", "source_label": "Официальный URL BBK", "source_region": "RU", "source_fact": "Официальный URL точной модели отвечает 404.", "conflicts": [], "limitations": ["Кэш и сторонние страницы не использованы."], "published_values": {"http_status": 404}
+    },
+    {
+      "id": "bbk-43lex-7247-fts2c", "observed_ids": ["bbk-43lex-7247-fts2c"], "brand": "BBK", "model": "43LEX-7247/FTS2C", "title": "BBK 43LEX-7247/FTS2C", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 43, "weight_kg": 6.2, "weight_basis": "with_stand", "width_mm": 970, "height_mm": 564, "depth_mm": 82, "vesa_width_mm": 200, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex_7247_fts2c/", "source_label": "Официальная карточка BBK", "source_region": "RU", "source_fact": "43 дюйма; VESA 200×100 мм; корпус 970×564×82 мм; 6,2 кг с подставкой.", "conflicts": [], "limitations": ["Винт официально не указан."], "published_values": {}
+    },
+    {
+      "id": "general-electronics-ge24lhn0", "observed_ids": ["general-electronics-ge24lhn0"], "brand": "General Electronics", "model": "GE24LHN0", "title": "General Electronics GE24LHN0", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 24, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://general-electronics.com/product/led-televizor-ge24lhn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 24 дюйма подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {"dimensions_unspecified_mm": [536,364,166]}
+    },
+    {
+      "id": "general-electronics-ge32lhn0", "observed_ids": ["general-electronics-ge32lhn0"], "brand": "General Electronics", "model": "GE32LHN0", "title": "General Electronics GE32LHN0", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 32, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://general-electronics.com/product/led-televizor-ge32lhn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 32 дюйма подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {}
+    },
+    {
+      "id": "general-electronics-ge40lfn0", "observed_ids": ["general-electronics-ge40lfn0"], "brand": "General Electronics", "model": "GE40LFN0", "title": "General Electronics GE40LFN0", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 40, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://general-electronics.com/product/led-televizor-ge40lfn0/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 40 дюймов подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {}
+    },
+    {
+      "id": "general-electronics-ge50lqy2", "observed_ids": ["general-electronics-ge50lqy2"], "brand": "General Electronics", "model": "GE50LQY2", "title": "General Electronics GE50LQY2", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 50, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://general-electronics.com/product/qled-televizor-ge50lqy2/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 50 дюймов подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {}
+    },
+    {
+      "id": "general-electronics-ge50lus2", "observed_ids": ["general-electronics-ge50lus2"], "brand": "General Electronics", "model": "GE50LUS2", "title": "General Electronics GE50LUS2", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 50, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://general-electronics.com/product/led-televizor-ge50lus2/", "source_label": "Официальная карточка General Electronics", "source_region": "RU", "source_fact": "Точная модель и 50 дюймов подтверждены; VESA, масса и корпус без подставки не опубликованы.", "conflicts": [], "limitations": ["Нельзя безопасно подобрать крепление."], "published_values": {"dimensions_unspecified_mm": [1111,700,279]}
+    },
+    {
+      "id": "haier-32h6gfg", "observed_ids": ["haier-32h6gfg"], "brand": "Haier", "model": "32H6GFG", "title": "Haier 32H6GFG", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Официальный паспорт не найден", "source_region": null, "source_fact": "Для точной строки модели не найден воспроизводимый официальный паспорт.", "conflicts": [], "limitations": ["Сторонние карточки не использованы."], "published_values": {}
+    },
+    {
+      "id": "haier-50h5gux-fx", "observed_ids": ["haier-50h5gux-fx"], "brand": "Haier", "model": "50H5GUX/FX", "title": "Haier 50H5GUX/FX", "series": null, "model_year": null, "identity_kind": "exact_model_with_suffix", "status": "unverifiable",
+      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Официальный паспорт не найден", "source_region": null, "source_fact": "Паспорт именно для суффикса /FX не найден; суффикс не нормализован.", "conflicts": [], "limitations": ["Модели без /FX не использованы."], "published_values": {}
+    },
+    {
+      "id": "haier-d1", "observed_ids": ["haier-d1"], "brand": "Haier", "model": "D1", "title": "Haier D1 40″", "series": null, "model_year": null, "identity_kind": "series_plus_diagonal", "status": "unverifiable",
+      "diagonal_inches": 40, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Недостаточная идентификация", "source_region": null, "source_fact": "D1 и диагональ не образуют однозначный официальный SKU.", "conflicts": [], "limitations": ["Нужен полный код с шильдика."], "published_values": {}
+    },
+    {
+      "id": "haier-dh1zh0d00ru", "observed_ids": ["haier-dh1zh0d00ru"], "brand": "Haier", "model": "DH1ZH0D00RU", "title": "Haier DH1ZH0D00RU 55″", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 55, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Официальный паспорт не найден", "source_region": null, "source_fact": "Для точного кода не найден официальный паспорт с монтажными характеристиками.", "conflicts": [], "limitations": ["Сторонние карточки не использованы."], "published_values": {}
+    },
+    {
+      "id": "haier-h1", "observed_ids": ["haier-h1"], "brand": "Haier", "model": "H1", "title": "Haier H1 50″", "series": null, "model_year": null, "identity_kind": "series_plus_diagonal", "status": "unverifiable",
+      "diagonal_inches": 50, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Недостаточная идентификация", "source_region": null, "source_fact": "H1 и диагональ не образуют однозначный официальный SKU.", "conflicts": [], "limitations": ["Нужен полный код с шильдика."], "published_values": {}
+    },
+    {
+      "id": "haier-h55k85gux", "observed_ids": ["haier-h55k85gux"], "brand": "Haier", "model": "H55K85GUX", "title": "Haier H55K85GUX", "series": null, "model_year": null, "identity_kind": "exact_model_regional_conflict", "status": "conflict",
+      "diagonal_inches": 55, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": "https://www.haier-europe.com/es_ES/products/36200158-h55k85gux", "source_label": "Официальные региональные страницы Haier", "source_region": "ES+TH", "source_fact": "Официальные страницы одной строки модели публикуют несовместимые массы; вероятны региональные ревизии.",
+      "conflicts": ["ES: 9,19 кг без подставки; TH: 8,5 кг с подставкой."], "limitations": ["Нужен региональный SKU/шильдик конкретного экземпляра."],
+      "published_values": {"ES": {"diagonal_inches":55,"vesa_mm":[200,200],"weight_kg_without_stand":9.19,"overall_dimensions_mm":[1225,735,296]}, "TH": {"diagonal_inches":55,"body_dimensions_mm":[1225,716,71],"weight_kg_with_stand":8.5}},
+      "sources": [{"url":"https://www.haier-europe.com/es_ES/products/36200158-h55k85gux","region":"ES"},{"url":"https://www.haier.com/th/tvs/h55k85gux.shtml","region":"TH"}]
+    },
+    {
+      "id": "haier-s2-32", "observed_ids": ["haier-s2-32", "haier-s2-32-market-5190478149"], "brand": "Haier", "model": "S2", "title": "Haier S2 32″", "series": null, "model_year": null, "identity_kind": "series_plus_diagonal", "status": "unverifiable",
+      "diagonal_inches": 32, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Недостаточная идентификация", "source_region": null, "source_fact": "S2 и диагональ не образуют однозначный официальный SKU.", "conflicts": [], "limitations": ["Нужен полный код с шильдика."], "published_values": {}
+    },
+    {
+      "id": "haier-s2-43", "observed_ids": ["haier-s2-43"], "brand": "Haier", "model": "S2", "title": "Haier S2 43″", "series": null, "model_year": null, "identity_kind": "series_plus_diagonal", "status": "unverifiable",
+      "diagonal_inches": 43, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Недостаточная идентификация", "source_region": null, "source_fact": "S2 и диагональ не образуют однозначный официальный SKU.", "conflicts": [], "limitations": ["Нужен полный код с шильдика."], "published_values": {}
+    },
+    {
+      "id": "hi-hs-32f01fb", "observed_ids": ["hi-hs-32f01fb"], "brand": "Hi", "model": "HS-32F01FB", "title": "Hi HS-32F01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Официальная инструкция не найдена", "source_region": "RU", "source_fact": "Не найден воспроизводимый официальный паспорт точной модели.", "conflicts": [], "limitations": ["Похожие модели не использованы."], "published_values": {}
+    },
+    {
+      "id": "hi-ht-32h01fb", "observed_ids": ["hi-ht-32h01fb"], "brand": "Hi", "model": "HT-32H01FB", "title": "Hi HT-32H01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Официальная инструкция не найдена", "source_region": "RU", "source_fact": "Не найден официальный паспорт точной модели.", "conflicts": [], "limitations": ["Инструкция HT-24H01FB не относится к этой модели."], "published_values": {}
+    },
+    {
+      "id": "hi-hx-24h01fb", "observed_ids": ["hi-hx-24h01fb"], "brand": "Hi", "model": "HX-24H01FB", "title": "Hi HX-24H01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 24, "weight_kg": 2.2, "weight_basis": "published_unspecified", "width_mm": 536, "height_mm": 326, "depth_mm": 80, "vesa_width_mm": 100, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://static.mvideo.ru/ins/10033080.pdf", "source_label": "Официальная инструкция Hi", "source_region": "RU", "source_fact": "24 дюйма; VESA 100×100 мм; 536×80×326 мм нормализованы как Ш×В×Г 536×326×80; масса нетто ≤2,2 кг.",
+      "conflicts": [], "limitations": ["База массы не уточнена; винт не указан."], "published_values": {"raw_dimensions_mm":[536,80,326],"net_weight_kg_max":2.2}
+    },
+    {
+      "id": "hi-hx-32h01fb", "observed_ids": ["hi-hx-32h01fb"], "brand": "Hi", "model": "HX-32H01FB", "title": "Hi HX-32H01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Официальная инструкция не найдена", "source_region": "RU", "source_fact": "Не найден официальный паспорт точной модели.", "conflicts": [], "limitations": ["Соседние диагонали не использованы."], "published_values": {}
+    },
+    {
+      "id": "hi-hx-43f01fb", "observed_ids": ["hi-hx-43f01fb"], "brand": "Hi", "model": "HX-43F01FB", "title": "Hi HX-43F01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "verified",
+      "diagonal_inches": 43, "weight_kg": 5.4, "weight_basis": "published_unspecified", "width_mm": 955, "height_mm": 560, "depth_mm": 70, "vesa_width_mm": 200, "vesa_height_mm": 200, "screw_spec": null,
+      "source_url": "https://static.mvideo.ru/ins/10033083.pdf", "source_label": "Официальная инструкция Hi", "source_region": "RU", "source_fact": "43 дюйма; VESA 200×200 мм; 955×70×560 мм нормализованы как Ш×В×Г 955×560×70; масса нетто ≤5,4 кг.",
+      "conflicts": [], "limitations": ["База массы не уточнена; винт не указан."], "published_values": {"raw_dimensions_mm":[955,70,560],"net_weight_kg_max":5.4}
+    },
+    {
+      "id": "hi-hy-24h01fw", "observed_ids": ["hi-hy-24h01fw"], "brand": "Hi", "model": "HY-24H01FW", "title": "Hi HY-24H01FW", "series": null, "model_year": null, "identity_kind": "exact_model_with_color_suffix", "status": "unverifiable",
+      "diagonal_inches": null, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": null, "vesa_height_mm": null, "screw_spec": null,
+      "source_url": null, "source_label": "Официальная инструкция не найдена", "source_region": "RU", "source_fact": "Не найден паспорт именно версии FW.", "conflicts": [], "limitations": ["Данные FB-версий не подставлялись."], "published_values": {}
+    },
+    {
+      "id": "hi-hy-40f01fb", "observed_ids": ["hi-hy-40f01fb"], "brand": "Hi", "model": "HY-40F01FB", "title": "Hi HY-40F01FB", "series": null, "model_year": null, "identity_kind": "exact_model", "status": "unverifiable",
+      "diagonal_inches": 40, "weight_kg": null, "weight_basis": null, "width_mm": null, "height_mm": null, "depth_mm": null, "vesa_width_mm": 100, "vesa_height_mm": 100, "screw_spec": null,
+      "source_url": "https://static.mvideo.ru/ins/10033082.pdf", "source_label": "Официальная инструкция Hi", "source_region": "RU", "source_fact": "Инструкция подтверждает точную модель, 40 дюймов и VESA 100×100 мм, но безопасный полный набор массы и габаритов не подтверждён.",
+      "conflicts": [], "limitations": ["Статус unverifiable до однозначных массы и габаритов корпуса."], "published_values": {"diagonal_inches":40,"vesa_mm":[100,100]}
+    }
+  ]
+}

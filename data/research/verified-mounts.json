@@ -389,5 +389,22 @@
     "source_label": "Официальная русская карточка ONKRON NN24-B",
     "source_fact": "Точная карточка NN24-B подтверждает фиксированный механизм, диагонали 32–65, нагрузку 50 кг, перечисленные VESA и вылет 30 мм.",
     "checked_at": "2026-07-31"
+  },
+  {
+    "id": "onkron-uf4",
+    "brand": "ONKRON",
+    "model": "UF4-B",
+    "title": "ONKRON UF4-B",
+    "mechanism": "fixed",
+    "min_diagonal_in": 55,
+    "max_diagonal_in": 100,
+    "max_load_kg": 80,
+    "vesa": ["75x75", "100x100", "100x200", "200x100", "200x200", "200x300", "200x400", "300x100", "300x200", "300x300", "300x400", "400x200", "400x300", "400x400", "500x200", "500x400", "600x200", "600x300", "600x400", "700x400", "700x500", "800x200", "800x400", "800x500", "800x600"],
+    "wall_distance_min_mm": 35,
+    "wall_distance_max_mm": 35,
+    "source_url": "https://onkron.ru/product-onkron-kronshtejn-dlja-televizora-40-80-phiksirovannyj-chjornyj-uf4.html",
+    "source_label": "Официальная русская карточка ONKRON UF4-B",
+    "source_fact": "Точная карточка с артикулом UF4-B подтверждает фиксированный механизм, диагонали 55–100, нагрузку 80 кг, перечисленные VESA до 800×600 и расстояние от стены 35 мм.",
+    "checked_at": "2026-08-05"
   }
 ]

@@ -27,7 +27,7 @@ const uniqueModels = new Set(records.map((record) => record.model_id));
 const uniqueBrands = new Set(records.map((record) => record.brand));
 const dataset = {
   schema_version: 1,
-  dataset_version: "1.0.0",
+  dataset_version: "1.1.0",
   language: "ru",
   market: "RU",
   generated_from: "data/tv_models.json",
@@ -120,8 +120,8 @@ function validateRecords(rows) {
       throw new Error(`Строка ${index + 1}: checked_at должен быть ISO-датой`);
     }
   }
-  if (modelIds.size !== 26) {
-    throw new Error(`Ожидалось 26 моделей с официальным паспортом, получено ${modelIds.size}`);
+  if (modelIds.size !== 27) {
+    throw new Error(`Ожидалось 27 моделей с проверенным паспортом, получено ${modelIds.size}`);
   }
 }
 

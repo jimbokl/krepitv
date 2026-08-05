@@ -9,8 +9,9 @@
 
 ## Скачать
 
-- [CSV, версия 1](v1/tv-vesa-screws.csv)
-- [JSON, версия 1](v1/tv-vesa-screws.json)
+- [CSV, версия 1.1.0](v1/tv-vesa-screws.csv)
+- [JSON, версия 1.1.0](v1/tv-vesa-screws.json)
+- [Неизменяемая копия релиза 1.1.0](https://github.com/jimbokl/krepitv/releases/tag/datasets-v1.1.0)
 - [Живой поиск по модели](https://krepitv.ru/vinty-dlya-krepleniya-televizora/)
 
 Выгрузка содержит только модели, для которых найден официальный паспорт

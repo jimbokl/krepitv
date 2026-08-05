@@ -1048,6 +1048,118 @@
     "search": "philips 50pud7029/71 philips 50pud7029/71"
   },
   {
+    "id": "bbk-32lem-1045-ts2c",
+    "title": "BBK 32LEM-1045/TS2C",
+    "brand": "BBK",
+    "model": "32LEM-1045/TS2C",
+    "href": "/modeli/bbk-32lem-1045-ts2c/",
+    "search": "bbk 32lem-1045/ts2c bbk 32lem-1045/ts2c"
+  },
+  {
+    "id": "bbk-32lem-1075-ts2c",
+    "title": "BBK 32LEM-1075/TS2C",
+    "brand": "BBK",
+    "model": "32LEM-1075/TS2C",
+    "href": "/modeli/bbk-32lem-1075-ts2c/",
+    "search": "bbk 32lem-1075/ts2c bbk 32lem-1075/ts2c"
+  },
+  {
+    "id": "bbk-32lex-7235-fts2c",
+    "title": "BBK 32LEX-7235/FTS2C",
+    "brand": "BBK",
+    "model": "32LEX-7235/FTS2C",
+    "href": "/modeli/bbk-32lex-7235-fts2c/",
+    "search": "bbk 32lex-7235/fts2c bbk 32lex-7235/fts2c"
+  },
+  {
+    "id": "bbk-32lex-7244-ts2c",
+    "title": "BBK 32LEX-7244/TS2C",
+    "brand": "BBK",
+    "model": "32LEX-7244/TS2C",
+    "href": "/modeli/bbk-32lex-7244-ts2c/",
+    "search": "bbk 32lex-7244/ts2c bbk 32lex-7244/ts2c"
+  },
+  {
+    "id": "bbk-40lem-1030-fts2c",
+    "title": "BBK 40LEM-1030/FTS2C",
+    "brand": "BBK",
+    "model": "40LEM-1030/FTS2C",
+    "href": "/modeli/bbk-40lem-1030-fts2c/",
+    "search": "bbk 40lem-1030/fts2c bbk 40lem-1030/fts2c"
+  },
+  {
+    "id": "bbk-43lex-7247-fts2c",
+    "title": "BBK 43LEX-7247/FTS2C",
+    "brand": "BBK",
+    "model": "43LEX-7247/FTS2C",
+    "href": "/modeli/bbk-43lex-7247-fts2c/",
+    "search": "bbk 43lex-7247/fts2c bbk 43lex-7247/fts2c"
+  },
+  {
+    "id": "hi-hx-24h01fb",
+    "title": "Hi HX-24H01FB",
+    "brand": "Hi",
+    "model": "HX-24H01FB",
+    "href": "/modeli/hi-hx-24h01fb/",
+    "search": "hi hx-24h01fb hi hx-24h01fb"
+  },
+  {
+    "id": "hi-hx-43f01fb",
+    "title": "Hi HX-43F01FB",
+    "brand": "Hi",
+    "model": "HX-43F01FB",
+    "href": "/modeli/hi-hx-43f01fb/",
+    "search": "hi hx-43f01fb hi hx-43f01fb"
+  },
+  {
+    "id": "xiaomi-tv-a-pro-32-2026",
+    "title": "Xiaomi TV A Pro 32 2026",
+    "brand": "Xiaomi",
+    "model": "TV A Pro 32 2026",
+    "href": "/modeli/xiaomi-tv-a-pro-32-2026/",
+    "search": "xiaomi tv a pro 32 2026 xiaomi tv a pro 32 2026"
+  },
+  {
+    "id": "hisense-50e77sl-pro",
+    "title": "Hisense 50E77SL PRO",
+    "brand": "Hisense",
+    "model": "50E77SL PRO",
+    "href": "/modeli/hisense-50e77sl-pro/",
+    "search": "hisense 50e77sl pro hisense 50e77sl pro"
+  },
+  {
+    "id": "tuvio-td50ufbhh11",
+    "title": "Tuvio TD50UFBHH11",
+    "brand": "Tuvio",
+    "model": "TD50UFBHH11",
+    "href": "/modeli/tuvio-td50ufbhh11/",
+    "search": "tuvio td50ufbhh11 tuvio td50ufbhh11"
+  },
+  {
+    "id": "candy-uno-43-uhd",
+    "title": "Candy Uno 43 UHD",
+    "brand": "Candy",
+    "model": "Uno 43 UHD",
+    "href": "/modeli/candy-uno-43-uhd/",
+    "search": "candy uno 43 uhd candy uno 43 uhd"
+  },
+  {
+    "id": "skyline-43lst6575",
+    "title": "SkyLine 43LST6575",
+    "brand": "SkyLine",
+    "model": "43LST6575",
+    "href": "/modeli/skyline-43lst6575/",
+    "search": "skyline 43lst6575 skyline 43lst6575"
+  },
+  {
+    "id": "candy-uno-32",
+    "title": "Candy Uno 32",
+    "brand": "Candy",
+    "model": "Uno 32",
+    "href": "/modeli/candy-uno-32/",
+    "search": "candy uno 32 candy uno 32"
+  },
+  {
     "id": "hi-ht-32h01fb",
     "title": "Hi HT-32H01FB",
     "brand": "Hi",
@@ -1096,28 +1208,12 @@
     "search": "artel ua32h4101 artel ua32h4101 телевизор artel ua32h4101"
   },
   {
-    "id": "bbk-32lem-1075-ts2c",
-    "title": "BBK 32LEM-1075/TS2C",
-    "brand": "BBK",
-    "model": "32LEM-1075/TS2C",
-    "href": "/modeli/bbk-32lem-1075-ts2c/",
-    "search": "bbk 32lem-1075/ts2c bbk 32lem-1075/ts2c телевизор bbk 32lem-1075/ts2c (b) 32\" led, hd, черный"
-  },
-  {
     "id": "haier-50h5gux-fx",
     "title": "Haier 50H5GUX/FX",
     "brand": "Haier",
     "model": "50H5GUX/FX",
     "href": "/modeli/haier-50h5gux-fx/",
     "search": "haier 50h5gux/fx haier 50h5gux/fx телевизор haier 50h5gux/fx, диагональ 50\", разрешение 4k, операционная система google tv"
-  },
-  {
-    "id": "bbk-32lex-7244-ts2c",
-    "title": "BBK 32LEX-7244/TS2C",
-    "brand": "BBK",
-    "model": "32LEX-7244/TS2C",
-    "href": "/modeli/bbk-32lex-7244-ts2c/",
-    "search": "bbk 32lex-7244/ts2c bbk 32lex-7244/ts2c телевизор со smart tv bbk 32lex-7244/ts2c w яндекс. тв 32\" hd yaos белый"
   },
   {
     "id": "general-electronics-ge32lhn0",
@@ -1134,14 +1230,6 @@
     "model": "SDX-43U5500DBA",
     "href": "/modeli/sber-sdx-43u5500dba/",
     "search": "sber sdx-43u5500dba sber sdx-43u5500dba умный телевизор sber sdx-43u5500dba, 4k ultra hd"
-  },
-  {
-    "id": "bbk-40lem-1030-fts2c",
-    "title": "BBK 40LEM-1030/FTS2C",
-    "brand": "BBK",
-    "model": "40LEM-1030/FTS2C",
-    "href": "/modeli/bbk-40lem-1030-fts2c/",
-    "search": "bbk 40lem-1030/fts2c bbk 40lem-1030/fts2c led телевизор bbk 40lem-1030/fts2c, 40\", full hd, черный"
   },
   {
     "id": "vityaz-d24hs01bf",
@@ -1208,28 +1296,12 @@
     "search": "skyworth 100q79h skyworth 100q79h телевизор skyworth 100q79h qled+, 4k ultra hd, смарт тв, google tv, черный"
   },
   {
-    "id": "xiaomi-tv-a-pro",
-    "title": "Xiaomi TV A Pro 32″",
-    "brand": "Xiaomi",
-    "model": "TV A Pro",
-    "href": "/modeli/xiaomi-tv-a-pro/",
-    "search": "xiaomi tv a pro xiaomi tv a pro 32″ телевизор xiaomi tv a pro, диагональ 32\", разрешение 1366x768, черный"
-  },
-  {
     "id": "skyworth-50q66h",
     "title": "Skyworth 50Q66H",
     "brand": "Skyworth",
     "model": "50Q66H",
     "href": "/modeli/skyworth-50q66h/",
     "search": "skyworth 50q66h skyworth 50q66h телевизор skyworth 50q66h, qled+, 4k ultra hd, 120 гц, hdr10+"
-  },
-  {
-    "id": "candy-uno-43-uhd",
-    "title": "Candy UNO 43 UHD",
-    "brand": "Candy",
-    "model": "UNO 43 UHD",
-    "href": "/modeli/candy-uno-43-uhd/",
-    "search": "candy uno 43 uhd candy uno 43 uhd телевизор candy uno 43 uhd, диагональ 43\", 4k uhd, android tv"
   },
   {
     "id": "tcl-v4c",
@@ -1262,14 +1334,6 @@
     "model": "43Q67H",
     "href": "/modeli/skyworth-43q67h/",
     "search": "skyworth 43q67h skyworth 43q67h телевизор skyworth 43q67h, qled+, 4k ultra hd, 120 гц, hdr10+"
-  },
-  {
-    "id": "hisense-50e77sl",
-    "title": "Hisense 50E77SL",
-    "brand": "Hisense",
-    "model": "50E77SL",
-    "href": "/modeli/hisense-50e77sl/",
-    "search": "hisense 50e77sl hisense 50e77sl телевизор 50 дюймов hisense 50e77sl pro (2026) смарт тв 4к"
   },
   {
     "id": "razz-hh24h25f",
@@ -1312,14 +1376,6 @@
     "search": "general electronics ge50lus2 general electronics ge50lus2 телевизор general electronics ge50lus2"
   },
   {
-    "id": "hi-hx-24h01fb",
-    "title": "Hi HX-24H01FB",
-    "brand": "Hi",
-    "model": "HX-24H01FB",
-    "href": "/modeli/hi-hx-24h01fb/",
-    "search": "hi hx-24h01fb hi hx-24h01fb телевизор hi hx-24h01fb"
-  },
-  {
     "id": "leff-24f690t",
     "title": "Leff 24F690T",
     "brand": "Leff",
@@ -1336,28 +1392,12 @@
     "search": "lc-thinq fhd-43 lc-thinq fhd-43 lc-thinq ai & magic remote smart tv fhd-43 - ду аэромышь - с голосовым управлением."
   },
   {
-    "id": "hi-hx-43f01fb",
-    "title": "Hi HX-43F01FB",
-    "brand": "Hi",
-    "model": "HX-43F01FB",
-    "href": "/modeli/hi-hx-43f01fb/",
-    "search": "hi hx-43f01fb hi hx-43f01fb телевизор hi hx-43f01fb"
-  },
-  {
     "id": "tuvio-tm85ufbch51",
     "title": "Tuvio TM85UFBCH51",
     "brand": "Tuvio",
     "model": "TM85UFBCH51",
     "href": "/modeli/tuvio-tm85ufbch51/",
     "search": "tuvio tm85ufbch51 tuvio tm85ufbch51 85” телевизор tuvio 4к ultra hd miniled frameless на платформе google tv, tm85ufbch51, черный"
-  },
-  {
-    "id": "skyline-43lst6575",
-    "title": "SkyLine 43LST6575",
-    "brand": "SkyLine",
-    "model": "43LST6575",
-    "href": "/modeli/skyline-43lst6575/",
-    "search": "skyline 43lst6575 skyline 43lst6575 смарт телевизор 43 дюйма с wi-fi с алисой skyline 43lst6575 / full hd / черный"
   },
   {
     "id": "hi-hs-32f01fb",
@@ -1424,28 +1464,12 @@
     "search": "haier h55k85gux haier h55k85gux телевизор haier 55\" h55k85gux, 4k uhd 3840 × 2160, google tv, 60 гц, 2\\32 гб"
   },
   {
-    "id": "bbk-32lex-7235-fts2c",
-    "title": "BBK 32LEX-7235/FTS2C",
-    "brand": "BBK",
-    "model": "32LEX-7235/FTS2C",
-    "href": "/modeli/bbk-32lex-7235-fts2c/",
-    "search": "bbk 32lex-7235/fts2c bbk 32lex-7235/fts2c телевизор bbk 32lex-7235/fts2c b яндекс. тв 32\" full hd smart tv wi-fi bluetooth черный"
-  },
-  {
     "id": "smart-televizor-26-dyuymov-s",
     "title": "Смарт телевизор 26 дюймов с",
     "brand": "Смарт",
     "model": "телевизор 26 дюймов с",
     "href": "/modeli/smart-televizor-26-dyuymov-s/",
     "search": "смарт телевизор 26 дюймов с смарт телевизор 26 дюймов с смарт телевизор 26 дюймов с wi-fi android"
-  },
-  {
-    "id": "bbk-43lex-7247-fts2c",
-    "title": "BBK 43LEX-7247/FTS2C",
-    "brand": "BBK",
-    "model": "43LEX-7247/FTS2C",
-    "href": "/modeli/bbk-43lex-7247-fts2c/",
-    "search": "bbk 43lex-7247/fts2c bbk 43lex-7247/fts2c телевизор bbk 43lex-7247/fts2c w яндекс. тв 43\" full hd smart tv wi-fi bluetooth белый"
   },
   {
     "id": "bbk-42lem-1016-fts2c",
@@ -1478,14 +1502,6 @@
     "model": "TV - Безрамочный экран - ДУ Аэромышь - с голосовым управлением 32\"",
     "href": "/modeli/smart-tv-bezramochnyy-ekran-du-aeromysh-s-golosovym-upravleniem-32/",
     "search": "smart tv - безрамочный экран - ду аэромышь - с голосовым управлением 32\" smart tv - безрамочный экран - ду аэромышь - с голосовым управлением 32\" телевизор с web os и lg-thinq al smart tv - безрамочный экран - ду аэромышь - с голосовым управлением 32\" full hd, черный"
-  },
-  {
-    "id": "tuvio-td50ufbhh11",
-    "title": "Tuvio TD50UFBHH11",
-    "brand": "Tuvio",
-    "model": "TD50UFBHH11",
-    "href": "/modeli/tuvio-td50ufbhh11/",
-    "search": "tuvio td50ufbhh11 tuvio td50ufbhh11 50” телевизор tuvio 4к ultra hd dled frameless на платформе yaos, td50ufbhh11"
   },
   {
     "id": "thinq-ai-32-du-aeromysh",
@@ -1544,14 +1560,6 @@
     "search": "asano 24lf1210t asano 24lf1210t телевизор asano 24lf1210t 24\" dled fhd, черный"
   },
   {
-    "id": "bbk-32lem-1045-ts2c",
-    "title": "BBK 32LEM-1045/TS2C",
-    "brand": "BBK",
-    "model": "32LEM-1045/TS2C",
-    "href": "/modeli/bbk-32lem-1045-ts2c/",
-    "search": "bbk 32lem-1045/ts2c bbk 32lem-1045/ts2c жк-телевизор bbk 32lem-1045/ts2c (w) белый, led 32\" hd 60hz usb (rus)"
-  },
-  {
     "id": "candy-televizor-32-dyuyma",
     "title": "Candy Телевизор 32 дюйма",
     "brand": "Candy",
@@ -1574,14 +1582,6 @@
     "model": "19-дюймовый",
     "href": "/modeli/brend-ne-ukazan-19-dyuymovyy/",
     "search": "бренд не указан 19-дюймовый 19-дюймовый 19-дюймовый ультратонкий hd-телевизор, поддерживает антенну t2, подходит для дома, тренажерного зала, караоке или бара, поддерживает wi-fi"
-  },
-  {
-    "id": "candy-uno-32",
-    "title": "Candy Uno 32\"",
-    "brand": "Candy",
-    "model": "Uno 32\"",
-    "href": "/modeli/candy-uno-32/",
-    "search": "candy uno 32\" candy uno 32\" телевизор candy uno 32\", разрешение hd, android tv, wi-fi, bluetooth, черный"
   },
   {
     "id": "hi-hx-32h01fb",

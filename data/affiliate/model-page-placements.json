@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "clid": "15238076",
-  "expected_offer_count": 388,
+  "expected_offer_count": 430,
   "models": [
     {
       "model_id": "akai-ta32bh500",
@@ -28,6 +28,174 @@
           "entity_id": "kromax-atlantis-45",
           "source_card_id": "market-kromax-atlantis-45-103730423130",
           "vid": "krepitvmodelakaita32bh500r03kromaxatlantis45c1afd9e7b4ff"
+        }
+      ]
+    },
+    {
+      "model_id": "bbk-32lem-1045-ts2c",
+      "model_path": "/modeli/bbk-32lem-1045-ts2c/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-bbk-32lem-1045-ts2c-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelbbk32lem1045ts2cr01holderlcds5036f2dcf423b3a1"
+        },
+        {
+          "placement_id": "model-bbk-32lem-1045-ts2c-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelbbk32lem1045ts2cr02holderlcds506670f3ece28085"
+        },
+        {
+          "placement_id": "model-bbk-32lem-1045-ts2c-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelbbk32lem1045ts2cr03kromaxatlantis451935b86cb89f"
+        }
+      ]
+    },
+    {
+      "model_id": "bbk-32lem-1075-ts2c",
+      "model_path": "/modeli/bbk-32lem-1075-ts2c/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-bbk-32lem-1075-ts2c-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelbbk32lem1075ts2cr01holderlcds503665fb69a0a45a"
+        },
+        {
+          "placement_id": "model-bbk-32lem-1075-ts2c-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelbbk32lem1075ts2cr02holderlcds506654e842ce823e"
+        },
+        {
+          "placement_id": "model-bbk-32lem-1075-ts2c-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelbbk32lem1075ts2cr03kromaxatlantis452bdbe5d9cca1"
+        }
+      ]
+    },
+    {
+      "model_id": "bbk-32lex-7235-fts2c",
+      "model_path": "/modeli/bbk-32lex-7235-fts2c/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-bbk-32lex-7235-fts2c-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelbbk32lex7235fts2cr01holderlcds5036c2cde7045cc9"
+        },
+        {
+          "placement_id": "model-bbk-32lex-7235-fts2c-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelbbk32lex7235fts2cr02holderlcds5066a7ea9b9bb3c8"
+        },
+        {
+          "placement_id": "model-bbk-32lex-7235-fts2c-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelbbk32lex7235fts2cr03kromaxatlantis456d8316900886"
+        }
+      ]
+    },
+    {
+      "model_id": "bbk-32lex-7244-ts2c",
+      "model_path": "/modeli/bbk-32lex-7244-ts2c/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-bbk-32lex-7244-ts2c-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelbbk32lex7244ts2cr01holderlcds5036950de97b0568"
+        },
+        {
+          "placement_id": "model-bbk-32lex-7244-ts2c-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelbbk32lex7244ts2cr02holderlcds50660ba604c46bc8"
+        },
+        {
+          "placement_id": "model-bbk-32lex-7244-ts2c-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelbbk32lex7244ts2cr03kromaxatlantis45e81e54abe557"
+        }
+      ]
+    },
+    {
+      "model_id": "bbk-40lem-1030-fts2c",
+      "model_path": "/modeli/bbk-40lem-1030-fts2c/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-bbk-40lem-1030-fts2c-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelbbk40lem1030fts2cr01holderlcds503628e3d617282d"
+        },
+        {
+          "placement_id": "model-bbk-40lem-1030-fts2c-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelbbk40lem1030fts2cr02holderlcds50667c3e32724e86"
+        },
+        {
+          "placement_id": "model-bbk-40lem-1030-fts2c-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelbbk40lem1030fts2cr03kromaxatlantis455cfff0c5a473"
+        }
+      ]
+    },
+    {
+      "model_id": "bbk-43lex-7247-fts2c",
+      "model_path": "/modeli/bbk-43lex-7247-fts2c/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-bbk-43lex-7247-fts2c-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelbbk43lex7247fts2cr01holderlcds5036bd65066b976a"
+        },
+        {
+          "placement_id": "model-bbk-43lex-7247-fts2c-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelbbk43lex7247fts2cr02holderlcds50662763b1f0a5fc"
+        },
+        {
+          "placement_id": "model-bbk-43lex-7247-fts2c-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelbbk43lex7247fts2cr03kromaxatlantis450cbeb373e2c5"
         }
       ]
     },
@@ -84,6 +252,62 @@
           "entity_id": "kromax-atlantis-45",
           "source_card_id": "market-kromax-atlantis-45-103730423130",
           "vid": "krepitvmodelbq32f40br03kromaxatlantis45672ce22c2bd0"
+        }
+      ]
+    },
+    {
+      "model_id": "candy-uno-32",
+      "model_path": "/modeli/candy-uno-32/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-candy-uno-32-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelcandyuno32r01holderlcds503663c10a810dab"
+        },
+        {
+          "placement_id": "model-candy-uno-32-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelcandyuno32r02holderlcds50663e02337963f7"
+        },
+        {
+          "placement_id": "model-candy-uno-32-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelcandyuno32r03kromaxatlantis452f72e4482ff5"
+        }
+      ]
+    },
+    {
+      "model_id": "candy-uno-43-uhd",
+      "model_path": "/modeli/candy-uno-43-uhd/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-candy-uno-43-uhd-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelcandyuno43uhdr01holderlcds503672e1fecd8a03"
+        },
+        {
+          "placement_id": "model-candy-uno-43-uhd-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelcandyuno43uhdr02holderlcds5066d6669f9c7534"
+        },
+        {
+          "placement_id": "model-candy-uno-43-uhd-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelcandyuno43uhdr03kromaxatlantis45093a3f197444"
         }
       ]
     },
@@ -228,6 +452,62 @@
       ]
     },
     {
+      "model_id": "hi-hx-24h01fb",
+      "model_path": "/modeli/hi-hx-24h01fb/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hi-hx-24h01fb-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelhihx24h01fbr01holderlcds50363336d2a46028"
+        },
+        {
+          "placement_id": "model-hi-hx-24h01fb-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelhihx24h01fbr02holderlcds50667a9eeb3bfdce"
+        },
+        {
+          "placement_id": "model-hi-hx-24h01fb-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhihx24h01fbr03kromaxatlantis458827f6b667dd"
+        }
+      ]
+    },
+    {
+      "model_id": "hi-hx-43f01fb",
+      "model_path": "/modeli/hi-hx-43f01fb/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hi-hx-43f01fb-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelhihx43f01fbr01holderlcds5036639c8f6d1c64"
+        },
+        {
+          "placement_id": "model-hi-hx-43f01fb-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelhihx43f01fbr02holderlcds5066d0b896674a4b"
+        },
+        {
+          "placement_id": "model-hi-hx-43f01fb-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhihx43f01fbr03kromaxatlantis45243969966fb1"
+        }
+      ]
+    },
+    {
       "model_id": "hisense-32a4s",
       "model_path": "/modeli/hisense-32a4s/",
       "expected_offer_count": 3,
@@ -364,6 +644,34 @@
           "entity_id": "onkron-nn24",
           "source_card_id": "market-onkron-nn24-102126398329",
           "vid": "krepitvmodelhisense43e7sr03onkronnn24af7807e660a3"
+        }
+      ]
+    },
+    {
+      "model_id": "hisense-50e77sl-pro",
+      "model_path": "/modeli/hisense-50e77sl-pro/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-hisense-50e77sl-pro-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelhisense50e77slpror01kromaxatlantis45ffc5a0038631"
+        },
+        {
+          "placement_id": "model-hisense-50e77sl-pro-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodelhisense50e77slpror02kromaxdix18dcf21335a370"
+        },
+        {
+          "placement_id": "model-hisense-50e77sl-pro-r03-kromax-flat-4",
+          "rank": 3,
+          "entity_id": "kromax-flat-4",
+          "source_card_id": "market-kromax-flat-4-103196138017",
+          "vid": "krepitvmodelhisense50e77slpror03kromaxflat461ae40acac79"
         }
       ]
     },
@@ -2517,6 +2825,34 @@
       ]
     },
     {
+      "model_id": "skyline-43lst6575",
+      "model_path": "/modeli/skyline-43lst6575/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-skyline-43lst6575-r01-holder-lcds-5036",
+          "rank": 1,
+          "entity_id": "holder-lcds-5036",
+          "source_card_id": "market-holder-lcds-5036-102216674458",
+          "vid": "krepitvmodelskyline43lst6575r01holderlcds5036d3615da71699"
+        },
+        {
+          "placement_id": "model-skyline-43lst6575-r02-holder-lcds-5066",
+          "rank": 2,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodelskyline43lst6575r02holderlcds506634112c4291d3"
+        },
+        {
+          "placement_id": "model-skyline-43lst6575-r03-kromax-atlantis-45",
+          "rank": 3,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelskyline43lst6575r03kromaxatlantis453a73a8db352a"
+        }
+      ]
+    },
+    {
       "model_id": "starwind-sw-led24sg304",
       "model_path": "/modeli/starwind-sw-led24sg304/",
       "expected_offer_count": 3,
@@ -3245,6 +3581,34 @@
       ]
     },
     {
+      "model_id": "tuvio-td50ufbhh11",
+      "model_path": "/modeli/tuvio-td50ufbhh11/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-tuvio-td50ufbhh11-r01-holder-lcds-5066",
+          "rank": 1,
+          "entity_id": "holder-lcds-5066",
+          "source_card_id": "market-holder-lcds-5066-103193855557",
+          "vid": "krepitvmodeltuviotd50ufbhh11r01holderlcds5066600c7d3469b5"
+        },
+        {
+          "placement_id": "model-tuvio-td50ufbhh11-r02-kromax-dix-18",
+          "rank": 2,
+          "entity_id": "kromax-dix-18",
+          "source_card_id": "market-kromax-dix-18-103730426851",
+          "vid": "krepitvmodeltuviotd50ufbhh11r02kromaxdix18612d542db8c6"
+        },
+        {
+          "placement_id": "model-tuvio-td50ufbhh11-r03-onkron-nn24",
+          "rank": 3,
+          "entity_id": "onkron-nn24",
+          "source_card_id": "market-onkron-nn24-102126398329",
+          "vid": "krepitvmodeltuviotd50ufbhh11r03onkronnn24310db1b776a8"
+        }
+      ]
+    },
+    {
       "model_id": "tuvio-td50ufbhh12",
       "model_path": "/modeli/tuvio-td50ufbhh12/",
       "expected_offer_count": 3,
@@ -3437,6 +3801,34 @@
           "entity_id": "kromax-flat-4",
           "source_card_id": "market-kromax-flat-4-103196138017",
           "vid": "krepitvmodelxiaomitva552025r03kromaxflat4fc1cbc365aa3"
+        }
+      ]
+    },
+    {
+      "model_id": "xiaomi-tv-a-pro-32-2026",
+      "model_path": "/modeli/xiaomi-tv-a-pro-32-2026/",
+      "expected_offer_count": 3,
+      "placements": [
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-32-2026-r01-kromax-atlantis-45",
+          "rank": 1,
+          "entity_id": "kromax-atlantis-45",
+          "source_card_id": "market-kromax-atlantis-45-103730423130",
+          "vid": "krepitvmodelxiaomitvapro322026r01kromaxatlantis45f064b7767f3f"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-32-2026-r02-kromax-corbel-4",
+          "rank": 2,
+          "entity_id": "kromax-corbel-4",
+          "source_card_id": "market-kromax-corbel-4-103730423153",
+          "vid": "krepitvmodelxiaomitvapro322026r02kromaxcorbel4156ca4388249"
+        },
+        {
+          "placement_id": "model-xiaomi-tv-a-pro-32-2026-r03-onkron-m4s",
+          "rank": 3,
+          "entity_id": "onkron-m4s",
+          "source_card_id": "market-onkron-m4s-b-103581060220",
+          "vid": "krepitvmodelxiaomitvapro322026r03onkronm4sc1f8d5d5b7a1"
         }
       ]
     },
