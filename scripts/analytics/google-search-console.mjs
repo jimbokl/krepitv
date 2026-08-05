@@ -2,6 +2,7 @@ import { createSign } from "node:crypto";
 
 const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
 const READONLY_SCOPE = "https://www.googleapis.com/auth/webmasters.readonly";
+const WRITE_SCOPE = "https://www.googleapis.com/auth/webmasters";
 const SEARCH_API = "https://searchconsole.googleapis.com/webmasters/v3";
 const INSPECTION_ENDPOINT = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect";
 const TRANSIENT_STATUS = new Set([429, 500, 502, 503, 504]);
@@ -141,8 +142,11 @@ export function validateServiceAccountCredentials(value) {
   return value;
 }
 
-export function buildServiceAccountJwt(credentialsValue, now = new Date()) {
+export function buildServiceAccountJwt(credentialsValue, now = new Date(), scope = READONLY_SCOPE) {
   const credentials = validateServiceAccountCredentials(credentialsValue);
+  if (![READONLY_SCOPE, WRITE_SCOPE].includes(scope)) {
+    throw new Error("unsupported Google Search Console OAuth scope");
+  }
   const issuedAt = Math.floor(new Date(now).getTime() / 1000);
   if (!Number.isFinite(issuedAt)) throw new Error("invalid JWT time");
   const header = base64url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
@@ -151,7 +155,7 @@ export function buildServiceAccountJwt(credentialsValue, now = new Date()) {
     exp: issuedAt + 3600,
     iat: issuedAt,
     iss: credentials.client_email,
-    scope: READONLY_SCOPE,
+    scope,
   }));
   const signingInput = `${header}.${payload}`;
   const signer = createSign("RSA-SHA256");
@@ -165,9 +169,10 @@ export async function exchangeGoogleAccessToken({
   fetchImpl = globalThis.fetch,
   now = new Date(),
   requestTimeoutMs = 30_000,
+  scope = READONLY_SCOPE,
   sleepImpl = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)),
 }) {
-  const assertion = buildServiceAccountJwt(credentials, now);
+  const assertion = buildServiceAccountJwt(credentials, now, scope);
   const body = new URLSearchParams({
     assertion,
     grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
@@ -263,6 +268,10 @@ function searchEndpoint(siteUrl) {
 
 function sitemapEndpoint(siteUrl) {
   return `${SEARCH_API}/sites/${encodeURIComponent(siteUrl)}/sitemaps`;
+}
+
+function sitemapSubmitEndpoint(siteUrl, sitemapUrl) {
+  return `${sitemapEndpoint(siteUrl)}/${encodeURIComponent(sitemapUrl)}`;
 }
 
 function searchTotals(payload) {
@@ -684,6 +693,111 @@ function assertSanitizedReport(report, credentials, token) {
   }
 }
 
+export async function submitGoogleSitemap({
+  credentials: credentialsValue,
+  fetchImpl = globalThis.fetch,
+  localSitemapXml,
+  now = new Date(),
+  requestTimeoutMs = 30_000,
+  siteUrl: siteValue = "https://krepitv.ru/",
+  sitemapUrl: sitemapValue = "https://krepitv.ru/sitemap.xml",
+  sleepImpl = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)),
+}) {
+  const credentials = validateServiceAccountCredentials(credentialsValue);
+  const siteUrl = validateHttpsSiteUrl(siteValue);
+  const sitemapUrl = new URL(sitemapValue).href;
+  if (siteUrl !== "https://krepitv.ru/" || sitemapUrl !== "https://krepitv.ru/sitemap.xml") {
+    throw new Error("sitemap submission is locked to the production KREPI TV property");
+  }
+  if (!Number.isInteger(requestTimeoutMs) || requestTimeoutMs < 1 || requestTimeoutMs > 120_000) {
+    throw new Error("requestTimeoutMs must be between 1 and 120000");
+  }
+
+  const localUrls = parseSitemapUrls(localSitemapXml, siteUrl);
+  const { response: productionResponse, text: productionXml } = await fetchWithRetry({
+    fetchImpl,
+    sleepImpl,
+    timeoutMs: requestTimeoutMs,
+    url: sitemapUrl,
+    options: {
+      headers: { Accept: "application/xml,text/xml;q=0.9,*/*;q=0.1" },
+      method: "GET",
+    },
+  });
+  if (!productionResponse.ok) {
+    throw new Error(`production sitemap GET failed: HTTP ${productionResponse.status}`);
+  }
+  const productionUrls = parseSitemapUrls(productionXml, siteUrl);
+  if (JSON.stringify(productionUrls) !== JSON.stringify(localUrls)) {
+    throw new Error("production and local sitemap URL sets differ");
+  }
+
+  const token = await exchangeGoogleAccessToken({
+    credentials,
+    fetchImpl,
+    now,
+    requestTimeoutMs,
+    scope: WRITE_SCOPE,
+    sleepImpl,
+  });
+  const sitesPayload = await apiJson({
+    fetchImpl,
+    requestTimeoutMs,
+    sleepImpl,
+    token,
+    url: `${SEARCH_API}/sites`,
+  });
+  if (sitesPayload.siteEntry !== undefined && !Array.isArray(sitesPayload.siteEntry)) {
+    throw new Error("Google Search Console sites response is invalid");
+  }
+  const access = (Array.isArray(sitesPayload.siteEntry) ? sitesPayload.siteEntry : [])
+    .find((item) => item?.siteUrl === siteUrl);
+  if (access?.permissionLevel !== "siteOwner") {
+    throw new Error("Google sitemap submission requires verified siteOwner access");
+  }
+
+  const { response: submitResponse, text: submitText } = await fetchWithRetry({
+    fetchImpl,
+    sleepImpl,
+    timeoutMs: requestTimeoutMs,
+    url: sitemapSubmitEndpoint(siteUrl, sitemapUrl),
+    options: {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      method: "PUT",
+    },
+  });
+  if (!submitResponse.ok) {
+    const parsed = parseJson(submitText);
+    throw new Error(`Google sitemap submit failed: HTTP ${submitResponse.status}, ${safeApiReason(parsed.payload)}`);
+  }
+  if (submitText.trim() && submitText.trim() !== "{}") {
+    throw new Error("Google sitemap submit returned an unexpected response body");
+  }
+
+  const sitemapsPayload = await apiJson({
+    fetchImpl,
+    requestTimeoutMs,
+    sleepImpl,
+    token,
+    url: sitemapEndpoint(siteUrl),
+  });
+  const report = {
+    schema_version: 1,
+    submitted_at: new Date(now).toISOString(),
+    domain: new URL(siteUrl).hostname,
+    production_url_count: productionUrls.length,
+    local_url_count: localUrls.length,
+    exact_match: true,
+    accepted_http_status: submitResponse.status,
+    console: sanitizeSitemapStatus(sitemapsPayload, sitemapUrl),
+  };
+  assertSanitizedReport(report, credentials, token);
+  return report;
+}
+
 export async function fetchGoogleSearchConsoleReport({
   credentials: credentialsValue,
   date1,
@@ -862,6 +976,7 @@ export async function fetchGoogleSearchConsoleReport({
 export const googleSearchConsoleConstants = Object.freeze({
   inspectionEndpoint: INSPECTION_ENDPOINT,
   readonlyScope: READONLY_SCOPE,
+  writeScope: WRITE_SCOPE,
   searchApi: SEARCH_API,
   tokenEndpoint: TOKEN_ENDPOINT,
 });

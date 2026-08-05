@@ -10,6 +10,7 @@ import {
   fetchGoogleSearchConsoleReport,
   googleSearchConsoleConstants,
   parseSitemapUrls,
+  submitGoogleSitemap,
 } from "../../scripts/analytics/google-search-console.mjs";
 import { writePrivateReport } from "../../scripts/analytics/report-google-search-console.mjs";
 
@@ -90,6 +91,72 @@ test("JWT uses the fixed read-only scope and has a verifiable RS256 signature", 
   verifier.end();
   assert.equal(verifier.verify(publicKey, Buffer.from(signature, "base64url")), true);
   assert.equal(jwt.includes(credentials.private_key), false);
+});
+
+test("write JWT is explicit and accepts only the fixed sitemap-management scope", () => {
+  const jwt = buildServiceAccountJwt(
+    credentials,
+    new Date("2026-08-05T00:00:00Z"),
+    googleSearchConsoleConstants.writeScope,
+  );
+  const claims = JSON.parse(Buffer.from(jwt.split(".")[1], "base64url"));
+  assert.equal(claims.scope, googleSearchConsoleConstants.writeScope);
+  assert.throws(
+    () => buildServiceAccountJwt(credentials, new Date(), "https://example.invalid/scope"),
+    /unsupported Google Search Console OAuth scope/,
+  );
+});
+
+test("sitemap submit is locked to the verified production property and verifies the result", async () => {
+  const submitUrl = `${googleSearchConsoleConstants.searchApi}/sites/${encodeURIComponent("https://krepitv.ru/")}/sitemaps/${encodeURIComponent("https://krepitv.ru/sitemap.xml")}`;
+  const calls = [];
+  const fetchImpl = async (urlValue, options = {}) => {
+    const url = String(urlValue);
+    calls.push({ method: options.method ?? "GET", url });
+    if (url === "https://krepitv.ru/sitemap.xml") return response(sitemap, 200, true);
+    if (url === googleSearchConsoleConstants.tokenEndpoint) {
+      const assertion = new URLSearchParams(options.body).get("assertion");
+      const claims = JSON.parse(Buffer.from(assertion.split(".")[1], "base64url"));
+      assert.equal(claims.scope, googleSearchConsoleConstants.writeScope);
+      return response({ access_token: token, expires_in: 3600, token_type: "Bearer" });
+    }
+    if (url.endsWith("/webmasters/v3/sites")) {
+      return response({ siteEntry: [{ siteUrl: "https://krepitv.ru/", permissionLevel: "siteOwner" }] });
+    }
+    if (url === submitUrl && options.method === "PUT") return response("", 204, true);
+    if (url.endsWith("/sitemaps")) {
+      return response({ sitemap: [{
+        path: "https://krepitv.ru/sitemap.xml",
+        isPending: false,
+        errors: "0",
+        warnings: "0",
+        lastSubmitted: "2026-08-05T00:00:00Z",
+        contents: [{ type: "web", submitted: "2" }],
+      }] });
+    }
+    throw new Error(`unexpected mock URL: ${url}`);
+  };
+  const report = await submitGoogleSitemap({
+    credentials,
+    fetchImpl,
+    localSitemapXml: sitemap,
+    now: new Date("2026-08-05T00:00:00Z"),
+    sleepImpl: async () => {},
+  });
+  assert.equal(report.accepted_http_status, 204);
+  assert.equal(report.production_url_count, 2);
+  assert.equal(report.console.submitted_web_urls, 2);
+  assert.deepEqual(calls.filter((call) => call.method === "PUT"), [{ method: "PUT", url: submitUrl }]);
+  assert.equal(JSON.stringify(report).includes(token), false);
+  await assert.rejects(
+    submitGoogleSitemap({
+      credentials,
+      fetchImpl,
+      localSitemapXml: sitemap,
+      siteUrl: "https://other.invalid/",
+    }),
+    /locked to the production KREPI TV property/,
+  );
 });
 
 test("sitemap parser rejects duplicates, queries and another origin", () => {

@@ -53,6 +53,7 @@
     "analytics:goals:apply": "node scripts/analytics/manage-metrika-goals.mjs --apply",
     "analytics:funnel-report": "node scripts/analytics/report-metrika-funnel.mjs",
     "analytics:gsc-report": "node scripts/analytics/report-google-search-console.mjs",
+    "analytics:gsc-submit-sitemap": "node scripts/analytics/submit-google-sitemap.mjs",
     "analytics:yandex-report": "node scripts/analytics/report-yandex-webmaster.mjs",
     "analytics:capacity-report": "node scripts/analytics/report-affiliate-revenue-capacity.mjs",
     "analytics:test": "node --test tests/analytics/*.test.mjs",

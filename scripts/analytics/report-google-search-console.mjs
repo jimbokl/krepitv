@@ -25,7 +25,7 @@ function isInside(parent, candidate) {
   return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
 }
 
-async function loadCredentials(value) {
+export async function loadGoogleCredentials(value) {
   if (!value) throw new Error("Pass --credentials or GOOGLE_SEARCH_CONSOLE_CREDENTIALS");
   const requested = path.resolve(value);
   const resolved = await realpath(requested);
@@ -99,7 +99,7 @@ export async function main() {
   const date2 = argument("--date2", date2Default);
   const date1 = argument("--date1", isoDateDaysBefore(`${date2}T12:00:00Z`, 27));
   const outputValue = argument("--out", ".private/search/google-search-console-daily.json");
-  const credentials = await loadCredentials(credentialsValue);
+  const credentials = await loadGoogleCredentials(credentialsValue);
   const localSitemapXml = await readFile(sitemapFile, "utf8");
   const report = await fetchGoogleSearchConsoleReport({
     credentials,
