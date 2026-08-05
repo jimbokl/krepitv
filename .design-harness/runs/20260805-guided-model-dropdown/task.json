@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "id": "20260805-guided-model-dropdown",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-05T17:33:47.120058+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "web/src/pages/GuidedSelectionPage.jsx",
+    "web/tests/guided-selection-flow.test.mjs",
+    "scripts/qa/capture-page.mjs",
+    "crates/sitegen/src/main.rs",
+    "docs",
+    ".design-harness/runs/20260805-guided-model-dropdown"
+  ],
+  "verification_commands": [
+    {
+      "id": "guided-flow-tests",
+      "command": "node --test web/tests/guided-selection-flow.test.mjs web/tests/guided-selection-result.test.mjs web/tests/result-instrumentation.test.mjs && cargo test -p krepitv-sitegen matcher_starts_with_brand_then_model_without_phantom_selection",
+      "required": true,
+      "covers": ["brand dropdown", "model dropdown", "brand filtering", "deep link", "SSR", "analytics privacy"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "whole artifact"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260805-guided-model-dropdown --files web/src/pages/GuidedSelectionPage.jsx",
+      "required": true,
+      "covers": ["Tailwind tokens", "select parity", "responsive flow", "focus"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id": "brand-label", "value": "Марка телевизора", "strategy": "deterministic-overlay"},
+    {"id": "model-label", "value": "Модель телевизора", "strategy": "deterministic-overlay"}
+  ],
+  "claims": [
+    {
+      "id": "brand-filtered-models",
+      "text": "В списке моделей находятся только проверенные модели выбранной марки.",
+      "source_ids": ["verified-models"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "verified-models",
+      "path": "data/research/verified-tv-models.json",
+      "retrieved_at": "2026-08-05T17:33:47Z",
+      "notes": "Курируемый реестр точных моделей с брендом, VESA, массой и источниками"
+    }
+  ]
+}

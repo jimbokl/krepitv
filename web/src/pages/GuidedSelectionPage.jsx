@@ -15,7 +15,6 @@ import {
 import { Brand } from "../components/Brand.jsx";
 import { MetrikaConsent } from "../components/MetrikaConsent.jsx";
 import { ModelFacts } from "../components/ModelFacts.jsx";
-import { ModelSearch } from "../components/ModelSearch.jsx";
 import { MountDetailLink } from "../components/MountDetailLink.jsx";
 import { TrustMark } from "../components/TrustMark.jsx";
 import { useCompatibility } from "../hooks/useCompatibility.js";
@@ -80,9 +79,24 @@ export function getGuidedBrandOptions(models) {
   );
 }
 
-export function filterGuidedModelSearch(search, brand) {
+export function getGuidedModelOptions(models, brand) {
   if (typeof brand !== "string" || !brand) return [];
-  return search.filter((item) => item.brand === brand);
+  return models
+    .filter(
+      (model) => model?.brand === brand
+        && typeof model.id === "string"
+        && typeof model.title === "string",
+    )
+    .sort((left, right) => left.title.localeCompare(right.title, "ru-RU", {
+      numeric: true,
+      sensitivity: "base",
+    }));
+}
+
+export function findGuidedModel(models, brand, modelId) {
+  return models.find(
+    (model) => model?.id === modelId && model.brand === brand,
+  ) ?? null;
 }
 
 export function GuidedSelectionPage({ catalog }) {
@@ -94,7 +108,6 @@ export function GuidedSelectionPage({ catalog }) {
   );
   const [step, setStep] = useState(initialModel ? 2 : 1);
   const [brand, setBrand] = useState(initialModel?.brand ?? "");
-  const [query, setQuery] = useState(initialModel?.title ?? "");
   const [selectedModel, setSelectedModel] = useState(initialModel);
   const [wall, setWall] = useState("");
   const [mechanism, setMechanism] = useState("");
@@ -102,9 +115,9 @@ export function GuidedSelectionPage({ catalog }) {
   const mechanismSelectionRef = useRef(null);
   const emittedSelectionRef = useRef(0);
   const nextSelectionIdRef = useRef(0);
-  const brandSearch = useMemo(
-    () => filterGuidedModelSearch(catalog.search, brand),
-    [brand, catalog.search],
+  const modelOptions = useMemo(
+    () => getGuidedModelOptions(catalog.models, brand),
+    [brand, catalog.models],
   );
   const compatibility = useCompatibility(
     step >= 4 && mechanism ? selectedModel : null,
@@ -157,7 +170,6 @@ export function GuidedSelectionPage({ catalog }) {
       : "";
     mechanismSelectionRef.current = null;
     setBrand(validBrand);
-    setQuery("");
     setSelectedModel(null);
     setWall("");
     setMechanism("");
@@ -170,22 +182,18 @@ export function GuidedSelectionPage({ catalog }) {
     setStep(2);
   }
 
-  function changeQuery(nextQuery) {
-    setQuery(nextQuery);
-    setSelectedModel(null);
-  }
-
-  function selectSearchItem(item) {
-    const model = catalog.models.find(
-      (candidate) => candidate.id === item?.id && candidate.brand === brand,
-    ) ?? null;
+  function changeModel(modelId) {
+    const model = findGuidedModel(catalog.models, brand, modelId);
+    mechanismSelectionRef.current = null;
     setSelectedModel(model);
+    setWall("");
+    setMechanism("");
+    setCompatibilityAttempt(0);
   }
 
-  function submitModel(item) {
-    const model = catalog.models.find(
-      (candidate) => candidate.id === item.id && candidate.brand === brand,
-    );
+  function submitModel(event) {
+    event.preventDefault();
+    const model = findGuidedModel(catalog.models, brand, selectedModel?.id);
     if (!model) return;
     mechanismSelectionRef.current = null;
     setMechanism("");
@@ -253,7 +261,7 @@ export function GuidedSelectionPage({ catalog }) {
             </p>
             <h1 className="mt-2 break-words font-display text-4xl font-extrabold leading-none sm:text-5xl lg:text-6xl">
               {step === 1 && "Сначала выберите марку телевизора"}
-              {step === 2 && `Теперь найдите точную модель ${brand}`}
+              {step === 2 && `Теперь выберите точную модель ${brand}`}
               {step === 3 && "Уточним основание стены"}
               {step === 4 && "Выберем механизм кронштейна"}
             </h1>
@@ -261,7 +269,7 @@ export function GuidedSelectionPage({ catalog }) {
               {step === 1 &&
                 "Так мы сразу уберём модели других производителей и сократим поиск до подходящей части проверенного каталога."}
               {step === 2 &&
-                "Введите код с шильдика на задней панели. В списке останутся только проверенные модели выбранной марки."}
+                "Выберите код модели из проверенного списка этой марки. Код можно сверить с шильдиком на задней панели."}
               {step === 3 &&
                 "Тип стены влияет на крепёж. Мы сохраним ваш выбор отдельно от проверки VESA и нагрузки."}
               {step === 4 &&
@@ -278,7 +286,7 @@ export function GuidedSelectionPage({ catalog }) {
                     <div className="relative min-w-0">
                       <select
                         autoFocus
-                        className="h-[4.4rem] w-full min-w-0 appearance-none rounded-md border-2 border-ink bg-white px-5 pr-14 text-xl text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20"
+                        className="h-[4.4rem] w-full min-w-0 appearance-none rounded-md border-2 border-ink bg-white px-3 pr-10 text-base text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 sm:px-5 sm:pr-14 sm:text-xl"
                         id="guided-tv-brand"
                         onChange={(event) => changeBrand(event.target.value)}
                         value={brand}
@@ -290,7 +298,7 @@ export function GuidedSelectionPage({ catalog }) {
                           </option>
                         ))}
                       </select>
-                      <CaretDown aria-hidden="true" className="pointer-events-none absolute right-5 top-1/2 size-6 -translate-y-1/2 text-ink" />
+                      <CaretDown aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 size-5 -translate-y-1/2 text-ink sm:right-5 sm:size-6" />
                     </div>
                     <button className="primary-button min-w-0 whitespace-normal break-words lg:w-auto" disabled={!brand} type="submit">
                       Выбрать модель <ArrowRight aria-hidden="true" />
@@ -303,18 +311,39 @@ export function GuidedSelectionPage({ catalog }) {
               ) : null}
 
               {step === 2 ? (
-                <ModelSearch
-                  buttonLabel="Продолжить с моделью"
-                  compact
-                  emptyMessage={`Такой модели ${brand} пока нет в проверенной базе.`}
-                  onChange={changeQuery}
-                  onSelect={selectSearchItem}
-                  onSubmit={submitModel}
-                  placeholder={`Введите модель ${brand}`}
-                  resultLabel={`Проверенная модель ${brand}`}
-                  search={brandSearch}
-                  value={query}
-                />
+                <form data-guided-model-step="true" onSubmit={submitModel}>
+                  <label className="block font-display text-lg font-bold" htmlFor="guided-tv-model">
+                    Модель телевизора
+                  </label>
+                  <div className="mt-3 grid min-w-0 gap-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+                    <div className="relative min-w-0">
+                      <select
+                        autoFocus
+                        className="h-[4.4rem] w-full min-w-0 appearance-none rounded-md border-2 border-ink bg-white px-3 pr-10 text-base text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 sm:px-5 sm:pr-14 sm:text-xl"
+                        id="guided-tv-model"
+                        onChange={(event) => changeModel(event.target.value)}
+                        value={selectedModel?.id ?? ""}
+                      >
+                        <option value="">Выберите</option>
+                        {modelOptions.map((model) => (
+                          <option key={model.id} value={model.id}>
+                            {model.title}
+                          </option>
+                        ))}
+                      </select>
+                      <CaretDown aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 size-5 -translate-y-1/2 text-ink sm:right-5 sm:size-6" />
+                    </div>
+                    <button className="primary-button min-w-0 whitespace-normal break-words lg:w-auto" disabled={!selectedModel} type="submit">
+                      Продолжить с моделью <ArrowRight aria-hidden="true" />
+                    </button>
+                  </div>
+                  <p
+                    className="mt-3 font-mono text-xs text-muted"
+                    data-guided-model-count={modelOptions.length}
+                  >
+                    {modelOptions.length} {pluralizeRu(modelOptions.length, "проверенная модель", "проверенные модели", "проверенных моделей")} марки {brand}
+                  </p>
+                </form>
               ) : null}
 
               {step === 3 ? (

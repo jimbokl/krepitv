@@ -788,9 +788,7 @@ try {
         const brandOptionCount = brandSelect.querySelectorAll('option:not([value=""])').length;
         let initialBrandSubmitDisabled = Boolean(brandSubmit?.disabled);
 
-        if (state === "focus") {
-          brandSelect.focus();
-        } else if (!["default", "disabled"].includes(state)) {
+        if (state !== "default") {
           const selectSetter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
           if (!selectSetter) throw new Error("Native select setter not found");
           selectSetter.call(brandSelect, "TCL");
@@ -809,19 +807,21 @@ try {
           );
         }
 
+        const modelSelect = page.querySelector("#guided-tv-model");
+        if (state === "focus") modelSelect?.focus();
+
         if (["loading", "error", "success"].includes(state)) {
-          const input = await waitFor(
-            () => page.querySelector('input[aria-label="Модель телевизора"]'),
-            "Guided model input not found",
+          const select = await waitFor(
+            () => page.querySelector("#guided-tv-model"),
+            "Guided model select not found",
           );
-          const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
-          if (!inputSetter) throw new Error("Native input setter not found");
-          inputSetter.call(input, "TCL 65C7K");
-          input.dispatchEvent(new Event("input", { bubbles: true }));
-          input.dispatchEvent(new Event("change", { bubbles: true }));
+          const selectSetter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
+          if (!selectSetter) throw new Error("Native select setter not found");
+          selectSetter.call(select, "tcl-65c7k");
+          select.dispatchEvent(new Event("change", { bubbles: true }));
           const modelSubmit = await waitFor(
             () => {
-              const button = input.closest("form")?.querySelector('button[type="submit"]');
+              const button = select.closest("form")?.querySelector('button[type="submit"]');
               return button && !button.disabled ? button : null;
             },
             "Exact TCL model did not enable the model step",
@@ -860,21 +860,21 @@ try {
             ? () => page.querySelector('[data-guided-compatibility-state="error"]')
             : state === "success"
               ? () => page.querySelector('[data-guided-compatibility-state="success"]')
-              : state === "empty"
+              : ["empty", "disabled", "focus"].includes(state)
                 ? () => page.getAttribute("data-guided-selection-step") === "2"
                 : () => true;
         await waitFor(expected, "Guided selection state timed out");
 
-        const modelInput = page.querySelector('input[aria-label="Модель телевизора"]');
+        const finalModelSelect = page.querySelector("#guided-tv-model");
         return {
           state,
           step: page.getAttribute("data-guided-selection-step"),
           brandOptionCount,
           initialBrandSubmitDisabled,
-          focusedBrand: document.activeElement === brandSelect,
-          modelSearchCount: Number(page.querySelector("[data-model-search-count]")?.getAttribute("data-model-search-count") ?? 0),
-          modelSubmitDisabled: modelInput
-            ? Boolean(modelInput.closest("form")?.querySelector('button[type="submit"]')?.disabled)
+          focusedModel: document.activeElement === finalModelSelect,
+          modelOptionCount: finalModelSelect?.querySelectorAll('option:not([value=""])').length ?? 0,
+          modelSubmitDisabled: finalModelSelect
+            ? Boolean(finalModelSelect.closest("form")?.querySelector('button[type="submit"]')?.disabled)
             : null,
           resultStatus: page.querySelector("[data-guided-compatibility-state]")?.getAttribute("data-guided-compatibility-state") ?? null,
           resultCards: page.querySelectorAll('[data-result-tier="featured_result"]').length,
@@ -894,18 +894,18 @@ try {
     if (guidedSelectionReport.brandOptionCount < 1) {
       throw new Error("Guided selection has no brand options");
     }
-    if (["default", "disabled"].includes(guidedSelectionState) && !guidedSelectionReport.initialBrandSubmitDisabled) {
+    if (!guidedSelectionReport.initialBrandSubmitDisabled) {
       throw new Error("Guided selection must start with a disabled brand submit");
     }
-    if (guidedSelectionState === "focus" && !guidedSelectionReport.focusedBrand) {
-      throw new Error("Guided selection focus state is not visible on the brand select");
+    if (guidedSelectionState === "focus" && !guidedSelectionReport.focusedModel) {
+      throw new Error("Guided selection focus state is not visible on the model select");
     }
-    if (guidedSelectionState === "empty" && (
+    if (["empty", "disabled"].includes(guidedSelectionState) && (
       guidedSelectionReport.step !== "2"
-      || guidedSelectionReport.modelSearchCount < 1
+      || guidedSelectionReport.modelOptionCount < 1
       || !guidedSelectionReport.modelSubmitDisabled
     )) {
-      throw new Error("Guided selection empty model state is invalid");
+      throw new Error("Guided selection unselected model state is invalid");
     }
     if (["loading", "error", "success"].includes(guidedSelectionState)
       && guidedSelectionReport.resultStatus !== guidedSelectionState) {

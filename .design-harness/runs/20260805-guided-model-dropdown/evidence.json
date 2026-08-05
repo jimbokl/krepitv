@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "task_id": "20260805-guided-model-dropdown",
+  "commands": [
+    {
+      "id": "guided-flow-tests",
+      "command": "node --test web/tests/guided-selection-flow.test.mjs web/tests/guided-selection-result.test.mjs web/tests/result-instrumentation.test.mjs && cargo test -p krepitv-sitegen matcher_starts_with_brand_then_model_without_phantom_selection",
+      "exit_code": 0,
+      "covers": ["brand dropdown", "model dropdown", "brand filtering", "deep link", "SSR", "analytics privacy"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "whole artifact"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260805-guided-model-dropdown --files web/src/pages/GuidedSelectionPage.jsx",
+      "exit_code": 0,
+      "covers": ["Tailwind tokens", "select parity", "responsive flow", "focus"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "screenshots/default-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "brand_first": true}
+    },
+    {
+      "id": "empty-mobile",
+      "path": "screenshots/empty-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "model_options": 17, "submit_disabled": true}
+    },
+    {
+      "id": "focus-tablet",
+      "path": "screenshots/focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "model_focus_visible": true}
+    },
+    {
+      "id": "error-tablet",
+      "path": "screenshots/error-tablet.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "retry_visible": true}
+    },
+    {
+      "id": "disabled-desktop",
+      "path": "screenshots/disabled-desktop.png",
+      "state": "disabled",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "model_submit_disabled": true}
+    },
+    {
+      "id": "loading-desktop",
+      "path": "screenshots/loading-desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "loading_visible": true}
+    },
+    {
+      "id": "success-desktop",
+      "path": "screenshots/success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "three_results": true}
+    },
+    {
+      "id": "reflow-model-mobile",
+      "path": "screenshots/reflow-model-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "labels_visible": true, "control_operable": true, "text_zoom_200": true, "text_spacing": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + headless Chrome QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Шаг модели использует нативный select и показывает только 17 моделей выбранной тестовой марки TCL.",
+      "Продолжение недоступно до выбора, а чужой brand/model id отклоняется строгим поиском в каталоге.",
+      "Точная deep link предварительно выбирает модель; свежий вход не подставляет случайную запись.",
+      "320, 768 и 1440 CSS px, а также 200% текста с расширенными интервалами не имеют горизонтального переполнения.",
+      "Новых URL, цен, редиректов и ссылок Маркета не добавлено."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

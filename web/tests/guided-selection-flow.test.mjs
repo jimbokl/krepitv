@@ -87,7 +87,7 @@ async function loadGuidedSelection() {
   return { module, vite };
 }
 
-test("марки сортируются по числу моделей, а поиск остаётся внутри марки", async () => {
+test("марки сортируются по числу моделей, а список моделей остаётся внутри марки", async () => {
   const { module, vite } = await loadGuidedSelection();
   try {
     assert.deepEqual(module.getGuidedBrandOptions(models), [
@@ -96,11 +96,13 @@ test("марки сортируются по числу моделей, а по�
       { brand: "Hisense", count: 1 },
     ]);
     assert.deepEqual(
-      module.filterGuidedModelSearch(search, "TCL").map((item) => item.id),
-      ["tcl-65c7k", "tcl-55c7k"],
+      module.getGuidedModelOptions(models, "TCL").map((item) => item.id),
+      ["tcl-55c7k", "tcl-65c7k"],
     );
-    assert.deepEqual(module.filterGuidedModelSearch(search, ""), []);
-    assert.deepEqual(module.filterGuidedModelSearch(search, "Неизвестная марка"), []);
+    assert.deepEqual(module.getGuidedModelOptions(models, ""), []);
+    assert.deepEqual(module.getGuidedModelOptions(models, "Неизвестная марка"), []);
+    assert.equal(module.findGuidedModel(models, "TCL", "hisense-65u7q"), null);
+    assert.equal(module.findGuidedModel(models, "TCL", "tcl-65c7k")?.id, "tcl-65c7k");
   } finally {
     await vite.close();
   }
@@ -119,7 +121,7 @@ test("свежий подбор начинается с марки и не по�
     assert.equal(html.includes("Сначала выберите марку телевизора"), true);
     assert.equal(html.includes("<option value=\"\" selected=\"\">Выберите марку</option>"), true);
     assert.equal(html.includes("Результат для модели"), false);
-    assert.equal(html.includes("data-model-search-count"), false);
+    assert.equal(html.includes("id=\"guided-tv-model\""), false);
   } finally {
     globalThis.window = previousWindow;
     await vite.close();
@@ -135,9 +137,12 @@ test("точная deep link выбирает марку и оставляет �
       React.createElement(module.GuidedSelectionPage, { catalog: catalog() }),
     );
     assert.equal(html.includes("Шаг 2 из 4"), true);
-    assert.equal(html.includes("Теперь найдите точную модель TCL"), true);
-    assert.equal(html.includes("data-model-search-count=\"2\""), true);
-    assert.equal(html.includes("value=\"TCL 65C7K\""), true);
+    assert.equal(html.includes("Теперь выберите точную модель TCL"), true);
+    assert.equal(html.includes("data-guided-model-count=\"2\""), true);
+    assert.equal(html.includes("id=\"guided-tv-model\""), true);
+    assert.equal(html.includes("<option value=\"tcl-65c7k\" selected=\"\">TCL 65C7K</option>"), true);
+    assert.equal(html.includes("Hisense 65U7Q"), false);
+    assert.equal(html.includes("Samsung QE55Q70DAUXRU"), false);
     assert.equal(html.includes("Результат для модели"), true);
     assert.equal(html.includes("Шаг 3 из 4"), false);
   } finally {
