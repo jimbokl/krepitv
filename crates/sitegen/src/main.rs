@@ -1144,16 +1144,21 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
         .iter()
         .filter(|page| is_indexable_seo_page(page) && page.home_priority.is_some())
         .collect::<Vec<_>>();
-    featured_pages.sort_by_key(|page| page.home_priority.unwrap_or(u8::MAX));
+    featured_pages.sort_by(|left, right| {
+        left.home_priority
+            .unwrap_or(u8::MAX)
+            .cmp(&right.home_priority.unwrap_or(u8::MAX))
+            .then_with(|| left.id.cmp(&right.id))
+    });
     let seo_links = featured_pages
         .into_iter()
-        .take(7)
+        .take(9)
         .map(|page| {
             format!(
-                "<a class=\"border border-line bg-white p-5 font-display text-lg font-bold\" data-featured-traffic-tool=\"{}\" href=\"{}\">{}</a>",
+                "<a class=\"group relative flex min-h-28 items-end bg-paper px-3 py-4 pr-9 font-display text-base font-bold leading-snug transition hover:bg-white hover:text-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-inset sm:p-5 sm:pr-12 sm:text-lg\" data-featured-traffic-tool=\"{}\" href=\"{}\">{}<span class=\"absolute bottom-4 right-3 size-4 transition group-hover:translate-x-1 sm:bottom-5 sm:right-5 sm:size-5\" aria-hidden=\"true\">→</span></a>",
                 escape_html(&page.id),
                 escape_html(&page.path),
-                escape_html(&page.h1),
+                escape_html(page.h1.split(':').next().unwrap_or(&page.h1)),
             )
         })
         .collect::<Vec<_>>()
@@ -1184,7 +1189,7 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
     .join("\n");
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">Точные модели с источниками · {model_count}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a>{spotlight_model}</section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section><section class=\"border-t border-line py-9\" data-home-tv-diagnostics=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Без разборки и догадок</p><div class=\"mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end\"><h2 class=\"font-display text-3xl font-extrabold\">Диагностика телевизора</h2><p class=\"max-w-2xl leading-relaxed text-muted\">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class=\"mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3\" aria-label=\"Диагностика телевизора\">{diagnostic_links}</nav></section></div>",
+        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу с характеристиками кронштейнов. Расчёт выполняется локально в браузере, а материал стены и крепёж всегда проверяются отдельно.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Начать подбор</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">Точные модели с источниками · {model_count}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a>{spotlight_model}</section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Калькулятор центра, нижнего и верхнего края экрана.</li><li>Расчёт расстояния до экрана и диагонали в обе стороны.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-px border border-line bg-line sm:grid-cols-3\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section><section class=\"border-t border-line py-9\" data-home-tv-diagnostics=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Без разборки и догадок</p><div class=\"mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end\"><h2 class=\"font-display text-3xl font-extrabold\">Диагностика телевизора</h2><p class=\"max-w-2xl leading-relaxed text-muted\">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class=\"mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3\" aria-label=\"Диагностика телевизора\">{diagnostic_links}</nav></section></div>",
         model_count = models.len(),
         spotlight_model = spotlight_model,
     ))
@@ -5385,7 +5390,7 @@ mod tests {
         let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
         let html = home_page_body(&models, &pages);
 
-        assert_eq!(html.matches("data-featured-traffic-tool=").count(), 7);
+        assert_eq!(html.matches("data-featured-traffic-tool=").count(), 9);
         for id in [
             "phone-to-tv",
             "tv-no-signal",
@@ -5394,9 +5399,12 @@ mod tests {
             "tv-app-install",
             "wall-planner",
             "tv-factory-reset",
+            "laptop-to-tv",
+            "digital-channels",
         ] {
             assert!(html.contains(&format!("data-featured-traffic-tool=\"{id}\"")));
         }
+        assert!(html.contains("grid gap-px border border-line bg-line sm:grid-cols-3"));
         assert!(html.contains("data-home-tv-diagnostics=\"true\""));
         assert_eq!(html.matches("data-home-tv-diagnostic=").count(), 6);
         for id in [

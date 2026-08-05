@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "run": "20260805-home-tools-nine-card-grid",
+  "generated_at": "2026-08-05T16:45:22.611858+00:00",
+  "scanned_files": [
+    "web/src/pages/HomePage.jsx"
+  ],
+  "findings": []
+}

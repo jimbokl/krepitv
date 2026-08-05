@@ -15,6 +15,9 @@ test("home features only explicitly prioritized indexable traffic tools", () => 
     { id: "tv-dimensions", home_priority: 2, indexable: true },
     { id: "phone-to-tv", home_priority: 1, indexable: true },
     { id: "tv-no-signal", home_priority: 1, indexable: true },
+    { id: "tv-firmware-update", home_priority: 1, indexable: true },
+    { id: "tv-app-install", home_priority: 2, indexable: true },
+    { id: "tv-factory-reset", home_priority: 3, indexable: true },
     { id: "laptop-to-tv", home_priority: 4, indexable: true },
     { id: "digital-channels", home_priority: 5, indexable: true },
     { id: "picture-setup", home_priority: 6, indexable: true },
@@ -23,15 +26,17 @@ test("home features only explicitly prioritized indexable traffic tools", () => 
   ];
 
   assert.deepEqual(
-    getHomeFeaturedPages(catalog, 7).map((page) => page.id),
+    getHomeFeaturedPages(catalog, 9).map((page) => page.id),
     [
       "phone-to-tv",
+      "tv-firmware-update",
       "tv-no-signal",
+      "tv-app-install",
       "tv-dimensions",
+      "tv-factory-reset",
       "wall-planner",
       "laptop-to-tv",
       "digital-channels",
-      "picture-setup",
     ],
   );
 });

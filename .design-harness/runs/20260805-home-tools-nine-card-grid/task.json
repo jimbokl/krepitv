@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "id": "20260805-home-tools-nine-card-grid",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-05T16:31:38.361530+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "web/src/pages/HomePage.jsx",
+    "web/tests/seo-pages.test.mjs",
+    "crates/sitegen/src/main.rs",
+    "docs",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid"
+  ],
+  "verification_commands": [
+    {
+      "id": "targeted-tests",
+      "command": "node --test web/tests/seo-pages.test.mjs && cargo test -p krepitv-sitegen home_prioritizes_one_evidence_backed_model_without_listing_every_model",
+      "required": true,
+      "covers": ["default", "static links", "deterministic order", "SSR parity"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "whole artifact"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260805-home-tools-nine-card-grid --files web/src/pages/HomePage.jsx",
+      "required": true,
+      "covers": ["design tokens", "responsive grid"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "laptop-card",
+      "value": "Как подключить ноутбук к телевизору",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "digital-card",
+      "value": "Как настроить цифровые каналы на телевизоре",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "grid-count",
+      "value": "9 карточек в desktop-сетке 3×3",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "laptop-demand",
+      "text": "Точный запрос «как подключить ноутбук к телевизору» — 14 262 показа в измеренном окне Wordstat.",
+      "source_ids": ["wordstat-demand"]
+    },
+    {
+      "id": "digital-demand",
+      "text": "Точный запрос «как настроить телевизор на цифровые каналы» — 9 135 показов в измеренном окне Wordstat.",
+      "source_ids": ["wordstat-demand"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "wordstat-demand",
+      "path": "product-docs/research/raw/wordstat-traffic-head-2026-08-01/normalized.csv",
+      "retrieved_at": "2026-08-01T09:59:58.169Z",
+      "notes": "Top queries, Россия 225, все устройства; варианты не суммируются"
+    },
+    {
+      "id": "seo-pages",
+      "path": "data/seo_pages.json",
+      "retrieved_at": "2026-08-05T16:31:38Z",
+      "notes": "Канонические существующие страницы и home_priority"
+    }
+  ]
+}

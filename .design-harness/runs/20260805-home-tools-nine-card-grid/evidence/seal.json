@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "run_id": "20260805-home-tools-nine-card-grid",
+  "sealed_at": "2026-08-05T16:45:29.548848+00:00",
+  "task_hash": "sha256:6fdfcbcbe939cf6f31acb00e44b5ed36fd204fc2655f687c8a8688c6076638d4",
+  "evidence_hash": "sha256:0cebd97a7bf83a53a2f0426393010eb4f6dec9223cd27c86aa2e2c1f2e9032bc",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/SPEC.md": "sha256:669db663d02ec86027920a3ca3b9335bea7c3761eb8b6952b7fd6c52202746f8",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/brief.md": "sha256:ba1cd5611c8e62bc31c177fd1241fcc21cf9a3e61a8d4809310503ec4acb9e72",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/component-map.md": "sha256:2eb37420ba087229d86d937733988b9e0cc4b0a5d0719abe02f5f774d9f97d89",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/discovery.md": "sha256:cedfc3e7ba0200dd6b156660a012b12beb6c5c3099ce6ba8efd088736987e560",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/evidence/drift-report.json": "sha256:17959865124fdbf34ef1fc85091c802d2759cacff9c76cd19d1703dccba239e7",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/evidence.json": "sha256:0cebd97a7bf83a53a2f0426393010eb4f6dec9223cd27c86aa2e2c1f2e9032bc",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/review.md": "sha256:5d1c72cce60b33ecdcf555c2dd11925f147516dc5498e1aece4d3b9c97947d68",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/screenshots/default-desktop.png": "sha256:e0c29f389468a703b879c80614541050005d9ada020e2d500cadaa1291df9a42",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/screenshots/default-mobile.png": "sha256:944c05330ce043631b2f7d459ac26f0904c055e487b98b395bb705a8554d7cb6",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/screenshots/default-tablet.png": "sha256:fa997db3185d6a52af99dae24aba80f64f5f27cd6aa8b1cd74d1961bec72cb45",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/screenshots/focus-tablet.png": "sha256:81560baab3a2a510215c29d101b190d3ea20ad6edd03a7ccd263c847dc129462",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/task.json": "sha256:6fdfcbcbe939cf6f31acb00e44b5ed36fd204fc2655f687c8a8688c6076638d4",
+    ".design-harness/runs/20260805-home-tools-nine-card-grid/visual-direction.md": "sha256:9a0fb3b46c0eb696f19cadebf4633db48ff9c95b97a3f8893d213a8132659698"
+  },
+  "packet_hash": "sha256:9f44e0b0bff8a9229695a6a78481a7adc9358c6b208deebe9e10839ef3d1f96e"
+}

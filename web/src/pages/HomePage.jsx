@@ -43,7 +43,7 @@ export function HomePage({ catalog }) {
     [catalog.mounts, selectedModel],
   );
   const featuredSeoPages = useMemo(
-    () => getHomeFeaturedPages(catalog.seoPages, 7),
+    () => getHomeFeaturedPages(catalog.seoPages, 9),
     [catalog.seoPages],
   );
   const diagnosticPages = useMemo(
@@ -220,11 +220,11 @@ export function HomePage({ catalog }) {
           </div>
           <nav
             aria-label="Справочники и калькуляторы"
-            className="mt-6 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+            className="mt-6 grid gap-px border border-line bg-line sm:grid-cols-3"
           >
             {featuredSeoPages.map((page) => (
               <a
-                className="group relative flex min-h-28 items-end bg-paper px-3 py-4 pr-9 font-display text-base font-bold leading-snug transition hover:bg-white hover:text-action sm:p-5 sm:pr-12 sm:text-lg"
+                className="group relative flex min-h-28 items-end bg-paper px-3 py-4 pr-9 font-display text-base font-bold leading-snug transition hover:bg-white hover:text-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-inset sm:p-5 sm:pr-12 sm:text-lg"
                 data-featured-traffic-tool={page.id}
                 href={page.path}
                 key={page.id}
