@@ -13,11 +13,11 @@ const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-08-05";
 const marketModelsUpdatedAt = "2026-08-05";
 const modelPagesUpdatedAt = "2026-08-05";
-const trafficPagesUpdatedAt = "2026-08-01";
+const trafficPagesUpdatedAt = "2026-08-06";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 237;
+const baselineIndexableUrlCount = 247;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -1557,6 +1557,34 @@ for (const page of seoPages) {
   }
 }
 
+const dailyEvidenceGuidePages = seoPages.filter((page) => page.guide);
+if (dailyEvidenceGuidePages.length !== 10) {
+  throw new Error(`Ежедневная SEO-когорта должна содержать 10 evidence guide, получено ${dailyEvidenceGuidePages.length}`);
+}
+for (const page of dailyEvidenceGuidePages) {
+  const html = htmlByRoute.get(dataPageRoute(page)) ?? "";
+  if (
+    page.guide.steps.length !== 3
+    || page.guide.sources.length < 2
+    || !html.includes(`data-evidence-guide="${page.id}"`)
+    || !html.includes('data-evidence-guide-table="true"')
+    || (html.match(/data-evidence-guide-step=/g) ?? []).length !== 3
+    || !html.includes("Таблица решений по наблюдаемому признаку")
+    || !html.includes("/metodika/")
+    || !html.includes(page.guide.updated_at)
+  ) {
+    throw new Error(`Evidence guide не содержит самостоятельный SSR-результат: ${page.path}`);
+  }
+  for (const source of page.guide.sources) {
+    if (!source.url.startsWith("https://") || !html.includes(escapeHtmlText(source.url))) {
+      throw new Error(`Evidence guide не содержит официальный HTTPS-источник ${source.id}: ${page.path}`);
+    }
+  }
+  if (html.includes("market.yandex.ru")) {
+    throw new Error(`Evidence guide не должен зависеть от партнёрской ссылки: ${page.path}`);
+  }
+}
+
 const screwLookupPage = seoPages.find((page) => page.id === "tv-mount-screws");
 if (
   !screwLookupPage
@@ -2046,7 +2074,7 @@ for (const page of indexableSeoPages) {
   if (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(page.path)) {
     throw new Error(`Индексируемая SEO-страница отсутствует в sitemap или закрыта: ${page.path}`);
   }
-  const expectedLastmod = [
+  const expectedLastmod = page.guide || [
     "phone-to-tv",
     "tv-no-signal",
     "tv-sound-no-picture",

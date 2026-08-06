@@ -104,13 +104,13 @@ test("utility остаются самостоятельными и не соде
   assert.doesNotMatch(serialized, /\/go\//i);
 });
 
-test("каждая новая страница получает контекстные входящие ссылки, а главная сохраняет шесть карточек", async () => {
+test("каждая новая страница получает контекстные входящие ссылки, а главная сохраняет девять карточек", async () => {
   const home = await read("web/src/pages/HomePage.jsx");
   const related = await read("web/src/lib/seoPages.mjs");
   const sitegen = await read("crates/sitegen/src/main.rs");
 
   assert.match(home, /data-home-tv-diagnostics-count=\{diagnosticPages\.length\}/);
-  assert.match(related, /const HOME_DIAGNOSTIC_PAGE_IDS = \[[\s\S]{0,240}"tv-usb-not-seen",\n\];/);
+  assert.match(related, /const HOME_DIAGNOSTIC_PAGE_IDS = \[[\s\S]{0,360}"tv-wont-turn-on",[\s\S]{0,360}"tv-usb-not-seen",\n\];/);
   for (const source of [related, sitegen]) {
     assert.match(source, /"tv-no-sound"[^\n]*"soundbar-to-tv"|"tv-no-sound"\s*=>\s*&\[[\s\S]{0,180}"soundbar-to-tv"/);
     assert.match(source, /"picture-setup"[^\n]*"screen-cleaning"|"picture-setup"\s*=>\s*&\[[\s\S]{0,180}"screen-cleaning"/);
@@ -119,10 +119,10 @@ test("каждая новая страница получает контекст
   }
   assert.match(related, /"soundbar-to-tv": \["tv-speakers", "tv-no-sound", "tv-no-signal", "picture-setup", "tv-sound-no-picture", "smart-tv-box"\]/);
   assert.match(related, /"screen-cleaning": \["picture-setup", "tv-sound-no-picture", "tv-turns-off", "tv-no-sound", "wall-planner", "soundbar-to-tv"\]/);
-  assert.match(related, /"smart-tv-box": \["tv-no-signal", "tv-no-internet", "phone-to-tv", "digital-channels", "soundbar-to-tv", "tv-usb-not-seen"\]/);
+  assert.match(related, /"smart-tv-box": \["digital-box-connect", "game-console-to-tv", "tv-no-signal", "tv-no-internet", "phone-to-tv", "digital-channels", "soundbar-to-tv"\]/);
   assert.match(sitegen, /"soundbar-to-tv"\s*=>\s*&\[[\s\S]{0,220}"tv-speakers",[\s\S]{0,180}"smart-tv-box"/);
   assert.match(sitegen, /"screen-cleaning"\s*=>\s*&\[[\s\S]{0,220}"wall-planner",\s*"soundbar-to-tv"/);
-  assert.match(sitegen, /"smart-tv-box"\s*=>\s*&\[[\s\S]{0,220}"soundbar-to-tv",\s*"tv-usb-not-seen"/);
+  assert.match(sitegen, /"smart-tv-box"\s*=>\s*&\[\s*"digital-box-connect",[\s\S]{0,360}"soundbar-to-tv"/);
 });
 
 test("опасное питание приставки закрывает путь, а нечётная двухколоночная сетка не оставляет пустую полуячейку", async () => {

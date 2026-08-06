@@ -99,8 +99,11 @@ test("traffic utilities link to each other without creating diagnostic variants"
   );
 });
 
-test("home diagnostic block uses six canonical pages without generated variants", () => {
+test("home diagnostic block uses nine canonical pages without generated variants", () => {
   const catalog = [
+    { id: "tv-wont-turn-on", path: "/televizor-ne-vklyuchaetsya/", indexable: true },
+    { id: "tv-freezes", path: "/televizor-zavis/", indexable: true },
+    { id: "tv-dark-screen", path: "/temnyy-ekran-na-televizore/", indexable: true },
     { id: "tv-no-sound", path: "/net-zvuka-na-televizore/", indexable: true },
     { id: "tv-remote-not-working", path: "/ne-rabotaet-pult-ot-televizora/", indexable: true },
     { id: "tv-sound-no-picture", path: "/televizor-zvuk-est-izobrazheniya-net/", indexable: true },
@@ -115,6 +118,9 @@ test("home diagnostic block uses six canonical pages without generated variants"
   assert.deepEqual(
     getHomeDiagnosticPages(catalog).map((page) => page.id),
     [
+      "tv-wont-turn-on",
+      "tv-freezes",
+      "tv-dark-screen",
       "tv-sound-no-picture",
       "tv-no-sound",
       "tv-remote-not-working",

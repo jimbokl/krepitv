@@ -9,7 +9,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
 const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
 const CORE_PAGES_UPDATED_AT: &str = "2026-08-05";
-const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-01";
+const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-06";
 const MARKET_MODELS_UPDATED_AT: &str = "2026-08-05";
 const MODEL_PAGES_UPDATED_AT: &str = "2026-08-05";
 const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
@@ -95,6 +95,30 @@ const TV_UTILITY_COHORT_7: [(&str, &str, &[&str]); 3] = [
             "sony-tv-reset",
             "yaos-tv-reset",
         ],
+    ),
+];
+const DAILY_SEO_COHORT_2026_08_06: [(&str, &str); 10] = [
+    ("tv-wont-turn-on", "/televizor-ne-vklyuchaetsya/"),
+    (
+        "tv-antenna-connect",
+        "/kak-podklyuchit-antennu-k-televizoru/",
+    ),
+    ("tv-freezes", "/televizor-zavis/"),
+    (
+        "digital-box-connect",
+        "/kak-podklyuchit-tsifrovuyu-pristavku-k-televizoru/",
+    ),
+    ("tv-dark-screen", "/temnyy-ekran-na-televizore/"),
+    ("tv-storage-cleanup", "/kak-ochistit-pamyat-televizora/"),
+    ("phone-tv-remote", "/kak-upravlyat-televizorom-s-telefona/"),
+    (
+        "game-console-to-tv",
+        "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+    ),
+    ("tv-model-lookup", "/kak-uznat-model-televizora/"),
+    (
+        "tv-aspect-ratio",
+        "/izobrazhenie-ne-na-ves-ekran-televizora/",
     ),
 ];
 
@@ -257,6 +281,36 @@ struct SeoPage {
     lead: String,
     facts: Vec<String>,
     faq: Vec<(String, String)>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    guide: Option<SeoEvidenceGuide>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct SeoEvidenceGuide {
+    kicker: String,
+    heading: String,
+    summary: String,
+    updated_at: String,
+    steps: Vec<SeoEvidenceStep>,
+    stop: String,
+    sources: Vec<SeoEvidenceSource>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct SeoEvidenceStep {
+    label: String,
+    title: String,
+    body: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct SeoEvidenceSource {
+    id: String,
+    label: String,
+    url: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -687,35 +741,85 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
     })))
 }
 
+fn seo_evidence_guide_json_ld(page: &SeoPage, canonical: &str) -> Option<String> {
+    let guide = page.guide.as_ref()?;
+    let steps = guide
+        .steps
+        .iter()
+        .enumerate()
+        .map(|(index, step)| {
+            json!({
+                "@type": "HowToStep",
+                "position": index + 1,
+                "name": step.title,
+                "text": step.body,
+                "url": format!("{canonical}#мастер")
+            })
+        })
+        .collect::<Vec<_>>();
+    let citations = guide
+        .sources
+        .iter()
+        .map(|source| source.url.as_str())
+        .collect::<Vec<_>>();
+    Some(json_ld_script(json!({
+        "@context": "https://schema.org",
+        "@type": ["Article", "HowTo"],
+        "@id": format!("{canonical}#guide"),
+        "mainEntityOfPage": canonical,
+        "url": canonical,
+        "headline": page.h1,
+        "description": page.description,
+        "inLanguage": "ru-RU",
+        "datePublished": guide.updated_at,
+        "dateModified": guide.updated_at,
+        "isAccessibleForFree": true,
+        "author": {
+            "@type": "Organization",
+            "name": "KREPI TV",
+            "url": "https://krepitv.ru/o-proekte/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "KREPI TV",
+            "url": "https://krepitv.ru/"
+        },
+        "citation": citations,
+        "step": steps
+    })))
+}
+
 fn seo_page_lastmod(page: &SeoPage) -> &'static str {
-    if matches!(
-        page.id.as_str(),
-        "phone-to-tv"
-            | "tv-no-signal"
-            | "tv-sound-no-picture"
-            | "tv-no-sound"
-            | "tv-remote-not-working"
-            | "tv-turns-off"
-            | "tv-no-internet"
-            | "tv-usb-not-seen"
-            | "laptop-to-tv"
-            | "digital-channels"
-            | "picture-setup"
-            | "soundbar-to-tv"
-            | "screen-cleaning"
-            | "smart-tv-box"
-            | "tv-speakers"
-            | "tv-headphones"
-            | "tv-energy-consumption"
-            | "tv-firmware-update"
-            | "tv-app-install"
-            | "tv-factory-reset"
-            | "vesa"
-            | "tv-mount-screws"
-            | "mounting-height"
-            | "wall-planner"
-            | "tv-dimensions"
-    ) {
+    if page.guide.is_some()
+        || matches!(
+            page.id.as_str(),
+            "phone-to-tv"
+                | "tv-no-signal"
+                | "tv-sound-no-picture"
+                | "tv-no-sound"
+                | "tv-remote-not-working"
+                | "tv-turns-off"
+                | "tv-no-internet"
+                | "tv-usb-not-seen"
+                | "laptop-to-tv"
+                | "digital-channels"
+                | "picture-setup"
+                | "soundbar-to-tv"
+                | "screen-cleaning"
+                | "smart-tv-box"
+                | "tv-speakers"
+                | "tv-headphones"
+                | "tv-energy-consumption"
+                | "tv-firmware-update"
+                | "tv-app-install"
+                | "tv-factory-reset"
+                | "vesa"
+                | "tv-mount-screws"
+                | "mounting-height"
+                | "wall-planner"
+                | "tv-dimensions"
+        )
+    {
         TRAFFIC_PAGES_UPDATED_AT
     } else {
         CORE_PAGES_UPDATED_AT
@@ -1164,6 +1268,9 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
         .collect::<Vec<_>>()
         .join("\n");
     let diagnostic_links = [
+        "tv-wont-turn-on",
+        "tv-freezes",
+        "tv-dark-screen",
         "tv-sound-no-picture",
         "tv-no-sound",
         "tv-remote-not-working",
@@ -2012,6 +2119,86 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "tv-wont-turn-on" => &[
+                "tv-freezes",
+                "tv-remote-not-working",
+                "tv-turns-off",
+                "tv-dark-screen",
+                "tv-model-lookup",
+                "tv-firmware-update",
+            ],
+            "tv-antenna-connect" => &[
+                "digital-channels",
+                "digital-box-connect",
+                "tv-no-signal",
+                "tv-model-lookup",
+                "tv-aspect-ratio",
+                "smart-tv-box",
+            ],
+            "tv-freezes" => &[
+                "tv-wont-turn-on",
+                "tv-factory-reset",
+                "tv-firmware-update",
+                "tv-app-install",
+                "tv-remote-not-working",
+                "tv-no-internet",
+            ],
+            "digital-box-connect" => &[
+                "smart-tv-box",
+                "tv-antenna-connect",
+                "tv-no-signal",
+                "digital-channels",
+                "game-console-to-tv",
+                "tv-aspect-ratio",
+            ],
+            "tv-dark-screen" => &[
+                "tv-sound-no-picture",
+                "picture-setup",
+                "tv-aspect-ratio",
+                "tv-no-signal",
+                "tv-wont-turn-on",
+                "screen-cleaning",
+            ],
+            "tv-storage-cleanup" => &[
+                "tv-app-install",
+                "tv-freezes",
+                "tv-firmware-update",
+                "tv-factory-reset",
+                "tv-no-internet",
+                "tv-model-lookup",
+            ],
+            "phone-tv-remote" => &[
+                "tv-remote-not-working",
+                "phone-to-tv",
+                "tv-no-internet",
+                "tv-model-lookup",
+                "tv-app-install",
+                "tv-no-signal",
+            ],
+            "game-console-to-tv" => &[
+                "tv-no-signal",
+                "picture-setup",
+                "smart-tv-box",
+                "tv-aspect-ratio",
+                "soundbar-to-tv",
+                "digital-box-connect",
+            ],
+            "tv-model-lookup" => &[
+                "vesa",
+                "tv-mount-screws",
+                "tv-firmware-update",
+                "tv-app-install",
+                "tv-wont-turn-on",
+                "buy-tv-mount",
+            ],
+            "tv-aspect-ratio" => &[
+                "picture-setup",
+                "tv-dark-screen",
+                "tv-no-signal",
+                "game-console-to-tv",
+                "tv-dimensions",
+                "viewing-distance",
+            ],
             "tv-firmware-update" => &[
                 "tv-app-install",
                 "tv-factory-reset",
@@ -2021,12 +2208,12 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "smart-tv-box",
             ],
             "tv-app-install" => &[
+                "tv-storage-cleanup",
                 "tv-no-internet",
                 "tv-firmware-update",
                 "smart-tv-box",
                 "tv-factory-reset",
                 "phone-to-tv",
-                "tv-remote-not-working",
             ],
             "tv-factory-reset" => &[
                 "tv-firmware-update",
@@ -2077,12 +2264,13 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "soundbar-to-tv",
             ],
             "smart-tv-box" => &[
+                "digital-box-connect",
+                "game-console-to-tv",
                 "tv-no-signal",
                 "tv-no-internet",
                 "phone-to-tv",
                 "digital-channels",
                 "soundbar-to-tv",
-                "tv-usb-not-seen",
             ],
             "tv-no-signal" => &[
                 "tv-sound-no-picture",
@@ -2110,12 +2298,12 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-turns-off",
             ],
             "tv-remote-not-working" => &[
+                "phone-tv-remote",
                 "tv-no-sound",
                 "tv-sound-no-picture",
                 "tv-no-signal",
                 "tv-turns-off",
                 "digital-channels",
-                "phone-to-tv",
             ],
             "tv-turns-off" => &[
                 "tv-energy-consumption",
@@ -2160,21 +2348,23 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "digital-channels",
             ],
             "digital-channels" => &[
+                "tv-antenna-connect",
+                "digital-box-connect",
                 "tv-no-signal",
                 "tv-no-internet",
                 "picture-setup",
                 "laptop-to-tv",
                 "phone-to-tv",
-                "tv-dimensions",
             ],
             "picture-setup" => &[
+                "tv-aspect-ratio",
+                "tv-dark-screen",
+                "screen-cleaning",
+                "tv-energy-consumption",
                 "viewing-distance",
                 "tv-dimensions",
                 "wall-planner",
-                "tv-energy-consumption",
                 "tv-no-signal",
-                "screen-cleaning",
-                "phone-to-tv",
             ],
             "wall-mounted-tv" => &[
                 "wall-planner",
@@ -2210,10 +2400,10 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             ],
             "tv-zone-sockets" => &["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
             "vesa" => &[
+                "tv-model-lookup",
                 "tv-mount-screws",
                 "wall-mounted-tv",
                 "how-to-find-vesa",
-                "vesa-200x200",
             ],
             "fixed-mount" => &[
                 "buy-tv-mount",
@@ -3079,6 +3269,50 @@ fn seo_catalog_html(
     }
 }
 
+fn seo_evidence_guide_html(page: &SeoPage) -> String {
+    let Some(guide) = &page.guide else {
+        return String::new();
+    };
+    let table_rows = guide
+        .steps
+        .iter()
+        .map(|step| {
+            format!(
+                "<tr class=\"border-t border-line align-top\" data-evidence-guide-step=\"{}\"><th class=\"p-4 text-left font-display text-lg\" scope=\"row\">{}</th><td class=\"p-4 font-semibold\">{}</td><td class=\"p-4 leading-relaxed text-muted\">{}</td></tr>",
+                escape_html(&step.label),
+                escape_html(&step.label),
+                escape_html(&step.title),
+                escape_html(&step.body),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    let sources = guide
+        .sources
+        .iter()
+        .map(|source| {
+            format!(
+                "<a class=\"text-technical underline underline-offset-4\" href=\"{}\" rel=\"noreferrer\" target=\"_blank\" data-evidence-guide-source=\"{}\">{}</a>",
+                escape_html(&source.url),
+                escape_html(&source.id),
+                escape_html(&source.label),
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    format!(
+        "<section class=\"border-y-2 border-ink py-7\" data-evidence-guide=\"{}\" id=\"мастер\"><p class=\"font-mono text-xs uppercase text-action\">{}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">{}</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">{}</p><div class=\"mt-7 overflow-x-auto\"><table class=\"w-full min-w-[720px] border-2 border-ink bg-white text-sm\" data-evidence-guide-table=\"true\"><caption class=\"border-b-2 border-ink p-4 text-left font-display text-2xl font-extrabold\">Таблица решений по наблюдаемому признаку</caption><thead><tr class=\"bg-ink text-paper\"><th class=\"p-4 text-left\" scope=\"col\">Ситуация</th><th class=\"p-4 text-left\" scope=\"col\">Следующий шаг</th><th class=\"p-4 text-left\" scope=\"col\">Как проверить</th></tr></thead><tbody>{}</tbody></table></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\" data-evidence-guide-stop=\"true\">{}</p><details class=\"mt-7 border border-line bg-white p-4\"><summary class=\"cursor-pointer font-display font-bold\">Официальные источники и границы проверки</summary><nav class=\"mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2\" aria-label=\"Официальные источники\">{}</nav><p class=\"mt-4 font-mono text-xs text-muted\">Материал проверен {}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\">Редакционная проверка KREPI TV: выводы ограничены официальными инструкциями и наблюдаемыми признаками. <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика, источники и границы проверки</a>.</p></details></section>",
+        escape_html(&page.id),
+        escape_html(&guide.kicker),
+        escape_html(&guide.heading),
+        escape_html(&guide.summary),
+        table_rows,
+        escape_html(&guide.stop),
+        sources,
+        escape_html(&guide.updated_at),
+    )
+}
+
 fn seo_page_body(
     page: &SeoPage,
     pages: &[SeoPage],
@@ -3109,6 +3343,7 @@ fn seo_page_body(
     let brand_matcher_note = seo_brand_mount_matcher_html(page, models, mounts, graph);
     let buy_mount_comparison = seo_buy_mount_comparison_html(page, mounts, graph);
     let catalog = seo_catalog_html(page, models, mounts, graph);
+    let evidence_guide = seo_evidence_guide_html(page);
     let related_links = related_seo_pages(page, pages)
         .iter()
         .map(|related| {
@@ -3128,6 +3363,8 @@ fn seo_page_body(
         format!("{catalog}{facts_section}{calculator_note}")
     } else if page.id == "vesa" {
         format!("{catalog}{calculator_note}{facts_section}")
+    } else if page.guide.is_some() {
+        format!("{evidence_guide}{facts_section}")
     } else {
         format!(
             "{brand_matcher_note}{facts_section}{buy_mount_comparison}{catalog}{calculator_note}"
@@ -3145,17 +3382,30 @@ fn seo_page_body(
 
 fn seo_page_kind_label(page: &SeoPage) -> &'static str {
     match page.id.as_str() {
-        "phone-to-tv" | "laptop-to-tv" | "soundbar-to-tv" | "smart-tv-box" | "tv-speakers"
-        | "tv-headphones" => "Подключение устройств",
+        "phone-to-tv"
+        | "laptop-to-tv"
+        | "soundbar-to-tv"
+        | "smart-tv-box"
+        | "tv-speakers"
+        | "tv-headphones"
+        | "tv-antenna-connect"
+        | "digital-box-connect"
+        | "game-console-to-tv"
+        | "phone-tv-remote" => "Подключение устройств",
         "tv-no-signal"
         | "tv-sound-no-picture"
         | "tv-no-sound"
         | "tv-remote-not-working"
         | "tv-turns-off"
         | "tv-no-internet"
-        | "tv-usb-not-seen" => "Диагностика телевизора",
+        | "tv-usb-not-seen"
+        | "tv-wont-turn-on"
+        | "tv-freezes"
+        | "tv-dark-screen" => "Диагностика телевизора",
         "digital-channels" | "picture-setup" | "tv-firmware-update" | "tv-app-install"
-        | "tv-factory-reset" => "Настройка телевизора",
+        | "tv-factory-reset" | "tv-storage-cleanup" | "tv-model-lookup" | "tv-aspect-ratio" => {
+            "Настройка телевизора"
+        }
         "screen-cleaning" => "Уход за телевизором",
         "tv-energy-consumption" => "Расчёт электроэнергии",
         _ => match page.kind.as_str() {
@@ -3638,6 +3888,85 @@ fn validate_seo_pages(pages: &[SeoPage]) {
             page.path
         );
         assert!(page.faq.len() >= 3, "Недостаточно ответов на {}", page.path);
+    }
+
+    for (id, path) in DAILY_SEO_COHORT_2026_08_06 {
+        let cohort_matches = pages
+            .iter()
+            .filter(|page| page.id == id || page.path == path)
+            .collect::<Vec<_>>();
+        assert_eq!(
+            cohort_matches.len(),
+            1,
+            "Ежедневная SEO-страница {id} должна иметь один canonical"
+        );
+        let page = cohort_matches[0];
+        assert_eq!(page.id, id, "Путь {path} закреплён только за {id}");
+        assert_eq!(
+            page.path, path,
+            "Идентификатор {id} закреплён только за {path}"
+        );
+        assert_eq!(
+            page.kind, "calculator",
+            "{id} должен оставаться самостоятельным инструментом"
+        );
+        assert!(page.indexable, "{id} должен оставаться индексируемым");
+        assert!(
+            page.facts.len() >= 6,
+            "{id}: требуется не менее шести проверок"
+        );
+        assert!(page.faq.len() >= 6, "{id}: требуется не менее шести FAQ");
+
+        let guide = page
+            .guide
+            .as_ref()
+            .unwrap_or_else(|| panic!("{id}: отсутствует самостоятельный evidence guide"));
+        assert_eq!(
+            guide.steps.len(),
+            3,
+            "{id}: требуется ровно три развилки результата"
+        );
+        assert!(
+            guide.sources.len() >= 2,
+            "{id}: требуется минимум два официальных источника"
+        );
+        assert_eq!(
+            guide.updated_at.len(),
+            10,
+            "{id}: дата проверки должна быть YYYY-MM-DD"
+        );
+        assert!(
+            !guide.stop.trim().is_empty(),
+            "{id}: отсутствует безопасная граница"
+        );
+        let mut source_ids = HashSet::new();
+        for source in &guide.sources {
+            assert!(
+                source_ids.insert(&source.id),
+                "{id}: повторяется источник {}",
+                source.id
+            );
+            assert!(
+                source.url.starts_with("https://"),
+                "{id}: источник должен быть HTTPS"
+            );
+            assert!(
+                !source.label.trim().is_empty(),
+                "{id}: источник без подписи"
+            );
+        }
+
+        let static_answer = seo_evidence_guide_html(page);
+        assert!(static_answer.contains(&format!("data-evidence-guide=\"{id}\"")));
+        assert_eq!(
+            static_answer.matches("data-evidence-guide-step=").count(),
+            3
+        );
+        assert_eq!(
+            static_answer.matches("data-evidence-guide-source=").count(),
+            guide.sources.len(),
+            "{id}: SSR обязан содержать все разрешённые источники"
+        );
     }
 
     for (id, path, source_ids) in TV_UTILITY_COHORT_6 {
@@ -4568,11 +4897,9 @@ fn main() {
         } else {
             breadcrumb_json_ld(&[("Главная", "https://krepitv.ru/"), (&page.h1, &canonical)])
         };
-        let structured_data = if let Some(dataset) = dataset_json_ld(&page.id, &canonical) {
-            format!("{breadcrumb}{dataset}")
-        } else {
-            breadcrumb
-        };
+        let dataset = dataset_json_ld(&page.id, &canonical).unwrap_or_default();
+        let evidence_guide = seo_evidence_guide_json_ld(page, &canonical).unwrap_or_default();
+        let structured_data = format!("{breadcrumb}{dataset}{evidence_guide}");
         write(
             &web.join(relative).join("index.html"),
             &html_shell(
@@ -5048,6 +5375,7 @@ mod tests {
             lead: "Тест".into(),
             facts: vec![],
             faq: vec![],
+            guide: None,
         };
 
         assert!(is_indexable_seo_page(&page(true)));
@@ -5430,8 +5758,11 @@ mod tests {
         }
         assert!(html.contains("grid gap-px border border-line bg-line sm:grid-cols-3"));
         assert!(html.contains("data-home-tv-diagnostics=\"true\""));
-        assert_eq!(html.matches("data-home-tv-diagnostic=").count(), 6);
+        assert_eq!(html.matches("data-home-tv-diagnostic=").count(), 9);
         for id in [
+            "tv-wont-turn-on",
+            "tv-freezes",
+            "tv-dark-screen",
             "tv-sound-no-picture",
             "tv-no-sound",
             "tv-remote-not-working",
@@ -5846,12 +6177,12 @@ mod tests {
                     "smart-tv-box",
                 ],
                 "tv-app-install" => &[
+                    "tv-storage-cleanup",
                     "tv-no-internet",
                     "tv-firmware-update",
                     "smart-tv-box",
                     "tv-factory-reset",
                     "phone-to-tv",
-                    "tv-remote-not-working",
                 ],
                 "tv-factory-reset" => &[
                     "tv-firmware-update",
@@ -6054,6 +6385,7 @@ mod tests {
             lead: "Тест".into(),
             facts: vec![],
             faq: vec![],
+            guide: None,
         };
 
         let diagonal_html =
@@ -6394,6 +6726,7 @@ mod tests {
             lead: id.into(),
             facts: vec![],
             faq: vec![],
+            guide: None,
         };
         let pages = vec![
             page("diagonal-43", "diagonal"),

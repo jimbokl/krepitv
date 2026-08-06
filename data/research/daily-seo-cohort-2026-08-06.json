@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "cohort_date": "2026-08-06",
+  "product": "KREPI TV",
+  "region": "Россия",
+  "source": "Яндекс Wordstat через сохранённые проверяемые батчи проекта",
+  "aggregation_rule": "Частоты не суммируются: формулировки и аудитории могут пересекаться",
+  "release_rule": "Ровно 10 разных canonical; каждый содержит локальный инструмент, таблицу решений, минимум два первичных официальных источника, дату проверки, ограничения, FAQ и внутренние ссылки",
+  "pages": [
+    {
+      "id": "tv-wont-turn-on",
+      "path": "/televizor-ne-vklyuchaetsya/",
+      "query": "телевизор не включается",
+      "operator_query": "\"[телевизор не включается]\"",
+      "frequency": 73943,
+      "interpretation": "directional",
+      "evidence_file": "data/research/tv-problem-cohort-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-antenna-connect",
+      "path": "/kak-podklyuchit-antennu-k-televizoru/",
+      "query": "как настроить антенну на телевизоре",
+      "operator_query": "\"[как настроить антенну на телевизоре]\"",
+      "frequency": 15544,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-freezes",
+      "path": "/televizor-zavis/",
+      "query": "телевизор завис",
+      "operator_query": "\"[телевизор завис]\"",
+      "frequency": 13963,
+      "interpretation": "directional",
+      "evidence_file": "data/research/tv-problem-cohort-demand-2026-08-01.json"
+    },
+    {
+      "id": "digital-box-connect",
+      "path": "/kak-podklyuchit-tsifrovuyu-pristavku-k-televizoru/",
+      "query": "как подключить цифровую приставку к телевизору",
+      "operator_query": "\"[как подключить цифровую приставку к телевизору]\"",
+      "frequency": 3791,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-dark-screen",
+      "path": "/temnyy-ekran-na-televizore/",
+      "query": "темный экран на телевизоре",
+      "operator_query": "\"[темный экран на телевизоре]\"",
+      "frequency": 3194,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-storage-cleanup",
+      "path": "/kak-ochistit-pamyat-televizora/",
+      "query": "как очистить память телевизора",
+      "operator_query": "\"[как очистить память телевизора]\"",
+      "frequency": 2736,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "phone-tv-remote",
+      "path": "/kak-upravlyat-televizorom-s-telefona/",
+      "query": "пульт для телевизора на телефоне",
+      "operator_query": "\"[пульт для телевизора на телефоне]\"",
+      "frequency": 10631,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "game-console-to-tv",
+      "path": "/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/",
+      "query": "как подключить игровую приставку к телевизору",
+      "operator_query": "\"[как !подключить !игровую !приставку к !телевизору]\"",
+      "frequency": 2460,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-6-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-model-lookup",
+      "path": "/kak-uznat-model-televizora/",
+      "query": "как узнать модель телевизора",
+      "operator_query": "\"[как узнать модель телевизора]\"",
+      "frequency": 1806,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-aspect-ratio",
+      "path": "/izobrazhenie-ne-na-ves-ekran-televizora/",
+      "query": "черные полосы на экране телевизора",
+      "operator_query": "\"[!черные !полосы на !экране !телевизора]\"",
+      "frequency": 1090,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-5-demand-2026-08-01.json"
+    }
+  ],
+  "cannibalization_decisions": [
+    {
+      "candidate": "tv-wifi",
+      "decision": "excluded",
+      "reason": "Интент уже обслуживает /televizor-ne-podklyuchaetsya-k-internetu/."
+    },
+    {
+      "candidate": "tv-purchase-test",
+      "decision": "deferred",
+      "reason": "Слишком близок к отдельному интенту проверки битых пикселей; требуется развести задачи до выпуска."
+    }
+  ]
+}

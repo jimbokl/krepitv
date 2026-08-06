@@ -61,17 +61,19 @@ const kindLabels = {
 
 const connectionPageIds = new Set([
   "phone-to-tv", "laptop-to-tv", "soundbar-to-tv", "smart-tv-box",
-  "tv-speakers", "tv-headphones",
+  "tv-speakers", "tv-headphones", "tv-antenna-connect", "digital-box-connect",
+  "game-console-to-tv", "phone-tv-remote",
 ]);
 
 const diagnosticsPageIds = new Set([
   "tv-no-signal", "tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working",
-  "tv-turns-off", "tv-no-internet", "tv-usb-not-seen",
+  "tv-turns-off", "tv-no-internet", "tv-usb-not-seen", "tv-wont-turn-on",
+  "tv-freezes", "tv-dark-screen",
 ]);
 
 const setupPageIds = new Set([
   "digital-channels", "picture-setup", "tv-firmware-update", "tv-app-install",
-  "tv-factory-reset",
+  "tv-factory-reset", "tv-storage-cleanup", "tv-model-lookup", "tv-aspect-ratio",
 ]);
 
 export function seoPageKindLabel(page) {
@@ -271,10 +273,11 @@ function SeoArticle({ catalog, page }) {
   const prioritizesPhoneTvConnection = page.id === "phone-to-tv";
   const prioritizesTvNoSignal = page.id === "tv-no-signal";
   const prioritizesTvEnergy = page.id === "tv-energy-consumption";
+  const prioritizesEvidenceGuide = Boolean(page.guide);
   const tvTrafficTask = tvTrafficTaskByPageId.get(page.id);
   const prioritizesTvTrafficTask = Boolean(tvTrafficTask);
   const prioritizesTrafficUtility = prioritizesPhoneTvConnection || prioritizesTvNoSignal
-    || prioritizesTvTrafficTask || prioritizesTvEnergy;
+    || prioritizesTvTrafficTask || prioritizesTvEnergy || prioritizesEvidenceGuide;
   const prioritizesPrimaryLookup = prioritizesScrewLookup
     || prioritizesVesaLookup
     || prioritizesWallPlanner
@@ -396,6 +399,7 @@ function SeoArticle({ catalog, page }) {
           </>
         ) : null}
         {prioritizesTvEnergy ? <TvEnergyCalculator /> : null}
+        {prioritizesEvidenceGuide ? <SeoEvidenceGuide guide={page.guide} pageId={page.id} /> : null}
         {prioritizesTvDimensions ? (
           <>
             <TvDimensionsCalculator models={catalog.models} search={catalog.search} />
@@ -566,6 +570,110 @@ function SeoArticle({ catalog, page }) {
         </section>
       </div>
     </main>
+  );
+}
+
+function SeoEvidenceGuide({ guide, pageId }) {
+  const [selectedLabel, setSelectedLabel] = useState("");
+  const selectedStep = guide.steps.find((step) => step.label === selectedLabel);
+
+  return (
+    <section
+      className="border-y-2 border-ink py-7"
+      data-evidence-guide={pageId}
+      aria-labelledby={`${pageId}-guide-title`}
+      id="мастер"
+    >
+      <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
+        {guide.kicker}
+      </p>
+      <h2 className="mt-2 max-w-4xl font-display text-3xl font-extrabold" id={`${pageId}-guide-title`}>
+        {guide.heading}
+      </h2>
+      <p className="mt-3 max-w-4xl leading-relaxed text-muted">{guide.summary}</p>
+      <fieldset className="mt-7 border-2 border-ink bg-white p-5" data-evidence-guide-tool="true">
+        <legend className="px-2 font-display text-2xl font-extrabold">Что вы наблюдаете?</legend>
+        <div className="mt-2 grid gap-3 md:grid-cols-3">
+          {guide.steps.map((step) => (
+            <button
+              aria-pressed={selectedLabel === step.label}
+              className={`min-h-14 border-2 px-4 py-3 text-left font-display font-bold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-action ${
+                selectedLabel === step.label
+                  ? "border-action bg-action text-white"
+                  : "border-ink bg-paper hover:bg-white"
+              }`}
+              key={step.label}
+              onClick={() => setSelectedLabel(step.label)}
+              type="button"
+            >
+              {step.label}
+            </button>
+          ))}
+        </div>
+        <div aria-live="polite" className="mt-5 min-h-28 border-l-2 border-action pl-5" data-evidence-guide-result="true">
+          {selectedStep ? (
+            <>
+              <p className="font-mono text-xs uppercase text-action">Ваш следующий шаг</p>
+              <h3 className="mt-2 font-display text-2xl font-extrabold">{selectedStep.title}</h3>
+              <p className="mt-2 max-w-3xl leading-relaxed text-muted">{selectedStep.body}</p>
+            </>
+          ) : (
+            <p className="max-w-2xl pt-3 leading-relaxed text-muted">
+              Выберите ближайшую ситуацию — расчёт выполняется локально в браузере без регистрации и отправки данных.
+            </p>
+          )}
+        </div>
+      </fieldset>
+      <div className="mt-7 overflow-x-auto">
+        <table className="w-full min-w-[720px] border-2 border-ink bg-white text-sm" data-evidence-guide-table="true">
+          <caption className="border-b-2 border-ink p-4 text-left font-display text-2xl font-extrabold">
+            Таблица решений по наблюдаемому признаку
+          </caption>
+          <thead>
+            <tr className="bg-ink text-paper">
+              <th className="p-4 text-left" scope="col">Ситуация</th>
+              <th className="p-4 text-left" scope="col">Следующий шаг</th>
+              <th className="p-4 text-left" scope="col">Как проверить</th>
+            </tr>
+          </thead>
+          <tbody>
+            {guide.steps.map((step) => (
+              <tr className="border-t border-line align-top" data-evidence-guide-step={step.label} key={step.label}>
+                <th className="p-4 text-left font-display text-lg" scope="row">{step.label}</th>
+                <td className="p-4 font-semibold">{step.title}</td>
+                <td className="p-4 leading-relaxed text-muted">{step.body}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-evidence-guide-stop="true">
+        {guide.stop}
+      </p>
+      <details className="mt-7 border border-line bg-white p-4">
+        <summary className="cursor-pointer font-display font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
+          Официальные источники и границы проверки
+        </summary>
+        <nav className="mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2" aria-label="Официальные источники">
+          {guide.sources.map((source) => (
+            <a
+              className="text-technical underline underline-offset-4"
+              data-evidence-guide-source={source.id}
+              href={source.url}
+              key={source.id}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {source.label}
+            </a>
+          ))}
+        </nav>
+        <p className="mt-4 font-mono text-xs text-muted">Материал проверен {guide.updated_at}</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          Редакционная проверка KREPI TV: выводы ограничены официальными инструкциями и наблюдаемыми признаками. <a className="font-semibold text-action underline underline-offset-4" href="/metodika/">Методика, источники и границы проверки</a>.
+        </p>
+      </details>
+    </section>
   );
 }
 

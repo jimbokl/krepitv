@@ -1,0 +1,1 @@
+import{j as s,i as l}from"./main-CltnFonO.js";function r({children:i,className:a="",href:n,placement:t="compatibility_result"}){const o=l(globalThis.window,t);return s.jsx("a",{...o,className:a,"data-mount-detail-placement":t,href:n,children:i})}export{r as M};

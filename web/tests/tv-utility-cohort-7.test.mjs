@@ -258,7 +258,7 @@ test("related-граф образует связный системный кла
   const wizard = await read("web/src/components/TvTrafficTaskWizard.jsx");
 
   assert.match(related, /"tv-firmware-update": \["tv-app-install", "tv-factory-reset", "tv-no-internet", "tv-turns-off", "tv-remote-not-working", "smart-tv-box"\]/);
-  assert.match(related, /"tv-app-install": \["tv-no-internet", "tv-firmware-update", "smart-tv-box", "tv-factory-reset", "phone-to-tv", "tv-remote-not-working"\]/);
+  assert.match(related, /"tv-app-install": \["tv-storage-cleanup", "tv-no-internet", "tv-firmware-update", "smart-tv-box", "tv-factory-reset", "phone-to-tv"\]/);
   assert.match(related, /"tv-factory-reset": \["tv-firmware-update", "tv-app-install", "tv-turns-off", "tv-no-internet", "tv-remote-not-working", "picture-setup"\]/);
   for (const [task] of tasks) {
     const config = configSource(wizard, task);
