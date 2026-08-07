@@ -121,6 +121,27 @@ const DAILY_SEO_COHORT_2026_08_06: [(&str, &str); 10] = [
         "/izobrazhenie-ne-na-ves-ekran-televizora/",
     ),
 ];
+const DAILY_SEO_COHORT_2026_08_07: [(&str, &str); 10] = [
+    ("tv-youtube-recovery", "/ne-rabotaet-youtube-na-televizore/"),
+    ("tv-flicker", "/migaet-ekran-televizora/"),
+    (
+        "tv-disable-subtitles",
+        "/kak-otklyuchit-subtitry-na-televizore/",
+    ),
+    ("tv-disable-voice", "/kak-otklyuchit-golos-na-televizore/"),
+    (
+        "tv-keyboard-mouse",
+        "/kak-podklyuchit-klaviaturu-i-mysh-k-televizoru/",
+    ),
+    ("tv-microphone", "/kak-podklyuchit-mikrofon-k-televizoru/"),
+    ("hide-tv-wires", "/kak-spryatat-provoda-ot-televizora/"),
+    ("dead-pixel-test", "/proverka-televizora-na-bitye-pikseli/"),
+    (
+        "tv-purchase-checklist",
+        "/proverka-televizora-pered-pokupkoy/",
+    ),
+    ("tv-game-mode", "/kak-nastroit-televizor-dlya-igr/"),
+];
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -789,37 +810,37 @@ fn seo_evidence_guide_json_ld(page: &SeoPage, canonical: &str) -> Option<String>
     })))
 }
 
-fn seo_page_lastmod(page: &SeoPage) -> &'static str {
-    if page.guide.is_some()
-        || matches!(
-            page.id.as_str(),
-            "phone-to-tv"
-                | "tv-no-signal"
-                | "tv-sound-no-picture"
-                | "tv-no-sound"
-                | "tv-remote-not-working"
-                | "tv-turns-off"
-                | "tv-no-internet"
-                | "tv-usb-not-seen"
-                | "laptop-to-tv"
-                | "digital-channels"
-                | "picture-setup"
-                | "soundbar-to-tv"
-                | "screen-cleaning"
-                | "smart-tv-box"
-                | "tv-speakers"
-                | "tv-headphones"
-                | "tv-energy-consumption"
-                | "tv-firmware-update"
-                | "tv-app-install"
-                | "tv-factory-reset"
-                | "vesa"
-                | "tv-mount-screws"
-                | "mounting-height"
-                | "wall-planner"
-                | "tv-dimensions"
-        )
-    {
+fn seo_page_lastmod(page: &SeoPage) -> &str {
+    if let Some(guide) = &page.guide {
+        guide.updated_at.as_str()
+    } else if matches!(
+        page.id.as_str(),
+        "phone-to-tv"
+            | "tv-no-signal"
+            | "tv-sound-no-picture"
+            | "tv-no-sound"
+            | "tv-remote-not-working"
+            | "tv-turns-off"
+            | "tv-no-internet"
+            | "tv-usb-not-seen"
+            | "laptop-to-tv"
+            | "digital-channels"
+            | "picture-setup"
+            | "soundbar-to-tv"
+            | "screen-cleaning"
+            | "smart-tv-box"
+            | "tv-speakers"
+            | "tv-headphones"
+            | "tv-energy-consumption"
+            | "tv-firmware-update"
+            | "tv-app-install"
+            | "tv-factory-reset"
+            | "vesa"
+            | "tv-mount-screws"
+            | "mounting-height"
+            | "wall-planner"
+            | "tv-dimensions"
+    ) {
         TRAFFIC_PAGES_UPDATED_AT
     } else {
         CORE_PAGES_UPDATED_AT
@@ -2184,6 +2205,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "digital-box-connect",
             ],
             "tv-model-lookup" => &[
+                "tv-purchase-checklist",
                 "vesa",
                 "tv-mount-screws",
                 "tv-firmware-update",
@@ -2192,6 +2214,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "buy-tv-mount",
             ],
             "tv-aspect-ratio" => &[
+                "tv-flicker",
                 "picture-setup",
                 "tv-dark-screen",
                 "tv-no-signal",
@@ -2357,10 +2380,13 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "phone-to-tv",
             ],
             "picture-setup" => &[
+                "tv-flicker",
+                "dead-pixel-test",
+                "tv-game-mode",
+                "tv-energy-consumption",
+                "screen-cleaning",
                 "tv-aspect-ratio",
                 "tv-dark-screen",
-                "screen-cleaning",
-                "tv-energy-consumption",
                 "viewing-distance",
                 "tv-dimensions",
                 "wall-planner",
@@ -2381,6 +2407,91 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-zone-sockets",
                 "viewing-distance",
                 "wall-mounted-tv",
+            ],
+            "tv-youtube-recovery" => &[
+                "tv-keyboard-mouse",
+                "tv-no-internet",
+                "tv-app-install",
+                "tv-storage-cleanup",
+                "tv-firmware-update",
+                "phone-to-tv",
+                "tv-factory-reset",
+            ],
+            "tv-flicker" => &[
+                "picture-setup",
+                "dead-pixel-test",
+                "tv-dark-screen",
+                "tv-aspect-ratio",
+                "tv-sound-no-picture",
+                "tv-firmware-update",
+            ],
+            "tv-disable-subtitles" => &[
+                "tv-disable-voice",
+                "tv-aspect-ratio",
+                "digital-channels",
+                "smart-tv-box",
+                "tv-model-lookup",
+                "tv-app-install",
+            ],
+            "tv-disable-voice" => &[
+                "tv-disable-subtitles",
+                "tv-remote-not-working",
+                "tv-model-lookup",
+                "tv-app-install",
+                "tv-no-sound",
+                "phone-tv-remote",
+            ],
+            "tv-keyboard-mouse" => &[
+                "tv-youtube-recovery",
+                "tv-microphone",
+                "phone-tv-remote",
+                "tv-remote-not-working",
+                "tv-app-install",
+                "smart-tv-box",
+                "tv-no-internet",
+                "tv-model-lookup",
+            ],
+            "tv-microphone" => &[
+                "tv-keyboard-mouse",
+                "tv-speakers",
+                "soundbar-to-tv",
+                "tv-no-sound",
+                "tv-headphones",
+                "smart-tv-box",
+                "tv-model-lookup",
+            ],
+            "hide-tv-wires" => &[
+                "wall-planner",
+                "mounting-map",
+                "tv-zone-sockets",
+                "wall-mounted-tv",
+                "full-motion-mount",
+                "mounting-height",
+            ],
+            "dead-pixel-test" => &[
+                "tv-purchase-checklist",
+                "tv-flicker",
+                "picture-setup",
+                "screen-cleaning",
+                "tv-dark-screen",
+                "tv-aspect-ratio",
+            ],
+            "tv-purchase-checklist" => &[
+                "dead-pixel-test",
+                "hide-tv-wires",
+                "tv-model-lookup",
+                "vesa",
+                "tv-mount-screws",
+                "tv-dimensions",
+                "wall-planner",
+            ],
+            "tv-game-mode" => &[
+                "game-console-to-tv",
+                "picture-setup",
+                "tv-aspect-ratio",
+                "tv-no-signal",
+                "soundbar-to-tv",
+                "tv-flicker",
             ],
             "tv-dimensions" => &[
                 "wall-planner",
@@ -3890,83 +4001,88 @@ fn validate_seo_pages(pages: &[SeoPage]) {
         assert!(page.faq.len() >= 3, "Недостаточно ответов на {}", page.path);
     }
 
-    for (id, path) in DAILY_SEO_COHORT_2026_08_06 {
-        let cohort_matches = pages
-            .iter()
-            .filter(|page| page.id == id || page.path == path)
-            .collect::<Vec<_>>();
-        assert_eq!(
-            cohort_matches.len(),
-            1,
-            "Ежедневная SEO-страница {id} должна иметь один canonical"
-        );
-        let page = cohort_matches[0];
-        assert_eq!(page.id, id, "Путь {path} закреплён только за {id}");
-        assert_eq!(
-            page.path, path,
-            "Идентификатор {id} закреплён только за {path}"
-        );
-        assert_eq!(
-            page.kind, "calculator",
-            "{id} должен оставаться самостоятельным инструментом"
-        );
-        assert!(page.indexable, "{id} должен оставаться индексируемым");
-        assert!(
-            page.facts.len() >= 6,
-            "{id}: требуется не менее шести проверок"
-        );
-        assert!(page.faq.len() >= 6, "{id}: требуется не менее шести FAQ");
+    for cohort in [
+        &DAILY_SEO_COHORT_2026_08_06[..],
+        &DAILY_SEO_COHORT_2026_08_07[..],
+    ] {
+        for &(id, path) in cohort {
+            let cohort_matches = pages
+                .iter()
+                .filter(|page| page.id == id || page.path == path)
+                .collect::<Vec<_>>();
+            assert_eq!(
+                cohort_matches.len(),
+                1,
+                "Ежедневная SEO-страница {id} должна иметь один canonical"
+            );
+            let page = cohort_matches[0];
+            assert_eq!(page.id, id, "Путь {path} закреплён только за {id}");
+            assert_eq!(
+                page.path, path,
+                "Идентификатор {id} закреплён только за {path}"
+            );
+            assert_eq!(
+                page.kind, "calculator",
+                "{id} должен оставаться самостоятельным инструментом"
+            );
+            assert!(page.indexable, "{id} должен оставаться индексируемым");
+            assert!(
+                page.facts.len() >= 6,
+                "{id}: требуется не менее шести проверок"
+            );
+            assert!(page.faq.len() >= 6, "{id}: требуется не менее шести FAQ");
 
-        let guide = page
-            .guide
-            .as_ref()
-            .unwrap_or_else(|| panic!("{id}: отсутствует самостоятельный evidence guide"));
-        assert_eq!(
-            guide.steps.len(),
-            3,
-            "{id}: требуется ровно три развилки результата"
-        );
-        assert!(
-            guide.sources.len() >= 2,
-            "{id}: требуется минимум два официальных источника"
-        );
-        assert_eq!(
-            guide.updated_at.len(),
-            10,
-            "{id}: дата проверки должна быть YYYY-MM-DD"
-        );
-        assert!(
-            !guide.stop.trim().is_empty(),
-            "{id}: отсутствует безопасная граница"
-        );
-        let mut source_ids = HashSet::new();
-        for source in &guide.sources {
+            let guide = page
+                .guide
+                .as_ref()
+                .unwrap_or_else(|| panic!("{id}: отсутствует самостоятельный evidence guide"));
             assert!(
-                source_ids.insert(&source.id),
-                "{id}: повторяется источник {}",
-                source.id
+                guide.sources.len() >= 2,
+                "{id}: требуется минимум два официальных источника"
+            );
+            assert_eq!(
+                guide.steps.len(),
+                3,
+                "{id}: требуется ровно три развилки результата"
+            );
+            assert_eq!(
+                guide.updated_at.len(),
+                10,
+                "{id}: дата проверки должна быть YYYY-MM-DD"
             );
             assert!(
-                source.url.starts_with("https://"),
-                "{id}: источник должен быть HTTPS"
+                !guide.stop.trim().is_empty(),
+                "{id}: отсутствует безопасная граница"
             );
-            assert!(
-                !source.label.trim().is_empty(),
-                "{id}: источник без подписи"
+            let mut source_ids = HashSet::new();
+            for source in &guide.sources {
+                assert!(
+                    source_ids.insert(&source.id),
+                    "{id}: повторяется источник {}",
+                    source.id
+                );
+                assert!(
+                    source.url.starts_with("https://"),
+                    "{id}: источник должен быть HTTPS"
+                );
+                assert!(
+                    !source.label.trim().is_empty(),
+                    "{id}: источник без подписи"
+                );
+            }
+
+            let static_answer = seo_evidence_guide_html(page);
+            assert!(static_answer.contains(&format!("data-evidence-guide=\"{id}\"")));
+            assert_eq!(
+                static_answer.matches("data-evidence-guide-step=").count(),
+                3
+            );
+            assert_eq!(
+                static_answer.matches("data-evidence-guide-source=").count(),
+                guide.sources.len(),
+                "{id}: SSR обязан содержать все разрешённые источники"
             );
         }
-
-        let static_answer = seo_evidence_guide_html(page);
-        assert!(static_answer.contains(&format!("data-evidence-guide=\"{id}\"")));
-        assert_eq!(
-            static_answer.matches("data-evidence-guide-step=").count(),
-            3
-        );
-        assert_eq!(
-            static_answer.matches("data-evidence-guide-source=").count(),
-            guide.sources.len(),
-            "{id}: SSR обязан содержать все разрешённые источники"
-        );
     }
 
     for (id, path, source_ids) in TV_UTILITY_COHORT_6 {

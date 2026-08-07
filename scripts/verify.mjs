@@ -17,7 +17,7 @@ const trafficPagesUpdatedAt = "2026-08-06";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 247;
+const baselineIndexableUrlCount = 257;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -447,6 +447,11 @@ const coverageManifest = JSON.parse(
   await readFile(path.join(docs, "data/catalog-coverage.json"), "utf8"),
 );
 const seoPages = JSON.parse(await readFile(path.join(docs, "data/seo-pages.json"), "utf8"));
+const dailySeoCohorts = await Promise.all(
+  ["2026-08-06", "2026-08-07"].map(async (date) => JSON.parse(
+    await readFile(path.join(root, `data/research/daily-seo-cohort-${date}.json`), "utf8"),
+  )),
+);
 const trustPages = JSON.parse(await readFile(path.join(docs, "data/trust-pages.json"), "utf8"));
 const sourceCommercialProfilesRaw = await readFile(
   path.join(root, "data/commercial_profiles.json"),
@@ -1558,8 +1563,28 @@ for (const page of seoPages) {
 }
 
 const dailyEvidenceGuidePages = seoPages.filter((page) => page.guide);
-if (dailyEvidenceGuidePages.length !== 10) {
-  throw new Error(`Ежедневная SEO-когорта должна содержать 10 evidence guide, получено ${dailyEvidenceGuidePages.length}`);
+const expectedDailyGuideCount = dailySeoCohorts.reduce((total, cohort) => total + cohort.pages.length, 0);
+if (dailyEvidenceGuidePages.length !== expectedDailyGuideCount) {
+  throw new Error(`Ежедневные SEO-когорты должны содержать ${expectedDailyGuideCount} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
+}
+const dailyCohortIds = new Set();
+for (const cohort of dailySeoCohorts) {
+  if (cohort.pages.length !== 10) {
+    throw new Error(`SEO-когорта ${cohort.cohort_date} должна содержать ровно 10 страниц`);
+  }
+  for (const expected of cohort.pages) {
+    if (dailyCohortIds.has(expected.id)) {
+      throw new Error(`Страница ${expected.id} повторяется между ежедневными SEO-когортами`);
+    }
+    dailyCohortIds.add(expected.id);
+    const page = dailyEvidenceGuidePages.find((item) => item.id === expected.id);
+    if (!page || page.path !== expected.path || page.guide.updated_at !== cohort.cohort_date) {
+      throw new Error(`SEO-когорта ${cohort.cohort_date} не совпадает с canonical ${expected.id}`);
+    }
+    if (!Number.isFinite(expected.frequency) || expected.frequency <= 0 || !expected.evidence_file) {
+      throw new Error(`SEO-когорта ${cohort.cohort_date} не содержит проверяемого спроса для ${expected.id}`);
+    }
+  }
 }
 for (const page of dailyEvidenceGuidePages) {
   const html = htmlByRoute.get(dataPageRoute(page)) ?? "";
@@ -2074,7 +2099,9 @@ for (const page of indexableSeoPages) {
   if (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(page.path)) {
     throw new Error(`Индексируемая SEO-страница отсутствует в sitemap или закрыта: ${page.path}`);
   }
-  const expectedLastmod = page.guide || [
+  const expectedLastmod = page.guide
+    ? page.guide.updated_at
+    : [
     "phone-to-tv",
     "tv-no-signal",
     "tv-sound-no-picture",
@@ -2100,9 +2127,9 @@ for (const page of indexableSeoPages) {
     "mounting-height",
     "wall-planner",
     "tv-dimensions",
-  ].includes(page.id)
-    ? trafficPagesUpdatedAt
-    : corePagesUpdatedAt;
+      ].includes(page.id)
+      ? trafficPagesUpdatedAt
+      : corePagesUpdatedAt;
   if (sitemapLastmods.get(page.path) !== expectedLastmod) {
     throw new Error(`SEO-страница имеет неточный sitemap lastmod: ${page.path}`);
   }

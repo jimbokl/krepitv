@@ -62,24 +62,28 @@ const kindLabels = {
 const connectionPageIds = new Set([
   "phone-to-tv", "laptop-to-tv", "soundbar-to-tv", "smart-tv-box",
   "tv-speakers", "tv-headphones", "tv-antenna-connect", "digital-box-connect",
-  "game-console-to-tv", "phone-tv-remote",
+  "game-console-to-tv", "phone-tv-remote", "tv-keyboard-mouse", "tv-microphone",
 ]);
 
 const diagnosticsPageIds = new Set([
   "tv-no-signal", "tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working",
   "tv-turns-off", "tv-no-internet", "tv-usb-not-seen", "tv-wont-turn-on",
-  "tv-freezes", "tv-dark-screen",
+  "tv-freezes", "tv-dark-screen", "tv-youtube-recovery", "tv-flicker",
+  "dead-pixel-test",
 ]);
 
 const setupPageIds = new Set([
   "digital-channels", "picture-setup", "tv-firmware-update", "tv-app-install",
   "tv-factory-reset", "tv-storage-cleanup", "tv-model-lookup", "tv-aspect-ratio",
+  "tv-disable-subtitles", "tv-disable-voice", "tv-game-mode",
 ]);
 
 export function seoPageKindLabel(page) {
   if (connectionPageIds.has(page.id)) return "Подключение устройств";
   if (diagnosticsPageIds.has(page.id)) return "Диагностика телевизора";
   if (setupPageIds.has(page.id)) return "Настройка телевизора";
+  if (page.id === "hide-tv-wires") return "Планирование установки";
+  if (page.id === "tv-purchase-checklist") return "Проверка перед покупкой";
   if (page.id === "screen-cleaning") return "Уход за телевизором";
   if (page.id === "tv-energy-consumption") return "Расчёт электроэнергии";
   return kindLabels[page.kind] ?? "Технический справочник";

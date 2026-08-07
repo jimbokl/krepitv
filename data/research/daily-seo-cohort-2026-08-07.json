@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "cohort_date": "2026-08-07",
+  "product": "KREPI TV",
+  "region": "Россия",
+  "source": "Яндекс Wordstat через сохранённые проверяемые батчи проекта",
+  "aggregation_rule": "Частоты не суммируются: формулировки и аудитории могут пересекаться",
+  "release_rule": "Ровно 10 разных canonical; каждый содержит локальный инструмент, таблицу решений, минимум два первичных официальных источника, дату проверки, ограничения, FAQ и внутренние ссылки",
+  "pages": [
+    {
+      "id": "tv-youtube-recovery",
+      "path": "/ne-rabotaet-youtube-na-televizore/",
+      "query": "ютуб не работает на телевизоре",
+      "operator_query": "\"[ютуб не работает на телевизоре]\"",
+      "frequency": 3592,
+      "interpretation": "directional",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-flicker",
+      "path": "/migaet-ekran-televizora/",
+      "query": "мигает экран телевизора",
+      "operator_query": "\"[мигает экран телевизора]\"",
+      "frequency": 2131,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-disable-subtitles",
+      "path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "как отключить субтитры на телевизоре",
+      "operator_query": "\"[как отключить субтитры на телевизоре]\"",
+      "frequency": 1395,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-disable-voice",
+      "path": "/kak-otklyuchit-golos-na-televizore/",
+      "query": "как отключить голос на телевизоре",
+      "operator_query": "\"[как отключить голос на телевизоре]\"",
+      "frequency": 341,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-keyboard-mouse",
+      "path": "/kak-podklyuchit-klaviaturu-i-mysh-k-televizoru/",
+      "query": "как подключить клавиатуру к телевизору",
+      "operator_query": "\"[как подключить клавиатуру к телевизору]\"",
+      "frequency": 728,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-7-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-microphone",
+      "path": "/kak-podklyuchit-mikrofon-k-televizoru/",
+      "query": "как подключить микрофон к телевизору",
+      "operator_query": "\"[как !подключить !микрофон к !телевизору]\"",
+      "frequency": 690,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-6-probe-demand-2026-08-01.json"
+    },
+    {
+      "id": "hide-tv-wires",
+      "path": "/kak-spryatat-provoda-ot-televizora/",
+      "query": "как спрятать провода от телевизора на стене",
+      "operator_query": "\"[как !спрятать !провода от !телевизора на !стене]\"",
+      "frequency": 828,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-5-demand-2026-08-01.json"
+    },
+    {
+      "id": "dead-pixel-test",
+      "path": "/proverka-televizora-na-bitye-pikseli/",
+      "query": "проверка телевизора на битые пиксели",
+      "operator_query": "\"[!проверка !телевизора на !битые !пиксели]\"",
+      "frequency": 811,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-5-demand-2026-08-01.json"
+    },
+    {
+      "id": "tv-purchase-checklist",
+      "path": "/proverka-televizora-pered-pokupkoy/",
+      "query": "проверка телевизора при покупке",
+      "operator_query": "\"[проверка телевизора при покупке]\"",
+      "frequency": 150,
+      "interpretation": "measured",
+      "evidence_file": "data/research/traffic-head-demand.json"
+    },
+    {
+      "id": "tv-game-mode",
+      "path": "/kak-nastroit-televizor-dlya-igr/",
+      "query": "как настроить телевизор для игр",
+      "operator_query": "\"[как !настроить !телевизор для !игр]\"",
+      "frequency": 118,
+      "interpretation": "measured",
+      "evidence_file": "data/research/tv-utility-cohort-6-probe-demand-2026-08-01.json"
+    }
+  ],
+  "cannibalization_decisions": [
+    {
+      "candidate": "tv-app-remove",
+      "decision": "excluded",
+      "reason": "Сохранённый demand-батч закрепляет удаление приложения за существующим canonical /kak-ustanovit-prilozhenie-na-televizor/."
+    },
+    {
+      "candidate": "tv-hdmi-not-seen",
+      "decision": "excluded",
+      "reason": "Интент уже обслуживают /televizor-pishet-net-signala/ и страницы подключения внешних устройств."
+    },
+    {
+      "candidate": "dead-pixel-test-vs-purchase",
+      "decision": "separated",
+      "reason": "Тест пикселей заканчивается локализацией точки на панели; чек-лист покупки проверяет весь товар, комплектность и доказательства приёмки."
+    },
+    {
+      "candidate": "game-mode-vs-console-connect",
+      "decision": "separated",
+      "reason": "Подключение консоли заканчивается получением сигнала; игровой режим обслуживает задержку, HDR и параметры уже работающего входа."
+    }
+  ]
+}
