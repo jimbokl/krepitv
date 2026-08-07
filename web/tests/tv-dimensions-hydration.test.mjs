@@ -280,7 +280,7 @@ async function findChrome() {
 function chromeEndpoint(chrome) {
   return new Promise((resolve, reject) => {
     let stderr = "";
-    const timer = setTimeout(() => reject(new Error("Chrome не запустился за 10 секунд")), 10_000);
+    const timer = setTimeout(() => reject(new Error("Chrome не запустился за 30 секунд")), 30_000);
     chrome.stderr.setEncoding("utf8");
     chrome.stderr.on("data", (chunk) => {
       stderr += chunk;
