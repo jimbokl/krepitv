@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "run": "20260808-master-to-market-funnel",
+  "generated_at": "2026-08-08T12:40:39.382632+00:00",
+  "scanned_files": [
+    "web/src/pages/SeoPage.jsx",
+    "web/src/components/MountFunnelNextStep.jsx",
+    "web/src/pages/GuidedSelectionPage.jsx",
+    "web/src/components/BrandMountMatcher.jsx",
+    "web/src/pages/ModelPage.jsx",
+    "web/src/components/HeightCalculator.jsx"
+  ],
+  "findings": []
+}

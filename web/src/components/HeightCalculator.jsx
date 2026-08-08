@@ -8,6 +8,9 @@ import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 
 export function HeightCalculator({ model = null }) {
+  const mountSelectionHref = model?.id
+    ? `/podbor/?model=${encodeURIComponent(model.id)}`
+    : "/podbor/";
   const [values, setValues] = useState({
     diagonal: String(model?.diagonal_inches ?? 55),
     eyeHeight: "110",
@@ -134,7 +137,7 @@ export function HeightCalculator({ model = null }) {
               <a className="primary-button" href="/kak-povesit-televizor-na-stenu/">
                 Построить монтажную карту <ArrowRight aria-hidden="true" />
               </a>
-              <a className="font-semibold text-technical underline underline-offset-4" href="/podbor/">
+              <a className="font-semibold text-technical underline underline-offset-4" href={mountSelectionHref}>
                 Проверить модель и кронштейн
               </a>
             </div>

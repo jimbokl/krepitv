@@ -27,6 +27,7 @@ import {
 } from "../components/TvTrafficTaskWizard.jsx";
 import { TvEnergyCalculator } from "../components/TvEnergyCalculator.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
+import { MountFunnelNextStep } from "../components/MountFunnelNextStep.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TiltAngleCalculator } from "../components/TiltAngleCalculator.jsx";
@@ -548,6 +549,8 @@ function SeoArticle({ catalog, page }) {
             </nav>
           </aside>
         </div>
+
+        <MountFunnelNextStep />
 
         <section className="mt-12 border-t-2 border-ink pt-6" aria-labelledby="more-title">
           <div className="flex flex-wrap items-end justify-between gap-3">

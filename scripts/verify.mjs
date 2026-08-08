@@ -14,6 +14,7 @@ const corePagesUpdatedAt = "2026-08-05";
 const marketModelsUpdatedAt = "2026-08-05";
 const modelPagesUpdatedAt = "2026-08-05";
 const trafficPagesUpdatedAt = "2026-08-06";
+const seoFunnelUpdatedAt = "2026-08-08";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
@@ -1623,6 +1624,18 @@ for (const page of seoPages) {
   ) {
     throw new Error(`SEO-страница не содержит полного статического материала: ${page.path}`);
   }
+
+  const funnelMarkers = html.match(/data-mount-funnel-next-step="true"/g) ?? [];
+  const funnelSection = html.match(/<section\b[^>]*data-mount-funnel-next-step="true"[^>]*>[\s\S]*?<\/section>/i)?.[0] ?? "";
+  if (
+    funnelMarkers.length !== 1
+    || !funnelSection.includes('href="/podbor/"')
+    || !funnelSection.includes("От результата мастера — к совместимому кронштейну")
+    || !funnelSection.includes("Маркет откроется только после выбора подтверждённого совместимого кронштейна")
+    || funnelSection.includes("market.yandex.ru")
+  ) {
+    throw new Error(`SEO-страница не содержит безопасную цепочку мастер → подбор → кронштейн → Маркет: ${page.path}`);
+  }
 }
 
 const dailyEvidenceGuidePages = seoPages.filter((page) => page.guide);
@@ -2162,7 +2175,7 @@ for (const page of indexableSeoPages) {
   if (/\bnoindex\b/i.test(robots) || !sitemapPaths.has(page.path)) {
     throw new Error(`Индексируемая SEO-страница отсутствует в sitemap или закрыта: ${page.path}`);
   }
-  const expectedLastmod = page.guide
+  const contentLastmod = page.guide
     ? page.guide.updated_at
     : [
     "phone-to-tv",
@@ -2193,6 +2206,7 @@ for (const page of indexableSeoPages) {
       ].includes(page.id)
       ? trafficPagesUpdatedAt
       : corePagesUpdatedAt;
+  const expectedLastmod = [contentLastmod, seoFunnelUpdatedAt].sort().at(-1);
   if (sitemapLastmods.get(page.path) !== expectedLastmod) {
     throw new Error(`SEO-страница имеет неточный sitemap lastmod: ${page.path}`);
   }

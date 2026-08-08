@@ -3,7 +3,10 @@ import { ArrowRight, Info, WarningCircle } from "@phosphor-icons/react";
 import { useCompatibility } from "../hooks/useCompatibility.js";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 import { ModelSearch } from "./ModelSearch.jsx";
-import { CompatibilityResult } from "../pages/GuidedSelectionPage.jsx";
+import {
+  CompatibilityResult,
+  verifiedCompatibilityMatches,
+} from "../pages/GuidedSelectionPage.jsx";
 
 export function BrandMountMatcher({
   affiliateOffers = [],
@@ -22,11 +25,13 @@ export function BrandMountMatcher({
   );
   const compatibility = useCompatibility(selectedModel, brandMounts, "any");
   const compatible = useMemo(
-    () => compatibility.matches.filter((item) => item.compatible),
+    () => verifiedCompatibilityMatches(compatibility.matches),
     [compatibility.matches],
   );
   const incompatible = useMemo(
-    () => compatibility.matches.filter((item) => !item.compatible),
+    () => compatibility.matches.filter(
+      (item) => !(item?.compatible === true && item.fit_status === "verified-fit"),
+    ),
     [compatibility.matches],
   );
   const availableOfferMountIds = useMemo(
@@ -136,11 +141,7 @@ export function BrandMountMatcher({
                   <div className="border-t border-line pb-2">
                     {incompatible.map((match) => (
                       <article className="border-b border-line py-4 last:border-b-0" key={match.mount.id}>
-                        <h3 className="font-display text-xl font-bold">
-                          <a className="underline decoration-action decoration-2 underline-offset-4" href={`/kronshteyny/${match.mount.id}/`}>
-                            {match.mount.title}
-                          </a>
-                        </h3>
+                        <h3 className="font-display text-xl font-bold">{match.mount.title}</h3>
                         <ul className="mt-2 space-y-1 text-sm leading-relaxed text-muted">
                           {match.warnings.map((warning) => (
                             <li className="flex gap-2" key={warning}>

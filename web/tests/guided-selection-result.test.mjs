@@ -27,7 +27,11 @@ test("результат подбора сначала показывает тр
   });
 
   try {
-    const { CompatibilityResult, rankCompatibilityMatches } = await vite.ssrLoadModule(
+    const {
+      CompatibilityResult,
+      rankCompatibilityMatches,
+      verifiedCompatibilityMatches,
+    } = await vite.ssrLoadModule(
       "/src/pages/GuidedSelectionPage.jsx",
     );
     const model = { id: "tcl-55c7k", title: "TCL 55C7K" };
@@ -41,6 +45,10 @@ test("результат подбора сначала показывает тр
       match("verified-e", "KROMAX", "verified-fit", 118),
     ];
     const availableOfferMountIds = new Set(["verified-e", "conditional-a"]);
+    assert.deepEqual(
+      verifiedCompatibilityMatches(matches).map((item) => item.mount.id),
+      ["verified-a", "verified-b", "verified-c", "verified-d", "verified-e"],
+    );
     const ranked = rankCompatibilityMatches(matches, availableOfferMountIds);
     assert.deepEqual(ranked.map((item) => item.mount.id), [
       "verified-a",
@@ -79,27 +87,22 @@ test("результат подбора сначала показывает тр
     }));
 
     assert.equal((html.match(/data-result-tier="featured_result"/g) ?? []).length, 3);
-    assert.equal((html.match(/data-result-tier="compatibility_result"/g) ?? []).length, 4);
+    assert.equal((html.match(/data-result-tier="compatibility_result"/g) ?? []).length, 2);
     assert.equal(html.includes("data-result-catalog=\"collapsed\""), true);
-    assert.equal(html.includes("Показать ещё 4 варианта по брендам"), true);
-    assert.equal(html.includes("Полностью проверено: 5"), true);
-    assert.equal(html.includes("Нужна сверка диагонали: 2"), true);
+    assert.equal(html.includes("Показать ещё 2 варианта по брендам"), true);
+    assert.equal(html.includes("Подтверждённых вариантов: 5"), true);
     assert.equal(html.includes("Полностью проверены: 2"), true);
-    assert.equal(html.includes("Нужно сверить диагональ: 2"), true);
-    assert.equal(html.includes("При одинаковой оценке выше варианты с доступной"), true);
-    assert.equal((html.match(/data-market-card-available="true"/g) ?? []).length, 2);
-    assert.equal((html.match(/На момент проверки есть точная карточка на Маркете/g) ?? []).length, 2);
+    assert.equal(html.includes("При одинаковой технической оценке"), true);
+    assert.equal((html.match(/data-market-card-available="true"/g) ?? []).length, 1);
+    assert.equal((html.match(/На момент проверки есть точная карточка на Маркете/g) ?? []).length, 1);
     assert.equal(html.includes("Кронштейнов: 1"), true);
-    assert.equal(html.includes("Сверьте диагональ"), true);
-    assert.equal(html.includes("Диапазон пограничный"), true);
-    assert.equal((html.match(/href="\/kronshteyny\//g) ?? []).length, matches.length * 2);
+    assert.equal(html.includes("Сверьте диагональ"), false);
+    assert.equal(html.includes("Диапазон пограничный"), false);
+    assert.equal((html.match(/href="\/kronshteyny\//g) ?? []).length, 5 * 2);
     assert.ok(html.indexOf("verified-a") < html.indexOf("verified-e"));
     assert.ok(html.indexOf("verified-e") < html.indexOf("verified-b"));
-    assert.ok(html.indexOf("verified-a") < html.indexOf("conditional-a"));
-    assert.ok(html.indexOf("verified-b") < html.indexOf("conditional-a"));
-    assert.ok(html.indexOf("verified-c") < html.indexOf("conditional-a"));
-    assert.ok(html.indexOf("verified-d") < html.indexOf("conditional-a"));
-    assert.ok(html.indexOf("verified-e") < html.indexOf("conditional-a"));
+    assert.equal(html.includes("conditional-a"), false);
+    assert.equal(html.includes("conditional-b"), false);
     assert.equal(html.includes("Найдено совместимых вариантов"), false);
     assert.equal(html.includes("Открыть карточку модели"), false);
     assert.equal(html.includes("https://market.yandex.ru"), false);

@@ -99,6 +99,12 @@ export function findGuidedModel(models, brand, modelId) {
   ) ?? null;
 }
 
+export function verifiedCompatibilityMatches(matches) {
+  return (Array.isArray(matches) ? matches : []).filter(
+    (item) => item?.compatible === true && item.fit_status === "verified-fit",
+  );
+}
+
 export function GuidedSelectionPage({ catalog }) {
   const queryModelId = new URLSearchParams(window.location.search).get("model");
   const initialModel = catalog.models.find((model) => model.id === queryModelId) ?? null;
@@ -111,6 +117,7 @@ export function GuidedSelectionPage({ catalog }) {
   const [selectedModel, setSelectedModel] = useState(initialModel);
   const [wall, setWall] = useState("");
   const [mechanism, setMechanism] = useState("");
+  const [focusedSelect, setFocusedSelect] = useState(initialModel ? "model" : "brand");
   const [compatibilityAttempt, setCompatibilityAttempt] = useState(0);
   const mechanismSelectionRef = useRef(null);
   const emittedSelectionRef = useRef(0);
@@ -126,7 +133,7 @@ export function GuidedSelectionPage({ catalog }) {
     compatibilityAttempt,
   );
   const compatible = useMemo(
-    () => compatibility.matches.filter((item) => item.compatible),
+    () => verifiedCompatibilityMatches(compatibility.matches),
     [compatibility.matches],
   );
   const availableOfferMountIds = useMemo(
@@ -179,6 +186,7 @@ export function GuidedSelectionPage({ catalog }) {
   function submitBrand(event) {
     event.preventDefault();
     if (!brandOptions.some((option) => option.brand === brand)) return;
+    setFocusedSelect("model");
     setStep(2);
   }
 
@@ -199,6 +207,7 @@ export function GuidedSelectionPage({ catalog }) {
     setMechanism("");
     setSelectedModel(model);
     setCompatibilityAttempt(0);
+    setFocusedSelect("");
     setStep(3);
   }
 
@@ -286,9 +295,11 @@ export function GuidedSelectionPage({ catalog }) {
                     <div className="relative min-w-0">
                       <select
                         autoFocus
-                        className="h-[4.4rem] w-full min-w-0 appearance-none rounded-md border-2 border-ink bg-white px-3 pr-10 text-base text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 sm:px-5 sm:pr-14 sm:text-xl"
+                        className={`h-[4.4rem] w-full min-w-0 appearance-none rounded-md border-2 bg-white px-3 pr-10 text-base text-ink outline-none transition focus:border-action sm:px-5 sm:pr-14 sm:text-xl ${focusedSelect === "brand" ? "border-action shadow-[0_0_0_4px_#c83a08]" : "border-ink"}`}
                         id="guided-tv-brand"
+                        onBlur={() => setFocusedSelect("")}
                         onChange={(event) => changeBrand(event.target.value)}
+                        onFocus={() => setFocusedSelect("brand")}
                         value={brand}
                       >
                         <option value="">Выберите марку</option>
@@ -319,9 +330,11 @@ export function GuidedSelectionPage({ catalog }) {
                     <div className="relative min-w-0">
                       <select
                         autoFocus
-                        className="h-[4.4rem] w-full min-w-0 appearance-none rounded-md border-2 border-ink bg-white px-3 pr-10 text-base text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20 sm:px-5 sm:pr-14 sm:text-xl"
+                        className={`h-[4.4rem] w-full min-w-0 appearance-none rounded-md border-2 bg-white px-3 pr-10 text-base text-ink outline-none transition focus:border-action sm:px-5 sm:pr-14 sm:text-xl ${focusedSelect === "model" ? "border-action shadow-[0_0_0_4px_#c83a08]" : "border-ink"}`}
                         id="guided-tv-model"
+                        onBlur={() => setFocusedSelect("")}
                         onChange={(event) => changeModel(event.target.value)}
+                        onFocus={() => setFocusedSelect("model")}
                         value={selectedModel?.id ?? ""}
                       >
                         <option value="">Выберите</option>
@@ -541,7 +554,8 @@ export function CompatibilityResult({
       </div>
     );
   }
-  if (!matches.length) {
+  const verifiedMatches = verifiedCompatibilityMatches(matches);
+  if (!verifiedMatches.length) {
     return (
       <div
         className="mt-7 border-t-2 border-ink pt-5"
@@ -561,23 +575,14 @@ export function CompatibilityResult({
     );
   }
 
-  const rankedMatches = rankCompatibilityMatches(matches, availableOfferMountIds);
+  const rankedMatches = rankCompatibilityMatches(verifiedMatches, availableOfferMountIds);
   const shortlist = rankedMatches.slice(0, 3);
   const remaining = rankedMatches.slice(3);
-  const verifiedCount = rankedMatches.filter(
-    (item) => item.fit_status === "verified-fit",
-  ).length;
-  const conditionalCount = rankedMatches.length - verifiedCount;
   const remainingSections = [
     {
       id: "verified",
       title: "Полностью проверены",
-      items: remaining.filter((item) => item.fit_status === "verified-fit"),
-    },
-    {
-      id: "conditional",
-      title: "Нужно сверить диагональ",
-      items: remaining.filter((item) => item.fit_status !== "verified-fit"),
+      items: remaining,
     },
   ]
     .filter((section) => section.items.length)
@@ -594,14 +599,12 @@ export function CompatibilityResult({
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="font-display text-2xl font-bold">
-            Найдено вариантов: {matches.length}
+            Подтверждённых вариантов: {rankedMatches.length}
           </p>
           <p className="mt-1 text-sm leading-relaxed text-muted">
-            Полностью проверено: {verifiedCount}
-            {conditionalCount ? ` · Нужна сверка диагонали: ${conditionalCount}` : ""}.
-            Сначала показываем варианты с полной проверкой и более высокой
-            технической оценкой. При одинаковой оценке выше варианты с доступной
-            точной карточкой Маркета.
+            Все показанные варианты прошли проверку VESA, нагрузки с запасом и
+            паспортного диапазона диагонали. При одинаковой технической оценке
+            выше варианты с доступной точной карточкой Маркета.
           </p>
         </div>
         <a className="text-sm font-semibold text-technical underline underline-offset-4" href={modelHref(model)}>
@@ -630,7 +633,7 @@ export function CompatibilityResult({
           <div className="border-t border-line pb-3">
             {remainingSections.map((section) => (
               <section className="border-b border-line py-5 last:border-b-0" key={section.id}>
-                <h3 className={`font-mono text-xs uppercase ${section.id === "verified" ? "text-verified" : "text-action"}`}>
+                <h3 className="font-mono text-xs uppercase text-verified">
                   {section.title}: {section.items.length}
                 </h3>
                 {section.groups.map((group) => (

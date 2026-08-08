@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "task_id": "20260808-master-to-market-funnel",
+  "commands": [
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["SSR", "React", "Rust", "WASM", "Russian UI", "85/85 safe funnels", "25/25 mount-to-Market pages"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260808-master-to-market-funnel --files web/src/pages/SeoPage.jsx web/src/components/MountFunnelNextStep.jsx web/src/pages/GuidedSelectionPage.jsx web/src/components/BrandMountMatcher.jsx web/src/pages/ModelPage.jsx web/src/components/HeightCalculator.jsx",
+      "exit_code": 0,
+      "covers": ["Tailwind tokens", "responsive CTA", "focus", "reading order"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "evidence/screenshots/funnel-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "cta_visible": true}
+    },
+    {
+      "id": "empty-tablet-invariant",
+      "path": "evidence/screenshots/funnel-tablet.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_funnel_invariant": true}
+    },
+    {
+      "id": "loading-desktop-invariant",
+      "path": "evidence/screenshots/funnel-desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_funnel_invariant": true}
+    },
+    {
+      "id": "error-mobile-invariant",
+      "path": "evidence/screenshots/funnel-mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_funnel_invariant": true}
+    },
+    {
+      "id": "success-selection",
+      "path": "evidence/screenshots/podbor-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "three_mount_cards": true, "no_direct_market_bypass": true}
+    },
+    {
+      "id": "disabled-tablet",
+      "path": "evidence/screenshots/podbor-focus.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true}
+    },
+    {
+      "id": "focus-tablet",
+      "path": "evidence/screenshots/podbor-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "keyboard_focus_ring_visible": true, "focused_model_select": true}
+    },
+    {
+      "id": "mount-to-market",
+      "path": "evidence/screenshots/mount-market.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "direct_market_cta_visible": true, "exact_mount_query_visible": true}
+    },
+    {
+      "id": "mobile-text-zoom",
+      "path": "evidence/screenshots/funnel-mobile-200-text.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_200": true, "wcag_text_spacing": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Leibniz the 2nd (/root/funnel_design_review)",
+    "independent": true,
+    "verdict": "pass",
+    "findings": []
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

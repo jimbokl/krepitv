@@ -346,13 +346,21 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
             </ul>
           </div>
           <div className="flex flex-col items-start gap-2 sm:items-end">
-            <MountDetailLink
-              className="secondary-button"
-              href={mountHref(mount)}
-              placement="compatibility_result"
-            >
-              Кронштейн {mount.title} <ArrowRight aria-hidden="true" />
-            </MountDetailLink>
+            {fitStatus === "verified-fit" && !vesaConflict ? (
+              <MountDetailLink
+                className="secondary-button"
+                href={mountHref(mount)}
+                placement="compatibility_result"
+              >
+                Кронштейн {mount.title} <ArrowRight aria-hidden="true" />
+              </MountDetailLink>
+            ) : (
+              <span className="max-w-64 text-sm font-semibold leading-relaxed text-action">
+                {vesaConflict
+                  ? "Переход к покупке закрыт до ручной сверки VESA"
+                  : "Переход к покупке закрыт до сверки диапазона диагонали"}
+              </span>
+            )}
           </div>
         </article>
         )}

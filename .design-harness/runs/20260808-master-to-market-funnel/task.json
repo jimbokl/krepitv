@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "id": "20260808-master-to-market-funnel",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-08T12:09:21.659517+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "web/src/pages/SeoPage.jsx",
+    "web/src/pages/GuidedSelectionPage.jsx",
+    "web/src/pages/ModelPage.jsx",
+    "web/src/components/BrandMountMatcher.jsx",
+    "web/src/components/HeightCalculator.jsx",
+    "web/src/components/MountFunnelNextStep.jsx",
+    "web/tests/seo-pages.test.mjs",
+    "web/tests/mount-funnel.test.mjs",
+    "crates/sitegen/src/main.rs",
+    "scripts/verify.mjs",
+    ".design-harness/runs/20260808-master-to-market-funnel/**",
+    "docs/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["SSR", "React", "Rust", "WASM", "Russian UI", "affiliate graph"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260808-master-to-market-funnel --files web/src/pages/SeoPage.jsx web/src/components/MountFunnelNextStep.jsx web/src/pages/GuidedSelectionPage.jsx web/src/components/BrandMountMatcher.jsx web/src/pages/ModelPage.jsx web/src/components/HeightCalculator.jsx",
+      "required": true,
+      "covers": ["Tailwind tokens", "responsive CTA", "focus", "reading order"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id": "funnel-heading", "value": "От результата мастера — к совместимому кронштейну", "strategy": "deterministic-overlay"},
+    {"id": "funnel-action", "value": "Подобрать кронштейн", "strategy": "deterministic-overlay"},
+    {"id": "market-boundary", "value": "Маркет откроется только после выбора подтверждённого совместимого кронштейна.", "strategy": "deterministic-overlay"}
+  ],
+  "claims": [
+    {"id": "selection-chain", "text": "Подбор по точной модели ведёт только к совместимым карточкам кронштейнов.", "source_ids": ["selection-source", "graph-data"]},
+    {"id": "market-chain", "text": "Карточка каждого кронштейна содержит прямой переход на Яндекс Маркет или точный поиск модели.", "source_ids": ["mount-source", "verify-source"]}
+  ],
+  "sources": [
+    {"id": "selection-source", "path": "web/src/pages/GuidedSelectionPage.jsx", "retrieved_at": "2026-08-08T12:09:21Z", "notes": "Успешный shortlist и ссылки на карточки кронштейнов."},
+    {"id": "graph-data", "path": "docs/data/compatibility-graph.json", "retrieved_at": "2026-08-08T12:09:21Z", "notes": "Проверенные рёбра совместимости телевизор → кронштейн в production artifact."},
+    {"id": "mount-source", "path": "web/src/pages/MountPage.jsx", "retrieved_at": "2026-08-08T12:09:21Z", "notes": "Прямая ссылка Маркета и fail-closed fallback."},
+    {"id": "verify-source", "path": "scripts/verify.mjs", "retrieved_at": "2026-08-08T12:09:21Z", "notes": "Whole-site проверки 25 карточек кронштейнов и ссылок Маркета."}
+  ]
+}

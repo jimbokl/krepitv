@@ -85,7 +85,9 @@ test("результат высоты ведёт к монтажной карт�
   assert.match(calculatorSource, /data-print-map="true"/u);
   assert.match(calculatorSource, /window\.print\(\)/u);
   assert.match(calculatorSource, /href="\/kak-povesit-televizor-na-stenu\/"/u);
-  assert.match(calculatorSource, /href="\/podbor\/"/u);
+  assert.match(calculatorSource, /href=\{mountSelectionHref\}/u);
+  assert.match(calculatorSource, /`\/podbor\/\?model=\$\{encodeURIComponent\(model\.id\)\}`/u);
+  assert.match(calculatorSource, /: "\/podbor\/"/u);
   assert.doesNotMatch(calculatorSource, /market\.yandex\.ru/u);
   assert.match(guideSource, /data-height-room-scenarios="true"/u);
   assert.match(guideSource, /data-height-reference-table="true"/u);

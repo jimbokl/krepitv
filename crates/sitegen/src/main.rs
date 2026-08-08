@@ -10,6 +10,7 @@ const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
 const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
 const CORE_PAGES_UPDATED_AT: &str = "2026-08-05";
 const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-06";
+const SEO_FUNNEL_UPDATED_AT: &str = "2026-08-08";
 const MARKET_MODELS_UPDATED_AT: &str = "2026-08-05";
 const MODEL_PAGES_UPDATED_AT: &str = "2026-08-05";
 const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
@@ -849,7 +850,7 @@ fn seo_evidence_guide_json_ld(page: &SeoPage, canonical: &str) -> Option<String>
 }
 
 fn seo_page_lastmod(page: &SeoPage) -> &str {
-    if let Some(guide) = &page.guide {
+    let content_lastmod = if let Some(guide) = &page.guide {
         guide.updated_at.as_str()
     } else if matches!(
         page.id.as_str(),
@@ -882,7 +883,8 @@ fn seo_page_lastmod(page: &SeoPage) -> &str {
         TRAFFIC_PAGES_UPDATED_AT
     } else {
         CORE_PAGES_UPDATED_AT
-    }
+    };
+    content_lastmod.max(SEO_FUNNEL_UPDATED_AT)
 }
 
 fn format_mm(value: f64) -> String {
@@ -3541,14 +3543,20 @@ fn seo_page_body(
             "{brand_matcher_note}{facts_section}{buy_mount_comparison}{catalog}{calculator_note}"
         )
     };
+    let mount_funnel_next_step = seo_mount_funnel_next_step_html();
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section><section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section><p><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/podbor/\">Проверить точную модель телевизора</a></p></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
         page_kind_label = escape_html(page_kind_label),
         h1 = escape_html(&page.h1),
         lead = escape_html(&page.lead),
         answer_content = answer_content,
+        mount_funnel_next_step = mount_funnel_next_step,
     ))
+}
+
+fn seo_mount_funnel_next_step_html() -> &'static str {
+    r#"<section aria-labelledby="mount-funnel-next-step-title" class="mt-12 border-y-2 border-ink py-7" data-mount-funnel-next-step="true"><div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end"><div><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Следующий шаг после результата</p><h2 class="mt-2 max-w-4xl break-words font-display text-[clamp(0.875rem,7.5vw,1.875rem)] font-extrabold leading-tight" id="mount-funnel-next-step-title">От результата мастера — к совместимому кронштейну</h2><p class="mt-3 max-w-3xl leading-relaxed text-muted">Сначала завершите текущую проверку. Затем укажите точную модель телевизора — подбор покажет только подтверждённые совместимые варианты.</p></div><a class="primary-button w-full justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 lg:w-auto" href="/podbor/">Подобрать кронштейн <span aria-hidden="true">→</span></a></div><ol class="mt-6 grid gap-px border border-ink bg-ink sm:grid-cols-3"><li class="min-w-0 bg-paper p-4"><span class="font-mono text-xs text-action">01</span><strong class="mt-2 block font-display text-xl font-extrabold">Точная модель</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Выберите марку и полный код телевизора из проверенного каталога.</span></li><li class="min-w-0 bg-paper p-4"><span class="font-mono text-xs text-action">02</span><strong class="mt-2 block font-display text-xl font-extrabold">Совместимый кронштейн</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Сервис сверит VESA, массу с запасом и диапазон диагонали.</span></li><li class="min-w-0 bg-paper p-4"><span class="font-mono text-xs text-action">03</span><strong class="mt-2 block font-display text-xl font-extrabold">Яндекс Маркет</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Откройте карточку выбранного кронштейна и проверьте актуальное предложение.</span></li></ol><p class="mt-4 border-l-2 border-technical pl-4 text-sm leading-relaxed text-muted">Маркет откроется только после выбора подтверждённого совместимого кронштейна. Если проверенного варианта нет, сервис не подменяет его случайным товаром.</p></section>"#
 }
 
 fn seo_page_kind_label(page: &SeoPage) -> &'static str {
@@ -5363,9 +5371,9 @@ fn write_model_offer_shards(source: &Path, target: &Path, models: &[TvModel]) {
 #[cfg(test)]
 mod tests {
     use super::{
-        CommercialProfilesFile, HeadExtras, MarketTvModelsFile, PublicAffiliateSnapshot, SeoPage,
-        TRAFFIC_PAGES_UPDATED_AT, TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage, TvModel,
-        VESA_DATASET_RELEASE_URL, affiliate_offer_placeholder_html, brand_catalog_html,
+        CommercialProfilesFile, HeadExtras, MarketTvModelsFile, PublicAffiliateSnapshot,
+        SEO_FUNNEL_UPDATED_AT, SeoPage, TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage,
+        TvModel, VESA_DATASET_RELEASE_URL, affiliate_offer_placeholder_html, brand_catalog_html,
         build_compatibility_graph, commercial_profile_for, contains_verified_compatibility_count,
         dataset_json_ld, escape_html, exact_metric_screw_claims, home_page_body, html_shell,
         is_indexable_model, is_indexable_mount, is_indexable_seo_page,
@@ -6217,7 +6225,7 @@ mod tests {
             assert!(page.indexable);
             assert!(page.facts.len() >= 6);
             assert!(page.faq.len() >= 6);
-            assert_eq!(seo_page_lastmod(page), TRAFFIC_PAGES_UPDATED_AT);
+            assert_eq!(seo_page_lastmod(page), SEO_FUNNEL_UPDATED_AT);
 
             let static_answer = seo_calculator_note(id);
             for source_id in source_ids {
@@ -6328,7 +6336,7 @@ mod tests {
             assert!(page.home_priority.is_some());
             assert!(page.facts.len() >= 6);
             assert!(page.faq.len() >= 6);
-            assert_eq!(seo_page_lastmod(page), TRAFFIC_PAGES_UPDATED_AT);
+            assert_eq!(seo_page_lastmod(page), SEO_FUNNEL_UPDATED_AT);
 
             let static_answer = seo_calculator_note(id);
             assert!(static_answer.contains(&format!("data-tv-utility-answer=\"{id}\"")));

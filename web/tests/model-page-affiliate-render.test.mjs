@@ -145,11 +145,13 @@ test("карточка модели выводит только три model-spe
     );
     assert.equal((html.match(/rel="sponsored nofollow noopener noreferrer"/g) ?? []).length, 3);
     assert.equal(html.includes("Подробнее о совместимости"), false);
-    for (const item of mounts) {
+    for (const item of mounts.slice(0, -1)) {
       assert.equal(html.includes(`Кронштейн ${item.title}`), true);
     }
+    assert.equal(html.includes("Holder holder-conditional"), true);
+    assert.equal(html.includes("Переход к покупке закрыт до сверки диапазона диагонали"), true);
     assert.equal((html.match(/data-mount-detail-placement="featured_result"/g) ?? []).length, 6);
-    assert.equal((html.match(/data-mount-detail-placement="compatibility_result"/g) ?? []).length, mounts.length);
+    assert.equal((html.match(/data-mount-detail-placement="compatibility_result"/g) ?? []).length, mounts.length - 1);
     assert.equal(html.includes("data-affiliate-placement-id=\"market-onkron-tm6\""), false);
     assert.equal(html.includes("data-wall-mount-screws=\"true\""), true);
     assert.equal(html.includes("data-compatibility-proof=\"true\""), true);
