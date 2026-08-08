@@ -1203,6 +1203,23 @@ for (const file of pageHtmlFiles) {
       }
       continue;
     }
+    if (matchAttribute(link, "data-market-link") === "search") {
+      const searchUrl = new URL(marketHref);
+      const rel = new Set((matchAttribute(link, "rel") ?? "").split(/\s+/u));
+      if (
+        searchUrl.origin !== "https://market.yandex.ru"
+        || searchUrl.pathname !== "/search"
+        || !searchUrl.searchParams.get("text")
+        || [...searchUrl.searchParams.keys()].join(",") !== "text"
+        || matchAttribute(link, "target") !== "_blank"
+        || !rel.has("nofollow")
+        || !rel.has("noopener")
+        || !rel.has("noreferrer")
+      ) {
+        throw new Error(`Поиск модели в Маркете оформлен небезопасно: ${path.relative(root, file)}`);
+      }
+      continue;
+    }
     if (publishableAffiliateHrefs.has(marketHref)) {
       throw new Error(`Партнёрский URL попал в статический HTML: ${path.relative(root, file)}`);
     }
@@ -1427,6 +1444,52 @@ for (const offer of publishableAffiliateOffers) {
   if (leakedLink) {
     throw new Error(`Партнёрский URL попал в статический HTML: ${offer.id}`);
   }
+}
+
+let mountMarketSearchLinkCount = 0;
+for (const mount of mounts) {
+  const route = `/kronshteyny/${mount.id}/`;
+  const html = htmlByRoute.get(route);
+  if (!html) throw new Error(`Нет страницы кронштейна для проверки Маркета: ${mount.id}`);
+
+  const matchingLinks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
+    (tag) => matchAttribute(tag, "data-market-mount-search") === "true",
+  );
+  if (matchingLinks.length !== 1) {
+    throw new Error(
+      `Страница ${route} должна содержать ровно один постоянный поиск Маркета, получено ${matchingLinks.length}`,
+    );
+  }
+
+  const link = matchingLinks[0];
+  if (matchAttribute(link, "data-market-link") !== "search") {
+    throw new Error(`Постоянная ссылка не помечена как точный поиск Маркета: ${route}`);
+  }
+  const href = decodeHtmlAttribute(matchAttribute(link, "href"));
+  const url = new URL(href);
+  if (
+    url.origin !== "https://market.yandex.ru"
+    || url.pathname !== "/search"
+    || url.searchParams.get("text") !== mount.title
+    || [...url.searchParams.keys()].join(",") !== "text"
+  ) {
+    throw new Error(`Страница ${route} ведёт не на точный поиск своей модели в Маркете`);
+  }
+  const rel = new Set((matchAttribute(link, "rel") ?? "").split(/\s+/u));
+  if (
+    matchAttribute(link, "target") !== "_blank"
+    || !rel.has("nofollow")
+    || !rel.has("noopener")
+    || !rel.has("noreferrer")
+  ) {
+    throw new Error(`Постоянная ссылка Маркета небезопасна: ${route}`);
+  }
+  mountMarketSearchLinkCount += 1;
+}
+if (mountMarketSearchLinkCount !== mounts.length) {
+  throw new Error(
+    `Постоянный поиск Маркета покрывает ${mountMarketSearchLinkCount}/${mounts.length} кронштейнов`,
+  );
 }
 
 const titles = [...htmlByRoute.entries()].map(([route, html]) => ({

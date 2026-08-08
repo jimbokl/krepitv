@@ -453,6 +453,26 @@ fn escape_html(value: &str) -> String {
         .replace('\'', "&#39;")
 }
 
+fn encode_query_component(value: &str) -> String {
+    let mut encoded = String::with_capacity(value.len());
+    for byte in value.as_bytes() {
+        match byte {
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
+                encoded.push(char::from(*byte));
+            }
+            _ => encoded.push_str(&format!("%{byte:02X}")),
+        }
+    }
+    encoded
+}
+
+fn market_mount_search_href(title: &str) -> String {
+    format!(
+        "https://market.yandex.ru/search?text={}",
+        encode_query_component(title.trim())
+    )
+}
+
 fn is_valid_iso_date(value: &str) -> bool {
     if value.len() != 10 {
         return false;
@@ -1977,19 +1997,30 @@ fn mount_page_body(
             mount.wall_distance_min_mm, mount.wall_distance_max_mm
         )
     };
-    let affiliate_section = affiliate_offers
-        .iter()
-        .find(|offer| {
-            offer.entity_id == mount.id
-                && is_publishable_affiliate_offer(offer, affiliate_now_seconds)
-        })
-        .map(|offer| {
-            format!(
-                "<section class=\"border-t-2 border-ink py-8\">{}</section>",
-                affiliate_offer_placeholder_html(offer, 2),
-            )
-        })
+    let affiliate_offer = affiliate_offers.iter().find(|offer| {
+        offer.entity_id == mount.id && is_publishable_affiliate_offer(offer, affiliate_now_seconds)
+    });
+    let affiliate_placeholder = affiliate_offer
+        .map(|offer| affiliate_offer_placeholder_html(offer, 2))
         .unwrap_or_default();
+    let market_search_href = market_mount_search_href(&mount.title);
+    let market_search_fallback = if affiliate_offer.is_some() {
+        format!(
+            "<p class=\"mt-4 text-sm leading-relaxed text-muted\">Карточка недоступна в вашем регионе? <a class=\"font-semibold text-technical underline underline-offset-4\" data-market-link=\"search\" data-market-mount-search=\"true\" href=\"{href}\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Посмотреть другие предложения {title}</a></p>",
+            href = escape_html(&market_search_href),
+            title = escape_html(&mount.title),
+        )
+    } else {
+        format!(
+            "<aside class=\"border-2 border-ink bg-white p-5\" data-market-search-fallback=\"true\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Поиск по точной модели</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найти {title} на Яндекс Маркете</h2><p class=\"mt-3 max-w-3xl text-sm leading-relaxed text-muted\">Откроется выдача только по названию этой модели. Перед покупкой сверьте маркировку, VESA, нагрузку и комплектацию с данными выше.</p><a class=\"mt-5 inline-flex min-h-12 items-center gap-2 border-2 border-ink bg-action px-5 py-3 font-display text-lg font-extrabold text-white shadow-[4px_4px_0_#111111]\" data-market-link=\"search\" data-market-mount-search=\"true\" href=\"{href}\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Открыть Яндекс Маркет <span aria-hidden=\"true\">↗</span></a></aside>",
+            title = escape_html(&mount.title),
+            href = escape_html(&market_search_href),
+        )
+    };
+    let market_section = format!(
+        "<section aria-label=\"Предложения Яндекс Маркета для {title}\" class=\"border-b-2 border-ink py-7\" data-market-mount-section=\"true\">{affiliate_placeholder}{market_search_fallback}</section>",
+        title = escape_html(&mount.title),
+    );
     let mut context_links = vec![(
         "/kupit-kronshteyn-dlya-televizora/",
         "Сравнить все проверенные кронштейны",
@@ -2058,7 +2089,7 @@ fn mount_page_body(
     );
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{fit_summary}{commercial_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Характеристики кронштейна проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" {source_attributes}>Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section>{technical_scheme}{context_section}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{fit_summary}{commercial_section}{market_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Характеристики кронштейна проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" {source_attributes}>Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section>{technical_scheme}{context_section}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -2071,7 +2102,7 @@ fn mount_page_body(
         source_label = escape_html(&mount.source_label),
         source_attributes = source_attributes,
         fit_summary = fit_summary,
-        affiliate_section = affiliate_section,
+        market_section = market_section,
         context_section = context_section,
         commercial_section = commercial_section,
         technical_scheme = technical_scheme,
@@ -5308,16 +5339,16 @@ mod tests {
         build_compatibility_graph, commercial_profile_for, contains_verified_compatibility_count,
         dataset_json_ld, escape_html, exact_metric_screw_claims, home_page_body, html_shell,
         is_indexable_model, is_indexable_mount, is_indexable_seo_page,
-        is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script, matcher_page_body,
-        model_mount_matches, model_offer_shard_key, model_page_body, mount_page_body,
-        mount_technical_scheme_html, mounts_catalog_body, not_found_page_html,
-        observed_model_page_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
-        russian_plural_label, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_page_body, seo_page_kind_label,
-        seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer,
-        static_header, trust_page_body, tv_product_json_ld, validate_commercial_profiles,
-        validate_market_models, validate_seo_pages, validate_trust_pages, wall_mount_screws_html,
-        workspace_root,
+        is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
+        market_mount_search_href, matcher_page_body, model_mount_matches, model_offer_shard_key,
+        model_page_body, mount_page_body, mount_technical_scheme_html, mounts_catalog_body,
+        not_found_page_html, observed_model_page_body, parse_rfc3339_utc_seconds, read_json,
+        related_seo_pages, russian_plural_label, seo_brand_mount_matcher_html,
+        seo_buy_mount_comparison_html, seo_calculator_note, seo_catalog_html, seo_page_body,
+        seo_page_kind_label, seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html,
+        static_footer, static_header, trust_page_body, tv_product_json_ld,
+        validate_commercial_profiles, validate_market_models, validate_seo_pages,
+        validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -7260,6 +7291,31 @@ mod tests {
     }
 
     #[test]
+    fn every_mount_page_has_an_exact_direct_market_search_in_ssr() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let graph = build_compatibility_graph(&models, &mounts);
+
+        for mount in &mounts {
+            let body = mount_page_body(mount, &models, &graph, &[], 0, None);
+            let expected_href = escape_html(&market_mount_search_href(&mount.title));
+
+            assert_eq!(
+                body.matches("data-market-mount-search=\"true\"").count(),
+                1,
+                "SSR-страница {} должна содержать один постоянный поиск Маркета",
+                mount.id
+            );
+            assert!(body.contains("data-market-search-fallback=\"true\""));
+            assert!(body.contains(&format!("href=\"{expected_href}\"")));
+            assert!(body.contains("rel=\"nofollow noopener noreferrer\""));
+            assert!(body.contains("target=\"_blank\""));
+            assert!(body.contains("Открыть Яндекс Маркет"));
+        }
+    }
+
+    #[test]
     fn compatibility_graph_contains_only_useful_edges_and_mount_pages_are_reciprocal() {
         let root = workspace_root();
         let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
@@ -7363,6 +7419,8 @@ mod tests {
         assert!(scheme_position < context_position);
         assert!(!body.contains("data-affiliate-offer-id="));
         assert!(!body.contains(&escape_html(&offer.affiliate_href)));
+        assert_eq!(body.matches("data-market-mount-search=\"true\"").count(), 1);
+        assert!(body.contains(&escape_html(&market_mount_search_href(&mount.title))));
     }
 
     #[test]

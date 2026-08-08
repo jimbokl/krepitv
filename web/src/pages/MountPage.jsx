@@ -18,6 +18,7 @@ import { formatNumber } from "../components/ModelFacts.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
+import { marketMountSearchHref } from "../lib/marketSearch.mjs";
 import { pluralizeRu } from "../lib/russianGrammar.js";
 import { selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
 import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
@@ -66,6 +67,7 @@ export function MountPage({ catalog, mountId }) {
     entityId: mount.id,
     pagePath: `/kronshteyny/${mount.id}/`,
   });
+  const marketSearchHref = marketMountSearchHref(mount.title);
 
   return (
     <main className="min-h-screen bg-paper text-ink">
@@ -107,15 +109,57 @@ export function MountPage({ catalog, mountId }) {
 
         <CommercialProfile profile={commercialProfile} />
 
-        {affiliateOffer ? (
-          <section className="border-b-2 border-ink py-7">
+        <section
+          aria-label={`Предложения Яндекс Маркета для ${mount.title}`}
+          className="border-b-2 border-ink py-7"
+          data-market-mount-section="true"
+        >
+          {affiliateOffer ? (
             <AffiliateOffer offer={affiliateOffer}>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 Ссылка ведёт прямо на карточку этого кронштейна, а не на похожую модель.
               </p>
             </AffiliateOffer>
-          </section>
-        ) : null}
+          ) : (
+            <aside className="border-2 border-ink bg-white p-5" data-market-search-fallback="true">
+              <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
+                Поиск по точной модели
+              </p>
+              <h2 className="mt-2 font-display text-3xl font-extrabold">
+                Найти {mount.title} на Яндекс Маркете
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted">
+                Откроется выдача только по названию этой модели. Перед покупкой сверьте маркировку,
+                VESA, нагрузку и комплектацию с данными выше.
+              </p>
+              <a
+                className="mt-5 inline-flex min-h-12 items-center gap-2 border-2 border-ink bg-action px-5 py-3 font-display text-lg font-extrabold text-white shadow-[4px_4px_0_#111111] transition-transform hover:-translate-y-0.5"
+                data-market-link="search"
+                data-market-mount-search="true"
+                href={marketSearchHref}
+                rel="nofollow noopener noreferrer"
+                target="_blank"
+              >
+                Открыть Яндекс Маркет <LinkSimple aria-hidden="true" className="size-5" />
+              </a>
+            </aside>
+          )}
+          {affiliateOffer ? (
+            <p className="mt-4 text-sm leading-relaxed text-muted">
+              Карточка недоступна в вашем регионе?{" "}
+              <a
+                className="font-semibold text-technical underline underline-offset-4"
+                data-market-link="search"
+                data-market-mount-search="true"
+                href={marketSearchHref}
+                rel="nofollow noopener noreferrer"
+                target="_blank"
+              >
+                Посмотреть другие предложения {mount.title}
+              </a>
+            </p>
+          ) : null}
+        </section>
 
         <section className="grid border-b-2 border-ink lg:grid-cols-[minmax(21rem,0.85fr)_minmax(0,1.15fr)]">
           <div className="border-b border-ink py-7 lg:border-b-0 lg:border-r lg:pr-8">
