@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "run_id": "20260808-daily-seo-cohort-2026-08-08",
+  "sealed_at": "2026-08-08T08:35:42.699453+00:00",
+  "task_hash": "sha256:223cd513f81932ef8a32b4c6dd301f3b23ac3138834889b3f8f6b37850128ac6",
+  "evidence_hash": "sha256:058d8d8d28c043b218a84e0ec9057a7576c32ba7638eb51f4bc6c7a25196386d",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/SPEC.md": "sha256:101a4098bd953cb09e7f878cd9fd711181daf2079554682a54ae7c3b0729eff1",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/brief.md": "sha256:4026ed31a389c93af9dec85aabbc3d88162fb341a6c306c41d43be887426da4a",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/component-map.md": "sha256:fcdc0325e5c22bb32e8697014c3bd8c7f266286c5343a5fd92f658a14a620c96",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/discovery.md": "sha256:b741ac1d7b333b500f94c06bf6b22c3508ee1119bb678307f869564a0d50fa05",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/evidence/drift-report.json": "sha256:415ea39fb7b589bbac45b2823f27e26f52976bcffb5ea2a5ae782ab49c39b961",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/evidence/screenshots/desktop-selection.png": "sha256:ec5b279c3ae176206a9b78318bf959209a99d066617437e9a982bf9a9142a76e",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/evidence/screenshots/mobile-gipsokarton-fixed.png": "sha256:a052506b9cd872c3003d69da7f91639225740cb1f8b9b7f2ace6723ff3bb6e20",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/evidence/screenshots/mobile-gipsokarton.png": "sha256:8b092e661fd97d4e159ed8ccfc3f8a4b8ba995ea48fb1abd5a9cd59943873889",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/evidence/screenshots/tablet-vesa.png": "sha256:dda55176ec5e0efb97f71558cadd38d315170ab124a91e22795bf853876d7210",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/evidence.json": "sha256:058d8d8d28c043b218a84e0ec9057a7576c32ba7638eb51f4bc6c7a25196386d",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/review.md": "sha256:bfbf8f24410e677e1d46a70757847da664169588ef14d6819b5beee9a1905ea7",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/task.json": "sha256:223cd513f81932ef8a32b4c6dd301f3b23ac3138834889b3f8f6b37850128ac6",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/visual-direction.md": "sha256:cba42d6e0a8eb05ca8bd708b897dc234db54cfb9c1744998558afc1d5e8db5d2"
+  },
+  "packet_hash": "sha256:1cf518a422acf51857adf0dcff42e0bd0b108f0ac0e511d4fc1ad952142d8a41"
+}

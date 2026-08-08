@@ -17,7 +17,7 @@ const trafficPagesUpdatedAt = "2026-08-06";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 257;
+const baselineIndexableUrlCount = 267;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -448,7 +448,7 @@ const coverageManifest = JSON.parse(
 );
 const seoPages = JSON.parse(await readFile(path.join(docs, "data/seo-pages.json"), "utf8"));
 const dailySeoCohorts = await Promise.all(
-  ["2026-08-06", "2026-08-07"].map(async (date) => JSON.parse(
+  ["2026-08-06", "2026-08-07", "2026-08-08"].map(async (date) => JSON.parse(
     await readFile(path.join(root, `data/research/daily-seo-cohort-${date}.json`), "utf8"),
   )),
 );

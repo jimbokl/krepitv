@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "cohort_date": "2026-08-08",
+  "product": "KREPI TV",
+  "region": "Россия",
+  "source": "Яндекс Wordstat через сохранённые XMLRiver-срезы",
+  "aggregation_rule": "Частотности не складываются между вариантами; для страницы фиксируется один измеренный запрос без дублей.",
+  "release_rule": "Каждая страница даёт самостоятельный русскоязычный ответ, локальный мастер, SSR-таблицу, минимум два официальных источника и безопасную границу.",
+  "pages": [
+    {
+      "id": "selection-choose",
+      "path": "/kak-vybrat-kronshteyn-dlya-televizora/",
+      "query": "как выбрать кронштейн для телевизора",
+      "operator_query": "\"[как выбрать кронштейн для телевизора]\"",
+      "frequency": 703,
+      "interpretation": "Информационный выбор по точной модели, VESA, массе, механизму и стене; не товарная выдача.",
+      "evidence_file": "data/research/problem-intent-demand-2026-07-31.json"
+    },
+    {
+      "id": "wall-drywall-how",
+      "path": "/kak-povesit-televizor-na-gipsokarton/",
+      "query": "как повесить телевизор на гипсокартон",
+      "operator_query": "\"[как повесить телевизор на гипсокартон]\"",
+      "frequency": 495,
+      "interpretation": "Узкий материал о проверке конструкции ГКЛ и передаче расчёта крепежа специалисту.",
+      "evidence_file": "data/research/problem-intent-demand-2026-07-31.json"
+    },
+    {
+      "id": "wall-concrete-dowel",
+      "path": "/kak-povesit-televizor-na-betonnuyu-stenu/",
+      "query": "дюбель для кронштейна телевизора",
+      "operator_query": "\"[дюбель для кронштейна телевизора]\"",
+      "frequency": 423,
+      "interpretation": "Материал отделяет подтверждение бетона и анкера от геометрии установки телевизора.",
+      "evidence_file": "data/research/problem-intent-demand-2026-07-31.json"
+    },
+    {
+      "id": "wall-aerated-how",
+      "path": "/kak-povesit-televizor-na-gazobeton/",
+      "query": "как повесить телевизор на газобетон",
+      "operator_query": "\"[как повесить телевизор на газобетон]\"",
+      "frequency": 44,
+      "interpretation": "Отдельная ветка для ячеистого основания без переноса крепежа с бетона.",
+      "evidence_file": "data/research/problem-intent-demand-2026-07-31.json"
+    },
+    {
+      "id": "wires-cable-channel",
+      "path": "/kabel-kanal-dlya-televizora/",
+      "query": "кабель канал для телевизора на стене",
+      "operator_query": "\"[кабель канал для телевизора на стене]\"",
+      "frequency": 98,
+      "interpretation": "Выбор наружного короба по составу линий и доступности, а не общая страница о скрытии проводов.",
+      "evidence_file": "data/research/problem-intent-demand-2026-07-31.json"
+    },
+    {
+      "id": "vesa-size",
+      "path": "/tablica-vesa-televizorov/",
+      "query": "размер vesa телевизора",
+      "operator_query": "\"[размер vesa телевизора]\"",
+      "frequency": 952,
+      "interpretation": "Справочная таблица точных пар и способа измерения; модельный поиск остаётся на /vesa/.",
+      "evidence_file": "data/research/vesa-dataset-demand.json"
+    },
+    {
+      "id": "vesa-600x400",
+      "path": "/vesa/600x400/",
+      "query": "кронштейн vesa 600x400",
+      "operator_query": "\"[!кронштейн vesa 600x400]\"",
+      "frequency": 59,
+      "interpretation": "Узкая проверка одной точной пары 600×400 с обязательной проверкой массы и геометрии.",
+      "evidence_file": "data/research/seo-commercial-wave2-demand.json"
+    },
+    {
+      "id": "diagonal-85",
+      "path": "/kronshteyn-dlya-televizora-85-dyuyma/",
+      "query": "кронштейн для телевизора 85 дюймов",
+      "operator_query": "\"[!кронштейн для !телевизора 85 !дюймов]\"",
+      "frequency": 401,
+      "interpretation": "Диагональ используется только как вход; результат требует точной модели, VESA и массы.",
+      "evidence_file": "data/research/seo-commercial-wave2-demand.json"
+    },
+    {
+      "id": "model-year-decoder",
+      "path": "/kak-uznat-god-vypuska-televizora/",
+      "query": "как узнать год выпуска телевизора",
+      "operator_query": "\"[как узнать год выпуска телевизора]\"",
+      "frequency": 189,
+      "interpretation": "Различает модельный год, дату изготовления и дату покупки; без универсальной расшифровки брендов.",
+      "evidence_file": "data/research/traffic-head-demand.json"
+    },
+    {
+      "id": "hdmi-cable-checker",
+      "path": "/kakoy-hdmi-kabel-nuzhen/",
+      "query": "как выбрать hdmi кабель для телевизора",
+      "operator_query": "\"[как !выбрать hdmi !кабель для !телевизора]\"",
+      "frequency": 114,
+      "interpretation": "Выбор категории сертифицированного кабеля по режиму сигнала; не диагностика входа HDMI.",
+      "evidence_file": "data/research/tv-utility-cohort-5-demand-2026-08-01.json"
+    }
+  ],
+  "cannibalization_decisions": [
+    "Страница выбора объясняет критерии и ведёт в /podbor/; функциональный подбор и коммерческий хаб не дублируются.",
+    "Три материала по стенам отвечают только за проверку основания; общая монтажная карта сохраняет интент разметки и высоты.",
+    "Кабель-канал отвечает за наружный короб и вместимость; /kak-spryatat-provoda-ot-televizora/ сохраняет общий выбор маршрута.",
+    "Таблица VESA — справочник пар; /vesa/ остаётся поиском VESA по модели, а /kak-uznat-vesa-televizora/ — измерением.",
+    "VESA 600×400 и 85 дюймов имеют точные отдельные интенты и не заменяют проверку модели.",
+    "Год выпуска отделён от поиска кода модели; HDMI-кабель отделён от диагностики отсутствующего сигнала."
+  ]
+}

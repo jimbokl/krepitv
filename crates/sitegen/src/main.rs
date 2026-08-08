@@ -142,6 +142,24 @@ const DAILY_SEO_COHORT_2026_08_07: [(&str, &str); 10] = [
     ),
     ("tv-game-mode", "/kak-nastroit-televizor-dlya-igr/"),
 ];
+const DAILY_SEO_COHORT_2026_08_08: [(&str, &str); 10] = [
+    (
+        "selection-choose",
+        "/kak-vybrat-kronshteyn-dlya-televizora/",
+    ),
+    ("wall-drywall-how", "/kak-povesit-televizor-na-gipsokarton/"),
+    (
+        "wall-concrete-dowel",
+        "/kak-povesit-televizor-na-betonnuyu-stenu/",
+    ),
+    ("wall-aerated-how", "/kak-povesit-televizor-na-gazobeton/"),
+    ("wires-cable-channel", "/kabel-kanal-dlya-televizora/"),
+    ("vesa-size", "/tablica-vesa-televizorov/"),
+    ("vesa-600x400", "/vesa/600x400/"),
+    ("diagonal-85", "/kronshteyn-dlya-televizora-85-dyuyma/"),
+    ("model-year-decoder", "/kak-uznat-god-vypuska-televizora/"),
+    ("hdmi-cable-checker", "/kakoy-hdmi-kabel-nuzhen/"),
+];
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -2236,6 +2254,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "digital-box-connect",
             ],
             "tv-model-lookup" => &[
+                "model-year-decoder",
                 "tv-purchase-checklist",
                 "vesa",
                 "tv-mount-screws",
@@ -2327,6 +2346,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "soundbar-to-tv",
             ],
             "tv-no-signal" => &[
+                "hdmi-cable-checker",
                 "tv-sound-no-picture",
                 "digital-channels",
                 "laptop-to-tv",
@@ -2424,12 +2444,17 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-no-signal",
             ],
             "wall-mounted-tv" => &[
+                "selection-choose",
+                "wall-drywall-how",
+                "wall-concrete-dowel",
+                "wall-aerated-how",
                 "wall-planner",
                 "mounting-map",
                 "tv-zone-sockets",
                 "vesa",
                 "full-motion-mount",
                 "mounting-height",
+                "viewing-distance",
             ],
             "wall-planner" => &[
                 "tv-dimensions",
@@ -2492,6 +2517,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-model-lookup",
             ],
             "hide-tv-wires" => &[
+                "wires-cable-channel",
                 "wall-planner",
                 "mounting-map",
                 "tv-zone-sockets",
@@ -2525,6 +2551,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-flicker",
             ],
             "tv-dimensions" => &[
+                "diagonal-85",
                 "wall-planner",
                 "viewing-distance",
                 "diagonal-43",
@@ -2542,6 +2569,8 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             ],
             "tv-zone-sockets" => &["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
             "vesa" => &[
+                "vesa-size",
+                "vesa-600x400",
                 "tv-model-lookup",
                 "tv-mount-screws",
                 "wall-mounted-tv",
@@ -3443,7 +3472,7 @@ fn seo_evidence_guide_html(page: &SeoPage) -> String {
         .collect::<Vec<_>>()
         .join("\n");
     format!(
-        "<section class=\"border-y-2 border-ink py-7\" data-evidence-guide=\"{}\" id=\"мастер\"><p class=\"font-mono text-xs uppercase text-action\">{}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">{}</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">{}</p><div class=\"mt-7 overflow-x-auto\"><table class=\"w-full min-w-[720px] border-2 border-ink bg-white text-sm\" data-evidence-guide-table=\"true\"><caption class=\"border-b-2 border-ink p-4 text-left font-display text-2xl font-extrabold\">Таблица решений по наблюдаемому признаку</caption><thead><tr class=\"bg-ink text-paper\"><th class=\"p-4 text-left\" scope=\"col\">Ситуация</th><th class=\"p-4 text-left\" scope=\"col\">Следующий шаг</th><th class=\"p-4 text-left\" scope=\"col\">Как проверить</th></tr></thead><tbody>{}</tbody></table></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\" data-evidence-guide-stop=\"true\">{}</p><details class=\"mt-7 border border-line bg-white p-4\"><summary class=\"cursor-pointer font-display font-bold\">Официальные источники и границы проверки</summary><nav class=\"mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2\" aria-label=\"Официальные источники\">{}</nav><p class=\"mt-4 font-mono text-xs text-muted\">Материал проверен {}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\">Редакционная проверка KREPI TV: выводы ограничены официальными инструкциями и наблюдаемыми признаками. <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика, источники и границы проверки</a>.</p></details></section>",
+        "<section class=\"border-y-2 border-ink py-7\" data-evidence-guide=\"{}\" id=\"мастер\"><p class=\"font-mono text-xs uppercase text-action\">{}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">{}</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">{}</p><h3 class=\"mt-7 font-display text-2xl font-extrabold [overflow-wrap:anywhere]\" id=\"evidence-guide-table-title\">Таблица решений по наблюдаемому признаку</h3><p class=\"mt-2 font-mono text-xs uppercase text-action sm:hidden\">Таблица прокручивается вправо →</p><div class=\"mt-4 overflow-x-auto border-2 border-ink\"><table aria-labelledby=\"evidence-guide-table-title\" class=\"w-full min-w-[720px] bg-white text-sm\" data-evidence-guide-table=\"true\"><thead><tr class=\"bg-ink text-paper\"><th class=\"p-4 text-left\" scope=\"col\">Ситуация</th><th class=\"p-4 text-left\" scope=\"col\">Следующий шаг</th><th class=\"p-4 text-left\" scope=\"col\">Как проверить</th></tr></thead><tbody>{}</tbody></table></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\" data-evidence-guide-stop=\"true\">{}</p><details class=\"mt-7 border border-line bg-white p-4\"><summary class=\"cursor-pointer font-display font-bold\">Официальные источники и границы проверки</summary><nav class=\"mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2\" aria-label=\"Официальные источники\">{}</nav><p class=\"mt-4 font-mono text-xs text-muted\">Материал проверен {}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\">Редакционная проверка KREPI TV: выводы ограничены официальными инструкциями и наблюдаемыми признаками. <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика, источники и границы проверки</a>.</p></details></section>",
         escape_html(&page.id),
         escape_html(&guide.kicker),
         escape_html(&guide.heading),
@@ -4035,6 +4064,7 @@ fn validate_seo_pages(pages: &[SeoPage]) {
     for cohort in [
         &DAILY_SEO_COHORT_2026_08_06[..],
         &DAILY_SEO_COHORT_2026_08_07[..],
+        &DAILY_SEO_COHORT_2026_08_08[..],
     ] {
         for &(id, path) in cohort {
             let cohort_matches = pages
@@ -6740,8 +6770,24 @@ mod tests {
             assert!(page.faq.len() >= 5, "{id}: недостаточно FAQ");
             assert!(!page.lead.contains("руб"), "{id}: нельзя фиксировать цену");
         }
-        assert!(pages.iter().all(|page| page.id != "diagonal-85"));
-        assert!(pages.iter().all(|page| page.id != "vesa-600x400"));
+        for id in ["diagonal-85", "vesa-600x400"] {
+            let page = pages
+                .iter()
+                .find(|page| page.id == id)
+                .expect("Нет самостоятельной страницы ежедневной SEO-когорты");
+            assert!(page.indexable, "{id} должна быть индексируемой");
+            assert_eq!(
+                page.kind, "calculator",
+                "{id}: нельзя публиковать тонкий товарный хаб"
+            );
+            assert!(
+                page.guide.is_some(),
+                "{id}: нужен самостоятельный evidence guide"
+            );
+            assert!(page.facts.len() >= 6, "{id}: недостаточно проверок");
+            assert!(page.faq.len() >= 6, "{id}: недостаточно FAQ");
+            assert!(!page.lead.contains("руб"), "{id}: нельзя фиксировать цену");
+        }
     }
 
     #[test]
@@ -6968,12 +7014,12 @@ mod tests {
         assert_eq!(
             related_ids,
             [
+                "selection-choose",
+                "wall-drywall-how",
+                "wall-concrete-dowel",
+                "wall-aerated-how",
                 "wall-planner",
-                "mounting-map",
-                "tv-zone-sockets",
-                "vesa",
-                "full-motion-mount",
-                "mounting-height"
+                "mounting-map"
             ]
         );
 
@@ -7090,12 +7136,12 @@ mod tests {
         assert_eq!(
             related,
             [
+                "diagonal-85",
                 "wall-planner",
                 "viewing-distance",
                 "diagonal-43",
                 "diagonal-55",
                 "diagonal-65",
-                "mounting-height",
             ]
         );
     }

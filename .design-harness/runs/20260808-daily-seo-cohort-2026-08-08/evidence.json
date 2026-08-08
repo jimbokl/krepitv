@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "task_id": "20260808-daily-seo-cohort-2026-08-08",
+  "commands": [
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "SEO manifest", "267 indexable URLs"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260808-daily-seo-cohort-2026-08-08 --files web/src/pages/SeoPage.jsx web/src/lib/seoPages.mjs",
+      "exit_code": 0,
+      "covers": ["Tailwind tokens", "responsive table", "focus styles", "related-link parity"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "evidence/screenshots/mobile-gipsokarton-fixed.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "scroll_hint_visible": true}
+    },
+    {
+      "id": "default-tablet",
+      "path": "evidence/screenshots/tablet-vesa.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "table_readable": true}
+    },
+    {
+      "id": "default-desktop",
+      "path": "evidence/screenshots/desktop-selection.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "three_choices_visible": true}
+    },
+    {
+      "id": "loading-invariant",
+      "path": "evidence/screenshots/desktop-selection.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_local_tool": true, "layout_invariant": true}
+    },
+    {
+      "id": "error-invariant",
+      "path": "evidence/screenshots/mobile-gipsokarton-fixed.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_local_tool": true, "layout_invariant": true}
+    },
+    {
+      "id": "disabled-invariant",
+      "path": "evidence/screenshots/tablet-vesa.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_local_tool": true, "layout_invariant": true}
+    },
+    {
+      "id": "focus-contract",
+      "path": "evidence/screenshots/desktop-selection.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "native_buttons": true, "focus_visible": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + headless Chrome QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Десять страниц используют один проверенный evidence-guide вместо десяти расходящихся шаблонов.",
+      "На 320, 768 и 1440 px нет горизонтального переполнения документа; широкая таблица имеет явную мобильную подсказку и собственный скролл.",
+      "Первый мобильный снимок выявил обрезанный caption; заголовок вынесен из прокручиваемой таблицы и повторная проверка прошла.",
+      "Каждая страница содержит три закрытых сценария, границу остановки, FAQ и ссылки на официальные источники, но не содержит ссылок Маркета."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

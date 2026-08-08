@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "id": "20260808-daily-seo-cohort-2026-08-08",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-08T08:14:26.424189+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 1800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1400
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 1400
+    }
+  ],
+  "allowed_files": [
+    "data/seo_pages.json",
+    "data/research/daily-seo-cohort-2026-08-08.json",
+    "crates/sitegen/src/main.rs",
+    "scripts/verify.mjs",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/SeoPage.jsx",
+    "web/tests/seo-pages.test.mjs",
+    ".design-harness/runs/20260808-daily-seo-cohort-2026-08-08/**",
+    "docs/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "SEO manifest"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260808-daily-seo-cohort-2026-08-08 --files web/src/pages/SeoPage.jsx web/src/lib/seoPages.mjs",
+      "required": true,
+      "covers": ["Tailwind tokens", "mobile table overflow", "focus", "selected state"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id": "cohort-size", "value": "10", "strategy": "deterministic-overlay"},
+    {"id": "checked-date", "value": "2026-08-08", "strategy": "deterministic-overlay"},
+    {"id": "table-caption", "value": "Таблица решений по наблюдаемому признаку", "strategy": "deterministic-overlay"}
+  ],
+  "claims": [
+    {"id": "measured-demand", "text": "У каждой страницы есть один измеренный Wordstat-интент без сложения вариантов.", "source_ids": ["daily-cohort"]},
+    {"id": "official-boundaries", "text": "Технические выводы ограничены официальными источниками и не назначают стеновой крепёж дистанционно.", "source_ids": ["official-guide-sources"]}
+  ],
+  "sources": [
+    {"id": "daily-cohort", "path": "data/research/daily-seo-cohort-2026-08-08.json", "retrieved_at": "2026-08-08T08:14:26Z", "notes": "Сохранённые Wordstat-интенты, частотности и решения по каннибализации."},
+    {"id": "official-guide-sources", "path": "data/seo_pages.json", "retrieved_at": "2026-08-08T08:14:26Z", "notes": "HTTPS-ссылки на официальные документы VESA, HDMI LA, КНАУФ, fischer, ДКС, Samsung и LG."}
+  ],
+  "storybook_paths": null
+}

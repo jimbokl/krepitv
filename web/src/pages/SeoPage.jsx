@@ -628,11 +628,12 @@ function SeoEvidenceGuide({ guide, pageId }) {
           )}
         </div>
       </fieldset>
-      <div className="mt-7 overflow-x-auto">
-        <table className="w-full min-w-[720px] border-2 border-ink bg-white text-sm" data-evidence-guide-table="true">
-          <caption className="border-b-2 border-ink p-4 text-left font-display text-2xl font-extrabold">
-            Таблица решений по наблюдаемому признаку
-          </caption>
+      <h3 className="mt-7 font-display text-2xl font-extrabold [overflow-wrap:anywhere]" id={`${pageId}-guide-table-title`}>
+        Таблица решений по наблюдаемому признаку
+      </h3>
+      <p className="mt-2 font-mono text-xs uppercase text-action sm:hidden">Таблица прокручивается вправо →</p>
+      <div className="mt-4 overflow-x-auto border-2 border-ink">
+        <table aria-labelledby={`${pageId}-guide-table-title`} className="w-full min-w-[720px] bg-white text-sm" data-evidence-guide-table="true">
           <thead>
             <tr className="bg-ink text-paper">
               <th className="p-4 text-left" scope="col">Ситуация</th>
