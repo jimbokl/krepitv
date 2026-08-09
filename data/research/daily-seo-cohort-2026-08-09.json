@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "cohort_date": "2026-08-09",
+  "product": "KREPI TV",
+  "region": "Россия",
+  "source": "Яндекс Wordstat через сохранённый XMLRiver-срез от 2026-08-09",
+  "aggregation_rule": "Частотности не складываются между вариантами; для страницы фиксируется один измеренный запрос без дублей.",
+  "release_rule": "Каждая страница даёт самостоятельный русскоязычный ответ, таблицу решений, минимум два официальных источника, безопасную границу и путь к подбору совместимого кронштейна.",
+  "pages": [
+    {
+      "id": "remove-tv-from-mount",
+      "path": "/kak-snyat-televizor-s-kronshteyna/",
+      "query": "как снять телевизор с кронштейна",
+      "operator_query": "\"[как снять телевизор с кронштейна]\"",
+      "frequency": 2531,
+      "interpretation": "Безопасная последовательность снятия по точному механизму фиксации, без универсального совета тянуть экран вверх.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "ceiling-tv-mount",
+      "path": "/potolochnyy-kronshteyn-dlya-televizora/",
+      "query": "потолочный кронштейн для телевизора",
+      "operator_query": "\"[потолочный кронштейн для телевизора]\"",
+      "frequency": 1771,
+      "interpretation": "Проверка телевизора, конструкции потолка, высоты подвеса и трассы кабелей до выбора изделия.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "tv-device-shelf",
+      "path": "/polka-pod-televizor-na-stenu/",
+      "query": "полка под телевизор на стену",
+      "operator_query": "\"[полка под телевизор на стену]\"",
+      "frequency": 1609,
+      "interpretation": "Расчёт полезной площади и безопасного размещения приставки, роутера или саундбара рядом с телевизором.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "tv-wall-fasteners",
+      "path": "/krepezh-dlya-televizora-na-stenu/",
+      "query": "крепеж для телевизора на стену",
+      "operator_query": "\"[крепеж для телевизора на стену]\"",
+      "frequency": 1485,
+      "interpretation": "Разделяет винты VESA и крепёж стеновой пластины, не подбирая анкер без подтверждения основания.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "mobile-tv-stand",
+      "path": "/mobilnaya-stoyka-dlya-televizora/",
+      "query": "мобильная стойка для телевизора",
+      "operator_query": "\"[мобильная стойка для телевизора]\"",
+      "frequency": 661,
+      "interpretation": "Выбор стойки по точной модели, VESA, массе, основанию, маршруту перемещения и фиксации колёс.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "vesa-100x100",
+      "path": "/vesa/100x100/",
+      "query": "кронштейн vesa 100x100",
+      "operator_query": "\"[кронштейн vesa 100x100]\"",
+      "frequency": 614,
+      "interpretation": "Узкая проверка точной пары 100×100 с обязательной проверкой массы, диагонали, винтов и задней панели.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "soundbar-mount",
+      "path": "/kronshteyn-dlya-saundbara-k-televizoru/",
+      "query": "кронштейн для саундбара",
+      "operator_query": "\"[кронштейн для саундбара]\"",
+      "frequency": 584,
+      "interpretation": "Выбор между стеновым и связанным с телевизором креплением с проверкой массы, акустических зон и движения экрана.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "corner-tv-mount",
+      "path": "/televizor-v-uglu-komnaty/",
+      "query": "угловой кронштейн для телевизора",
+      "operator_query": "\"[угловой кронштейн для телевизора]\"",
+      "frequency": 485,
+      "interpretation": "Геометрическая проверка ширины телевизора, вылета рычага, угла поворота и зазоров в углу комнаты.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "tv-wall-gap",
+      "path": "/rasstoyanie-ot-televizora-do-steny/",
+      "query": "расстояние от телевизора до стены",
+      "operator_query": "\"[расстояние от телевизора до стены]\"",
+      "frequency": 402,
+      "interpretation": "Определяет минимальный рабочий зазор по профилю кронштейна, форме корпуса, разъёмам, кабелям и вентиляции.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    },
+    {
+      "id": "tv-installation-cost",
+      "path": "/stoimost-ustanovki-televizora-na-stenu/",
+      "query": "сколько стоит повесить телевизор на стену",
+      "operator_query": "\"[сколько стоит повесить телевизор на стену]\"",
+      "frequency": 361,
+      "interpretation": "Конструктор полного технического задания для сопоставимой сметы без фиктивной единой цены для всех регионов и стен.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-09.json"
+    }
+  ],
+  "cannibalization_decisions": [
+    "Снятие телевизора отвечает только за безопасную демонтажную последовательность; монтажная карта остаётся отдельной страницей установки.",
+    "Потолочный кронштейн, мобильная стойка и угловое размещение разведены по типу опоры и геометрии, а общий подбор остаётся на /podbor/.",
+    "Полка под телевизор отвечает за оборудование и кабели; кронштейн для саундбара — за крепление акустики и совместное движение с экраном.",
+    "Крепёж к стене отделён от VESA-винтов телевизора; точная страница VESA 100×100 не выбирает стеновой анкер.",
+    "Рабочий зазор отвечает за профиль, разъёмы и вентиляцию; страница углового размещения — за поворот и столкновения.",
+    "Стоимость установки не публикует региональную цену и формирует состав работ; карточки кронштейнов и подбор не дублируются."
+  ]
+}

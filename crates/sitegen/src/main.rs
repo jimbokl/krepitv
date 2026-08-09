@@ -161,6 +161,27 @@ const DAILY_SEO_COHORT_2026_08_08: [(&str, &str); 10] = [
     ("model-year-decoder", "/kak-uznat-god-vypuska-televizora/"),
     ("hdmi-cable-checker", "/kakoy-hdmi-kabel-nuzhen/"),
 ];
+const DAILY_SEO_COHORT_2026_08_09: [(&str, &str); 10] = [
+    (
+        "remove-tv-from-mount",
+        "/kak-snyat-televizor-s-kronshteyna/",
+    ),
+    (
+        "ceiling-tv-mount",
+        "/potolochnyy-kronshteyn-dlya-televizora/",
+    ),
+    ("tv-device-shelf", "/polka-pod-televizor-na-stenu/"),
+    ("tv-wall-fasteners", "/krepezh-dlya-televizora-na-stenu/"),
+    ("mobile-tv-stand", "/mobilnaya-stoyka-dlya-televizora/"),
+    ("vesa-100x100", "/vesa/100x100/"),
+    ("soundbar-mount", "/kronshteyn-dlya-saundbara-k-televizoru/"),
+    ("corner-tv-mount", "/televizor-v-uglu-komnaty/"),
+    ("tv-wall-gap", "/rasstoyanie-ot-televizora-do-steny/"),
+    (
+        "tv-installation-cost",
+        "/stoimost-ustanovki-televizora-na-stenu/",
+    ),
+];
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -2298,6 +2319,86 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-remote-not-working",
                 "picture-setup",
             ],
+            "remove-tv-from-mount" => &[
+                "ceiling-tv-mount",
+                "tv-installation-cost",
+                "tv-wall-fasteners",
+                "wall-mounted-tv",
+                "selection-choose",
+                "mounting-map",
+            ],
+            "ceiling-tv-mount" => &[
+                "tv-device-shelf",
+                "mobile-tv-stand",
+                "corner-tv-mount",
+                "selection-choose",
+                "mounting-height",
+                "buy-tv-mount",
+            ],
+            "tv-device-shelf" => &[
+                "tv-wall-fasteners",
+                "soundbar-mount",
+                "hide-tv-wires",
+                "wires-cable-channel",
+                "tv-wall-gap",
+                "selection-choose",
+            ],
+            "tv-wall-fasteners" => &[
+                "mobile-tv-stand",
+                "tv-mount-screws",
+                "wall-concrete-dowel",
+                "wall-drywall-how",
+                "wall-aerated-how",
+                "selection-choose",
+            ],
+            "mobile-tv-stand" => &[
+                "vesa-100x100",
+                "ceiling-tv-mount",
+                "selection-choose",
+                "vesa",
+                "tv-dimensions",
+                "viewing-distance",
+            ],
+            "vesa-100x100" => &[
+                "selection-choose",
+                "tv-mount-screws",
+                "how-to-find-vesa",
+                "vesa",
+                "mobile-tv-stand",
+                "buy-tv-mount",
+            ],
+            "soundbar-mount" => &[
+                "tv-device-shelf",
+                "soundbar-to-tv",
+                "tv-wall-gap",
+                "hide-tv-wires",
+                "wall-planner",
+                "selection-choose",
+            ],
+            "corner-tv-mount" => &[
+                "soundbar-mount",
+                "tv-wall-gap",
+                "full-motion-mount",
+                "extendable-mount",
+                "wall-planner",
+                "selection-choose",
+            ],
+            "tv-wall-gap" => &[
+                "corner-tv-mount",
+                "tv-device-shelf",
+                "fixed-mount",
+                "full-motion-mount",
+                "tv-zone-sockets",
+                "selection-choose",
+            ],
+            "tv-installation-cost" => &[
+                "remove-tv-from-mount",
+                "tv-wall-gap",
+                "tv-wall-fasteners",
+                "mounting-map",
+                "wall-drywall-how",
+                "selection-choose",
+            ],
             "tv-speakers" => &[
                 "soundbar-to-tv",
                 "tv-headphones",
@@ -4073,6 +4174,7 @@ fn validate_seo_pages(pages: &[SeoPage]) {
         &DAILY_SEO_COHORT_2026_08_06[..],
         &DAILY_SEO_COHORT_2026_08_07[..],
         &DAILY_SEO_COHORT_2026_08_08[..],
+        &DAILY_SEO_COHORT_2026_08_09[..],
     ] {
         for &(id, path) in cohort {
             let cohort_matches = pages

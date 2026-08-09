@@ -148,6 +148,16 @@ function preferredRelatedIds(pageId) {
       "brand-xiaomi",
     ];
   }
+  if (pageId === "vesa-100x100") {
+    return [
+      "selection-choose",
+      "tv-mount-screws",
+      "how-to-find-vesa",
+      "vesa",
+      "mobile-tv-stand",
+      "buy-tv-mount",
+    ];
+  }
   if (/^vesa-\d+x\d+$/i.test(pageId)) {
     return [
       "vesa",
@@ -192,6 +202,15 @@ function preferredRelatedIds(pageId) {
     "tv-firmware-update": ["tv-app-install", "tv-factory-reset", "tv-no-internet", "tv-turns-off", "tv-remote-not-working", "smart-tv-box"],
     "tv-app-install": ["tv-storage-cleanup", "tv-no-internet", "tv-firmware-update", "smart-tv-box", "tv-factory-reset", "phone-to-tv"],
     "tv-factory-reset": ["tv-firmware-update", "tv-app-install", "tv-turns-off", "tv-no-internet", "tv-remote-not-working", "picture-setup"],
+    "remove-tv-from-mount": ["ceiling-tv-mount", "tv-installation-cost", "tv-wall-fasteners", "wall-mounted-tv", "selection-choose", "mounting-map"],
+    "ceiling-tv-mount": ["tv-device-shelf", "mobile-tv-stand", "corner-tv-mount", "selection-choose", "mounting-height", "buy-tv-mount"],
+    "tv-device-shelf": ["tv-wall-fasteners", "soundbar-mount", "hide-tv-wires", "wires-cable-channel", "tv-wall-gap", "selection-choose"],
+    "tv-wall-fasteners": ["mobile-tv-stand", "tv-mount-screws", "wall-concrete-dowel", "wall-drywall-how", "wall-aerated-how", "selection-choose"],
+    "mobile-tv-stand": ["vesa-100x100", "ceiling-tv-mount", "selection-choose", "vesa", "tv-dimensions", "viewing-distance"],
+    "soundbar-mount": ["tv-device-shelf", "soundbar-to-tv", "tv-wall-gap", "hide-tv-wires", "wall-planner", "selection-choose"],
+    "corner-tv-mount": ["soundbar-mount", "tv-wall-gap", "full-motion-mount", "extendable-mount", "wall-planner", "selection-choose"],
+    "tv-wall-gap": ["corner-tv-mount", "tv-device-shelf", "fixed-mount", "full-motion-mount", "tv-zone-sockets", "selection-choose"],
+    "tv-installation-cost": ["remove-tv-from-mount", "tv-wall-gap", "tv-wall-fasteners", "mounting-map", "wall-drywall-how", "selection-choose"],
     "wall-mounted-tv": ["selection-choose", "wall-drywall-how", "wall-concrete-dowel", "wall-aerated-how", "wall-planner", "mounting-map", "tv-zone-sockets", "vesa", "full-motion-mount", "mounting-height", "viewing-distance"],
     "wall-planner": ["tv-dimensions", "mounting-height", "mounting-map", "tv-zone-sockets", "viewing-distance", "wall-mounted-tv"],
     "tv-youtube-recovery": ["tv-keyboard-mouse", "tv-no-internet", "tv-app-install", "tv-storage-cleanup", "tv-firmware-update", "phone-to-tv", "tv-factory-reset"],
