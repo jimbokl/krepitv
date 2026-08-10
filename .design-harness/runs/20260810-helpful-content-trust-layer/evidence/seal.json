@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "run_id": "20260810-helpful-content-trust-layer",
+  "sealed_at": "2026-08-10T13:14:28.762204+00:00",
+  "task_hash": "sha256:dc59e029d83d4f301812fa258fd92a1d281554e035e8cf45250cc404910a3b44",
+  "evidence_hash": "sha256:cadcdf1c0a1ff87dfb234bd5c8fee75a3d439129d6b7c80ef2fde4d127e509c3",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/SPEC.md": "sha256:d9765f4ca84e1e7b7c85f766228f5b21256e06397f4ec55eccb0ddb9079b5d86",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/brief.md": "sha256:fd98b8704685e02a21616e70c6b1145f5d5b17201c36a98cec235f37fdc7c6b3",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/component-map.md": "sha256:5a7f8d317dc7d600a59800433940e0d32c48d05770ccc31fa6bbc4359b64a524",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/discovery.md": "sha256:72f395ce55b955599c7665c89accf5e1d712d0c1ea1250427289975ceeca0c53",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/evidence/drift-report.json": "sha256:2f8e4e33f0208ae1f9cff5a128fa4dd8c73388fdba57206518d22b49024151ad",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/evidence/screenshots/editorial-desktop.png": "sha256:ca74a05187578e7f0fb8bc8e0392e2ca500361c859713c4a90a4d0598583d62d",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/evidence/screenshots/model-tablet-expanded.png": "sha256:312dc8f8dfa10f683271844d4bf57bb12c6b1b533c8235e5b041671b742f710a",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/evidence/screenshots/mount-desktop-focus.png": "sha256:5f5d1e9e51b3fb49c74d503839014c7d5a531795098d9e959d04a4a00afc97ca",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/evidence/screenshots/seo-mobile.png": "sha256:da2c1b017ab134140b03699db7e6c56c4a74f701dcca331b77a3bf349dcae0bf",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/evidence.json": "sha256:cadcdf1c0a1ff87dfb234bd5c8fee75a3d439129d6b7c80ef2fde4d127e509c3",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/review.md": "sha256:f8099976b368617861dffc48dcc1f3a8b401eff2228104401c40be7abc7b065f",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/task.json": "sha256:dc59e029d83d4f301812fa258fd92a1d281554e035e8cf45250cc404910a3b44",
+    ".design-harness/runs/20260810-helpful-content-trust-layer/visual-direction.md": "sha256:655b489483c5be1970e778b35335b16889882b6f0f20f51ad54b5a2f3598bb94"
+  },
+  "packet_hash": "sha256:cdc2bf3a9c8bc7351e5b3bb2e1a04b57f5f6144d8386825dd137b678c286b366"
+}

@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "task_id": "20260810-helpful-content-trust-layer",
+  "commands": [
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["104 engine tests", "49 sitegen tests", "216 web tests", "SSR", "React", "Rust", "WASM", "355 HTML pages", "288 sitemap URLs"]
+    },
+    {
+      "id": "editorial-web-tests",
+      "command": "node --test web/tests/editorial-accountability.test.mjs web/tests/trust-navigation.test.mjs",
+      "exit_code": 0,
+      "covers": ["visible author", "controlled evidence", "footer navigation", "publisher page", "fail-closed policy"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260810-helpful-content-trust-layer --files web/src/components/EditorialAccountability.jsx web/src/components/SiteFooter.jsx web/src/pages/SeoPage.jsx web/src/pages/ModelPage.jsx web/src/pages/MountPage.jsx web/src/pages/ObservedModelPage.jsx web/src/pages/TrustPage.jsx crates/sitegen/src/main.rs",
+      "exit_code": 0,
+      "covers": ["Tailwind tokens", "responsive grid", "focus ring", "SSR parity"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "evidence/screenshots/seo-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "four_facts_visible": true, "details_closed": true}
+    },
+    {
+      "id": "loading-static-invariant",
+      "path": "evidence/screenshots/seo-mobile.png",
+      "state": "loading",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "no_network_state": true}
+    },
+    {
+      "id": "empty-static-invariant",
+      "path": "evidence/screenshots/seo-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "fail_closed_evidence": true}
+    },
+    {
+      "id": "error-static-invariant",
+      "path": "evidence/screenshots/seo-mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "no_runtime_dependency": true}
+    },
+    {
+      "id": "success-static-invariant",
+      "path": "evidence/screenshots/editorial-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "publisher_visible": true}
+    },
+    {
+      "id": "disabled-static-invariant",
+      "path": "evidence/screenshots/seo-mobile.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "no_disabled_control": true}
+    },
+    {
+      "id": "expanded-tablet",
+      "path": "evidence/screenshots/model-tablet-expanded.png",
+      "state": "expanded",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "details_open": true, "automation_disclosed": true, "corrections_link_visible": true}
+    },
+    {
+      "id": "focus-desktop",
+      "path": "evidence/screenshots/mount-desktop-focus.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "summary_focused": true, "market_cta_after_trust": true}
+    },
+    {
+      "id": "publisher-desktop",
+      "path": "evidence/screenshots/editorial-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "publisher_visible": true, "physical_test_boundary_visible": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "trust_layer_review (/root/trust_layer_review)",
+    "independent": true,
+    "verdict": "pass",
+    "findings": []
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

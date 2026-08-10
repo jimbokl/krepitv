@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "run": "20260810-helpful-content-trust-layer",
+  "generated_at": "2026-08-10T13:12:26.680652+00:00",
+  "scanned_files": [
+    "web/src/components/EditorialAccountability.jsx",
+    "web/src/components/SiteFooter.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/src/pages/ModelPage.jsx",
+    "web/src/pages/MountPage.jsx",
+    "web/src/pages/ObservedModelPage.jsx",
+    "web/src/pages/TrustPage.jsx"
+  ],
+  "findings": []
+}
