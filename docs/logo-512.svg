@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">KREPI TV</title>
+  <desc id="desc">Знак независимого сервиса проверки совместимости телевизоров и кронштейнов.</desc>
+  <rect width="512" height="512" rx="72" fill="#F7F5F0"/>
+  <rect x="58" y="84" width="396" height="288" rx="24" fill="#111111"/>
+  <rect x="82" y="108" width="348" height="240" rx="10" fill="#FF4F21"/>
+  <path d="M192 400h128M256 372v28" fill="none" stroke="#111111" stroke-linecap="square" stroke-width="24"/>
+  <circle cx="176" cy="228" r="20" fill="#F7F5F0" stroke="#111111" stroke-width="10"/>
+  <circle cx="336" cy="228" r="20" fill="#F7F5F0" stroke="#111111" stroke-width="10"/>
+  <path d="M196 228h120" stroke="#111111" stroke-width="12"/>
+</svg>

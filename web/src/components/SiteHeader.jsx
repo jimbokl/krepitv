@@ -11,6 +11,7 @@ const links = [
   { href: "/kronshteyny/", label: "Кронштейны" },
   { href: "/razmery-televizora-po-diagonali/", label: "Размеры ТВ" },
   { href: "/vesa/", label: "VESA" },
+  { href: "/spravochnik/", label: "Справочник" },
 ];
 
 export function SiteHeader({ active = "" }) {

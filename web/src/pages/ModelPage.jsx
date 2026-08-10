@@ -9,6 +9,7 @@ import {
   ShieldCheck,
 } from "@phosphor-icons/react";
 import { AffiliateLink } from "../components/AffiliateOffer.jsx";
+import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { CommercialProfile } from "../components/CommercialProfile.jsx";
 import { EditorialAccountability } from "../components/EditorialAccountability.jsx";
@@ -67,6 +68,11 @@ export function ModelPage({ catalog, modelId }) {
     <main className="min-h-screen bg-paper text-ink">
       <SiteHeader active="/modeli/" />
       <div className="mx-auto max-w-[1440px] px-5 pb-14 pt-6 sm:px-8">
+        <Breadcrumbs items={[
+          { href: "/", label: "Главная" },
+          { href: "/modeli/", label: "Модели телевизоров" },
+          { label: model.title },
+        ]} />
         <section>
           <h1 className="font-display text-[clamp(2.5rem,4.7vw,4.7rem)] font-extrabold leading-none tracking-[-0.025em]">
             Кронштейн для {model.title}
@@ -83,6 +89,22 @@ export function ModelPage({ catalog, modelId }) {
         <CommercialProfile profile={commercialProfile} />
 
         <EditorialAccountability evidence={editorialEvidence} />
+
+        <figure className="my-7 border border-ink bg-white p-3 sm:p-5">
+          <img
+            alt={`Техническая схема VESA для ${model.title}`}
+            className="block h-auto w-full"
+            data-technical-image="true"
+            decoding="async"
+            height="630"
+            loading="lazy"
+            src={`/images/modeli/${model.id}-vesa.svg`}
+            width="1200"
+          />
+          <figcaption className="mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted">
+            Схема показывает паспортную пару VESA {model.vesa_width_mm}×{model.vesa_height_mm} мм; геометрия корпуса условная.
+          </figcaption>
+        </figure>
 
         <CompatibilityProof
           matches={compatible}

@@ -10,6 +10,7 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import AffiliateOffer from "../components/AffiliateOffer.jsx";
+import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { CommercialProfile } from "../components/CommercialProfile.jsx";
 import { EditorialAccountability } from "../components/EditorialAccountability.jsx";
@@ -79,6 +80,11 @@ export function MountPage({ catalog, mountId }) {
     <main className="min-h-screen bg-paper text-ink">
       <SiteHeader active="/kronshteyny/" />
       <article className="mx-auto max-w-[1440px] px-5 pb-14 pt-6 sm:px-8">
+        <Breadcrumbs items={[
+          { href: "/", label: "Главная" },
+          { href: "/kronshteyny/", label: "Кронштейны" },
+          { label: mount.title },
+        ]} />
         <header>
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
             Проверенный кронштейн
@@ -116,6 +122,22 @@ export function MountPage({ catalog, mountId }) {
         <CommercialProfile profile={commercialProfile} />
 
         <EditorialAccountability evidence={editorialEvidence} />
+
+        <figure className="my-7 border border-ink bg-white p-3 sm:p-5">
+          <img
+            alt={`Техническая схема кронштейна ${mount.title}`}
+            className="block h-auto w-full"
+            data-technical-image="true"
+            decoding="async"
+            height="630"
+            loading="lazy"
+            src={`/images/kronshteyny/${mount.id}-skhema.svg`}
+            width="1200"
+          />
+          <figcaption className="mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted">
+            Условная схема показывает тип механизма; размеры деталей и углы не являются монтажным чертежом.
+          </figcaption>
+        </figure>
 
         <section
           aria-label={`Предложения Яндекс Маркета для ${mount.title}`}

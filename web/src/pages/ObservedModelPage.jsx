@@ -9,6 +9,7 @@ import { useState } from "react";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { EditorialAccountability } from "../components/EditorialAccountability.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
+import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
 import { buildEditorialEvidence } from "../lib/editorialPolicy.mjs";
 
@@ -33,11 +34,11 @@ export function ObservedModelPage({ catalog, model }) {
     <main className="min-h-screen bg-paper text-ink" data-market-model-page="true" data-compatibility-status="unverified">
       <SiteHeader active="/modeli/" />
       <article className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8">
-        <nav className="flex flex-wrap items-center gap-2 font-mono text-xs text-muted" aria-label="Навигационная цепочка">
-          <a href="/">Главная</a><span aria-hidden="true">/</span>
-          <a href="/modeli/">Телевизоры</a><span aria-hidden="true">/</span>
-          <span>{model.model}</span>
-        </nav>
+        <Breadcrumbs items={[
+          { href: "/", label: "Главная" },
+          { href: "/modeli/", label: "Модели телевизоров" },
+          { label: model.title },
+        ]} />
 
         <header className="mt-6 border-b-2 border-ink pb-8">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">

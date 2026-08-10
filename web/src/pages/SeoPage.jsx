@@ -31,6 +31,7 @@ import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
 import { MountFunnelNextStep } from "../components/MountFunnelNextStep.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
+import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { TiltAngleCalculator } from "../components/TiltAngleCalculator.jsx";
 import { TurnClearanceCalculator } from "../components/TurnClearanceCalculator.jsx";
 import { TvMountScrewCatalog } from "../components/TvMountScrewCatalog.jsx";
@@ -336,11 +337,11 @@ function SeoArticle({ catalog, page }) {
     <main className="min-h-screen bg-paper text-ink">
       <SiteHeader />
       <div className="mx-auto min-w-0 max-w-[1440px] px-5 pb-16 pt-6 [overflow-wrap:anywhere] sm:px-8">
-        <nav className="flex flex-wrap items-center gap-2 font-mono text-xs text-muted" aria-label="Навигационная цепочка">
-          <a className="hover:text-action" href="/">Главная</a>
-          <span aria-hidden="true">/</span>
-          <span>{pageKindLabel}</span>
-        </nav>
+        <Breadcrumbs items={[
+          { href: "/", label: "Главная" },
+          { href: "/spravochnik/", label: "Справочник" },
+          { label: page.h1 },
+        ]} />
 
         <header className="mt-5 border-b-2 border-ink pb-7">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
@@ -560,7 +561,7 @@ function SeoArticle({ catalog, page }) {
 
         <MountFunnelNextStep />
 
-        <section className="mt-12 border-t-2 border-ink pt-6" aria-labelledby="more-title">
+        <section className="mt-12 border-t-2 border-ink pt-6" aria-labelledby="more-title" id="svyazannye-materialy">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <h2 className="font-display text-3xl font-bold" id="more-title">Полезные материалы</h2>
             <a
@@ -599,6 +600,12 @@ function SeoEvidenceGuide({ guide, pageId }) {
       aria-labelledby={`${pageId}-guide-title`}
       id="мастер"
     >
+      <nav className="mb-7 grid gap-2 border-y border-line py-4 font-display text-sm font-bold sm:grid-cols-2 lg:grid-cols-4" data-guide-toc="true" aria-label="Содержание руководства">
+        <a className="underline decoration-line underline-offset-4 hover:text-action" href="#мастер">Инструмент</a>
+        <a className="underline decoration-line underline-offset-4 hover:text-action" href="#granitsa">Граница проверки</a>
+        <a className="underline decoration-line underline-offset-4 hover:text-action" href="#istochniki">Источники</a>
+        <a className="underline decoration-line underline-offset-4 hover:text-action" href="#svyazannye-materialy">По теме</a>
+      </nav>
       <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
         {guide.kicker}
       </p>
@@ -663,10 +670,10 @@ function SeoEvidenceGuide({ guide, pageId }) {
           </tbody>
         </table>
       </div>
-      <p className="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-evidence-guide-stop="true">
+      <p className="mt-6 border-l-2 border-danger pl-4 text-sm font-semibold" data-evidence-guide-stop="true" id="granitsa">
         {guide.stop}
       </p>
-      <details className="mt-7 border border-line bg-white p-4">
+      <details className="mt-7 border border-line bg-white p-4" id="istochniki">
         <summary className="cursor-pointer font-display font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
           Официальные источники и границы проверки
         </summary>

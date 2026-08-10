@@ -11,6 +11,7 @@ const routeLoaders = {
   mount: () => import("./pages/MountPage.jsx"),
   seo: () => import("./pages/SeoPage.jsx"),
   trust: () => import("./pages/TrustPage.jsx"),
+  guideIndex: () => import("./pages/GuideIndexPage.jsx"),
 };
 
 const HomePage = lazyNamed(routeLoaders.home, "HomePage");
@@ -21,6 +22,7 @@ const ObservedModelPage = lazyNamed(routeLoaders.observedModel, "ObservedModelPa
 const MountPage = lazyNamed(routeLoaders.mount, "MountPage");
 const SeoPage = lazyNamed(routeLoaders.seo, "SeoPage");
 const TrustPage = lazyNamed(routeLoaders.trust, "TrustPage");
+const GuideIndexPage = lazyNamed(routeLoaders.guideIndex, "GuideIndexPage");
 
 const loaderByPageKind = new Map([
   ["home", routeLoaders.home],
@@ -32,6 +34,7 @@ const loaderByPageKind = new Map([
   ["mount", routeLoaders.mount],
   ["seo", routeLoaders.seo],
   ["trust", routeLoaders.trust],
+  ["guide-index", routeLoaders.guideIndex],
 ]);
 
 export function preloadAppRoute(rootElement) {
@@ -62,6 +65,10 @@ export function App({ catalog }) {
 
   if (path === "/kronshteyny/") {
     return withSiteFooter(<CatalogIndexPage catalog={catalog} kind="mounts" />);
+  }
+
+  if (path === "/spravochnik/") {
+    return withSiteFooter(<GuideIndexPage catalog={catalog} />);
   }
 
   const modelMatch = path.match(/^\/modeli\/([^/]+)\/?/);

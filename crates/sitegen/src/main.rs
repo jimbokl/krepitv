@@ -813,12 +813,26 @@ fn json_ld_script(value: Value) -> String {
 fn website_json_ld() -> String {
     json_ld_script(json!({
         "@context": "https://schema.org",
-        "@type": "WebSite",
-        "@id": "https://krepitv.ru/#website",
-        "url": "https://krepitv.ru/",
-        "name": "KREPI TV",
-        "description": "Независимый сервис проверки совместимости телевизоров и кронштейнов.",
-        "inLanguage": "ru-RU"
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://krepitv.ru/#website",
+                "url": "https://krepitv.ru/",
+                "name": "KREPI TV",
+                "alternateName": "Крепи ТВ",
+                "description": "Независимый сервис проверки совместимости телевизоров и кронштейнов.",
+                "inLanguage": "ru-RU",
+                "publisher": { "@id": "https://krepitv.ru/#organization" }
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://krepitv.ru/#organization",
+                "url": "https://krepitv.ru/",
+                "name": "KREPI TV",
+                "alternateName": "Крепи ТВ",
+                "logo": "https://krepitv.ru/logo-512.svg"
+            }
+        ]
     }))
 }
 
@@ -841,6 +855,59 @@ fn breadcrumb_json_ld(items: &[(&str, &str)]) -> String {
         "@type": "BreadcrumbList",
         "itemListElement": item_list
     }))
+}
+
+fn visible_breadcrumbs_from_json_ld(json_ld: &str) -> Option<String> {
+    let prefix = "<script type=\"application/ld+json\">";
+    for fragment in json_ld.split(prefix).skip(1) {
+        let Some(raw) = fragment.split("</script>").next() else {
+            continue;
+        };
+        let Ok(value) = serde_json::from_str::<Value>(raw) else {
+            continue;
+        };
+        if value.get("@type").and_then(Value::as_str) != Some("BreadcrumbList") {
+            continue;
+        }
+        let items = value.get("itemListElement")?.as_array()?;
+        let links = items
+            .iter()
+            .enumerate()
+            .map(|(index, item)| {
+                let name = escape_html(item.get("name").and_then(Value::as_str).unwrap_or_default());
+                let url = escape_html(item.get("item").and_then(Value::as_str).unwrap_or_default());
+                let separator = if index == 0 { "" } else { "<span aria-hidden=\"true\">/</span>" };
+                if index + 1 == items.len() {
+                    format!("{separator}<span aria-current=\"page\">{name}</span>")
+                } else {
+                    format!("{separator}<a class=\"transition hover:text-action\" href=\"{url}\">{name}</a>")
+                }
+            })
+            .collect::<Vec<_>>()
+            .join("");
+        return Some(format!(
+            "<nav aria-label=\"Навигационная цепочка\" class=\"mx-auto flex max-w-[1440px] flex-wrap items-center gap-2 px-5 pt-6 font-mono text-xs text-muted sm:px-8\" data-visible-breadcrumbs=\"true\">{links}</nav>"
+        ));
+    }
+    None
+}
+
+fn inject_visible_breadcrumbs(static_body: &str, json_ld: &str) -> String {
+    let Some(nav) = visible_breadcrumbs_from_json_ld(json_ld) else {
+        return static_body.to_string();
+    };
+    let Some(main_start) = static_body.find("<main") else {
+        return format!("{nav}{static_body}");
+    };
+    let Some(relative_end) = static_body[main_start..].find('>') else {
+        return format!("{nav}{static_body}");
+    };
+    let insert_at = main_start + relative_end + 1;
+    format!(
+        "{}{nav}{}",
+        &static_body[..insert_at],
+        &static_body[insert_at..]
+    )
 }
 
 fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
@@ -1063,6 +1130,43 @@ fn wall_mount_screws_summary(hardware: &WallMountScrews) -> String {
         .join("; ")
 }
 
+fn model_technical_image_path(tv: &TvModel) -> String {
+    format!("/images/modeli/{}-vesa.svg", tv.id)
+}
+
+fn mount_technical_image_path(mount: &Mount) -> String {
+    format!("/images/kronshteyny/{}-skhema.svg", mount.id)
+}
+
+fn model_technical_image_svg(tv: &TvModel) -> String {
+    format!(
+        r##"<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc"><title id="title">Техническая схема VESA {title}</title><desc id="desc">Схема расположения четырёх отверстий VESA {vesa_w} на {vesa_h} миллиметров. Не фотография.</desc><rect width="1200" height="630" fill="#F7F5F0"/><rect x="74" y="66" width="1052" height="498" rx="18" fill="#fff" stroke="#111" stroke-width="8"/><rect x="170" y="130" width="860" height="340" rx="10" fill="#111"/><rect x="186" y="146" width="828" height="308" fill="#E9E5DC"/><g fill="#FF4F21" stroke="#111" stroke-width="5"><circle cx="480" cy="230" r="16"/><circle cx="720" cy="230" r="16"/><circle cx="480" cy="370" r="16"/><circle cx="720" cy="370" r="16"/></g><path d="M480 190V158M720 190V158M480 174H720" stroke="#176B87" stroke-width="5"/><path d="M440 230H408M440 370H408M424 230V370" stroke="#176B87" stroke-width="5"/><text x="600" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700" fill="#176B87">{vesa_w} мм</text><text x="382" y="307" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700" fill="#176B87" transform="rotate(-90 382 307)">{vesa_h} мм</text><text x="92" y="610" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#111">{title} · VESA {vesa_w}×{vesa_h} мм · техническая схема, не фотография</text></svg>"##,
+        title = escape_html(&tv.title),
+        vesa_w = tv.vesa_width_mm,
+        vesa_h = tv.vesa_height_mm,
+    )
+}
+
+fn mount_technical_image_svg(mount: &Mount) -> String {
+    format!(
+        r##"<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc"><title id="title">Техническая схема кронштейна {title}</title><desc id="desc">Условная схема механизма {mechanism}, нагрузки и поддерживаемых размеров. Не фотография.</desc><rect width="1200" height="630" fill="#F7F5F0"/><rect x="92" y="72" width="26" height="440" fill="#D8D2C6"/><text x="80" y="552" font-family="Arial,sans-serif" font-size="25" fill="#555">СТЕНА</text><rect x="132" y="206" width="42" height="170" fill="#FF4F21" stroke="#111" stroke-width="6"/><path d="M174 290 L398 190 L606 340 L818 290" fill="none" stroke="#111" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/><g fill="#FF4F21" stroke="#111" stroke-width="6"><circle cx="398" cy="190" r="25"/><circle cx="606" cy="340" r="25"/></g><rect x="818" y="104" width="270" height="372" rx="12" fill="#fff" stroke="#111" stroke-width="9"/><rect x="852" y="138" width="202" height="304" fill="#E9E5DC"/><text x="600" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="36" font-weight="700" fill="#111">{title}</text><text x="600" y="570" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700" fill="#176B87">{mechanism} · до {load} кг · {min_diag}–{max_diag}″ · техническая схема</text></svg>"##,
+        title = escape_html(&mount.title),
+        mechanism = escape_html(mechanism_label(&mount.mechanism)),
+        load = mount.max_load_kg,
+        min_diag = mount.min_diagonal_in,
+        max_diag = mount.max_diagonal_in,
+    )
+}
+
+fn technical_image_html(path: &str, alt: &str, caption: &str) -> String {
+    format!(
+        "<figure class=\"my-7 border border-ink bg-white p-3 sm:p-5\"><img data-technical-image=\"true\" src=\"{}\" alt=\"{}\" width=\"1200\" height=\"630\" loading=\"lazy\" decoding=\"async\" class=\"block h-auto w-full\"><figcaption class=\"mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted\">{}</figcaption></figure>",
+        escape_html(path),
+        escape_html(alt),
+        escape_html(caption),
+    )
+}
+
 fn tv_product_json_ld(tv: &TvModel, canonical: &str) -> String {
     let vesa_value = tv
         .wall_mount_screws
@@ -1102,6 +1206,7 @@ fn tv_product_json_ld(tv: &TvModel, canonical: &str) -> String {
         "name": tv.title,
         "sku": tv.model,
         "url": canonical,
+        "image": format!("https://krepitv.ru{}", model_technical_image_path(tv)),
         "category": "Телевизоры",
         "brand": { "@type": "Brand", "name": tv.brand },
         "additionalProperty": properties
@@ -1115,6 +1220,7 @@ fn mount_product_json_ld(mount: &Mount, canonical: &str) -> String {
         "name": mount.title,
         "sku": mount.model,
         "url": canonical,
+        "image": format!("https://krepitv.ru{}", mount_technical_image_path(mount)),
         "category": "Кронштейны для телевизоров",
         "brand": { "@type": "Brand", "name": mount.brand },
         "additionalProperty": [
@@ -1157,7 +1263,7 @@ fn html_shell(
             format!(" {attribute}=\"{}\"", escape_html(id))
         })
         .unwrap_or_default();
-    let static_body = static_body.unwrap_or_default();
+    let static_body = inject_visible_breadcrumbs(static_body.unwrap_or_default(), head.json_ld);
     let robots_meta = head
         .robots
         .map(|value| {
@@ -1168,17 +1274,17 @@ fn html_shell(
         })
         .unwrap_or_default();
     format!(
-        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n<link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\">\n{market_verification_meta}{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
+        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n<link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\">\n{market_verification_meta}{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:site_name\" content=\"KREPI TV\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
         head.json_ld,
     )
 }
 
 fn static_header() -> &'static str {
-    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/vesa/\">VESA</a></nav></div></header>"
+    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/vesa/\">VESA</a><a href=\"/spravochnik/\">Справочник</a></nav></div></header>"
 }
 
 fn static_footer() -> &'static str {
-    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/televizor-na-stene/\">Примерка на стене</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/redaktsiya/\">Редакция</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
+    "<footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Инструменты и информация о сервисе\"><a href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/televizor-na-stene/\">Примерка на стене</a><a href=\"/na-kakoy-vysote-veshat-televizor/\">Высота установки</a><a href=\"/rasstoyanie-do-televizora-i-diagonal/\">Расстояние и диагональ</a><a href=\"/vesa/\">VESA</a><a href=\"/spravochnik/\">Справочник</a><a href=\"/o-proekte/\">О проекте</a><a href=\"/redaktsiya/\">Редакция</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>"
 }
 
 fn static_layout(content: &str) -> String {
@@ -1910,6 +2016,14 @@ fn model_page_body(
         .map(commercial_profile_html)
         .unwrap_or_default();
     let editorial_accountability = editorial_accountability_html("verified-model", &tv.checked_at);
+    let technical_image = technical_image_html(
+        &model_technical_image_path(tv),
+        &format!("Техническая схема VESA для {}", tv.title),
+        &format!(
+            "Схема показывает паспортную пару VESA {}×{} мм; геометрия корпуса условная.",
+            tv.vesa_width_mm, tv.vesa_height_mm
+        ),
+    );
     let wall_mount_screws = wall_mount_screws_html(tv);
     let vesa_fact = vesa_conflict
         .map(|conflict| {
@@ -1944,7 +2058,7 @@ fn model_page_body(
     }
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}{editorial_accountability}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Характеристики модели проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}{editorial_accountability}{technical_image}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Характеристики модели проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = model_year_label(tv.model_year),
@@ -1965,6 +2079,7 @@ fn model_page_body(
         context_section = context_section,
         commercial_section = commercial_section,
         editorial_accountability = editorial_accountability,
+        technical_image = technical_image,
         compatibility_lead = escape_html(&compatibility_lead),
         result_heading = escape_html(&result_heading),
         result_explanation = escape_html(&result_explanation),
@@ -2232,6 +2347,11 @@ fn mount_page_body(
         .map(commercial_profile_html)
         .unwrap_or_default();
     let editorial_accountability = editorial_accountability_html("mount", &mount.checked_at);
+    let technical_image = technical_image_html(
+        &mount_technical_image_path(mount),
+        &format!("Техническая схема кронштейна {}", mount.title),
+        "Условная схема показывает тип механизма; размеры деталей и углы не являются монтажным чертежом.",
+    );
     let technical_scheme = mount_technical_scheme_html(mount);
     let source_attributes = if mount.source_url.starts_with("https://market.yandex.ru/") {
         "data-market-source=\"identity\" rel=\"nofollow noopener noreferrer\" target=\"_blank\""
@@ -2247,7 +2367,7 @@ fn mount_page_body(
     );
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{fit_summary}{commercial_section}{editorial_accountability}{market_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Характеристики кронштейна проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" {source_attributes}>Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section>{technical_scheme}{context_section}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{fit_summary}{commercial_section}{editorial_accountability}{technical_image}{market_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Характеристики кронштейна проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" {source_attributes}>Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section>{technical_scheme}{context_section}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -2264,6 +2384,7 @@ fn mount_page_body(
         context_section = context_section,
         commercial_section = commercial_section,
         editorial_accountability = editorial_accountability,
+        technical_image = technical_image,
         technical_scheme = technical_scheme,
         verified_rows = verified_rows,
         conditional_section = conditional_section,
@@ -3773,7 +3894,7 @@ fn seo_evidence_guide_html(page: &SeoPage) -> String {
         .collect::<Vec<_>>()
         .join("\n");
     format!(
-        "<section class=\"border-y-2 border-ink py-7\" data-evidence-guide=\"{}\" id=\"мастер\"><p class=\"font-mono text-xs uppercase text-action\">{}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">{}</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">{}</p><h3 class=\"mt-7 font-display text-2xl font-extrabold [overflow-wrap:anywhere]\" id=\"evidence-guide-table-title\">Таблица решений по наблюдаемому признаку</h3><p class=\"mt-2 font-mono text-xs uppercase text-action sm:hidden\">Таблица прокручивается вправо →</p><div class=\"mt-4 overflow-x-auto border-2 border-ink\"><table aria-labelledby=\"evidence-guide-table-title\" class=\"w-full min-w-[720px] bg-white text-sm\" data-evidence-guide-table=\"true\"><thead><tr class=\"bg-ink text-paper\"><th class=\"p-4 text-left\" scope=\"col\">Ситуация</th><th class=\"p-4 text-left\" scope=\"col\">Следующий шаг</th><th class=\"p-4 text-left\" scope=\"col\">Как проверить</th></tr></thead><tbody>{}</tbody></table></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\" data-evidence-guide-stop=\"true\">{}</p><details class=\"mt-7 border border-line bg-white p-4\"><summary class=\"cursor-pointer font-display font-bold\">Официальные источники и границы проверки</summary><nav class=\"mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2\" aria-label=\"Официальные источники\">{}</nav><p class=\"mt-4 font-mono text-xs text-muted\">Материал проверен {}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\">Редакционная проверка KREPI TV: выводы ограничены официальными инструкциями и наблюдаемыми признаками. <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика, источники и границы проверки</a>.</p></details></section>",
+        "<section class=\"border-y-2 border-ink py-7\" data-evidence-guide=\"{}\" id=\"мастер\"><nav class=\"mb-7 grid gap-2 border-y border-line py-4 font-display text-sm font-bold sm:grid-cols-2 lg:grid-cols-4\" data-guide-toc=\"true\" aria-label=\"Содержание руководства\"><a class=\"underline decoration-line underline-offset-4\" href=\"#мастер\">Инструмент</a><a class=\"underline decoration-line underline-offset-4\" href=\"#granitsa\">Граница проверки</a><a class=\"underline decoration-line underline-offset-4\" href=\"#istochniki\">Источники</a><a class=\"underline decoration-line underline-offset-4\" href=\"#svyazannye-materialy\">По теме</a></nav><p class=\"font-mono text-xs uppercase text-action\">{}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">{}</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">{}</p><h3 class=\"mt-7 font-display text-2xl font-extrabold [overflow-wrap:anywhere]\" id=\"evidence-guide-table-title\">Таблица решений по наблюдаемому признаку</h3><p class=\"mt-2 font-mono text-xs uppercase text-action sm:hidden\">Таблица прокручивается вправо →</p><div class=\"mt-4 overflow-x-auto border-2 border-ink\"><table aria-labelledby=\"evidence-guide-table-title\" class=\"w-full min-w-[720px] bg-white text-sm\" data-evidence-guide-table=\"true\"><thead><tr class=\"bg-ink text-paper\"><th class=\"p-4 text-left\" scope=\"col\">Ситуация</th><th class=\"p-4 text-left\" scope=\"col\">Следующий шаг</th><th class=\"p-4 text-left\" scope=\"col\">Как проверить</th></tr></thead><tbody>{}</tbody></table></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\" data-evidence-guide-stop=\"true\" id=\"granitsa\">{}</p><details class=\"mt-7 border border-line bg-white p-4\" id=\"istochniki\"><summary class=\"cursor-pointer font-display font-bold\">Официальные источники и границы проверки</summary><nav class=\"mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2\" aria-label=\"Официальные источники\">{}</nav><p class=\"mt-4 font-mono text-xs text-muted\">Материал проверен {}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\">Редакционная проверка KREPI TV: выводы ограничены официальными инструкциями и наблюдаемыми признаками. <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика, источники и границы проверки</a>.</p></details></section>",
         escape_html(&page.id),
         escape_html(&guide.kicker),
         escape_html(&guide.heading),
@@ -3856,13 +3977,45 @@ fn seo_page_body(
     let mount_funnel_next_step = seo_mount_funnel_next_step_html();
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{editorial_accountability}{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{editorial_accountability}{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\" id=\"svyazannye-materialy\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
         page_kind_label = escape_html(page_kind_label),
         h1 = escape_html(&page.h1),
         lead = escape_html(&page.lead),
         editorial_accountability = editorial_accountability,
         answer_content = answer_content,
         mount_funnel_next_step = mount_funnel_next_step,
+    ))
+}
+
+fn guide_index_body(pages: &[SeoPage]) -> String {
+    let group_html = |title: &str, has_guide: bool| {
+        let links = pages
+            .iter()
+            .filter(|page| is_indexable_seo_page(page) && page.guide.is_some() == has_guide)
+            .map(|page| {
+                format!(
+                    "<a class=\"grid min-h-14 grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-t border-line py-3 font-display font-bold transition hover:text-action\" data-guide-index-link=\"{}\" href=\"{}\"><span>{}</span><span aria-hidden=\"true\">→</span></a>",
+                    escape_html(&page.path),
+                    escape_html(&page.path),
+                    escape_html(&page.h1),
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("\n");
+        format!(
+            "<section class=\"border-t-2 border-ink\"><h2 class=\"py-5 font-display text-3xl font-extrabold\">{}</h2><div class=\"border-b border-line\">{}</div></section>",
+            escape_html(title),
+            links,
+        )
+    };
+    let guide_count = pages
+        .iter()
+        .filter(|page| is_indexable_seo_page(page))
+        .count();
+    let instructions = group_html("Практические инструкции", true);
+    let utilities = group_html("Калькуляторы, таблицы и подборы", false);
+    static_layout(&format!(
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-guide-index=\"true\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{guide_count} полезных материалов</p><h1 class=\"mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]\">Справочник по телевизорам и креплениям</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Инструкции, проверочные таблицы и локальные калькуляторы KREPI TV. Каждый материал ведёт к точной модели, VESA или следующему безопасному шагу.</p></header><div class=\"grid gap-8 py-8 lg:grid-cols-2\">{instructions}{utilities}</div></article>"
     ))
 }
 
@@ -5066,6 +5219,21 @@ fn main() {
     validate_editorial_policy(&editorial_policy, &trust_pages);
     validate_commercial_profiles(&commercial_profiles, &models, &mounts, &compatibility_graph);
 
+    for tv in &models {
+        write(
+            &web.join("public")
+                .join(model_technical_image_path(tv).trim_start_matches('/')),
+            &model_technical_image_svg(tv),
+        );
+    }
+    for mount in &mounts {
+        write(
+            &web.join("public")
+                .join(mount_technical_image_path(mount).trim_start_matches('/')),
+            &mount_technical_image_svg(mount),
+        );
+    }
+
     fs::copy(
         data.join("tv_models.json"),
         public_data.join("tv-models.json"),
@@ -5243,6 +5411,25 @@ fn main() {
                 json_ld: &breadcrumb_json_ld(&[
                     ("Главная", "https://krepitv.ru/"),
                     ("Кронштейны", "https://krepitv.ru/kronshteyny/"),
+                ]),
+            },
+        ),
+    );
+
+    write(
+        &web.join("spravochnik/index.html"),
+        &html_shell(
+            "Справочник по телевизорам и креплениям — KREPI TV",
+            "Инструкции, калькуляторы и таблицы для проверки телевизора, VESA, кронштейна и безопасного монтажа.",
+            "https://krepitv.ru/spravochnik/",
+            "guide-index",
+            None,
+            Some(&guide_index_body(&seo_pages)),
+            HeadExtras {
+                robots: None,
+                json_ld: &breadcrumb_json_ld(&[
+                    ("Главная", "https://krepitv.ru/"),
+                    ("Справочник", "https://krepitv.ru/spravochnik/"),
                 ]),
             },
         ),
@@ -5482,15 +5669,11 @@ fn main() {
         let relative = page.path.trim_matches('/');
         let static_body = seo_page_body(page, &seo_pages, &models, &mounts, &compatibility_graph);
         let canonical = format!("https://krepitv.ru{}", page.path);
-        let breadcrumb = if page.path.starts_with("/vesa/") && page.path != "/vesa/" {
-            breadcrumb_json_ld(&[
-                ("Главная", "https://krepitv.ru/"),
-                ("Справочник VESA", "https://krepitv.ru/vesa/"),
-                (&page.h1, &canonical),
-            ])
-        } else {
-            breadcrumb_json_ld(&[("Главная", "https://krepitv.ru/"), (&page.h1, &canonical)])
-        };
+        let breadcrumb = breadcrumb_json_ld(&[
+            ("Главная", "https://krepitv.ru/"),
+            ("Справочник", "https://krepitv.ru/spravochnik/"),
+            (&page.h1, &canonical),
+        ]);
         let dataset = dataset_json_ld(&page.id, &canonical).unwrap_or_default();
         let evidence_guide = seo_evidence_guide_json_ld(page, &canonical).unwrap_or_default();
         let structured_data = format!("{breadcrumb}{dataset}{evidence_guide}");
@@ -5589,6 +5772,10 @@ fn main() {
             "https://krepitv.ru/kronshteyny/".to_string(),
             CORE_PAGES_UPDATED_AT.to_string(),
         ),
+        (
+            "https://krepitv.ru/spravochnik/".to_string(),
+            "2026-08-10".to_string(),
+        ),
     ];
     urls.extend(
         models
@@ -5678,9 +5865,35 @@ fn main() {
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n{sitemap_urls}\n</urlset>\n"
         ),
     );
+    let image_sitemap_urls = models
+        .iter()
+        .map(|tv| {
+            format!(
+                "  <url><loc>https://krepitv.ru/modeli/{id}/</loc><image:image><image:loc>https://krepitv.ru{image}</image:loc><image:title>Техническая схема VESA {title}</image:title></image:image></url>",
+                id = escape_html(&tv.id),
+                image = escape_html(&model_technical_image_path(tv)),
+                title = escape_html(&tv.title),
+            )
+        })
+        .chain(mounts.iter().map(|mount| {
+            format!(
+                "  <url><loc>https://krepitv.ru/kronshteyny/{id}/</loc><image:image><image:loc>https://krepitv.ru{image}</image:loc><image:title>Техническая схема кронштейна {title}</image:title></image:image></url>",
+                id = escape_html(&mount.id),
+                image = escape_html(&mount_technical_image_path(mount)),
+                title = escape_html(&mount.title),
+            )
+        }))
+        .collect::<Vec<_>>()
+        .join("\n");
+    write(
+        &web.join("public/image-sitemap.xml"),
+        &format!(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">\n{image_sitemap_urls}\n</urlset>\n"
+        ),
+    );
     write(
         &web.join("public/robots.txt"),
-        "User-agent: *\nAllow: /\n\nSitemap: https://krepitv.ru/sitemap.xml\n",
+        "User-agent: *\nAllow: /\n\nSitemap: https://krepitv.ru/sitemap.xml\nSitemap: https://krepitv.ru/image-sitemap.xml\n",
     );
 
     println!("Сгенерировано страниц: {}", urls.len());

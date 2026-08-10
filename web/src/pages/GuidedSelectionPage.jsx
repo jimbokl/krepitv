@@ -13,6 +13,7 @@ import {
   Stack,
 } from "@phosphor-icons/react";
 import { Brand } from "../components/Brand.jsx";
+import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { MetrikaConsent } from "../components/MetrikaConsent.jsx";
 import { ModelFacts } from "../components/ModelFacts.jsx";
 import { MountDetailLink } from "../components/MountDetailLink.jsx";
@@ -265,6 +266,10 @@ export function GuidedSelectionPage({ catalog }) {
 
         <div className="min-w-0">
           <section className="border-b border-line px-5 py-8 sm:px-10 lg:px-12">
+            <Breadcrumbs items={[
+              { href: "/", label: "Главная" },
+              { label: "Подбор по модели" },
+            ]} />
             <p className="font-mono text-xs uppercase tracking-wide text-muted">
               Шаг {step} из 4
             </p>

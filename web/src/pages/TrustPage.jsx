@@ -1,6 +1,7 @@
 import { ArrowRight, ShieldCheck } from "@phosphor-icons/react";
 import { useEffect } from "react";
 import { SiteHeader } from "../components/SiteHeader.jsx";
+import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 
 export function TrustPage({ page }) {
   usePageMetadata(page);
@@ -9,11 +10,7 @@ export function TrustPage({ page }) {
     <main className="min-h-screen bg-paper text-ink">
       <SiteHeader active={page.path} />
       <article className="mx-auto max-w-[1440px] px-5 pb-16 pt-6 sm:px-8">
-        <nav className="flex flex-wrap items-center gap-2 font-mono text-xs text-muted" aria-label="Навигационная цепочка">
-          <a className="hover:text-action" href="/">Главная</a>
-          <span aria-hidden="true">/</span>
-          <span>{page.h1}</span>
-        </nav>
+        <Breadcrumbs items={[{ href: "/", label: "Главная" }, { label: page.h1 }]} />
 
         <header className="mt-5 border-b-2 border-ink pb-7">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">{page.kicker}</p>

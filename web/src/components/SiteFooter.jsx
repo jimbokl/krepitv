@@ -11,6 +11,7 @@ const footerLinks = [
   { href: "/na-kakoy-vysote-veshat-televizor/", label: "Высота установки" },
   { href: "/rasstoyanie-do-televizora-i-diagonal/", label: "Расстояние и диагональ" },
   { href: "/vesa/", label: "VESA" },
+  { href: "/spravochnik/", label: "Справочник" },
   { href: "/o-proekte/", label: "О проекте" },
   { href: "/redaktsiya/", label: "Редакция" },
   { href: "/metodika/", label: "Методика" },

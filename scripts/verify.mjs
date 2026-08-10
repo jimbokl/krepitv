@@ -18,7 +18,7 @@ const seoFunnelUpdatedAt = "2026-08-08";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 288;
+const baselineIndexableUrlCount = 289;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -2366,9 +2366,14 @@ for (const [route, html] of htmlByRoute) {
   const jsonLd = jsonLdFromHtml(html, route);
   const canonical = canonicalFromHtml(html);
   if (route === "/") {
-    const website = jsonLd.find((item) => item["@type"] === "WebSite");
+    const homeEntities = jsonLd.flatMap((item) => Array.isArray(item["@graph"]) ? item["@graph"] : [item]);
+    const website = homeEntities.find((item) => item["@type"] === "WebSite");
+    const organization = homeEntities.find((item) => item["@type"] === "Organization");
     if (!website || website.url !== canonical || website.inLanguage !== "ru-RU") {
       throw new Error("На главной нет корректного WebSite JSON-LD");
+    }
+    if (!organization || organization.url !== canonical || organization.logo !== "https://krepitv.ru/logo-512.svg") {
+      throw new Error("На главной нет корректного Organization JSON-LD");
     }
     continue;
   }
@@ -2441,6 +2446,9 @@ for (const [route, html] of htmlByRoute) {
 const robotsTxt = await readFile(path.join(docs, "robots.txt"), "utf8");
 if (!robotsTxt.includes("Sitemap: https://krepitv.ru/sitemap.xml")) {
   throw new Error("robots.txt не содержит канонический адрес sitemap");
+}
+if (!robotsTxt.includes("Sitemap: https://krepitv.ru/image-sitemap.xml")) {
+  throw new Error("robots.txt не содержит канонический адрес image sitemap");
 }
 
 console.log(

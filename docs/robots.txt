@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://krepitv.ru/sitemap.xml
+Sitemap: https://krepitv.ru/image-sitemap.xml

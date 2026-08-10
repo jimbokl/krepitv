@@ -1,6 +1,7 @@
 import { ArrowRight, BracketsSquare, TelevisionSimple } from "@phosphor-icons/react";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
+import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { modelHref, mountHref } from "../lib/catalog.js";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
@@ -24,6 +25,10 @@ export function CatalogIndexPage({ catalog, kind }) {
     <main className="min-h-screen bg-paper text-ink">
       <SiteHeader active={models ? "/modeli/" : "/kronshteyny/"} />
       <article className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8">
+        <Breadcrumbs items={[
+          { href: "/", label: "Главная" },
+          { label: models ? "Модели телевизоров" : "Кронштейны" },
+        ]} />
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
           {models ? "Два уровня проверки" : "Проверенная база"}
         </p>
