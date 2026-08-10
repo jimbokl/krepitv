@@ -549,6 +549,13 @@ fn embedded_editorial_policy() -> EditorialPolicy {
         .expect("Встроенная editorial policy должна соответствовать строгой схеме")
 }
 
+const EDITORIAL_USER_ICON: &str = r#"<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true" class="size-4 shrink-0 text-action"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"></path></svg>"#;
+const EDITORIAL_SHIELD_ICON: &str = r#"<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true" class="size-4 shrink-0 text-action"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"></path></svg>"#;
+const EDITORIAL_CHECK_ICON: &str = r#"<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true" class="size-4 shrink-0 text-action"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path></svg>"#;
+const EDITORIAL_INFO_ICON: &str = r#"<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true" class="size-4 shrink-0 text-action"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path></svg>"#;
+const TRUST_SHIELD_ICON: &str = r#"<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true" class="size-8 text-action"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"></path></svg>"#;
+const TRUST_ARROW_ICON: &str = r#"<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true" class="size-5 shrink-0"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>"#;
+
 fn editorial_accountability_html(content_kind: &str, checked_at: &str) -> String {
     assert!(
         is_valid_iso_date(checked_at),
@@ -578,7 +585,11 @@ fn editorial_accountability_html(content_kind: &str, checked_at: &str) -> String
     let visible_date = format!("{day}.{month}.{year}");
 
     format!(
-        "<aside aria-label=\"Как подготовлен и проверен материал\" class=\"border-b-2 border-ink py-5\" data-editorial-accountability=\"true\"><div class=\"grid gap-px border border-ink bg-ink sm:grid-cols-2 xl:grid-cols-4\"><div class=\"min-w-0 bg-paper p-4\"><p class=\"font-mono text-xs uppercase text-muted\">Автор материала</p><p class=\"mt-2 font-display font-bold\"><a class=\"underline decoration-action decoration-2 underline-offset-4\" href=\"{author_path}\">{author_name}</a></p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"font-mono text-xs uppercase text-muted\">Основание</p><p class=\"mt-2 font-display font-bold\">{basis}</p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"font-mono text-xs uppercase text-muted\">Материал обновлён</p><p class=\"mt-2 font-display font-bold\"><time datetime=\"{checked_at}\">{visible_date}</time></p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"font-mono text-xs uppercase text-muted\">Испытание товара</p><p class=\"mt-2 font-display font-bold\">{physical_test_label}</p></div></div><details class=\"border-x border-b border-ink bg-white px-4 py-3\"><summary class=\"cursor-pointer font-display font-bold\">Как подготовлен материал</summary><div class=\"grid gap-3 pt-3 text-sm leading-relaxed text-muted lg:grid-cols-2\"><p>{source_policy}</p><p>{automation_disclosure}</p><p>{physical_test_explanation}</p><p>Подробности: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{methodology_path}\">методика</a> · <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{corrections_path}\">сообщить об ошибке</a>.</p></div></details></aside>",
+        "<aside aria-label=\"Как подготовлен и проверен материал\" class=\"border-b-2 border-ink py-5\" data-editorial-accountability=\"true\"><div class=\"grid gap-px border border-ink bg-ink sm:grid-cols-2 xl:grid-cols-4\"><div class=\"min-w-0 bg-paper p-4\"><p class=\"flex items-center gap-2 font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">{user_icon} Автор материала</p><p class=\"mt-2 break-words font-display text-base font-bold leading-snug\"><a class=\"underline decoration-action decoration-2 underline-offset-4\" href=\"{author_path}\">{author_name}</a></p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"flex items-center gap-2 font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">{shield_icon} Основание</p><p class=\"mt-2 break-words font-display text-base font-bold leading-snug\">{basis}</p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"flex items-center gap-2 font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">{check_icon} Материал обновлён</p><p class=\"mt-2 break-words font-display text-base font-bold leading-snug\"><time datetime=\"{checked_at}\">{visible_date}</time></p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"flex items-center gap-2 font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">{info_icon} Испытание товара</p><p class=\"mt-2 break-words font-display text-base font-bold leading-snug\">{physical_test_label}</p></div></div><details class=\"group border-x border-b border-ink bg-white px-4 py-3\"><summary class=\"flex cursor-pointer list-none items-center justify-between gap-4 font-display font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action\">Как подготовлен материал<span aria-hidden=\"true\" class=\"text-xl text-action transition group-open:rotate-45\">+</span></summary><div class=\"grid gap-3 pt-3 text-sm leading-relaxed text-muted lg:grid-cols-2\"><p>{source_policy}</p><p>{automation_disclosure}</p><p>{physical_test_explanation}</p><p>Подробности: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{methodology_path}\">методика</a> · <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{corrections_path}\">сообщить об ошибке</a>.</p></div></details></aside>",
+        user_icon = EDITORIAL_USER_ICON,
+        shield_icon = EDITORIAL_SHIELD_ICON,
+        check_icon = EDITORIAL_CHECK_ICON,
+        info_icon = EDITORIAL_INFO_ICON,
         author_path = escape_html(&policy.author.path),
         author_name = escape_html(&policy.author.name),
         basis = escape_html(basis),
@@ -3957,7 +3968,7 @@ fn trust_page_body(page: &TrustPage) -> String {
                 format!("<ul class=\"space-y-3 border-l-2 border-action pl-5 text-ink\">{items}</ul>")
             };
             format!(
-                "<section class=\"border-b border-line pb-9\"><h2 class=\"font-display text-3xl font-extrabold leading-tight sm:text-4xl\">{}</h2><div class=\"mt-5 space-y-4 text-base leading-relaxed text-muted sm:text-lg\">{paragraphs}{bullets}</div></section>",
+                "<section class=\"border-b border-line pb-9 last:border-b-0\"><h2 class=\"font-display text-3xl font-extrabold leading-tight sm:text-4xl\">{}</h2><div class=\"mt-5 space-y-4 text-base leading-relaxed text-muted sm:text-lg\">{paragraphs}{bullets}</div></section>",
                 escape_html(&section.heading),
             )
         })
@@ -3968,7 +3979,7 @@ fn trust_page_body(page: &TrustPage) -> String {
         .iter()
         .map(|link| {
             format!(
-                "<a class=\"flex min-h-12 items-center border-t border-line py-3 font-display font-bold\" href=\"{}\">{}</a>",
+                "<a class=\"flex min-h-12 items-center justify-between gap-3 border-t border-line py-3 font-display font-bold transition first:border-t-0 hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2\" href=\"{}\">{}{TRUST_ARROW_ICON}</a>",
                 escape_html(&link.href),
                 escape_html(&link.label),
             )
@@ -3977,11 +3988,12 @@ fn trust_page_body(page: &TrustPage) -> String {
         .join("\n");
 
     format!(
-        "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto max-w-[1440px] px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a></div></header><main class=\"min-h-screen bg-paper text-ink\"><article class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-6 sm:px-8\"><nav class=\"font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a href=\"/\">Главная</a> / {h1}</nav><header class=\"mt-5 border-b-2 border-ink pb-7\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{kicker}</p><h1 class=\"mt-3 max-w-[1180px] break-words font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]\">{h1}</h1><p class=\"mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl\">{lead}</p><p class=\"mt-5 font-mono text-xs text-muted\">Актуально на {updated_at}</p></header><aside class=\"grid gap-3 border-b border-ink py-5 sm:grid-cols-[12rem_minmax(0,1fr)]\" data-trust-publisher=\"true\"><p class=\"font-mono text-xs uppercase text-muted\">Ответственный издатель</p><p><a class=\"font-display text-lg font-extrabold underline decoration-action decoration-2 underline-offset-4\" href=\"/redaktsiya/\">Редакция KREPI TV</a> <span class=\"text-sm text-muted\">Организационный автор проекта</span></p></aside><div class=\"grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_22rem]\"><div class=\"max-w-4xl space-y-10\">{sections}</div><aside class=\"border border-line bg-white p-6\"><h2 class=\"font-display text-2xl font-extrabold\">Полезные разделы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные разделы\">{related_links}</nav></aside></div></article></main><footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Информация о сервисе\"><a href=\"/o-proekte/\">О проекте</a><a href=\"/redaktsiya/\">Редакция</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>",
+        "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto max-w-[1440px] px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a></div></header><main class=\"min-h-screen bg-paper text-ink\"><article class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-6 sm:px-8\"><nav class=\"font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a href=\"/\">Главная</a> / {h1}</nav><header class=\"mt-5 border-b-2 border-ink pb-7\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{kicker}</p><h1 class=\"mt-3 max-w-[1180px] break-words font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]\">{h1}</h1><p class=\"mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl\">{lead}</p><p class=\"mt-5 font-mono text-xs text-muted\">Актуально на {updated_at}</p></header><aside class=\"grid gap-3 border-b border-ink py-5 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center\" data-trust-publisher=\"true\"><p class=\"font-mono text-xs uppercase text-muted\">Ответственный издатель</p><p class=\"flex flex-wrap items-baseline gap-x-3 gap-y-1\"><a class=\"font-display text-lg font-extrabold underline decoration-action decoration-2 underline-offset-4\" href=\"/redaktsiya/\">Редакция KREPI TV</a><span class=\"text-sm text-muted\">Организационный автор проекта</span></p></aside><div class=\"grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start\"><div class=\"max-w-4xl space-y-10\">{sections}</div><aside class=\"border border-line bg-white p-6 lg:sticky lg:top-6\" aria-labelledby=\"trust-related-title\">{trust_shield_icon}<h2 class=\"mt-4 font-display text-2xl font-extrabold\" id=\"trust-related-title\">Полезные разделы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные разделы\">{related_links}</nav></aside></div></article></main><footer class=\"border-t-2 border-ink bg-paper\"><nav class=\"mx-auto flex max-w-[1440px] flex-wrap gap-6 px-5 py-7 font-display text-sm font-bold uppercase sm:px-8\" aria-label=\"Информация о сервисе\"><a href=\"/o-proekte/\">О проекте</a><a href=\"/redaktsiya/\">Редакция</a><a href=\"/metodika/\">Методика</a><a href=\"/kontakty/\">Контакты</a><a href=\"/politika-konfidencialnosti/\">Конфиденциальность</a></nav></footer>",
         h1 = escape_html(&page.h1),
         kicker = escape_html(&page.kicker),
         lead = escape_html(&page.lead),
         updated_at = escape_html(&page.updated_at),
+        trust_shield_icon = TRUST_SHIELD_ICON,
     )
 }
 
@@ -5958,6 +5970,16 @@ mod tests {
                 .iter()
                 .any(|page| page.id == "editorial" && page.path == policy.author.path)
         );
+        let editorial = pages
+            .iter()
+            .find(|page| page.id == "editorial")
+            .expect("Нет страницы редакции");
+        let editorial_body = trust_page_body(editorial);
+        assert!(editorial_body.contains("aria-labelledby=\"trust-related-title\""));
+        assert!(editorial_body.contains("id=\"trust-related-title\""));
+        assert!(editorial_body.contains("focus:ring-2 focus:ring-action focus:ring-offset-2"));
+        assert!(editorial_body.contains("class=\"size-8 text-action\""));
+        assert!(editorial_body.contains("class=\"size-5 shrink-0\""));
     }
 
     #[test]
@@ -5992,6 +6014,14 @@ mod tests {
             assert!(body.contains("href=\"/redaktsiya/\">Редакция KREPI TV"));
             assert!(body.contains("Физический тест не проводился"));
             assert!(body.contains("href=\"/metodika/\""));
+            assert_eq!(
+                body.matches("class=\"size-4 shrink-0 text-action\"")
+                    .count(),
+                4
+            );
+            assert!(body.contains("class=\"group border-x border-b border-ink"));
+            assert!(body.contains("focus-visible:ring-2 focus-visible:ring-action"));
+            assert!(body.contains("group-open:rotate-45\">+</span>"));
         }
 
         let mount_body = mount_page_body(mount, &models, &graph, &[], 0, None);

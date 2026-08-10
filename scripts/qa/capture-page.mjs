@@ -1055,10 +1055,18 @@ try {
           throw new Error("QA focus target not found");
         }
         if (details) details.open = true;
-        if (focusTarget) focusTarget.focus();
+        if (focusTarget) {
+          const focusables = Array.from(document.querySelectorAll(
+            'a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])',
+          )).filter((element) => !element.hasAttribute("disabled"));
+          const targetIndex = focusables.indexOf(focusTarget);
+          const previousTarget = targetIndex > 0 ? focusables[targetIndex - 1] : null;
+          if (!(previousTarget instanceof HTMLElement)) throw new Error("QA previous focus target not found");
+          previousTarget.focus();
+        }
         return {
           detailsOpen: details?.open ?? null,
-          focusVisible: focusTarget ? document.activeElement === focusTarget : null,
+          focusPrepared: focusTarget ? document.activeElement !== focusTarget : null,
         };
       })()`,
       returnByValue: true,
@@ -1067,8 +1075,30 @@ try {
     if (openDetailsSelector && prepared.result.value?.detailsOpen !== true) {
       throw new Error("QA details target did not open");
     }
-    if (focusSelector && prepared.result.value?.focusVisible !== true) {
-      throw new Error("QA focus target did not receive focus");
+    if (focusSelector) {
+      if (prepared.result.value?.focusPrepared !== true) {
+        throw new Error("QA keyboard focus could not be prepared");
+      }
+      await send("Input.dispatchKeyEvent", {
+        type: "keyDown",
+        key: "Tab",
+        code: "Tab",
+        windowsVirtualKeyCode: 9,
+      });
+      await send("Input.dispatchKeyEvent", {
+        type: "keyUp",
+        key: "Tab",
+        code: "Tab",
+        windowsVirtualKeyCode: 9,
+      });
+      const focused = await send("Runtime.evaluate", {
+        expression: `(() => {
+          const target = document.querySelector(${JSON.stringify(focusSelector)});
+          return target === document.activeElement && target.matches(":focus-visible");
+        })()`,
+        returnByValue: true,
+      });
+      if (focused.result.value !== true) throw new Error("QA keyboard focus is not visibly rendered");
     }
   }
   const effectiveSelector = selector
