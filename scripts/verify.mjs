@@ -1331,6 +1331,21 @@ for (const { basis, checkedAt, route } of editorialRoutes) {
     }
   }
 }
+const editorialTrustHtml = htmlByRoute.get("/redaktsiya/") ?? "";
+for (const requiredFragment of [
+  'data-trust-publisher="true"',
+  'href="/redaktsiya/">Редакция KREPI TV',
+  "Организационный автор проекта",
+]) {
+  if (!editorialTrustHtml.includes(requiredFragment)) {
+    throw new Error(`Страница редакции не содержит публичную ответственность издателя: ${requiredFragment}`);
+  }
+}
+for (const [route, html] of htmlByRoute) {
+  if (!html.includes('href="/redaktsiya/">Редакция</a>')) {
+    throw new Error(`Публичный footer не ведёт на страницу редакции: ${route}`);
+  }
+}
 for (const mount of mounts) {
   const route = `/kronshteyny/${mount.id}/`;
   const html = htmlByRoute.get(route) ?? "";

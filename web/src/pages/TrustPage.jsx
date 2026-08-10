@@ -24,6 +24,19 @@ export function TrustPage({ page }) {
           <p className="mt-5 font-mono text-xs text-muted">Актуально на {page.updated_at}</p>
         </header>
 
+        <aside
+          className="grid gap-3 border-b border-ink py-5 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center"
+          data-trust-publisher="true"
+        >
+          <p className="font-mono text-xs uppercase text-muted">Ответственный издатель</p>
+          <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <a className="font-display text-lg font-extrabold underline decoration-action decoration-2 underline-offset-4" href="/redaktsiya/">
+              Редакция KREPI TV
+            </a>
+            <span className="text-sm text-muted">Организационный автор проекта</span>
+          </p>
+        </aside>
+
         <div className="grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
           <div className="max-w-4xl space-y-10">
             {page.sections.map((section) => (

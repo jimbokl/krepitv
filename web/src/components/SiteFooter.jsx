@@ -12,6 +12,7 @@ const footerLinks = [
   { href: "/rasstoyanie-do-televizora-i-diagonal/", label: "Расстояние и диагональ" },
   { href: "/vesa/", label: "VESA" },
   { href: "/o-proekte/", label: "О проекте" },
+  { href: "/redaktsiya/", label: "Редакция" },
   { href: "/metodika/", label: "Методика" },
   { href: "/kontakty/", label: "Контакты" },
   { href: "/politika-konfidencialnosti/", label: "Конфиденциальность" },

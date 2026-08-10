@@ -15,6 +15,8 @@ const output = path.resolve(argument("--output", "product-docs/design-qa/page.pn
 const width = Number(argument("--width", "1440"));
 const height = Number(argument("--height", "1100"));
 const selector = argument("--selector", null);
+const openDetailsSelector = argument("--open-details-selector", null);
+const focusSelector = argument("--focus-selector", null);
 const modelQuery = argument("--model-query", null);
 const observedModelState = argument("--observed-model-state", null);
 const phoneTvState = argument("--phone-tv-state", null);
@@ -1035,6 +1037,38 @@ try {
     }
     if (observedModelState === "focus" && !observedModelReport.focused) {
       throw new Error("Observed model focus state is not visible on the search input");
+    }
+  }
+  if (openDetailsSelector || focusSelector) {
+    const prepared = await send("Runtime.evaluate", {
+      expression: `(() => {
+        const details = ${JSON.stringify(openDetailsSelector)}
+          ? document.querySelector(${JSON.stringify(openDetailsSelector)})
+          : null;
+        const focusTarget = ${JSON.stringify(focusSelector)}
+          ? document.querySelector(${JSON.stringify(focusSelector)})
+          : null;
+        if (${JSON.stringify(openDetailsSelector)} && !(details instanceof HTMLDetailsElement)) {
+          throw new Error("QA details target not found");
+        }
+        if (${JSON.stringify(focusSelector)} && !(focusTarget instanceof HTMLElement)) {
+          throw new Error("QA focus target not found");
+        }
+        if (details) details.open = true;
+        if (focusTarget) focusTarget.focus();
+        return {
+          detailsOpen: details?.open ?? null,
+          focusVisible: focusTarget ? document.activeElement === focusTarget : null,
+        };
+      })()`,
+      returnByValue: true,
+    });
+    if (prepared.exceptionDetails) throw new Error("Cannot prepare generic QA state");
+    if (openDetailsSelector && prepared.result.value?.detailsOpen !== true) {
+      throw new Error("QA details target did not open");
+    }
+    if (focusSelector && prepared.result.value?.focusVisible !== true) {
+      throw new Error("QA focus target did not receive focus");
     }
   }
   const effectiveSelector = selector
