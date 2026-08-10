@@ -544,6 +544,55 @@ fn escape_html(value: &str) -> String {
         .replace('\'', "&#39;")
 }
 
+fn embedded_editorial_policy() -> EditorialPolicy {
+    serde_json::from_str(include_str!("../../../data/editorial_policy.json"))
+        .expect("Встроенная editorial policy должна соответствовать строгой схеме")
+}
+
+fn editorial_accountability_html(content_kind: &str, checked_at: &str) -> String {
+    assert!(
+        is_valid_iso_date(checked_at),
+        "Некорректная дата редакционного основания: {checked_at}"
+    );
+    let basis = match content_kind {
+        "seo-reviewed" => "Официальные инструкции и редакционная проверка",
+        "seo-calculated" => "Источники, формула и перечисленные допущения",
+        "verified-model" => "Официальные характеристики и расчёт совместимости",
+        "mount" => "Паспорт кронштейна и граф совместимости",
+        "observed-model" => "Наблюдение ассортимента без технической рекомендации",
+        _ => panic!("Неизвестное основание редакционного материала: {content_kind}"),
+    };
+    let policy = embedded_editorial_policy();
+    assert_eq!(policy.schema_version, 1);
+    assert_eq!(policy.author.name, "Редакция KREPI TV");
+    assert_eq!(policy.author.path, "/redaktsiya/");
+    assert_eq!(policy.methodology_path, "/metodika/");
+    assert_eq!(policy.corrections_path, "/kontakty/");
+    assert_eq!(policy.physical_test.status, "not_tested");
+    assert_eq!(policy.physical_test.label, "Физический тест не проводился");
+    let [year, month, day] = checked_at
+        .split('-')
+        .collect::<Vec<_>>()
+        .try_into()
+        .expect("Проверенная ISO-дата содержит три компонента");
+    let visible_date = format!("{day}.{month}.{year}");
+
+    format!(
+        "<aside aria-label=\"Как подготовлен и проверен материал\" class=\"border-b-2 border-ink py-5\" data-editorial-accountability=\"true\"><div class=\"grid gap-px border border-ink bg-ink sm:grid-cols-2 xl:grid-cols-4\"><div class=\"min-w-0 bg-paper p-4\"><p class=\"font-mono text-xs uppercase text-muted\">Автор материала</p><p class=\"mt-2 font-display font-bold\"><a class=\"underline decoration-action decoration-2 underline-offset-4\" href=\"{author_path}\">{author_name}</a></p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"font-mono text-xs uppercase text-muted\">Основание</p><p class=\"mt-2 font-display font-bold\">{basis}</p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"font-mono text-xs uppercase text-muted\">Материал обновлён</p><p class=\"mt-2 font-display font-bold\"><time datetime=\"{checked_at}\">{visible_date}</time></p></div><div class=\"min-w-0 bg-paper p-4\"><p class=\"font-mono text-xs uppercase text-muted\">Испытание товара</p><p class=\"mt-2 font-display font-bold\">{physical_test_label}</p></div></div><details class=\"border-x border-b border-ink bg-white px-4 py-3\"><summary class=\"cursor-pointer font-display font-bold\">Как подготовлен материал</summary><div class=\"grid gap-3 pt-3 text-sm leading-relaxed text-muted lg:grid-cols-2\"><p>{source_policy}</p><p>{automation_disclosure}</p><p>{physical_test_explanation}</p><p>Подробности: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{methodology_path}\">методика</a> · <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{corrections_path}\">сообщить об ошибке</a>.</p></div></details></aside>",
+        author_path = escape_html(&policy.author.path),
+        author_name = escape_html(&policy.author.name),
+        basis = escape_html(basis),
+        checked_at = escape_html(checked_at),
+        visible_date = escape_html(&visible_date),
+        physical_test_label = escape_html(&policy.physical_test.label),
+        source_policy = escape_html(&policy.source_policy),
+        automation_disclosure = escape_html(&policy.automation_disclosure),
+        physical_test_explanation = escape_html(&policy.physical_test.explanation),
+        methodology_path = escape_html(&policy.methodology_path),
+        corrections_path = escape_html(&policy.corrections_path),
+    )
+}
+
 fn encode_query_component(value: &str) -> String {
     let mut encoded = String::with_capacity(value.len());
     for byte in value.as_bytes() {
@@ -908,8 +957,8 @@ fn seo_evidence_guide_json_ld(page: &SeoPage, canonical: &str) -> Option<String>
         "isAccessibleForFree": true,
         "author": {
             "@type": "Organization",
-            "name": "KREPI TV",
-            "url": "https://krepitv.ru/o-proekte/"
+            "name": "Редакция KREPI TV",
+            "url": "https://krepitv.ru/redaktsiya/"
         },
         "publisher": {
             "@type": "Organization",
@@ -1849,6 +1898,7 @@ fn model_page_body(
     let commercial_section = commercial_profile
         .map(commercial_profile_html)
         .unwrap_or_default();
+    let editorial_accountability = editorial_accountability_html("verified-model", &tv.checked_at);
     let wall_mount_screws = wall_mount_screws_html(tv);
     let vesa_fact = vesa_conflict
         .map(|conflict| {
@@ -1883,7 +1933,7 @@ fn model_page_body(
     }
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Характеристики модели проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}{editorial_accountability}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Характеристики модели проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = model_year_label(tv.model_year),
@@ -1903,6 +1953,7 @@ fn model_page_body(
         affiliate_section = affiliate_section,
         context_section = context_section,
         commercial_section = commercial_section,
+        editorial_accountability = editorial_accountability,
         compatibility_lead = escape_html(&compatibility_lead),
         result_heading = escape_html(&result_heading),
         result_explanation = escape_html(&result_explanation),
@@ -1976,15 +2027,18 @@ fn observed_model_page_body(model: &MarketTvModel) -> String {
     } else {
         "Модель идентифицирована по карточке Маркета. Технические параметры настенного монтажа пока не подтверждены официальным руководством."
     };
+    let editorial_accountability =
+        editorial_accountability_html("observed-model", &model.checked_at);
 
     let body = static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-market-model-page=\"true\"><nav class=\"flex flex-wrap items-center gap-2 font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a href=\"/\">Главная</a><span aria-hidden=\"true\">/</span><a href=\"/modeli/\">Телевизоры</a><span aria-hidden=\"true\">/</span><span>{model}</span></nav><header class=\"mt-6 border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Модель найдена на Маркете · паспорт проверяется</p><h1 class=\"mt-3 break-words font-display text-[clamp(2.8rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]\">Кронштейн для {title}</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">{identity_status}</p><p class=\"mt-4 border-l-2 border-action pl-4 font-semibold\">Без подтверждённых VESA и массы KREPI TV не показывает «подходящие» кронштейны и не подменяет проверку догадкой.</p></header>{alias_notice}<dl class=\"grid gap-px border-b-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4\"><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Бренд</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{brand}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Модель</dt><dd class=\"mt-1 break-words font-display text-2xl font-extrabold\">{model}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{diagonal}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Проверено в выдаче</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{checked_at}</dd></div></dl>{geometry}<section class=\"py-8\"><p class=\"font-mono text-xs uppercase text-action\">Три проверки до покупки</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Как подобрать кронштейн без ошибки</h2><ol class=\"mt-6 grid gap-px border border-ink bg-ink md:grid-cols-3\"><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">01 · Модель</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Сверьте шильдик</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Сравните полный код на задней панели с «{model}». Суффикс и диагональ могут менять корпус, массу и VESA.</p></li><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">02 · VESA</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Измерьте отверстия</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Снимите подставку только по инструкции. Измерьте горизонталь × вертикаль между центрами четырёх резьбовых отверстий.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/kak-uznat-vesa-televizora/\">Инструкция по VESA →</a></li><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">03 · Масса</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Найдите вес без ножек</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Берите массу без подставки из руководства и закладывайте минимум 25% запаса. Стеновой крепёж проверяется отдельно.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Границы проверки →</a></li></ol></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что зафиксировано в источнике</h2><p class=\"mt-4 max-w-4xl leading-relaxed\"><strong>Название карточки:</strong> {market_title}</p><p class=\"mt-3 max-w-4xl text-sm leading-relaxed text-muted\">{purchase_signal} {rating_signal}</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" data-market-source=\"identity\" href=\"{market_url}\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Открыть исходную карточку Яндекс Маркета →</a><p class=\"mt-3 text-xs leading-relaxed text-muted\">Источник используется для идентификации и сигнала наличия на дату {checked_at}. Цена не сохраняется; доступность и характеристики могли измениться.</p></section><nav class=\"grid gap-px border-y border-ink bg-ink sm:grid-cols-2\" aria-label=\"Следующие проверки\"><a class=\"bg-paper p-5\" href=\"/vesa/\"><span class=\"font-mono text-xs uppercase text-action\">После измерения</span><strong class=\"mt-1 block font-display text-2xl\">Справочник VESA</strong><span class=\"mt-2 block text-sm text-muted\">Сравнить пару отверстий с проверенными моделями.</span></a><a class=\"bg-paper p-5\" href=\"/na-kakoy-vysote-veshat-televizor/\"><span class=\"font-mono text-xs uppercase text-action\">План стены</span><strong class=\"mt-1 block font-display text-2xl\">Высота установки</strong><span class=\"mt-2 block text-sm text-muted\">Рассчитать центр и края экрана по комнате.</span></a></nav></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-market-model-page=\"true\"><nav class=\"flex flex-wrap items-center gap-2 font-mono text-xs text-muted\" aria-label=\"Навигационная цепочка\"><a href=\"/\">Главная</a><span aria-hidden=\"true\">/</span><a href=\"/modeli/\">Телевизоры</a><span aria-hidden=\"true\">/</span><span>{model}</span></nav><header class=\"mt-6 border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Модель найдена на Маркете · паспорт проверяется</p><h1 class=\"mt-3 break-words font-display text-[clamp(2.8rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]\">Кронштейн для {title}</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">{identity_status}</p><p class=\"mt-4 border-l-2 border-action pl-4 font-semibold\">Без подтверждённых VESA и массы KREPI TV не показывает «подходящие» кронштейны и не подменяет проверку догадкой.</p></header>{editorial_accountability}{alias_notice}<dl class=\"grid gap-px border-b-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4\"><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Бренд</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{brand}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Модель</dt><dd class=\"mt-1 break-words font-display text-2xl font-extrabold\">{model}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{diagonal}</dd></div><div class=\"bg-paper p-5\"><dt class=\"font-mono text-xs uppercase text-muted\">Проверено в выдаче</dt><dd class=\"mt-1 font-display text-2xl font-extrabold\">{checked_at}</dd></div></dl>{geometry}<section class=\"py-8\"><p class=\"font-mono text-xs uppercase text-action\">Три проверки до покупки</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Как подобрать кронштейн без ошибки</h2><ol class=\"mt-6 grid gap-px border border-ink bg-ink md:grid-cols-3\"><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">01 · Модель</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Сверьте шильдик</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Сравните полный код на задней панели с «{model}». Суффикс и диагональ могут менять корпус, массу и VESA.</p></li><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">02 · VESA</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Измерьте отверстия</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Снимите подставку только по инструкции. Измерьте горизонталь × вертикаль между центрами четырёх резьбовых отверстий.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/kak-uznat-vesa-televizora/\">Инструкция по VESA →</a></li><li class=\"bg-paper p-5\"><span class=\"font-mono text-xs uppercase text-action\">03 · Масса</span><h3 class=\"mt-2 font-display text-2xl font-extrabold\">Найдите вес без ножек</h3><p class=\"mt-3 text-sm leading-relaxed text-muted\">Берите массу без подставки из руководства и закладывайте минимум 25% запаса. Стеновой крепёж проверяется отдельно.</p><a class=\"mt-3 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Границы проверки →</a></li></ol></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что зафиксировано в источнике</h2><p class=\"mt-4 max-w-4xl leading-relaxed\"><strong>Название карточки:</strong> {market_title}</p><p class=\"mt-3 max-w-4xl text-sm leading-relaxed text-muted\">{purchase_signal} {rating_signal}</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" data-market-source=\"identity\" href=\"{market_url}\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Открыть исходную карточку Яндекс Маркета →</a><p class=\"mt-3 text-xs leading-relaxed text-muted\">Источник используется для идентификации и сигнала наличия на дату {checked_at}. Цена не сохраняется; доступность и характеристики могли измениться.</p></section><nav class=\"grid gap-px border-y border-ink bg-ink sm:grid-cols-2\" aria-label=\"Следующие проверки\"><a class=\"bg-paper p-5\" href=\"/vesa/\"><span class=\"font-mono text-xs uppercase text-action\">После измерения</span><strong class=\"mt-1 block font-display text-2xl\">Справочник VESA</strong><span class=\"mt-2 block text-sm text-muted\">Сравнить пару отверстий с проверенными моделями.</span></a><a class=\"bg-paper p-5\" href=\"/na-kakoy-vysote-veshat-televizor/\"><span class=\"font-mono text-xs uppercase text-action\">План стены</span><strong class=\"mt-1 block font-display text-2xl\">Высота установки</strong><span class=\"mt-2 block text-sm text-muted\">Рассчитать центр и края экрана по комнате.</span></a></nav></article>",
         title = escape_html(&model.title),
         brand = escape_html(&model.brand),
         model = escape_html(&model.model),
         diagonal = escape_html(&diagonal),
         checked_at = escape_html(&model.checked_at),
         identity_status = escape_html(identity_status),
+        editorial_accountability = editorial_accountability,
         alias_notice = alias_notice,
         geometry = geometry,
         market_title = escape_html(&model.market_title),
@@ -2166,6 +2220,7 @@ fn mount_page_body(
     let commercial_section = commercial_profile
         .map(commercial_profile_html)
         .unwrap_or_default();
+    let editorial_accountability = editorial_accountability_html("mount", &mount.checked_at);
     let technical_scheme = mount_technical_scheme_html(mount);
     let source_attributes = if mount.source_url.starts_with("https://market.yandex.ru/") {
         "data-market-source=\"identity\" rel=\"nofollow noopener noreferrer\" target=\"_blank\""
@@ -2181,7 +2236,7 @@ fn mount_page_body(
     );
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{fit_summary}{commercial_section}{market_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Характеристики кронштейна проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" {source_attributes}>Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section>{technical_scheme}{context_section}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенный кронштейн</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Отдельная карточка изделия с явными парами VESA и двусторонним списком моделей телевизоров. Покупка не нужна для получения результата проверки.</p><dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">Механизм</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{mechanism}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Нагрузка</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">до {load} кг</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{min_diagonal}–{max_diagonal}″</dd></div></dl>{fit_summary}{commercial_section}{editorial_accountability}{market_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Поддерживаемые VESA</h2><p class=\"mt-3 font-mono text-sm leading-7\">{vesa}</p><p class=\"mt-4 text-muted\">Расстояние от стены: {distance}. Характеристики кронштейна проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" {source_attributes}>Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подтверждённые популярные телевизоры</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны модели, которые проходят точную VESA, запас нагрузки и паспортный диапазон диагонали.</p><div class=\"mt-5\">{verified_rows}</div>{conditional_section}</section>{technical_scheme}{context_section}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Перед монтажом</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Отдельно проверьте винты телевизора, перекрытие портов, геометрию пластины, основание стены, анкеры и скрытые коммуникации.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика проверки</a></section></article>",
         title = escape_html(&mount.title),
         mechanism = mechanism_label(&mount.mechanism),
         load = mount.max_load_kg,
@@ -2197,6 +2252,7 @@ fn mount_page_body(
         market_section = market_section,
         context_section = context_section,
         commercial_section = commercial_section,
+        editorial_accountability = editorial_accountability,
         technical_scheme = technical_scheme,
         verified_rows = verified_rows,
         conditional_section = conditional_section,
@@ -3749,6 +3805,17 @@ fn seo_page_body(
     let buy_mount_comparison = seo_buy_mount_comparison_html(page, mounts, graph);
     let catalog = seo_catalog_html(page, models, mounts, graph);
     let evidence_guide = seo_evidence_guide_html(page);
+    let editorial_accountability = editorial_accountability_html(
+        if page.guide.is_some() {
+            "seo-reviewed"
+        } else {
+            "seo-calculated"
+        },
+        page.guide
+            .as_ref()
+            .map(|guide| guide.updated_at.as_str())
+            .unwrap_or(SEO_FUNNEL_UPDATED_AT),
+    );
     let related_links = related_seo_pages(page, pages)
         .iter()
         .map(|related| {
@@ -3778,10 +3845,11 @@ fn seo_page_body(
     let mount_funnel_next_step = seo_mount_funnel_next_step_html();
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{editorial_accountability}{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
         page_kind_label = escape_html(page_kind_label),
         h1 = escape_html(&page.h1),
         lead = escape_html(&page.lead),
+        editorial_accountability = editorial_accountability,
         answer_content = answer_content,
         mount_funnel_next_step = mount_funnel_next_step,
     ))
@@ -5712,11 +5780,11 @@ mod tests {
         mount_technical_scheme_html, mounts_catalog_body, not_found_page_html,
         observed_model_page_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
         russian_plural_label, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_page_body, seo_page_kind_label,
-        seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer,
-        static_header, trust_page_body, tv_product_json_ld, validate_commercial_profiles,
-        validate_editorial_policy, validate_market_models, validate_seo_pages,
-        validate_trust_pages, wall_mount_screws_html, workspace_root,
+        seo_calculator_note, seo_catalog_html, seo_evidence_guide_json_ld, seo_page_body,
+        seo_page_kind_label, seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html,
+        static_footer, static_header, trust_page_body, tv_product_json_ld,
+        validate_commercial_profiles, validate_editorial_policy, validate_market_models,
+        validate_seo_pages, validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -5889,6 +5957,55 @@ mod tests {
                 .iter()
                 .any(|page| page.id == "editorial" && page.path == policy.author.path)
         );
+    }
+
+    #[test]
+    fn editorial_accountability_is_prerendered_for_all_content_families() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let market_models: MarketTvModelsFile = read_json(&root.join("data/market_tv_models.json"));
+        let seo_pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let graph = build_compatibility_graph(&models, &mounts);
+        let tv = &models[0];
+        let mount = &mounts[0];
+        let observed = market_models
+            .records
+            .iter()
+            .find(|model| model.page_kind == "observed")
+            .expect("Нет наблюдаемой модели");
+        let guide_page = seo_pages
+            .iter()
+            .find(|page| page.guide.is_some())
+            .expect("Нет SEO-страницы с evidence guide");
+        let matches = model_mount_matches(tv, &mounts);
+        let bodies = [
+            model_page_body(tv, &matches, &[], 0, &seo_pages, None),
+            mount_page_body(mount, &models, &graph, &[], 0, None),
+            observed_model_page_body(observed),
+            seo_page_body(guide_page, &seo_pages, &models, &mounts, &graph),
+        ];
+
+        for body in bodies {
+            assert!(body.contains("data-editorial-accountability=\"true\""));
+            assert!(body.contains("href=\"/redaktsiya/\">Редакция KREPI TV"));
+            assert!(body.contains("Физический тест не проводился"));
+            assert!(body.contains("href=\"/metodika/\""));
+        }
+
+        let mount_body = mount_page_body(mount, &models, &graph, &[], 0, None);
+        assert!(
+            mount_body.find("data-editorial-accountability").unwrap()
+                < mount_body.find("data-market-mount-section").unwrap()
+        );
+
+        let guide_json_ld = seo_evidence_guide_json_ld(
+            guide_page,
+            &format!("https://krepitv.ru{}", guide_page.path),
+        )
+        .expect("Нет Article/HowTo JSON-LD");
+        assert!(guide_json_ld.contains("\"name\":\"Редакция KREPI TV\""));
+        assert!(guide_json_ld.contains("\"url\":\"https://krepitv.ru/redaktsiya/\""));
     }
 
     #[test]

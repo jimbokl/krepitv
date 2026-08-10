@@ -1287,6 +1287,72 @@ for (const file of pageHtmlFiles) {
   }
 }
 
+const editorialRoutes = [
+  ...seoPages.filter((page) => page.indexable).map((page) => ({
+    basis: page.guide
+      ? "Официальные инструкции и редакционная проверка"
+      : "Источники, формула и перечисленные допущения",
+    checkedAt: page.guide?.updated_at ?? seoFunnelUpdatedAt,
+    route: page.path,
+  })),
+  ...models.map((model) => ({
+    basis: "Официальные характеристики и расчёт совместимости",
+    checkedAt: model.checked_at,
+    route: `/modeli/${model.id}/`,
+  })),
+  ...mounts.map((mount) => ({
+    basis: "Паспорт кронштейна и граф совместимости",
+    checkedAt: mount.checked_at,
+    route: `/kronshteyny/${mount.id}/`,
+  })),
+  ...marketModelsManifest.records
+    .filter((record) => record.page_kind === "observed")
+    .map((record) => ({
+      basis: "Наблюдение ассортимента без технической рекомендации",
+      checkedAt: record.checked_at,
+      route: record.route_path,
+    })),
+];
+for (const { basis, checkedAt, route } of editorialRoutes) {
+  const html = htmlByRoute.get(route) ?? "";
+  if ((html.match(/data-editorial-accountability="true"/gu) ?? []).length !== 1) {
+    throw new Error(`Страница должна иметь ровно один SSR-блок редакционной ответственности: ${route}`);
+  }
+  for (const requiredFragment of [
+    'href="/redaktsiya/">Редакция KREPI TV',
+    basis,
+    `<time datetime="${checkedAt}">`,
+    "Физический тест не проводился",
+    'href="/metodika/">методика</a>',
+    'href="/kontakty/">сообщить об ошибке</a>',
+  ]) {
+    if (!html.includes(requiredFragment)) {
+      throw new Error(`SSR-блок ${route} не содержит обязательное основание: ${requiredFragment}`);
+    }
+  }
+}
+for (const mount of mounts) {
+  const route = `/kronshteyny/${mount.id}/`;
+  const html = htmlByRoute.get(route) ?? "";
+  if (
+    html.indexOf("data-editorial-accountability") < 0
+    || html.indexOf("data-editorial-accountability") > html.indexOf("data-market-mount-section")
+  ) {
+    throw new Error(`Редакционное основание должно находиться до выхода на Маркет: ${route}`);
+  }
+}
+for (const page of seoPages.filter((item) => item.guide)) {
+  const html = htmlByRoute.get(page.path) ?? "";
+  if (
+    !html.includes('"@type":["Article","HowTo"]')
+    || !html.includes('"name":"Редакция KREPI TV"')
+    || !html.includes('"url":"https://krepitv.ru/redaktsiya/"')
+    || !html.includes(`"dateModified":"${page.guide.updated_at}"`)
+  ) {
+    throw new Error(`Article/HowTo JSON-LD не совпадает с видимым автором и датой: ${page.path}`);
+  }
+}
+
 const observedMarketModels = marketModelsManifest.records.filter(
   (record) => record.page_kind === "observed",
 );
