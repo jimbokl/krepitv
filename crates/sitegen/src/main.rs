@@ -396,6 +396,7 @@ struct SeoEvidenceSource {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 struct TrustPage {
     id: String,
     path: String,
@@ -421,6 +422,35 @@ struct TrustSection {
 struct TrustLink {
     href: String,
     label: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct EditorialPolicy {
+    schema_version: u32,
+    author: EditorialAuthor,
+    automation_disclosure: String,
+    source_policy: String,
+    physical_test: EditorialPhysicalTest,
+    corrections_path: String,
+    methodology_path: String,
+    updated_at: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct EditorialAuthor {
+    name: String,
+    path: String,
+    role: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct EditorialPhysicalTest {
+    status: String,
+    label: String,
+    explanation: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -4524,6 +4554,94 @@ fn validate_trust_pages(pages: &[TrustPage]) {
         }),
         "Политика должна объяснять границу обработки публичных GitHub Issues"
     );
+
+    let editorial = pages
+        .iter()
+        .find(|page| page.id == "editorial")
+        .expect("Нет страницы редакции");
+    assert_eq!(editorial.path, "/redaktsiya/");
+    let editorial_text = editorial
+        .sections
+        .iter()
+        .flat_map(|section| section.paragraphs.iter().chain(section.bullets.iter()))
+        .cloned()
+        .collect::<Vec<_>>()
+        .join(" ");
+    assert!(
+        editorial_text.contains("ИИ и автоматизация")
+            && editorial_text.contains("Физический тест")
+            && editorial_text.contains("не проводился"),
+        "Редакционная страница должна раскрывать автоматизацию и отсутствие физического теста"
+    );
+    for id in ["about", "methodology"] {
+        let page = pages
+            .iter()
+            .find(|page| page.id == id)
+            .unwrap_or_else(|| panic!("Нет доверительной страницы {id}"));
+        assert!(
+            page.related_links
+                .iter()
+                .any(|link| link.href == "/redaktsiya/"),
+            "Страница {} должна ссылаться на редакцию",
+            page.path
+        );
+    }
+}
+
+fn validate_editorial_policy(policy: &EditorialPolicy, trust_pages: &[TrustPage]) {
+    assert_eq!(
+        policy.schema_version, 1,
+        "Неподдерживаемая версия editorial policy"
+    );
+    assert_eq!(policy.author.name, "Редакция KREPI TV");
+    assert_eq!(policy.author.path, "/redaktsiya/");
+    assert_eq!(policy.corrections_path, "/kontakty/");
+    assert_eq!(policy.methodology_path, "/metodika/");
+    assert!(is_valid_iso_date(&policy.updated_at));
+    assert_eq!(policy.physical_test.status, "not_tested");
+    assert_eq!(policy.physical_test.label, "Физический тест не проводился");
+    assert!(
+        policy.automation_disclosure.contains("ИИ")
+            && policy
+                .automation_disclosure
+                .contains("не считаются источником"),
+        "Editorial policy должна раскрывать роль автоматизации"
+    );
+    assert!(
+        policy.source_policy.contains("официальные") && policy.source_policy.contains("расчёты"),
+        "Editorial policy должна описывать доказательную базу"
+    );
+    assert!(
+        policy.physical_test.explanation.contains("не заявляет")
+            && policy.physical_test.explanation.contains("доказательств"),
+        "Editorial policy должна закрывать неподтверждённые физические тесты"
+    );
+    assert!(
+        trust_pages
+            .iter()
+            .any(|page| page.path == policy.author.path && page.id == "editorial"),
+        "Публичная сущность автора должна иметь доверительную страницу"
+    );
+    let public_contract = format!(
+        "{} {} {} {} {}",
+        policy.author.name,
+        policy.author.role,
+        policy.automation_disclosure,
+        policy.source_policy,
+        policy.physical_test.explanation
+    )
+    .to_lowercase();
+    for unsupported_claim in [
+        "сертифицированный монтажник",
+        "инженер по установке",
+        "лично установил",
+        "испытано редакцией",
+    ] {
+        assert!(
+            !public_contract.contains(unsupported_claim),
+            "Editorial policy содержит неподтверждённое утверждение: {unsupported_claim}"
+        );
+    }
 }
 
 fn validate_commercial_text(value: &str, maximum_length: usize, label: &str) {
@@ -4845,6 +4963,7 @@ fn main() {
     let mounts: Vec<Mount> = read_json(&data.join("mounts.json"));
     let seo_pages: Vec<SeoPage> = read_json(&data.join("seo_pages.json"));
     let trust_pages: Vec<TrustPage> = read_json(&data.join("trust_pages.json"));
+    let editorial_policy: EditorialPolicy = read_json(&data.join("editorial_policy.json"));
     let commercial_profiles: CommercialProfilesFile =
         read_json(&data.join("commercial_profiles.json"));
     let affiliate_snapshot: PublicAffiliateSnapshot =
@@ -4864,6 +4983,7 @@ fn main() {
     validate_mounts(&mounts);
     validate_seo_pages(&seo_pages);
     validate_trust_pages(&trust_pages);
+    validate_editorial_policy(&editorial_policy, &trust_pages);
     validate_commercial_profiles(&commercial_profiles, &models, &mounts, &compatibility_graph);
 
     fs::copy(
@@ -4908,6 +5028,11 @@ fn main() {
         public_data.join("trust-pages.json"),
     )
     .expect("Не удалось скопировать доверительные страницы");
+    fs::copy(
+        data.join("editorial_policy.json"),
+        public_data.join("editorial-policy.json"),
+    )
+    .expect("Не удалось скопировать редакционную политику");
     fs::copy(
         data.join("commercial_profiles.json"),
         public_data.join("commercial-profiles.json"),
@@ -5575,21 +5700,22 @@ fn write_model_offer_shards(source: &Path, target: &Path, models: &[TvModel]) {
 #[cfg(test)]
 mod tests {
     use super::{
-        CommercialProfilesFile, HeadExtras, MarketTvModelsFile, PublicAffiliateSnapshot,
-        SEO_FUNNEL_UPDATED_AT, SeoPage, TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage,
-        TvModel, VESA_DATASET_RELEASE_URL, affiliate_offer_placeholder_html, brand_catalog_html,
-        build_compatibility_graph, commercial_profile_for, contains_verified_compatibility_count,
-        dataset_json_ld, escape_html, exact_metric_screw_claims, home_page_body, html_shell,
-        is_indexable_model, is_indexable_mount, is_indexable_seo_page,
-        is_publishable_affiliate_offer, is_valid_iso_date, json_ld_script,
-        market_mount_search_href, matcher_page_body, model_mount_matches, model_offer_shard_key,
-        model_page_body, mount_page_body, mount_technical_scheme_html, mounts_catalog_body,
-        not_found_page_html, observed_model_page_body, parse_rfc3339_utc_seconds, read_json,
-        related_seo_pages, russian_plural_label, seo_brand_mount_matcher_html,
-        seo_buy_mount_comparison_html, seo_calculator_note, seo_catalog_html, seo_page_body,
-        seo_page_kind_label, seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html,
-        static_footer, static_header, trust_page_body, tv_product_json_ld,
-        validate_commercial_profiles, validate_market_models, validate_seo_pages,
+        CommercialProfilesFile, EditorialPolicy, HeadExtras, MarketTvModelsFile,
+        PublicAffiliateSnapshot, SEO_FUNNEL_UPDATED_AT, SeoPage, TV_UTILITY_COHORT_6,
+        TV_UTILITY_COHORT_7, TrustPage, TvModel, VESA_DATASET_RELEASE_URL,
+        affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
+        commercial_profile_for, contains_verified_compatibility_count, dataset_json_ld,
+        escape_html, exact_metric_screw_claims, home_page_body, html_shell, is_indexable_model,
+        is_indexable_mount, is_indexable_seo_page, is_publishable_affiliate_offer,
+        is_valid_iso_date, json_ld_script, market_mount_search_href, matcher_page_body,
+        model_mount_matches, model_offer_shard_key, model_page_body, mount_page_body,
+        mount_technical_scheme_html, mounts_catalog_body, not_found_page_html,
+        observed_model_page_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
+        russian_plural_label, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
+        seo_calculator_note, seo_catalog_html, seo_page_body, seo_page_kind_label,
+        seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer,
+        static_header, trust_page_body, tv_product_json_ld, validate_commercial_profiles,
+        validate_editorial_policy, validate_market_models, validate_seo_pages,
         validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
@@ -5748,6 +5874,21 @@ mod tests {
         assert!(html.contains("Создать обращение"));
         assert!(html.contains("Обращение и ответы видны всем"));
         assert!(!html.contains("mailto:"));
+    }
+
+    #[test]
+    fn trust_pages_and_editorial_policy_are_valid() {
+        let root = workspace_root();
+        let pages: Vec<TrustPage> = read_json(&root.join("data/trust_pages.json"));
+        let policy: EditorialPolicy = read_json(&root.join("data/editorial_policy.json"));
+
+        validate_trust_pages(&pages);
+        validate_editorial_policy(&policy, &pages);
+        assert!(
+            pages
+                .iter()
+                .any(|page| page.id == "editorial" && page.path == policy.author.path)
+        );
     }
 
     #[test]

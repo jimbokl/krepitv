@@ -18,7 +18,7 @@ const seoFunnelUpdatedAt = "2026-08-08";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 287;
+const baselineIndexableUrlCount = 288;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -454,6 +454,18 @@ const dailySeoCohorts = await Promise.all(
   )),
 );
 const trustPages = JSON.parse(await readFile(path.join(docs, "data/trust-pages.json"), "utf8"));
+const sourceEditorialPolicyRaw = await readFile(
+  path.join(root, "data/editorial_policy.json"),
+  "utf8",
+);
+const publicEditorialPolicyRaw = await readFile(
+  path.join(docs, "data/editorial-policy.json"),
+  "utf8",
+);
+if (sourceEditorialPolicyRaw !== publicEditorialPolicyRaw) {
+  throw new Error("Публичная редакционная политика отличается от проверенного источника");
+}
+const editorialPolicy = JSON.parse(publicEditorialPolicyRaw);
 const sourceCommercialProfilesRaw = await readFile(
   path.join(root, "data/commercial_profiles.json"),
   "utf8",
@@ -743,7 +755,28 @@ const publishableAffiliateHrefs = new Set(
 assertMinimum(models, 2, "Проверенные модели телевизоров");
 assertMinimum(mounts, 3, "Проверенные кронштейны");
 assertMinimum(seoPages, 12, "SEO-материалы");
-assertMinimum(trustPages, 4, "Доверительные страницы");
+assertMinimum(trustPages, 5, "Доверительные страницы");
+if (
+  editorialPolicy.schema_version !== 1
+  || editorialPolicy.author?.name !== "Редакция KREPI TV"
+  || editorialPolicy.author?.path !== "/redaktsiya/"
+  || editorialPolicy.physical_test?.status !== "not_tested"
+  || editorialPolicy.physical_test?.label !== "Физический тест не проводился"
+  || !/^\d{4}-\d{2}-\d{2}$/u.test(editorialPolicy.updated_at ?? "")
+) {
+  throw new Error("Редакционная политика не соответствует публичному trust-контракту");
+}
+const editorialPolicyText = JSON.stringify(editorialPolicy).toLocaleLowerCase("ru-RU");
+for (const unsupportedClaim of [
+  "сертифицированный монтажник",
+  "инженер по установке",
+  "лично установил",
+  "испытано редакцией",
+]) {
+  if (editorialPolicyText.includes(unsupportedClaim)) {
+    throw new Error(`Редакционная политика содержит неподтверждённое утверждение: ${unsupportedClaim}`);
+  }
+}
 const coverageSummary = validateCoverageManifest(coverageManifest, models);
 
 for (const [items, label] of [

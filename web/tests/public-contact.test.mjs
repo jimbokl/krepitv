@@ -9,6 +9,26 @@ const trustPages = JSON.parse(
   fs.readFileSync(path.join(root, "data/trust_pages.json"), "utf8"),
 );
 
+test("редакционная страница честно раскрывает автора, автоматизацию и границы проверки", () => {
+  const editorial = trustPages.find((page) => page.id === "editorial");
+  const about = trustPages.find((page) => page.id === "about");
+  const methodology = trustPages.find((page) => page.id === "methodology");
+  const editorialText = JSON.stringify(editorial?.sections ?? []);
+
+  assert.equal(editorial?.path, "/redaktsiya/");
+  assert.match(editorialText, /ИИ и автоматизац/);
+  assert.match(editorialText, /физическ[^.]{0,80}не провод/);
+  assert.match(editorialText, /официальн[^.]{0,80}источник/);
+  assert.equal(
+    about?.related_links.some((link) => link.href === "/redaktsiya/"),
+    true,
+  );
+  assert.equal(
+    methodology?.related_links.some((link) => link.href === "/redaktsiya/"),
+    true,
+  );
+});
+
 function issueField(source, id) {
   const marker = `\n    id: ${id}\n`;
   const start = source.indexOf(marker);
