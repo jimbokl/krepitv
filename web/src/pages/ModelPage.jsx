@@ -11,6 +11,7 @@ import {
 import { AffiliateLink } from "../components/AffiliateOffer.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { CommercialProfile } from "../components/CommercialProfile.jsx";
+import { EditorialAccountability } from "../components/EditorialAccountability.jsx";
 import { ModelFacts, formatNumber } from "../components/ModelFacts.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { MountDetailLink } from "../components/MountDetailLink.jsx";
@@ -19,6 +20,7 @@ import { SiteHeader } from "../components/SiteHeader.jsx";
 import { TrustMark, formatCheckedDate } from "../components/TrustMark.jsx";
 import { WallMountScrews } from "../components/WallMountScrews.jsx";
 import { mountHref } from "../lib/catalog.js";
+import { buildEditorialEvidence } from "../lib/editorialPolicy.mjs";
 import { selectCommercialProfile } from "../lib/commercialProfiles.mjs";
 import { selectModelAffiliateOffers } from "../lib/modelAffiliateOffers.mjs";
 import { modelWeightReserveText } from "../lib/modelWeight.js";
@@ -52,6 +54,10 @@ export function ModelPage({ catalog, modelId }) {
   const vesaConflict = model.wall_mount_screws?.vesa_conflict;
   const verifiedCount = compatible.filter((edge) => edge.fit_status === "verified-fit").length;
   const conditionalCount = compatible.filter((edge) => edge.fit_status === "conditional-fit").length;
+  const editorialEvidence = buildEditorialEvidence({
+    checkedAt: model.checked_at,
+    contentKind: "verified-model",
+  });
 
   function openModel(item) {
     window.location.assign(item.href || `/modeli/${item.id}/`);
@@ -75,6 +81,8 @@ export function ModelPage({ catalog, modelId }) {
         </section>
 
         <CommercialProfile profile={commercialProfile} />
+
+        <EditorialAccountability evidence={editorialEvidence} />
 
         <CompatibilityProof
           matches={compatible}

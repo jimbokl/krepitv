@@ -67,6 +67,9 @@ test("страница наблюдаемой модели полезна без
     }));
 
     assert.match(html, /data-market-model-page="true"/u);
+    assert.match(html, /data-editorial-accountability="true"/u);
+    assert.match(html, /href="\/redaktsiya\/"[^>]*>Редакция KREPI TV/u);
+    assert.match(html, /Физический тест не проводился/u);
     assert.match(html, /data-compatibility-status="unverified"/u);
     assert.match(html, /Точный крепёж пока не подтверждён/u);
     assert.match(html, /Как подобрать кронштейн без ошибки/u);

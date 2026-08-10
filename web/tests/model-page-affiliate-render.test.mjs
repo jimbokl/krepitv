@@ -137,6 +137,9 @@ test("карточка модели выводит только три model-spe
       React.createElement(ModelPage, { catalog, modelId: model.id }),
     );
 
+    assert.match(html, /data-editorial-accountability="true"/u);
+    assert.match(html, /href="\/redaktsiya\/"[^>]*>Редакция KREPI TV/u);
+    assert.match(html, /Физический тест не проводился/u);
     assert.equal((html.match(/href="https:\/\/market\.yandex\.ru\/card\//g) ?? []).length, 3);
     assert.equal((html.match(/data-affiliate-placement-id="model-tcl-55c7k-/g) ?? []).length, 3);
     assert.deepEqual(

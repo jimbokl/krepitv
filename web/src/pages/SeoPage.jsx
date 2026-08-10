@@ -10,6 +10,7 @@ import {
   Wrench,
 } from "@phosphor-icons/react";
 import AffiliateOffer from "../components/AffiliateOffer.jsx";
+import { EditorialAccountability } from "../components/EditorialAccountability.jsx";
 import { BrandMountMatcher } from "../components/BrandMountMatcher.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { ModelSearch } from "../components/ModelSearch.jsx";
@@ -41,6 +42,7 @@ import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { WallPlannerCalculator } from "../components/WallPlannerCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
+import { buildEditorialEvidence } from "../lib/editorialPolicy.mjs";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
 import {
   getCatalogItems,
@@ -319,6 +321,10 @@ function SeoArticle({ catalog, page }) {
   }, [catalog.mounts, prioritizesBuyComparison]);
   const trafficUtilityCta = trafficUtilityCtas[page.id];
   const pageKindLabel = seoPageKindLabel(page);
+  const editorialEvidence = buildEditorialEvidence({
+    checkedAt: page.guide?.updated_at ?? "2026-08-08",
+    contentKind: page.guide ? "seo-reviewed" : "seo-calculated",
+  });
 
   usePageMetadata(page.title, page.description, page.path);
 
@@ -354,6 +360,8 @@ function SeoArticle({ catalog, page }) {
             {page.lead}
           </p>
         </header>
+
+        <EditorialAccountability evidence={editorialEvidence} />
 
         {!prioritizesPrimaryLookup && !prioritizesBrandComparison ? (
           <section

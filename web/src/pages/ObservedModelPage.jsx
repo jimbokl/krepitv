@@ -7,8 +7,10 @@ import {
 } from "@phosphor-icons/react";
 import { useState } from "react";
 import { ModelSearch } from "../components/ModelSearch.jsx";
+import { EditorialAccountability } from "../components/EditorialAccountability.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
+import { buildEditorialEvidence } from "../lib/editorialPolicy.mjs";
 
 const number = new Intl.NumberFormat("ru-RU");
 
@@ -18,6 +20,10 @@ export function ObservedModelPage({ catalog, model }) {
   const identityStatus = model.identity_confidence === "low"
     ? "Точный заводской код не подтверждён: перепишите модель с шильдика на задней панели."
     : "Модель идентифицирована по карточке Маркета. Параметры настенного монтажа пока не подтверждены официальным руководством.";
+  const editorialEvidence = buildEditorialEvidence({
+    checkedAt: model.checked_at,
+    contentKind: "observed-model",
+  });
 
   function openModel(item) {
     window.location.assign(item.href || `/modeli/${item.id}/`);
@@ -45,6 +51,8 @@ export function ObservedModelPage({ catalog, model }) {
             Без подтверждённых VESA и массы KREPI TV не показывает «подходящие» кронштейны и не подменяет проверку догадкой.
           </p>
         </header>
+
+        <EditorialAccountability evidence={editorialEvidence} />
 
         <section className="border-b-2 border-ink py-8" data-unverified-fit="true">
           <p className="font-mono text-xs uppercase text-action">Статус совместимости</p>

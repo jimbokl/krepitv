@@ -171,6 +171,9 @@ test("финальный React DOM ставит короткое сравнен�
       React.createElement(SeoPage, { catalog, page, requestedPath: page.path }),
     );
 
+    assert.match(html, /data-editorial-accountability="true"/u);
+    assert.match(html, /href="\/redaktsiya\/"[^>]*>Редакция KREPI TV/u);
+    assert.match(html, /Физический тест не проводился/u);
     assert.ok(html.indexOf("data-buy-mount-comparison=\"true\"") < html.indexOf("data-affiliate-hub"));
     assert.ok(html.indexOf("data-affiliate-hub") < html.indexOf("Кронштейны из проверенного каталога"));
     assert.ok(html.indexOf("Кронштейны из проверенного каталога") < html.indexOf("Частые вопросы"));

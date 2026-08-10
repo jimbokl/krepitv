@@ -12,11 +12,13 @@ import {
 import AffiliateOffer from "../components/AffiliateOffer.jsx";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { CommercialProfile } from "../components/CommercialProfile.jsx";
+import { EditorialAccountability } from "../components/EditorialAccountability.jsx";
 import { MountTechnicalScheme } from "../components/MountTechnicalScheme.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
 import { modelHref } from "../lib/catalog.js";
+import { buildEditorialEvidence } from "../lib/editorialPolicy.mjs";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
 import { marketMountSearchHref } from "../lib/marketSearch.mjs";
 import { pluralizeRu } from "../lib/russianGrammar.js";
@@ -68,6 +70,10 @@ export function MountPage({ catalog, mountId }) {
     pagePath: `/kronshteyny/${mount.id}/`,
   });
   const marketSearchHref = marketMountSearchHref(mount.title);
+  const editorialEvidence = buildEditorialEvidence({
+    checkedAt: mount.checked_at,
+    contentKind: "mount",
+  });
 
   return (
     <main className="min-h-screen bg-paper text-ink">
@@ -108,6 +114,8 @@ export function MountPage({ catalog, mountId }) {
         </section>
 
         <CommercialProfile profile={commercialProfile} />
+
+        <EditorialAccountability evidence={editorialEvidence} />
 
         <section
           aria-label={`Предложения Яндекс Маркета для ${mount.title}`}
