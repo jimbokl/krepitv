@@ -19,6 +19,7 @@ const ciWorkflowUrl = new URL(
 );
 const nodeVersionUrl = new URL("../../.node-version", import.meta.url);
 const rustToolchainUrl = new URL("../../rust-toolchain.toml", import.meta.url);
+const rootPackageUrl = new URL("../../package.json", import.meta.url);
 const webPackageUrl = new URL("../../web/package.json", import.meta.url);
 
 test("Vite SSR tests are serialized on constrained GitHub runners", async () => {
@@ -82,7 +83,10 @@ test("affiliate workflow is scheduled with pinned actions and one scoped OAuth s
 });
 
 test("Pages builds and deploys the current source artifact", async () => {
-  const workflow = await readFile(pagesWorkflowUrl, "utf8");
+  const [workflow, packageFile] = await Promise.all([
+    readFile(pagesWorkflowUrl, "utf8"),
+    readFile(rootPackageUrl, "utf8").then(JSON.parse),
+  ]);
   const actions = [...workflow.matchAll(/^\s*uses:\s*([^\s#]+)/gm)].map(
     (match) => match[1],
   );
@@ -111,7 +115,16 @@ test("Pages builds and deploys the current source artifact", async () => {
   assert.match(workflow, /toolchain:\s*1\.93\.1/);
   assert.match(workflow, /wasm-pack --version 0\.13\.1 --locked/);
   assert.match(workflow, /npm --prefix web ci --no-audit --no-fund/);
-  assert.match(workflow, /npm run build/);
+  assert.equal(
+    packageFile.scripts?.["build:release"],
+    "node scripts/clean.mjs && npm run build:content && npm run build:wasm && npm run build:web && npm run build:publish",
+  );
+  assert.equal(
+    packageFile.scripts?.build,
+    "npm run build:release && npm run verify",
+  );
+  assert.match(workflow, /npm run build:release/);
+  assert.doesNotMatch(workflow, /run:\s*npm run build\s*(?:\n|$)/);
   assert.match(
     workflow,
     /git diff --exit-code -- \. ':\(exclude\)docs\/pkg\/krepitv_engine_bg\.wasm'/,
@@ -121,7 +134,7 @@ test("Pages builds and deploys the current source artifact", async () => {
     /cmp -s web\/public\/pkg\/krepitv_engine_bg\.wasm docs\/pkg\/krepitv_engine_bg\.wasm/,
   );
   assert.match(workflow, /actions\/upload-pages-artifact@[0-9a-f]{40}[\s\S]*?path:\s*docs/);
-  assert.ok(workflow.indexOf("npm run build") < workflow.indexOf("actions/upload-pages-artifact"));
+  assert.ok(workflow.indexOf("npm run build:release") < workflow.indexOf("actions/upload-pages-artifact"));
   assert.ok(workflow.indexOf("actions/upload-pages-artifact") < workflow.indexOf("deploy:"));
 });
 

@@ -71,8 +71,8 @@ jobs:
           fi
           wasm-pack --version
 
-      - name: Собрать и полностью проверить production artifact
-        run: npm run build
+      - name: Пересобрать production artifact из проверенных исходников
+        run: npm run build:release
 
       - name: Проверить tracked artifact и публикуемый WASM
         shell: bash
