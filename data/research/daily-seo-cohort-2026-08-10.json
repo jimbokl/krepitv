@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "cohort_date": "2026-08-10",
+  "product": "KREPI TV",
+  "region": "Россия",
+  "source": "Яндекс Wordstat через XMLRiver, свежий срез от 2026-08-10",
+  "aggregation_rule": "Частотности не складываются между вариантами; для страницы фиксируется один измеренный exact-запрос без дублей.",
+  "release_rule": "Каждая страница даёт самостоятельный SSR-ответ, таблицу решений, минимум два официальных источника, безопасную границу и путь к подбору совместимого кронштейна.",
+  "pages": [
+    {
+      "id": "tv-internet-setup",
+      "path": "/kak-podklyuchit-televizor-k-internetu/",
+      "query": "как подключить телевизор к интернету",
+      "operator_query": "\"[как подключить телевизор к интернету]\"",
+      "frequency": 19160,
+      "interpretation": "Единый установочный canonical с ветками Wi-Fi, LAN и точки доступа; диагностика уже настроенного соединения остаётся отдельно.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "tv-alice-connect",
+      "path": "/kak-podklyuchit-televizor-k-alise/",
+      "query": "как подключить телевизор к алисе",
+      "operator_query": "\"[как подключить телевизор к алисе]\"",
+      "frequency": 16424,
+      "interpretation": "Выбор подтверждённого способа: встроенная YaOS/ТВ Станция, Модуль по HDMI или официальная интеграция производителя.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "tv-restart",
+      "path": "/kak-perezagruzit-televizor/",
+      "query": "как перезагрузить телевизор",
+      "operator_query": "\"[как перезагрузить телевизор]\"",
+      "frequency": 12087,
+      "interpretation": "Мягкая перезагрузка без удаления данных; заводской сброс остаётся отдельным разрушительным сценарием.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "tv-bluetooth-setup",
+      "path": "/kak-vklyuchit-bluetooth-na-televizore/",
+      "query": "как подключить телевизор к блютузу",
+      "operator_query": "\"[как подключить телевизор к блютузу]\"",
+      "frequency": 10424,
+      "interpretation": "Проверка наличия нужного Bluetooth-профиля и общего сопряжения; страницы наушников и колонок закрывают конечные аудиосценарии.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "smart-tv-setup",
+      "path": "/kak-nastroit-smart-tv/",
+      "query": "как настроить смарт тв",
+      "operator_query": "\"[как настроить смарт тв]\"",
+      "frequency": 8940,
+      "interpretation": "Первоначальная конфигурация сети, аккаунта, обновления и базовых параметров без дублирования установки приложений.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "camera-to-tv",
+      "path": "/kak-podklyuchit-kameru-k-televizoru/",
+      "query": "как подключить камеру к телевизору",
+      "operator_query": "\"[как подключить камеру к телевизору]\"",
+      "frequency": 1952,
+      "interpretation": "Разводит HDMI-сигнал, USB-медиарежим и IP-камеру; универсальная поддержка USB-вебкамеры не обещается.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "dvd-to-tv",
+      "path": "/kak-podklyuchit-dvd-k-televizoru/",
+      "query": "как подключить dvd к телевизору",
+      "operator_query": "\"[как подключить dvd к телевизору]\"",
+      "frequency": 1205,
+      "interpretation": "Выбор HDMI, прямого аналогового входа или активного преобразователя без подмены конвертера пассивным кабелем.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "tv-browser-install",
+      "path": "/kak-ustanovit-brauzer-na-televizor/",
+      "query": "как установить браузер на телевизор",
+      "operator_query": "\"[как установить браузер на телевизор]\"",
+      "frequency": 924,
+      "interpretation": "Проверка встроенного браузера и официального магазина конкретной ОС; sideload и несовместимые APK не предлагаются.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "tv-without-mount",
+      "path": "/kak-povesit-televizor-bez-kronshteyna/",
+      "query": "как повесить телевизор без кронштейна",
+      "operator_query": "\"[как повесить телевизор без кронштейна]\"",
+      "frequency": 763,
+      "interpretation": "Безопасно объясняет, что штатная подставка не является подвесом, а настенное размещение требует подтверждённой системы крепления.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    },
+    {
+      "id": "tv-hdr-enable",
+      "path": "/kak-vklyuchit-hdr-na-televizore/",
+      "query": "как включить hdr на телевизоре",
+      "operator_query": "\"[как включить hdr на телевизоре]\"",
+      "frequency": 460,
+      "interpretation": "Проверка всей сигнальной цепи: телевизор, порт, источник, кабель, контент и формат HDMI; общая настройка изображения остаётся отдельно.",
+      "evidence_file": "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    }
+  ],
+  "cannibalization_decisions": [
+    "Wi-Fi 13 778 не получает отдельную страницу: это ветка общего подключения к интернету. Страница tv-no-internet остаётся диагностикой уже настроенного соединения.",
+    "Перезагрузка не удаляет данные; заводской сброс остаётся на /kak-sbrosit-televizor-do-zavodskih-nastroek/.",
+    "Общий Bluetooth-мастер проверяет наличие профиля и сопряжение; наушники, колонки и саундбар сохраняют отдельные конечные интенты.",
+    "Первичная настройка Smart TV не дублирует установку приложения, обновление прошивки и восстановление интернета.",
+    "Камера и DVD разведены по источнику сигнала; обе страницы требуют точного совпадения выхода и входа.",
+    "Браузер отвечает за наличие и официальный способ установки, а общий каталог приложений остаётся отдельным canonical.",
+    "Страница без кронштейна не учит самодельному подвесу и ведёт к подтверждённой модели; HDR отвечает за сигнальную цепь, а не общую калибровку изображения."
+  ]
+}

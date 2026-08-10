@@ -42,7 +42,7 @@
     "scripts/verify.mjs",
     "web/src/lib/seoPages.mjs",
     "web/tests/seo-pages.test.mjs",
-    "docs/superpowers/**",
+    "product-docs/superpowers/**",
     ".design-harness/runs/20260810-seo-cohort-2026-08-10/**",
     "docs/**"
   ],
@@ -55,7 +55,7 @@
     },
     {
       "id": "design-drift",
-      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260810-seo-cohort-2026-08-10 --files web/src/lib/seoPages.mjs crates/sitegen/src/main.rs",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260810-seo-cohort-2026-08-10 --files web/src/lib/seoPages.mjs crates/sitegen/src/main.rs data/seo_pages.json",
       "required": true,
       "covers": ["Tailwind design reuse", "related-link parity", "SSR"]
     }

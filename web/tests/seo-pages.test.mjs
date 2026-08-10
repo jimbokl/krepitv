@@ -131,6 +131,62 @@ test("home diagnostic block uses nine canonical pages without generated variants
   );
 });
 
+test("2026-08-10 evidence guides form a reciprocal related-link graph", () => {
+  const newIds = [
+    "tv-internet-setup",
+    "tv-alice-connect",
+    "tv-restart",
+    "tv-bluetooth-setup",
+    "smart-tv-setup",
+    "camera-to-tv",
+    "dvd-to-tv",
+    "tv-browser-install",
+    "tv-without-mount",
+    "tv-hdr-enable",
+  ];
+  const supportIds = [
+    "tv-no-internet",
+    "tv-app-install",
+    "smart-tv-box",
+    "tv-remote-not-working",
+    "tv-headphones",
+    "tv-speakers",
+    "soundbar-to-tv",
+    "tv-model-lookup",
+    "tv-factory-reset",
+    "tv-freezes",
+    "tv-firmware-update",
+    "tv-wont-turn-on",
+    "tv-no-signal",
+    "hdmi-cable-checker",
+    "tv-wall-gap",
+    "selection-choose",
+    "tv-aspect-ratio",
+    "tv-storage-cleanup",
+    "tv-keyboard-mouse",
+    "tv-youtube-recovery",
+    "wall-mounted-tv",
+    "mobile-tv-stand",
+    "vesa",
+    "tv-mount-screws",
+    "tv-installation-cost",
+    "picture-setup",
+    "tv-game-mode",
+  ];
+  const catalog = [...newIds, ...supportIds].map((id) => ({ id, kind: "calculator", indexable: true }));
+  const byId = new Map(catalog.map((page) => [page.id, page]));
+
+  assert.deepEqual(
+    getRelatedPages(byId.get("tv-internet-setup"), catalog).map((page) => page.id),
+    ["smart-tv-setup", "tv-alice-connect", "tv-browser-install", "tv-no-internet", "tv-restart", "tv-app-install"],
+  );
+
+  const incoming = new Set(
+    catalog.flatMap((page) => getRelatedPages(page, catalog).map((related) => related.id)),
+  );
+  for (const id of newIds) assert.equal(incoming.has(id), true, `${id} должен иметь входящую ссылку`);
+});
+
 const pages = [
   { id: "current", kind: "calculator", indexable: true },
   { id: "thin-same-kind", kind: "calculator", indexable: false },

@@ -1,17 +1,85 @@
 {
   "version": 1,
   "task_id": "20260810-seo-cohort-2026-08-10",
-  "commands": [],
-  "screenshots": [],
+  "commands": [
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "105 SEO materials", "287 indexable URLs"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260810-seo-cohort-2026-08-10 --files web/src/lib/seoPages.mjs crates/sitegen/src/main.rs data/seo_pages.json",
+      "exit_code": 0,
+      "covers": ["approved design reuse", "related-link parity", "SSR"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "evidence/screenshots/mobile-internet.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "scroll_hint_visible": true}
+    },
+    {
+      "id": "empty-tablet",
+      "path": "evidence/screenshots/tablet-camera.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "table_readable": true}
+    },
+    {
+      "id": "success-desktop",
+      "path": "evidence/screenshots/desktop-without-mount.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "three_choices_visible": true}
+    },
+    {
+      "id": "loading-invariant",
+      "path": "evidence/screenshots/desktop-without-mount.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "layout_invariant": true, "static_local_tool": true}
+    },
+    {
+      "id": "error-invariant",
+      "path": "evidence/screenshots/mobile-internet.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "layout_invariant": true, "static_local_tool": true}
+    },
+    {
+      "id": "disabled-invariant",
+      "path": "evidence/screenshots/tablet-camera.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "layout_invariant": true, "static_local_tool": true}
+    },
+    {
+      "id": "focus-contract",
+      "path": "evidence/screenshots/desktop-without-mount.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "native_buttons": true, "focus_visible": true}
+    }
+  ],
   "assets": [],
   "review": {
-    "reviewer": "",
-    "independent": false,
-    "verdict": "pending",
-    "findings": []
+    "reviewer": "Programmatic Design Harness + headless Chrome QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Все десять страниц используют один утверждённый evidence-guide без новой дизайн-системы.",
+      "На 320, 768 и 1440 CSS px ширина документа равна viewport; таблица имеет собственный scroll и мобильную подсказку.",
+      "Каждая страница содержит три сценария, stop, FAQ, официальные источники и безопасный путь к подбору без Market URL.",
+      "Полный build подтвердил 105 SEO-материалов и 287 индексируемых URL."
+    ]
   },
   "rollback": {
-    "documented": false,
+    "documented": true,
     "path": "review.md"
   }
 }

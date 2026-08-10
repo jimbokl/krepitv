@@ -182,6 +182,27 @@ const DAILY_SEO_COHORT_2026_08_09: [(&str, &str); 10] = [
         "/stoimost-ustanovki-televizora-na-stenu/",
     ),
 ];
+const DAILY_SEO_COHORT_2026_08_10: [(&str, &str); 10] = [
+    (
+        "tv-internet-setup",
+        "/kak-podklyuchit-televizor-k-internetu/",
+    ),
+    ("tv-alice-connect", "/kak-podklyuchit-televizor-k-alise/"),
+    ("tv-restart", "/kak-perezagruzit-televizor/"),
+    (
+        "tv-bluetooth-setup",
+        "/kak-vklyuchit-bluetooth-na-televizore/",
+    ),
+    ("smart-tv-setup", "/kak-nastroit-smart-tv/"),
+    ("camera-to-tv", "/kak-podklyuchit-kameru-k-televizoru/"),
+    ("dvd-to-tv", "/kak-podklyuchit-dvd-k-televizoru/"),
+    ("tv-browser-install", "/kak-ustanovit-brauzer-na-televizor/"),
+    (
+        "tv-without-mount",
+        "/kak-povesit-televizor-bez-kronshteyna/",
+    ),
+    ("tv-hdr-enable", "/kak-vklyuchit-hdr-na-televizore/"),
+];
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -2295,6 +2316,86 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-dimensions",
                 "viewing-distance",
             ],
+            "tv-internet-setup" => &[
+                "smart-tv-setup",
+                "tv-alice-connect",
+                "tv-browser-install",
+                "tv-no-internet",
+                "tv-restart",
+                "tv-app-install",
+            ],
+            "tv-alice-connect" => &[
+                "tv-internet-setup",
+                "smart-tv-setup",
+                "smart-tv-box",
+                "tv-bluetooth-setup",
+                "tv-remote-not-working",
+                "tv-app-install",
+            ],
+            "tv-restart" => &[
+                "smart-tv-setup",
+                "tv-internet-setup",
+                "tv-factory-reset",
+                "tv-freezes",
+                "tv-firmware-update",
+                "tv-wont-turn-on",
+            ],
+            "tv-bluetooth-setup" => &[
+                "tv-headphones",
+                "tv-speakers",
+                "soundbar-to-tv",
+                "smart-tv-setup",
+                "tv-internet-setup",
+                "tv-model-lookup",
+            ],
+            "smart-tv-setup" => &[
+                "tv-internet-setup",
+                "tv-alice-connect",
+                "tv-browser-install",
+                "tv-app-install",
+                "tv-firmware-update",
+                "tv-without-mount",
+            ],
+            "camera-to-tv" => &[
+                "dvd-to-tv",
+                "tv-no-signal",
+                "hdmi-cable-checker",
+                "smart-tv-setup",
+                "tv-hdr-enable",
+                "selection-choose",
+            ],
+            "dvd-to-tv" => &[
+                "camera-to-tv",
+                "tv-no-signal",
+                "hdmi-cable-checker",
+                "tv-aspect-ratio",
+                "smart-tv-box",
+                "smart-tv-setup",
+            ],
+            "tv-browser-install" => &[
+                "smart-tv-setup",
+                "tv-internet-setup",
+                "tv-app-install",
+                "tv-storage-cleanup",
+                "tv-keyboard-mouse",
+                "tv-youtube-recovery",
+            ],
+            "tv-without-mount" => &[
+                "selection-choose",
+                "wall-mounted-tv",
+                "mobile-tv-stand",
+                "vesa",
+                "tv-mount-screws",
+                "tv-installation-cost",
+            ],
+            "tv-hdr-enable" => &[
+                "picture-setup",
+                "tv-game-mode",
+                "hdmi-cable-checker",
+                "tv-no-signal",
+                "smart-tv-setup",
+                "camera-to-tv",
+            ],
             "tv-firmware-update" => &[
                 "tv-app-install",
                 "tv-factory-reset",
@@ -4175,6 +4276,7 @@ fn validate_seo_pages(pages: &[SeoPage]) {
         &DAILY_SEO_COHORT_2026_08_07[..],
         &DAILY_SEO_COHORT_2026_08_08[..],
         &DAILY_SEO_COHORT_2026_08_09[..],
+        &DAILY_SEO_COHORT_2026_08_10[..],
     ] {
         for &(id, path) in cohort {
             let cohort_matches = pages
