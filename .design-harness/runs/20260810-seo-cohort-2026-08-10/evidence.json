@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "task_id": "20260810-seo-cohort-2026-08-10",
+  "commands": [],
+  "screenshots": [],
+  "assets": [],
+  "review": {
+    "reviewer": "",
+    "independent": false,
+    "verdict": "pending",
+    "findings": []
+  },
+  "rollback": {
+    "documented": false,
+    "path": "review.md"
+  }
+}

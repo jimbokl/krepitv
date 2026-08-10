@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "id": "20260810-seo-cohort-2026-08-10",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-10T08:03:50.804022+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 1800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1400
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 1400
+    }
+  ],
+  "allowed_files": [
+    "data/seo_pages.json",
+    "data/research/daily-seo-candidates-2026-08-10.json",
+    "data/research/daily-seo-candidates-contract-2026-08-10.json",
+    "data/research/daily-seo-candidates-demand-2026-08-10.json",
+    "data/research/daily-seo-cohort-2026-08-10.json",
+    "product-docs/research/raw/wordstat-daily-seo-candidates-2026-08-10/**",
+    "crates/sitegen/src/main.rs",
+    "scripts/verify.mjs",
+    "web/src/lib/seoPages.mjs",
+    "web/tests/seo-pages.test.mjs",
+    "docs/superpowers/**",
+    ".design-harness/runs/20260810-seo-cohort-2026-08-10/**",
+    "docs/**"
+  ],
+  "verification_commands": [
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["Rust", "WASM", "React", "SSR", "Russian UI", "SEO manifest"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260810-seo-cohort-2026-08-10 --files web/src/lib/seoPages.mjs crates/sitegen/src/main.rs",
+      "required": true,
+      "covers": ["Tailwind design reuse", "related-link parity", "SSR"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id": "cohort-size", "value": "10", "strategy": "deterministic-overlay"},
+    {"id": "checked-date", "value": "2026-08-10", "strategy": "deterministic-overlay"},
+    {"id": "table-caption", "value": "Таблица решений по наблюдаемому признаку", "strategy": "deterministic-overlay"}
+  ],
+  "claims": [
+    {"id": "measured-demand", "text": "У каждой страницы есть один измеренный Wordstat-интент без сложения вариантов.", "source_ids": ["daily-demand"]},
+    {"id": "official-boundaries", "text": "Технические выводы ограничены официальными источниками и паспортом точной модели.", "source_ids": ["official-guide-sources"]}
+  ],
+  "sources": [
+    {"id": "daily-demand", "path": "data/research/daily-seo-candidates-demand-2026-08-10.json", "retrieved_at": "2026-08-10T07:59:42Z", "notes": "Свежие exact Wordstat-интенты, Россия, все устройства."},
+    {"id": "official-guide-sources", "path": "data/seo_pages.json", "retrieved_at": "2026-08-10T08:10:00Z", "notes": "Первичные HTTPS-справки Samsung, Sony, LG и Яндекса."}
+  ]
+}
