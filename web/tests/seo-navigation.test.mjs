@@ -32,6 +32,7 @@ test("каждый индексируемый non-home URL показывает 
     const breadcrumb = breadcrumbJson(html);
     assert.ok(breadcrumb, `нет BreadcrumbList ${pathname}`);
     assert.match(html, /<nav[^>]+data-visible-breadcrumbs="true"[^>]*>/u, pathname);
+    assert.equal((html.match(/aria-label="Навигационная цепочка"/gu) ?? []).length, 1, `${pathname}: повтор breadcrumb landmark`);
     for (const item of breadcrumb.itemListElement) {
       assert.match(html, new RegExp(`>${item.name.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}<`, "u"), `${pathname}: ${item.name}`);
     }
@@ -48,6 +49,11 @@ test("справочник группирует все индексируемы�
   ]);
   assert.match(sitemap, /<loc>https:\/\/krepitv\.ru\/spravochnik\/<\/loc>/u);
   assert.match(html, /data-guide-index="true"/u);
+  const indexableCount = pages.filter((item) => item.indexable).length;
+  assert.match(html, new RegExp(`>${indexableCount} полезных материалов<`, "u"));
+  const guideIndexSource = await readFile(path.join(root, "web/src/pages/GuideIndexPage.jsx"), "utf8");
+  assert.match(guideIndexSource, /\{pages\.length\} полезных материалов/u);
+  assert.doesNotMatch(guideIndexSource, />105 полезных материалов</u);
   for (const page of pages.filter((item) => item.indexable)) {
     assert.equal(html.match(new RegExp(`data-guide-index-link="${page.path}"`, "gu"))?.length, 1, page.path);
     const pageHtml = await readFile(artifactFile(page.path), "utf8");

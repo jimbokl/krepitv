@@ -14,7 +14,7 @@ export function GuideIndexPage({ catalog }) {
       <article className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8" data-guide-index="true">
         <Breadcrumbs items={[{ href: "/", label: "Главная" }, { label: "Справочник" }]} />
         <header className="mt-5 border-b-2 border-ink pb-8">
-          <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">105 полезных материалов</p>
+          <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">{pages.length} полезных материалов</p>
           <h1 className="mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]">Справочник по телевизорам и креплениям</h1>
           <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted">Инструкции, проверочные таблицы и локальные калькуляторы KREPI TV. Каждый материал ведёт к точной модели, VESA или следующему безопасному шагу.</p>
         </header>
