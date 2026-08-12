@@ -1562,50 +1562,36 @@ for (const offer of publishableAffiliateOffers) {
   }
 }
 
-let mountMarketSearchLinkCount = 0;
 for (const mount of mounts) {
   const route = `/kronshteyny/${mount.id}/`;
   const html = htmlByRoute.get(route);
   if (!html) throw new Error(`Нет страницы кронштейна для проверки Маркета: ${mount.id}`);
 
-  const matchingLinks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
+  const untrackedMarketSearchLinks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
     (tag) => matchAttribute(tag, "data-market-mount-search") === "true",
   );
-  if (matchingLinks.length !== 1) {
+  if (untrackedMarketSearchLinks.length !== 0) {
     throw new Error(
-      `Страница ${route} должна содержать ровно один постоянный поиск Маркета, получено ${matchingLinks.length}`,
+      `Страница ${route} содержит конкурирующую непартнёрскую ссылку поиска Маркета`,
     );
   }
 
-  const link = matchingLinks[0];
-  if (matchAttribute(link, "data-market-link") !== "search") {
-    throw new Error(`Постоянная ссылка не помечена как точный поиск Маркета: ${route}`);
-  }
-  const href = decodeHtmlAttribute(matchAttribute(link, "href"));
-  const url = new URL(href);
-  if (
-    url.origin !== "https://market.yandex.ru"
-    || url.pathname !== "/search"
-    || url.searchParams.get("text") !== mount.title
-    || [...url.searchParams.keys()].join(",") !== "text"
-  ) {
-    throw new Error(`Страница ${route} ведёт не на точный поиск своей модели в Маркете`);
-  }
-  const rel = new Set((matchAttribute(link, "rel") ?? "").split(/\s+/u));
-  if (
-    matchAttribute(link, "target") !== "_blank"
-    || !rel.has("nofollow")
-    || !rel.has("noopener")
-    || !rel.has("noreferrer")
-  ) {
-    throw new Error(`Постоянная ссылка Маркета небезопасна: ${route}`);
-  }
-  mountMarketSearchLinkCount += 1;
-}
-if (mountMarketSearchLinkCount !== mounts.length) {
-  throw new Error(
-    `Постоянный поиск Маркета покрывает ${mountMarketSearchLinkCount}/${mounts.length} кронштейнов`,
+  const exactOffer = publishableAffiliateOffers.find(
+    (offer) => offer.page_path === route && offer.entity_id === mount.id,
   );
+  const internalFallbacks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
+    (tag) => matchAttribute(tag, "data-market-fallback-internal") === "true",
+  );
+  if (exactOffer) {
+    if (internalFallbacks.length !== 0) {
+      throw new Error(`Страница ${route} дублирует точный affiliate slot внутренним fallback`);
+    }
+  } else if (
+    internalFallbacks.length !== 1
+    || matchAttribute(internalFallbacks[0], "href") !== "/podbor/"
+  ) {
+    throw new Error(`Страница ${route} без точного оффера должна вести во внутренний подбор`);
+  }
 }
 
 const titles = [...htmlByRoute.entries()].map(([route, html]) => ({

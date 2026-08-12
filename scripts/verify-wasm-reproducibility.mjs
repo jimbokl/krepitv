@@ -34,15 +34,8 @@ function snapshot() {
   );
 }
 
-let first;
-try {
-  first = snapshot();
-} catch (error) {
-  if (error?.code !== "ENOENT") throw error;
-  build();
-  first = snapshot();
-}
-
+build();
+const first = snapshot();
 build();
 const second = snapshot();
 const changed = packageFiles.filter((name) => first.get(name) !== second.get(name));

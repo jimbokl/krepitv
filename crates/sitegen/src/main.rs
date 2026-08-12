@@ -604,26 +604,6 @@ fn editorial_accountability_html(content_kind: &str, checked_at: &str) -> String
     )
 }
 
-fn encode_query_component(value: &str) -> String {
-    let mut encoded = String::with_capacity(value.len());
-    for byte in value.as_bytes() {
-        match byte {
-            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
-                encoded.push(char::from(*byte));
-            }
-            _ => encoded.push_str(&format!("%{byte:02X}")),
-        }
-    }
-    encoded
-}
-
-fn market_mount_search_href(title: &str) -> String {
-    format!(
-        "https://market.yandex.ru/search?text={}",
-        encode_query_component(title.trim())
-    )
-}
-
 fn is_valid_iso_date(value: &str) -> bool {
     if value.len() != 10 {
         return false;
@@ -2304,22 +2284,13 @@ fn mount_page_body(
     let affiliate_placeholder = affiliate_offer
         .map(|offer| affiliate_offer_placeholder_html(offer, 2))
         .unwrap_or_default();
-    let market_search_href = market_mount_search_href(&mount.title);
-    let market_search_fallback = if affiliate_offer.is_some() {
-        format!(
-            "<p class=\"mt-4 text-sm leading-relaxed text-muted\">Карточка недоступна в вашем регионе? <a class=\"font-semibold text-technical underline underline-offset-4\" data-market-link=\"search\" data-market-mount-search=\"true\" href=\"{href}\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Посмотреть другие предложения {title}</a></p>",
-            href = escape_html(&market_search_href),
-            title = escape_html(&mount.title),
-        )
+    let market_offer_fallback = if affiliate_offer.is_some() {
+        String::new()
     } else {
-        format!(
-            "<aside class=\"border-2 border-ink bg-white p-5\" data-market-search-fallback=\"true\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Поиск по точной модели</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найти {title} на Яндекс Маркете</h2><p class=\"mt-3 max-w-3xl text-sm leading-relaxed text-muted\">Откроется выдача только по названию этой модели. Перед покупкой сверьте маркировку, VESA, нагрузку и комплектацию с данными выше.</p><a class=\"mt-5 inline-flex min-h-12 items-center gap-2 border-2 border-ink bg-action px-5 py-3 font-display text-lg font-extrabold text-white shadow-[4px_4px_0_#111111]\" data-market-link=\"search\" data-market-mount-search=\"true\" href=\"{href}\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Открыть Яндекс Маркет <span aria-hidden=\"true\">↗</span></a></aside>",
-            title = escape_html(&mount.title),
-            href = escape_html(&market_search_href),
-        )
+        "<aside class=\"border-2 border-ink bg-white p-5\" data-market-offer-fallback=\"true\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">Точное предложение проверяется</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Подберите проверенную альтернативу</h2><p class=\"mt-3 max-w-3xl text-sm leading-relaxed text-muted\">Мы не ведём на карточку, которую не удалось проверить. В мастере можно выбрать совместимый кронштейн по VESA, диагонали и запасу нагрузки.</p><a class=\"mt-5 inline-flex min-h-12 items-center gap-2 border-2 border-ink bg-action px-5 py-3 font-display text-lg font-extrabold text-white shadow-[4px_4px_0_#111111]\" data-market-fallback-internal=\"true\" href=\"/podbor/\">Подобрать проверенную альтернативу <span aria-hidden=\"true\">→</span></a></aside>".to_string()
     };
     let market_section = format!(
-        "<section aria-label=\"Предложения Яндекс Маркета для {title}\" class=\"border-b-2 border-ink py-7\" data-market-mount-section=\"true\">{affiliate_placeholder}{market_search_fallback}</section>",
+        "<section aria-label=\"Предложения Яндекс Маркета для {title}\" class=\"border-b-2 border-ink py-7\" data-market-mount-section=\"true\">{affiliate_placeholder}{market_offer_fallback}</section>",
         title = escape_html(&mount.title),
     );
     let mut context_links = vec![(
@@ -6029,16 +6000,16 @@ mod tests {
         commercial_profile_for, contains_verified_compatibility_count, dataset_json_ld,
         escape_html, exact_metric_screw_claims, home_page_body, html_shell, is_indexable_model,
         is_indexable_mount, is_indexable_seo_page, is_publishable_affiliate_offer,
-        is_valid_iso_date, json_ld_script, market_mount_search_href, matcher_page_body,
-        model_mount_matches, model_offer_shard_key, model_page_body, mount_page_body,
-        mount_technical_scheme_html, mounts_catalog_body, not_found_page_html,
-        observed_model_page_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
-        russian_plural_label, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_evidence_guide_json_ld, seo_page_body,
-        seo_page_kind_label, seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html,
-        static_footer, static_header, trust_page_body, tv_product_json_ld,
-        validate_commercial_profiles, validate_editorial_policy, validate_market_models,
-        validate_seo_pages, validate_trust_pages, wall_mount_screws_html, workspace_root,
+        is_valid_iso_date, json_ld_script, matcher_page_body, model_mount_matches,
+        model_offer_shard_key, model_page_body, mount_page_body, mount_technical_scheme_html,
+        mounts_catalog_body, not_found_page_html, observed_model_page_body,
+        parse_rfc3339_utc_seconds, read_json, related_seo_pages, russian_plural_label,
+        seo_brand_mount_matcher_html, seo_buy_mount_comparison_html, seo_calculator_note,
+        seo_catalog_html, seo_evidence_guide_json_ld, seo_page_body, seo_page_kind_label,
+        seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer,
+        static_header, trust_page_body, tv_product_json_ld, validate_commercial_profiles,
+        validate_editorial_policy, validate_market_models, validate_seo_pages,
+        validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -8097,7 +8068,7 @@ mod tests {
     }
 
     #[test]
-    fn every_mount_page_has_an_exact_direct_market_search_in_ssr() {
+    fn every_mount_page_keeps_unverified_market_search_out_of_ssr() {
         let root = workspace_root();
         let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
         let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
@@ -8105,19 +8076,11 @@ mod tests {
 
         for mount in &mounts {
             let body = mount_page_body(mount, &models, &graph, &[], 0, None);
-            let expected_href = escape_html(&market_mount_search_href(&mount.title));
-
-            assert_eq!(
-                body.matches("data-market-mount-search=\"true\"").count(),
-                1,
-                "SSR-страница {} должна содержать один постоянный поиск Маркета",
-                mount.id
-            );
-            assert!(body.contains("data-market-search-fallback=\"true\""));
-            assert!(body.contains(&format!("href=\"{expected_href}\"")));
-            assert!(body.contains("rel=\"nofollow noopener noreferrer\""));
-            assert!(body.contains("target=\"_blank\""));
-            assert!(body.contains("Открыть Яндекс Маркет"));
+            assert!(!body.contains("data-market-mount-search=\"true\""));
+            assert!(!body.contains("https://market.yandex.ru/search"));
+            assert!(body.contains("data-market-offer-fallback=\"true\""));
+            assert!(body.contains("href=\"/podbor/\""));
+            assert!(body.contains("Подобрать проверенную альтернативу"));
         }
     }
 
@@ -8225,8 +8188,8 @@ mod tests {
         assert!(scheme_position < context_position);
         assert!(!body.contains("data-affiliate-offer-id="));
         assert!(!body.contains(&escape_html(&offer.affiliate_href)));
-        assert_eq!(body.matches("data-market-mount-search=\"true\"").count(), 1);
-        assert!(body.contains(&escape_html(&market_mount_search_href(&mount.title))));
+        assert!(!body.contains("data-market-mount-search=\"true\""));
+        assert!(!body.contains("https://market.yandex.ru/search"));
     }
 
     #[test]
