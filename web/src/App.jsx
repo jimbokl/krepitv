@@ -50,7 +50,7 @@ export function preloadAppRoute(rootElement) {
 export function App({ catalog }) {
   const path = normalizePath(window.location.pathname);
   const trustPage = trustPages.find((page) => normalizePath(page.path) === path);
-  const render = (page) => withSiteFooter(page, catalog);
+  const render = (page) => withSiteFooter(page, catalog, path);
 
   if (trustPage) {
     return render(<TrustPage page={trustPage} />);
@@ -95,11 +95,11 @@ export function App({ catalog }) {
   return render(<SeoPage catalog={catalog} page={seoPage} requestedPath={path} />);
 }
 
-function withSiteFooter(page, catalog) {
+function withSiteFooter(page, catalog, currentPath) {
   return (
     <Suspense fallback={null}>
       {page}
-      <SiteFooter catalog={catalog} />
+      <SiteFooter catalog={catalog} currentPath={currentPath} />
     </Suspense>
   );
 }

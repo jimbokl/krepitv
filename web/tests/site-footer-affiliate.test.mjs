@@ -68,3 +68,66 @@ test("footer каждой React-страницы выводит безопасн
     await vite.close();
   }
 });
+
+test("общий CTA не дублирует точное предложение модельной страницы", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({
+    root,
+    logLevel: "silent",
+    server: { middlewareMode: true },
+    appType: "custom",
+  });
+
+  try {
+    const { SiteFooter } = await vite.ssrLoadModule("/src/components/SiteFooter.jsx");
+    const modelOffer = {
+      ...offer(),
+      model_id: "tv-1",
+      model_path: "/modeli/tv-1/",
+      placement_id: "model-tv-1-r01-itech-p4f",
+      rank: 1,
+    };
+    const html = renderToStaticMarkup(React.createElement(SiteFooter, {
+      catalog: {
+        affiliateOffers: [offer()],
+        compatibilityEdges: [],
+        modelAffiliateOffers: [modelOffer],
+      },
+      currentPath: "/modeli/tv-1/",
+    }));
+
+    assert.doesNotMatch(html, /data-affiliate-global-slot/u);
+    assert.doesNotMatch(html, /data-affiliate-global-link/u);
+  } finally {
+    await vite.close();
+  }
+});
+
+test("модель без актуального точного оффера получает один общий безопасный CTA", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({
+    root,
+    logLevel: "silent",
+    server: { middlewareMode: true },
+    appType: "custom",
+  });
+
+  try {
+    const { SiteFooter } = await vite.ssrLoadModule("/src/components/SiteFooter.jsx");
+    const html = renderToStaticMarkup(React.createElement(SiteFooter, {
+      catalog: {
+        affiliateOffers: [offer()],
+        compatibilityEdges: [],
+        modelAffiliateOffers: [],
+      },
+      currentPath: "/modeli/tv-without-current-offer/",
+    }));
+
+    assert.match(html, /data-affiliate-global-slot="true"/u);
+    assert.match(html, /data-affiliate-global-link="true"/u);
+    assert.match(html, /rel="sponsored nofollow noopener noreferrer"/u);
+    assert.equal((html.match(/https:\/\/market\.yandex\.ru\//gu) ?? []).length, 1);
+  } finally {
+    await vite.close();
+  }
+});

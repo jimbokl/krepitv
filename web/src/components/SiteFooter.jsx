@@ -46,7 +46,16 @@ export function selectSitewideAffiliateOffer(catalog) {
     )[0] ?? null;
 }
 
-export function SiteFooter({ catalog }) {
+export function hasContextualAffiliateOffer(catalog, currentPath) {
+  if (typeof currentPath !== "string" || !currentPath.startsWith("/")) return false;
+  return [
+    ...(catalog?.affiliateOffers ?? []).filter((offer) => offer?.page_path === currentPath),
+    ...(catalog?.hubAffiliateOffers ?? []).filter((offer) => offer?.hub_path === currentPath),
+    ...(catalog?.modelAffiliateOffers ?? []).filter((offer) => offer?.model_path === currentPath),
+  ].some((offer) => getAffiliatePresentation(offer));
+}
+
+export function SiteFooter({ catalog, currentPath = "" }) {
   const [standaloneOffers, setStandaloneOffers] = useState([]);
   useEffect(() => {
     if (catalog !== undefined) return undefined;
@@ -61,38 +70,41 @@ export function SiteFooter({ catalog }) {
   const sitewideOffer = selectSitewideAffiliateOffer(
     catalog === undefined ? { affiliateOffers: standaloneOffers } : catalog,
   );
+  const contextualOfferExists = hasContextualAffiliateOffer(catalog, currentPath);
   return (
     <>
-      <aside
-        aria-label="Проверенное предложение Яндекс Маркета"
-        className="border-t-2 border-ink bg-white text-ink"
-        data-affiliate-global-slot="true"
-      >
-        <div className="mx-auto grid min-w-0 max-w-[1440px] gap-4 px-5 py-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-          <div className="min-w-0">
-            <p className="font-mono text-[0.68rem] uppercase leading-relaxed text-action">
-              После технической проверки
-            </p>
-            <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted">
-              Сначала проверьте VESA, диагональ и нагрузку. Затем можно открыть актуальную карточку проверенного кронштейна.
-            </p>
-          </div>
-          {sitewideOffer ? (
-            <div data-affiliate-global-link="true">
-              <AffiliateLink
-                className="primary-button w-full justify-center lg:w-auto"
-                offer={sitewideOffer}
-              >
-                Открыть кронштейн на Яндекс Маркете
-              </AffiliateLink>
+      {!contextualOfferExists ? (
+        <aside
+          aria-label="Проверенное предложение Яндекс Маркета"
+          className="border-t-2 border-ink bg-white text-ink"
+          data-affiliate-global-slot="true"
+        >
+          <div className="mx-auto grid min-w-0 max-w-[1440px] gap-4 px-5 py-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <div className="min-w-0">
+              <p className="font-mono text-[0.68rem] uppercase leading-relaxed text-action">
+                После технической проверки
+              </p>
+              <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted">
+                Сначала проверьте VESA, диагональ и нагрузку. Затем можно открыть актуальную карточку проверенного кронштейна.
+              </p>
             </div>
-          ) : (
-            <p className="text-sm text-muted" data-affiliate-global-unavailable="true">
-              Актуальное предложение проверяется.
-            </p>
-          )}
-        </div>
-      </aside>
+            {sitewideOffer ? (
+              <div data-affiliate-global-link="true">
+                <AffiliateLink
+                  className="primary-button w-full justify-center lg:w-auto"
+                  offer={sitewideOffer}
+                >
+                  Открыть кронштейн на Яндекс Маркете
+                </AffiliateLink>
+              </div>
+            ) : (
+              <p className="text-sm text-muted" data-affiliate-global-unavailable="true">
+                Актуальное предложение проверяется.
+              </p>
+            )}
+          </div>
+        </aside>
+      ) : null}
       <footer className="border-t-2 border-ink bg-paper text-ink">
       <div className="mx-auto grid min-w-0 max-w-[1440px] gap-6 px-5 py-7 [overflow-wrap:anywhere] sm:px-8 lg:grid-cols-[minmax(16rem,0.7fr)_minmax(0,2fr)] lg:items-end">
         <div className="min-w-0">

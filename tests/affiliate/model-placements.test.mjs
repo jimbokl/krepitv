@@ -380,16 +380,13 @@ test("builds complete private decisions and a publishable public subset", () => 
   missingModel.placements = missingModel.placements.filter(
     (placement) => placement.model_id !== "model-beta",
   );
-  assert.throws(
-    () => validateModelPublicSnapshot(missingModel, {
-      manifest,
-      source,
-      models,
-      catalogMounts,
-      allowExampleHosts: true,
-    }),
-    /missing a publishable offer for catalog model model-beta/,
-  );
+  assert.doesNotThrow(() => validateModelPublicSnapshot(missingModel, {
+    manifest,
+    source,
+    models,
+    catalogMounts,
+    allowExampleHosts: true,
+  }));
 
   const tampered = structuredClone(publicSnapshot);
   tampered.placements[0].model_path = "/modeli/another-model/";

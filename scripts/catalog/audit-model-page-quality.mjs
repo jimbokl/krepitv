@@ -34,6 +34,7 @@ const currentOfferMountIds = new Set(
     .filter((offer) => offer.entity_kind === "mount" && offer.publishable === true)
     .map((offer) => offer.entity_id),
 );
+const hasCurrentSitewideOffer = currentOfferMountIds.size > 0;
 
 for (const edge of graph) {
   if (!edge.compatible || edge.fit_status !== "verified-fit") continue;
@@ -57,7 +58,6 @@ for (const model of models) {
   requireValue(model.vesa_width_mm > 0 && model.vesa_height_mm > 0, model.id, "нет подтверждённого VESA");
   requireValue(model.weight_kg > 0, model.id, "нет паспортной массы для расчёта");
   requireValue(matches.length > 0, model.id, "нет ни одного проверенного кронштейна");
-  requireValue(publicOffers.length > 0, model.id, "нет ни одного актуального предложения крепежа Маркета");
   requireValue(sitemapPaths.has(route), model.id, "полная модель отсутствует в sitemap");
 
   for (const placement of publicOffers) {
@@ -88,6 +88,15 @@ for (const model of models) {
   }
 
   const html = await pageHtml(model.id);
+  const hasSitewideFallback = (
+    hasCurrentSitewideOffer
+    && html.includes('data-affiliate-global-slot="true"')
+  );
+  requireValue(
+    publicOffers.length > 0 || hasSitewideFallback,
+    model.id,
+    "нет ни точного актуального предложения, ни общего проверенного перехода Маркета",
+  );
   auditDocument(html, model.id, 350);
   requireValue(!hasNoindex(html), model.id, "полная модель ошибочно закрыта от индекса");
   requireValue(canonicalPath(html) === route, model.id, "canonical не совпадает с маршрутом");
@@ -99,14 +108,15 @@ for (const model of models) {
     model.id,
     "на странице показаны не все проверенные кронштейны",
   );
+  const hasContextualOfferSlot = matches.some((mountId) => (
+    currentOfferMountIds.has(mountId)
+      && html.includes('data-entity-kind="mount"')
+      && html.includes(`data-entity-id="${escapeHtml(mountId)}"`)
+  ));
   requireValue(
-    matches.some((mountId) => (
-      currentOfferMountIds.has(mountId)
-        && html.includes('data-entity-kind="mount"')
-        && html.includes(`data-entity-id="${escapeHtml(mountId)}"`)
-    )),
+    hasContextualOfferSlot || hasSitewideFallback,
     model.id,
-    "на странице нет слота для актуального предложения крепежа Яндекс Маркета",
+    "на странице нет ни точного слота, ни общего fail-closed слота Яндекс Маркета",
   );
   requireValue(html.includes("Точная пара VESA"), model.id, "нет объяснения проверки точной VESA");
   requireValue(html.includes("запас 25%"), model.id, "нет объяснения запаса нагрузки 25%");
@@ -154,7 +164,8 @@ if (failures.length) {
 
 process.stdout.write(
   `Аудит пройден: ${models.length}/${models.length} паспортных моделей имеют проверенный крепёж; `
-    + `${publicOffersByModel.size}/${models.length} имеют актуальное предложение Яндекс Маркета `
+    + `${publicOffersByModel.size}/${models.length} имеют точное актуальное предложение Яндекс Маркета, `
+    + `${models.length - publicOffersByModel.size} используют общий проверенный fallback `
     + `(${publicModelOffers.placements.length} проверенных размещений); `
     + `${market.summary.verified_routes} наблюдений Маркета ведут на проверенные модели; `
     + `${market.summary.alias_routes} дублей закрыты от индекса и канонизированы; `
