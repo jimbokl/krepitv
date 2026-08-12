@@ -119,7 +119,7 @@ function formatRu(value) {
   return new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 1 }).format(value);
 }
 
-test("SSR-страница не превращается в affiliate-каталог и ведёт к следующим задачам", async () => {
+test("SSR-страница не превращается в affiliate-каталог и оставляет общий CTA после ответа", async () => {
   const html = await readProjectFile(
     "../../docs/razmery-televizora-po-diagonali/index.html",
   );
@@ -132,7 +132,12 @@ test("SSR-страница не превращается в affiliate-катал
     assert.ok(html.includes(`href="${href}"`), `нет внутренней ссылки ${href}`);
   }
 
-  assert.equal(/market\.yandex\.ru|rel="[^"]*sponsored|clid=|data-affiliate/iu.test(html), false);
+  assert.equal(/https:\/\/market\.yandex\.ru|rel="[^"]*sponsored|clid=/iu.test(html), false);
+  assert.equal((html.match(/data-affiliate-global-slot="true"/g) ?? []).length, 1);
+  assert.ok(
+    html.indexOf('data-tv-dimensions-answer="true"')
+      < html.indexOf('data-affiliate-global-slot="true"'),
+  );
   assert.equal((html.match(/data-tv-dimensions-row=/g) ?? []).length, 7);
   assert.equal(/data-(?:catalog-item|model-card|model-list)=/u.test(html), false);
   assert.equal(html.includes("aria-label=\"Модели телевизоров\""), false);

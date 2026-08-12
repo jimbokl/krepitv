@@ -1165,6 +1165,7 @@ const sourceFiles = (await walk(path.join(root, "web/src"))).filter((file) =>
 );
 const affiliateComponent = path.join(root, "web/src/components/AffiliateOffer.jsx");
 const affiliateConsumers = new Set([
+  path.join(root, "web/src/components/SiteFooter.jsx"),
   path.join(root, "web/src/pages/ModelPage.jsx"),
   path.join(root, "web/src/pages/MountPage.jsx"),
   path.join(root, "web/src/pages/SeoPage.jsx"),

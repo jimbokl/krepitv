@@ -95,7 +95,7 @@ test("после client boot таблица, методика и мобильн�
       methodCount: 3,
       tableVisible: true,
       hintVisible: true,
-      marketLinks: 0,
+      marketLinks: 1,
     });
 
     const mobileSearch = await browser.evaluate(`new Promise((resolve, reject) => {
@@ -223,6 +223,37 @@ test("после client boot таблица, методика и мобильн�
       opened: true,
       closed: true,
       focusReturned: true,
+    });
+
+    const trustLoaded = browser.once("Page.loadEventFired");
+    await browser.send("Page.navigate", { url: `${server.origin}/o-proekte/` });
+    await trustLoaded;
+    const trustAffiliate = await browser.evaluate(`new Promise((resolve, reject) => {
+      const startedAt = Date.now();
+      const timer = setInterval(() => {
+        const link = document.querySelector('[data-affiliate-global-link="true"] a');
+        if (link) {
+          clearInterval(timer);
+          const destination = new URL(link.href);
+          resolve({
+            count: document.querySelectorAll('[data-affiliate-global-link="true"] a').length,
+            direct: destination.hostname === 'market.yandex.ru',
+            hasClid: destination.searchParams.has('clid'),
+            hasVid: destination.searchParams.has('vid'),
+            safeRel: link.rel === 'sponsored nofollow noopener noreferrer',
+          });
+        } else if (Date.now() - startedAt > 10000) {
+          clearInterval(timer);
+          reject(new Error('trust affiliate timeout'));
+        }
+      }, 50);
+    })`);
+    assert.deepEqual(trustAffiliate, {
+      count: 1,
+      direct: true,
+      hasClid: true,
+      hasVid: true,
+      safeRel: true,
     });
   } finally {
     socket?.close();

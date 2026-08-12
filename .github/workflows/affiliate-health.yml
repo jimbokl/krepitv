@@ -249,7 +249,12 @@ jobs:
             fs.readFileSync("data/affiliate/public-model-offers.json", "utf8"),
           );
           const models = JSON.parse(fs.readFileSync("data/tv_models.json", "utf8"));
-          const modelShardKeys = [...new Set(models.map((model) => model.id.split("-", 1)[0]))]
+          const modelOfferShardKey = (modelId) => /^samsung-qe\d/u.test(modelId)
+            ? "samsung-qe"
+            : /^samsung-ue\d/u.test(modelId)
+              ? "samsung-ue"
+              : modelId.split("-", 1)[0];
+          const modelShardKeys = [...new Set(models.map((model) => modelOfferShardKey(model.id)))]
             .sort();
           for (const key of modelShardKeys) {
             const relative = `data/affiliate-model-offers/${key}.json`;

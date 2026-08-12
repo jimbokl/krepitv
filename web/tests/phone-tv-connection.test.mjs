@@ -118,7 +118,7 @@ test("phone-to-TV bypasses generic catalog and affiliate placements", async () =
   assert.match(source, /<PhoneTvConnectionReference \/>/);
 });
 
-test("SSR answer survives without JavaScript and contains official sources", async () => {
+test("SSR answer survives without JavaScript and keeps commerce after the official sources", async () => {
   const html = await read("web/kak-podklyuchit-telefon-k-televizoru/index.html");
 
   assert.equal(
@@ -136,5 +136,10 @@ test("SSR answer survives without JavaScript and contains official sources", asy
   assert.match(html, /support\.google\.com\/googlecast/);
   assert.match(html, /samsung\.com\/ru\/support/);
   assert.match(html, /displayport\.org\/faq/);
-  assert.doesNotMatch(html, /market\.yandex\.ru|data-affiliate|clid=|Цена|₽/i);
+  assert.match(html, /data-affiliate-global-slot="true"/u);
+  assert.ok(
+    html.indexOf('data-phone-tv-answer="true"')
+      < html.indexOf('data-affiliate-global-slot="true"'),
+  );
+  assert.doesNotMatch(html, /https:\/\/market\.yandex\.ru|clid=|Цена|₽/i);
 });

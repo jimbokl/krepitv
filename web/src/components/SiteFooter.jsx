@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
 import { Brand } from "./Brand.jsx";
+import { AffiliateLink } from "./AffiliateOffer.jsx";
+import { getAffiliatePresentation } from "../lib/affiliateOffer.mjs";
+import { loadFreshAffiliateOffers } from "../lib/catalog.js";
 
 const footerLinks = [
   { href: "/televizor-pishet-net-signala/", label: "Нет сигнала" },
@@ -19,9 +23,77 @@ const footerLinks = [
   { href: "/politika-konfidencialnosti/", label: "Конфиденциальность" },
 ];
 
-export function SiteFooter() {
+export function selectSitewideAffiliateOffer(catalog) {
+  const coverageByMount = new Map();
+  for (const edge of catalog?.compatibilityEdges ?? []) {
+    if (edge?.fit_status !== "verified-fit" || typeof edge.mount_id !== "string") continue;
+    coverageByMount.set(edge.mount_id, (coverageByMount.get(edge.mount_id) ?? 0) + 1);
+  }
+
+  const modelOffers = [...(catalog?.modelAffiliateOffers ?? [])]
+    .filter((offer) => getAffiliatePresentation(offer))
+    .sort((left, right) => (left.rank ?? 99) - (right.rank ?? 99));
+  if (modelOffers.length) return modelOffers[0];
+
+  const validOffers = [...(catalog?.affiliateOffers ?? [])]
+    .filter((offer) => getAffiliatePresentation(offer));
+  if (!coverageByMount.size) return validOffers[0] ?? null;
+
+  return validOffers
+    .sort((left, right) =>
+      (coverageByMount.get(right.entity_id) ?? 0) - (coverageByMount.get(left.entity_id) ?? 0)
+      || left.entity_id.localeCompare(right.entity_id, "ru"),
+    )[0] ?? null;
+}
+
+export function SiteFooter({ catalog }) {
+  const [standaloneOffers, setStandaloneOffers] = useState([]);
+  useEffect(() => {
+    if (catalog !== undefined) return undefined;
+    let active = true;
+    loadFreshAffiliateOffers().then((offers) => {
+      if (active) setStandaloneOffers(offers);
+    });
+    return () => {
+      active = false;
+    };
+  }, [catalog]);
+  const sitewideOffer = selectSitewideAffiliateOffer(
+    catalog === undefined ? { affiliateOffers: standaloneOffers } : catalog,
+  );
   return (
-    <footer className="border-t-2 border-ink bg-paper text-ink">
+    <>
+      <aside
+        aria-label="Проверенное предложение Яндекс Маркета"
+        className="border-t-2 border-ink bg-white text-ink"
+        data-affiliate-global-slot="true"
+      >
+        <div className="mx-auto grid min-w-0 max-w-[1440px] gap-4 px-5 py-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <div className="min-w-0">
+            <p className="font-mono text-[0.68rem] uppercase leading-relaxed text-action">
+              После технической проверки
+            </p>
+            <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted">
+              Сначала проверьте VESA, диагональ и нагрузку. Затем можно открыть актуальную карточку проверенного кронштейна.
+            </p>
+          </div>
+          {sitewideOffer ? (
+            <div data-affiliate-global-link="true">
+              <AffiliateLink
+                className="primary-button w-full justify-center lg:w-auto"
+                offer={sitewideOffer}
+              >
+                Открыть кронштейн на Яндекс Маркете
+              </AffiliateLink>
+            </div>
+          ) : (
+            <p className="text-sm text-muted" data-affiliate-global-unavailable="true">
+              Актуальное предложение проверяется.
+            </p>
+          )}
+        </div>
+      </aside>
+      <footer className="border-t-2 border-ink bg-paper text-ink">
       <div className="mx-auto grid min-w-0 max-w-[1440px] gap-6 px-5 py-7 [overflow-wrap:anywhere] sm:px-8 lg:grid-cols-[minmax(16rem,0.7fr)_minmax(0,2fr)] lg:items-end">
         <div className="min-w-0">
           <Brand compact />
@@ -44,6 +116,7 @@ export function SiteFooter() {
           ))}
         </nav>
       </div>
-    </footer>
+      </footer>
+    </>
   );
 }

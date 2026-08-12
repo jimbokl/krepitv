@@ -1303,7 +1303,7 @@ fn html_shell(
         })
         .unwrap_or_default();
     format!(
-        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n<link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\">\n{market_verification_meta}{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:site_name\" content=\"KREPI TV\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}</div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
+        "<!doctype html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{title}</title>\n<meta name=\"description\" content=\"{description}\">\n<link rel=\"canonical\" href=\"{canonical}\">\n<link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\">\n{market_verification_meta}{robots_meta}<meta property=\"og:locale\" content=\"ru_RU\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:site_name\" content=\"KREPI TV\">\n<meta property=\"og:title\" content=\"{title}\">\n<meta property=\"og:description\" content=\"{description}\">\n<meta property=\"og:url\" content=\"{canonical}\">\n<meta name=\"theme-color\" content=\"#F7F5F0\">\n{}</head>\n<body>\n<div id=\"root\" data-page-kind=\"{page_kind}\"{model_attribute}>{static_body}<aside aria-label=\"Проверка предложения Яндекс Маркета\" class=\"border-t-2 border-ink bg-paper px-5 py-6 sm:px-8\" data-affiliate-global-slot=\"true\"><p class=\"mx-auto max-w-[1440px] text-sm leading-relaxed text-muted\">Проверяем актуальное предложение кронштейна на Яндекс Маркете.</p></aside></div>\n<script type=\"module\" src=\"/src/main.jsx\"></script>\n</body>\n</html>\n",
         head.json_ld,
     )
 }
@@ -6050,6 +6050,23 @@ mod tests {
             escape_html("<ТВ & \"стена\">"),
             "&lt;ТВ &amp; &quot;стена&quot;&gt;"
         );
+    }
+
+    #[test]
+    fn every_html_shell_has_a_sitewide_affiliate_slot() {
+        let html = html_shell(
+            "Тест",
+            "Описание",
+            "https://krepitv.ru/test/",
+            "seo",
+            None,
+            Some("<main><h1>Тест</h1></main>"),
+            HeadExtras {
+                robots: None,
+                json_ld: "",
+            },
+        );
+        assert!(html.contains("data-affiliate-global-slot=\"true\""));
     }
 
     #[test]

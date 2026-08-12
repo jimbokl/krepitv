@@ -75,6 +75,12 @@ test("affiliate workflow is scheduled with pinned actions and one scoped OAuth s
   assert.match(workflow, /data\/affiliate-model-offers\.json/);
   assert.match(workflow, /data\/affiliate-model-offers\/\$\{key\}\.json/);
   assert.match(workflow, /data\/tv_models\.json/);
+  assert.match(workflow, /samsung-qe/);
+  assert.match(workflow, /samsung-ue/);
+  assert.doesNotMatch(
+    workflow,
+    /models\.map\(\(model\) => model\.id\.split\("-", 1\)\[0\]\)/,
+  );
   assert.match(workflow, /placement\.model_path/);
   assert.match(workflow, /actions\/configure-pages@[0-9a-f]{40}/);
   assert.match(workflow, /actions\/upload-pages-artifact@[0-9a-f]{40}/);

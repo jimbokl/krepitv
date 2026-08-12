@@ -50,25 +50,26 @@ export function preloadAppRoute(rootElement) {
 export function App({ catalog }) {
   const path = normalizePath(window.location.pathname);
   const trustPage = trustPages.find((page) => normalizePath(page.path) === path);
+  const render = (page) => withSiteFooter(page, catalog);
 
   if (trustPage) {
-    return withSiteFooter(<TrustPage page={trustPage} />);
+    return render(<TrustPage page={trustPage} />);
   }
 
   if (path === "/podbor" || path.startsWith("/podbor/")) {
-    return withSiteFooter(<GuidedSelectionPage catalog={catalog} />);
+    return render(<GuidedSelectionPage catalog={catalog} />);
   }
 
   if (path === "/modeli/") {
-    return withSiteFooter(<CatalogIndexPage catalog={catalog} kind="models" />);
+    return render(<CatalogIndexPage catalog={catalog} kind="models" />);
   }
 
   if (path === "/kronshteyny/") {
-    return withSiteFooter(<CatalogIndexPage catalog={catalog} kind="mounts" />);
+    return render(<CatalogIndexPage catalog={catalog} kind="mounts" />);
   }
 
   if (path === "/spravochnik/") {
-    return withSiteFooter(<GuideIndexPage catalog={catalog} />);
+    return render(<GuideIndexPage catalog={catalog} />);
   }
 
   const modelMatch = path.match(/^\/modeli\/([^/]+)\/?/);
@@ -76,29 +77,29 @@ export function App({ catalog }) {
     const modelId = decodeURIComponent(modelMatch[1]);
     const observedModel = catalog.marketModels.find((item) => item.id === modelId && item.page_kind !== "verified");
     if (observedModel) {
-      return withSiteFooter(<ObservedModelPage catalog={catalog} model={observedModel} />);
+      return render(<ObservedModelPage catalog={catalog} model={observedModel} />);
     }
-    return withSiteFooter(<ModelPage catalog={catalog} modelId={modelId} />);
+    return render(<ModelPage catalog={catalog} modelId={modelId} />);
   }
 
   const mountMatch = path.match(/^\/kronshteyny\/([^/]+)\/?/);
   if (mountMatch) {
-    return withSiteFooter(<MountPage catalog={catalog} mountId={decodeURIComponent(mountMatch[1])} />);
+    return render(<MountPage catalog={catalog} mountId={decodeURIComponent(mountMatch[1])} />);
   }
 
   if (path === "/" || path === "/index.html/") {
-    return withSiteFooter(<HomePage catalog={catalog} />);
+    return render(<HomePage catalog={catalog} />);
   }
 
   const seoPage = catalog.seoPages.find((page) => seoPageMatchesPath(page, path));
-  return withSiteFooter(<SeoPage catalog={catalog} page={seoPage} requestedPath={path} />);
+  return render(<SeoPage catalog={catalog} page={seoPage} requestedPath={path} />);
 }
 
-function withSiteFooter(page) {
+function withSiteFooter(page, catalog) {
   return (
     <Suspense fallback={null}>
       {page}
-      <SiteFooter />
+      <SiteFooter catalog={catalog} />
     </Suspense>
   );
 }
