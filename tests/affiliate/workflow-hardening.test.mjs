@@ -26,7 +26,7 @@ test("Vite SSR tests are serialized on constrained GitHub runners", async () => 
   const packageFile = JSON.parse(await readFile(webPackageUrl, "utf8"));
   assert.equal(
     packageFile.scripts?.["test:sites"],
-    "node --test --test-concurrency=1 tests/*.test.mjs",
+    "node --test --test-concurrency=1 --test-force-exit tests/*.test.mjs",
   );
 });
 
