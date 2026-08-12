@@ -44,7 +44,9 @@ jobs:
   verify:
     if: github.repository == 'jimbokl/krepitv'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # Полная проверка намеренно включает две дополнительные WASM-сборки.
+    # На холодном GitHub runner это иногда превышает 20 минут, хотя тесты идут штатно.
+    timeout-minutes: 45
     steps:
       - name: Получить репозиторий без write-credential
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
