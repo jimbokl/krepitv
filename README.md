@@ -75,6 +75,10 @@ JavaScript-артефакты должны побайтово совпасть �
 повторяемости двух сборок на одном runner и точного совпадения WASM с его
 публикуемой копией в `docs/`.
 
+Фактическая схема GitHub Pages, DNS REG.RU, автоматического TLS, проверки
+production и аварийного восстановления описана в
+[`product-docs/operations/hosting-tls-playbook-2026-08-13.md`](product-docs/operations/hosting-tls-playbook-2026-08-13.md).
+
 ## Данные и доверие
 
 Модели и кронштейны лежат в `data/`. В каталог добавляются только позиции с
