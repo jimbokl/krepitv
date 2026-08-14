@@ -1,12 +1,36 @@
 {
-  "generated_at": "2026-08-14T05:52:51.988Z",
+  "generated_at": "2026-08-14T17:17:49.430Z",
   "placements": [
     {
       "model_id": "skyline-43lst6575",
       "model_path": "/modeli/skyline-43lst6575/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=fr6rn59stw9ui5pqgnp1e039opgkjib4&utm_referral_context=hQ4Af0jJvyPBnRwGsjWxG_gsqZ7NWQ0BwC2lR6gaOF_uGG7QT3_y7xhnysnc7d-MUQcv_bLaAy2tNrkNS1FlTjnmaITN70u6ZjoCHOHamgAVishlVS-laQTtMJcgiC2O-6A_6AbcmPC6DjaURJIIRPoXSR0e_FVLKXtBB5stitIsRWsBt5rc8TxWFmPkcUhJcE4upNwob8ATcpclUZWHZuH_bJKCcJ3v&clid=15238076&vid=krepitvmodelskyline43lst6575r02holderlcds506634112c4291d3&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-14T05:51:14.834Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=pzwcm7udfyeixb6946fzlx24pry7z0nn&utm_referral_context=Is8yJ6Y5hkMfOcIcpd5UqwPs61_iFd7RLytPOEV4jmAVW1wVJQx2lZYg-A2S2qaFvRqPuiE5C_I6rnHRj5q1RLk5_6YSvu4LlQ1hjtGFJLNWOaBlijGkbf2r7QjgSZEsNDoWAwMC1O27w9GKcUZXGzrZJf1NiG85EUVc6GWlaS9Tz0hO5_g79yASyYUQMU8eIUgaCMhjVPaASAPnJrSDgj5bzCS6DIOX&clid=15238076&vid=krepitvmodelskyline43lst6575r01holderlcds5036d3615da71699&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:16:17.055Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5036",
+        "entity_kind": "mount",
+        "id": "model-skyline-43lst6575-r01-holder-lcds-5036",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5036/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/18082423/2a0000019c751e07fd72f523f7d4e237150e/optimize",
+        "publishable": true,
+        "title": "Кронштейн Holder LCDS-5036 металлик, 19\"-37\", макс.30кг, настенный, поворот/наклон",
+        "vid": "krepitvmodelskyline43lst6575r01holderlcds5036d3615da71699"
+      },
+      "placement_id": "model-skyline-43lst6575-r01-holder-lcds-5036",
+      "rank": 1
+    },
+    {
+      "model_id": "skyline-43lst6575",
+      "model_path": "/modeli/skyline-43lst6575/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=i8wpznzduondndlt5a109evt6zxquefc&utm_referral_context=cB7KAYZZYwSuWA3BUlC26DAlpp7hx8FTFYsNvYTZS5RKPY0LiMpoJ0E5gswivxdnptWFNwR0zQELSD6dSyr7z3Fy3LSOOFlyjNB72jgig8qUSx5Uzpkv1vid7svwApuz8Xc3iJfTnXIA6hTYPNT58LBMStI3yiZtpDNYYjvJeH0nYXcBX6_RkI5A1RgE82FiZMJ4dxgiT7rYw-cro9-lT0DIIkQe2Fey&clid=15238076&vid=krepitvmodelskyline43lst6575r02holderlcds506634112c4291d3&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:16:17.757Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -29,8 +53,8 @@
       "model_id": "skyline-43lst6575",
       "model_path": "/modeli/skyline-43lst6575/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=y7mn32491f243o5cxnbx4ecfdvivs4pl&utm_referral_context=ojvPkObeee6suys17LIyRG-y6Vvp-AzIPPaFe8C5qj8QKB1KLjcqzDcs-mUCn0sugZRTjPsqnjs9zzigkDOmmVq0PFbs0DiF5HqbkHj-K42dNRN4FLeLUNEV1Hg9O5woZbT9vF9GcQAllvbUoL9uyPplKtKppKdpSBNw0LKUpfA4-15V_5KVF6sVP3IXb8ZkeFyPLy9xXKGj3m0ygG-BXNsmLEKSkQzK&clid=15238076&vid=krepitvmodelskyline43lst6575r03kromaxatlantis453a73a8db352a&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-14T05:51:15.514Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=75wmf59c4z8ujwacni96gntdwiyhsabq&utm_referral_context=kB8Qu2Dilezp06A6H6CrF4740uZTbUC5X1d_gxhYjAwGIxSJZPwgoZ3JEy7_Y6ILvqFuphuYKYCwFEh5Lv5Qt-onVf_vWOkGZpuHHS5DsXmeL7MgEUFMVGXhNU93mrRJnw-iOXpIEzsa2_wiUoz1m4cHxd4A6IT9LofkxVCVfE-qhecundlfwqSmarLAbBVARCiXFdG_PCNtF9-zKzmJwkW-s9YZ-0-E&clid=15238076&vid=krepitvmodelskyline43lst6575r03kromaxatlantis453a73a8db352a&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:16:18.501Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,

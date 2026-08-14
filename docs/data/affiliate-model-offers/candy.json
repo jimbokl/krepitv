@@ -1,12 +1,36 @@
 {
-  "generated_at": "2026-08-14T05:52:51.988Z",
+  "generated_at": "2026-08-14T17:17:49.430Z",
   "placements": [
     {
       "model_id": "candy-uno-32",
       "model_path": "/modeli/candy-uno-32/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=6vel8wwxb39v6qbowq2cwnpmq1v6dhc5&utm_referral_context=buTq4g1Ac0_ZkPPdmAZPwa7Li2ssILetLQncFjsi6_DfYxxEw0RfuDQfEgIIaeOr47-xYxc3-N8ztbQWpI9B1QftUzOW6N_K98YSCQnPauvfxhkBzK4D8rW9T8H5cYEQiH530LGaSajQEFkDpPmTvknDnkJ17Ogg5PLWLNUNpSfwhA7e3mzDPKxyu4vwNjwIlVY-_p0n3odoev_q7mB1VIg1UtS20zbh&clid=15238076&vid=krepitvmodelcandyuno32r02holderlcds50663e02337963f7&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-14T05:47:51.722Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=1ua5k6j527go0bjz868u2ynyct2oiqwq&utm_referral_context=WRCo9V7v73yIy0bGBpxeqmc0NbAoNPx6UPDFhhrEipdfNDN9tbmF4OeVXh3JhJS8BLHo2f0upcUUeFW_28LTJ-38fpumRHbtw1_J-uDNA5xiipqZzYPd-eAy_WN62KzkIdoh6pJhDxsw6AqMBEiZwzbyhJVmmlOUTa3RcP-tUTmOJap1pFMPV3gFLa12NILpNeINz8pl1TgEsTVY9_pWjd5icm5WmfI3&clid=15238076&vid=krepitvmodelcandyuno32r01holderlcds503663c10a810dab&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:12:49.681Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5036",
+        "entity_kind": "mount",
+        "id": "model-candy-uno-32-r01-holder-lcds-5036",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5036/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/18082423/2a0000019c751e07fd72f523f7d4e237150e/optimize",
+        "publishable": true,
+        "title": "Кронштейн Holder LCDS-5036 металлик, 19\"-37\", макс.30кг, настенный, поворот/наклон",
+        "vid": "krepitvmodelcandyuno32r01holderlcds503663c10a810dab"
+      },
+      "placement_id": "model-candy-uno-32-r01-holder-lcds-5036",
+      "rank": 1
+    },
+    {
+      "model_id": "candy-uno-32",
+      "model_path": "/modeli/candy-uno-32/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=byprn6mk39kj5alzgeat66fanzxh2vxd&utm_referral_context=t2iq7UFVlz9sN2bWm11n27pQbLWhzOWipZ1hol240k71bLlmQZ5CZXCzYuXIog4d6AoV4D1TzELyQ_Aa1r7qo1wdv3bmO8RBi_bK5PIfVgS6qqGqa-s5MSoOxbFrZyJi8pSMqSqLLCeTOnapt2arYCjSL-v3jYefczpJx_WVfdyUQjXg0_tClZSxGC-9EarZBWGZzFJIBg45QlNcYMWWHU6T-XOt3vQB&clid=15238076&vid=krepitvmodelcandyuno32r02holderlcds50663e02337963f7&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:12:50.360Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -29,8 +53,8 @@
       "model_id": "candy-uno-32",
       "model_path": "/modeli/candy-uno-32/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=1njei8w676bskc3oc3unat8blyftfey6&utm_referral_context=Qh0foPBFu-rug24EVlXJNuq15vi-TTU4TceKBkTtGt7tKFvHBOeD6EPfG27xm1ECreENk6tXJEVgnRbb3tj6G6JacS4WBixA_bZuptFUqj_LO7v3Yfwv2GYmy9isn3yFVdBi6btsaO119V6fAU4bqxFp0GNhcKVyoWPzk0g-VUA3nDPclnDoI1jZWXNQ7pEMjJZQd-Ezy4tklf9kLZjagILYEvXazP6Q&clid=15238076&vid=krepitvmodelcandyuno32r03kromaxatlantis452f72e4482ff5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-14T05:47:52.404Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=jjcal4b3vk5j7tsus77li067py1cayyf&utm_referral_context=zDwXty6NBklbJ3G-ZR7N18lnWv3qqeNf_K3NciWTY9WnwsVgpDgzQ6PBubzS_02i_ktX9X00HXasx55pnvakss5ANbJY1JlEuswRhEdvS_JqGrAwGHTorI4a6gryrUlF_V2Ik20-6ji9O3szoL_hulmjBrzuHpV0Wad6rhel6X3HZKvPZptTZFBeJ8iFA4bS5acHigoJ4xARFGo7r94hDadnWU4wEFuo&clid=15238076&vid=krepitvmodelcandyuno32r03kromaxatlantis452f72e4482ff5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:12:51.031Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -53,8 +77,32 @@
       "model_id": "candy-uno-43-uhd",
       "model_path": "/modeli/candy-uno-43-uhd/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=okhhrc3bbgmfezwwt5y2d6g71mpzq77q&utm_referral_context=38E39-q_yfVLyAGWbpHwE-lWmqqXcr4T1shUHsIEDlswYIsMOK99w2EpUpSjo8gfCHnRkh_ybt26V5dRRfrgdU3oK1zhAYY_UsrVuYMaeZzeX3s9PdPs-3FfLRWarIOIjLRSRUpl4f9ak66qEGDQTfJQEEE8-xHY148dfUNuhUcAhbiwrR9RpygBbR7hkot2A9kep6HdFu_nUZKkMyx3GgFkSbd3vD6p&clid=15238076&vid=krepitvmodelcandyuno43uhdr02holderlcds5066d6669f9c7534&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-14T05:47:53.722Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=i3cjmqkq8shd16w3advens3d2zfd7s9w&utm_referral_context=D8tS_6Y9AUJalQOmia_NdwmO2YNQzhnXGmA9C13CBOyNrKpdkEBDLZjY-F_6w-j8os6oZV__YisnSTUSUqHGZv2w4K89niCfaop5tJA5D_WNoOM7qjEJV_xuDrV6ADyJ_Emy894sTHnODWDH121JavyX0GufBncSZLACJ57zmFpF2C70cDsKgmEezNkrKyp10YQSOR-KlurEOUCMskU4l9FrHBTIwwb2&clid=15238076&vid=krepitvmodelcandyuno43uhdr01holderlcds503672e1fecd8a03&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:12:51.704Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5036",
+        "entity_kind": "mount",
+        "id": "model-candy-uno-43-uhd-r01-holder-lcds-5036",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5036/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/18082423/2a0000019c751e07fd72f523f7d4e237150e/optimize",
+        "publishable": true,
+        "title": "Кронштейн Holder LCDS-5036 металлик, 19\"-37\", макс.30кг, настенный, поворот/наклон",
+        "vid": "krepitvmodelcandyuno43uhdr01holderlcds503672e1fecd8a03"
+      },
+      "placement_id": "model-candy-uno-43-uhd-r01-holder-lcds-5036",
+      "rank": 1
+    },
+    {
+      "model_id": "candy-uno-43-uhd",
+      "model_path": "/modeli/candy-uno-43-uhd/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=6toaw1ickiavhufdycqke5d9sapdlqun&utm_referral_context=k5J-_0TnnO9jt4YjDwABbB921avgYVK-Z9X3_1PzjRrTeL6_d1KXjW4dCp4YvwO2AIMyVQ805rUBViNx0CmxkUvMz9pYehOoYz8bLAbiZiKe9VPELXGhWQ6pPK552zkR0sFtqz-yr-FibcAXtSt3EztYQpr1SHIOk-c4OY-lgtL_gt1lq8GC8iRgZ2I4CSq2iFJ2cSgLXQjK3lH5PTHPf_4Nb7jBnLhz&clid=15238076&vid=krepitvmodelcandyuno43uhdr02holderlcds5066d6669f9c7534&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:12:52.415Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -77,8 +125,8 @@
       "model_id": "candy-uno-43-uhd",
       "model_path": "/modeli/candy-uno-43-uhd/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=zdo9w87sbbu1ekr3wcdi7h6c30zfk9xe&utm_referral_context=1XsnGJu6jlHW1It44-arif-5T5UAZAn1qZsyBjzLPyMmKUFHnKliZUND3IF9owruJGfPX62E0AUtI4ZB5_HWMdiQMrqwP3amq8jCdWZd2nsn8DPuQtqSiK_7qdv6oIu_w0w7RP6o1CF8sf0Pj6YiJqtODglV9_TukS7Yv6K2wSfwO_ExDP6A5CL_1A-60F8eBsmX6MiJPHD46HVgbsr_9NLLb-sGE08e&clid=15238076&vid=krepitvmodelcandyuno43uhdr03kromaxatlantis45093a3f197444&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-14T05:47:54.399Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=5rqk3m0ygp6cazcogmor5vbjbj05hx4t&utm_referral_context=v_jrtXIjYwJiUz2UK9nGOjW2nFTTnzSIv6UIBPIKZYVivWAkH12Gw22SPkiSrKd3igeGrqbn889JCYx4qJAbpqiDfYcLy7vBjdlHHLZIbK3afqSsTfslVJic8R6xfEK3No59B99S4SbLlOOTeP05sjkhEJpar0TNUGRveZU8ClV-RarK0drDFUqsumCAy3jcEZlA1DwguMVRO9JZbpeclWv9hA6Ej3Vn&clid=15238076&vid=krepitvmodelcandyuno43uhdr03kromaxatlantis45093a3f197444&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-14T17:12:53.110Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
