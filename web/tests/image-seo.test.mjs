@@ -18,7 +18,7 @@ test("паспортные модели и кронштейны публикую
     readFile(path.join(root, "data/tv_models.json"), "utf8").then(JSON.parse),
     readFile(path.join(root, "data/mounts.json"), "utf8").then(JSON.parse),
   ]);
-  assert.equal(models.length, 151);
+  assert.equal(models.length, 161);
   assert.equal(mounts.length, 25);
 
   for (const [kind, items] of [["modeli", models], ["kronshteyny", mounts]]) {
@@ -44,7 +44,7 @@ test("image sitemap обнаруживает каждую техническую
     readFile(path.join(docs, "robots.txt"), "utf8"),
   ]);
   assert.match(sitemap, /xmlns:image="http:\/\/www\.google\.com\/schemas\/sitemap-image\/1\.1"/u);
-  assert.equal((sitemap.match(/<image:image>/gu) ?? []).length, 176);
+  assert.equal((sitemap.match(/<image:image>/gu) ?? []).length, 186);
   assert.match(robots, /Sitemap: https:\/\/krepitv\.ru\/image-sitemap\.xml/u);
   assert.match(home, /<meta property="og:site_name" content="KREPI TV">/u);
   assert.match(home, /"@type":"Organization"/u);

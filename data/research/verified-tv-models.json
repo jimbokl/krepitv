@@ -2667,7 +2667,7 @@
     "depth_mm": 68.7,
     "vesa_width_mm": 300,
     "vesa_height_mm": 300,
-    "source_url": "https://www.tcl.com/ru/ru/tvs/p7l",
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p7l/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A3bC80M3A3bA==.json",
     "source_label": "Официальные характеристики TCL Россия",
     "source_fact": "Официальные российские карточка и страница поддержки TCL подтверждают точную модель 50P7L 2026 года, диагональ 50 дюймов, VESA 300×300 мм, корпус 1111×646×68,7 мм и массу 8,7 кг без подставки.",
     "checked_at": "2026-08-04"
@@ -3573,6 +3573,319 @@
       "Производительское руководство доступно как точная архивная PDF-копия у официального ритейлера; страницы проверены по содержимому.",
       "База массы 4,25 кг в руководстве не уточнена; значение помечено published_unspecified и должно использоваться консервативно.",
       "В таблице порядок размеров указан как 730×177×465 мм; поля нормализованы как ширина 730, высота 465, глубина 177 мм по обозначению «без опор»."
+    ]
+  },
+  {
+    "id": "tcl-43p7l",
+    "brand": "TCL",
+    "model": "43P7L",
+    "title": "TCL 43P7L",
+    "series": "P7L",
+    "model_year": 2026,
+    "diagonal_inches": 43,
+    "weight_kg": 6.6,
+    "width_mm": 956,
+    "height_mm": 559,
+    "depth_mm": 72,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p7l/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A3bC81NXA3bA==.json",
+    "source_label": "Официальные характеристики TCL 43P7L",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 43P7L, диагональ 43 дюйма, VESA 200×100 мм, массу корпуса 6,6 кг и размеры 956×559×72 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Резьба и длина винтов настенного крепления на странице характеристик не указаны; перед монтажом их нужно сверить с руководством и фактической глубиной резьбовых втулок."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/p7l",
+        "label": "Официальная российская страница серии TCL P7L с выбором 43P7L",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-55p7l",
+    "brand": "TCL",
+    "model": "55P7L",
+    "title": "TCL 55P7L",
+    "series": "P7L",
+    "model_year": 2026,
+    "diagonal_inches": 55,
+    "weight_kg": 10.5,
+    "width_mm": 1224,
+    "height_mm": 708,
+    "depth_mm": 69.5,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 300,
+    "source_url": "https://www.tcl.com/ru/ru/tvs/p7l",
+    "source_label": "Официальные характеристики TCL 55P7L",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 55P7L, диагональ 55 дюймов, VESA 300×300 мм, массу корпуса 10,5 кг и размеры 1224×708×69,5 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Резьба и длина винтов настенного крепления на странице характеристик не указаны; комплект кронштейна нельзя считать подходящим только по VESA."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/p7l",
+        "label": "Официальная российская страница серии TCL P7L с выбором 55P7L",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-65p8l",
+    "brand": "TCL",
+    "model": "65P8L",
+    "title": "TCL 65P8L",
+    "series": "P8L",
+    "model_year": 2026,
+    "diagonal_inches": 65,
+    "weight_kg": 16.9,
+    "width_mm": 1444,
+    "height_mm": 831,
+    "depth_mm": 69.5,
+    "vesa_width_mm": 400,
+    "vesa_height_mm": 300,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p8l/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A4bC82NXA4bA==.json",
+    "source_label": "Официальные характеристики TCL 65P8L",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 65P8L, диагональ 65 дюймов, VESA 400×300 мм, массу корпуса 16,9 кг и размеры 1444×831×69,5 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Резьба, допустимая глубина зацепления и длина винтов настенного крепления на странице характеристик не опубликованы."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/p8l",
+        "label": "Официальная российская страница серии TCL P8L с выбором 65P8L",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-32s4k",
+    "brand": "TCL",
+    "model": "32S4K",
+    "title": "TCL 32S4K",
+    "series": "S4K",
+    "model_year": 2025,
+    "diagonal_inches": 32,
+    "weight_kg": 3.19,
+    "width_mm": 715,
+    "height_mm": 422,
+    "depth_mm": 75,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/s4k/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3M0ay9zNGs=.json",
+    "source_label": "Официальные характеристики TCL 32S4K",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 32S4K, диагональ 32 дюйма, VESA 100×100 мм, массу корпуса 3,19 кг и размеры 715×422×75 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Официальная таблица публикует размеры в порядке ширина × глубина × высота; в каталоге они нормализованы как 715×422×75 мм: ширина × высота × глубина.",
+      "Параметры винтов VESA на странице характеристик не указаны."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/s4k",
+        "label": "Официальная российская страница TCL S4K для 32S4K",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-55q6c",
+    "brand": "TCL",
+    "model": "55Q6C",
+    "title": "TCL 55Q6C",
+    "series": "Q6C",
+    "model_year": 2025,
+    "diagonal_inches": 55,
+    "weight_kg": 12.2,
+    "width_mm": 1229,
+    "height_mm": 713,
+    "depth_mm": 55.9,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 300,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/q6c/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3E2Yy81NQ==.json",
+    "source_label": "Официальные характеристики TCL 55Q6C",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 55Q6C, диагональ 55 дюймов, VESA 300×300 мм, массу корпуса 12,2 кг и размеры 1229×713×55,9 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Официальная таблица публикует размеры в порядке ширина × глубина × высота; поля каталога переставлены в порядок ширина × высота × глубина.",
+      "Резьба и длина винтов VESA на странице характеристик не указаны."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/q6c",
+        "label": "Официальная российская страница TCL Q6C с выбором 55Q6C",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "hisense-40a4s",
+    "brand": "Hisense",
+    "model": "40A4S",
+    "title": "Hisense 40A4S",
+    "series": "A4S",
+    "model_year": 2026,
+    "diagonal_inches": 40,
+    "weight_kg": 4.7,
+    "width_mm": 898,
+    "height_mm": 511,
+    "depth_mm": 78,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 200,
+    "source_url": "https://ru.hisense.com/catalog/tvs/40A4S/",
+    "source_label": "Официальная карточка Hisense 40A4S",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 40A4S, диагональ 40 дюймов, VESA 100×200 мм, массу корпуса 4,7 кг и размеры 898×511×78 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Официальная карточка не указывает резьбу и допустимую длину винтов для настенного монтажа."
+    ],
+    "sources": [
+      {
+        "url": "https://ru.hisense.com/catalog/tvs/40A4S/",
+        "label": "Официальная карточка Hisense 40A4S",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "lg-50qned70b6c",
+    "brand": "LG",
+    "model": "50QNED70B6C",
+    "title": "LG 50QNED70B6C",
+    "series": "QNED70",
+    "model_year": 2026,
+    "diagonal_inches": 50,
+    "weight_kg": 8.2,
+    "width_mm": 1112,
+    "height_mm": 649,
+    "depth_mm": 70.8,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 200,
+    "source_url": "https://www.lg.com/ru/televisions/lg-50qned70b6c",
+    "source_label": "Официальная карточка LG 50QNED70B6C",
+    "source_fact": "Официальная карточка LG подтверждает точную модель 50QNED70B6C, диагональ 50 дюймов, VESA 300×200 мм, массу корпуса 8,2 кг и размеры 1112×649×70,8 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Карточка подтверждает VESA и массу, но длину винтов следует выбирать по руководству и толщине монтажной пластины кронштейна."
+    ],
+    "sources": [
+      {
+        "url": "https://www.lg.com/ru/televisions/lg-50qned70b6c",
+        "label": "Официальная карточка LG 50QNED70B6C",
+        "region": "Россия"
+      },
+      {
+        "url": "https://www.lg.com/ru/support/product/lg-50QNED70B6C.ARUG",
+        "label": "Официальная поддержка LG 50QNED70B6C",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tuvio-td65ufbhh12",
+    "brand": "Tuvio",
+    "model": "TD65UFBHH12",
+    "title": "Tuvio TD65UFBHH12",
+    "series": "TD UFBHH12",
+    "model_year": null,
+    "diagonal_inches": 65,
+    "weight_kg": 12.8,
+    "width_mm": 1444,
+    "height_mm": 835,
+    "depth_mm": 74,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 300,
+    "source_url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td65ufbhh12-chernyy",
+    "source_label": "Официальная карточка Tuvio TD65UFBHH12",
+    "source_fact": "Официальная карточка Tuvio подтверждает точную модель TD65UFBHH12, диагональ 65 дюймов, VESA 300×300 мм, массу корпуса 12,8 кг и размеры 1444×835×74 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Модельный год производителем не указан.",
+      "Резьба и длина винтов настенного крепления не указаны."
+    ],
+    "sources": [
+      {
+        "url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td65ufbhh12-chernyy",
+        "label": "Официальная карточка Tuvio TD65UFBHH12",
+        "region": "Россия"
+      },
+      {
+        "url": "https://yandex.ru/support/yandex-factory/tuvio/ru/tv-accessories/tv",
+        "label": "Официальный каталог руководств Tuvio",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "hisense-40e44sl",
+    "brand": "Hisense",
+    "model": "40E44SL",
+    "title": "Hisense 40E44SL",
+    "series": "E44SL",
+    "model_year": 2026,
+    "diagonal_inches": 40,
+    "weight_kg": 4.7,
+    "width_mm": 898,
+    "height_mm": 511,
+    "depth_mm": 78,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 200,
+    "source_url": "https://ru.hisense.com/catalog/tvs/40E44SL/",
+    "source_label": "Официальная карточка Hisense 40E44SL",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 40E44SL, диагональ 40 дюймов, VESA 100×200 мм, массу корпуса 4,7 кг и размеры 898×511×78 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Официальная карточка не указывает резьбу и допустимую длину винтов для настенного монтажа."
+    ],
+    "sources": [
+      {
+        "url": "https://ru.hisense.com/catalog/tvs/40E44SL/",
+        "label": "Официальная карточка Hisense 40E44SL",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-65v6c",
+    "brand": "TCL",
+    "model": "65V6C",
+    "title": "TCL 65V6C",
+    "series": "V6C",
+    "model_year": 2025,
+    "diagonal_inches": 65,
+    "weight_kg": 12.2,
+    "width_mm": 1446,
+    "height_mm": 833,
+    "depth_mm": 73,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/v6c/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3Y2Yy82NXY2Yw==.json",
+    "source_label": "Официальные характеристики TCL 65V6C",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 65V6C, диагональ 65 дюймов, VESA 200×200 мм, массу корпуса 12,2 кг и размеры 1446×833×73 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Резьба и длина винтов настенного крепления на странице характеристик не опубликованы; параметры нужно сверить до установки."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/v6c",
+        "label": "Официальная российская страница TCL V6C с выбором 65V6C",
+        "region": "Россия"
+      }
     ]
   }
 ]

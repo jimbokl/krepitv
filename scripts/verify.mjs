@@ -10,15 +10,15 @@ const docs = path.join(root, "docs");
 const origin = "https://krepitv.ru";
 const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
-const corePagesUpdatedAt = "2026-08-05";
+const corePagesUpdatedAt = "2026-08-20";
 const marketModelsUpdatedAt = "2026-08-05";
-const modelPagesUpdatedAt = "2026-08-05";
+const modelPagesUpdatedAt = "2026-08-20";
 const trafficPagesUpdatedAt = "2026-08-06";
 const seoFunnelUpdatedAt = "2026-08-08";
 const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
-const baselineIndexableUrlCount = 289;
+const baselineIndexableUrlCount = 299;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -1643,7 +1643,8 @@ for (const model of models) {
     || !html.includes(`${model.weight_kg} кг`)
     || !html.includes(modelWeightSuffix(model))
     || !html.includes("Подходящие кронштейны")
-    || !html.includes("Размеры и источник")
+    || !html.includes("Размеры модели")
+    || !html.includes("Что подтверждено источником")
     || (html.match(/<section\b/gu) ?? []).length < 5
     || html.length < 7_500
   ) {

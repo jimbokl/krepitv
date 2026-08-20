@@ -8,11 +8,11 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
 const AFFILIATE_FUTURE_TOLERANCE_SECONDS: i64 = 5 * 60;
-const CORE_PAGES_UPDATED_AT: &str = "2026-08-05";
+const CORE_PAGES_UPDATED_AT: &str = "2026-08-20";
 const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-06";
 const SEO_FUNNEL_UPDATED_AT: &str = "2026-08-08";
 const MARKET_MODELS_UPDATED_AT: &str = "2026-08-05";
-const MODEL_PAGES_UPDATED_AT: &str = "2026-08-05";
+const MODEL_PAGES_UPDATED_AT: &str = "2026-08-20";
 const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
     ("tcl-v6c", "tcl-50v6c"),
     ("tcl-q6cs", "tcl-55q6cs"),
@@ -224,7 +224,14 @@ struct TvModel {
     wall_mount_screws: Option<WallMountScrews>,
     source_url: String,
     source_label: String,
+    source_fact: String,
     checked_at: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    source_region: Option<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    limitations: Vec<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    sources: Vec<Value>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -895,7 +902,7 @@ fn dataset_json_ld(page_id: &str, canonical: &str) -> Option<String> {
         match page_id {
             "vesa" => (
                 "Размеры VESA популярных в России телевизоров",
-                "Проверяемая таблица из 151 точной модели телевизора: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и источник паспорта.",
+                "Проверяемая таблица из 161 точной модели телевизора: полный код модели, размер VESA по горизонтали и вертикали, дата проверки и источник паспорта.",
                 "KREPI-TV-RU-VESA-SIZES-2.2.0",
                 VESA_DATASET_VERSION,
                 VESA_DATASET_DOWNLOAD_BASE,
@@ -2033,6 +2040,26 @@ fn model_page_body(
             tv.vesa_width_mm, tv.vesa_height_mm
         ),
     );
+    let limitations = if tv.limitations.is_empty() {
+        String::new()
+    } else {
+        let items = tv
+            .limitations
+            .iter()
+            .map(|item| format!("<li>{}</li>", escape_html(item)))
+            .collect::<Vec<_>>()
+            .join("");
+        format!(
+            "<div class=\"mt-5 border-l-2 border-action pl-4\"><h3 class=\"font-display text-xl font-bold\">Границы паспортных данных</h3><ul class=\"mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted\">{items}</ul></div>"
+        )
+    };
+    let source_evidence = format!(
+        "<section class=\"border-t border-line py-8\" data-source-evidence=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Паспортная проверка</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Что подтверждено источником</h2><p class=\"mt-4 max-w-4xl text-lg leading-relaxed\">{source_fact}</p>{limitations}<a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section>",
+        source_fact = escape_html(&tv.source_fact),
+        limitations = limitations,
+        source = escape_html(&tv.source_url),
+        source_label = escape_html(&tv.source_label),
+    );
     let wall_mount_screws = wall_mount_screws_html(tv);
     let vesa_fact = vesa_conflict
         .map(|conflict| {
@@ -2067,7 +2094,7 @@ fn model_page_body(
     }
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}{editorial_accountability}{technical_image}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры и источник</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Характеристики модели проверены {checked_at}.</p><a class=\"mt-5 inline-flex font-semibold text-technical underline underline-offset-4\" href=\"{source}\" rel=\"noreferrer\">Источник характеристик: {source_label}</a></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Сначала сопоставьте монтажные отверстия VESA и массу телевизора, затем проверьте стену, крепёж, доступ к разъёмам и геометрию монтажной пластины.</p>{commercial_section}{editorial_accountability}{technical_image}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{context_section}{affiliate_section}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры модели</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Характеристики модели проверены {checked_at}.</p></section>{source_evidence}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
         series = escape_html(&tv.series),
         year = model_year_label(tv.model_year),
@@ -2082,13 +2109,12 @@ fn model_page_body(
         height = tv.height_mm,
         depth = tv.depth_mm,
         checked_at = escape_html(&tv.checked_at),
-        source = escape_html(&tv.source_url),
-        source_label = escape_html(&tv.source_label),
         affiliate_section = affiliate_section,
         context_section = context_section,
         commercial_section = commercial_section,
         editorial_accountability = editorial_accountability,
         technical_image = technical_image,
+        source_evidence = source_evidence,
         compatibility_lead = escape_html(&compatibility_lead),
         result_heading = escape_html(&result_heading),
         result_explanation = escape_html(&result_explanation),
@@ -8190,6 +8216,25 @@ mod tests {
         assert!(!body.contains(&escape_html(&offer.affiliate_href)));
         assert!(!body.contains("data-market-mount-search=\"true\""));
         assert!(!body.contains("https://market.yandex.ru/search"));
+    }
+
+    #[test]
+    fn demand_backed_model_cohort_prerenders_source_fact_and_limitations() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let seo_pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let tv = models
+            .iter()
+            .find(|tv| tv.id == "tuvio-td65ufbhh12")
+            .expect("Нет demand-backed модели Tuvio TD65UFBHH12");
+        let matches = model_mount_matches(tv, &mounts);
+        let body = model_page_body(tv, &matches, &[], 0, &seo_pages, None);
+
+        assert!(body.contains("Официальная карточка Tuvio подтверждает точную модель TD65UFBHH12"));
+        assert!(body.contains("Модельный год производителем не указан"));
+        assert!(body.contains("Резьба и длина винтов настенного крепления не указаны"));
+        assert!(body.contains("href=\"https://tuvio.yandex.ru/card/"));
     }
 
     #[test]

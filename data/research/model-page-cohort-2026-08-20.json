@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-20",
+  "scope": "10 отсутствующих точных моделей из верхнего среза телевизоров Яндекс Маркета с положительным точным спросом Wordstat по России",
+  "selection_rule": "Положительная частота точного кода модели, актуальная карточка Маркета, официальный источник точного SKU и полный монтажный кортеж: диагональ, VESA, масса и корпус без подставки",
+  "market_observed_at": "2026-08-20T08:09:00.000Z",
+  "wordstat_region": "Россия",
+  "wordstat_period": "последние 30 дней на дату сбора",
+  "models": [
+    { "id": "tcl-43p7l", "model": "43P7L", "seo_frequency": 6942, "market_purchase_count": 45, "official_source_url": "https://www.tcl.com/ru/ru/tvs/p7l" },
+    { "id": "tcl-55p7l", "model": "55P7L", "seo_frequency": 3771, "market_purchase_count": 45, "official_source_url": "https://www.tcl.com/ru/ru/tvs/p7l" },
+    { "id": "tcl-65p8l", "model": "65P8L", "seo_frequency": 3224, "market_purchase_count": 19, "official_source_url": "https://www.tcl.com/ru/ru/tvs/p8l" },
+    { "id": "tcl-32s4k", "model": "32S4K", "seo_frequency": 1585, "market_purchase_count": 319, "official_source_url": "https://www.tcl.com/ru/ru/tvs/s4k" },
+    { "id": "tcl-55q6c", "model": "55Q6C", "seo_frequency": 1406, "market_purchase_count": 2900, "official_source_url": "https://www.tcl.com/ru/ru/tvs/q6c" },
+    { "id": "hisense-40a4s", "model": "40A4S", "seo_frequency": 1203, "market_purchase_count": 72, "official_source_url": "https://ru.hisense.com/catalog/tvs/40A4S/" },
+    { "id": "lg-50qned70b6c", "model": "50QNED70B6C", "seo_frequency": 939, "market_purchase_count": 129, "official_source_url": "https://www.lg.com/ru/televisions/lg-50qned70b6c" },
+    { "id": "tuvio-td65ufbhh12", "model": "TD65UFBHH12", "seo_frequency": 837, "market_purchase_count": 35500, "official_source_url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td65ufbhh12-chernyy" },
+    { "id": "hisense-40e44sl", "model": "40E44SL", "seo_frequency": 698, "market_purchase_count": 1200, "official_source_url": "https://ru.hisense.com/catalog/tvs/40E44SL/" },
+    { "id": "tcl-65v6c", "model": "65V6C", "seo_frequency": 112, "market_purchase_count": 6300, "official_source_url": "https://www.tcl.com/ru/ru/tvs/v6c" }
+  ],
+  "limitations": [
+    "Счётчик покупок Маркета — публичный сигнал популярности, а не выручка KREPI TV.",
+    "Wordstat измеряет спрос на точный код модели и не является прогнозом кликов сайта.",
+    "Цена не сохраняется: она меняется по региону и пользователю."
+  ]
+}

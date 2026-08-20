@@ -18,7 +18,7 @@ const [register, catalog, mountRegister, mounts, coverage, demand] = await Promi
 const operationalFields = [
   "id", "brand", "model", "title", "series", "model_year", "diagonal_inches",
   "weight_kg", "width_mm", "height_mm", "depth_mm", "vesa_width_mm",
-  "vesa_height_mm", "source_url", "source_label", "checked_at",
+  "vesa_height_mm", "source_url", "source_label", "source_fact", "checked_at",
 ];
 const mountOperationalFields = [
   "id", "brand", "model", "title", "mechanism", "min_diagonal_in", "max_diagonal_in",
@@ -29,10 +29,13 @@ const operationalModel = (row) => ({
   ...Object.fromEntries(operationalFields.map((field) => [field, row[field]])),
   ...(row.weight_basis ? { weight_basis: row.weight_basis } : {}),
   ...(row.wall_mount_screws ? { wall_mount_screws: row.wall_mount_screws } : {}),
+  ...(row.source_region ? { source_region: row.source_region } : {}),
+  ...(row.limitations ? { limitations: row.limitations } : {}),
+  ...(row.sources ? { sources: row.sources } : {}),
 });
 
 test("verified source register is the exact operational catalog source", () => {
-  assert.equal(register.length, 151);
+  assert.equal(register.length, 161);
   assert.equal(new Set(register.map((row) => row.id)).size, register.length);
   assert.equal(new Set(register.map((row) => row.model)).size, register.length);
   assert.deepEqual(
@@ -58,9 +61,37 @@ test("verified source register is the exact operational catalog source", () => {
     "lg-oled55b5rla",
     "lg-65qned80a6a",
     "samsung-qe77s85faexru",
+    "tcl-43p7l",
+    "tcl-55p7l",
+    "tcl-65p8l",
+    "tcl-32s4k",
+    "tcl-55q6c",
+    "tcl-65v6c",
+    "hisense-40a4s",
+    "hisense-40e44sl",
+    "lg-50qned70b6c",
+    "tuvio-td65ufbhh12",
   ]) {
     assert.ok(register.some((row) => row.id === id), `missing demand-backed model ${id}`);
   }
+
+  const cohort = register.filter((row) => [
+    "tcl-43p7l",
+    "tcl-55p7l",
+    "tcl-65p8l",
+    "tcl-32s4k",
+    "tcl-55q6c",
+    "tcl-65v6c",
+    "hisense-40a4s",
+    "hisense-40e44sl",
+    "lg-50qned70b6c",
+    "tuvio-td65ufbhh12",
+  ].includes(row.id));
+  assert.equal(cohort.length, 10);
+  assert.ok(cohort.every((row) => row.checked_at === "2026-08-20"));
+  assert.ok(cohort.every((row) => row.source_fact.includes(row.model)));
+  assert.ok(cohort.every((row) => row.limitations?.length >= 1));
+  assert.ok(cohort.every((row) => row.sources?.length >= 1));
 });
 
 test("verified mount register excludes unresolved identities and drives the catalog", () => {
@@ -151,10 +182,10 @@ test("revenue-weighted mount wave preserves exact verified SKUs and specificatio
 });
 
 test("measured exact demand is preserved without inflating zero-frequency SKU", () => {
-  assert.equal(demand.models.length, 89);
+  assert.equal(demand.models.length, 99);
   const positive = demand.models.filter((row) => row.seo_frequency > 0);
   const zero = demand.models.filter((row) => row.seo_frequency === 0);
-  assert.equal(positive.length, 81);
+  assert.equal(positive.length, 91);
   assert.equal(zero.length, 8);
   assert.ok(zero.every((row) => row.brand === "Яндекс"));
 

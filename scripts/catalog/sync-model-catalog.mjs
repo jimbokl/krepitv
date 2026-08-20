@@ -45,7 +45,11 @@ const catalog = register.map((row) => ({
   ...(row.wall_mount_screws ? { wall_mount_screws: row.wall_mount_screws } : {}),
   source_url: row.source_url,
   source_label: row.source_label,
+  source_fact: row.source_fact,
   checked_at: row.checked_at,
+  ...(row.source_region ? { source_region: row.source_region } : {}),
+  ...(row.limitations ? { limitations: row.limitations } : {}),
+  ...(row.sources ? { sources: row.sources } : {}),
 }));
 
 const registerByIdentity = new Map(register.map((row) => [demandIdentity(row), row]));

@@ -146,10 +146,19 @@ export function ModelPage({ catalog, modelId }) {
               </nav>
             ) : null}
 
-            <div className="mt-5 flex items-start gap-4 border border-ink bg-white/60 p-4">
+            <div
+              className="mt-5 flex items-start gap-4 border border-ink bg-white/60 p-4"
+              data-source-evidence="true"
+            >
               <Info aria-hidden="true" className="size-8 shrink-0" weight="regular" />
               <div className="text-sm leading-relaxed">
-                <p>Эти данные сверены KREPI TV с указанным официальным источником производителя.</p>
+                <p className="font-semibold">Что подтверждено источником</p>
+                <p className="mt-2">{model.source_fact}</p>
+                {model.limitations?.length ? (
+                  <ul className="mt-3 list-disc space-y-1 pl-5 text-muted">
+                    {model.limitations.map((limitation) => <li key={limitation}>{limitation}</li>)}
+                  </ul>
+                ) : null}
                 <a
                   className="mt-2 inline-flex items-center gap-2 font-semibold text-technical underline underline-offset-4"
                   href={model.source_url}

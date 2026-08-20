@@ -15,6 +15,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q70d-55-inch-qled-4k-tizen-os-smart-tv-qe55q70dauxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка Q70D 55 дюймов связывает точный SKU с VESA, массой и габаритами корпуса без подставки.",
     "checked_at": "2026-07-30"
   },
   {
@@ -33,6 +34,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-oled55c4rla",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Карточка OLED C4 55 дюймов связывает точный SKU с VESA, массой и габаритами корпуса без подставки.",
     "checked_at": "2026-07-30"
   },
   {
@@ -68,6 +70,7 @@
     },
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-43-inch-qled-4k-smart-tv-qe43q7faauxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 43 дюйма, 2025 год, корпус 967,5×561,4×59,7 мм, массу 7,1 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -103,6 +106,7 @@
     },
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-50-inch-qled-4k-smart-tv-qe50q7faauxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 50 дюймов, 2025 год, корпус 1120,3×647×60 мм, массу 9,6 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -121,6 +125,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-55-inch-qled-4k-smart-tv-qe55q7f5auxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает точный вариант Q7F5, 55 дюймов, 2025 год, массу 10,8 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -139,6 +144,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-65-inch-qled-4k-smart-tv-qe65q7faauxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 65 дюймов, 2025 год, корпус 1452,9×834×60,6 мм, массу 16,7 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -174,6 +180,7 @@
     },
     "source_url": "https://www.samsung.com/ru/tvs/full-hd-tv/f6000-32-inch-ue32f6000fuxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 32 дюйма, 2025 год, корпус 732,9×438,7×73,2 мм, массу 3,8 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -209,6 +216,7 @@
     },
     "source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-43-inch-crystal-uhd-4k-smart-tv-ue43u8000fuxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 43 дюйма, 2025 год, корпус 957,8×558,8×76,3 мм, массу 6,4 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -244,6 +252,7 @@
     },
     "source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-50-inch-crystal-uhd-4k-smart-tv-ue50u8000fuxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 50 дюймов, 2025 год, корпус 1110,8×643,8×76,4 мм, массу 8,3 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -279,6 +288,7 @@
     },
     "source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-55-inch-crystal-uhd-4k-smart-tv-ue55u8000fuxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 55 дюймов, 2025 год, корпус 1224,6×707,8×76,6 мм, массу 9,6 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -297,6 +307,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-65-inch-crystal-uhd-4k-smart-tv-ue65u8000fuxru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 65 дюймов, 2025 год, корпус 1444,1×831,2×76,8 мм, массу 14,2 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -315,6 +326,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/oled-tv/s85f-65-inch-oled-4k-smart-tv-qe65s85faexru/",
     "source_label": "Официальные характеристики Samsung",
+    "source_fact": "Карточка подтверждает 65 дюймов OLED S85F, 2025 год, массу 17,4 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -333,6 +345,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-50qned85b6a",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Карточка подтверждает 50 дюймов, 2026 год, корпус 1123×652×29,7 мм, массу 12,6 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -351,6 +364,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-43qned80b6b",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Карточка подтверждает 43 дюйма, 2026 год, корпус 968×567×67,9 мм, массу 7,3 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -369,6 +383,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-oled55c5rla",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Карточка подтверждает 55 дюймов, 2025 год, корпус 1222×703×45,1 мм, массу 14,1 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -387,6 +402,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-55qned83b6a",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Основной заголовок и SKU подтверждают QNED83, 55 дюймов и 2026 год; карточка даёт массу 12,8 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -405,6 +421,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.lg.com/ru/televisions/lg-65qned86a6a",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Карточка подтверждает 65 дюймов, 2025 год, корпус 1456×840×29,7 мм, массу 22,5 кг и VESA 300×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -423,6 +440,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.lg.com/ru/televisions/lg-55qned86a6a",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Карточка подтверждает 55 дюймов, 2025 год, корпус 1236×716×29,7 мм, массу 15,5 кг и VESA 300×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -441,6 +459,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.lg.com/ru/televisions/lg-55qned85b6c",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Карточка подтверждает 55 дюймов, 2026 год, корпус 1236×716×29,7 мм, массу 14,5 кг и VESA 300×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -459,6 +478,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-50qned80b6b",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Карточка подтверждает 50 дюймов, 2026 год, корпус 1122×654×67,9 мм, массу 9,4 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -495,6 +515,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/55U7S/",
     "source_label": "Официальные характеристики Hisense",
+    "source_fact": "Карточка подтверждает 55 дюймов, 2026 год, корпус 1226×715×59 мм, массу 13,6 кг и VESA 200×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -531,6 +552,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/65U7S/",
     "source_label": "Официальные характеристики Hisense",
+    "source_fact": "Карточка подтверждает 65 дюймов, 2026 год, корпус 1445×837×59 мм, массу 18,6 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -572,6 +594,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/55U7SPRO/",
     "source_label": "Официальные характеристики Hisense",
+    "source_fact": "Карточка подтверждает 55 дюймов, 2026 год, корпус 1226×714×52 мм, массу 14,1 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -608,6 +631,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/55E77SL/",
     "source_label": "Официальные характеристики Hisense",
+    "source_fact": "Карточка подтверждает 55 дюймов, 2026 год, корпус 1226×714×69 мм, массу 9,3 кг и VESA 200×400 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -644,6 +668,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/50E7S/",
     "source_label": "Официальные характеристики Hisense",
+    "source_fact": "Карточка подтверждает 50 дюймов, 2026 год, корпус 1111×650×71 мм, массу 8 кг и VESA 200×400 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -680,6 +705,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/50U77SL/",
     "source_label": "Официальные характеристики Hisense",
+    "source_fact": "Карточка подтверждает 50 дюймов, 2026 год, корпус 1110×648×59 мм, массу 10,6 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -715,6 +741,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/43E7S/",
     "source_label": "Официальные характеристики Hisense",
+    "source_fact": "Карточка подтверждает 43 дюйма, 2026 год, корпус 963×562×79 мм, массу 5,9 кг и VESA 200×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -751,6 +778,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/55E7S/",
     "source_label": "Официальные характеристики Hisense",
+    "source_fact": "Карточка подтверждает 55 дюймов, 2026 год, корпус 1226×714×69 мм, массу 9,3 кг и VESA 200×400 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -769,6 +797,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-a-43-2025/specs/",
     "source_label": "Официальные глобальные характеристики Xiaomi",
+    "source_fact": "Страница точного поколения 2025 указывает корпус 957,4×562,2×81,3 мм, массу 5,9 кг и VESA 200×100 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -787,6 +816,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-a-50-2025/specs/",
     "source_label": "Официальные глобальные характеристики Xiaomi",
+    "source_fact": "Страница точного поколения 2025 указывает корпус 1111×650×82 мм, массу 8 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -805,6 +835,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-a-55-2025/specs/",
     "source_label": "Официальные глобальные характеристики Xiaomi",
+    "source_fact": "Страница точного поколения 2025 указывает корпус 1226,4×715×81,7 мм, массу 10,1 кг и VESA 200×200 мм; данные поколения 2026 не смешивались.",
     "checked_at": "2026-07-30"
   },
   {
@@ -823,6 +854,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-a-pro-43-2025/specs/",
     "source_label": "Официальные глобальные характеристики Xiaomi",
+    "source_fact": "Страница точного поколения 2025 указывает корпус 957,4×562,2×80,7 мм, массу 6 кг и ориентированную пару VESA 100×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -841,6 +873,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.mi.com/ru/product/xiaomi-tv-a-pro-55-2025/specs/",
     "source_label": "Официальные российские характеристики Xiaomi",
+    "source_fact": "Русская страница точного поколения 2025 указывает корпус 1226,4×715×81,7 мм, массу 10,3 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -859,6 +892,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-a-pro-65-2025/specs/",
     "source_label": "Официальные глобальные характеристики Xiaomi",
+    "source_fact": "Страница точного поколения 2025 указывает корпус 1446×839×83 мм, массу 14,7 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -895,6 +929,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/55U7Q/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Карточка точной модели подтверждает корпус 1226×713×77 мм без подставки, массу 14 кг и VESA 400×200 мм; официальный анонс Hisense относит 55U7Q к модельному ряду 2025 года.",
     "checked_at": "2026-07-30"
   },
   {
@@ -931,6 +966,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/65U77SL/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Карточка точной модели прямо указывает 2026 год, корпус 1445×837×59 мм без подставки, массу 18,6 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -969,6 +1005,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/65U8Q/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Карточка точной модели подтверждает корпус 1448×838×45 мм без подставки, массу 24,4 кг и VESA 400×400 мм; официальный материал Hisense включает 65U8Q в модельный ряд 2025 года.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1007,6 +1044,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/65UR9S/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Карточка точной модели прямо указывает 2026 год, корпус 1448×838×45 мм без подставки, массу 24,4 кг и VESA 400×400 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1025,6 +1063,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/qef1-43-inch-qled-4k-smart-tv-qe43qef1auxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 967,5×561,4×59,7 мм без подставки, массу 7,1 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1043,6 +1082,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn70f-55-inch-neo-qled-4k-mini-led-smart-tv-qe55qn70fauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года и связанная официальная монтажная инструкция подтверждают корпус 1232,9×709,2×25,7 мм без подставки, массу 14,2 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1061,6 +1101,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q8f-43-inch-qled-4k-smart-tv-qe43q8faauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года и связанная официальная монтажная инструкция подтверждают корпус 965,5×559,4×25,7 мм без подставки, массу 7,9 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1079,6 +1120,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/full-hd-tv/f6000-43-inch-ue43f6000fuxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 965,9×563,3×75,8 мм без подставки, массу 6,5 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1097,6 +1139,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/oled-tv/s85f-55-inch-oled-4k-smart-tv-qe55s85faexru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года и связанная официальная монтажная инструкция подтверждают корпус 1225,7×705,6×33,9 мм без подставки, массу 13 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1115,6 +1158,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-55-inch-qled-4k-smart-tv-qe55q7faauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 1234,1×710,8×60,3 мм без подставки, массу 11,3 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1133,6 +1177,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/oled-tv/s90f-65-inch-oled-4k-smart-tv-qe65s90faexru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года и связанная официальная монтажная инструкция подтверждают корпус 1444,3×831,7×39,9 мм без подставки, массу 19,1 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1167,6 +1212,7 @@
     },
     "source_url": "https://www.tcl.com/ru/ru/tvs/55c6k",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Российская карточка точной модели указывает 2025 год; официальная спецификация 55C6K подтверждает корпус 1229×713×55,9 мм без подставки, массу 12,2 кг и VESA 300×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1201,6 +1247,7 @@
     },
     "source_url": "https://www.tcl.com/ru/ru/tvs/55c7l",
     "source_label": "Официальные характеристики TCL для точной модели",
+    "source_fact": "Российская карточка точной модели указывает 2026 год, корпус и VESA; повреждённое поле массы в RU-выгрузке не использовано — 13,3 кг без подставки подтверждены официальной exact-model спецификацией TCL UK, остальные монтажные параметры совпадают.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1235,6 +1282,7 @@
     },
     "source_url": "https://www.tcl.com/ru/ru/tvs/55c7k",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Российская карточка точной модели указывает 2025 год и подтверждает корпус 1226×710×55,9 мм без подставки, массу 13,3 кг и VESA 300×300 мм; значения совпадают с официальной exact-model спецификацией.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1269,6 +1317,7 @@
     },
     "source_url": "https://www.tcl.com/ru/ru/tvs/75c6k",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Российская карточка точной модели указывает 2025 год и подтверждает корпус 1670×960×56,7 мм без подставки, массу 23 кг и VESA 300×300 мм; значения совпадают с официальной exact-model спецификацией.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1309,6 +1358,7 @@
     },
     "source_url": "https://www.tcl.com/ru/ru/tvs/65c7k",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Российская карточка точной модели указывает 2025 год и российские монтажные параметры: корпус 1444×832×56 мм без подставки, массу 18 кг и VESA 300×300 мм; использованы данные RU-модификации.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1327,6 +1377,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-oled65c5rla",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели 2025 года указывает корпус 1441×826×45,1 мм без подставки, массу 16,6 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1345,6 +1396,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-oled42c5rla",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели 2025 года указывает корпус 932×540×41,1 мм без подставки, массу 9,8 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1363,6 +1415,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-oled55g5rla",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели 2025 года указывает корпус 1222×703×27,2 мм без подставки, массу 16,8 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1381,6 +1434,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn70f-65-inch-neo-qled-4k-mini-led-smart-tv-qe65qn70fauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 1451,7×832,2×25,7 мм без подставки, массу 20,8 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1399,6 +1453,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/oled-tv/s90f-55-inch-oled-4k-smart-tv-qe55s90fauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 1225,4×708,6×39,9 мм без подставки, массу 16 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1417,6 +1472,7 @@
     "vesa_height_mm": 400,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-75-inch-qled-4k-smart-tv-qe75q7faauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU Q7FA 2025 года указывает корпус 1677,5×962,4×61,1 мм без подставки, массу 25,3 кг и VESA 400×400 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1435,6 +1491,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn90f-50-inch-neo-qled-4k-mini-led-smart-tv-qe50qn90fauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 1113,6×644,1×26,9 мм без подставки, массу 13,5 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1453,6 +1510,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/qn90f-43-inch-neo-qled-4k-mini-led-smart-tv-qe43qn90fauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 960,8×558,9×26,9 мм без подставки, массу 9,4 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1471,6 +1529,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-75-inch-crystal-uhd-4k-smart-tv-ue75u8000fuxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 1668,1×957,8×77 мм без подставки, массу 22,4 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1489,6 +1548,7 @@
     "vesa_height_mm": 400,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/q7f-85-inch-qled-4k-smart-tv-qe85q7faauxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU Q7FA 2025 года указывает корпус 1901,2×1088,4×61,4 мм без подставки, массу 32,5 кг и VESA 600×400 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1507,6 +1567,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/u8000f-85-inch-crystal-uhd-4k-smart-tv-ue85u8000fuxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка точного SKU 2025 года указывает корпус 1889,9×1083,5×77 мм без подставки, массу 28,7 кг и VESA 400×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1525,6 +1586,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-43qned82a6b",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели 2025 года указывает корпус 969×567×49,9 мм без подставки, массу 9,4 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1543,6 +1605,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-oled48c5rla",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели OLED C5 2025 года указывает корпус 1071×618×46,9 мм без подставки, массу 14,9 кг и VESA 300×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1561,6 +1624,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-43qned80a6a",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели 2025 года указывает корпус 968×565×29,7 мм без подставки, массу 9,3 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1579,6 +1643,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.lg.com/ru/televisions/lg-55qned93a6a",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели QNED93 2025 года указывает корпус 1226×709×57,9 мм без подставки, массу 12,5 кг и VESA 300×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1597,6 +1662,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-50qned82a6b",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели 2025 года указывает корпус 1124×654×49,9 мм без подставки, массу 12,2 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1615,6 +1681,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-43qned70a6a",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка точной модели 2025 года указывает корпус 968×567×67,9 мм без подставки, массу 7,5 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1657,6 +1724,7 @@
     },
     "source_url": "https://www.tcl.com/ru/ru/tvs/p6k",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Официальная спецификация точной модели 55P6K указывает 2025 год, корпус 1226×711×72 мм без подставки, массу 9 кг и VESA 200×200 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1699,6 +1767,7 @@
     },
     "source_url": "https://www.tcl.com/ru/ru/tvs/p7k",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Официальная спецификация точной модели 55P7K указывает 2025 год, корпус 1224×708×69,5 мм без подставки, массу 10,5 кг и VESA 300×300 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1717,6 +1786,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://www.tcl.com/ru/ru/tvs/s5k",
     "source_label": "Официальные характеристики TCL для точной модели",
+    "source_fact": "Российская спецификация точной модели 43S5K указывает 2025 год, VESA 100×100 мм и фактический корпус 954×554×77 мм без подставки; порядок размеров поставщика 954×77×554 нормализован как Ш×Г×В. Масса 5,02 кг без подставки взята из официальной глобальной спецификации той же модели с совпадающими габаритами и массой брутто.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1755,6 +1825,7 @@
     },
     "source_url": "https://ru.hisense.com/catalog/tvs/65U7Q/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Карточка точной модели подтверждает корпус 1446×837×75 мм без подставки, массу 19,5 кг и VESA 400×400 мм; официальный анонс Hisense относит серию U7Q и диагональ 65 дюймов к новым моделям 2025 года.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1773,6 +1844,7 @@
     "vesa_height_mm": 400,
     "source_url": "https://ru.hisense.com/catalog/tvs/55U8Q/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Карточка точной модели подтверждает корпус 1229×714×47 мм без подставки, массу 17,9 кг и VESA 400×400 мм; официальный анонс Hisense относит серию U8Q и диагональ 55 дюймов к новым моделям 2025 года.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1791,6 +1863,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://www.tcl.com/global/en/tvs/32a400-pro",
     "source_label": "Официальные глобальные характеристики TCL",
+    "source_fact": "Официальная карточка TCL связывает точный Customer Model 32A400 PRO с 2026 годом, VESA 100×100 мм, корпусом 732×430×39,9 мм и массой 4,66 кг без подставки; наличие российской поставки из источника не следует.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1809,6 +1882,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.tcl.com/ru/ru/tvs/c755",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Российская карточка TCL подтверждает точный SKU 55C755, серию C755, 2023 год, VESA 400×300 мм, корпус 1224×710×70 мм и массу 13 кг без подставки.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1827,6 +1901,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.tcl.com/ru/ru/tvs/c745",
     "source_label": "Официальные характеристики TCL для точной модели",
+    "source_fact": "Российская карточка подтверждает SKU 55C745, серию C745, 2023 год и массу 13,2 кг; официальный техлист TCL подтверждает VESA 400×300 мм и корпус 1224×710×70 мм.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1845,6 +1920,7 @@
     "vesa_height_mm": 400,
     "source_url": "https://ru.hisense.com/catalog/tvs/75U7Q/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Российская карточка Hisense подтверждает SKU 75U7Q, артикул 20015823, серию U7Q, VESA 600×400 мм, корпус 1668×961×86 мм и массу 27,5 кг без подставки; серия выпущена в 2025 году.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1863,6 +1939,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.tcl.com/ru/ru/tvs/c765",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Российская карточка TCL подтверждает точный SKU 55C765, серию C765, 2024 год, VESA 400×300 мм, корпус 1224×710×70 мм и массу 13,3 кг без подставки.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1881,6 +1958,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-oled55b5rla",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка LG Россия подтверждает точный SKU OLED55B5RLA, серию OLED B5 2025 года, VESA 300×200 мм, корпус 1228×708×45,9 мм и массу 14,3 кг без подставки.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1899,6 +1977,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.lg.com/ru/televisions/lg-65qned80a6a",
     "source_label": "Официальные российские характеристики LG",
+    "source_fact": "Карточка LG Россия подтверждает точный SKU 65QNED80A6A, серию QNED80 2025 года, VESA 300×300 мм, корпус 1456×840×29,7 мм и массу 22,5 кг без подставки.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1917,6 +1996,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.samsung.com/ru/tvs/oled-tv/s85f-77-inch-oled-4k-smart-tv-qe77s85faexru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка Samsung Россия подтверждает полный российский SKU QE77S85FAEXRU, серию S85F 2025 года, VESA 400×300 мм, корпус 1721,4×991,4×33,9 мм и массу 28,1 кг без подставки.",
     "checked_at": "2026-07-30"
   },
   {
@@ -1935,6 +2015,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.tcl.com/ru/ru/tvs/v6c",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Интерактивная карточка TCL Россия для точного SKU 50V6C подтверждает серию V6C 2025 года, VESA 200×200 мм, корпус 1111×644×70 мм и массу 7,2 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -1953,6 +2034,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.tcl.com/ru/ru/tvs/q6cs",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Интерактивная карточка TCL Россия для точного SKU 55Q6CS подтверждает серию Q6CS 2025 года, VESA 300×300 мм, корпус 1229×713×55,9 мм и массу 12,2 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -1971,6 +2053,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.tcl.com/ru/ru/tvs/t8d",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Интерактивная карточка TCL Россия для точного SKU 55T8D подтверждает серию T8D 2026 года, VESA 300×300 мм, корпус 1224×708×69,5 мм и массу 11 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -1989,6 +2072,7 @@
     "vesa_height_mm": 400,
     "source_url": "https://www.tcl.com/ru/ru/tvs/q7d",
     "source_label": "Официальные российские характеристики TCL",
+    "source_fact": "Интерактивная карточка TCL Россия для точного SKU 65Q7D подтверждает серию Q7D 2026 года, VESA 600×400 мм, корпус 1447×832×56 мм и массу 18 кг без подставки. Дополнительное значение «1500» в поле VESA не интерпретируется как отдельный размер.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2007,6 +2091,7 @@
     "vesa_height_mm": 400,
     "source_url": "https://www.samsung.com/ru/tvs/qled-tv/qef1-85-inch-qled-4k-smart-tv-qe85qef1auxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка Samsung Россия подтверждает полный российский SKU QE85QEF1AUXRU, серию QEF1 2025 года, VESA 600×400 мм, корпус 1901,2×1088,4×61,4 мм и массу 32,5 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2025,6 +2110,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/hd-tv/h5000-32-inch-ue32h5000fuxru/",
     "source_label": "Официальные российские характеристики Samsung",
+    "source_fact": "Карточка Samsung Россия подтверждает точный SKU UE32H5000FUXRU, диагональ 32 дюйма, модельный год 2025, VESA 200×200 мм, корпус 733,2×438,9×72,2 мм и массу 3,8 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2043,6 +2129,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ua/televisions/lg-50nano81a6a",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Официальная карточка LG подтверждает точную модель 50NANO81A6A 2025 года, диагональ 50 дюймов, VESA 200×200 мм, корпус 1121×651×57,1 мм и массу 12,1 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2061,6 +2148,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/ru/televisions/lg-32lq63006la",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Официальные карточки LG для точной модели 32LQ63006LA подтверждают 2022 год, диагональ 32 дюйма, VESA 200×200 мм, корпус 736×436×82,9 мм и массу 4,65 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2079,6 +2167,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/at/tv-soundbars/smart-tvs/32lq630b6la/",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Официальные карточки LG для точной модели 32LQ630B6LA подтверждают 2022 год, диагональ 32 дюйма, VESA 200×200 мм, корпус 736×437×82,9 мм и массу 4,65 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2097,6 +2186,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.lg.com/rs/televizori/lg-32lq63806lc",
     "source_label": "Официальные характеристики LG",
+    "source_fact": "Официальные карточки LG для точной модели 32LQ63806LC подтверждают 2022 год, диагональ 32 дюйма, VESA 200×200 мм, корпус 736×437×82,9 мм и массу 4,65 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2115,6 +2205,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://ru.hisense.com/catalog/tvs/32E44SL/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 32E44SL 2026 года, диагональ 32 дюйма, VESA 100×100 мм, корпус 722×426×78 мм и массу 3,4 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2133,6 +2224,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://ru.hisense.com/catalog/tvs/32E55SL/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 32E55SL 2026 года, диагональ 32 дюйма, VESA 100×100 мм, корпус 725×426×78 мм и массу 3,5 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2151,6 +2243,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://ru.hisense.com/catalog/tvs/32A4S/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 32A4S 2026 года, диагональ 32 дюйма, VESA 100×100 мм, корпус 722×426×78 мм и массу 3,4 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2169,6 +2262,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://ru.hisense.com/catalog/tvs/43E66SL/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 43E66SL 2026 года, диагональ 43 дюйма, VESA 200×300 мм, корпус 963×562×79 мм и массу 5,9 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2187,6 +2281,7 @@
     "vesa_height_mm": 400,
     "source_url": "https://ru.hisense.com/catalog/tvs/85E7S/",
     "source_label": "Официальные российские характеристики Hisense",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 85E7S 2026 года, диагональ 85 дюймов, VESA 500×400 мм, корпус 1890×1087×75 мм и массу 26,9 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2205,6 +2300,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://sberdevices.ru/shop/product/sdx_32h3114/",
     "source_label": "Официальные характеристики SberDevices",
+    "source_fact": "Официальная карточка SberDevices подтверждает точную модель SDX-32H3114, диагональ 32 дюйма, VESA 100×100 мм, корпус 719,2×422,5×81,6 мм и массу 3,3 кг без подставки; модельный год производителем не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2223,6 +2319,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://sberdevices.ru/shop/product/sdx_32h3113/",
     "source_label": "Официальные характеристики SberDevices",
+    "source_fact": "Официальная карточка SberDevices подтверждает точную модель SDX-32H3113, диагональ 32 дюйма, VESA 100×100 мм, корпус 719,2×422,5×81,6 мм и массу 3,2 кг без подставки; модельный год производителем не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2241,6 +2338,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://sberdevices.ru/shop/product/sdx_32f3112/",
     "source_label": "Официальные характеристики SberDevices",
+    "source_fact": "Официальная карточка SberDevices подтверждает точную модель SDX-32F3112, диагональ 32 дюйма, VESA 100×100 мм, корпус 719,2×422,5×81,6 мм и массу 3,2 кг без подставки; модельный год производителем не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2259,6 +2357,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://sberdevices.ru/shop/product/sdx_32f2139/",
     "source_label": "Официальные характеристики SberDevices",
+    "source_fact": "Официальная карточка SberDevices подтверждает точную модель SDX-32F2139, диагональ 32 дюйма, VESA 100×100 мм, корпус 720×423×80 мм и массу 3,2 кг без подставки; модельный год производителем не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2277,6 +2376,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://sberdevices.ru/shop/product/sdx_43f3000dba/",
     "source_label": "Официальные характеристики SberDevices",
+    "source_fact": "Официальная карточка SberDevices подтверждает точную модель SDX-43F3000DBA, диагональ 43 дюйма, VESA 200×200 мм, корпус 954,3×555,7×71,2 мм и массу 5,2 кг без подставки; модельный год производителем не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2295,6 +2395,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://tuvio.yandex.ru/card/43-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td43ufbhh13-chernyy",
     "source_label": "Официальные характеристики Tuvio",
+    "source_fact": "Официальная карточка Tuvio подтверждает точную модель TD43UFBHH13 2025 года, диагональ 43 дюйма, VESA 200×200 мм, корпус 957×561×70 мм и массу 5,2 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2313,6 +2414,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-qled-frameless-na-platforme-yaos-tq65ufghh13",
     "source_label": "Официальные характеристики Tuvio",
+    "source_fact": "Официальная карточка Tuvio подтверждает точную модель TQ65UFGHH13, диагональ 65 дюймов, VESA 300×300 мм, корпус 1444×835×74 мм и массу 12,8 кг без подставки; модельный год производителем не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2331,6 +2433,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://starwind.com.ru/catalog/item/1779075/",
     "source_label": "Официальные характеристики Starwind",
+    "source_fact": "Официальные карточка и руководство Starwind подтверждают точную модель SW-LED32BG200, диагональ 32 дюйма и VESA 200×200 мм. Карточка даёт корпус 724,3×425×84,2 мм и массу 3,8 кг, руководство — округлённые размеры 724×425×84 мм и массу 3,9 кг; для нагрузки использовано большее паспортное значение 3,9 кг, модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2349,6 +2452,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://starwind.com.ru/catalog/item/1779078/",
     "source_label": "Официальные характеристики Starwind",
+    "source_fact": "Официальные карточка и руководство Starwind подтверждают точную модель SW-LED40SG300, диагональ 40 дюймов и VESA 200×200 мм. Карточка даёт корпус 897,9×514,5×86,7 мм и массу 5,7 кг, руководство — округлённые размеры 898×515×87 мм и массу 5,8 кг; для нагрузки использовано большее паспортное значение 5,8 кг, модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2367,6 +2471,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://starwind.com.ru/catalog/item/1875241/",
     "source_label": "Официальные характеристики Starwind",
+    "source_fact": "Официальная карточка Starwind подтверждает точную модель SW-LED24SG304, диагональ 24 дюйма, VESA 200×100 мм, текущий корпус 552,9×332,6×86,3 мм и массу 2,9 кг. В руководстве встречаются 552,9×332,6×75 мм и 2,5 кг; для нагрузки использовано большее значение 2,9 кг, а размеры на странице явно относятся к текущей карточке производителя. Модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2385,6 +2490,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://digma.ru/catalog/tv/tvs/dm-led32sbb39-2024401/",
     "source_label": "Официальные характеристики DIGMA",
+    "source_fact": "Официальная карточка DIGMA и её API характеристик подтверждают точную модель DM-LED32SBB39, диагональ 32 дюйма, VESA 200×200 мм, корпус 718×421,6×84,1 мм и массу 3,6 кг без подставки; модельный год производителем не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2404,6 +2510,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://harper.ru/24r470t/",
     "source_label": "Официальные характеристики HARPER",
+    "source_fact": "Официальная карточка HARPER подтверждает точную модель 24R470T, диагональ 24 дюйма, VESA 100×100 мм, корпус 551×332×71 мм без подставки и паспортную массу 2,3 кг. Производитель не разделяет массу с подставкой и без неё, поэтому для расчёта нагрузки использовано опубликованное значение как консервативная верхняя граница; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2423,6 +2530,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://harper.ru/32r670t/",
     "source_label": "Официальные характеристики HARPER",
+    "source_fact": "Официальная карточка HARPER подтверждает точную модель 32R670T, диагональ 32 дюйма, VESA 200×200 мм, корпус 718×420×70 мм без подставки и паспортную массу 3,5 кг. Производитель не разделяет массу с подставкой и без неё, поэтому для расчёта нагрузки использовано опубликованное значение как консервативная верхняя граница; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2442,6 +2550,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://harper.ru/43f670ts/",
     "source_label": "Официальные характеристики HARPER",
+    "source_fact": "Официальная карточка HARPER подтверждает точную модель 43F670TS, диагональ 43 дюйма, VESA 200×200 мм, корпус 955×556×72 мм без подставки и паспортную массу 5,3 кг. Производитель не разделяет массу с подставкой и без неё, поэтому для расчёта нагрузки использовано опубликованное значение как консервативная верхняя граница; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2461,6 +2570,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://harper.ru/40f720t/",
     "source_label": "Официальные характеристики HARPER",
+    "source_fact": "Официальная карточка HARPER подтверждает точную модель 40F720T, диагональ 40 дюймов, VESA 200×100 мм, корпус 892×511×74 мм без подставки и паспортную массу 4,8 кг. Производитель не разделяет массу с подставкой и без неё, поэтому для расчёта нагрузки использовано опубликованное значение как консервативная верхняя граница; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2479,6 +2589,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-a-pro-55-2026/specs/",
     "source_label": "Официальные характеристики Xiaomi",
+    "source_fact": "Официальная глобальная карточка Xiaomi подтверждает модель TV A Pro 55 2026, диагональ 55 дюймов, VESA 200×300 мм, корпус 1226×711×76 мм и массу 9,1 кг без подставки. Региональные программные функции могут отличаться, но механические параметры совпадают с точной моделью наблюдения Маркета.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2497,6 +2608,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-s-pro-mini-led-55-2026/specs/",
     "source_label": "Официальные характеристики Xiaomi",
+    "source_fact": "Официальная глобальная карточка Xiaomi подтверждает модель TV S Pro Mini LED 55 2026, диагональ 55 дюймов, VESA 300×300 мм, корпус 1225×709×71 мм и массу около 12,9 кг без подставки. Российский аппаратный код семейства — L55MB-SRU; региональные программные функции не влияют на механический подбор.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2515,6 +2627,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-s-pro-mini-led-75-2026/specs/",
     "source_label": "Официальные характеристики Xiaomi",
+    "source_fact": "Официальная глобальная карточка Xiaomi подтверждает модель TV S Pro Mini LED 75 2026, диагональ 75 дюймов, VESA 400×300 мм, корпус 1667×958×73 мм и массу около 25,6 кг без подставки. Российский аппаратный код семейства — L75MB-SRU; региональные программные функции не влияют на механический подбор.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2531,8 +2644,9 @@
     "depth_mm": 68.7,
     "vesa_width_mm": 300,
     "vesa_height_mm": 300,
-    "source_url": "https://www.tcl.com/ru/ru/tvs/p7l",
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p7l/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A3bC80M3A3bA==.json",
     "source_label": "Официальные характеристики TCL Россия",
+    "source_fact": "Официальные российские карточка и страница поддержки TCL подтверждают точную модель 50P7L 2026 года, диагональ 50 дюймов, VESA 300×300 мм, корпус 1111×646×68,7 мм и массу 8,7 кг без подставки.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2551,6 +2665,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.samsung.com/ru/tvs/uhd-4k-tv/du7000-55-inch-crystal-uhd-4k-tizen-os-smart-tv-ue55du7100uxru/",
     "source_label": "Официальные характеристики Samsung Россия",
+    "source_fact": "Официальная российская карточка Samsung подтверждает полную модификацию UE55DU7100UXRU 2024 года, диагональ 55 дюймов, VESA 200×200 мм, корпус 1234,1×710,8×60,3 мм и массу 11,2 кг без подставки. Короткое обозначение Маркета UE55DU7100U нормализовано к российскому суффиксу XRU.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2570,6 +2685,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://topdevice.ru/products/tv/topdevice-32-google-tv-2/",
     "source_label": "Официальные характеристики TopDevice",
+    "source_fact": "Официальная карточка TopDevice подтверждает точный код TDHTV32GFD_BK, диагональ 32 дюйма, VESA 100×100 мм, корпус 719×423×82 мм без подставки и массу нетто 3,35 кг. Масса не разделена по режиму подставки, поэтому целиком используется как консервативная паспортная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2589,6 +2705,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://topdevice.ru/products/tv/topdevice-32-google-tv/",
     "source_label": "Официальные характеристики TopDevice",
+    "source_fact": "Официальная карточка TopDevice подтверждает точный код TDHTV32GHD_BK, диагональ 32 дюйма, VESA 200×100 мм, корпус 715×421×58 мм без подставки и массу нетто 2,9 кг. Масса не разделена по режиму подставки, поэтому целиком используется как консервативная паспортная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2608,6 +2725,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://topdevice.ru/products/tv/topdevice-24-smart-tv-yaos/",
     "source_label": "Официальные характеристики TopDevice",
+    "source_fact": "Официальная карточка TopDevice подтверждает точный код TDHTV24Y1HD_BK, диагональ 24 дюйма, VESA 100×100 мм, корпус 538×326×75 мм без подставки и массу нетто 2,2 кг. Масса не разделена по режиму подставки, поэтому целиком используется как консервативная паспортная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2627,6 +2745,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://hyundai-electronics.com.ru/catalog/item/hyundai-H-LED32BS5002-1892510/",
     "source_label": "Официальные характеристики Hyundai",
+    "source_fact": "Официальные карточка и руководство Hyundai подтверждают точный код H-LED32BS5002, диагональ 32 дюйма, VESA 200×200 мм и корпус 724,3×425×84,2 мм без подставки. В расчёте используется более высокая из официально опубликованных масс — 3,9 кг — как консервативная паспортная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2646,6 +2765,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://hyundai-electronics.com.ru/catalog/item/hyundai-H-LED32BS5003-1783621/",
     "source_label": "Официальные характеристики Hyundai",
+    "source_fact": "Официальные карточка и руководство Hyundai подтверждают точный код H-LED32BS5003, диагональ 32 дюйма, VESA 200×200 мм и корпус 724,3×425×84,2 мм без подставки. В расчёте используется более высокая из официально опубликованных масс — 4 кг — как консервативная паспортная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2664,6 +2784,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://hyundai-electronics.com.ru/catalog/item/hyundai-H-LED40BS5011-2125094/",
     "source_label": "Официальные характеристики Hyundai",
+    "source_fact": "Официальная карточка Hyundai подтверждает точный код H-LED40BS5011, модельный год 2026, диагональ 40 дюймов, VESA 200×200 мм, корпус 892×509×70 мм без подставки и паспортную массу 4,7 кг.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2683,6 +2804,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://akai.ru/index.php?product_id=292&route=product%2Fproduct",
     "source_label": "Официальные характеристики AKAI",
+    "source_fact": "Официальная карточка AKAI подтверждает точный код TA32BH500, модельный год 2024, диагональ 32 дюйма, VESA 100×100 мм и корпус 719,2×422,5×81,6 мм без подставки. Для запаса в расчёте используется опубликованная масса с подставкой 3,35 кг как консервативная паспортная нагрузка.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2702,6 +2824,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://bq.ru/catalog/televizory/vse-televizory/bq-32f40b/",
     "source_label": "Официальные характеристики BQ",
+    "source_fact": "Официальная карточка BQ подтверждает точный код 32F40B, диагональ 32 дюйма, VESA 100×100 мм и корпус 713×420×67 мм без подставки. Опубликованная общая масса 3,1 кг целиком используется как консервативная паспортная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2721,6 +2844,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://www.blackton.tv/catalog/tv/bt-24fs34b/",
     "source_label": "Официальные характеристики Blackton",
+    "source_fact": "Официальная карточка Blackton подтверждает точный код Bt 24FS34B, диагональ 24 дюйма, VESA 100×100 мм и корпус 537×318×78 мм без подставки. Опубликованная общая масса 2,1 кг целиком используется как консервативная паспортная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2740,6 +2864,7 @@
     "vesa_height_mm": 100,
     "source_url": "https://yasintv.kz/ProductDetail/11047970.html",
     "source_label": "Официальные характеристики YASIN",
+    "source_fact": "Официальная карточка YASIN подтверждает точный код 32E9000, модельный год 2025, диагональ 32 дюйма, VESA 100×100 мм и корпус 718×419×61 мм без подставки. Для запаса в расчёте используется опубликованная масса с подставкой 3,2 кг как консервативная паспортная нагрузка.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2759,6 +2884,7 @@
     "vesa_height_mm": 400,
     "source_url": "https://tuvio.yandex.ru/card/75-televizor-tuvio-4k-ultra-hd-miniled-s-saundvuferom-na-platforme-google-tv-tm75ufgch52-temno-seryy",
     "source_label": "Официальная карточка Tuvio TM75UFGCH52",
+    "source_fact": "Официальные карточка и руководство Tuvio подтверждают точный код TM75UFGCH52, диагональ 75 дюймов, VESA 400×400 мм и корпус 1668×960×63 мм без подставки. Масса 30,6 кг опубликована с подставкой и целиком используется как консервативная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-05"
   },
   {
@@ -2778,6 +2904,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://tuvio.yandex.ru/card/50-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td50ufbhh12-chernyy",
     "source_label": "Официальная карточка Tuvio TD50UFBHH12",
+    "source_fact": "Официальные карточка и руководство Tuvio подтверждают точный код TD50UFBHH12, диагональ 50 дюймов, VESA 300×300 мм и корпус 1111×647×73 мм без подставки. Масса 7,6 кг опубликована с подставкой и целиком используется как консервативная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-05"
   },
   {
@@ -2797,6 +2924,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://tuvio.yandex.ru/card/32-televizor-tuvio-hd-ready-dled-frameless-na-platforme-yaos-td32hfbch12-chernyy",
     "source_label": "Официальная карточка Tuvio TD32HFBCH12",
+    "source_fact": "Официальные карточка и руководство Tuvio подтверждают точный код TD32HFBCH12, диагональ 32 дюйма, VESA 200×200 мм и корпус 718×421×69 мм без подставки. Масса 3,5 кг опубликована с подставкой и целиком используется как консервативная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-05"
   },
   {
@@ -2816,6 +2944,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://tuvio.yandex.ru/card/55-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-google-th-td55ufbth51-chernyy",
     "source_label": "Официальная карточка Tuvio TD55UFBTH51",
+    "source_fact": "Официальная карточка Tuvio подтверждает точный код TD55UFBTH51, модельный год 2026, диагональ 55 дюймов, VESA 200×200 мм и корпус 1226×717×65 мм без подставки. Тип опубликованной массы 9,2 кг не уточнён, поэтому она целиком используется как консервативная нагрузка.",
     "checked_at": "2026-08-05"
   },
   {
@@ -2835,6 +2964,7 @@
     "vesa_height_mm": 200,
     "source_url": "https://tuvio.yandex.ru/card/24-televizor-tuvio-hd-ready-dled-na-platforme-yaos-td24hbch11-chernyy",
     "source_label": "Официальная карточка Tuvio TD24HBCH11",
+    "source_fact": "Официальные карточка и руководство Tuvio подтверждают точный код TD24HBCH11, диагональ 24 дюйма, VESA 200×200 мм и корпус 535×319×72 мм без подставки. Масса 2,2 кг опубликована с подставкой и целиком используется как консервативная нагрузка; модельный год не указан.",
     "checked_at": "2026-08-05"
   },
   {
@@ -2853,6 +2983,7 @@
     "vesa_height_mm": 300,
     "source_url": "https://www.documents.philips.com/assets/20240206/ccf74d9fb1344aa1a8b1b10e0100a682.pdf",
     "source_label": "Официальный паспорт Philips",
+    "source_fact": "Официальный паспорт Philips подтверждает полную модификацию 50PUD7029/71, диагональ 50 дюймов, VESA 300×300 мм, корпус 1110,4×642,7×88,4 мм без подставки и массу 9 кг без подставки. Суффикс /71 также присутствует в идентичности URL карточки Маркета; модельный год в паспорте явно не указан.",
     "checked_at": "2026-08-04"
   },
   {
@@ -2872,7 +3003,12 @@
     "vesa_height_mm": 100,
     "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1045_ts2c/",
     "source_label": "Официальная карточка BBK",
-    "checked_at": "2026-08-05"
+    "source_fact": "31,5 дюйма; VESA 200×100 мм; корпус 716×425×60 мм; 3,3 кг с подставкой.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Винт официально не указан."
+    ]
   },
   {
     "id": "bbk-32lem-1075-ts2c",
@@ -2891,7 +3027,12 @@
     "vesa_height_mm": 100,
     "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lem_1075_ts2c/",
     "source_label": "Официальная карточка BBK",
-    "checked_at": "2026-08-05"
+    "source_fact": "31,5 дюйма; VESA 100×100 мм; корпус 716×430×74 мм; 3,2 кг с подставкой.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Винт официально не указан."
+    ]
   },
   {
     "id": "bbk-32lex-7235-fts2c",
@@ -2910,7 +3051,12 @@
     "vesa_height_mm": 100,
     "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7235_fts2c/",
     "source_label": "Официальная карточка BBK",
-    "checked_at": "2026-08-05"
+    "source_fact": "32 дюйма; VESA 100×100 мм; корпус 716×426×79 мм; 3,35 кг с подставкой.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Винт официально не указан."
+    ]
   },
   {
     "id": "bbk-32lex-7244-ts2c",
@@ -2929,7 +3075,12 @@
     "vesa_height_mm": 100,
     "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/32lex_7244_ts2c/",
     "source_label": "Официальная карточка BBK",
-    "checked_at": "2026-08-05"
+    "source_fact": "31,5 дюйма; VESA 200×100 мм; корпус 716×425×60 мм; 3,2 кг с подставкой.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Винт официально не указан."
+    ]
   },
   {
     "id": "bbk-40lem-1030-fts2c",
@@ -2948,7 +3099,12 @@
     "vesa_height_mm": 100,
     "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/40lem_1030_fts2c/",
     "source_label": "Официальная карточка BBK",
-    "checked_at": "2026-08-05"
+    "source_fact": "40 дюймов; VESA 100×100 мм; корпус 892×515×74 мм; 4,5 кг с подставкой.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Винт официально не указан."
+    ]
   },
   {
     "id": "bbk-43lex-7247-fts2c",
@@ -2967,7 +3123,12 @@
     "vesa_height_mm": 100,
     "source_url": "https://bbk.ru/production/tv_audio_video/led_tv/43lex_7247_fts2c/",
     "source_label": "Официальная карточка BBK",
-    "checked_at": "2026-08-05"
+    "source_fact": "43 дюйма; VESA 200×100 мм; корпус 970×564×82 мм; 6,2 кг с подставкой.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Винт официально не указан."
+    ]
   },
   {
     "id": "hi-hx-24h01fb",
@@ -2986,7 +3147,12 @@
     "vesa_height_mm": 100,
     "source_url": "https://static.mvideo.ru/ins/10033080.pdf",
     "source_label": "Официальная инструкция Hi",
-    "checked_at": "2026-08-05"
+    "source_fact": "24 дюйма; VESA 100×100 мм; 536×80×326 мм нормализованы как Ш×В×Г 536×326×80; масса нетто ≤2,2 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "База массы не уточнена; винт не указан."
+    ]
   },
   {
     "id": "hi-hx-43f01fb",
@@ -3005,7 +3171,12 @@
     "vesa_height_mm": 200,
     "source_url": "https://static.mvideo.ru/ins/10033083.pdf",
     "source_label": "Официальная инструкция Hi",
-    "checked_at": "2026-08-05"
+    "source_fact": "43 дюйма; VESA 200×200 мм; 955×70×560 мм нормализованы как Ш×В×Г 955×560×70; масса нетто ≤5,4 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "База массы не уточнена; винт не указан."
+    ]
   },
   {
     "id": "xiaomi-tv-a-pro-32-2026",
@@ -3023,7 +3194,24 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.mi.com/global/product/xiaomi-tv-a-pro-32-2026/specs/",
     "source_label": "Официальные характеристики Xiaomi TV A Pro 32 2026",
-    "checked_at": "2026-08-05"
+    "source_fact": "Точный размерно-годовой идентификатор из полного заголовка наблюдения совпадает с официальной моделью; опубликованы 32 дюйма, VESA 100×200, 3,1 кг и корпус 719×425×61 мм без подставки.",
+    "checked_at": "2026-08-05",
+    "source_region": "Global; RU/KZ подтверждены официальным FAQ",
+    "limitations": [
+      "Диаметр и длина настенных винтов официально указаны как зависящие от модификации, поэтому спецификация винтов не публикуется."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mi.com/global/product/xiaomi-tv-a-pro-32-2026/specs/",
+        "label": "Официальная глобальная страница характеристик Xiaomi",
+        "region": "Global"
+      },
+      {
+        "url": "https://www.mi.com/de/support/faq/details/KA-880141/",
+        "label": "Официальный FAQ Xiaomi с группой размеров Россия/Беларусь/Казахстан",
+        "region": "EU/RU/KZ"
+      }
+    ]
   },
   {
     "id": "hisense-50e77sl-pro",
@@ -3041,7 +3229,12 @@
     "vesa_height_mm": 300,
     "source_url": "https://ru.hisense.com/catalog/tvs/50E77SLPRO/",
     "source_label": "Официальные характеристики Hisense 50E77SL PRO",
-    "checked_at": "2026-08-05"
+    "source_fact": "Полный заголовок и маршрут наблюдения содержат PRO и совпадают с точной официальной карточкой; опубликованы 50 дюймов, VESA 400×300, 10,1 кг и корпус 1110×648×59 мм без подставки.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Поле model в исходном manifest потеряло суффикс PRO; canonical identity восстановлена только по полному market_title и market_url, без переноса данных с 50E77SL."
+    ]
   },
   {
     "id": "tuvio-td50ufbhh11",
@@ -3059,7 +3252,12 @@
     "vesa_height_mm": 300,
     "source_url": "https://tuvio.yandex.ru/card/50-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td50ufbhh11-chernyy",
     "source_label": "Официальная карточка Tuvio TD50UFBHH11",
-    "checked_at": "2026-08-05"
+    "source_fact": "Точная официальная карточка публикует 50 дюймов, VESA 200×300, массу 7,6 кг и корпус 1110,6×647,4×81,6 мм без подставки.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Крепление и болты не входят в комплект; точный диаметр и длина настенных винтов не опубликованы."
+    ]
   },
   {
     "id": "candy-uno-43-uhd",
@@ -3077,7 +3275,13 @@
     "vesa_height_mm": 200,
     "source_url": "https://mcgrp.ru/files/viewer/1035282/70",
     "source_label": "Руководство по эксплуатации Candy Uno 43 UHD, таблица спецификации, стр. 70",
-    "checked_at": "2026-08-05"
+    "source_fact": "Точное руководство связывает модель Uno 43 UHD с диагональю 43 дюйма, VESA 200×200, массой без подставки 6,43 кг и корпусом без подставки 961×557×69,5 мм.",
+    "checked_at": "2026-08-05",
+    "source_region": "Россия и СНГ",
+    "limitations": [
+      "Производительское руководство доступно как точная архивная копия у стороннего хоста; страница спецификации проверена визуально.",
+      "Размер резьбы и длина винтов настенного крепления в использованной таблице не указаны."
+    ]
   },
   {
     "id": "skyline-43lst6575",
@@ -3096,7 +3300,13 @@
     "vesa_height_mm": 200,
     "source_url": "https://manual.holod.ru/manual/337/908753_17023065.pdf",
     "source_label": "Руководство по эксплуатации SkyLine 43LST6575, стр. 27",
-    "checked_at": "2026-08-05"
+    "source_fact": "Точное руководство указывает диагональ 43 дюйма, VESA 200×200, корпус без подставки 955×553×83 мм и опубликованную массу 6,2 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "Россия",
+    "limitations": [
+      "В руководстве база массы 6,2 кг не уточнена; значение помечено published_unspecified и должно использоваться консервативно.",
+      "Размер резьбы и длина винтов настенного крепления не указаны."
+    ]
   },
   {
     "id": "candy-uno-32",
@@ -3129,7 +3339,12 @@
     },
     "source_url": "https://manual.holod.ru/manual/337/1096211_8140811.pdf",
     "source_label": "Руководство пользователя Candy Uno 32, стр. 7 и 23",
-    "checked_at": "2026-08-05"
+    "source_fact": "Точное руководство подтверждает диагональ 32 дюйма, VESA 200×100, массу без подставки 4,0 кг, корпус без подставки 720×424×64 мм и четыре винта M4×5 мм.",
+    "checked_at": "2026-08-05",
+    "source_region": "Россия",
+    "limitations": [
+      "Производительское руководство доступно как точная архивная копия у стороннего хоста; страницы проверены визуально."
+    ]
   },
   {
     "id": "hi-hs-32f01fb",
@@ -3147,7 +3362,26 @@
     "vesa_height_mm": 200,
     "source_url": "https://static.mvideo.ru/ins/400514044.pdf",
     "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда",
-    "checked_at": "2026-08-05"
+    "source_fact": "Exact HS-32F01FB; 32 дюйма; VESA 200×200 мм; карточка: корпус без подставки 718×421,6×83,2 мм и 3,6 кг; инструкция: 718×83×422 мм и 3,7 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Инструкция округляет размеры и массу; экспорт использует явно помеченные значения без подставки из exact карточки. Винт не указан."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mvideo.ru/bff/product-details?productId=400514044",
+        "fact": "Exact model and without-stand values."
+      },
+      {
+        "url": "https://static.mvideo.ru/ins/400514044.pdf",
+        "fact": "Exact model, diagonal and VESA."
+      },
+      {
+        "url": "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573",
+        "fact": "M.Video-Eldorado identifies Hi as its private label."
+      }
+    ]
   },
   {
     "id": "hi-ht-32h01fb",
@@ -3165,7 +3399,22 @@
     "vesa_height_mm": 200,
     "source_url": "https://www.mvideo.ru/bff/product-details?productId=10033074",
     "source_label": "Официальная карточка Hi на сайте владельца бренда",
-    "checked_at": "2026-08-05"
+    "source_fact": "Exact HT-32H01FB; 32 дюйма; VESA 200×200 мм; корпус без подставки 715,7×426,1×78,5 мм; масса без подставки 3,3 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Связанная инструкция маркирована WT-24H01FB/WT-32H01FB и исключена как другая идентичность; винт не указан."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mvideo.ru/bff/product-details?productId=10033074",
+        "fact": "Exact model and complete mounting tuple."
+      },
+      {
+        "url": "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573",
+        "fact": "M.Video-Eldorado identifies Hi as its private label."
+      }
+    ]
   },
   {
     "id": "hi-hx-32h01fb",
@@ -3183,7 +3432,22 @@
     "vesa_height_mm": 100,
     "source_url": "https://www.mvideo.ru/bff/product-details?productId=10033073",
     "source_label": "Официальная карточка Hi на сайте владельца бренда",
-    "checked_at": "2026-08-05"
+    "source_fact": "Exact HX-32H01FB; 32 дюйма; VESA 100×100 мм; корпус без подставки 715,7×426,1×78,5 мм; масса без подставки 3,3 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Связанная инструкция маркирована HX-32F01FB и исключена как другая модель; винт не указан."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mvideo.ru/bff/product-details?productId=10033073",
+        "fact": "Exact model and complete mounting tuple."
+      },
+      {
+        "url": "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573",
+        "fact": "M.Video-Eldorado identifies Hi as its private label."
+      }
+    ]
   },
   {
     "id": "hi-hy-40f01fb",
@@ -3201,7 +3465,26 @@
     "vesa_height_mm": 100,
     "source_url": "https://static.mvideo.ru/ins/10033082.pdf",
     "source_label": "Официальная инструкция и карточка Hi на сайте владельца бренда",
-    "checked_at": "2026-08-05"
+    "source_fact": "Exact HY-40F01FB; 40 дюймов; VESA 100×100 мм; карточка: корпус без подставки 892,2×512,4×71,2 мм и 4,5 кг; инструкция: 892×71×512 мм и масса нетто ≤4,6 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Инструкция округляет размеры и задаёт верхнюю границу массы; экспорт использует явно помеченные значения без подставки из exact карточки. Винт не указан."
+    ],
+    "sources": [
+      {
+        "url": "https://www.mvideo.ru/bff/product-details?productId=10033082",
+        "fact": "Exact model and explicitly without-stand values."
+      },
+      {
+        "url": "https://static.mvideo.ru/ins/10033082.pdf",
+        "fact": "Exact model, diagonal, VESA, body dimensions and net mass."
+      },
+      {
+        "url": "https://mvideoeldorado.ru/en/press-center/press-releases/detail/2573",
+        "fact": "M.Video-Eldorado identifies Hi as its private label."
+      }
+    ]
   },
   {
     "id": "tuvio-td100ufbhh12",
@@ -3219,7 +3502,29 @@
     "vesa_height_mm": 400,
     "source_url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
     "source_label": "Официальная карточка Tuvio TD100UFBHH12",
-    "checked_at": "2026-08-05"
+    "source_fact": "Точные официальные карточка и руководство подтверждают SKU TD100UFBHH12, 100 дюймов, VESA 800×400, массу 62,8 кг и корпус 2232×1282×101 мм без подставки.",
+    "checked_at": "2026-08-05",
+    "source_region": "RU",
+    "limitations": [
+      "Руководство публикует более точные размеры 2231,5×1281,9×100,6 мм и массу 65,6 кг с подставкой; в нормализованных полях сохранены округлённые размеры и масса без подставки из официальной карточки."
+    ],
+    "sources": [
+      {
+        "url": "https://tuvio.yandex.ru/card/100-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td100ufbhh12-chernyy",
+        "label": "Официальная карточка Tuvio TD100UFBHH12",
+        "region": "RU"
+      },
+      {
+        "url": "https://marketdo.s3.yandex.net/tuvio/9_Q2_TD-43-100%20UM-01..pdf",
+        "label": "Официальное руководство Tuvio TD43–TD100 UFBHH12",
+        "region": "RU"
+      },
+      {
+        "url": "https://yandex.ru/support/yandex-factory/tuvio/ru/tv-accessories/tv",
+        "label": "Официальный каталог руководств Tuvio",
+        "region": "RU"
+      }
+    ]
   },
   {
     "id": "asano-32lh1110t",
@@ -3238,6 +3543,326 @@
     "vesa_height_mm": 100,
     "source_url": "https://www.technopark.ru/photos/768718/instruction/instrukciya-televizor-asano-32lh1110t-768718.pdf",
     "source_label": "Руководство по эксплуатации Asano 32LH1110T, стр. 4–5",
-    "checked_at": "2026-08-05"
+    "source_fact": "Точное руководство распространяется на 32LH1110T и подтверждает диагональ 32 дюйма, VESA 200×100, габариты без опор 730×177×465 мм и опубликованную массу не более 4,25 кг.",
+    "checked_at": "2026-08-05",
+    "source_region": "Россия/Беларусь",
+    "limitations": [
+      "Производительское руководство доступно как точная архивная PDF-копия у официального ритейлера; страницы проверены по содержимому.",
+      "База массы 4,25 кг в руководстве не уточнена; значение помечено published_unspecified и должно использоваться консервативно.",
+      "В таблице порядок размеров указан как 730×177×465 мм; поля нормализованы как ширина 730, высота 465, глубина 177 мм по обозначению «без опор»."
+    ]
+  },
+  {
+    "id": "tcl-43p7l",
+    "brand": "TCL",
+    "model": "43P7L",
+    "title": "TCL 43P7L",
+    "series": "P7L",
+    "model_year": 2026,
+    "diagonal_inches": 43,
+    "weight_kg": 6.6,
+    "width_mm": 956,
+    "height_mm": 559,
+    "depth_mm": 72,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p7l/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A3bC81NXA3bA==.json",
+    "source_label": "Официальные характеристики TCL 43P7L",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 43P7L, диагональ 43 дюйма, VESA 200×100 мм, массу корпуса 6,6 кг и размеры 956×559×72 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Резьба и длина винтов настенного крепления на странице характеристик не указаны; перед монтажом их нужно сверить с руководством и фактической глубиной резьбовых втулок."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/p7l",
+        "label": "Официальная российская страница серии TCL P7L с выбором 43P7L",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-55p7l",
+    "brand": "TCL",
+    "model": "55P7L",
+    "title": "TCL 55P7L",
+    "series": "P7L",
+    "model_year": 2026,
+    "diagonal_inches": 55,
+    "weight_kg": 10.5,
+    "width_mm": 1224,
+    "height_mm": 708,
+    "depth_mm": 69.5,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 300,
+    "source_url": "https://www.tcl.com/ru/ru/tvs/p7l",
+    "source_label": "Официальные характеристики TCL 55P7L",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 55P7L, диагональ 55 дюймов, VESA 300×300 мм, массу корпуса 10,5 кг и размеры 1224×708×69,5 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Резьба и длина винтов настенного крепления на странице характеристик не указаны; комплект кронштейна нельзя считать подходящим только по VESA."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/p7l",
+        "label": "Официальная российская страница серии TCL P7L с выбором 55P7L",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-65p8l",
+    "brand": "TCL",
+    "model": "65P8L",
+    "title": "TCL 65P8L",
+    "series": "P8L",
+    "model_year": 2026,
+    "diagonal_inches": 65,
+    "weight_kg": 16.9,
+    "width_mm": 1444,
+    "height_mm": 831,
+    "depth_mm": 69.5,
+    "vesa_width_mm": 400,
+    "vesa_height_mm": 300,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/p8l/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3A4bC82NXA4bA==.json",
+    "source_label": "Официальные характеристики TCL 65P8L",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 65P8L, диагональ 65 дюймов, VESA 400×300 мм, массу корпуса 16,9 кг и размеры 1444×831×69,5 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Резьба, допустимая глубина зацепления и длина винтов настенного крепления на странице характеристик не опубликованы."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/p8l",
+        "label": "Официальная российская страница серии TCL P8L с выбором 65P8L",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-32s4k",
+    "brand": "TCL",
+    "model": "32S4K",
+    "title": "TCL 32S4K",
+    "series": "S4K",
+    "model_year": 2025,
+    "diagonal_inches": 32,
+    "weight_kg": 3.19,
+    "width_mm": 715,
+    "height_mm": 422,
+    "depth_mm": 75,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 100,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/s4k/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3M0ay9zNGs=.json",
+    "source_label": "Официальные характеристики TCL 32S4K",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 32S4K, диагональ 32 дюйма, VESA 100×100 мм, массу корпуса 3,19 кг и размеры 715×422×75 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Официальная таблица публикует размеры в порядке ширина × глубина × высота; в каталоге они нормализованы как 715×422×75 мм: ширина × высота × глубина.",
+      "Параметры винтов VESA на странице характеристик не указаны."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/s4k",
+        "label": "Официальная российская страница TCL S4K для 32S4K",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-55q6c",
+    "brand": "TCL",
+    "model": "55Q6C",
+    "title": "TCL 55Q6C",
+    "series": "Q6C",
+    "model_year": 2025,
+    "diagonal_inches": 55,
+    "weight_kg": 12.2,
+    "width_mm": 1229,
+    "height_mm": 713,
+    "depth_mm": 55.9,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 300,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/q6c/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3E2Yy81NQ==.json",
+    "source_label": "Официальные характеристики TCL 55Q6C",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 55Q6C, диагональ 55 дюймов, VESA 300×300 мм, массу корпуса 12,2 кг и размеры 1229×713×55,9 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Официальная таблица публикует размеры в порядке ширина × глубина × высота; поля каталога переставлены в порядок ширина × высота × глубина.",
+      "Резьба и длина винтов VESA на странице характеристик не указаны."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/q6c",
+        "label": "Официальная российская страница TCL Q6C с выбором 55Q6C",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "hisense-40a4s",
+    "brand": "Hisense",
+    "model": "40A4S",
+    "title": "Hisense 40A4S",
+    "series": "A4S",
+    "model_year": 2026,
+    "diagonal_inches": 40,
+    "weight_kg": 4.7,
+    "width_mm": 898,
+    "height_mm": 511,
+    "depth_mm": 78,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 200,
+    "source_url": "https://ru.hisense.com/catalog/tvs/40A4S/",
+    "source_label": "Официальная карточка Hisense 40A4S",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 40A4S, диагональ 40 дюймов, VESA 100×200 мм, массу корпуса 4,7 кг и размеры 898×511×78 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Официальная карточка не указывает резьбу и допустимую длину винтов для настенного монтажа."
+    ],
+    "sources": [
+      {
+        "url": "https://ru.hisense.com/catalog/tvs/40A4S/",
+        "label": "Официальная карточка Hisense 40A4S",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "lg-50qned70b6c",
+    "brand": "LG",
+    "model": "50QNED70B6C",
+    "title": "LG 50QNED70B6C",
+    "series": "QNED70",
+    "model_year": 2026,
+    "diagonal_inches": 50,
+    "weight_kg": 8.2,
+    "width_mm": 1112,
+    "height_mm": 649,
+    "depth_mm": 70.8,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 200,
+    "source_url": "https://www.lg.com/ru/televisions/lg-50qned70b6c",
+    "source_label": "Официальная карточка LG 50QNED70B6C",
+    "source_fact": "Официальная карточка LG подтверждает точную модель 50QNED70B6C, диагональ 50 дюймов, VESA 300×200 мм, массу корпуса 8,2 кг и размеры 1112×649×70,8 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Карточка подтверждает VESA и массу, но длину винтов следует выбирать по руководству и толщине монтажной пластины кронштейна."
+    ],
+    "sources": [
+      {
+        "url": "https://www.lg.com/ru/televisions/lg-50qned70b6c",
+        "label": "Официальная карточка LG 50QNED70B6C",
+        "region": "Россия"
+      },
+      {
+        "url": "https://www.lg.com/ru/support/product/lg-50QNED70B6C.ARUG",
+        "label": "Официальная поддержка LG 50QNED70B6C",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tuvio-td65ufbhh12",
+    "brand": "Tuvio",
+    "model": "TD65UFBHH12",
+    "title": "Tuvio TD65UFBHH12",
+    "series": "TD UFBHH12",
+    "model_year": null,
+    "diagonal_inches": 65,
+    "weight_kg": 12.8,
+    "width_mm": 1444,
+    "height_mm": 835,
+    "depth_mm": 74,
+    "vesa_width_mm": 300,
+    "vesa_height_mm": 300,
+    "source_url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td65ufbhh12-chernyy",
+    "source_label": "Официальная карточка Tuvio TD65UFBHH12",
+    "source_fact": "Официальная карточка Tuvio подтверждает точную модель TD65UFBHH12, диагональ 65 дюймов, VESA 300×300 мм, массу корпуса 12,8 кг и размеры 1444×835×74 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Модельный год производителем не указан.",
+      "Резьба и длина винтов настенного крепления не указаны."
+    ],
+    "sources": [
+      {
+        "url": "https://tuvio.yandex.ru/card/65-televizor-tuvio-4k-ultra-hd-dled-frameless-na-platforme-yaos-td65ufbhh12-chernyy",
+        "label": "Официальная карточка Tuvio TD65UFBHH12",
+        "region": "Россия"
+      },
+      {
+        "url": "https://yandex.ru/support/yandex-factory/tuvio/ru/tv-accessories/tv",
+        "label": "Официальный каталог руководств Tuvio",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "hisense-40e44sl",
+    "brand": "Hisense",
+    "model": "40E44SL",
+    "title": "Hisense 40E44SL",
+    "series": "E44SL",
+    "model_year": 2026,
+    "diagonal_inches": 40,
+    "weight_kg": 4.7,
+    "width_mm": 898,
+    "height_mm": 511,
+    "depth_mm": 78,
+    "vesa_width_mm": 100,
+    "vesa_height_mm": 200,
+    "source_url": "https://ru.hisense.com/catalog/tvs/40E44SL/",
+    "source_label": "Официальная карточка Hisense 40E44SL",
+    "source_fact": "Официальная карточка Hisense подтверждает точную модель 40E44SL, диагональ 40 дюймов, VESA 100×200 мм, массу корпуса 4,7 кг и размеры 898×511×78 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Официальная карточка не указывает резьбу и допустимую длину винтов для настенного монтажа."
+    ],
+    "sources": [
+      {
+        "url": "https://ru.hisense.com/catalog/tvs/40E44SL/",
+        "label": "Официальная карточка Hisense 40E44SL",
+        "region": "Россия"
+      }
+    ]
+  },
+  {
+    "id": "tcl-65v6c",
+    "brand": "TCL",
+    "model": "65V6C",
+    "title": "TCL 65V6C",
+    "series": "V6C",
+    "model_year": 2025,
+    "diagonal_inches": 65,
+    "weight_kg": 12.2,
+    "width_mm": 1446,
+    "height_mm": 833,
+    "depth_mm": 73,
+    "vesa_width_mm": 200,
+    "vesa_height_mm": 200,
+    "source_url": "https://www.tcl.com/content/brandsite/ru/ru/tvs/v6c/jcr:content/root/container/container/container/subnav_menus/specifications1/product_spec.L2NvbnRlbnQvYnJhbmRzaXRlLXByb2R1Y3QvcnUvcnUvdHZzL3Y2Yy82NXY2Yw==.json",
+    "source_label": "Официальные характеристики TCL 65V6C",
+    "source_fact": "Официальная российская страница TCL подтверждает точную модель 65V6C, диагональ 65 дюймов, VESA 200×200 мм, массу корпуса 12,2 кг и размеры 1446×833×73 мм без подставки.",
+    "checked_at": "2026-08-20",
+    "source_region": "Россия",
+    "limitations": [
+      "Резьба и длина винтов настенного крепления на странице характеристик не опубликованы; параметры нужно сверить до установки."
+    ],
+    "sources": [
+      {
+        "url": "https://www.tcl.com/ru/ru/tvs/v6c",
+        "label": "Официальная российская страница TCL V6C с выбором 65V6C",
+        "region": "Россия"
+      }
+    ]
   }
 ]

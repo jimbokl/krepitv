@@ -14,26 +14,20 @@
     "source_url": "https://wordstat.yandex.ru/",
     "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
   },
-  "observed_at": "2026-07-30T17:10:19.494Z",
-  "batch_sha256": "18be6c11f60e3c3c6ec9784a99317b512dc92ddb34c0a3b7b61d67683cdc67c9",
+  "observed_at": "2026-08-20T08:11:20.926Z",
+  "batch_sha256": "2ce121ae322c2e5d2d06caebf69f1f63bfc5b4f0f060411f451c9304f8becfe3",
   "source_batches": [
     {
-      "file": "product-docs/research/raw/wordstat-tv-models-2026-07-30/normalized.json",
-      "batch_sha256": "491df6061c729b9c122fb7bdf2f414cc7f6dc8bfe446cbaf22124e801e902d73",
-      "observed_at": "2026-07-30T16:42:11.101Z",
-      "rows": 40
-    },
-    {
-      "file": "data/research/tv-model-demand-wave2.json",
-      "batch_sha256": "9020ba62890987a0212ac156fae983a85e898dab82e845423c31358e183e9203",
-      "observed_at": "2026-07-30T17:06:10.526Z",
-      "rows": 47
-    },
-    {
-      "file": "data/research/tv-model-demand-legacy.json",
-      "batch_sha256": "ce95ef2fd5b734b777666c8b70779223e6fe564559d52b3c3ffd5eaba7b873c5",
+      "file": ".private/research/tv-model-demand-before-2026-08-20.json",
+      "batch_sha256": "18be6c11f60e3c3c6ec9784a99317b512dc92ddb34c0a3b7b61d67683cdc67c9",
       "observed_at": "2026-07-30T17:10:19.494Z",
-      "rows": 2
+      "rows": 89
+    },
+    {
+      "file": "data/research/tv-model-demand-cohort-2026-08-20.json",
+      "batch_sha256": "a82bbcb82cafc1ec5d8a2534984df0890d7e3e7eda10d132f036f9116b22edc2",
+      "observed_at": "2026-08-20T08:11:20.926Z",
+      "rows": 10
     }
   ],
   "models": [
@@ -94,6 +88,21 @@
       "seo_period": "последние 30 дней на дату сбора",
       "seo_devices": "все устройства",
       "observed_at": "2026-07-30T16:42:11.101Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
+      "brand": "TCL",
+      "model": "43P7L",
+      "series": "P7L",
+      "diagonal_inches": 43,
+      "operator_query": "\"[43P7L]\"",
+      "seo_frequency": 6942,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:11:20.926Z",
       "source_url": "https://wordstat.yandex.ru/",
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
@@ -263,6 +272,21 @@
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
     {
+      "brand": "TCL",
+      "model": "55P7L",
+      "series": "P7L",
+      "diagonal_inches": 55,
+      "operator_query": "\"[55P7L]\"",
+      "seo_frequency": 3771,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:11:20.926Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
       "brand": "Samsung",
       "model": "UE43U8000FUXRU",
       "series": "U8000F",
@@ -304,6 +328,21 @@
       "seo_period": "последние 30 дней на дату сбора",
       "seo_devices": "все устройства",
       "observed_at": "2026-07-30T16:42:11.101Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
+      "brand": "TCL",
+      "model": "65P8L",
+      "series": "P8L",
+      "diagonal_inches": 65,
+      "operator_query": "\"[65P8L]\"",
+      "seo_frequency": 3224,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:11:20.926Z",
       "source_url": "https://wordstat.yandex.ru/",
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
@@ -488,6 +527,21 @@
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
     {
+      "brand": "TCL",
+      "model": "32S4K",
+      "series": "S4K",
+      "diagonal_inches": 32,
+      "operator_query": "\"[32S4K]\"",
+      "seo_frequency": 1585,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:10:21.017Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
       "brand": "Samsung",
       "model": "QE43QEF1AUXRU",
       "series": "QEF1",
@@ -563,6 +617,21 @@
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
     {
+      "brand": "TCL",
+      "model": "55Q6C",
+      "series": "Q6C",
+      "diagonal_inches": 55,
+      "operator_query": "\"[55Q6C]\"",
+      "seo_frequency": 1406,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:10:21.017Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
       "brand": "LG",
       "model": "65QNED86A6A",
       "series": "QNED86",
@@ -634,6 +703,21 @@
       "seo_period": "последние 30 дней на дату сбора",
       "seo_devices": "все устройства",
       "observed_at": "2026-07-30T16:42:11.101Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
+      "brand": "Hisense",
+      "model": "40A4S",
+      "series": "A4S",
+      "diagonal_inches": 40,
+      "operator_query": "\"[40A4S]\"",
+      "seo_frequency": 1203,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:11:20.926Z",
       "source_url": "https://wordstat.yandex.ru/",
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
@@ -724,6 +808,21 @@
       "seo_period": "последние 30 дней на дату сбора",
       "seo_devices": "все устройства",
       "observed_at": "2026-07-30T17:06:10.526Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
+      "brand": "LG",
+      "model": "50QNED70B6C",
+      "series": "QNED70",
+      "diagonal_inches": 50,
+      "operator_query": "\"[50QNED70B6C]\"",
+      "seo_frequency": 939,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:11:20.926Z",
       "source_url": "https://wordstat.yandex.ru/",
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
@@ -878,6 +977,21 @@
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
     {
+      "brand": "Tuvio",
+      "model": "TD65UFBHH12",
+      "series": "Frameless YaOS",
+      "diagonal_inches": 65,
+      "operator_query": "\"[TD65UFBHH12]\"",
+      "seo_frequency": 837,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:10:21.017Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
       "brand": "LG",
       "model": "OLED48C5RLA",
       "series": "OLED C5",
@@ -949,6 +1063,21 @@
       "seo_period": "последние 30 дней на дату сбора",
       "seo_devices": "все устройства",
       "observed_at": "2026-07-30T17:06:10.526Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
+      "brand": "Hisense",
+      "model": "40E44SL",
+      "series": "E44SL",
+      "diagonal_inches": 40,
+      "operator_query": "\"[40E44SL]\"",
+      "seo_frequency": 698,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:10:21.017Z",
       "source_url": "https://wordstat.yandex.ru/",
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
@@ -1249,6 +1378,21 @@
       "seo_period": "последние 30 дней на дату сбора",
       "seo_devices": "все устройства",
       "observed_at": "2026-07-30T17:10:19.494Z",
+      "source_url": "https://wordstat.yandex.ru/",
+      "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
+    },
+    {
+      "brand": "TCL",
+      "model": "65V6C",
+      "series": "V6C",
+      "diagonal_inches": 65,
+      "operator_query": "\"[65V6C]\"",
+      "seo_frequency": 112,
+      "seo_region_id": 225,
+      "seo_region": "Россия",
+      "seo_period": "последние 30 дней на дату сбора",
+      "seo_devices": "все устройства",
+      "observed_at": "2026-08-20T08:10:21.017Z",
       "source_url": "https://wordstat.yandex.ru/",
       "source_label": "Яндекс Wordstat через XMLRiver: запрос в кавычках, Россия, все устройства"
     },
