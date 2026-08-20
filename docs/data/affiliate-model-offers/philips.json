@@ -1,12 +1,36 @@
 {
-  "generated_at": "2026-08-19T16:53:19.444Z",
+  "generated_at": "2026-08-20T04:59:17.754Z",
   "placements": [
     {
       "model_id": "philips-50pud7029",
       "model_path": "/modeli/philips-50pud7029/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=ej3v3x3r2908pads05j4t9znsokfd065&utm_referral_context=VV_f1_wJp3fr11mfGlFNsDvqm-aSuFGFZBYSrfiCh2IKTg9r-6GzjYe0TnfqXxBwaos6cpKDXyTkdAfhA-rLW2B0RVNGqUW36tI-iCZwH-LGn2IUklvd45GyOm_kpXoeChT_YEgtA146tukringJEtBTRhOTaLZaco2yh5KdK9R9lZL-uOXJFeK2Cplh-iH_aRaPp6ZhQ9qMfAapj2hNgyp7sGH9jaSjZpvAIeT3M9A,&clid=15238076&vid=krepitvmodelphilips50pud7029r02kromaxdix186ff957bd8cb5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-19T16:50:23.627Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=h4g051febs16xcf9h4yss3ni43utd9im&utm_referral_context=4IAVq5u92WUHe7YbybvQPbuuSkGi1121kfB90FZhhmABg8D0F403Nhf-WbDRsfufKump5YE4KwvHCFpWbtRrqREumEGTS-Cf0J-Vcn-d7Ow8Li5OaUHs2pjm3_TOr4Lez7i90vQs4XYptwAY6XlJTVX0_n5U6LaLITxc13JCfu1Nc1Um-hH0qka-35BVTmGzifuWIsCIDlJaVzM-RFPgW1X-R1F0A8pqly-9xFdVR18,&clid=15238076&vid=krepitvmodelphilips50pud7029r01kromaxatlantis450d2d960bd225&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-20T04:56:35.482Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "kromax-atlantis-45",
+        "entity_kind": "mount",
+        "id": "model-philips-50pud7029-r01-kromax-atlantis-45",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/kromax-atlantis-45/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/18207042/2a0000019a9b76101cbf1678097257740f59/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора настенный наклонно-поворотный Kromax ATLANTIS-45 / до 65 дюймов / vesa 400x400",
+        "vid": "krepitvmodelphilips50pud7029r01kromaxatlantis450d2d960bd225"
+      },
+      "placement_id": "model-philips-50pud7029-r01-kromax-atlantis-45",
+      "rank": 1
+    },
+    {
+      "model_id": "philips-50pud7029",
+      "model_path": "/modeli/philips-50pud7029/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=9r33mqh4m8gnx3z6j2wipu4e8edebalu&utm_referral_context=-ZS1MRO1r30j9ZoymiK6bQBYi-BP4AcaJJAt-ExPZiAx6wNdppTHFTUPUf0WMydcwrhu1x-lRsyjy2Uun-oY2OfC2t1HCvwfMP2xnwdaM-yNA9c4TtOt8w5t9lfFMx7Dpz02JLsAgxeuNCT7m7QWxf6x6S5UZL7SOL-czGEGuLDX0ujjt51pgZKXgT3fm6_dHRVBAjzxJ5makoaZIly9Avl398Cq7FlfrYPGwhordM4,&clid=15238076&vid=krepitvmodelphilips50pud7029r02kromaxdix186ff957bd8cb5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-20T04:56:36.126Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -29,8 +53,8 @@
       "model_id": "philips-50pud7029",
       "model_path": "/modeli/philips-50pud7029/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=gfohskdo09okrlx270rgl7mserh9fdty&utm_referral_context=odfv1VEAoLwDsCKMHjbnX2n75L8J98FBMsdtFvPwJev1tmfRkyhp6_onDfQT6D-BBAB1e1IybGvejTR_z_cYYDeoR5TSTuPJ0ciOyKQJOjrWurGqPiRLMhUIfIAM0UuvL05KWAPE35lbKkj1YOSmT3doKxkOxYOwQEYwqpxcIt61910kZ_Xa-mO0JggWm-0Eu3AFWD1wbKjA5jfTzLAkIRtq263Poi3c&clid=15238076&vid=krepitvmodelphilips50pud7029r03kromaxflat41a740a05e49b&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-08-19T16:50:24.311Z",
+        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=e3bknznwqrik7ozj7lmg6zxhyyqrftnq&utm_referral_context=kfGqcum_4LHS-zkCde0nAy9iHDXZpDweHDnF8x1_ONqC78kIJ6bUv12LV94Z0prsKldoxxVk7FG3LH6MG-J8RI3YOHb1c1t0eXhTePxogbZRYR_psk5s_Q4PuYgwi9nrnwRr7XnWfant2glmuRuLg7Uli4T58Y_Zl4-t9910XjBw1UZenS9BZvR-CPE_i-Q7BWoGfsg2HKumTQpGa7zmJuVQbSV482BJ&clid=15238076&vid=krepitvmodelphilips50pud7029r03kromaxflat41a740a05e49b&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-08-20T04:56:36.784Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
