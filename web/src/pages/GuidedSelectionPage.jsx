@@ -140,8 +140,8 @@ export function GuidedSelectionPage({ catalog }) {
     <>
       <MetrikaConsent />
       <main className="min-h-screen bg-paper text-ink" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
-        <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[16.5rem_minmax(0,1fr)]">
-          <aside className="border-b border-line bg-panel px-5 py-6 lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
+        <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[18.5rem_minmax(0,1fr)]">
+          <aside className="border-b border-line bg-panel px-5 py-5 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
             <Brand compact />
             <p className="mt-3 max-w-48 text-sm leading-snug text-muted">Полный монтажный комплект для точной модели телевизора</p>
             <div className="mt-5 flex items-center gap-3 border-y border-line py-3 font-mono text-[0.68rem] uppercase leading-relaxed text-muted" data-kit-ruler="true">
@@ -153,7 +153,7 @@ export function GuidedSelectionPage({ catalog }) {
           </aside>
 
           <div className="min-w-0">
-            <section className="border-b border-line px-5 py-8 sm:px-10 lg:px-12" data-guided-step-content="true">
+            <section className="border-b border-line px-5 py-8 sm:px-10 lg:px-12 lg:py-12" data-guided-step-content="true" data-kit-step-layout="true">
               <Breadcrumbs items={[{ href: "/", label: "Главная" }, { label: "Монтажный комплект" }]} />
               <p className="font-mono text-xs uppercase tracking-wide text-muted">Шаг {state.step} из 6</p>
               <h1 className="mt-2 break-words font-display text-4xl font-extrabold leading-none outline-none sm:text-5xl lg:text-6xl" ref={stepHeadingRef} tabIndex={-1}>{heading}{state.step === 2 && state.brand ? ` ${state.brand}` : ""}</h1>
@@ -169,10 +169,10 @@ export function GuidedSelectionPage({ catalog }) {
                 </div>
                 {state.step === 1 ? <KitOutcomePreview /> : null}
               </div>
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-                <div className="flex flex-wrap gap-3">
+              <div className="mt-7 flex flex-col gap-4 border-t border-line pt-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+                <div className="flex w-full flex-col-reverse gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
                   {state.step > 1 ? <button className="secondary-button" onClick={() => dispatch({ type: "back" })} type="button"><ArrowLeft aria-hidden="true" />Назад</button> : null}
-                  {state.step >= 3 && state.step < 6 ? <button className="primary-button" disabled={!canAdvance(state)} onClick={advance} type="button">Продолжить <ArrowRight aria-hidden="true" /></button> : null}
+                  {state.step >= 3 && state.step < 6 ? <button className="primary-button w-full sm:w-auto" data-kit-primary-action="true" disabled={!canAdvance(state)} onClick={advance} type="button">Продолжить <ArrowRight aria-hidden="true" /></button> : null}
                 </div>
                 <TrustMark compact />
               </div>
@@ -187,11 +187,11 @@ export function GuidedSelectionPage({ catalog }) {
 }
 
 function BrandStep({ brand, brandOptions, catalogSize, onChange, onSubmit }) {
-  return <form data-guided-brand-step="true" onSubmit={onSubmit}><label className="block font-display text-lg font-bold" htmlFor="guided-tv-brand">Марка телевизора</label><div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto]"><Select id="guided-tv-brand" onChange={onChange} value={brand}><option value="">Выберите марку</option>{brandOptions.map((option) => <option key={option.brand} value={option.brand}>{option.brand} — {option.count} {pluralizeRu(option.count, "модель", "модели", "моделей")}</option>)}</Select><button className="primary-button" disabled={!brand} type="submit">Выбрать модель <ArrowRight aria-hidden="true" /></button></div><p className="mt-3 font-mono text-xs text-muted">{brandOptions.length} {pluralizeRu(brandOptions.length, "марка", "марки", "марок")} · {catalogSize} проверенных моделей</p></form>;
+  return <form data-guided-brand-step="true" onSubmit={onSubmit}><label className="block font-display text-lg font-bold" htmlFor="guided-tv-brand">Марка телевизора</label><div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto]"><Select id="guided-tv-brand" onChange={onChange} value={brand}><option value="">Выберите марку</option>{brandOptions.map((option) => <option key={option.brand} value={option.brand}>{option.brand} — {option.count} {pluralizeRu(option.count, "модель", "модели", "моделей")}</option>)}</Select><button className="primary-button w-full lg:w-auto" data-kit-primary-action="true" disabled={!brand} type="submit">Выбрать модель <ArrowRight aria-hidden="true" /></button></div><p className="mt-3 font-mono text-xs text-muted">{brandOptions.length} {pluralizeRu(brandOptions.length, "марка", "марки", "марок")} · {catalogSize} проверенных моделей</p></form>;
 }
 
 function ModelStep({ brand, modelId, modelOptions, onChange, onSubmit }) {
-  return <form data-guided-model-step="true" onSubmit={onSubmit}><label className="block font-display text-lg font-bold" htmlFor="guided-tv-model">Модель телевизора</label><div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto]"><Select id="guided-tv-model" onChange={onChange} value={modelId ?? ""}><option value="">Выберите</option>{modelOptions.map((model) => <option key={model.id} value={model.id}>{model.title}</option>)}</Select><button className="primary-button" disabled={!modelId} type="submit">Проверить стену <ArrowRight aria-hidden="true" /></button></div><p className="mt-3 font-mono text-xs text-muted" data-guided-model-count={modelOptions.length}>{modelOptions.length} проверенных моделей марки {brand}</p></form>;
+  return <form data-guided-model-step="true" onSubmit={onSubmit}><label className="block font-display text-lg font-bold" htmlFor="guided-tv-model">Модель телевизора</label><div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto]"><Select id="guided-tv-model" onChange={onChange} value={modelId ?? ""}><option value="">Выберите</option>{modelOptions.map((model) => <option key={model.id} value={model.id}>{model.title}</option>)}</Select><button className="primary-button w-full lg:w-auto" data-kit-primary-action="true" disabled={!modelId} type="submit">Проверить стену <ArrowRight aria-hidden="true" /></button></div><p className="mt-3 font-mono text-xs text-muted" data-guided-model-count={modelOptions.length}>{modelOptions.length} проверенных моделей марки {brand}</p></form>;
 }
 
 function Select({ children, id, onChange, value }) {
@@ -199,11 +199,11 @@ function Select({ children, id, onChange, value }) {
 }
 
 function ChoiceGrid({ label, options, value, onChange }) {
-  return <fieldset><legend className="sr-only">{label}</legend><div className="grid gap-3 md:grid-cols-3">{options.map(({ id, title, description, Icon }) => <label className={`cursor-pointer rounded-md border-2 bg-white p-5 focus-within:ring-2 focus-within:ring-action ${value === id ? "border-action" : "border-line hover:border-ink"}`} key={id}><input checked={value === id} className="sr-only" name={label} onChange={() => onChange(id)} type="radio" /><Icon aria-hidden="true" className={`size-9 ${value === id ? "text-action" : "text-ink"}`} /><strong className="mt-4 block font-display text-xl">{title}</strong><span className="mt-1 block text-sm text-muted">{description}</span></label>)}</div></fieldset>;
+  return <fieldset><legend className="sr-only">{label}</legend><div className="divide-y divide-line border-y border-ink md:grid md:grid-cols-3 md:divide-x md:divide-y-0">{options.map(({ id, title, description, Icon }) => <label className={`grid min-h-24 cursor-pointer grid-cols-[2.75rem_minmax(0,1fr)] items-center gap-3 px-3 py-4 transition focus-within:ring-2 focus-within:ring-action md:block md:min-h-48 md:p-5 ${value === id ? "bg-panel text-ink" : "bg-white hover:bg-panel/60"}`} data-kit-choice="mechanism" key={id}><input aria-label={title} checked={value === id} className="sr-only" name={label} onChange={() => onChange(id)} type="radio" /><Icon aria-hidden="true" className={`size-8 ${value === id ? "text-action" : "text-ink"}`} /><span><strong className="block font-display text-xl">{title}</strong><span className="mt-1 block text-sm leading-snug text-muted">{description}</span></span></label>)}</div></fieldset>;
 }
 
 function ModelSummary({ model }) {
-  return <section className="px-5 py-7 sm:px-10 lg:px-12"><div className="grid gap-5 xl:grid-cols-[18rem_minmax(0,1fr)]"><div><p className="font-display text-lg font-bold">Выбранная модель</p><a className="mt-2 block font-display text-3xl font-bold text-verified hover:underline" href={modelHref(model)}>{model.title}</a><div className="mt-5"><ModelFacts detailed model={model} /></div></div><div className="flex items-start gap-3 border border-line bg-white/70 p-4 text-sm leading-relaxed"><Info aria-hidden="true" className="size-6 shrink-0 text-verified" /><p><strong>Паспортная проверка:</strong> VESA {model.vesa_width_mm}×{model.vesa_height_mm}, масса {model.weight_kg} кг ({modelWeightSuffix(model)}) и диагональ {model.diagonal_inches}″. Точные винты, порты и геометрия выводятся только при отдельном источнике.</p></div></div></section>;
+  return <section className="border-b border-line bg-white/50 px-5 py-6 sm:px-10 lg:px-12" data-kit-selected-model="true"><div className="grid gap-5 xl:grid-cols-[19rem_minmax(0,1fr)]"><div><p className="font-mono text-[0.68rem] uppercase tracking-wide text-technical">Выбранная модель</p><a className="mt-2 block font-display text-3xl font-bold text-ink hover:text-action hover:underline" href={modelHref(model)}>{model.title}</a><div className="mt-5 tabular-measure"><ModelFacts detailed model={model} /></div></div><div className="flex items-start gap-3 border-l-2 border-verified bg-white p-4 text-sm leading-relaxed"><Info aria-hidden="true" className="size-6 shrink-0 text-verified" /><p><strong>Паспортная проверка:</strong> VESA {model.vesa_width_mm}×{model.vesa_height_mm}, масса {model.weight_kg} кг ({modelWeightSuffix(model)}) и диагональ {model.diagonal_inches}″. Точные винты, порты и геометрия выводятся только при отдельном источнике.</p></div></div></section>;
 }
 
 export function CompatibilityResult({ availableOfferMountIds = new Set(), compatibility, matches, model, onRetry }) {

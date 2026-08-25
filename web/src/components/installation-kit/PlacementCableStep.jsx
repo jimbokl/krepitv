@@ -57,7 +57,7 @@ export function PlacementCableStep({ onSubmit }) {
   }
   const required = [form.eyeHeight, form.viewingDistance, form.furnitureHeight].every((value) => value !== "");
   return (
-    <form className="space-y-6" data-kit-placement-step="true" onSubmit={submit}>
+    <form className="space-y-8" data-kit-placement-step="true" onSubmit={submit}>
       <fieldset>
         <legend className="font-display text-2xl font-extrabold">Размещение телевизора</legend>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">Все высоты измеряются от чистого пола. Плинтус не используем как нулевую отметку.</p>
@@ -80,11 +80,11 @@ export function PlacementCableStep({ onSubmit }) {
           {CONNECTIONS.map(([id, label]) => <label className={`cursor-pointer border px-3 py-2 text-sm ${form.connections.includes(id) ? "border-action bg-white font-semibold" : "border-line"}`} key={id}><input checked={form.connections.includes(id)} className="sr-only" onChange={() => toggle(id)} type="checkbox" />{label}</label>)}
         </div>
       </fieldset>
-      <button className="primary-button" disabled={!required} type="submit">Собрать монтажный комплект</button>
+      <button className="primary-button w-full sm:w-auto" data-kit-primary-action="true" disabled={!required} type="submit">Собрать монтажный комплект</button>
     </form>
   );
 }
 
 function NumberField({ label, max, min, name, onChange, required = false, unit = "см", value }) {
-  return <label><span className="field-label font-semibold">{label}, {unit}</span><input className="input-control mt-2" inputMode="decimal" max={max} min={min} onChange={(event) => onChange(name, event.target.value)} required={required} step="0.1" type="number" value={value} /></label>;
+  return <label><span className="field-label font-semibold">{label}, {unit}</span><input className="input-control tabular-measure mt-2" inputMode="decimal" max={max} min={min} onChange={(event) => onChange(name, event.target.value)} required={required} step="0.1" type="number" value={value} /></label>;
 }

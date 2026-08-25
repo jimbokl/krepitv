@@ -123,6 +123,8 @@ test("свежий подбор начинается с марки и не по�
     assert.equal(html.includes("Результат для модели"), false);
     assert.equal(html.includes("id=\"guided-tv-model\""), false);
     assert.equal(html.includes("autofocus"), false);
+    assert.equal(html.includes("data-kit-step-layout=\"true\""), true);
+    assert.equal(html.includes("data-kit-primary-action=\"true\""), true);
   } finally {
     globalThis.window = previousWindow;
     await vite.close();
@@ -145,9 +147,29 @@ test("точная deep link выбирает марку и оставляет �
     assert.equal(html.includes("Hisense 65U7Q"), false);
     assert.equal(html.includes("Samsung QE55Q70DAUXRU"), false);
     assert.equal(html.includes("Выбранная модель"), true);
+    assert.equal(html.includes("data-kit-selected-model=\"true\""), true);
     assert.equal(html.includes("Шаг 3 из 6"), false);
   } finally {
     globalThis.window = previousWindow;
+    await vite.close();
+  }
+});
+
+test("варианты стены имеют крупную нативную radio-семантику с доступным именем", async () => {
+  const { vite } = await loadGuidedSelection();
+  try {
+    const { WallProfileStep } = await vite.ssrLoadModule(
+      "/src/components/installation-kit/WallProfileStep.jsx",
+    );
+    const html = renderToStaticMarkup(
+      React.createElement(WallProfileStep, { value: "concrete", onChange() {} }),
+    );
+
+    assert.equal((html.match(/type="radio"/g) ?? []).length, 7);
+    assert.match(html, /aria-label="Бетон"/);
+    assert.match(html, /aria-label="Не знаю"/);
+    assert.match(html, /data-kit-choice="wall-profile"/);
+  } finally {
     await vite.close();
   }
 });
