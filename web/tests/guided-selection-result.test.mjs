@@ -168,6 +168,11 @@ test("монтажный комплект показывает семь секц
     assert.equal(html.includes("Контрольная линия настенной пластины"), true);
     assert.equal(html.includes("Точки сверления не подтверждены"), true);
     assert.equal(html.includes("data-print-installation-kit=\"true\""), true);
+    assert.equal(html.includes("data-installation-passport=\"true\""), true);
+    assert.equal(html.includes("data-kit-status-nav=\"true\""), true);
+    assert.equal(html.includes("Ваш монтажный паспорт"), true);
+    assert.equal(html.includes("Нужно проверить"), true);
+    assert.equal(html.includes("Остановиться"), true);
     assert.equal(html.includes("Открыть на Яндекс Маркете"), false);
     assert.equal(html.includes("href=\"https://market.yandex.ru"), false);
   } finally {
@@ -220,6 +225,10 @@ test("проверенный комплект показывает ровно о
       plan,
     }));
     assert.equal((html.match(/href="https:\/\/market\.yandex\.ru/g) ?? []).length, 1);
+    assert.equal(html.includes("data-installation-passport=\"true\""), true);
+    assert.equal(html.includes("data-kit-status-nav=\"true\""), true);
+    assert.equal(html.includes("Ваш монтажный паспорт"), true);
+    assert.equal(html.includes("Совместимость подтверждена"), true);
     assert.equal(html.includes("clid=15238076"), true);
     assert.equal(html.includes("Открыть на Яндекс Маркете"), true);
     assert.equal(html.includes("data-affiliate-mode=\"non_ad_storefront\""), true);
