@@ -10,6 +10,8 @@
 
 **Spec:** `product-docs/superpowers/specs/2026-08-25-full-installation-kit-design.md`
 
+**Product backlog:** `product-docs/superpowers/backlogs/2026-08-25-installation-assistant-backlog.md`. Backlog не расширяет текущий релиз автоматически: в релиз входят только элементы `NOW`, уже отражённые в задачах ниже.
+
 ## Global Constraints
 
 - [ ] Весь публичный интерфейс, SSR-текст, ошибки и печатная версия — только на русском языке.

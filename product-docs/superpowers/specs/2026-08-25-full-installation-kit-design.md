@@ -2,7 +2,8 @@
 
 **Дата:** 2026-08-25  
 **Продукт:** KREPI TV  
-**Статус:** согласовано как основное продуктовое направление; ожидает письменной проверки спецификации перед implementation plan  
+**Статус:** согласовано; реализация ведётся по утверждённому implementation plan
+**Связанный backlog:** `product-docs/superpowers/backlogs/2026-08-25-installation-assistant-backlog.md`
 
 ## Цель
 
