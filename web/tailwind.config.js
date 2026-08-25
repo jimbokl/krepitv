@@ -6,6 +6,7 @@ export default {
       colors: {
         paper: "#F7F5F0",
         panel: "#F3F1EC",
+        surface: "#FFFFFF",
         ink: "#151412",
         muted: "#68645E",
         line: "#D8D4CC",
@@ -13,6 +14,7 @@ export default {
         "action-hover": "#A92E06",
         verified: "#087443",
         technical: "#1457D9",
+        warning: "#9A5A00",
         danger: "#B42318",
       },
       fontFamily: {

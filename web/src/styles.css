@@ -39,20 +39,45 @@ select {
 
 @layer components {
   .primary-button {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-action px-5 py-3 font-display text-lg font-bold text-white transition hover:bg-action-hover focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40;
+    @apply inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-sm bg-action px-5 py-3 font-display text-lg font-bold text-white transition hover:bg-action-hover focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40;
   }
 
   .secondary-button {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-ink bg-white px-5 py-3 font-display text-lg font-bold text-ink transition hover:border-action hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2;
+    @apply inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-sm border border-ink bg-white px-5 py-3 font-display text-lg font-bold text-ink transition hover:border-action hover:text-action focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2;
   }
 
   .input-control {
-    @apply h-12 w-full rounded-sm border border-ink bg-white px-3 text-base text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20;
+    @apply h-[3.25rem] w-full rounded-sm border border-ink bg-white px-3 text-base text-ink outline-none transition focus:border-action focus:ring-2 focus:ring-action/20;
+  }
+
+  .tabular-measure {
+    font-variant-numeric: tabular-nums lining-nums;
   }
 
   .field-label {
     @apply block leading-5 sm:flex sm:h-10 sm:items-end;
     text-wrap: pretty;
+  }
+}
+
+@media (min-width: 1024px) {
+  details.kit-outcome-preview:not([open]) > [data-kit-outcome-body] {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 

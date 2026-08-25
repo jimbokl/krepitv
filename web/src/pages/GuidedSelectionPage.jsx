@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, ArrowsClockwise, ArrowsVertical, CaretDown, CheckCircle, Info, PushPin } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, ArrowsClockwise, ArrowsVertical, CaretDown, CheckCircle, Info, PushPin, Ruler } from "@phosphor-icons/react";
 import { Brand } from "../components/Brand.jsx";
 import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { InstallationKitResult } from "../components/installation-kit/InstallationKitResult.jsx";
+import { KitOutcomePreview } from "../components/installation-kit/KitOutcomePreview.jsx";
 import { KitStepRail } from "../components/installation-kit/KitStepRail.jsx";
 import { MountChoiceStep } from "../components/installation-kit/MountChoiceStep.jsx";
 import { PlacementCableStep } from "../components/installation-kit/PlacementCableStep.jsx";
@@ -138,11 +139,15 @@ export function GuidedSelectionPage({ catalog }) {
   return (
     <>
       <MetrikaConsent />
-      <main className="min-h-screen bg-paper text-ink" data-guided-selection-page="true" data-guided-selection-step={state.step}>
+      <main className="min-h-screen bg-paper text-ink" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
         <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[16.5rem_minmax(0,1fr)]">
           <aside className="border-b border-line bg-panel px-5 py-6 lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
             <Brand compact />
             <p className="mt-3 max-w-48 text-sm leading-snug text-muted">Полный монтажный комплект для точной модели телевизора</p>
+            <div className="mt-5 flex items-center gap-3 border-y border-line py-3 font-mono text-[0.68rem] uppercase leading-relaxed text-muted" data-kit-ruler="true">
+              <Ruler aria-hidden="true" className="size-5 shrink-0 text-action" />
+              Шесть проверяемых шагов
+            </div>
             <KitStepRail current={state.step} completed={getCompletedSteps(state)} onStep={(step) => dispatch({ type: "go-to-step", value: step })} />
             <div className="mt-8 hidden items-start gap-3 text-verified lg:flex lg:pt-24"><CheckCircle aria-hidden="true" className="size-9 shrink-0" /><p className="text-sm leading-snug">Каждый точный совет<br />подтверждён источником.</p></div>
           </aside>
@@ -153,13 +158,16 @@ export function GuidedSelectionPage({ catalog }) {
               <p className="font-mono text-xs uppercase tracking-wide text-muted">Шаг {state.step} из 6</p>
               <h1 className="mt-2 break-words font-display text-4xl font-extrabold leading-none outline-none sm:text-5xl lg:text-6xl" ref={stepHeadingRef} tabIndex={-1}>{heading}{state.step === 2 && state.brand ? ` ${state.brand}` : ""}</h1>
               <p className="mt-4 max-w-[900px] text-lg leading-relaxed text-muted">{description}</p>
-              <div className="relative z-20 mt-7">
-                {state.step === 1 ? <BrandStep brand={state.brand} brandOptions={brandOptions} catalogSize={catalog.models.length} onChange={(value) => dispatch({ type: "set-brand", value })} onSubmit={advance} /> : null}
-                {state.step === 2 ? <ModelStep brand={state.brand} modelId={state.modelId} modelOptions={modelOptions} onChange={(value) => dispatch({ type: "set-model", value })} onSubmit={advance} /> : null}
-                {state.step === 3 ? <WallProfileStep onChange={(value) => dispatch({ type: "set-wall-profile", value })} value={state.wallProfile} /> : null}
-                {state.step === 4 ? <ChoiceGrid label="Механизм кронштейна" onChange={(value) => dispatch({ type: "set-mechanism", value })} options={mechanisms} value={state.mechanism} /> : null}
-                {state.step === 5 ? <MountChoiceStep compatibility={compatibility} matches={compatible} onChange={(value) => dispatch({ type: "set-mount", value })} onRetry={() => setCompatibilityAttempt((value) => value + 1)} value={state.mountId} /> : null}
-                {state.step === 6 ? <PlacementCableStep onSubmit={({ placement, cables }) => { dispatch({ type: "set-placement", value: placement }); dispatch({ type: "set-cables", value: cables }); }} /> : null}
+              <div className={state.step === 1 ? "mt-7 grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(19rem,0.72fr)] xl:gap-12" : "mt-7"}>
+                <div className="relative z-20 min-w-0">
+                  {state.step === 1 ? <BrandStep brand={state.brand} brandOptions={brandOptions} catalogSize={catalog.models.length} onChange={(value) => dispatch({ type: "set-brand", value })} onSubmit={advance} /> : null}
+                  {state.step === 2 ? <ModelStep brand={state.brand} modelId={state.modelId} modelOptions={modelOptions} onChange={(value) => dispatch({ type: "set-model", value })} onSubmit={advance} /> : null}
+                  {state.step === 3 ? <WallProfileStep onChange={(value) => dispatch({ type: "set-wall-profile", value })} value={state.wallProfile} /> : null}
+                  {state.step === 4 ? <ChoiceGrid label="Механизм кронштейна" onChange={(value) => dispatch({ type: "set-mechanism", value })} options={mechanisms} value={state.mechanism} /> : null}
+                  {state.step === 5 ? <MountChoiceStep compatibility={compatibility} matches={compatible} onChange={(value) => dispatch({ type: "set-mount", value })} onRetry={() => setCompatibilityAttempt((value) => value + 1)} value={state.mountId} /> : null}
+                  {state.step === 6 ? <PlacementCableStep onSubmit={({ placement, cables }) => { dispatch({ type: "set-placement", value: placement }); dispatch({ type: "set-cables", value: cables }); }} /> : null}
+                </div>
+                {state.step === 1 ? <KitOutcomePreview /> : null}
               </div>
               <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
                 <div className="flex flex-wrap gap-3">
