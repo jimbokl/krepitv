@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "systems": [
+    {
+      "id": "fischer-faz-ii-classic",
+      "manufacturer": "fischer",
+      "product_title": "Анкерный болт FAZ II",
+      "allowed_wall_profiles": ["concrete"],
+      "scope": "class-only",
+      "limitations": [
+        "Артикул, диаметр, глубину и число анкеров нельзя выбирать без характеристик бетона, геометрии настенной пластины и расчётной нагрузки.",
+        "Область применения и монтажные параметры нужно сверять с ETA и паспортом точного артикула."
+      ],
+      "evidence": {
+        "source_url": "https://www.fischerfixing.ru/ru-ru/products/stal-nye-ankery/ankernye-bolty/ankernyi-bolt-faz-ii",
+        "source_title": "Анкерный болт FAZ II",
+        "source_publisher": "fischer",
+        "source_region": "Россия",
+        "checked_at": "2026-08-25"
+      }
+    },
+    {
+      "id": "fischer-gb-aerated-concrete",
+      "manufacturer": "fischer",
+      "product_title": "Дюбель для газобетона GB",
+      "allowed_wall_profiles": ["aerated-block"],
+      "scope": "class-only",
+      "limitations": [
+        "Марку и состояние газобетона, расстояния до краёв, требуемый шуруп и монтажные параметры нужно подтвердить до выбора артикула.",
+        "Наличие продукта в справочнике не является рекомендацией для конкретного телевизора или кронштейна."
+      ],
+      "evidence": {
+        "source_url": "https://www.fischerfixing.ru/products/krepezh-obshchego-naznacheniia/plastikovye-dyubeli/dyubel-dlya-gazobetona-gb/",
+        "source_title": "Дюбель для газобетона GB",
+        "source_publisher": "fischer",
+        "source_region": "Россия",
+        "checked_at": "2026-08-25"
+      }
+    },
+    {
+      "id": "knauf-hartmut-hollow-wall",
+      "manufacturer": "КНАУФ",
+      "product_title": "Дюбель Хартмут",
+      "allowed_wall_profiles": ["drywall-without-blocking"],
+      "scope": "class-only",
+      "limitations": [
+        "Число и толщина листов, состояние обшивки, профиль, вылет кронштейна и вся схема нагрузки должны быть подтверждены отдельно.",
+        "Поворотно-выдвижной кронштейн на гипсокартоне без закладной остаётся заблокированным без отдельного расчёта всей системы."
+      ],
+      "evidence": {
+        "source_url": "https://www.knauf.ru/upload/iblock/0ae/nbz34i60nxq3j9rpjl65ycjgh4vzn5ac/IL-KNAUF_KHartmut-_03_02_2024_-v02-Preview.pdf",
+        "source_title": "Информационный лист КНАУФ Хартмут",
+        "source_publisher": "КНАУФ",
+        "source_region": "Россия",
+        "checked_at": "2026-08-25"
+      }
+    }
+  ],
+  "exact_recommendations": []
+}

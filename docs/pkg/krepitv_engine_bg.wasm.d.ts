@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
+export const build_installation_kit_json: (a: number, b: number, c: number) => void;
 export const calculate_tv_no_signal_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number) => void;
 export const height_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
 export const match_mounts_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;

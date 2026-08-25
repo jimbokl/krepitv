@@ -1,6 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export function build_installation_kit_json(input_json: string): string;
+
 export function calculate_tv_no_signal_json(source: string, tv_menu_visible: string, source_powered: string, input_matches: string, cable_connected: string, receiver_menu_visible: string): string;
 
 export function height_plan_json(diagonal_inches: number, eye_height_cm: number, viewing_distance_cm: number, viewing_angle_deg: number, furniture_height_cm: number, requested_clearance_cm: number): string;
@@ -35,6 +37,7 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
+    readonly build_installation_kit_json: (a: number, b: number, c: number) => void;
     readonly calculate_tv_no_signal_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number) => void;
     readonly height_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly match_mounts_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
