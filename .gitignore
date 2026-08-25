@@ -21,6 +21,7 @@
 /web/kontakty/
 /web/politika-konfidencialnosti/
 /.codex-tmp/
+/.worktrees/
 /.private/
 /chromeuse-screenshots/
 /product-docs/browser-evidence/
