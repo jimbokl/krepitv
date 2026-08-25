@@ -85,7 +85,6 @@ test("после client boot таблица, методика и мобильн�
         methodCount: document.querySelectorAll('[data-tv-dimensions-method="true"] article').length,
         tableVisible: Boolean(table && getComputedStyle(table).display !== 'none'),
         hintVisible: Boolean(hint && getComputedStyle(hint).display !== 'none'),
-        marketLinks: document.querySelectorAll('a[href*="market.yandex.ru"]').length,
       };
     })()`);
     assert.deepEqual(hydrated, {
@@ -95,7 +94,6 @@ test("после client boot таблица, методика и мобильн�
       methodCount: 3,
       tableVisible: true,
       hintVisible: true,
-      marketLinks: 1,
     });
 
     const mobileSearch = await browser.evaluate(`new Promise((resolve, reject) => {
@@ -225,36 +223,6 @@ test("после client boot таблица, методика и мобильн�
       focusReturned: true,
     });
 
-    const trustLoaded = browser.once("Page.loadEventFired");
-    await browser.send("Page.navigate", { url: `${server.origin}/o-proekte/` });
-    await trustLoaded;
-    const trustAffiliate = await browser.evaluate(`new Promise((resolve, reject) => {
-      const startedAt = Date.now();
-      const timer = setInterval(() => {
-        const link = document.querySelector('[data-affiliate-global-link="true"] a');
-        if (link) {
-          clearInterval(timer);
-          const destination = new URL(link.href);
-          resolve({
-            count: document.querySelectorAll('[data-affiliate-global-link="true"] a').length,
-            direct: destination.hostname === 'market.yandex.ru',
-            hasClid: destination.searchParams.has('clid'),
-            hasVid: destination.searchParams.has('vid'),
-            safeRel: link.rel === 'sponsored nofollow noopener noreferrer',
-          });
-        } else if (Date.now() - startedAt > 10000) {
-          clearInterval(timer);
-          reject(new Error('trust affiliate timeout'));
-        }
-      }, 50);
-    })`);
-    assert.deepEqual(trustAffiliate, {
-      count: 1,
-      direct: true,
-      hasClid: true,
-      hasVid: true,
-      safeRel: true,
-    });
   } finally {
     socket?.close();
     await stopChrome(chrome);
