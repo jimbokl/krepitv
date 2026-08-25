@@ -11,11 +11,15 @@ test("detail содержит только controlled tokens, pathname и bounde
     toolId: "height-calculator",
     resultType: "mounting-height",
     resultCount: 1,
+    modelId: "tcl-65c7k",
+    mountId: "kromax-atlantis-65",
     rawInput: "user@example.test",
   }, "/vysota-televizora/"), {
     toolId: "height-calculator",
     resultType: "mounting-height",
     resultCount: 1,
+    modelId: "tcl-65c7k",
+    mountId: "kromax-atlantis-65",
     sourcePath: "/vysota-televizora/",
   });
 });
@@ -25,6 +29,8 @@ test("необязательные небезопасные значения у�
     toolId: "height-calculator",
     resultType: "mounting-height",
     resultCount: 1001,
+    modelId: "../../secret",
+    mountId: "79990000000",
   }, "https://example.test/?email=user@example.test"), {
     toolId: "height-calculator",
     resultType: "mounting-height",

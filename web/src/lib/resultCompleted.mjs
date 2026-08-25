@@ -23,6 +23,10 @@ export function resultCompletedDetail(result = {}, sourcePath) {
   if (!toolId || !resultType) return false;
 
   const detail = { toolId, resultType };
+  const modelId = controlledToken(result?.modelId);
+  const mountId = controlledToken(result?.mountId);
+  if (modelId !== undefined) detail.modelId = modelId;
+  if (mountId !== undefined) detail.mountId = mountId;
   const safeSourcePath = sameSitePathname(sourcePath);
   if (safeSourcePath !== undefined) detail.sourcePath = safeSourcePath;
   if (

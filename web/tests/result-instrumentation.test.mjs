@@ -47,14 +47,16 @@ test("согласие доступно на обычных и двух нест
   }
 });
 
-test("мастер подбора не передаёт выбранную модель и параметры выбора", async () => {
+test("монтажный комплект передаёт только контролируемые ids, статус и число секций", async () => {
   const code = await source("pages/GuidedSelectionPage.jsx");
   const eventBlock = code.match(/emitResultCompleted\(window, \{([\s\S]*?)\n    \}\);/);
   assert.ok(eventBlock, "result event block is present");
-  assert.match(eventBlock[1], /toolId: "mount_match"/);
-  assert.match(eventBlock[1], /resultType: "compatible_matches"/);
-  assert.match(eventBlock[1], /resultCount: compatible\.length/);
-  assert.doesNotMatch(eventBlock[1], /model|mechanism|wall|query/i);
+  assert.match(eventBlock[1], /toolId: "installation_kit"/);
+  assert.match(eventBlock[1], /resultType: kit\.plan\.overall_status/);
+  assert.match(eventBlock[1], /resultCount: kit\.plan\.section_order/);
+  assert.match(eventBlock[1], /modelId: selectedModel\.id/);
+  assert.match(eventBlock[1], /mountId: selectedMount\.id/);
+  assert.doesNotMatch(eventBlock[1], /mechanism|wall|query|height|distance|cable/i);
 });
 
 test("брендовый подбор фиксирует только тип и размер результата", async () => {
