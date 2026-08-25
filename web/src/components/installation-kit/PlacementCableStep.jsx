@@ -66,7 +66,7 @@ export function PlacementCableStep({ onSubmit }) {
           <NumberField label="Расстояние до экрана" max="1000" min="30" name="viewingDistance" onChange={field} required value={form.viewingDistance} />
           <NumberField label="Высота тумбы" max="200" min="0" name="furnitureHeight" onChange={field} required value={form.furnitureHeight} />
           <NumberField label="Зазор над тумбой" max="100" min="0" name="furnitureClearance" onChange={field} value={form.furnitureClearance} />
-          <NumberField label="Желаемый поворот, °" max="90" min="0" name="desiredTurn" onChange={field} unit="°" value={form.desiredTurn} />
+          <NumberField label="Желаемый поворот" max="90" min="0" name="desiredTurn" onChange={field} unit="°" value={form.desiredTurn} />
           <NumberField label="Запас до стены" max="50" min="0" name="safetyClearance" onChange={field} value={form.safetyClearance} />
         </div>
       </fieldset>

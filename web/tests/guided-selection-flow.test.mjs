@@ -122,6 +122,7 @@ test("свежий подбор начинается с марки и не по�
     assert.equal(html.includes("<option value=\"\" selected=\"\">Выберите марку</option>"), true);
     assert.equal(html.includes("Результат для модели"), false);
     assert.equal(html.includes("id=\"guided-tv-model\""), false);
+    assert.equal(html.includes("autofocus"), false);
   } finally {
     globalThis.window = previousWindow;
     await vite.close();
@@ -147,6 +148,52 @@ test("точная deep link выбирает марку и оставляет �
     assert.equal(html.includes("Шаг 3 из 6"), false);
   } finally {
     globalThis.window = previousWindow;
+    await vite.close();
+  }
+});
+
+test("переход между шагами возвращает мобильный экран и фокус к новому заголовку", async () => {
+  const { module, vite } = await loadGuidedSelection();
+  try {
+    const calls = [];
+    const container = {
+      scrollIntoView(options) {
+        calls.push(["scroll-container", options]);
+      },
+    };
+    const heading = {
+      closest(selector) {
+        assert.equal(selector, '[data-guided-step-content="true"]');
+        return container;
+      },
+      focus(options) {
+        calls.push(["focus", options]);
+      },
+      scrollIntoView(options) {
+        calls.push(["scroll-heading", options]);
+      },
+    };
+
+    assert.equal(module.revealGuidedStep(heading), true);
+    assert.deepEqual(calls, [
+      ["scroll-container", { block: "start" }],
+      ["focus", { preventScroll: true }],
+    ]);
+    assert.equal(module.revealGuidedStep(null), false);
+  } finally {
+    await vite.close();
+  }
+});
+
+test("готовый новый расчёт переводит пользователя к результату ровно один раз", async () => {
+  const { module, vite } = await loadGuidedSelection();
+  try {
+    assert.equal(module.shouldRevealInstallationKitResult("loading", 1, -1), false);
+    assert.equal(module.shouldRevealInstallationKitResult("ready", 0, -1), false);
+    assert.equal(module.shouldRevealInstallationKitResult("ready", 1, -1), true);
+    assert.equal(module.shouldRevealInstallationKitResult("ready", 1, 1), false);
+    assert.equal(module.shouldRevealInstallationKitResult("ready", 2, 1), true);
+  } finally {
     await vite.close();
   }
 });

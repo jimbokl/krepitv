@@ -64,12 +64,28 @@ export function verifiedCompatibilityMatches(matches) {
   );
 }
 
+export function revealGuidedStep(heading) {
+  if (!heading) return false;
+  const stepContent = heading.closest?.('[data-guided-step-content="true"]') ?? heading;
+  stepContent.scrollIntoView?.({ block: "start" });
+  heading.focus?.({ preventScroll: true });
+  return true;
+}
+
+export function shouldRevealInstallationKitResult(status, revision, revealedRevision) {
+  return status === "ready" && revision > 0 && revision !== revealedRevision;
+}
+
 export function GuidedSelectionPage({ catalog }) {
   const queryModelId = installationKitModelIdFromSearch(window.location.search);
   const initialModel = catalog.models.find((model) => model.id === queryModelId) ?? null;
   const [state, dispatch] = useReducer(installationKitReducer, { model: initialModel }, createInstallationKitState);
   const [compatibilityAttempt, setCompatibilityAttempt] = useState(0);
   const emittedRevisionRef = useRef(-1);
+  const revealedRevisionRef = useRef(-1);
+  const resultRef = useRef(null);
+  const stepHeadingRef = useRef(null);
+  const previousStepRef = useRef(state.step);
   const brandOptions = useMemo(() => getGuidedBrandOptions(catalog.models), [catalog.models]);
   const modelOptions = useMemo(() => getGuidedModelOptions(catalog.models, state.brand), [catalog.models, state.brand]);
   const selectedModel = useMemo(() => findGuidedModel(catalog.models, state.brand, state.modelId), [catalog.models, state.brand, state.modelId]);
@@ -101,6 +117,18 @@ export function GuidedSelectionPage({ catalog }) {
     });
   }, [kit, selectedModel, selectedMount, state.revision]);
 
+  useEffect(() => {
+    if (previousStepRef.current === state.step) return;
+    previousStepRef.current = state.step;
+    revealGuidedStep(stepHeadingRef.current);
+  }, [state.step]);
+
+  useEffect(() => {
+    if (!shouldRevealInstallationKitResult(kit.status, state.revision, revealedRevisionRef.current)) return;
+    revealedRevisionRef.current = state.revision;
+    revealGuidedStep(resultRef.current);
+  }, [kit.status, state.revision]);
+
   const [heading, description] = STEP_COPY[state.step];
   function advance(event) {
     event?.preventDefault();
@@ -120,10 +148,10 @@ export function GuidedSelectionPage({ catalog }) {
           </aside>
 
           <div className="min-w-0">
-            <section className="border-b border-line px-5 py-8 sm:px-10 lg:px-12">
+            <section className="border-b border-line px-5 py-8 sm:px-10 lg:px-12" data-guided-step-content="true">
               <Breadcrumbs items={[{ href: "/", label: "Главная" }, { label: "Монтажный комплект" }]} />
               <p className="font-mono text-xs uppercase tracking-wide text-muted">Шаг {state.step} из 6</p>
-              <h1 className="mt-2 break-words font-display text-4xl font-extrabold leading-none sm:text-5xl lg:text-6xl">{heading}{state.step === 2 && state.brand ? ` ${state.brand}` : ""}</h1>
+              <h1 className="mt-2 break-words font-display text-4xl font-extrabold leading-none outline-none sm:text-5xl lg:text-6xl" ref={stepHeadingRef} tabIndex={-1}>{heading}{state.step === 2 && state.brand ? ` ${state.brand}` : ""}</h1>
               <p className="mt-4 max-w-[900px] text-lg leading-relaxed text-muted">{description}</p>
               <div className="relative z-20 mt-7">
                 {state.step === 1 ? <BrandStep brand={state.brand} brandOptions={brandOptions} catalogSize={catalog.models.length} onChange={(value) => dispatch({ type: "set-brand", value })} onSubmit={advance} /> : null}
@@ -142,7 +170,7 @@ export function GuidedSelectionPage({ catalog }) {
               </div>
             </section>
             {selectedModel ? <ModelSummary model={selectedModel} /> : null}
-            {state.step === 6 ? <section className="px-5 pb-12 sm:px-10 lg:px-12">{kit.status === "loading" ? <p className="mt-7 text-muted">Собираем семь секций локально в браузере…</p> : null}{kit.status === "error" ? <p className="mt-7 border border-danger p-4 text-danger" role="alert">{kit.error}</p> : null}{kit.status === "ready" ? <InstallationKitResult model={selectedModel} mount={selectedMount} offer={affiliateOffer} plan={kit.plan} /> : null}</section> : null}
+            {state.step === 6 ? <section className="px-5 pb-12 outline-none sm:px-10 lg:px-12" ref={resultRef} tabIndex={-1}>{kit.status === "loading" ? <p className="mt-7 text-muted">Собираем семь секций локально в браузере…</p> : null}{kit.status === "error" ? <p className="mt-7 border border-danger p-4 text-danger" role="alert">{kit.error}</p> : null}{kit.status === "ready" ? <InstallationKitResult model={selectedModel} mount={selectedMount} offer={affiliateOffer} plan={kit.plan} /> : null}</section> : null}
           </div>
         </div>
       </main>
@@ -159,7 +187,7 @@ function ModelStep({ brand, modelId, modelOptions, onChange, onSubmit }) {
 }
 
 function Select({ children, id, onChange, value }) {
-  return <div className="relative min-w-0"><select autoFocus className="h-[4.4rem] w-full appearance-none rounded-md border-2 border-ink bg-white px-3 pr-10 text-base outline-none focus:border-action focus:ring-2 focus:ring-action sm:px-5 sm:text-xl" id={id} onChange={(event) => onChange(event.target.value)} value={value}>{children}</select><CaretDown aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2" /></div>;
+  return <div className="relative min-w-0"><select className="h-[4.4rem] w-full appearance-none rounded-md border-2 border-ink bg-white px-3 pr-10 text-base outline-none focus:border-action focus:ring-2 focus:ring-action sm:px-5 sm:text-xl" id={id} onChange={(event) => onChange(event.target.value)} value={value}>{children}</select><CaretDown aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2" /></div>;
 }
 
 function ChoiceGrid({ label, options, value, onChange }) {

@@ -174,3 +174,73 @@ test("монтажный комплект показывает семь секц
     await vite.close();
   }
 });
+
+test("проверенный комплект показывает ровно одну прямую ссылку точного кронштейна", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({ root, logLevel: "silent", server: { middlewareMode: true }, appType: "custom" });
+  try {
+    const { InstallationKitResult } = await vite.ssrLoadModule(
+      "/src/components/installation-kit/InstallationKitResult.jsx",
+    );
+    const checkedAt = new Date().toISOString();
+    const marketPath = "/card/kromax-atlantis-65/123";
+    const offer = {
+      publishable: true,
+      eligibility: "publishable",
+      checked_at: checkedAt,
+      affiliate_href: `https://market.yandex.ru${marketPath}?clid=15238076&vid=kitverified1&distr_type=7&utm_source=partner_network&utm_campaign=15238076`,
+      market_source_url: `https://market.yandex.ru${marketPath}`,
+      product_photo: "https://avatars.mds.yandex.net/get-mpic/1/orig",
+      entity_kind: "mount",
+      entity_id: "kromax-atlantis-65",
+      page_path: "/kronshteyny/kromax-atlantis-65/",
+      page_name: "POKUPKI_PRODUCT",
+      title: "KROMAX ATLANTIS-65",
+      clid: "15238076",
+      vid: "kitverified1",
+      compliance_mode: "non_ad_storefront",
+      creative: null,
+    };
+    const verified = { status: "verified", warnings: [] };
+    const plan = {
+      overall_status: "verified",
+      market_eligible: true,
+      compatibility: { ...verified, fit_status: "verified-fit", reasons: [] },
+      screws: { ...verified, groups: [] },
+      wall_fixing: { ...verified, exact_fastener: null },
+      placement: { ...verified, height: null, mounting_map: null, drill_map: null },
+      cables: { ...verified, routing: "open", connections: [], port_sides: [] },
+      tools: { ...verified, items: [] },
+      checklist: { ...verified, items: [] },
+    };
+    const html = renderToStaticMarkup(React.createElement(InstallationKitResult, {
+      model: { id: "tcl-65c7k", title: "TCL 65C7K" },
+      mount: { id: "kromax-atlantis-65", title: "KROMAX ATLANTIS-65" },
+      offer,
+      plan,
+    }));
+    assert.equal((html.match(/href="https:\/\/market\.yandex\.ru/g) ?? []).length, 1);
+    assert.equal(html.includes("clid=15238076"), true);
+    assert.equal(html.includes("Открыть на Яндекс Маркете"), true);
+    assert.equal(html.includes("data-affiliate-mode=\"non_ad_storefront\""), true);
+  } finally {
+    await vite.close();
+  }
+});
+
+test("монтажные поля называют единицы измерения ровно один раз", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({ root, logLevel: "silent", server: { middlewareMode: true }, appType: "custom" });
+  try {
+    const { PlacementCableStep } = await vite.ssrLoadModule(
+      "/src/components/installation-kit/PlacementCableStep.jsx",
+    );
+    const html = renderToStaticMarkup(React.createElement(PlacementCableStep, {
+      onSubmit: () => {},
+    }));
+    assert.equal(html.includes("Желаемый поворот, °, °"), false);
+    assert.equal(html.includes("Желаемый поворот, °"), true);
+  } finally {
+    await vite.close();
+  }
+});

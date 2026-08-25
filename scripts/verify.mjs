@@ -1169,6 +1169,7 @@ const affiliateConsumers = new Set([
   path.join(root, "web/src/pages/ModelPage.jsx"),
   path.join(root, "web/src/pages/MountPage.jsx"),
   path.join(root, "web/src/pages/SeoPage.jsx"),
+  path.join(root, "web/src/components/installation-kit/InstallationKitResult.jsx"),
 ]);
 for (const file of sourceFiles) {
   if (file === affiliateComponent || affiliateConsumers.has(file)) continue;
