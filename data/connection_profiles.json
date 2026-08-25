@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "hdmi-direct",
+      "connection_kind": "hdmi",
+      "title": "Прямое HDMI-подключение",
+      "allowed_routing": ["open", "hidden"],
+      "requirements": [
+        "Подтвердить назначение и возможности точных портов на обоих устройствах.",
+        "Подобрать сертифицированную категорию кабеля под фактический режим сигнала, а не по рекламному номеру версии."
+      ],
+      "warnings": [
+        "Поддержка HDMI-разъёма сама по себе не подтверждает 4K/120, HDR, ARC или eARC.",
+        "Скрытая трасса должна сохранять заменяемость кабеля и не объединяться с силовым кабелем без проектного решения."
+      ],
+      "evidence": {
+        "source_url": "https://www.hdmi.org/spec/premiumcable",
+        "source_title": "Premium HDMI Cable Certification Program",
+        "source_publisher": "HDMI Licensing Administrator",
+        "source_region": "Международный",
+        "checked_at": "2026-08-25"
+      }
+    }
+  ]
+}

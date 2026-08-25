@@ -33,6 +33,10 @@ const operationalModel = (row) => ({
   ...(row.limitations ? { limitations: row.limitations } : {}),
   ...(row.sources ? { sources: row.sources } : {}),
 });
+const operationalMount = (row) => ({
+  ...Object.fromEntries(mountOperationalFields.map((field) => [field, row[field]])),
+  ...(row.technical_details ? { technical_details: row.technical_details } : {}),
+});
 
 test("verified source register is the exact operational catalog source", () => {
   assert.equal(register.length, 161);
@@ -100,7 +104,7 @@ test("verified mount register excludes unresolved identities and drives the cata
   assert.equal(new Set(mountRegister.map((row) => row.source_url)).size, mountRegister.length);
   assert.deepEqual(
     mounts,
-    mountRegister.map((row) => Object.fromEntries(mountOperationalFields.map((field) => [field, row[field]]))),
+    mountRegister.map(operationalMount),
   );
   assert.ok(mountRegister.every((row) => row.source_fact?.trim()));
   assert.ok(!mountRegister.some((row) => ["ONKRON M4", "ONKRON NP40", "Holder LCDS-5003"].includes(row.title)));

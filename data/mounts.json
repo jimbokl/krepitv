@@ -283,7 +283,20 @@
     "wall_distance_max_mm": 500,
     "source_url": "https://kromax.ru/produce/plasma/6168/",
     "source_label": "Официальные характеристики KROMAX ATLANTIS-65",
-    "checked_at": "2026-07-30"
+    "checked_at": "2026-07-30",
+    "technical_details": {
+      "maximum_extension_mm": 500,
+      "maximum_down_tilt_degrees": 12,
+      "maximum_up_tilt_degrees": 2,
+      "total_turn_degrees": 160,
+      "evidence": {
+        "source_url": "https://kromax.ru/produce/plasma/6168/",
+        "source_title": "Официальные характеристики KROMAX ATLANTIS-65",
+        "source_publisher": "KROMAX",
+        "source_region": "Россия",
+        "checked_at": "2026-08-25"
+      }
+    }
   },
   {
     "id": "kromax-ideal-4w-new",

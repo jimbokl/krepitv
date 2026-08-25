@@ -27,8 +27,9 @@ for (const row of register) {
   sources.add(row.source_url);
 }
 
-const catalog = register.map((row) =>
-  Object.fromEntries(operationalFields.map((field) => [field, row[field]])),
-);
+const catalog = register.map((row) => ({
+  ...Object.fromEntries(operationalFields.map((field) => [field, row[field]])),
+  ...(row.technical_details ? { technical_details: row.technical_details } : {}),
+}));
 await writeFile(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`);
 process.stdout.write(`Synced ${catalog.length} verified mounts.\n`);
