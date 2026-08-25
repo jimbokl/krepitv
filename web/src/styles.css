@@ -60,12 +60,6 @@ select {
   }
 }
 
-@media (min-width: 1024px) {
-  details.kit-outcome-preview:not([open]) > [data-kit-outcome-body] {
-    display: block;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

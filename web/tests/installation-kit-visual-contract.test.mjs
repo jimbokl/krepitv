@@ -47,6 +47,8 @@ test("первый шаг объясняет полный комплект в и
     assert.match(html, /data-kit-shell="true"/);
     assert.match(html, /data-kit-ruler="true"/);
     assert.match(html, /data-kit-outcome-preview="true"/);
+    assert.match(html, /data-kit-outcome-mobile="true"/);
+    assert.match(html, /data-kit-outcome-desktop="true"/);
     for (const label of [
       "Совместимость",
       "Винты",
