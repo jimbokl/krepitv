@@ -1,6 +1,9 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
+mod installation_kit;
+pub use installation_kit::*;
+
 const LOAD_SAFETY_FACTOR: f64 = 1.25;
 const MIN_TV_DIAGONAL_INCHES: f64 = 19.0;
 const MAX_TV_DIAGONAL_INCHES: f64 = 150.0;
