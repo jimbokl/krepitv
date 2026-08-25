@@ -45,6 +45,13 @@ export function loadCatalog() {
       fetch("/data/seo-pages.json").then(assertResponse),
       fetch("/data/compatibility-graph.json").then(assertResponse),
       fetch("/data/commercial-profiles.json").then(assertResponse),
+      loadOptionalJson("/data/wall-fixing-systems.json", {
+        schema_version: 1,
+        systems: [],
+        exact_recommendations: [],
+      }),
+      loadOptionalJson("/data/model-ports.json", { schema_version: 1, models: [] }),
+      loadOptionalJson("/data/connection-profiles.json", { schema_version: 1, profiles: [] }),
       loadFreshAffiliateOffers(),
       loadFreshHubAffiliateOffers(),
       activeModelId
@@ -58,6 +65,9 @@ export function loadCatalog() {
       seoPages,
       compatibilityEdges,
       commercialProfiles,
+      wallFixingSystems,
+      modelPorts,
+      connectionProfiles,
       affiliateOffers,
       hubAffiliateOffers,
       modelAffiliateOffers,
@@ -69,12 +79,24 @@ export function loadCatalog() {
       seoPages: await seoPages.json(),
       compatibilityEdges: await compatibilityEdges.json(),
       commercialProfiles: parseCommercialProfiles(await commercialProfiles.json()),
+      wallFixingSystems,
+      modelPorts,
+      connectionProfiles,
       affiliateOffers,
       hubAffiliateOffers,
       modelAffiliateOffers,
     }));
   }
   return catalogPromise;
+}
+
+async function loadOptionalJson(path, fallback) {
+  try {
+    const response = await fetch(path);
+    return response.ok ? response.json() : fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 export function parseMarketModels(manifest) {

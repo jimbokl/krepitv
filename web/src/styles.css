@@ -62,11 +62,26 @@ select {
   }
 
   [data-print-map],
-  [data-print-map] * {
+  [data-print-map] *,
+  [data-print-installation-kit],
+  [data-print-installation-kit] * {
     visibility: visible !important;
   }
 
   [data-print-map] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: #151412;
+    background: #ffffff;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  [data-print-installation-kit] {
     position: absolute;
     inset: 0;
     width: 100%;

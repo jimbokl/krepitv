@@ -121,3 +121,56 @@ test("результат подбора сначала показывает тр
     await vite.close();
   }
 });
+
+test("монтажный комплект показывает семь секций и не продаёт заблокированный результат", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({
+    root,
+    logLevel: "silent",
+    server: { middlewareMode: true },
+    appType: "custom",
+  });
+  try {
+    const { InstallationKitResult } = await vite.ssrLoadModule(
+      "/src/components/installation-kit/InstallationKitResult.jsx",
+    );
+    const plan = {
+      overall_status: "blocked",
+      market_eligible: false,
+      compatibility: { status: "blocked", reasons: [], warnings: ["Несовместимо"] },
+      screws: { status: "needs-check", groups: [], warnings: ["Сверьте паспорт"] },
+      wall_fixing: { status: "blocked", exact_fastener: null, warnings: ["Нет закладной"] },
+      placement: {
+        status: "verified",
+        height: { bottom_height_cm: 80, center_height_cm: 121.6, top_height_cm: 163.2 },
+        mounting_map: {
+          bottom_height_cm: 80,
+          center_height_cm: 121.6,
+          vesa_center_height_cm: 119.6,
+          wall_plate_reference_height_cm: 123.1,
+        },
+        drill_map: null,
+        warnings: ["Точки сверления не подтверждены"],
+      },
+      cables: { status: "needs-check", routing: "open", connections: ["hdmi"], warnings: [] },
+      tools: { status: "needs-check", items: ["Уровень"], warnings: [] },
+      checklist: { status: "blocked", items: ["Проверить основание"] },
+    };
+    const html = renderToStaticMarkup(React.createElement(InstallationKitResult, {
+      model: { id: "tcl-65c7k", title: "TCL 65C7K" },
+      mount: { id: "kromax-atlantis-65", title: "KROMAX ATLANTIS-65" },
+      plan,
+      offer: { affiliate_href: "https://market.yandex.ru/product/1" },
+    }));
+
+    assert.equal((html.match(/data-kit-section=/g) ?? []).length, 7);
+    assert.equal(html.includes("Персональная карта высот"), true);
+    assert.equal(html.includes("Контрольная линия настенной пластины"), true);
+    assert.equal(html.includes("Точки сверления не подтверждены"), true);
+    assert.equal(html.includes("data-print-installation-kit=\"true\""), true);
+    assert.equal(html.includes("Открыть на Яндекс Маркете"), false);
+    assert.equal(html.includes("href=\"https://market.yandex.ru"), false);
+  } finally {
+    await vite.close();
+  }
+});

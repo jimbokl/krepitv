@@ -1,0 +1,2 @@
+import { KitSection } from "./KitSection.jsx";
+export function PrintableChecklist({ section }) { return <KitSection id="checklist" section={section} title="Порядок монтажа"><ol className="mt-4 space-y-3 [counter-reset:step]">{(section.items ?? []).map((item) => <li className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 [counter-increment:step] before:font-mono before:text-action before:content-[counter(step,decimal-leading-zero)]" key={item}>{item}</li>)}</ol></KitSection>; }

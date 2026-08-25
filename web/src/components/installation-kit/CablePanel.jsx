@@ -1,0 +1,5 @@
+import { KitSection, formatMeasurement } from "./KitSection.jsx";
+
+const LABELS = { power: "питание", hdmi: "HDMI", ethernet: "сеть", antenna: "антенна", optical: "оптика", usb: "USB" };
+export function CablePanel({ section }) { return <KitSection id="cables" section={section} title="Кабели и доступ к разъёмам"><dl className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3"><Fact label="Прокладка" value={section.routing === "open" ? "Открытая" : section.routing === "hidden" ? "Скрытая" : "Не определена"} /><Fact label="Подключения" value={(section.connections ?? []).map((item) => LABELS[item] ?? item).join(", ") || "Не выбраны"} /><Fact label="Сервисный запас" value={formatMeasurement(section.spare_length_cm)} /></dl>{section.port_sides?.length ? <p className="mt-4 text-sm">Подтверждённые стороны разъёмов: {section.port_sides.join(", ")}.</p> : null}</KitSection>; }
+function Fact({ label, value }) { return <div className="bg-white p-4"><dt className="font-mono text-xs uppercase text-muted">{label}</dt><dd className="mt-1 font-display text-lg font-bold">{value}</dd></div>; }

@@ -1,0 +1,5 @@
+import { EvidenceLink, KitSection, formatMeasurement } from "./KitSection.jsx";
+
+export function ScrewPanel({ section }) {
+  return <KitSection id="screws" section={section} title="Винты ТВ–кронштейн">{section.groups?.length ? <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[32rem] border-collapse text-left text-sm"><thead><tr className="border-y border-ink"><th className="py-3 pr-4">Расположение</th><th className="py-3 pr-4">Резьба</th><th className="py-3 pr-4">Полная длина</th><th className="py-3">Количество</th></tr></thead><tbody>{section.groups.map((group) => <tr className="border-b border-line" key={`${group.location}-${group.length_mm}`}><td className="py-3 pr-4">{group.location}</td><td className="py-3 pr-4">{group.thread}</td><td className="py-3 pr-4">{formatMeasurement(group.length_mm, "мм")}</td><td className="py-3">{group.quantity}</td></tr>)}</tbody></table></div> : <p className="mt-4 text-muted">Точная длина не выводится без паспорта конкретной модели.</p>}<EvidenceLink evidence={section.evidence} /></KitSection>;
+}
