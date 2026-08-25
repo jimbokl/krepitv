@@ -481,7 +481,7 @@ fn build_placement_section(input: &InstallationKitInput) -> Result<PlacementSect
         .is_none_or(|plan| plan.mount_covers_required_tilt);
     let status = if !turn_ok || !tilt_ok {
         KitSectionStatus::Blocked
-    } else if mounting_map.is_some() && drill_map.is_some() {
+    } else if mounting_map.is_some() {
         KitSectionStatus::Verified
     } else {
         KitSectionStatus::NeedsCheck
@@ -856,6 +856,21 @@ mod tests {
 
         assert_eq!(plan.wall_fixing.status, KitSectionStatus::Blocked);
         assert!(plan.wall_fixing.exact_fastener.is_none());
+    }
+
+    #[test]
+    fn sourced_height_map_is_verified_without_wall_drill_coordinates() {
+        let plan = build_installation_kit(&base_input()).expect("valid height map");
+
+        assert!(plan.placement.mounting_map.is_some());
+        assert!(plan.placement.drill_map.is_none());
+        assert_eq!(plan.placement.status, KitSectionStatus::Verified);
+        assert!(
+            plan.placement
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("без точек сверления"))
+        );
     }
 
     #[test]
