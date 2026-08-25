@@ -2,6 +2,7 @@ import { getFreshAffiliateOffers } from "./affiliateOffer.mjs";
 import { parseCommercialProfiles } from "./commercialProfiles.mjs";
 import { getFreshHubAffiliateOffers } from "./hubAffiliateOffers.mjs";
 import { getFreshModelAffiliateOffers } from "./modelAffiliateOffers.mjs";
+import { buildInstallationKitWithEngine } from "./installationKit.js";
 
 let catalogPromise;
 let enginePromise;
@@ -265,6 +266,11 @@ export async function findCompatibleMounts(model, mounts, mechanism = "any") {
   );
   if (response.error) throw new Error(response.error);
   return response.matches;
+}
+
+export async function buildInstallationKit(values) {
+  const engine = await loadEngine();
+  return buildInstallationKitWithEngine(engine, values);
 }
 
 export async function calculateHeight(model, values) {
