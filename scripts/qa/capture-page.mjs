@@ -24,6 +24,7 @@ const tvNoSignalState = argument("--tv-no-signal-state", null);
 const tvTrafficState = argument("--tv-traffic-state", null);
 const tvEnergyState = argument("--tv-energy-state", null);
 const guidedSelectionState = argument("--guided-selection-state", null);
+const media = argument("--media", "screen");
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
 const consent = argument("--consent", "denied");
@@ -35,6 +36,7 @@ if (!Number.isInteger(width) || width < 320 || width > 3840) throw new Error("In
 if (!Number.isInteger(height) || height < 480 || height > 5000) throw new Error("Invalid viewport height");
 if (!["denied", "granted", "prompt"].includes(consent)) throw new Error("Invalid consent mode");
 if (![100, 200].includes(textZoom)) throw new Error("Invalid text zoom; use 100 or 200");
+if (!["screen", "print"].includes(media)) throw new Error("Invalid media; use screen or print");
 if (observedModelState && ![
   "default",
   "loading",
@@ -111,6 +113,9 @@ if (guidedSelectionState && ![
   "loading",
   "error",
   "success",
+  "cable-verified",
+  "cable-needs-check",
+  "cable-blocked",
 ].includes(guidedSelectionState)) {
   throw new Error("Invalid guided selection state");
 }
@@ -781,16 +786,16 @@ try {
           () => document.querySelector('[data-guided-selection-page="true"]'),
           "Guided selection page did not hydrate",
         );
-        const brandSelect = await waitFor(
-          () => page.querySelector("#guided-tv-brand"),
-          "Guided brand select not found",
-        );
-        const brandForm = brandSelect.closest("form");
+        const initialStep = page.getAttribute("data-guided-selection-step");
+        const brandSelect = page.querySelector("#guided-tv-brand");
+        const deepLinked = !brandSelect && initialStep === "2";
+        if (!brandSelect && !deepLinked) throw new Error("Guided brand select not found");
+        const brandForm = brandSelect?.closest("form");
         const brandSubmit = brandForm?.querySelector('button[type="submit"]');
-        const brandOptionCount = brandSelect.querySelectorAll('option:not([value=""])').length;
-        let initialBrandSubmitDisabled = Boolean(brandSubmit?.disabled);
+        const brandOptionCount = brandSelect?.querySelectorAll('option:not([value=""])').length ?? 0;
+        let initialBrandSubmitDisabled = deepLinked || Boolean(brandSubmit?.disabled);
 
-        if (state !== "default") {
+        if (state !== "default" && !deepLinked) {
           const selectSetter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
           if (!selectSetter) throw new Error("Native select setter not found");
           selectSetter.call(brandSelect, "TCL");
@@ -812,7 +817,8 @@ try {
         const modelSelect = page.querySelector("#guided-tv-model");
         if (state === "focus") modelSelect?.focus();
 
-        if (["loading", "error", "success"].includes(state)) {
+        const cableStates = ["cable-verified", "cable-needs-check", "cable-blocked"];
+        if (["loading", "error", "success", ...cableStates].includes(state)) {
           const select = await waitFor(
             () => page.querySelector("#guided-tv-model"),
             "Guided model select not found",
@@ -867,12 +873,107 @@ try {
           );
         }
 
+        let expectedCableVerdict = null;
+        if (cableStates.includes(state)) {
+          await waitFor(
+            () => page.querySelector('[data-guided-compatibility-state="success"]'),
+            "Compatible mounts did not render",
+          );
+          const mount = page.querySelector('input[name="mount-id"]');
+          if (!mount) throw new Error("Verified mount choice not found");
+          mount.click();
+          const placementStep = await waitFor(
+            () => Array.from(page.querySelectorAll('button[type="button"]')).find(
+              (button) => button.textContent.includes("Продолжить") && !button.disabled,
+            ),
+            "Mount selection did not enable the placement step",
+          );
+          placementStep.click();
+          await waitFor(
+            () => page.getAttribute("data-guided-selection-step") === "6",
+            "Mount selection did not open the placement step",
+          );
+
+          const form = await waitFor(
+            () => page.querySelector('[data-kit-placement-step="true"]'),
+            "Placement and cable form not found",
+          );
+          const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+          const selectSetter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
+          if (!inputSetter || !selectSetter) throw new Error("Native form setters not found");
+          const changeInput = (labelText, value) => {
+            const label = Array.from(form.querySelectorAll("label")).find(
+              (candidate) => candidate.textContent.includes(labelText),
+            );
+            const input = label?.querySelector('input[type="number"]');
+            if (!input) throw new Error("Missing numeric input: " + labelText);
+            inputSetter.call(input, value);
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+          };
+          changeInput("Высота глаз", "105");
+          changeInput("Расстояние до экрана", "280");
+          changeInput("Высота тумбы", "55");
+
+          const routing = Array.from(form.querySelectorAll("label")).find(
+            (candidate) => candidate.textContent.includes("Прокладка"),
+          )?.querySelector("select");
+          if (!routing) throw new Error("Cable routing select not found");
+          selectSetter.call(routing, "open");
+          routing.dispatchEvent(new Event("change", { bubbles: true }));
+
+          const clearanceDetails = form.querySelector('[data-kit-clearance-details="true"]');
+          if (!clearanceDetails) throw new Error("Cable clearance details not found");
+          clearanceDetails.open = true;
+          const direction = Array.from(clearanceDetails.querySelectorAll("label")).find(
+            (candidate) => candidate.textContent.includes("Куда направлен разъём"),
+          )?.querySelector("select");
+          if (!direction) throw new Error("Port direction select not found");
+          if (direction.disabled) {
+            const override = Array.from(clearanceDetails.querySelectorAll("button")).find(
+              (button) => button.textContent.includes("На моём ТВ иначе"),
+            );
+            override?.click();
+            await waitFor(() => !direction.disabled, "Port direction override stayed disabled");
+          }
+          selectSetter.call(direction, "rearward");
+          direction.dispatchEvent(new Event("change", { bubbles: true }));
+
+          const clearance = await waitFor(
+            () => clearanceDetails.querySelector('input[aria-describedby*="connector-clearance-help"]'),
+            "Connector clearance input not found",
+          );
+          const clearanceValue = state === "cable-verified"
+            ? "1"
+            : state === "cable-blocked"
+              ? "200"
+              : "";
+          inputSetter.call(clearance, clearanceValue);
+          clearance.dispatchEvent(new Event("input", { bubbles: true }));
+          clearance.dispatchEvent(new Event("change", { bubbles: true }));
+
+          const submit = form.querySelector('button[type="submit"]');
+          await waitFor(() => submit && !submit.disabled, "Installation kit submit stayed disabled");
+          submit.click();
+          expectedCableVerdict = state === "cable-verified"
+            ? "verified"
+            : state === "cable-blocked"
+              ? "conflict"
+              : "needs-measurement";
+          await waitFor(
+            () => document.querySelector('[data-cable-clearance-verdict="' + expectedCableVerdict + '"]'),
+            "Cable clearance verdict did not render",
+          );
+        }
+
         const expected = state === "loading"
           ? () => page.querySelector('[data-guided-compatibility-state="loading"]')
           : state === "error"
             ? () => page.querySelector('[data-guided-compatibility-state="error"]')
             : state === "success"
               ? () => page.querySelector('[data-guided-compatibility-state="success"]')
+              : cableStates.includes(state)
+                ? () => document.querySelector('[data-cable-clearance-verdict="' + expectedCableVerdict + '"]')
               : ["empty", "disabled", "focus"].includes(state)
                 ? () => page.getAttribute("data-guided-selection-step") === "2"
                 : () => true;
@@ -881,6 +982,7 @@ try {
         const finalModelSelect = page.querySelector("#guided-tv-model");
         return {
           state,
+          deepLinked,
           step: page.getAttribute("data-guided-selection-step"),
           brandOptionCount,
           initialBrandSubmitDisabled,
@@ -895,6 +997,8 @@ try {
             (button) => button.textContent.includes("Повторить"),
           ),
           marketLinks: page.querySelectorAll('a[href*="market.yandex.ru"]').length,
+          cableVerdict: document.querySelector("[data-cable-clearance-verdict]")?.getAttribute("data-cable-clearance-verdict") ?? null,
+          installationKitReady: Boolean(document.querySelector('[data-installation-kit-build-summary="true"]')),
         };
       })()`,
       awaitPromise: true,
@@ -907,7 +1011,7 @@ try {
       throw new Error(`Guided selection interaction failed: ${detail}`);
     }
     guidedSelectionReport = interaction.result.value;
-    if (guidedSelectionReport.brandOptionCount < 1) {
+    if (!guidedSelectionReport.deepLinked && guidedSelectionReport.brandOptionCount < 1) {
       throw new Error("Guided selection has no brand options");
     }
     if (!guidedSelectionReport.initialBrandSubmitDisabled) {
@@ -932,6 +1036,17 @@ try {
     }
     if (guidedSelectionState === "error" && !guidedSelectionReport.hasRetry) {
       throw new Error("Guided selection error has no retry action");
+    }
+    const expectedCableVerdict = {
+      "cable-verified": "verified",
+      "cable-needs-check": "needs-measurement",
+      "cable-blocked": "conflict",
+    }[guidedSelectionState];
+    if (expectedCableVerdict && (
+      guidedSelectionReport.cableVerdict !== expectedCableVerdict
+      || !guidedSelectionReport.installationKitReady
+    )) {
+      throw new Error(`Guided selection did not reach ${guidedSelectionState}`);
     }
   }
   let modelInteractionReport = null;
@@ -1115,6 +1230,7 @@ try {
       if (focused.result.value !== true) throw new Error("QA keyboard focus is not visibly rendered");
     }
   }
+  await send("Emulation.setEmulatedMedia", { media });
   const effectiveSelector = selector
     || (["success", "needs-check", "no-direct-path", "retry"].includes(phoneTvState)
       ? "[data-phone-tv-result]"
@@ -1142,6 +1258,8 @@ try {
                           ? '[data-tv-energy-calculator] [role="alert"]'
                           : tvEnergyState
                             ? "[data-tv-energy-calculator]"
+                            : ["cable-verified", "cable-needs-check", "cable-blocked"].includes(guidedSelectionState)
+                              ? '[data-installation-kit-build-summary="true"]'
                             : guidedSelectionState === "success"
                               ? '[data-guided-compatibility-state="success"]'
                               : guidedSelectionState === "error"

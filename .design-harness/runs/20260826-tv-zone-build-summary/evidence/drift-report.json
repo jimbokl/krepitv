@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "run": "20260826-tv-zone-build-summary",
+  "generated_at": "2026-08-26T08:21:37.833933+00:00",
+  "scanned_files": [
+    "web/src/components/installation-kit/PlacementCableStep.jsx",
+    "web/src/components/installation-kit/InstallationKitBuildSummary.jsx",
+    "web/src/components/installation-kit/InstallationKitResult.jsx",
+    "web/src/components/installation-kit/CablePanel.jsx",
+    "web/src/components/installation-kit/KitSection.jsx"
+  ],
+  "findings": []
+}

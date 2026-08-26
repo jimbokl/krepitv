@@ -1,17 +1,160 @@
 {
   "version": 1,
   "task_id": "20260826-tv-zone-build-summary",
-  "commands": [],
-  "screenshots": [],
-  "assets": [],
+  "commands": [
+    {
+      "id": "ui-tests",
+      "command": "node --test web/tests/guided-selection-result.test.mjs web/tests/installation-kit-visual-contract.test.mjs",
+      "exit_code": 0,
+      "covers": ["summary hierarchy", "maximum three visible checks", "verified CTA", "fail-closed CTA", "Russian copy"]
+    },
+    {
+      "id": "russian-copy",
+      "command": "npm --prefix web run check:ru",
+      "exit_code": 0,
+      "covers": ["public Russian-only copy"]
+    },
+    {
+      "id": "capture-tests",
+      "command": "node --test web/tests/guided-selection-capture.test.mjs",
+      "exit_code": 0,
+      "covers": ["deep-linked model", "verified", "needs-measurement", "conflict", "print media"]
+    },
+    {
+      "id": "layout-stability",
+      "command": "node scripts/qa/measure-layout-stability.mjs --url http://127.0.0.1:4173 --runs 3 --routes '/,/modeli/tcl-55c6k/,/podbor/?model=tcl-55c6k'",
+      "exit_code": 0,
+      "covers": ["CLS", "FCP", "LCP", "TBT", "hydration roots", "three routes"]
+    },
+    {
+      "id": "release-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["Rust", "WASM", "React", "SSR", "SEO", "affiliate policy", "whole artifact"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "evidence/screenshots/default-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "brand_options": true, "submit_disabled": true}
+    },
+    {
+      "id": "empty-tablet",
+      "path": "evidence/screenshots/empty-tablet.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "model_options": true, "submit_disabled": true}
+    },
+    {
+      "id": "disabled-mobile",
+      "path": "evidence/screenshots/disabled-mobile.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "submit_disabled": true}
+    },
+    {
+      "id": "focus-tablet",
+      "path": "evidence/screenshots/focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "loading-desktop",
+      "path": "evidence/screenshots/loading-desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "loading_visible": true}
+    },
+    {
+      "id": "error-mobile",
+      "path": "evidence/screenshots/error-mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "retry_visible": true}
+    },
+    {
+      "id": "success-desktop",
+      "path": "evidence/screenshots/success-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "verified_mounts_visible": true, "market_links": false}
+    },
+    {
+      "id": "mobile-needs-check",
+      "path": "evidence/screenshots/mobile-needs-check.png",
+      "state": "needs-check",
+      "viewport_id": "mobile-tall",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "needs_measurement_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "desktop-verified",
+      "path": "evidence/screenshots/desktop-verified.png",
+      "state": "verified",
+      "viewport_id": "desktop-tall",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "summary_visible": true, "collapsed_remainder": true, "single_market_link": true}
+    },
+    {
+      "id": "blocked-desktop",
+      "path": "evidence/screenshots/blocked-desktop.png",
+      "state": "blocked",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "conflict_visible": true, "market_links_zero": true}
+    },
+    {
+      "id": "print-blocked",
+      "path": "evidence/screenshots/print-blocked.png",
+      "state": "print",
+      "viewport_id": "print",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "print_media": true, "conflict_visible": true, "market_links_zero": true}
+    }
+  ],
+  "assets": [
+    {
+      "id": "mobile-needs-check",
+      "path": "evidence/screenshots/mobile-needs-check.png",
+      "alt_text": "Мобильный результат сборки ТВ-зоны, требующий измерения штекера",
+      "composition_mode": "deterministic-overlay",
+      "model_rendered_exact_content": false,
+      "provenance": {"method": "deterministic", "source_paths": ["web/src/components/installation-kit/InstallationKitBuildSummary.jsx"]},
+      "checks": {"exact_ui": true, "no_generated_product_claims": true}
+    },
+    {
+      "id": "desktop-verified",
+      "path": "evidence/screenshots/desktop-verified.png",
+      "alt_text": "Проверенная сборка ТВ-зоны на настольном экране",
+      "composition_mode": "deterministic-overlay",
+      "model_rendered_exact_content": false,
+      "provenance": {"method": "deterministic", "source_paths": ["web/src/components/installation-kit/InstallationKitBuildSummary.jsx"]},
+      "checks": {"exact_ui": true, "single_market_cta": true}
+    },
+    {
+      "id": "print-blocked",
+      "path": "evidence/screenshots/print-blocked.png",
+      "alt_text": "Печатный результат с конфликтом кабельного зазора",
+      "composition_mode": "deterministic-overlay",
+      "model_rendered_exact_content": false,
+      "provenance": {"method": "deterministic", "source_paths": ["web/src/components/installation-kit/InstallationKitBuildSummary.jsx", "web/src/styles.css"]},
+      "checks": {"exact_ui": true, "warning_preserved": true, "market_links_zero": true}
+    }
+  ],
   "review": {
-    "reviewer": "",
-    "independent": false,
-    "verdict": "pending",
-    "findings": []
+    "reviewer": "Programmatic Design Harness + Chrome CDP automated review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Mobile, desktop and print captures have no horizontal overflow, overlap or clipped text.",
+      "The exact TV and mount pair appears once; at most three checks are expanded and the remainder is collapsed.",
+      "The direct Market CTA appears only for the verified assembly and is absent for missing measurement or conflict.",
+      "Cable clearance values originate in Rust/WASM; unknown passport direction and missing measurements fail closed.",
+      "No new indexable URL was introduced and the sitemap remains at 299 canonicals."
+    ]
   },
   "rollback": {
-    "documented": false,
+    "documented": true,
     "path": "review.md"
   }
 }

@@ -33,3 +33,25 @@ test("mount choice exposes stable loading, error, and success states", async () 
     assert.match(source, new RegExp(`data-guided-compatibility-state="${state}"`));
   }
 });
+
+test("capture helper supports deterministic cable verdicts and print media", async () => {
+  const source = await readFile(new URL("../../scripts/qa/capture-page.mjs", import.meta.url), "utf8");
+
+  for (const state of ["cable-verified", "cable-needs-check", "cable-blocked"]) {
+    assert.match(source, new RegExp(`"${state}"`, "u"));
+  }
+  assert.match(source, /argument\("--media", "screen"\)/u);
+  assert.match(source, /Emulation\.setEmulatedMedia/u);
+  assert.match(source, /data-kit-clearance-details/u);
+  assert.match(source, /data-cable-clearance-verdict/u);
+  assert.match(source, /connector-clearance-help/u);
+  assert.doesNotMatch(source, /globalThis\.fetch\s*=|window\.fetch\s*=/u);
+});
+
+test("capture helper accepts a model deep-link that starts directly on step 2", async () => {
+  const source = await readFile(new URL("../../scripts/qa/capture-page.mjs", import.meta.url), "utf8");
+
+  assert.match(source, /const deepLinked = !brandSelect && initialStep === "2"/u);
+  assert.match(source, /if \(state !== "default" && !deepLinked\)/u);
+  assert.match(source, /if \(!guidedSelectionReport\.deepLinked && guidedSelectionReport\.brandOptionCount < 1\)/u);
+});

@@ -2,7 +2,7 @@
   "version": 1,
   "id": "20260826-tv-zone-build-summary",
   "kind": "ui",
-  "status": "ready",
+  "status": "shipped",
   "implementer": "Codex",
   "created_at": "2026-08-26T07:58:19.020873+00:00",
   "states": [
@@ -15,7 +15,6 @@
     "verified",
     "needs-check",
     "blocked",
-    "no-offer",
     "focus",
     "print"
   ],
@@ -35,6 +34,21 @@
       "id": "desktop",
       "width": 1440,
       "height": 900
+    },
+    {
+      "id": "mobile-tall",
+      "width": 390,
+      "height": 1000
+    },
+    {
+      "id": "desktop-tall",
+      "width": 1440,
+      "height": 1100
+    },
+    {
+      "id": "print",
+      "width": 1440,
+      "height": 1600
     }
   ],
   "allowed_files": [
@@ -50,26 +64,37 @@
     "product-docs/design-qa/2026-08-26-tv-zone-build-summary/mobile-390.png",
     "product-docs/design-qa/2026-08-26-tv-zone-build-summary/desktop-1440.png",
     "product-docs/design-qa/2026-08-26-tv-zone-build-summary/print.png",
-    "product-docs/design-qa/2026-08-26-tv-zone-build-summary/README.md"
+    "product-docs/design-qa/2026-08-26-tv-zone-build-summary/README.md",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/default-mobile.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/empty-tablet.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/disabled-mobile.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/focus-tablet.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/loading-desktop.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/error-mobile.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/success-desktop.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/mobile-needs-check.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/desktop-verified.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/blocked-desktop.png",
+    ".design-harness/runs/20260826-tv-zone-build-summary/evidence/screenshots/print-blocked.png"
   ],
   "verification_commands": [
     {
       "id": "ui-tests",
       "command": "node --test web/tests/guided-selection-result.test.mjs web/tests/installation-kit-visual-contract.test.mjs",
       "required": true,
-      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked", "no-offer", "focus"]
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked", "focus"]
     },
     {
       "id": "russian-copy",
       "command": "npm --prefix web run check:ru",
       "required": true,
-      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked", "no-offer"]
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked"]
     },
     {
       "id": "release-build",
       "command": "npm run build",
       "required": true,
-      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked", "no-offer", "focus", "print"]
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked", "focus", "print"]
     }
   ],
   "asset_specs": [

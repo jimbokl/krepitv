@@ -416,6 +416,33 @@ for (const relative of required) {
   }
 }
 
+const guidedSelectionHtml = await readFile(path.join(docs, "podbor/index.html"), "utf8");
+const guidedCanonicals = (guidedSelectionHtml.match(/<link\b[^>]*rel=["']canonical["'][^>]*>/giu) ?? [])
+  .map((tag) => matchAttribute(tag, "href"));
+if (
+  guidedCanonicals.length !== 1
+  || guidedCanonicals[0] !== `${origin}/podbor/`
+) {
+  throw new Error("Страница /podbor/ должна иметь один self-canonical");
+}
+if ((guidedSelectionHtml.match(/<h1\b/giu) ?? []).length !== 1) {
+  throw new Error("Страница /podbor/ должна содержать ровно один SSR H1");
+}
+if (!guidedSelectionHtml.includes('data-guided-selection-island="true"')) {
+  throw new Error("Страница /podbor/ потеряла SSR-first guided-selection island");
+}
+const guidedExplanation = "Сервис раздельно проверит совместимость, винты, настенный крепёж, высоты, кабели, инструменты и порядок монтажа.";
+const guidedExplanationIndex = guidedSelectionHtml.indexOf(guidedExplanation);
+if (guidedExplanationIndex === -1) {
+  throw new Error("На /podbor/ нет русскоязычного SSR-объяснения до гидратации");
+}
+if (/саундбар|подсветк|чистящ|приставк|сетев(?:ой|ые)\s+адаптер/iu.test(guidedSelectionHtml)) {
+  throw new Error("На /podbor/ появился неразрешённый accessory CTA");
+}
+if (numericCurrencyPattern.test(guidedSelectionHtml)) {
+  throw new Error("На /podbor/ появилась числовая цена");
+}
+
 if (files.includes(path.join(docs, "pkg/.gitignore"))) {
   throw new Error("Публикуемый WASM-пакет не должен быть скрыт локальным .gitignore");
 }
@@ -1171,6 +1198,7 @@ const affiliateConsumers = new Set([
   path.join(root, "web/src/pages/MountPage.jsx"),
   path.join(root, "web/src/pages/SeoPage.jsx"),
   path.join(root, "web/src/components/installation-kit/InstallationKitResult.jsx"),
+  path.join(root, "web/src/components/installation-kit/InstallationKitBuildSummary.jsx"),
 ]);
 for (const file of sourceFiles) {
   if (file === affiliateComponent || affiliateConsumers.has(file)) continue;
