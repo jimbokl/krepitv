@@ -77,3 +77,15 @@ test("мастер телефон → ТВ отправляет только к�
   assert.match(eventBlock[1], /blocked_plan/);
   assert.doesNotMatch(eventBlock[1], /phone,|tv,|goal,|connector|sameNetwork|androidVideoOutput/i);
 });
+
+test("сводка монтажного комплекта фиксирует только три явных действия без замеров", async () => {
+  const code = await source("components/installation-kit/InstallationKitBuildSummary.jsx");
+  assert.match(code, /import \{ emitInstallationKitInteraction \}/u);
+  for (const action of ["checks_opened", "cable_check_opened", "print_started"]) {
+    assert.match(code, new RegExp(`action: "${action}"`, "u"));
+  }
+  assert.doesNotMatch(
+    code,
+    /emitInstallationKitInteraction\([\s\S]{0,300}(?:modelId|mountId|requiredClearance|availableClearance|margin|query|href)/u,
+  );
+});

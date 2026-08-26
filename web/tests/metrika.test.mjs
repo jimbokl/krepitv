@@ -7,6 +7,8 @@ import {
   MOUNT_DETAIL_CLICK_GOAL,
   RESULT_COMPLETED_EVENT,
   RESULT_COMPLETED_GOAL,
+  INSTALLATION_KIT_INTERACTION_EVENT,
+  INSTALLATION_KIT_INTERACTION_GOAL,
   installMetrika,
 } from "../src/lib/metrika.mjs";
 
@@ -243,4 +245,43 @@ test("прямой вызов цели результата отбрасывае
     result_type: "mounting-height",
     tool_id: "height-calculator",
   });
+});
+
+test("действия со сводкой отправляют только три контролируемых измерения", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  browser.listeners.get(INSTALLATION_KIT_INTERACTION_EVENT)({
+    detail: {
+      action: "checks_opened",
+      section: "summary",
+      status: "needs-check",
+      modelId: "tcl-65c7k",
+      mountId: "kromax-atlantis-65",
+      requiredClearance: 35,
+      availableClearance: 60,
+      margin: 25,
+      query: "user@example.test",
+      href: "https://example.test/?phone=79990000000",
+      freeText: "персональные данные",
+    },
+  });
+
+  assert.deepEqual(calls[1], [123456, "reachGoal", INSTALLATION_KIT_INTERACTION_GOAL, {
+    action: "checks_opened",
+    section: "summary",
+    status: "needs-check",
+  }]);
+  assert.equal(metrika.trackInstallationKitInteraction({
+    action: "unknown",
+    section: "summary",
+    status: "verified",
+  }), false);
+  assert.equal(calls.length, 2);
 });

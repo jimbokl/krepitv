@@ -11,6 +11,10 @@ export const REQUIRED_METRIKA_GOALS = Object.freeze([
     eventId: "mount_detail_click",
     name: "Переход к карточке кронштейна",
   }),
+  Object.freeze({
+    eventId: "installation_kit_interaction",
+    name: "Действие со сводкой монтажного комплекта",
+  }),
 ]);
 
 function isExactActionGoal(goal, eventId) {

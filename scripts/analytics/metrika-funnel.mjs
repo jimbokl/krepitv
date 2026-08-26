@@ -4,6 +4,12 @@ const EVENT_ORDER = Object.freeze([
   "mount_detail_click",
   "market_click",
 ]);
+const INSTALLATION_KIT_INTERACTION_EVENT = "installation_kit_interaction";
+const INSTALLATION_KIT_ACTIONS = Object.freeze([
+  "checks_opened",
+  "cable_check_opened",
+  "print_started",
+]);
 const SOURCE_IDS = new Set([
   "ad",
   "direct",
@@ -112,6 +118,30 @@ export function buildMetrikaFunnelUrl({
   return url;
 }
 
+export function buildMetrikaInteractionUrl({ counterId, date1, date2, goalIds }) {
+  if (!/^\d+$/.test(String(counterId ?? ""))) throw new Error("counterId must be numeric");
+  if (!isIsoDate(date1) || !isIsoDate(date2) || date1 > date2) {
+    throw new Error("date range must contain real ascending ISO dates");
+  }
+  const goalId = goalIds?.[INSTALLATION_KIT_INTERACTION_EVENT];
+  if (!/^\d+$/.test(String(goalId ?? ""))) {
+    throw new Error(`missing numeric goal id for ${INSTALLATION_KIT_INTERACTION_EVENT}`);
+  }
+  const metric = `ym:s:goal${goalId}reaches`;
+  const url = new URL(DATA_ENDPOINT);
+  url.searchParams.set("ids", String(counterId));
+  url.searchParams.set("date1", date1);
+  url.searchParams.set("date2", date2);
+  url.searchParams.set("accuracy", "full");
+  url.searchParams.set("limit", "1000");
+  url.searchParams.set("dimensions", [1, 2, 3, 4, 5]
+    .map((level) => `ym:s:goal${goalId}paramsLevel${level}`)
+    .join(","));
+  url.searchParams.set("metrics", metric);
+  url.searchParams.set("sort", `-${metric}`);
+  return url;
+}
+
 function isoDates(date1, date2) {
   const dates = [];
   const cursor = new Date(`${date1}T00:00:00Z`);
@@ -208,6 +238,39 @@ function totalsObject(value) {
   };
 }
 
+function interactionTotals(payload) {
+  if (
+    !Array.isArray(payload?.totals)
+    || payload.totals.length !== 1
+    || !Number.isFinite(payload.totals[0])
+    || payload.totals[0] < 0
+  ) {
+    throw new Error("Metrika interaction response has invalid totals");
+  }
+  const actions = Object.fromEntries(INSTALLATION_KIT_ACTIONS.map((action) => [action, 0]));
+  for (const row of Array.isArray(payload.data) ? payload.data : []) {
+    if (
+      !Array.isArray(row?.metrics)
+      || row.metrics.length !== 1
+      || !Number.isFinite(row.metrics[0])
+      || row.metrics[0] < 0
+    ) {
+      throw new Error("Metrika interaction response has invalid rows");
+    }
+    const dimensionTokens = (Array.isArray(row.dimensions) ? row.dimensions : [])
+      .flatMap((dimension) => [dimension?.id, dimension?.name])
+      .filter((value) => typeof value === "string");
+    const action = INSTALLATION_KIT_ACTIONS.find((candidate) => dimensionTokens.includes(candidate));
+    if (action) actions[action] += row.metrics[0];
+  }
+  return {
+    coverage: "Только контролируемые действия со сводкой монтажного комплекта",
+    total_reaches: payload.totals[0],
+    actions,
+    revenue_interpretation: "not_revenue",
+  };
+}
+
 function safeSourceId(row) {
   const dimension = Array.isArray(row?.dimensions) ? row.dimensions[0] : null;
   const candidate = String(dimension?.id ?? dimension?.name ?? "").toLowerCase();
@@ -277,11 +340,28 @@ export async function fetchMetrikaFunnel({
     return payload;
   }
 
-  const [allSources, organic, eligibleRegionsOrganic, dailyQualifiedTraffic] = await Promise.all([
+  async function loadInteractions() {
+    const url = buildMetrikaInteractionUrl({ counterId, date1, date2, goalIds });
+    const response = await fetchImpl(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `OAuth ${token}`,
+      },
+      method: "GET",
+    });
+    const payload = await readPayload(response);
+    if (!response.ok) {
+      throw new Error(`Metrika interaction GET failed: HTTP ${response.status}, ${safeApiError(payload)}`);
+    }
+    return payload;
+  }
+
+  const [allSources, organic, eligibleRegionsOrganic, dailyQualifiedTraffic, interactions] = await Promise.all([
     load(),
     load({ organicOnly: true }),
     load({ affiliateEligibleRegionsOnly: true }),
     load({ dailyQualifiedTrafficOnly: true }),
+    loadInteractions(),
   ]);
   const observedAt = now instanceof Date ? now.toISOString() : new Date(now).toISOString();
   const dailyTraffic = dailyTrafficBreakdown(dailyQualifiedTraffic.data, date1, date2);
@@ -298,6 +378,7 @@ export async function fetchMetrikaFunnel({
     eligible_regions_organic_excluding_tests: totalsObject(
       eligibleRegionsOrganic.totals,
     ),
+    installation_kit_interactions: interactionTotals(interactions),
     affiliate_eligible_region_areas_ru: [...AFFILIATE_ELIGIBLE_REGION_AREAS_RU],
     quality: {
       all_consenting: {
@@ -319,6 +400,11 @@ export async function fetchMetrikaFunnel({
         sampled: Boolean(eligibleRegionsOrganic.sampled),
         sample_share: Number(eligibleRegionsOrganic.sample_share ?? 1),
         data_lag: Number(eligibleRegionsOrganic.data_lag ?? 0),
+      },
+      installation_kit_interactions: {
+        sampled: Boolean(interactions.sampled),
+        sample_share: Number(interactions.sample_share ?? 1),
+        data_lag: Number(interactions.data_lag ?? 0),
       },
     },
   };

@@ -6,6 +6,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { AffiliateLink } from "../AffiliateOffer.jsx";
+import { emitInstallationKitInteraction } from "../../lib/installationKitInteraction.mjs";
 import { formatMeasurement } from "./KitSection.jsx";
 
 const STATUS = {
@@ -90,6 +91,9 @@ export function InstallationKitBuildSummary({ model, mount, offer, plan }) {
     .filter((item) => item.section?.status !== "verified");
   const visibleChecks = checks.slice(0, 3);
   const hiddenChecks = checks.slice(3);
+  const interactionStatus = STATUS[plan.overall_status]
+    ? plan.overall_status
+    : "needs-check";
 
   return (
     <section
@@ -133,11 +137,26 @@ export function InstallationKitBuildSummary({ model, mount, offer, plan }) {
               </AffiliateLink>
             ) : null}
             {!marketEligible && plan.cables?.status !== "verified" ? (
-              <a className="primary-button w-full justify-center sm:w-auto" href="#kit-cables">
+              <a
+                className="primary-button w-full justify-center sm:w-auto"
+                href="#kit-cables"
+                onClick={() => emitInstallationKitInteraction(window, {
+                  action: "cable_check_opened",
+                  section: "cables",
+                  status: interactionStatus,
+                })}
+              >
                 Перейти к кабельной проверке
               </a>
             ) : null}
-            <button className="secondary-button w-full sm:w-auto" onClick={() => window.print()} type="button">
+            <button className="secondary-button w-full sm:w-auto" onClick={() => {
+              emitInstallationKitInteraction(window, {
+                action: "print_started",
+                section: "print",
+                status: interactionStatus,
+              });
+              window.print();
+            }} type="button">
               <Printer aria-hidden="true" />Распечатать
             </button>
           </div>
@@ -152,7 +171,17 @@ export function InstallationKitBuildSummary({ model, mount, offer, plan }) {
               </ol>
               {hiddenChecks.length ? (
                 <details className="border-t border-line" data-kit-summary-checks-collapsed="true">
-                  <summary className="cursor-pointer py-3 text-sm font-semibold text-technical focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
+                  <summary
+                    className="cursor-pointer py-3 text-sm font-semibold text-technical focus:outline-none focus-visible:ring-2 focus-visible:ring-action"
+                    onClick={(event) => {
+                      if (event.currentTarget.parentElement?.open) return;
+                      emitInstallationKitInteraction(window, {
+                        action: "checks_opened",
+                        section: "summary",
+                        status: interactionStatus,
+                      });
+                    }}
+                  >
                     Ещё {hiddenChecks.length} {hiddenChecks.length === 1 ? "проверка" : "проверки"}
                   </summary>
                   <ol>{hiddenChecks.map((check) => <CheckLink check={check} key={check.id} />)}</ol>

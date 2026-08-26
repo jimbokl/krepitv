@@ -4,15 +4,21 @@ import {
   mountDetailClickDetail,
 } from "./mountDetailClick.mjs";
 import { RESULT_COMPLETED_EVENT } from "./resultCompleted.mjs";
+import {
+  INSTALLATION_KIT_INTERACTION_EVENT,
+  installationKitInteractionDetail,
+} from "./installationKitInteraction.mjs";
 
 export {
   AFFILIATE_CLICK_EVENT,
   MOUNT_DETAIL_CLICK_EVENT,
   RESULT_COMPLETED_EVENT,
+  INSTALLATION_KIT_INTERACTION_EVENT,
 };
 export const AFFILIATE_CLICK_GOAL = "market_click";
 export const MOUNT_DETAIL_CLICK_GOAL = "mount_detail_click";
 export const RESULT_COMPLETED_GOAL = "result_completed";
+export const INSTALLATION_KIT_INTERACTION_GOAL = "installation_kit_interaction";
 
 const METRIKA_SCRIPT_ID = "krepitv-yandex-metrika";
 const METRIKA_SCRIPT_URL = "https://mc.yandex.ru/metrika/tag.js";
@@ -68,6 +74,7 @@ export function installMetrika({
       trackMarketClick() { return false; },
       trackMountDetailClick() { return false; },
       trackResultCompleted() { return false; },
+      trackInstallationKitInteraction() { return false; },
     };
   }
 
@@ -147,18 +154,43 @@ export function installMetrika({
     trackResultCompleted(event?.detail);
   }
 
+  function trackInstallationKitInteraction(detail = {}) {
+    const safeDetail = installationKitInteractionDetail(detail);
+    if (!safeDetail) return false;
+    ym(
+      normalizedCounterId,
+      "reachGoal",
+      INSTALLATION_KIT_INTERACTION_GOAL,
+      safeDetail,
+    );
+    return true;
+  }
+
+  function handleInstallationKitInteraction(event) {
+    trackInstallationKitInteraction(event?.detail);
+  }
+
   windowObject.addEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
   windowObject.addEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
   windowObject.addEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
+  windowObject.addEventListener(
+    INSTALLATION_KIT_INTERACTION_EVENT,
+    handleInstallationKitInteraction,
+  );
   return {
     enabled: true,
     dispose() {
       windowObject.removeEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
       windowObject.removeEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
       windowObject.removeEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
+      windowObject.removeEventListener(
+        INSTALLATION_KIT_INTERACTION_EVENT,
+        handleInstallationKitInteraction,
+      );
     },
     trackMarketClick,
     trackMountDetailClick,
     trackResultCompleted,
+    trackInstallationKitInteraction,
   };
 }

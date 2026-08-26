@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   AFFILIATE_ELIGIBLE_REGION_AREAS_RU,
+  buildMetrikaInteractionUrl,
   buildMetrikaFunnelUrl,
   evaluateDailyTrafficGoal,
   fetchMetrikaFunnel,
@@ -12,6 +13,7 @@ const goalIds = {
   result_completed: 101,
   mount_detail_click: 102,
   market_click: 103,
+  installation_kit_interaction: 104,
 };
 
 function response(payload, status = 200) {
@@ -91,10 +93,37 @@ test("daily traffic gate requires more than 1000 users for seven trailing days",
   });
 });
 
+test("interaction URL requests only controlled goal-parameter levels", () => {
+  const url = buildMetrikaInteractionUrl({
+    counterId: 111176777,
+    date1: "2026-07-01",
+    date2: "2026-07-31",
+    goalIds,
+  });
+  assert.equal(
+    url.searchParams.get("metrics"),
+    "ym:s:goal104reaches",
+  );
+  assert.match(url.searchParams.get("dimensions"), /goal104paramsLevel1/u);
+  assert.equal(url.searchParams.has("filters"), false);
+});
+
 test("report keeps authoritative users total and strips source labels and token", async () => {
   const calls = [];
   const fetchImpl = async (url, options) => {
     calls.push({ url, options });
+    if (url.searchParams.get("dimensions")?.includes("goal104paramsLevel1")) {
+      return response({
+        totals: [3],
+        data: [
+          { dimensions: [{ name: "action" }, { name: "checks_opened" }], metrics: [2] },
+          { dimensions: [{ name: "action" }, { name: "print_started" }], metrics: [1] },
+        ],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
     if (url.searchParams.get("filters")?.startsWith("NOT(")) {
       return response({
         totals: [2, 1, 0, 0, 0],
@@ -140,13 +169,23 @@ test("report keeps authoritative users total and strips source labels and token"
   ]);
   assert.equal(report.organic_excluding_tests.users, 0);
   assert.equal(report.eligible_regions_organic_excluding_tests.users, 0);
+  assert.deepEqual(report.installation_kit_interactions, {
+    coverage: "Только контролируемые действия со сводкой монтажного комплекта",
+    total_reaches: 3,
+    actions: {
+      checks_opened: 2,
+      cable_check_opened: 0,
+      print_started: 1,
+    },
+    revenue_interpretation: "not_revenue",
+  });
   assert.deepEqual(report.daily_consenting_excluding_internal_tests, [
     { date: "2026-07-29", visits: 0, users: 0 },
     { date: "2026-07-30", visits: 2, users: 1 },
     { date: "2026-07-31", visits: 0, users: 0 },
   ]);
   assert.equal(report.daily_traffic_goal.status, "lower_bound_not_reached");
-  assert.equal(calls.length, 4);
+  assert.equal(calls.length, 5);
   assert.equal(calls.every((call) => call.options.headers.Authorization === `OAuth ${token}`), true);
   assert.equal(JSON.stringify(report).includes(token), false);
   assert.equal(JSON.stringify(report).includes("Прямые заходы"), false);
