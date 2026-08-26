@@ -2,6 +2,11 @@ function finite(value) {
   return Number.isFinite(value) ? value : null;
 }
 
+const PORT_KINDS = new Set(["power", "hdmi", "ethernet", "antenna", "optical", "usb"]);
+const PORT_POSITIONS = new Set(["left", "right", "bottom", "rear", "external-box"]);
+const PASSPORT_DIRECTIONS = new Set(["sideways", "downward", "rearward", "detachable"]);
+const USER_DIRECTIONS = new Set(["sideways", "downward", "rearward", "unknown"]);
+
 function millimetresToCentimetres(value) {
   const number = finite(value);
   return number === null ? null : number / 10;
@@ -36,6 +41,17 @@ function buildModel(model, modelPortPassport) {
     ? toRustEvidence(modelPortPassport.evidence)
     : null;
 
+  const ports = passportEvidence && Array.isArray(modelPortPassport.ports)
+    ? modelPortPassport.ports
+        .filter((port) => (
+          port
+          && PORT_KINDS.has(port.kind)
+          && PORT_POSITIONS.has(port.position)
+          && PASSPORT_DIRECTIONS.has(port.direction)
+        ))
+        .map(({ kind, position, direction }) => ({ kind, position, direction }))
+    : [];
+
   return {
     id: model.id,
     title: model.title,
@@ -55,10 +71,62 @@ function buildModel(model, modelPortPassport) {
       ? model.wall_mount_screws.groups
       : [],
     screw_evidence: screwEvidence,
-    port_sides: passportEvidence && Array.isArray(modelPortPassport.ports)
-      ? [...new Set(modelPortPassport.ports.map((port) => port.position).filter(Boolean))]
-      : [],
+    port_sides: [...new Set(ports.map((port) => port.position))],
+    ports,
     port_evidence: passportEvidence,
+  };
+}
+
+export function buildConnectorClearanceInput({
+  connections,
+  modelPortPassport,
+  connectorClearance,
+}) {
+  if (!connectorClearance || typeof connectorClearance !== "object") return null;
+  const selectedConnections = Array.isArray(connections)
+    ? connections.filter((kind) => PORT_KINDS.has(kind))
+    : [];
+  const connectionKind = connectorClearance.connectionKind;
+  if (!PORT_KINDS.has(connectionKind) || !selectedConnections.includes(connectionKind)) {
+    throw new Error("Проверяемый разъём должен входить в выбранные подключения.");
+  }
+
+  const explicitDirection = connectorClearance.portDirection;
+  let portDirection = null;
+  let factSource = "unknown";
+  if (USER_DIRECTIONS.has(explicitDirection)) {
+    portDirection = explicitDirection;
+    factSource = "user";
+  } else {
+    const passportDirections = [
+      ...new Set(
+        (modelPortPassport?.ports ?? [])
+          .filter((port) => port.kind === connectionKind && PASSPORT_DIRECTIONS.has(port.direction))
+          .map((port) => port.direction),
+      ),
+    ];
+    if (passportDirections.length === 1) {
+      [portDirection] = passportDirections;
+      factSource = "passport";
+    } else {
+      portDirection = "unknown";
+    }
+  }
+
+  const rawRequired = connectorClearance.requiredClearanceMm;
+  if (
+    rawRequired !== null
+    && rawRequired !== undefined
+    && (!Number.isFinite(rawRequired) || rawRequired < 1 || rawRequired > 200)
+  ) {
+    throw new Error("Габарит штекера с изгибом должен быть от 1 до 200 мм.");
+  }
+
+  return {
+    connection_kind: connectionKind,
+    port_direction: portDirection,
+    required_clearance_mm: rawRequired ?? null,
+    fact_source: factSource,
   };
 }
 
@@ -134,8 +202,10 @@ export function buildInstallationKitInput(values) {
   if (!values?.model || !values?.mount) {
     throw new Error("Выберите точную модель телевизора и кронштейн.");
   }
+  const model = buildModel(values.model, values.modelPortPassport);
+  const cables = values.cables ?? {};
   return {
-    model: buildModel(values.model, values.modelPortPassport),
+    model,
     mount: buildMount(values.mount),
     requested_mechanism: values.requestedMechanism,
     wall_profile: values.wallProfile,
@@ -146,7 +216,16 @@ export function buildInstallationKitInput(values) {
       values.wallProfile,
     ),
     placement: values.placement,
-    cables: values.cables,
+    cables: {
+      routing: cables.routing,
+      connections: cables.connections,
+      spare_length_cm: cables.spare_length_cm,
+      connector_clearance: buildConnectorClearanceInput({
+        connections: cables.connections,
+        modelPortPassport: { ports: model.ports },
+        connectorClearance: cables.connectorClearance,
+      }),
+    },
   };
 }
 

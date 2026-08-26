@@ -20,6 +20,9 @@ const CABLE_CONNECTIONS = new Set([
   "optical",
   "usb",
 ]);
+const PORT_DIRECTIONS = new Set(["sideways", "downward", "rearward", "unknown"]);
+const CLEARANCE_FACT_SOURCES = new Set(["passport", "user", "unknown"]);
+const INVALID_CABLES = Symbol("invalid-cables");
 
 export const initialInstallationKitState = Object.freeze({
   step: 1,
@@ -65,7 +68,36 @@ function validCables(value) {
     && Array.isArray(value.connections)
     && value.connections.every((item) => CABLE_CONNECTIONS.has(item))
     && finiteInRange(value.spare_length_cm, 0, 500)
+    && validConnectorClearance(value.connectorClearance, value.connections)
   );
+}
+
+function validConnectorClearance(value, connections) {
+  if (value === null || value === undefined) return true;
+  return Boolean(
+    value
+    && typeof value === "object"
+    && CABLE_CONNECTIONS.has(value.connectionKind)
+    && connections.includes(value.connectionKind)
+    && PORT_DIRECTIONS.has(value.portDirection)
+    && CLEARANCE_FACT_SOURCES.has(value.factSource)
+    && (
+      value.requiredClearanceMm === null
+      || finiteInRange(value.requiredClearanceMm, 1, 200)
+    )
+  );
+}
+
+function normalizeCables(value) {
+  if (!value || !Array.isArray(value.connections)) return INVALID_CABLES;
+  const connections = [...new Set(value.connections)];
+  const candidate = {
+    routing: value.routing,
+    connections,
+    spare_length_cm: value.spare_length_cm,
+    connectorClearance: value.connectorClearance ?? null,
+  };
+  return validCables(candidate) ? candidate : INVALID_CABLES;
 }
 
 function sameValue(left, right) {
@@ -176,8 +208,16 @@ export function installationKitReducer(state, action) {
       return { ...current, placement: action.value, revision: current.revision + 1 };
     }
     case "set-cables": {
-      if (sameValue(action.value, current.cables)) return current;
-      return { ...current, cables: action.value, revision: current.revision + 1 };
+      const connectionsChanged = current.cables
+        && Array.isArray(action.value?.connections)
+        && !sameValue(current.cables.connections, action.value.connections);
+      const candidate = connectionsChanged
+        ? { ...action.value, connectorClearance: null }
+        : action.value;
+      let cables = normalizeCables(candidate);
+      if (cables === INVALID_CABLES) cables = null;
+      if (sameValue(cables, current.cables)) return current;
+      return { ...current, cables, revision: current.revision + 1 };
     }
     case "advance":
       return canAdvance(current) && current.step < 6
