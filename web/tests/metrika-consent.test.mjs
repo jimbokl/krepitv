@@ -1,11 +1,15 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  dismissMetrikaNotice,
   emitMetrikaConsent,
+  ensureMetrikaConsent,
   METRIKA_CONSENT_DENIED,
   METRIKA_CONSENT_EVENT,
   METRIKA_CONSENT_GRANTED,
   METRIKA_CONSENT_STORAGE_KEY,
+  METRIKA_NOTICE_STORAGE_KEY,
+  readMetrikaNoticeDismissed,
   readMetrikaConsent,
   writeMetrikaConsent,
 } from "../src/lib/metrikaConsent.mjs";
@@ -34,6 +38,27 @@ test("решение об аналитике сохраняется только
     [METRIKA_CONSENT_STORAGE_KEY]: METRIKA_CONSENT_DENIED,
   });
   assert.equal(readMetrikaConsent(denied), METRIKA_CONSENT_DENIED);
+});
+
+test("первый визит автоматически включает аналитику, но сохранённый отказ имеет приоритет", () => {
+  const fresh = memoryStorage();
+  assert.equal(ensureMetrikaConsent(fresh), METRIKA_CONSENT_GRANTED);
+  assert.equal(readMetrikaConsent(fresh), METRIKA_CONSENT_GRANTED);
+
+  const denied = memoryStorage({
+    [METRIKA_CONSENT_STORAGE_KEY]: METRIKA_CONSENT_DENIED,
+  });
+  assert.equal(ensureMetrikaConsent(denied), METRIKA_CONSENT_DENIED);
+  assert.equal(readMetrikaConsent(denied), METRIKA_CONSENT_DENIED);
+});
+
+test("закрытие сноски хранится отдельно от решения об аналитике", () => {
+  const storage = memoryStorage();
+  assert.equal(readMetrikaNoticeDismissed(storage), false);
+  assert.equal(dismissMetrikaNotice(storage), true);
+  assert.equal(readMetrikaNoticeDismissed(storage), true);
+  assert.equal(storage.getItem(METRIKA_NOTICE_STORAGE_KEY), "dismissed");
+  assert.equal(readMetrikaConsent(storage), null);
 });
 
 test("согласие передаётся одним локальным событием без пользовательских данных", () => {

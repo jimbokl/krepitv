@@ -185,7 +185,7 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
   }
 
   return (
-    <section className="border-y-2 border-ink py-7" id="планировщик-стены">
+    <section className="border-y-2 border-ink py-7" data-analytics-tool="wall_planner" id="планировщик-стены">
       <div className="grid gap-7 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start">
         <div className="flex items-start gap-4">
           <Ruler aria-hidden="true" className="size-14 shrink-0 text-action" weight="regular" />

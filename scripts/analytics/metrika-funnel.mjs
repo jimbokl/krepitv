@@ -1,3 +1,5 @@
+import { KNOWN_TOOL_IDS } from "../../web/src/lib/toolUsage.mjs";
+
 const DATA_ENDPOINT = "https://api-metrika.yandex.net/stat/v1/data";
 const EVENT_ORDER = Object.freeze([
   "result_completed",
@@ -142,6 +144,32 @@ export function buildMetrikaInteractionUrl({ counterId, date1, date2, goalIds })
   return url;
 }
 
+export function buildMetrikaToolUsageUrl({ counterId, date1, date2, goalId }) {
+  if (!/^\d+$/.test(String(counterId ?? ""))) throw new Error("counterId must be numeric");
+  if (!isIsoDate(date1) || !isIsoDate(date2) || date1 > date2) {
+    throw new Error("date range must contain real ascending ISO dates");
+  }
+  if (!/^\d+$/.test(String(goalId ?? ""))) {
+    throw new Error("goalId must be numeric");
+  }
+  const metric = `ym:s:goal${goalId}reaches`;
+  const url = new URL(DATA_ENDPOINT);
+  url.searchParams.set("ids", String(counterId));
+  url.searchParams.set("date1", date1);
+  url.searchParams.set("date2", date2);
+  url.searchParams.set("accuracy", "full");
+  url.searchParams.set("limit", "1000");
+  url.searchParams.set(
+    "dimensions",
+    [1, 2, 3, 4, 5]
+      .map((level) => `ym:s:goal${goalId}paramsLevel${level}`)
+      .join(","),
+  );
+  url.searchParams.set("metrics", metric);
+  url.searchParams.set("sort", `-${metric}`);
+  return url;
+}
+
 function isoDates(date1, date2) {
   const dates = [];
   const cursor = new Date(`${date1}T00:00:00Z`);
@@ -189,7 +217,7 @@ export function evaluateDailyTrafficGoal(rows) {
   }
   return {
     metric: "ym:s:users",
-    coverage: "Нижняя граница: только посетители, разрешившие Яндекс Метрику",
+    coverage: "Нижняя граница: посетители с включённой аналитикой, без сохранённого отказа",
     comparison: "greater_than",
     threshold_users: TRAFFIC_GOAL_THRESHOLD_USERS,
     required_consecutive_days: TRAFFIC_GOAL_REQUIRED_DAYS,
@@ -268,6 +296,64 @@ function interactionTotals(payload) {
     total_reaches: payload.totals[0],
     actions,
     revenue_interpretation: "not_revenue",
+  };
+}
+
+function goalParameterTotals(payload) {
+  if (
+    !Array.isArray(payload?.totals) ||
+    payload.totals.length !== 1 ||
+    !Number.isFinite(payload.totals[0]) ||
+    payload.totals[0] < 0
+  ) {
+    throw new Error("Metrika tool usage response has invalid totals");
+  }
+  const byTool = new Map();
+  const known = new Set(KNOWN_TOOL_IDS);
+  for (const row of Array.isArray(payload.data) ? payload.data : []) {
+    if (
+      !Array.isArray(row?.metrics) ||
+      row.metrics.length !== 1 ||
+      !Number.isFinite(row.metrics[0]) ||
+      row.metrics[0] < 0
+    ) {
+      throw new Error("Metrika tool usage response has invalid rows");
+    }
+    const tokens = (Array.isArray(row.dimensions) ? row.dimensions : [])
+      .flatMap((dimension) => [dimension?.id, dimension?.name])
+      .filter((value) => typeof value === "string");
+    const toolId = KNOWN_TOOL_IDS.find((candidate) => tokens.includes(candidate));
+    if (toolId && known.has(toolId)) {
+      byTool.set(toolId, (byTool.get(toolId) ?? 0) + row.metrics[0]);
+    }
+  }
+  return { byTool, total: payload.totals[0] };
+}
+
+function toolUsageTotals(startedPayload, completedPayload) {
+  const started = goalParameterTotals(startedPayload);
+  const completed = goalParameterTotals(completedPayload);
+  const toolIds = new Set([...started.byTool.keys(), ...completed.byTool.keys()]);
+  const tools = [...toolIds].map((toolId) => {
+    const startedCount = started.byTool.get(toolId) ?? 0;
+    const completedCount = completed.byTool.get(toolId) ?? 0;
+    return {
+      tool_id: toolId,
+      started: startedCount,
+      completed: completedCount,
+      completion_rate: startedCount > 0
+        ? Math.round((completedCount / startedCount) * 10_000) / 10_000
+        : null,
+    };
+  }).sort((left, right) =>
+    right.started - left.started ||
+    right.completed - left.completed ||
+    left.tool_id.localeCompare(right.tool_id));
+  return {
+    coverage: "Только известные инструменты и обезличенные started/completed",
+    total_started_reaches: started.total,
+    total_completed_reaches: completed.total,
+    tools,
   };
 }
 
@@ -356,20 +442,46 @@ export async function fetchMetrikaFunnel({
     return payload;
   }
 
-  const [allSources, organic, eligibleRegionsOrganic, dailyQualifiedTraffic, interactions] = await Promise.all([
+  async function loadToolGoal(goalId) {
+    const url = buildMetrikaToolUsageUrl({ counterId, date1, date2, goalId });
+    const response = await fetchImpl(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `OAuth ${token}`,
+      },
+      method: "GET",
+    });
+    const payload = await readPayload(response);
+    if (!response.ok) {
+      throw new Error(`Metrika tool usage GET failed: HTTP ${response.status}, ${safeApiError(payload)}`);
+    }
+    return payload;
+  }
+
+  const [
+    allSources,
+    organic,
+    eligibleRegionsOrganic,
+    dailyQualifiedTraffic,
+    interactions,
+    toolStarted,
+    toolCompleted,
+  ] = await Promise.all([
     load(),
     load({ organicOnly: true }),
     load({ affiliateEligibleRegionsOnly: true }),
     load({ dailyQualifiedTrafficOnly: true }),
     loadInteractions(),
+    loadToolGoal(goalIds?.tool_usage),
+    loadToolGoal(goalIds?.result_completed),
   ]);
   const observedAt = now instanceof Date ? now.toISOString() : new Date(now).toISOString();
   const dailyTraffic = dailyTrafficBreakdown(dailyQualifiedTraffic.data, date1, date2);
   return {
-    schema_version: 3,
+    schema_version: 4,
     observed_at: observedAt,
     window: { date1, date2 },
-    coverage: "Только посетители, разрешившие Яндекс Метрику",
+    coverage: "Посетители с включённой аналитикой; сохранённый отказ исключён",
     all_consenting: totalsObject(allSources.totals),
     source_breakdown: sourceBreakdown(allSources.data),
     daily_consenting_excluding_internal_tests: dailyTraffic,
@@ -379,6 +491,7 @@ export async function fetchMetrikaFunnel({
       eligibleRegionsOrganic.totals,
     ),
     installation_kit_interactions: interactionTotals(interactions),
+    tool_usage: toolUsageTotals(toolStarted, toolCompleted),
     affiliate_eligible_region_areas_ru: [...AFFILIATE_ELIGIBLE_REGION_AREAS_RU],
     quality: {
       all_consenting: {
@@ -405,6 +518,14 @@ export async function fetchMetrikaFunnel({
         sampled: Boolean(interactions.sampled),
         sample_share: Number(interactions.sample_share ?? 1),
         data_lag: Number(interactions.data_lag ?? 0),
+      },
+      tool_usage: {
+        started_sampled: Boolean(toolStarted.sampled),
+        started_sample_share: Number(toolStarted.sample_share ?? 1),
+        started_data_lag: Number(toolStarted.data_lag ?? 0),
+        completed_sampled: Boolean(toolCompleted.sampled),
+        completed_sample_share: Number(toolCompleted.sample_share ?? 1),
+        completed_data_lag: Number(toolCompleted.data_lag ?? 0),
       },
     },
   };

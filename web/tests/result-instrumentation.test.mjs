@@ -12,6 +12,26 @@ const calculatorTools = new Map([
   ["VesaMatchCalculator.jsx", "vesa_match_calculator"],
 ]);
 
+const instrumentedBoundaries = new Map([
+  ["components/BrandMountMatcher.jsx", "brand_mount_match"],
+  ["components/HeightCalculator.jsx", "height_calculator"],
+  ["components/MountingMapCalculator.jsx", "mounting_map_calculator"],
+  ["components/PhoneTvConnectionWizard.jsx", "phone_tv_connection"],
+  ["components/ScrewLengthCalculator.jsx", "vesa_screw_length_calculator"],
+  ["components/TiltAngleCalculator.jsx", "tilt_angle_calculator"],
+  ["components/TurnClearanceCalculator.jsx", "turn_clearance_calculator"],
+  ["components/TvDimensionsCalculator.jsx", "tv_dimensions_calculator"],
+  ["components/TvEnergyCalculator.jsx", "tv_energy_calculator"],
+  ["components/TvMountScrewCatalog.jsx", "screw_lookup"],
+  ["components/TvNoSignalWizard.jsx", "tv_no_signal"],
+  ["components/TvVesaCatalog.jsx", "vesa_model_lookup"],
+  ["components/TvZoneSocketCalculator.jsx", "tv_zone_socket_calculator"],
+  ["components/VesaMatchCalculator.jsx", "vesa_match_calculator"],
+  ["components/ViewingDistanceCalculator.jsx", "viewing_distance_calculator"],
+  ["components/WallPlannerCalculator.jsx", "wall_planner"],
+  ["pages/GuidedSelectionPage.jsx", "installation_kit"],
+]);
+
 async function source(pathname) {
   return readFile(new URL(`../src/${pathname}`, import.meta.url), "utf8");
 }
@@ -23,6 +43,19 @@ test("каждый калькулятор фиксирует ровно один
     assert.equal(code.match(/emitResultCompleted\(/g)?.length, 1, filename);
     assert.match(code, new RegExp(`toolId: "${toolId}"`), filename);
   }
+});
+
+test("каждый инструмент объявляет стабильную границу первого взаимодействия", async () => {
+  for (const [pathname, toolId] of instrumentedBoundaries) {
+    const code = await source(pathname);
+    assert.match(
+      code,
+      new RegExp(`data-analytics-tool="${toolId}"`),
+      pathname,
+    );
+  }
+  const trafficWizard = await source("components/TvTrafficTaskWizard.jsx");
+  assert.match(trafficWizard, /data-analytics-tool=\{config\.toolId\}/u);
 });
 
 test("подбор винтов фиксирует результат без модели и пользовательского ввода", async () => {

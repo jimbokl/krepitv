@@ -1419,6 +1419,7 @@ export function TvTrafficTaskWizard({ task }) {
   return (
     <section
       className="border-y-2 border-ink py-7"
+      data-analytics-tool={config.toolId}
       data-tv-traffic-task={task}
       id="мастер"
     >

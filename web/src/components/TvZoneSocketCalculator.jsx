@@ -124,7 +124,7 @@ export function TvZoneSocketCalculator({
   }
 
   return (
-    <section className="border-y-2 border-ink py-7" id="карта-розеток">
+    <section className="border-y-2 border-ink py-7" data-analytics-tool="tv_zone_socket_calculator" id="карта-розеток">
       <div className="grid gap-7 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start">
         <div className="flex items-start gap-4">
           <Ruler aria-hidden="true" className="size-14 shrink-0 text-action" weight="regular" />

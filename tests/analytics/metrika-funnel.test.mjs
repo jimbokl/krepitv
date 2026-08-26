@@ -4,6 +4,7 @@ import {
   AFFILIATE_ELIGIBLE_REGION_AREAS_RU,
   buildMetrikaInteractionUrl,
   buildMetrikaFunnelUrl,
+  buildMetrikaToolUsageUrl,
   evaluateDailyTrafficGoal,
   fetchMetrikaFunnel,
 } from "../../scripts/analytics/metrika-funnel.mjs";
@@ -14,6 +15,7 @@ const goalIds = {
   mount_detail_click: 102,
   market_click: 103,
   installation_kit_interaction: 104,
+  tool_usage: 105,
 };
 
 function response(payload, status = 200) {
@@ -83,7 +85,7 @@ test("daily traffic gate requires more than 1000 users for seven trailing days",
   }));
   assert.deepEqual(evaluateDailyTrafficGoal(rows), {
     metric: "ym:s:users",
-    coverage: "Нижняя граница: только посетители, разрешившие Яндекс Метрику",
+    coverage: "Нижняя граница: посетители с включённой аналитикой, без сохранённого отказа",
     comparison: "greater_than",
     threshold_users: 1000,
     required_consecutive_days: 7,
@@ -108,6 +110,18 @@ test("interaction URL requests only controlled goal-parameter levels", () => {
   assert.equal(url.searchParams.has("filters"), false);
 });
 
+test("tool usage URL запрашивает только уровни параметров одной цели", () => {
+  const url = buildMetrikaToolUsageUrl({
+    counterId: 111176777,
+    date1: "2026-07-01",
+    date2: "2026-07-31",
+    goalId: goalIds.tool_usage,
+  });
+  assert.equal(url.searchParams.get("metrics"), "ym:s:goal105reaches");
+  assert.match(url.searchParams.get("dimensions"), /goal105paramsLevel1/u);
+  assert.doesNotMatch(url.searchParams.get("dimensions"), /goal101/u);
+});
+
 test("report keeps authoritative users total and strips source labels and token", async () => {
   const calls = [];
   const fetchImpl = async (url, options) => {
@@ -118,6 +132,30 @@ test("report keeps authoritative users total and strips source labels and token"
         data: [
           { dimensions: [{ name: "action" }, { name: "checks_opened" }], metrics: [2] },
           { dimensions: [{ name: "action" }, { name: "print_started" }], metrics: [1] },
+        ],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
+    if (url.searchParams.get("dimensions")?.includes("goal105paramsLevel1")) {
+      return response({
+        totals: [4],
+        data: [
+          { dimensions: [{ name: "tool_id" }, { name: "height_calculator" }], metrics: [3] },
+          { dimensions: [{ name: "tool_id" }, { name: "unknown_user_value" }], metrics: [1] },
+        ],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
+    if (url.searchParams.get("dimensions")?.includes("goal101paramsLevel1")) {
+      return response({
+        totals: [3],
+        data: [
+          { dimensions: [{ name: "tool_id" }, { name: "height_calculator" }], metrics: [2] },
+          { dimensions: [{ name: "tool_id" }, { name: "tv_energy_calculator" }], metrics: [1] },
         ],
         sampled: false,
         sample_share: 1,
@@ -179,13 +217,32 @@ test("report keeps authoritative users total and strips source labels and token"
     },
     revenue_interpretation: "not_revenue",
   });
+  assert.deepEqual(report.tool_usage, {
+    coverage: "Только известные инструменты и обезличенные started/completed",
+    total_started_reaches: 4,
+    total_completed_reaches: 3,
+    tools: [
+      {
+        tool_id: "height_calculator",
+        started: 3,
+        completed: 2,
+        completion_rate: 0.6667,
+      },
+      {
+        tool_id: "tv_energy_calculator",
+        started: 0,
+        completed: 1,
+        completion_rate: null,
+      },
+    ],
+  });
   assert.deepEqual(report.daily_consenting_excluding_internal_tests, [
     { date: "2026-07-29", visits: 0, users: 0 },
     { date: "2026-07-30", visits: 2, users: 1 },
     { date: "2026-07-31", visits: 0, users: 0 },
   ]);
   assert.equal(report.daily_traffic_goal.status, "lower_bound_not_reached");
-  assert.equal(calls.length, 5);
+  assert.equal(calls.length, 7);
   assert.equal(calls.every((call) => call.options.headers.Authorization === `OAuth ${token}`), true);
   assert.equal(JSON.stringify(report).includes(token), false);
   assert.equal(JSON.stringify(report).includes("Прямые заходы"), false);

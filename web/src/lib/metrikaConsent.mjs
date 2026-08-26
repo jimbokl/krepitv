@@ -2,6 +2,7 @@ export const METRIKA_CONSENT_STORAGE_KEY = "krepitv:metrika-consent";
 export const METRIKA_CONSENT_EVENT = "krepitv:metrika-consent";
 export const METRIKA_CONSENT_GRANTED = "granted";
 export const METRIKA_CONSENT_DENIED = "denied";
+export const METRIKA_NOTICE_STORAGE_KEY = "krepitv:metrika-notice";
 
 const DECISIONS = new Set([METRIKA_CONSENT_GRANTED, METRIKA_CONSENT_DENIED]);
 
@@ -18,6 +19,30 @@ export function writeMetrikaConsent(value, storage = globalThis.localStorage) {
   if (!DECISIONS.has(value)) return false;
   try {
     storage?.setItem(METRIKA_CONSENT_STORAGE_KEY, value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function ensureMetrikaConsent(storage = globalThis.localStorage) {
+  const current = readMetrikaConsent(storage);
+  if (current) return current;
+  writeMetrikaConsent(METRIKA_CONSENT_GRANTED, storage);
+  return METRIKA_CONSENT_GRANTED;
+}
+
+export function readMetrikaNoticeDismissed(storage = globalThis.localStorage) {
+  try {
+    return storage?.getItem(METRIKA_NOTICE_STORAGE_KEY) === "dismissed";
+  } catch {
+    return false;
+  }
+}
+
+export function dismissMetrikaNotice(storage = globalThis.localStorage) {
+  try {
+    storage?.setItem(METRIKA_NOTICE_STORAGE_KEY, "dismissed");
     return true;
   } catch {
     return false;

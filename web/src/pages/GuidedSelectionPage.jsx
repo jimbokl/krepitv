@@ -137,7 +137,7 @@ export function GuidedSelectionPage({ catalog, embedded = false }) {
   }
 
   const shell = (
-    <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[18.5rem_minmax(0,1fr)]" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
+    <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[18.5rem_minmax(0,1fr)]" data-analytics-tool="installation_kit" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
           <aside className="border-b border-line bg-panel px-5 py-5 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
             <Brand compact />
             <p className="mt-3 max-w-48 text-sm leading-snug text-muted">Полный монтажный комплект для точной модели телевизора</p>

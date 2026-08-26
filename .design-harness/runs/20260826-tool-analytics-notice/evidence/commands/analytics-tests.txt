@@ -1,0 +1,4 @@
+analytics test suite
+tests 50
+pass 50
+fail 0

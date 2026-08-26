@@ -56,7 +56,7 @@ export function TiltAngleCalculator() {
   }
 
   return (
-    <section className="border-y-2 border-ink py-7" id="калькулятор-наклона">
+    <section className="border-y-2 border-ink py-7" data-analytics-tool="tilt_angle_calculator" id="калькулятор-наклона">
       <div className="grid gap-7 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start">
         <div className="flex items-start gap-4">
           <Ruler aria-hidden="true" className="size-14 shrink-0 text-action" weight="regular" />

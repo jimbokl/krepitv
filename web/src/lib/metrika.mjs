@@ -8,17 +8,23 @@ import {
   INSTALLATION_KIT_INTERACTION_EVENT,
   installationKitInteractionDetail,
 } from "./installationKitInteraction.mjs";
+import {
+  TOOL_USAGE_EVENT,
+  toolUsageDetail,
+} from "./toolUsage.mjs";
 
 export {
   AFFILIATE_CLICK_EVENT,
   MOUNT_DETAIL_CLICK_EVENT,
   RESULT_COMPLETED_EVENT,
   INSTALLATION_KIT_INTERACTION_EVENT,
+  TOOL_USAGE_EVENT,
 };
 export const AFFILIATE_CLICK_GOAL = "market_click";
 export const MOUNT_DETAIL_CLICK_GOAL = "mount_detail_click";
 export const RESULT_COMPLETED_GOAL = "result_completed";
 export const INSTALLATION_KIT_INTERACTION_GOAL = "installation_kit_interaction";
+export const TOOL_USAGE_GOAL = "tool_usage";
 
 const METRIKA_SCRIPT_ID = "krepitv-yandex-metrika";
 const METRIKA_SCRIPT_URL = "https://mc.yandex.ru/metrika/tag.js";
@@ -75,6 +81,7 @@ export function installMetrika({
       trackMountDetailClick() { return false; },
       trackResultCompleted() { return false; },
       trackInstallationKitInteraction() { return false; },
+      trackToolUsage() { return false; },
     };
   }
 
@@ -170,6 +177,23 @@ export function installMetrika({
     trackInstallationKitInteraction(event?.detail);
   }
 
+  function trackToolUsage(detail = {}) {
+    const safeDetail = toolUsageDetail(detail, detail?.sourcePath);
+    if (!safeDetail) return false;
+    const parameters = {
+      action: safeDetail.action,
+      source_path: safeDetail.sourcePath,
+      tool_id: safeDetail.toolId,
+    };
+    if (parameters.source_path === undefined) delete parameters.source_path;
+    ym(normalizedCounterId, "reachGoal", TOOL_USAGE_GOAL, parameters);
+    return true;
+  }
+
+  function handleToolUsage(event) {
+    trackToolUsage(event?.detail);
+  }
+
   windowObject.addEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
   windowObject.addEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
   windowObject.addEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
@@ -177,6 +201,7 @@ export function installMetrika({
     INSTALLATION_KIT_INTERACTION_EVENT,
     handleInstallationKitInteraction,
   );
+  windowObject.addEventListener(TOOL_USAGE_EVENT, handleToolUsage);
   return {
     enabled: true,
     dispose() {
@@ -187,10 +212,12 @@ export function installMetrika({
         INSTALLATION_KIT_INTERACTION_EVENT,
         handleInstallationKitInteraction,
       );
+      windowObject.removeEventListener(TOOL_USAGE_EVENT, handleToolUsage);
     },
     trackMarketClick,
     trackMountDetailClick,
     trackResultCompleted,
     trackInstallationKitInteraction,
+    trackToolUsage,
   };
 }

@@ -10,11 +10,13 @@ import { bootClient } from "./lib/clientBoot.mjs";
 import { YANDEX_METRIKA_COUNTER_ID } from "./lib/metrikaConfig.mjs";
 import { installConsentGatedMetrika } from "./lib/metrikaGate.mjs";
 import { installStaticNavigation } from "./lib/staticNavigation.mjs";
+import { installToolUsageTracker } from "./lib/toolUsage.mjs";
 import "./styles.css";
 
 const rootElement = document.getElementById("root");
 
 installConsentGatedMetrika({ counterId: YANDEX_METRIKA_COUNTER_ID });
+installToolUsageTracker();
 const staticNavigation = installStaticNavigation();
 
 if (rootElement?.dataset.pageKind === "home") {

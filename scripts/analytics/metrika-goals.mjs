@@ -15,6 +15,10 @@ export const REQUIRED_METRIKA_GOALS = Object.freeze([
     eventId: "installation_kit_interaction",
     name: "Действие со сводкой монтажного комплекта",
   }),
+  Object.freeze({
+    eventId: "tool_usage",
+    name: "Начало работы с инструментом",
+  }),
 ]);
 
 function isExactActionGoal(goal, eventId) {

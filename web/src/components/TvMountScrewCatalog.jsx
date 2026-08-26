@@ -77,6 +77,7 @@ export function TvMountScrewCatalog({ models, search }) {
     <section
       aria-labelledby="screw-catalog-title"
       className="border-y-2 border-ink py-8"
+      data-analytics-tool="screw_lookup"
       data-screw-catalog="true"
       data-searchable-model-count={models.length}
     >

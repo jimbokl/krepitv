@@ -75,6 +75,7 @@ export function BrandMountMatcher({
     <section
       aria-labelledby="brand-mount-matcher-title"
       className="border-y-2 border-ink py-8"
+      data-analytics-tool="brand_mount_match"
       data-brand-mount-matcher={brand}
     >
       <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">

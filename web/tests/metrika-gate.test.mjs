@@ -37,13 +37,12 @@ function browserDouble() {
   return { documentObject, listeners, scripts, windowObject };
 }
 
-for (const decision of [null, METRIKA_CONSENT_DENIED]) {
-  test(`${decision ?? "без решения"}: Метрика не грузится и клик не воспроизводится после согласия`, () => {
+test("сохранённый отказ не грузит Метрику, последующее включение не воспроизводит прошлые события", () => {
     const browser = browserDouble();
     const gate = installConsentGatedMetrika({
       counterId: 123456,
       documentObject: browser.documentObject,
-      readConsent: () => decision,
+      resolveConsent: () => METRIKA_CONSENT_DENIED,
       windowObject: browser.windowObject,
     });
 
@@ -80,14 +79,26 @@ for (const decision of [null, METRIKA_CONSENT_DENIED]) {
     gate.dispose();
     assert.equal([...browser.listeners.values()].every((group) => group.size === 0), true);
   });
-}
+
+test("без сохранённого решения Метрика включается автоматически", () => {
+  const browser = browserDouble();
+  const gate = installConsentGatedMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    resolveConsent: () => METRIKA_CONSENT_GRANTED,
+    windowObject: browser.windowObject,
+  });
+  assert.equal(gate.enabled, true);
+  assert.equal(browser.scripts.length, 1);
+  gate.dispose();
+});
 
 test("сохранённое согласие включает Метрику сразу и только один раз", () => {
   const browser = browserDouble();
   const gate = installConsentGatedMetrika({
     counterId: 123456,
     documentObject: browser.documentObject,
-    readConsent: () => METRIKA_CONSENT_GRANTED,
+    resolveConsent: () => METRIKA_CONSENT_GRANTED,
     windowObject: browser.windowObject,
   });
 
@@ -101,12 +112,35 @@ test("сохранённое согласие включает Метрику с
   gate.dispose();
 });
 
+test("отказ после автоматического включения прекращает отправку целей", () => {
+  const browser = browserDouble();
+  const gate = installConsentGatedMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    resolveConsent: () => METRIKA_CONSENT_GRANTED,
+    windowObject: browser.windowObject,
+  });
+  browser.windowObject.dispatchEvent({
+    type: METRIKA_CONSENT_EVENT,
+    detail: { value: METRIKA_CONSENT_DENIED },
+  });
+  assert.equal(gate.enabled, false);
+  assert.equal(browser.windowObject.disableYaCounter123456, true);
+  const before = browser.windowObject.ym.a.length;
+  browser.windowObject.dispatchEvent({
+    type: RESULT_COMPLETED_EVENT,
+    detail: { toolId: "height_calculator", resultType: "height_plan" },
+  });
+  assert.equal(browser.windowObject.ym.a.length, before);
+  gate.dispose();
+});
+
 test("после согласия три ступени воронки передаются в точном порядке, прошлые события не воспроизводятся", () => {
   const browser = browserDouble();
   const gate = installConsentGatedMetrika({
     counterId: 123456,
     documentObject: browser.documentObject,
-    readConsent: () => METRIKA_CONSENT_DENIED,
+    resolveConsent: () => METRIKA_CONSENT_DENIED,
     windowObject: browser.windowObject,
   });
 

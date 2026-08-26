@@ -9,6 +9,8 @@ import {
   RESULT_COMPLETED_GOAL,
   INSTALLATION_KIT_INTERACTION_EVENT,
   INSTALLATION_KIT_INTERACTION_GOAL,
+  TOOL_USAGE_EVENT,
+  TOOL_USAGE_GOAL,
   installMetrika,
 } from "../src/lib/metrika.mjs";
 
@@ -169,6 +171,36 @@ test("событие готового результата отправляет 
 
   metrika.dispose();
   assert.equal(browser.listeners.size, 0);
+});
+
+test("начало инструмента отправляет только action, tool id и pathname", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  browser.listeners.get(TOOL_USAGE_EVENT)({
+    detail: {
+      action: "started",
+      toolId: "height_calculator",
+      sourcePath: "/vysota-televizora/",
+      rawInput: "user@example.test",
+    },
+  });
+  assert.deepEqual(calls[1], [123456, "reachGoal", TOOL_USAGE_GOAL, {
+    action: "started",
+    source_path: "/vysota-televizora/",
+    tool_id: "height_calculator",
+  }]);
+  assert.equal(metrika.trackToolUsage({
+    action: "started",
+    toolId: "user@example.test",
+  }), false);
+  assert.equal(calls.length, 2);
 });
 
 test("переход к карточке кронштейна передаёт только тип места ссылки", () => {
