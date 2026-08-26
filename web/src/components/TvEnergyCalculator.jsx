@@ -150,7 +150,7 @@ export function TvEnergyCalculator() {
   }
 
   return (
-    <section className="border-y-2 border-ink py-7" data-tv-energy-calculator="true" id="калькулятор">
+    <section className="border-y-2 border-ink py-7" data-analytics-tool="tv_energy_calculator" data-tv-energy-calculator="true" id="калькулятор">
       <div className="grid min-w-0 gap-7 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start">
         <div className="flex min-w-0 flex-col items-start gap-4 sm:flex-row">
           <Lightning aria-hidden="true" className="size-12 shrink-0 text-action sm:size-14" />

@@ -88,6 +88,7 @@ export function ScrewLengthCalculator({ groups, requiresSpacerMeasurement = fals
     <section
       aria-labelledby="screw-length-calculator-title"
       className="mt-5 border-t border-ink pt-5"
+      data-analytics-tool="vesa_screw_length_calculator"
       data-screw-length-calculator="true"
     >
       <div className="flex items-start gap-3">

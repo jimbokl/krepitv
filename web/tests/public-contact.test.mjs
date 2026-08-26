@@ -58,6 +58,18 @@ test("контакты ведут в публичный канал и заран
   assert.match(JSON.stringify(privacy.sections), /имя или псевдоним профиля/);
 });
 
+test("политика точно описывает автоматическую аналитику, события инструментов и отказ", () => {
+  const privacy = trustPages.find((page) => page.id === "privacy");
+  const section = privacy?.sections.find((item) => item.heading === "Куки и Яндекс Метрика");
+  const text = JSON.stringify(section?.paragraphs ?? []);
+  assert.equal(privacy?.lastmod, "2026-08-26");
+  assert.match(text, /при первом посещении включается автоматически/u);
+  assert.match(text, /начал[оа] работы с инструментом/u);
+  assert.match(text, /Отключить аналитику/u);
+  assert.match(text, /сохранённый отказ имеет приоритет/u);
+  assert.doesNotMatch(text, /До выбора «Разрешить аналитику»/u);
+});
+
 for (const [file, sourceId] of [
   ["data-error.yml", "source"],
   ["model-request.yml", "official_source"],

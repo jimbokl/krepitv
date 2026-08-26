@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "run": "20260826-tool-analytics-notice",
+  "generated_at": "2026-08-26T08:59:34.863716+00:00",
+  "scanned_files": [
+    "web/src/components/MetrikaConsent.jsx",
+    "web/src/main.jsx"
+  ],
+  "findings": []
+}

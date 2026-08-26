@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "id": "20260826-tool-analytics-notice",
+  "kind": "ui",
+  "status": "shipped",
+  "implementer": "Codex",
+  "created_at": "2026-08-26T08:40:22.883488+00:00",
+  "states": ["default", "loading", "empty", "error", "success", "disabled", "focus"],
+  "behavior_evidence_states": {
+    "loading": {
+      "command_id": "notice-contract",
+      "reason": "Информационная inline-плашка не выполняет асинхронную загрузку.",
+      "output_contains": "analytics notice has no loading state"
+    },
+    "empty": {
+      "command_id": "notice-contract",
+      "reason": "Exact-content плашки всегда задан статически и не может быть пустым.",
+      "output_contains": "analytics notice has no empty state"
+    },
+    "error": {
+      "command_id": "notice-contract",
+      "reason": "Плашка не зависит от сети и не показывает сетевую ошибку.",
+      "output_contains": "analytics notice has no error state"
+    },
+    "success": {
+      "command_id": "notice-contract",
+      "reason": "Плашка является уведомлением, а не асинхронной операцией с success-экраном.",
+      "output_contains": "analytics notice has no success state"
+    }
+  },
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "web/src/components/MetrikaConsent.jsx",
+    "web/src/lib/metrikaConsent.mjs",
+    "web/src/lib/metrikaGate.mjs",
+    "web/src/lib/metrika.mjs",
+    "web/src/lib/toolUsage.mjs",
+    "web/src/main.jsx",
+    "web/src/components/BrandMountMatcher.jsx",
+    "web/src/components/HeightCalculator.jsx",
+    "web/src/components/MountingMapCalculator.jsx",
+    "web/src/components/PhoneTvConnectionWizard.jsx",
+    "web/src/components/ScrewLengthCalculator.jsx",
+    "web/src/components/TiltAngleCalculator.jsx",
+    "web/src/components/TurnClearanceCalculator.jsx",
+    "web/src/components/TvDimensionsCalculator.jsx",
+    "web/src/components/TvEnergyCalculator.jsx",
+    "web/src/components/TvMountScrewCatalog.jsx",
+    "web/src/components/TvNoSignalWizard.jsx",
+    "web/src/components/TvTrafficTaskWizard.jsx",
+    "web/src/components/TvVesaCatalog.jsx",
+    "web/src/components/TvZoneSocketCalculator.jsx",
+    "web/src/components/VesaMatchCalculator.jsx",
+    "web/src/components/ViewingDistanceCalculator.jsx",
+    "web/src/components/WallPlannerCalculator.jsx",
+    "web/src/pages/GuidedSelectionPage.jsx",
+    "data/trust_pages.json",
+    "web/tests/*.test.mjs",
+    "scripts/analytics/metrika-goals.mjs",
+    "scripts/analytics/metrika-funnel.mjs",
+    "tests/analytics/*.test.mjs",
+    ".design-harness/runs/20260826-tool-analytics-notice/*"
+  ],
+  "verification_commands": [
+    {
+      "id": "notice-contract",
+      "command": "node --test web/tests/analytics-notice.test.mjs",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+    },
+    {
+      "id": "web-tests",
+      "command": "npm --prefix web run test:sites",
+      "required": true,
+      "covers": ["default", "disabled", "focus", "privacy", "tool events"]
+    },
+    {
+      "id": "analytics-tests",
+      "command": "npm run analytics:test",
+      "required": true,
+      "covers": ["tool funnel", "goal management", "private report"]
+    },
+    {
+      "id": "release",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["русский интерфейс", "Rust", "WASM", "SEO", "production artifact"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "continued-use-note",
+      "value": "Продолжая пользоваться сайтом, вы принимаете необходимое использование аналитики.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "privacy-boundary",
+      "text": "Вебвизор отключён; поля форм и пользовательский ввод не передаются в события инструментов.",
+      "source_ids": ["metrika-implementation", "tool-usage-contract"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "metrika-implementation",
+      "path": "web/src/lib/metrika.mjs",
+      "retrieved_at": "2026-08-26T08:40:22Z",
+      "notes": "Настройки счётчика и фильтрация параметров целей."
+    },
+    {
+      "id": "tool-usage-contract",
+      "path": "web/src/lib/toolUsage.mjs",
+      "retrieved_at": "2026-08-26T08:40:22Z",
+      "notes": "Allowlist событий начала работы с инструментом."
+    },
+    {
+      "id": "privacy-policy",
+      "path": "/politika-konfidencialnosti/",
+      "retrieved_at": "2026-08-26T08:40:22Z",
+      "notes": "Публичная политика конфиденциальности KREPI TV."
+    }
+  ]
+}

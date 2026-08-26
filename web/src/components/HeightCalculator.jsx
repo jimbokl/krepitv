@@ -53,7 +53,7 @@ export function HeightCalculator({ model = null }) {
   }
 
   return (
-    <section className="py-7" id="калькулятор-высоты">
+    <section className="py-7" data-analytics-tool="height_calculator" id="калькулятор-высоты">
       <div className="grid gap-7 lg:grid-cols-[25rem_minmax(0,1fr)] lg:items-start">
         <div className="flex items-start gap-4">
           <Ruler aria-hidden="true" className="size-14 shrink-0 text-action" weight="regular" />

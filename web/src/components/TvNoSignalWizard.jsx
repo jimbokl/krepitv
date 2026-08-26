@@ -137,6 +137,7 @@ export function TvNoSignalWizard() {
   return (
     <section
       className="border-y-2 border-ink py-7"
+      data-analytics-tool="tv_no_signal"
       data-tv-no-signal-wizard="true"
       id="мастер-проверки-сигнала"
     >

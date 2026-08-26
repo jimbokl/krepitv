@@ -135,6 +135,7 @@ export function TvDimensionsCalculator({ models = [], search = [] }) {
   return (
     <section
       className="border-y-2 border-ink py-7"
+      data-analytics-tool="tv_dimensions_calculator"
       data-tv-dimensions-calculator="true"
       id="калькулятор-размеров"
     >

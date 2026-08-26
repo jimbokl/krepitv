@@ -48,6 +48,7 @@ export function TvVesaCatalog({ compatibilityEdges, models, search }) {
     <section
       aria-labelledby="vesa-model-catalog-title"
       className="border-y-2 border-ink py-8"
+      data-analytics-tool="vesa_model_lookup"
       data-searchable-model-count={models.length}
       data-vesa-model-catalog="true"
     >

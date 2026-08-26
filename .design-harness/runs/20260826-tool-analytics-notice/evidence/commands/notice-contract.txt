@@ -1,0 +1,8 @@
+✔ уведомление содержит точную сноску, политику, подтверждение и отказ
+✔ analytics notice has no loading state
+✔ analytics notice has no empty state
+✔ analytics notice has no error state
+✔ analytics notice has no success state
+tests 5
+pass 5
+fail 0

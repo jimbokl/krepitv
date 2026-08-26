@@ -56,7 +56,7 @@ export function TurnClearanceCalculator() {
   }
 
   return (
-    <section className="border-y-2 border-ink py-7" id="калькулятор-поворота">
+    <section className="border-y-2 border-ink py-7" data-analytics-tool="turn_clearance_calculator" id="калькулятор-поворота">
       <div className="grid gap-7 lg:grid-cols-[24rem_minmax(0,1fr)] lg:items-start">
         <div className="flex items-start gap-4">
           <Ruler aria-hidden="true" className="size-14 shrink-0 text-action" />

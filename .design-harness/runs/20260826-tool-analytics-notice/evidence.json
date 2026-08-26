@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "task_id": "20260826-tool-analytics-notice",
+  "commands": [
+    {
+      "id": "notice-contract",
+      "command": "node --test web/tests/analytics-notice.test.mjs",
+      "exit_code": 0,
+      "output_path": "evidence/commands/notice-contract.txt",
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]
+    },
+    {
+      "id": "web-tests",
+      "command": "npm --prefix web run test:sites",
+      "exit_code": 0,
+      "output_path": "evidence/commands/web-tests.txt",
+      "covers": ["default", "disabled", "focus", "privacy", "tool events"]
+    },
+    {
+      "id": "analytics-tests",
+      "command": "npm run analytics:test",
+      "exit_code": 0,
+      "output_path": "evidence/commands/analytics-tests.txt",
+      "covers": ["tool funnel", "goal management", "private report"]
+    },
+    {
+      "id": "release",
+      "command": "npm run build",
+      "exit_code": 0,
+      "output_path": "evidence/commands/release.txt",
+      "covers": ["русский интерфейс", "Rust", "WASM", "SEO", "production artifact"]
+    },
+    {
+      "id": "design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace . --run .design-harness/runs/20260826-tool-analytics-notice --files web/src/components/MetrikaConsent.jsx web/src/lib/metrikaConsent.mjs web/src/lib/metrikaGate.mjs web/src/lib/metrika.mjs web/src/lib/toolUsage.mjs web/src/main.jsx data/trust_pages.json",
+      "exit_code": 0,
+      "output_path": "evidence/drift-report.json",
+      "covers": ["design tokens", "allowed visual scope"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "evidence/screenshots/default-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "inline_notice": true}
+    },
+    {
+      "id": "default-tablet",
+      "path": "evidence/screenshots/default-tablet.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "inline_notice": true}
+    },
+    {
+      "id": "default-desktop",
+      "path": "evidence/screenshots/default-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "inline_notice": true}
+    },
+    {
+      "id": "disabled-mobile",
+      "path": "evidence/screenshots/disabled-mobile.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "notice_absent": true}
+    },
+    {
+      "id": "focus-tablet",
+      "path": "evidence/screenshots/focus-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "reflow-mobile",
+      "path": "evidence/screenshots/reflow-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "text_zoom_200": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + isolated headless Chrome QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Сноска встроена в поток страницы и не перекрывает содержимое на 320, 768 и 1440 px.",
+      "Сохранённый отказ скрывает уведомление и имеет приоритет над автоматическим включением аналитики.",
+      "Клавиатурный фокус кнопки отказа виден, а увеличение текста до 200% не создаёт горизонтального переполнения.",
+      "События инструментов передают только контролируемые идентификатор инструмента, действие и путь без ответов пользователя."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

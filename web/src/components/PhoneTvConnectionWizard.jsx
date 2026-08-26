@@ -131,6 +131,7 @@ export function PhoneTvConnectionWizard() {
   return (
     <section
       className="border-y-2 border-ink py-7"
+      data-analytics-tool="phone_tv_connection"
       data-phone-tv-wizard="true"
       id="мастер-подключения"
     >

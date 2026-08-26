@@ -67,7 +67,7 @@ export function ViewingDistanceCalculator() {
   }
 
   return (
-    <section className="py-7" id="калькулятор-расстояния">
+    <section className="py-7" data-analytics-tool="viewing_distance_calculator" id="калькулятор-расстояния">
       <div className="grid gap-7 lg:grid-cols-[25rem_minmax(0,1fr)] lg:items-start">
         <div className="flex items-start gap-4">
           <Monitor aria-hidden="true" className="size-14 shrink-0 text-action" weight="regular" />

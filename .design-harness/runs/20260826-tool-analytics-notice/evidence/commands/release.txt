@@ -1,0 +1,8 @@
+Production build and verification
+Rust engine tests: pass
+Site generator tests: pass
+Web tests: 271 pass, 0 fail
+Analytics tests: 50 pass, 0 fail
+Generated pages: 299
+Indexable sitemap URLs: 299
+Exit code: 0
