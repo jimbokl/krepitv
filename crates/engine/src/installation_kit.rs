@@ -38,6 +38,23 @@ pub struct ScrewGroup {
     pub quantity: u32,
 }
 
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PortDirection {
+    Sideways,
+    Downward,
+    Rearward,
+    Detachable,
+    Unknown,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ModelPort {
+    pub kind: String,
+    pub position: String,
+    pub direction: PortDirection,
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct InstallationKitModel {
     pub id: String,
@@ -56,6 +73,8 @@ pub struct InstallationKitModel {
     pub screw_evidence: Option<Evidence>,
     #[serde(default)]
     pub port_sides: Vec<String>,
+    #[serde(default)]
+    pub ports: Vec<ModelPort>,
     pub port_evidence: Option<Evidence>,
 }
 
@@ -121,12 +140,50 @@ pub struct PlacementInput {
     pub safety_clearance_cm: Option<f64>,
 }
 
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum ClearanceFactSource {
+    Passport,
+    User,
+    Unknown,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ConnectorClearanceInput {
+    pub connection_kind: String,
+    pub port_direction: PortDirection,
+    pub required_clearance_mm: Option<f64>,
+    pub fact_source: ClearanceFactSource,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum CableClearanceVerdict {
+    Verified,
+    NeedsMeasurement,
+    Conflict,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct CableClearanceAssessment {
+    pub verdict: CableClearanceVerdict,
+    pub reason_code: String,
+    pub connection_kind: String,
+    pub port_direction: PortDirection,
+    pub fact_source: ClearanceFactSource,
+    pub available_clearance_mm: f64,
+    pub required_clearance_mm: Option<f64>,
+    pub margin_mm: Option<f64>,
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct CableInput {
     pub routing: String,
     #[serde(default)]
     pub connections: Vec<String>,
     pub spare_length_cm: Option<f64>,
+    #[serde(default)]
+    pub connector_clearance: Option<ConnectorClearanceInput>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -204,6 +261,7 @@ pub struct CableSection {
     pub connections: Vec<String>,
     pub port_sides: Vec<String>,
     pub spare_length_cm: Option<f64>,
+    pub clearance: Option<CableClearanceAssessment>,
     pub warnings: Vec<String>,
 }
 
@@ -511,8 +569,72 @@ fn build_placement_section(input: &InstallationKitInput) -> Result<PlacementSect
     })
 }
 
+fn assess_connector_clearance(
+    mount: &Mount,
+    cables: &CableInput,
+) -> Result<Option<CableClearanceAssessment>, String> {
+    let Some(input) = cables.connector_clearance.as_ref() else {
+        return Ok(None);
+    };
+    if input.connection_kind.trim().is_empty()
+        || !cables
+            .connections
+            .iter()
+            .any(|kind| kind == &input.connection_kind)
+    {
+        return Err("Кабельный зазор: выберите тип подключения из добавленных кабелей".into());
+    }
+    if let Some(required) = input.required_clearance_mm
+        && (!required.is_finite() || !(1.0..=200.0).contains(&required))
+    {
+        return Err("Кабельный зазор: допустимый размер разъёма с изгибом от 1 до 200 мм".into());
+    }
+    let available = mount.wall_distance_min_mm;
+    if !available.is_finite() || !(1.0..=1000.0).contains(&available) {
+        return Err("Кабельный зазор: минимальный отступ кронштейна не подтверждён".into());
+    }
+
+    let (verdict, reason_code) = match (input.port_direction, input.required_clearance_mm) {
+        (PortDirection::Rearward, None) => (
+            CableClearanceVerdict::NeedsMeasurement,
+            "rear-port-envelope-missing",
+        ),
+        (PortDirection::Rearward, Some(required)) if required > available => (
+            CableClearanceVerdict::Conflict,
+            "rear-port-insufficient-clearance",
+        ),
+        (PortDirection::Rearward, Some(_)) => {
+            (CableClearanceVerdict::Verified, "rear-port-clearance-ok")
+        }
+        (PortDirection::Sideways | PortDirection::Downward, _) => {
+            (CableClearanceVerdict::Verified, "non-rear-port")
+        }
+        (PortDirection::Detachable, _) => {
+            (CableClearanceVerdict::Verified, "detachable-connection")
+        }
+        (PortDirection::Unknown, _) => (
+            CableClearanceVerdict::NeedsMeasurement,
+            "port-direction-unknown",
+        ),
+    };
+
+    Ok(Some(CableClearanceAssessment {
+        verdict,
+        reason_code: reason_code.into(),
+        connection_kind: input.connection_kind.clone(),
+        port_direction: input.port_direction,
+        fact_source: input.fact_source,
+        available_clearance_mm: available,
+        required_clearance_mm: input.required_clearance_mm,
+        margin_mm: input
+            .required_clearance_mm
+            .map(|required| available - required),
+    }))
+}
+
 fn build_cable_section(
     model: &InstallationKitModel,
+    mount: &Mount,
     cables: &CableInput,
 ) -> Result<CableSection, String> {
     if !matches!(cables.routing.as_str(), "open" | "hidden" | "unknown") {
@@ -532,14 +654,25 @@ fn build_cable_section(
         }
     }
 
-    let ports_verified =
-        !model.port_sides.is_empty() && model.port_evidence.as_ref().is_some_and(evidence_is_valid);
+    let ports_verified = (!model.port_sides.is_empty() || !model.ports.is_empty())
+        && model.port_evidence.as_ref().is_some_and(evidence_is_valid);
     let routing_known = cables.routing != "unknown";
-    let status = if ports_verified && routing_known && !cables.connections.is_empty() {
+    let base_status = if ports_verified && routing_known && !cables.connections.is_empty() {
         KitSectionStatus::Verified
     } else {
         KitSectionStatus::NeedsCheck
     };
+    let clearance = assess_connector_clearance(mount, cables)?;
+    let clearance_status = clearance
+        .as_ref()
+        .map(|assessment| match assessment.verdict {
+            CableClearanceVerdict::Verified => KitSectionStatus::Verified,
+            CableClearanceVerdict::NeedsMeasurement => KitSectionStatus::NeedsCheck,
+            CableClearanceVerdict::Conflict => KitSectionStatus::Blocked,
+        });
+    let status = clearance_status
+        .map(|item| highest_status(&[base_status, item]))
+        .unwrap_or(base_status);
     let mut warnings = vec![
         "Оставьте сервисную петлю и проверьте траекторию кабелей во всём диапазоне поворота и наклона"
             .into(),
@@ -556,17 +689,41 @@ fn build_cable_section(
                 .into(),
         );
     }
+    if let Some(assessment) = clearance.as_ref() {
+        match assessment.verdict {
+            CableClearanceVerdict::Verified => {}
+            CableClearanceVerdict::NeedsMeasurement => warnings.push(
+                "До выбора кронштейна измерьте выступ разъёма вместе с безопасным радиусом изгиба кабеля"
+                    .into(),
+            ),
+            CableClearanceVerdict::Conflict => warnings.push(
+                "Разъём с изгибом требует больше места, чем оставляет кронштейн: выберите боковой порт, угловой адаптер или другой кронштейн"
+                    .into(),
+            ),
+        }
+    }
+
+    let port_sides = if ports_verified {
+        if model.port_sides.is_empty() {
+            model
+                .ports
+                .iter()
+                .map(|port| port.position.clone())
+                .collect()
+        } else {
+            model.port_sides.clone()
+        }
+    } else {
+        Vec::new()
+    };
 
     Ok(CableSection {
         status,
         routing: cables.routing.clone(),
         connections: cables.connections.clone(),
-        port_sides: if ports_verified {
-            model.port_sides.clone()
-        } else {
-            Vec::new()
-        },
+        port_sides,
         spare_length_cm: cables.spare_length_cm,
+        clearance,
         warnings,
     })
 }
@@ -607,7 +764,7 @@ pub fn build_installation_kit(input: &InstallationKitInput) -> Result<Installati
     let screws = build_screw_section(&input.model);
     let wall_fixing = build_wall_fixing_section(input, compatibility.required_load_kg);
     let placement = build_placement_section(input)?;
-    let cables = build_cable_section(&input.model, &input.cables)?;
+    let cables = build_cable_section(&input.model, &input.mount, &input.cables)?;
     let tools_status = highest_status(&[screws.status, wall_fixing.status]);
     let tools = ToolsSection {
         status: tools_status,
@@ -652,7 +809,11 @@ pub fn build_installation_kit(input: &InstallationKitInput) -> Result<Installati
         model_id: input.model.id.clone(),
         mount_id: input.mount.id.clone(),
         overall_status: checklist_status,
-        market_eligible: compatibility.status == KitSectionStatus::Verified,
+        market_eligible: compatibility.status == KitSectionStatus::Verified
+            && cables
+                .clearance
+                .as_ref()
+                .is_none_or(|assessment| assessment.verdict == CableClearanceVerdict::Verified),
         section_order: SECTION_ORDER
             .iter()
             .map(|item| (*item).to_string())
@@ -713,6 +874,11 @@ mod tests {
                 checked_at: "2026-07-31".into(),
             }),
             port_sides: vec!["сбоку".into()],
+            ports: vec![ModelPort {
+                kind: "hdmi".into(),
+                position: "сбоку".into(),
+                direction: PortDirection::Sideways,
+            }],
             port_evidence: Some(Evidence {
                 source_url: "https://www.tcl.com/ru/ru/support-tv/model/65c7k".into(),
                 source_label: "Российское руководство TCL C7K".into(),
@@ -774,6 +940,7 @@ mod tests {
                 routing: "open".into(),
                 connections: vec!["hdmi".into(), "power".into()],
                 spare_length_cm: Some(30.0),
+                connector_clearance: None,
             },
         }
     }
@@ -845,6 +1012,90 @@ mod tests {
 
         assert_eq!(plan.cables.status, KitSectionStatus::NeedsCheck);
         assert!(plan.cables.port_sides.is_empty());
+    }
+
+    #[test]
+    fn rearward_port_without_measurement_requires_a_check_and_hides_market() {
+        let mut input = base_input();
+        input.cables.connector_clearance = Some(ConnectorClearanceInput {
+            connection_kind: "hdmi".into(),
+            port_direction: PortDirection::Rearward,
+            required_clearance_mm: None,
+            fact_source: ClearanceFactSource::Unknown,
+        });
+
+        let plan = build_installation_kit(&input).expect("missing measurement is bounded");
+
+        assert_eq!(plan.cables.status, KitSectionStatus::NeedsCheck);
+        assert_eq!(
+            plan.cables.clearance.as_ref().map(|item| item.verdict),
+            Some(CableClearanceVerdict::NeedsMeasurement)
+        );
+        assert_eq!(
+            plan.cables
+                .clearance
+                .as_ref()
+                .map(|item| item.reason_code.as_str()),
+            Some("rear-port-envelope-missing")
+        );
+        assert!(!plan.market_eligible);
+    }
+
+    #[test]
+    fn rearward_connector_larger_than_wall_gap_blocks_the_plan() {
+        let mut input = base_input();
+        input.mount.wall_distance_min_mm = 22.0;
+        input.cables.connector_clearance = Some(ConnectorClearanceInput {
+            connection_kind: "hdmi".into(),
+            port_direction: PortDirection::Rearward,
+            required_clearance_mm: Some(35.0),
+            fact_source: ClearanceFactSource::User,
+        });
+
+        let plan = build_installation_kit(&input).expect("conflict is a bounded result");
+        let clearance = plan.cables.clearance.expect("clearance assessment");
+
+        assert_eq!(plan.cables.status, KitSectionStatus::Blocked);
+        assert_eq!(clearance.verdict, CableClearanceVerdict::Conflict);
+        assert_eq!(clearance.reason_code, "rear-port-insufficient-clearance");
+        assert_eq!(clearance.margin_mm, Some(-13.0));
+        assert!(!plan.market_eligible);
+    }
+
+    #[test]
+    fn measured_rearward_connector_that_fits_is_verified() {
+        let mut input = base_input();
+        input.mount.wall_distance_min_mm = 60.0;
+        input.cables.connector_clearance = Some(ConnectorClearanceInput {
+            connection_kind: "hdmi".into(),
+            port_direction: PortDirection::Rearward,
+            required_clearance_mm: Some(35.0),
+            fact_source: ClearanceFactSource::User,
+        });
+
+        let plan = build_installation_kit(&input).expect("measured clearance is valid");
+        let clearance = plan.cables.clearance.expect("clearance assessment");
+
+        assert_eq!(plan.cables.status, KitSectionStatus::Verified);
+        assert_eq!(clearance.verdict, CableClearanceVerdict::Verified);
+        assert_eq!(clearance.reason_code, "rear-port-clearance-ok");
+        assert_eq!(clearance.margin_mm, Some(25.0));
+        assert!(plan.market_eligible);
+    }
+
+    #[test]
+    fn connector_clearance_requires_a_selected_connection_kind() {
+        let mut input = base_input();
+        input.cables.connector_clearance = Some(ConnectorClearanceInput {
+            connection_kind: "".into(),
+            port_direction: PortDirection::Rearward,
+            required_clearance_mm: Some(35.0),
+            fact_source: ClearanceFactSource::User,
+        });
+
+        let error = build_installation_kit(&input).expect_err("empty connection must fail");
+
+        assert!(error.contains("тип подключения"));
     }
 
     #[test]
