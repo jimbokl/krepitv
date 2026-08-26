@@ -1,0 +1,36 @@
+{
+  "profile": "mobile-412x823-cpu4-slow4g",
+  "runsPerRoute": 1,
+  "passed": true,
+  "routes": [
+    {
+      "route": "/",
+      "passed": true,
+      "failedRuns": 0,
+      "median": {
+        "cls": 0,
+        "fcpMs": 616,
+        "lcpMs": 616,
+        "tbtMs": 0
+      },
+      "runs": [
+        {
+          "cls": 0,
+          "fcpMs": 616,
+          "lcpMs": 616,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 142,
+          "finalMainTop": 142,
+          "initialRootHeight": 4330.71875,
+          "finalRootHeight": 4306.71875,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        }
+      ]
+    }
+  ]
+}

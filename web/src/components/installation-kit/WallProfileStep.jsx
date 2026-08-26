@@ -17,7 +17,7 @@ export function WallProfileStep({ value, onChange }) {
       <div className="divide-y divide-line border-y border-ink sm:grid sm:grid-cols-2 sm:divide-x sm:divide-y-0 xl:grid-cols-3">
         {OPTIONS.map(([id, title, description, Icon]) => (
           <label className={`grid min-h-24 cursor-pointer grid-cols-[2.75rem_minmax(0,1fr)] items-center gap-3 px-3 py-4 transition focus-within:ring-2 focus-within:ring-action sm:min-h-36 sm:grid-cols-1 sm:content-center sm:p-5 ${value === id ? "bg-panel" : "bg-white hover:bg-panel/60"}`} data-kit-choice="wall-profile" key={id}>
-            <input aria-label={title} checked={value === id} className="sr-only" name="wall-profile" onChange={() => onChange(id)} type="radio" />
+            <input aria-label={title} checked={value === id} className="sr-only" name="wall-profile" onChange={() => onChange(id)} type="radio" value={id} />
             <Icon aria-hidden="true" className={value === id ? "size-8 text-action" : "size-8"} />
             <span><strong className="block font-display text-lg">{title}</strong><span className="mt-1 block text-sm leading-snug text-muted">{description}</span></span>
           </label>

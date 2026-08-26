@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "run": "20260826-pagespeed-stable-islands",
+  "generated_at": "2026-08-26T07:22:40.520987+00:00",
+  "scanned_files": [
+    "web/src/main.jsx",
+    "web/src/components/HomeSearchIsland.jsx",
+    "web/src/components/ModelOffersIsland.jsx",
+    "web/src/components/ModelSearch.jsx",
+    "web/src/components/installation-kit/MountChoiceStep.jsx",
+    "web/src/components/installation-kit/WallProfileStep.jsx",
+    "web/src/pages/GuidedSelectionPage.jsx"
+  ],
+  "findings": []
+}

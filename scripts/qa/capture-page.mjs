@@ -834,13 +834,13 @@ try {
             "Model choice did not open the wall step",
           );
           const wall = await waitFor(
-            () => page.querySelector('input[value="solid"]'),
-            "Solid wall choice not found",
+            () => page.querySelector('input[value="concrete"]'),
+            "Concrete wall choice not found",
           );
           wall.click();
           const mechanismStep = await waitFor(
             () => Array.from(page.querySelectorAll('button[type="button"]')).find(
-              (button) => button.textContent.includes("Выбрать механизм") && !button.disabled,
+              (button) => button.textContent.includes("Продолжить") && !button.disabled,
             ),
             "Wall choice did not enable the mechanism step",
           );
@@ -854,6 +854,17 @@ try {
             "Fixed mount choice not found",
           );
           fixed.click();
+          const compatibilityStep = await waitFor(
+            () => Array.from(page.querySelectorAll('button[type="button"]')).find(
+              (button) => button.textContent.includes("Продолжить") && !button.disabled,
+            ),
+            "Mount choice did not enable the compatibility step",
+          );
+          compatibilityStep.click();
+          await waitFor(
+            () => page.getAttribute("data-guided-selection-step") === "5",
+            "Mount choice did not open the compatibility step",
+          );
         }
 
         const expected = state === "loading"
@@ -879,9 +890,9 @@ try {
             ? Boolean(finalModelSelect.closest("form")?.querySelector('button[type="submit"]')?.disabled)
             : null,
           resultStatus: page.querySelector("[data-guided-compatibility-state]")?.getAttribute("data-guided-compatibility-state") ?? null,
-          resultCards: page.querySelectorAll('[data-result-tier="featured_result"]').length,
+          resultCards: page.querySelectorAll('[data-kit-choice="mount"]').length,
           hasRetry: Array.from(page.querySelectorAll('button[type="button"]')).some(
-            (button) => button.textContent.includes("Повторить проверку"),
+            (button) => button.textContent.includes("Повторить"),
           ),
           marketLinks: page.querySelectorAll('a[href*="market.yandex.ru"]').length,
         };
@@ -890,7 +901,10 @@ try {
       returnByValue: true,
     });
     if (interaction.exceptionDetails || !interaction.result?.value) {
-      throw new Error("Guided selection interaction failed");
+      const detail = interaction.exceptionDetails?.exception?.description
+        ?? interaction.exceptionDetails?.text
+        ?? "no result";
+      throw new Error(`Guided selection interaction failed: ${detail}`);
     }
     guidedSelectionReport = interaction.result.value;
     if (guidedSelectionReport.brandOptionCount < 1) {

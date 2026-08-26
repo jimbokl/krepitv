@@ -1,0 +1,190 @@
+{
+  "profile": "mobile-412x823-cpu4-slow4g",
+  "runsPerRoute": 3,
+  "passed": true,
+  "routes": [
+    {
+      "route": "/",
+      "passed": true,
+      "failedRuns": 0,
+      "median": {
+        "cls": 0.0001,
+        "fcpMs": 540,
+        "lcpMs": 540,
+        "tbtMs": 0
+      },
+      "runs": [
+        {
+          "cls": 0,
+          "fcpMs": 592,
+          "lcpMs": 592,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 4266.71875,
+          "finalRootHeight": 4242.71875,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        },
+        {
+          "cls": 0.0001,
+          "fcpMs": 536,
+          "lcpMs": 536,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 4266.71875,
+          "finalRootHeight": 4242.71875,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        },
+        {
+          "cls": 0.0001,
+          "fcpMs": 540,
+          "lcpMs": 540,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 4266.71875,
+          "finalRootHeight": 4242.71875,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        }
+      ]
+    },
+    {
+      "route": "/modeli/tcl-55c6k/",
+      "passed": true,
+      "failedRuns": 0,
+      "median": {
+        "cls": 0.031,
+        "fcpMs": 560,
+        "lcpMs": 560,
+        "tbtMs": 0
+      },
+      "runs": [
+        {
+          "cls": 0.031,
+          "fcpMs": 572,
+          "lcpMs": 572,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 6742.84375,
+          "finalRootHeight": 6774.078125,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        },
+        {
+          "cls": 0.031,
+          "fcpMs": 560,
+          "lcpMs": 560,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 6742.84375,
+          "finalRootHeight": 6774.078125,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        },
+        {
+          "cls": 0.031,
+          "fcpMs": 556,
+          "lcpMs": 556,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 6742.84375,
+          "finalRootHeight": 6774.078125,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        }
+      ]
+    },
+    {
+      "route": "/podbor/?model=tcl-55c6k",
+      "passed": true,
+      "failedRuns": 0,
+      "median": {
+        "cls": 0,
+        "fcpMs": 540,
+        "lcpMs": 540,
+        "tbtMs": 0
+      },
+      "runs": [
+        {
+          "cls": 0,
+          "fcpMs": 540,
+          "lcpMs": 540,
+          "tbtMs": 15,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 3488.25,
+          "finalRootHeight": 2287.703125,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        },
+        {
+          "cls": 0,
+          "fcpMs": 540,
+          "lcpMs": 540,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 3488.25,
+          "finalRootHeight": 2287.703125,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        },
+        {
+          "cls": 0,
+          "fcpMs": 548,
+          "lcpMs": 548,
+          "tbtMs": 0,
+          "rootEmptyEvents": 0,
+          "fullRootReplacements": 0,
+          "initialMainTop": 78,
+          "finalMainTop": 78,
+          "initialRootHeight": 3488.25,
+          "finalRootHeight": 2287.703125,
+          "gate": {
+            "passed": true,
+            "failures": []
+          }
+        }
+      ]
+    }
+  ]
+}

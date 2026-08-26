@@ -6,33 +6,96 @@ import "@fontsource/ibm-plex-sans/400.css";
 import "@fontsource/ibm-plex-sans/500.css";
 import "@fontsource/ibm-plex-sans/600.css";
 import "@fontsource/ibm-plex-mono/400.css";
-import { App, preloadAppRoute } from "./App.jsx";
-import { loadCatalog } from "./lib/catalog.js";
 import { bootClient } from "./lib/clientBoot.mjs";
 import { YANDEX_METRIKA_COUNTER_ID } from "./lib/metrikaConfig.mjs";
 import { installConsentGatedMetrika } from "./lib/metrikaGate.mjs";
+import { installStaticNavigation } from "./lib/staticNavigation.mjs";
 import "./styles.css";
 
 const rootElement = document.getElementById("root");
 
 installConsentGatedMetrika({ counterId: YANDEX_METRIKA_COUNTER_ID });
+const staticNavigation = installStaticNavigation();
 
-// Сначала загружаем только модуль текущего типа страницы. До его готовности
-// самостоятельный SSR остаётся в DOM, поэтому медленная сеть не превращает
-// полезный поисковый ответ в пустой экран.
-void preloadAppRoute(rootElement).then(
-  () => bootClient({
-    rootElement,
-    loadCatalog,
-    render(catalog) {
-      createRoot(rootElement).render(
-        <React.StrictMode>
-          <App catalog={catalog} />
-        </React.StrictMode>,
-      );
-    },
-  }),
-  (error) => {
-    console.error("Не удалось подключить интерактивный модуль; оставлен статический контент.", error);
-  },
-);
+if (rootElement?.dataset.pageKind === "home") {
+  void Promise.all([
+    import("./components/HomeSearchIsland.jsx"),
+    import("./lib/modelSearch.mjs"),
+  ]).then(
+    ([{ HomeSearchIsland }, { loadHomeSearch }]) => bootClient({
+      rootElement,
+      loadHomeSearch,
+      renderHome(island, search) {
+        createRoot(island).render(
+          <React.StrictMode>
+            <HomeSearchIsland search={search} />
+          </React.StrictMode>,
+        );
+      },
+    }),
+    reportEnhancementError,
+  );
+} else if (rootElement?.dataset.pageKind === "model") {
+  const modelId = rootElement.dataset.modelId;
+  void Promise.all([
+    import("./components/ModelOffersIsland.jsx"),
+    import("./lib/catalog.js"),
+  ]).then(
+    ([{ ModelOffersIsland }, { loadFreshModelAffiliateOffers }]) => bootClient({
+      rootElement,
+      loadIslandData: () => loadFreshModelAffiliateOffers({ modelId }),
+      renderIsland(island, offers) {
+        if (!offers.length) return;
+        createRoot(island).render(
+          <React.StrictMode>
+            <ModelOffersIsland offers={offers} />
+          </React.StrictMode>,
+        );
+      },
+    }),
+    reportEnhancementError,
+  );
+} else if (rootElement?.dataset.pageKind === "matcher") {
+  void Promise.all([
+    import("./pages/GuidedSelectionPage.jsx"),
+    import("./lib/catalog.js"),
+  ]).then(
+    ([{ GuidedSelectionPage }, { loadCatalog }]) => bootClient({
+      rootElement,
+      loadIslandData: loadCatalog,
+      renderIsland(island, catalog) {
+        createRoot(island).render(
+          <React.StrictMode>
+            <GuidedSelectionPage catalog={catalog} embedded />
+          </React.StrictMode>,
+        );
+      },
+    }),
+    reportEnhancementError,
+  );
+} else {
+  void Promise.all([
+    import("./App.jsx"),
+    import("./lib/catalog.js"),
+  ]).then(
+    ([{ App, preloadAppRoute }, { loadCatalog }]) => preloadAppRoute(rootElement).then(
+      () => bootClient({
+        rootElement,
+        loadCatalog,
+        render(catalog) {
+          staticNavigation.dispose();
+          createRoot(rootElement).render(
+            <React.StrictMode>
+              <App catalog={catalog} />
+            </React.StrictMode>,
+          );
+        },
+      }),
+    ),
+    reportEnhancementError,
+  );
+}
+
+function reportEnhancementError(error) {
+  console.error("Не удалось подключить интерактивный модуль; оставлен статический контент.", error);
+}

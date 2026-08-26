@@ -1167,6 +1167,7 @@ const affiliateComponent = path.join(root, "web/src/components/AffiliateOffer.js
 const affiliateConsumers = new Set([
   path.join(root, "web/src/components/SiteFooter.jsx"),
   path.join(root, "web/src/pages/ModelPage.jsx"),
+  path.join(root, "web/src/components/ModelOffersIsland.jsx"),
   path.join(root, "web/src/pages/MountPage.jsx"),
   path.join(root, "web/src/pages/SeoPage.jsx"),
   path.join(root, "web/src/components/installation-kit/InstallationKitResult.jsx"),

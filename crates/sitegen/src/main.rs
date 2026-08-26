@@ -1296,7 +1296,7 @@ fn html_shell(
 }
 
 fn static_header() -> &'static str {
-    "<header class=\"border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5 px-5 py-4 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><nav class=\"flex flex-wrap gap-5 font-display text-sm font-bold uppercase\" aria-label=\"Основная навигация\"><a href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a href=\"/podbor/\">Подбор</a><a href=\"/modeli/\">Телевизоры</a><a href=\"/kronshteyny/\">Кронштейны</a><a href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a href=\"/vesa/\">VESA</a><a href=\"/spravochnik/\">Справочник</a></nav></div></header>"
+    "<header class=\"relative border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex min-w-0 max-w-[1440px] items-center justify-between gap-3 px-5 py-4 sm:gap-6 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><button aria-controls=\"site-primary-navigation\" aria-expanded=\"false\" aria-label=\"Открыть меню\" class=\"flex size-11 shrink-0 items-center justify-center rounded focus:outline-none focus:ring-2 focus:ring-action lg:hidden\" data-static-navigation-toggle=\"true\" type=\"button\"><span aria-hidden=\"true\" class=\"font-mono text-2xl leading-none\" data-static-navigation-open-icon=\"true\">☰</span><span aria-hidden=\"true\" class=\"hidden font-mono text-3xl leading-none\" data-static-navigation-close-icon=\"true\">×</span></button><nav class=\"absolute inset-x-4 top-full z-40 hidden flex-col gap-1 rounded-md border border-line bg-white p-3 shadow-menu lg:static lg:flex lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none\" aria-label=\"Основная навигация\" id=\"site-primary-navigation\"><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/podbor/\">Подбор</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/modeli/\">Телевизоры</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/kronshteyny/\">Кронштейны</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/vesa/\">VESA</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/spravochnik/\">Справочник</a></nav></div></header>"
 }
 
 fn static_footer() -> &'static str {
@@ -1610,9 +1610,12 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
     .collect::<Vec<_>>()
     .join("\n");
 
+    let search_island = "<div class=\"relative z-20 mt-6 min-h-20 min-h-[10.75rem] md:min-h-20\" data-home-search-island=\"true\"><form action=\"/modeli/\" class=\"grid min-w-0 gap-3 md:grid-cols-[minmax(0,1fr)_22rem]\" data-home-search-fallback=\"true\" method=\"get\"><label class=\"sr-only\" for=\"home-model-search\">Модель телевизора</label><input aria-label=\"Модель телевизора\" autocomplete=\"off\" class=\"h-20 min-w-0 w-full rounded-md border-2 border-action bg-white px-5 text-lg sm:text-xl lg:text-3xl\" id=\"home-model-search\" name=\"model\" placeholder=\"Введите модель ТВ\"><button class=\"h-20 rounded-md bg-action px-7 font-display text-2xl font-bold text-white\" type=\"submit\">Открыть каталог</button></form></div>";
+
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу, а затем соберёт высоты, крепёжные ограничения, кабели и чек-лист монтажа.</p><a class=\"primary-button mt-6\" href=\"/podbor/\">Собрать монтажный комплект</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">Точные модели с источниками · {model_count}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a>{spotlight_model}</section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Персональную карту высот и контрольную линию пластины.</li><li>Ограничения крепежа для выбранной стены.</li><li>Кабельный план и печатный чек-лист.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-px border border-line bg-line sm:grid-cols-3\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section><section class=\"border-t border-line py-9\" data-home-tv-diagnostics=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Без разборки и догадок</p><div class=\"mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end\"><h2 class=\"font-display text-3xl font-extrabold\">Диагностика телевизора</h2><p class=\"max-w-2xl leading-relaxed text-muted\">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class=\"mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3\" aria-label=\"Диагностика телевизора\">{diagnostic_links}</nav></section></div>",
+        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу, а затем соберёт высоты, крепёжные ограничения, кабели и чек-лист монтажа.</p>{search_island}<a class=\"primary-button mt-6\" href=\"/podbor/\">Собрать монтажный комплект</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">Точные модели с источниками · {model_count}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a>{spotlight_model}</section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Персональную карту высот и контрольную линию пластины.</li><li>Ограничения крепежа для выбранной стены.</li><li>Кабельный план и печатный чек-лист.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-px border border-line bg-line sm:grid-cols-3\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section><section class=\"border-t border-line py-9\" data-home-tv-diagnostics=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Без разборки и догадок</p><div class=\"mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end\"><h2 class=\"font-display text-3xl font-extrabold\">Диагностика телевизора</h2><p class=\"max-w-2xl leading-relaxed text-muted\">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class=\"mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3\" aria-label=\"Диагностика телевизора\">{diagnostic_links}</nav></section></div>",
         model_count = models.len(),
+        search_island = search_island,
         spotlight_model = spotlight_model,
     ))
 }
@@ -1662,9 +1665,12 @@ fn matcher_page_body(models: &[TvModel]) -> String {
         "space-y-4 border-t border-line py-5",
     );
 
-    static_layout(&format!(
+    let content = format!(
         "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Локальный Rust/WASM-мастер</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Полный монтажный комплект для телевизора</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Выберите точную модель, стену, механизм и кронштейн. Сервис раздельно проверит совместимость, винты, настенный крепёж, высоты, кабели, инструменты и порядок монтажа.</p><section class=\"mt-10 border-y-2 border-ink py-7\" data-guided-brand-step-static=\"true\" data-guided-brand-count=\"{brand_count}\"><p class=\"font-mono text-xs uppercase text-action\">Шаг 1 из 6</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Сначала выберите марку телевизора</h2><label class=\"mt-5 block font-display text-lg font-bold\" for=\"static-guided-brand\">Марка телевизора</label><select class=\"mt-3 h-16 w-full rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-guided-brand\"><option value=\"\">Выберите марку</option>{brand_options}</select><div class=\"mt-5 opacity-60\" data-guided-model-step-static=\"true\"><label class=\"block font-display text-lg font-bold\" for=\"static-guided-model\">Модель телевизора</label><select class=\"mt-3 h-16 w-full rounded-md border-2 border-line bg-white px-5 text-xl\" disabled id=\"static-guided-model\"><option value=\"\">Сначала выберите марку</option></select></div><p class=\"mt-3 text-sm leading-relaxed text-muted\">После загрузки мастер продолжит путь: модель → стена → механизм → кронштейн → размещение и кабели.</p></section><section class=\"border-b-2 border-ink py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что вы получите</h2><ul class=\"mt-5 grid gap-px border border-line bg-line sm:grid-cols-2\"><li class=\"bg-paper p-4\">Проверку VESA, диагонали и нагрузки с запасом.</li><li class=\"bg-paper p-4\">Паспортные винты или честный статус «нужно проверить».</li><li class=\"bg-paper p-4\">Персональную карту высот для экрана и настенной пластины.</li><li class=\"bg-paper p-4\">Ограничения крепежа для выбранного основания.</li><li class=\"bg-paper p-4\">План подключений с сервисным запасом кабеля.</li><li class=\"bg-paper p-4\">Печатный список инструментов и последовательность монтажа.</li></ul></section><section class=\"border-b-2 border-ink py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Как мы проверяем совместимость</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Rust-ядро сопоставляет точную пару VESA, массу телевизора с запасом 25%, паспортный диапазон диагонали и выбранный механизм. Вторичные советы появляются только вместе с HTTPS-источником и датой проверки.</p><dl class=\"mt-5 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Проверено</dt><dd class=\"mt-1 font-display text-xl font-bold\">Все предпосылки подтверждены</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Нужно проверить</dt><dd class=\"mt-1 font-display text-xl font-bold\">Нет точных вторичных данных</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Остановиться</dt><dd class=\"mt-1 font-display text-xl font-bold\">Сценарий несовместим или небезопасен</dd></div></dl></section><section class=\"border-b-2 border-ink py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что нельзя определить без осмотра</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Сервис не видит состояние основания, пустоты, закладные и скрытые коммуникации. VESA не является схемой отверстий в стене: точки сверления зависят от конкретной настенной пластины и публикуются только при полном подтверждённом геометрическом паспорте.</p></section><section class=\"border-b-2 border-ink py-8\"><p class=\"font-mono text-xs uppercase text-action\">Пример результата</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Персональная карта высот</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Мастер отдельно покажет нижнюю кромку телевизора, центр экрана, центр VESA и контрольную линию настенной пластины от чистого пола. Контрольная линия задаёт высоту пластины, но не выдаётся за отверстие.</p></section><details class=\"mt-8 border-y border-line\"><summary class=\"cursor-pointer py-5 font-display text-2xl font-extrabold focus:outline-none focus-visible:ring-2 focus-visible:ring-action\">Все проверенные модели по маркам</summary><div class=\"pb-5\">{model_links}</div></details><p class=\"mt-8 flex flex-wrap gap-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Полная методика</a><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/redaktsiya/\">Редакция и ответственность</a></p></article>",
         brand_count = brand_counts.len(),
+    );
+    static_layout(&format!(
+        "<div class=\"min-h-screen\" data-guided-selection-island=\"true\">{content}</div>"
     ))
 }
 
@@ -1962,13 +1968,15 @@ fn model_page_body(
         .map(|offer| affiliate_offer_placeholder_html(offer, 3))
         .collect::<Vec<_>>()
         .join("\n");
-    let affiliate_section = if affiliate_cards.is_empty() {
+    let affiliate_section_content = if affiliate_cards.is_empty() {
         String::new()
     } else {
         format!(
             "<section class=\"border-b-2 border-ink py-8\" aria-label=\"Проверка предложений Яндекс Маркета\"><h2 class=\"font-display text-3xl font-extrabold\">Проверяем предложения Яндекс Маркета</h2><p class=\"mt-3 max-w-3xl text-muted\">Прямые кнопки появятся только после клиентской проверки свежести данных и точного совпадения модели кронштейна.</p><div class=\"mt-5 grid gap-5\">{affiliate_cards}</div></section>"
         )
     };
+    let affiliate_section =
+        format!("<div data-model-offers-island=\"true\">{affiliate_section_content}</div>");
     let vesa_conflict = tv
         .wall_mount_screws
         .as_ref()
@@ -6208,6 +6216,8 @@ mod tests {
         );
         assert!(static_footer().contains("href=\"/redaktsiya/\">Редакция</a>"));
         assert!(!static_header().contains("href=\"/metodika/\">Методика</a>"));
+        assert!(static_header().contains("data-static-navigation-toggle=\"true\""));
+        assert!(static_header().contains("id=\"site-primary-navigation\""));
     }
 
     #[test]
@@ -6742,6 +6752,20 @@ mod tests {
     }
 
     #[test]
+    fn home_prerenders_stable_search_island_with_a_no_javascript_fallback() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let html = home_page_body(&models, &pages);
+
+        assert_eq!(html.matches("data-home-search-island=\"true\"").count(), 1);
+        assert!(html.contains("data-home-search-fallback=\"true\""));
+        assert!(html.contains("action=\"/modeli/\""));
+        assert!(html.contains("aria-label=\"Модель телевизора\""));
+        assert!(html.contains("min-h-[10.75rem] md:min-h-20"));
+    }
+
+    #[test]
     fn matcher_starts_with_brand_then_model_without_phantom_selection() {
         let models: Vec<TvModel> = read_json(&workspace_root().join("data/tv_models.json"));
         let html = matcher_page_body(&models);
@@ -6753,6 +6777,7 @@ mod tests {
 
         assert!(html.contains("data-guided-brand-step-static=\"true\""));
         assert!(html.contains("data-guided-model-step-static=\"true\""));
+        assert!(html.contains("data-guided-selection-island=\"true\""));
         assert!(html.contains("Шаг 1 из 6"));
         assert!(html.contains("Сначала выберите марку телевизора"));
         assert!(html.contains("Что вы получите"));
@@ -6787,6 +6812,7 @@ mod tests {
             let html = model_page_body(tv, &matches, &[], 0, &pages, None);
             assert!(html.contains(&format!("href=\"/podbor/?model={}\"", tv.id)));
             assert_eq!(html.matches("data-model-installation-kit=").count(), 1);
+            assert_eq!(html.matches("data-model-offers-island=\"true\"").count(), 1);
         }
     }
 

@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "id": "20260826-pagespeed-stable-islands",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-26T06:52:10.642595+00:00",
+  "states": ["default", "loading", "empty", "error", "success", "disabled", "focus"],
+  "behavior_evidence_states": {},
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800, "locale": "ru-RU"},
+    {"id": "tablet", "width": 768, "height": 1024, "locale": "ru-RU"},
+    {"id": "desktop", "width": 1440, "height": 900, "locale": "ru-RU"}
+  ],
+  "allowed_files": [
+    "crates/sitegen/src/main.rs",
+    "web/src/main.jsx",
+    "web/src/lib/clientBoot.mjs",
+    "web/src/lib/catalog.js",
+    "web/src/lib/modelSearch.mjs",
+    "web/src/lib/staticNavigation.mjs",
+    "web/src/components/HomeSearchIsland.jsx",
+    "web/src/components/ModelOffersIsland.jsx",
+    "web/src/components/ModelSearch.jsx",
+    "web/src/components/installation-kit/MountChoiceStep.jsx",
+    "web/src/components/installation-kit/WallProfileStep.jsx",
+    "web/src/pages/GuidedSelectionPage.jsx",
+    "web/tests/client-boot.test.mjs",
+    "web/tests/guided-selection-flow.test.mjs",
+    "web/tests/home-search-loader.test.mjs",
+    "web/tests/model-search.test.mjs",
+    "web/tests/model-offers-island-render.test.mjs",
+    "web/tests/guided-selection-capture.test.mjs",
+    "scripts/qa/capture-page.mjs",
+    "scripts/qa/measure-layout-stability.mjs",
+    "tests/qa/layout-stability.test.mjs",
+    "product-docs/performance/pagespeed-home-2026-08-26.md",
+    "package.json",
+    "docs"
+  ],
+  "verification_commands": [
+    {"id": "unit", "command": "npm run qa:test && node --test web/tests/client-boot.test.mjs web/tests/guided-selection-flow.test.mjs web/tests/home-search-loader.test.mjs web/tests/model-search.test.mjs web/tests/model-offers-island-render.test.mjs web/tests/guided-selection-capture.test.mjs", "required": true, "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]},
+    {"id": "performance", "command": "node scripts/qa/measure-layout-stability.mjs --runs 3", "required": true, "covers": ["mobile", "SSR stability", "CLS", "LCP", "TBT"]},
+    {"id": "release", "command": "npm run build:release", "required": true, "covers": ["Rust", "WASM", "русский интерфейс", "каталог", "SEO", "affiliate"]},
+    {"id": "verify", "command": "npm run verify", "required": true, "covers": ["полная регрессия", "данные", "SEO", "affiliate", "analytics"]}
+  ],
+  "asset_specs": [],
+  "exact_content": [],
+  "claims": [
+    {"id": "pagespeed-baseline", "text": "Мобильный отчёт PageSpeed до исправления зафиксировал CLS 0,302 и LCP 3,8 с.", "source_ids": ["pagespeed-report"]}
+  ],
+  "sources": [
+    {"id": "pagespeed-report", "path": "/Users/dmitrij/.codex/attachments/c055d663-f428-46e0-971c-e7e59cbb10e6/pasted-text.txt", "retrieved_at": "2026-08-26T06:00:00+00:00", "notes": "Предоставленный пользователем отчёт PageSpeed Insights."},
+    {"id": "approved-references", "path": "product-docs/design-references", "retrieved_at": "2026-08-26T06:52:10+00:00", "notes": "Утверждённые визуальные референсы KREPI TV."}
+  ]
+}

@@ -3,7 +3,7 @@ import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import {
   filterModelSearchResults,
   findExactModelSearchResult,
-} from "../lib/catalog.js";
+} from "../lib/modelSearch.mjs";
 
 const MODEL_REQUEST_URL =
   "https://github.com/jimbokl/krepitv/issues/new?template=model-request.yml";

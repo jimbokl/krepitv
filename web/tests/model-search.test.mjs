@@ -4,7 +4,7 @@ import test from "node:test";
 import {
   filterModelSearchResults,
   findExactModelSearchResult,
-} from "../src/lib/catalog.js";
+} from "../src/lib/modelSearch.mjs";
 
 const search = [
   { id: "tcl-55p6k", title: "TCL 55P6K", search: "TCL 55P6K 55 P6K" },

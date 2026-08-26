@@ -26,6 +26,8 @@
     "research:seo-hubs": "node scripts/research/collect-seo-hub-demand.mjs",
     "research:merge-tv-demand": "node scripts/research/merge-tv-model-demand.mjs",
     "qa:screenshot": "node scripts/qa/capture-page.mjs",
+    "qa:layout-stability": "node scripts/qa/measure-layout-stability.mjs",
+    "qa:test": "node --test tests/qa/*.test.mjs",
     "affiliate:validate": "node scripts/affiliate/validate.mjs --kind source data/affiliate/market-products.json",
     "affiliate:validate-public": "node scripts/affiliate/validate.mjs --kind public data/affiliate/public-offers.json",
     "affiliate:check-market": "node scripts/affiliate/check-market-links.mjs",
@@ -62,6 +64,6 @@
     "dev:prepare": "npm run build:content && npm run build:wasm",
     "dev": "npm run dev:prepare && npm --prefix web run dev",
     "verify:wasm-repro": "node scripts/verify-wasm-reproducibility.mjs",
-    "verify": "cargo fmt --all --check && cargo test --workspace --locked && npm run verify:wasm-repro && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run validate:installation-kit-data && npm run catalog:verify && npm run catalog:test && npm run dataset:check && node scripts/verify.mjs && npm run catalog:audit-model-pages && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test"
+    "verify": "cargo fmt --all --check && cargo test --workspace --locked && npm run verify:wasm-repro && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run validate:installation-kit-data && npm run catalog:verify && npm run catalog:test && npm run qa:test && npm run dataset:check && node scripts/verify.mjs && npm run catalog:audit-model-pages && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test"
   }
 }

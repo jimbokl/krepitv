@@ -131,6 +131,23 @@ test("свежий подбор начинается с марки и не по�
   }
 });
 
+test("встроенный подбор отдаёт только интерактивную оболочку без вложенного main", async () => {
+  const previousWindow = globalThis.window;
+  globalThis.window = { location: { search: "" } };
+  const { module, vite } = await loadGuidedSelection();
+  try {
+    const html = renderToStaticMarkup(
+      React.createElement(module.GuidedSelectionPage, { catalog: catalog(), embedded: true }),
+    );
+    assert.equal(html.includes("data-kit-shell=\"true\""), true);
+    assert.equal(html.includes("<main"), false);
+    assert.equal(html.includes("data-metrika-consent"), false);
+  } finally {
+    globalThis.window = previousWindow;
+    await vite.close();
+  }
+});
+
 test("точная deep link выбирает марку и оставляет подтверждение модели", async () => {
   const previousWindow = globalThis.window;
   globalThis.window = { location: { search: "?model=tcl-65c7k" } };

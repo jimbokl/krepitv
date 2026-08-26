@@ -77,7 +77,7 @@ export function shouldRevealInstallationKitResult(status, revision, revealedRevi
   return status === "ready" && revision > 0 && revision !== revealedRevision;
 }
 
-export function GuidedSelectionPage({ catalog }) {
+export function GuidedSelectionPage({ catalog, embedded = false }) {
   const queryModelId = installationKitModelIdFromSearch(window.location.search);
   const initialModel = catalog.models.find((model) => model.id === queryModelId) ?? null;
   const [state, dispatch] = useReducer(installationKitReducer, { model: initialModel }, createInstallationKitState);
@@ -136,11 +136,8 @@ export function GuidedSelectionPage({ catalog }) {
     dispatch({ type: "advance" });
   }
 
-  return (
-    <>
-      <MetrikaConsent />
-      <main className="min-h-screen bg-paper text-ink" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
-        <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[18.5rem_minmax(0,1fr)]">
+  const shell = (
+    <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[18.5rem_minmax(0,1fr)]" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
           <aside className="border-b border-line bg-panel px-5 py-5 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
             <Brand compact />
             <p className="mt-3 max-w-48 text-sm leading-snug text-muted">Полный монтажный комплект для точной модели телевизора</p>
@@ -180,8 +177,13 @@ export function GuidedSelectionPage({ catalog }) {
             {selectedModel ? <ModelSummary model={selectedModel} /> : null}
             {state.step === 6 ? <section className="px-5 pb-12 outline-none sm:px-10 lg:px-12" ref={resultRef} tabIndex={-1}>{kit.status === "loading" ? <p className="mt-7 text-muted">Собираем семь секций локально в браузере…</p> : null}{kit.status === "error" ? <p className="mt-7 border border-danger p-4 text-danger" role="alert">{kit.error}</p> : null}{kit.status === "ready" ? <InstallationKitResult model={selectedModel} mount={selectedMount} offer={affiliateOffer} plan={kit.plan} /> : null}</section> : null}
           </div>
-        </div>
-      </main>
+    </div>
+  );
+  if (embedded) return shell;
+  return (
+    <>
+      <MetrikaConsent />
+      <main className="min-h-screen bg-paper text-ink">{shell}</main>
     </>
   );
 }
@@ -199,7 +201,7 @@ function Select({ children, id, onChange, value }) {
 }
 
 function ChoiceGrid({ label, options, value, onChange }) {
-  return <fieldset><legend className="sr-only">{label}</legend><div className="divide-y divide-line border-y border-ink md:grid md:grid-cols-3 md:divide-x md:divide-y-0">{options.map(({ id, title, description, Icon }) => <label className={`grid min-h-24 cursor-pointer grid-cols-[2.75rem_minmax(0,1fr)] items-center gap-3 px-3 py-4 transition focus-within:ring-2 focus-within:ring-action md:block md:min-h-48 md:p-5 ${value === id ? "bg-panel text-ink" : "bg-white hover:bg-panel/60"}`} data-kit-choice="mechanism" key={id}><input aria-label={title} checked={value === id} className="sr-only" name={label} onChange={() => onChange(id)} type="radio" /><Icon aria-hidden="true" className={`size-8 ${value === id ? "text-action" : "text-ink"}`} /><span><strong className="block font-display text-xl">{title}</strong><span className="mt-1 block text-sm leading-snug text-muted">{description}</span></span></label>)}</div></fieldset>;
+  return <fieldset><legend className="sr-only">{label}</legend><div className="divide-y divide-line border-y border-ink md:grid md:grid-cols-3 md:divide-x md:divide-y-0">{options.map(({ id, title, description, Icon }) => <label className={`grid min-h-24 cursor-pointer grid-cols-[2.75rem_minmax(0,1fr)] items-center gap-3 px-3 py-4 transition focus-within:ring-2 focus-within:ring-action md:block md:min-h-48 md:p-5 ${value === id ? "bg-panel text-ink" : "bg-white hover:bg-panel/60"}`} data-kit-choice="mechanism" key={id}><input aria-label={title} checked={value === id} className="sr-only" name={label} onChange={() => onChange(id)} type="radio" value={id} /><Icon aria-hidden="true" className={`size-8 ${value === id ? "text-action" : "text-ink"}`} /><span><strong className="block font-display text-xl">{title}</strong><span className="mt-1 block text-sm leading-snug text-muted">{description}</span></span></label>)}</div></fieldset>;
 }
 
 function ModelSummary({ model }) {

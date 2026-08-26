@@ -20,9 +20,9 @@ function MountOption({ match, selected, onChange }) {
 }
 
 export function MountChoiceStep({ compatibility, matches, value, onChange, onRetry }) {
-  if (compatibility.status === "loading") return <p className="text-muted">Проверяем VESA, нагрузку и диагональ…</p>;
+  if (compatibility.status === "loading") return <p className="text-muted" data-guided-compatibility-state="loading">Проверяем VESA, нагрузку и диагональ…</p>;
   if (compatibility.status === "error") {
-    return <div className="border border-danger p-4 text-danger" role="alert"><p>{compatibility.error}</p><button className="secondary-button mt-3" onClick={onRetry} type="button">Повторить</button></div>;
+    return <div className="border border-danger p-4 text-danger" data-guided-compatibility-state="error" role="alert"><p>{compatibility.error}</p><button className="secondary-button mt-3" onClick={onRetry} type="button">Повторить</button></div>;
   }
   if (!matches.length) {
     return <div className="flex gap-3 border border-line bg-white p-4"><Info aria-hidden="true" className="size-6 shrink-0 text-action" /><p>Для выбранного механизма нет полностью проверенного варианта. Вернитесь назад и выберите другой механизм.</p></div>;
@@ -30,7 +30,7 @@ export function MountChoiceStep({ compatibility, matches, value, onChange, onRet
   const featured = matches.slice(0, 3);
   const rest = matches.slice(3);
   return (
-    <fieldset data-kit-mount-step="true">
+    <fieldset data-guided-compatibility-state="success" data-kit-mount-step="true">
       <legend className="sr-only">Подтверждённый кронштейн</legend>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {featured.map((match) => <MountOption key={match.mount.id} match={match} onChange={onChange} selected={value === match.mount.id} />)}

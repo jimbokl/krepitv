@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "task_id": "20260826-pagespeed-stable-islands",
+  "commands": [
+    {"id": "unit", "command": "npm run qa:test && node --test web/tests/client-boot.test.mjs web/tests/guided-selection-flow.test.mjs web/tests/home-search-loader.test.mjs web/tests/model-search.test.mjs web/tests/model-offers-island-render.test.mjs web/tests/guided-selection-capture.test.mjs", "exit_code": 0, "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus"]},
+    {"id": "performance", "command": "node scripts/qa/measure-layout-stability.mjs --runs 3", "exit_code": 0, "output_path": "layout-stability-3runs.json", "covers": ["mobile", "SSR stability", "CLS", "LCP", "TBT"]},
+    {"id": "release", "command": "npm run build:release", "exit_code": 0, "covers": ["Rust", "WASM", "русский интерфейс", "каталог", "SEO", "affiliate"]},
+    {"id": "verify", "command": "npm run verify", "exit_code": 0, "covers": ["полная регрессия", "данные", "SEO", "affiliate", "analytics"]},
+    {"id": "drift", "command": "./.design-harness/design-harness scan-drift --workspace . --run .design-harness/runs/20260826-pagespeed-stable-islands --files crates/sitegen/src/main.rs web/src/main.jsx web/src/components/HomeSearchIsland.jsx web/src/components/ModelOffersIsland.jsx web/src/components/ModelSearch.jsx web/src/components/installation-kit/MountChoiceStep.jsx web/src/components/installation-kit/WallProfileStep.jsx web/src/pages/GuidedSelectionPage.jsx web/src/lib/clientBoot.mjs web/src/lib/modelSearch.mjs web/src/lib/staticNavigation.mjs", "exit_code": 0, "output_path": "evidence/drift-report.json", "covers": ["design-system drift"]}
+  ],
+  "screenshots": [
+    {"id": "home-mobile", "path": "home-mobile.png", "state": "default", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "hierarchy_preserved": true, "russian_ui": true}},
+    {"id": "home-tablet", "path": "home-tablet.png", "state": "default", "viewport_id": "tablet", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "hierarchy_preserved": true, "russian_ui": true}},
+    {"id": "home-desktop", "path": "home-desktop.png", "state": "default", "viewport_id": "desktop", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "hierarchy_preserved": true, "russian_ui": true}},
+    {"id": "model-mobile", "path": "model-mobile.png", "state": "success", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "passport_visible": true, "russian_ui": true}},
+    {"id": "model-tablet", "path": "model-tablet.png", "state": "success", "viewport_id": "tablet", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "passport_visible": true, "russian_ui": true}},
+    {"id": "model-desktop", "path": "model-desktop.png", "state": "success", "viewport_id": "desktop", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "passport_visible": true, "russian_ui": true}},
+    {"id": "podbor-mobile", "path": "podbor-mobile.png", "state": "success", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "step_visible": true, "russian_ui": true}},
+    {"id": "podbor-tablet", "path": "podbor-tablet.png", "state": "success", "viewport_id": "tablet", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "step_visible": true, "russian_ui": true}},
+    {"id": "podbor-desktop", "path": "podbor-desktop.png", "state": "success", "viewport_id": "desktop", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "step_visible": true, "russian_ui": true}},
+    {"id": "podbor-loading", "path": "podbor-loading.png", "state": "loading", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true}},
+    {"id": "podbor-empty", "path": "podbor-empty.png", "state": "empty", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true}},
+    {"id": "podbor-error", "path": "podbor-error.png", "state": "error", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true}},
+    {"id": "podbor-success", "path": "podbor-success.png", "state": "success", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true}},
+    {"id": "podbor-disabled", "path": "podbor-disabled.png", "state": "disabled", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true}},
+    {"id": "podbor-focus", "path": "podbor-focus.png", "state": "focus", "viewport_id": "mobile", "checks": {"nonblank": true, "no_overlap": true, "text_fits": true, "no_overflow": true, "focus_visible": true}}
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness и независимые browser/release gates",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "В исходном artifact мобильная шапка не имела интерактивного меню; дефект исправлен SSR-first навигацией и подтверждён E2E.",
+      "Новых цветов, визуальных примитивов и индексируемых URL не добавлено.",
+      "Все девять performance-запусков прошли без исчезновения или полной замены SSR-root."
+    ]
+  },
+  "rollback": {"documented": true, "path": "review.md"}
+}

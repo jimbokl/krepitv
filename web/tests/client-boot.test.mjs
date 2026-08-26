@@ -48,11 +48,92 @@ test("страница 404 сохраняет полезный статичес�
   assert.match(rootElement.innerHTML, /data-not-found-page="true"/);
 });
 
-test("статический DOM сохраняется до готовности каталога", async () => {
+test("главная усиливает только поисковый island и не заменяет корневой SSR", async () => {
+  const island = { innerHTML: '<a href="/modeli/">Открыть каталог</a>' };
+  const rootElement = {
+    dataset: { pageKind: "home" },
+    innerHTML: '<main><section data-home-search-island="true"></section></main>',
+    querySelector(selector) {
+      return selector === '[data-home-search-island="true"]' ? island : null;
+    },
+  };
+  const originalRootHtml = rootElement.innerHTML;
+  const search = [{ id: "tcl-55p6k", title: "TCL 55P6K", search: "tcl 55p6k" }];
+  let catalogLoads = 0;
+  let fullRenders = 0;
+  let searchLoads = 0;
+  let renderedIsland;
+  let renderedSearch;
+
+  const result = await bootClient({
+    rootElement,
+    loadCatalog() {
+      catalogLoads += 1;
+      return Promise.resolve({});
+    },
+    render() {
+      fullRenders += 1;
+    },
+    loadHomeSearch() {
+      searchLoads += 1;
+      return Promise.resolve(search);
+    },
+    renderHome(target, value) {
+      renderedIsland = target;
+      renderedSearch = value;
+    },
+  });
+
+  assert.deepEqual(result, { status: "enhanced" });
+  assert.equal(catalogLoads, 0);
+  assert.equal(fullRenders, 0);
+  assert.equal(searchLoads, 1);
+  assert.equal(renderedIsland, island);
+  assert.equal(renderedSearch, search);
+  assert.equal(rootElement.innerHTML, originalRootHtml);
+});
+
+test("модель усиливает только блок предложений и сохраняет паспортный SSR", async () => {
+  const island = { innerHTML: "Проверяем предложения" };
+  const rootElement = {
+    dataset: { pageKind: "model" },
+    innerHTML: '<header>Навигация</header><main><h1>Кронштейн для TCL 55C6K</h1></main>',
+    querySelector(selector) {
+      return selector === '[data-model-offers-island="true"]' ? island : null;
+    },
+  };
+  const originalRootHtml = rootElement.innerHTML;
+  const offers = [{ id: "offer-1" }];
+  let fullRenders = 0;
+  let catalogLoads = 0;
+
+  const result = await bootClient({
+    rootElement,
+    loadCatalog() {
+      catalogLoads += 1;
+      return Promise.resolve({});
+    },
+    render() {
+      fullRenders += 1;
+    },
+    loadIslandData: () => Promise.resolve(offers),
+    renderIsland(target, value) {
+      assert.equal(target, island);
+      assert.equal(value, offers);
+    },
+  });
+
+  assert.deepEqual(result, { status: "enhanced" });
+  assert.equal(catalogLoads, 0);
+  assert.equal(fullRenders, 0);
+  assert.equal(rootElement.innerHTML, originalRootHtml);
+});
+
+test("на остальных страницах статический DOM сохраняется до готовности каталога", async () => {
   let resolveCatalog;
   let renderedCatalog;
   const catalog = { models: [], mounts: [], search: [], seoPages: [] };
-  const rootElement = { dataset: { pageKind: "home" }, innerHTML: "<main>Статическая страница</main>" };
+  const rootElement = { dataset: { pageKind: "seo" }, innerHTML: "<main>Статическая страница</main>" };
 
   const boot = bootClient({
     rootElement,

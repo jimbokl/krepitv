@@ -3,36 +3,15 @@ import { parseCommercialProfiles } from "./commercialProfiles.mjs";
 import { getFreshHubAffiliateOffers } from "./hubAffiliateOffers.mjs";
 import { getFreshModelAffiliateOffers } from "./modelAffiliateOffers.mjs";
 import { buildInstallationKitWithEngine } from "./installationKit.js";
+export {
+  filterModelSearchResults,
+  findExactModelSearchResult,
+  normalizeSearch,
+} from "./modelSearch.mjs";
 
 let catalogPromise;
 let enginePromise;
 let engineLoadAttempt = 0;
-
-export function normalizeSearch(value) {
-  return String(value ?? "")
-    .toLocaleLowerCase("ru-RU")
-    .replace(/ё/g, "е")
-    .replace(/[^a-zа-я0-9]+/gi, " ")
-    .trim();
-}
-
-export function filterModelSearchResults(search, value, limit = 5) {
-  const normalized = normalizeSearch(value);
-  if (!normalized) return [];
-
-  return search
-    .filter((item) => normalizeSearch(item.search).includes(normalized))
-    .slice(0, limit);
-}
-
-export function findExactModelSearchResult(search, value) {
-  const normalized = normalizeSearch(value);
-  if (!normalized) return null;
-
-  return search.find(
-    (item) => normalizeSearch(item.title) === normalized,
-  ) ?? null;
-}
 
 export function loadCatalog() {
   if (!catalogPromise) {
