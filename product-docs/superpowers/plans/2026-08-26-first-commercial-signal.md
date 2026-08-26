@@ -4,7 +4,7 @@
 
 **Goal:** Замкнуть и доказуемо измерить путь от уже ранжирующейся страницы точной модели телевизора до предзаполненного монтажного мастера, прямого точного предложения Яндекс Маркета и первого атрибутированного заказа — без новых индексируемых URL.
 
-**Architecture:** Все 161 verified model page получают SSR+React вход в существующий `/podbor/?model=<id>`. Валидный deep link сразу открывает шаг стены. Consent-gated Метрика получает новый `kit_started` и полный контролируемый контекст `result_completed`; для 12-модельной поисковой когорты отдельный affiliate manifest создаёт уникальные `installation_result` VID. Orders API и единый приватный readout связывают surface, модель, кронштейн, статус и фактический `payment` без ПДн.
+**Architecture:** Сначала Rust SSR перестаёт быть временной заставкой: homepage сохраняет стабильную статическую структуру, React монтирует только зарезервированный search island, а данные загружаются по route/действию. Затем все 161 verified model page получают SSR+React вход в существующий `/podbor/?model=<id>`. Валидный deep link сразу открывает шаг стены. Consent-gated Метрика получает новый `kit_started` и полный контролируемый контекст `result_completed`; для 12-модельной поисковой когорты отдельный affiliate manifest создаёт уникальные `installation_result` VID. Orders API и единый приватный readout связывают surface, модель, кронштейн, статус и фактический `payment` без ПДн.
 
 **Tech Stack:** Rust sitegen, React, Tailwind CSS, JavaScript modules, Яндекс Метрика API, Яндекс Маркет Affiliate API, Google Search Console API, Node test runner, GitHub Actions, GitHub Pages.
 
@@ -24,6 +24,69 @@
 - [ ] Не раскрывать токены, cookie, внутренние account/counter/order ID, исходные заказы или ПДн.
 - [ ] Не менять title/description без отдельного зрелого query→page сигнала.
 - [ ] Каждое изменение начинается с падающего теста и заканчивается тематическим коммитом.
+
+---
+
+## Task 0: Устранить CLS/LCP-регрессию до коммерческого эксперимента
+
+**Evidence:** `product-docs/performance/pagespeed-home-2026-08-26.md`
+
+**Files:**
+
+- Create: `scripts/qa/measure-layout-stability.mjs`
+- Create: `tests/qa/layout-stability.test.mjs`
+- Create: `web/src/components/HomeSearchIsland.jsx`
+- Modify: `web/src/main.jsx`
+- Modify: `web/src/lib/clientBoot.mjs`
+- Modify: `web/src/lib/catalog.js`
+- Modify: `web/src/pages/HomePage.jsx`
+- Modify: `crates/sitegen/src/main.rs`
+- Modify: `web/src/styles.css`
+- Modify: `package.json`
+
+- [ ] **Step 1: Написать воспроизводимый падающий performance probe**
+
+  CDP-скрипт запускает Chrome с фиксированными mobile viewport, CPU ×4 и slow 4G, устанавливает `PerformanceObserver`, снимает геометрию `#root/main/h1` на DOMContentLoaded и после интерактива и пишет только обезличенные timings/layout values. Тест должен падать на production baseline при временно пустом root или смене `main.top` после FCP.
+
+- [ ] **Step 2: Зафиксировать три baseline маршрута**
+
+  Проверить `/`, `/modeli/tcl-55c6k/` и `/podbor/?model=tcl-55c6k` минимум по три раза. Сохранить медианы CLS/LCP/FCP/TBT и факт full-root replacement; query не публиковать как canonical или sitemap URL.
+
+- [ ] **Step 3: Написать падающий SSR-island contract**
+
+  Rust test требует на homepage стабильный `data-home-search-island` с фиксированной минимальной геометрией и полезным fallback form/link. Web test требует, чтобы homepage boot не вызывал `createRoot(rootElement)` для всего `#root`.
+
+- [ ] **Step 4: Реализовать стабильный homepage SSR**
+
+  Оставить Rust homepage DOM финальной структурой. `HomeSearchIsland` монтируется только в подготовленный контейнер; до JS остаётся рабочий переход в каталог моделей. Не использовать `hydrateRoot` поверх несовпадающего HTML.
+
+- [ ] **Step 5: Разделить загрузку данных по route**
+
+  Homepage initial island загружает только `model-search.json`. `tv-models`, mounts, graph, `seo-pages`, installation-kit справочники и affiliate snapshots не входят в first-screen barrier и загружаются только на нужном route либо после явного выбора модели.
+
+- [ ] **Step 6: Проверить модель и `/podbor/`**
+
+  Если probe подтверждает позднюю полную замену root, применить тот же принцип к коммерчески критичной области: стабильный SSR + зарезервированные интерактивные islands. Не смешивать это с изменением текста/офферов.
+
+- [ ] **Step 7: Повторно измерить и только затем решить вопрос шрифтов**
+
+  Gate после архитектурного исправления: CLS ≤ 0,10 (цель ≤ 0,05), LCP ≤ 2,5 с, TBT ≤ 200 мс, FCP не хуже baseline более чем на 0,2 с. Если CLS остаётся выше 0,10, отдельным минимальным экспериментом сократить веса/subsets и проверить preload или `font-display: optional` с визуальным reference.
+
+- [ ] **Step 8: Не маскировать ограничение GitHub Pages**
+
+  Зафиксировать `Cache-Control: max-age=600` как ограничение hosting. Не переносить сайт и не подключать Cloud.ru. Cloudflare CDN/Pages оценивать отдельным спринтом только после P0 и только по измеримой экономии.
+
+- [ ] **Step 9: Проверить**
+
+  Run: `node --test tests/qa/layout-stability.test.mjs`
+
+  Run: `node scripts/qa/measure-layout-stability.mjs --url https://krepitv.ru/ --runs 3`
+
+  Run: `npm run build`
+
+- [ ] **Step 10: Commit**
+
+  `git add scripts/qa tests/qa web/src crates/sitegen/src/main.rs package.json product-docs/performance && git commit -m "perf: keep SSR stable during enhancement"`
 
 ---
 
@@ -383,6 +446,7 @@
 
 ## Definition of Done спринта
 
+- [ ] Homepage, treatment model и `/podbor/` имеют CLS ≤ 0,10, LCP ≤ 2,5 с и ноль full-root replacement после FCP в воспроизводимом mobile lab.
 - [ ] 0 новых индексируемых URL; sitemap = 299.
 - [ ] 161/161 verified model page имеют полезный SSR+React вход в предзаполненный мастер.
 - [ ] Валидный model deep link начинает шаг стены; неизвестный ID fail-closed.
