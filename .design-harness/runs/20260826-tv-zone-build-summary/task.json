@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "id": "20260826-tv-zone-build-summary",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-08-26T07:58:19.020873+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "verified",
+    "needs-check",
+    "blocked",
+    "no-offer",
+    "focus",
+    "print"
+  ],
+  "behavior_evidence_states": {},
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "web/src/components/installation-kit/PlacementCableStep.jsx",
+    "web/src/components/installation-kit/InstallationKitBuildSummary.jsx",
+    "web/src/components/installation-kit/InstallationKitResult.jsx",
+    "web/src/components/installation-kit/CablePanel.jsx",
+    "web/src/components/installation-kit/KitSection.jsx",
+    "web/src/styles.css",
+    "web/tests/guided-selection-result.test.mjs",
+    "web/tests/installation-kit-visual-contract.test.mjs",
+    "scripts/qa/capture-page.mjs",
+    "product-docs/design-qa/2026-08-26-tv-zone-build-summary/mobile-390.png",
+    "product-docs/design-qa/2026-08-26-tv-zone-build-summary/desktop-1440.png",
+    "product-docs/design-qa/2026-08-26-tv-zone-build-summary/print.png",
+    "product-docs/design-qa/2026-08-26-tv-zone-build-summary/README.md"
+  ],
+  "verification_commands": [
+    {
+      "id": "ui-tests",
+      "command": "node --test web/tests/guided-selection-result.test.mjs web/tests/installation-kit-visual-contract.test.mjs",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked", "no-offer", "focus"]
+    },
+    {
+      "id": "russian-copy",
+      "command": "npm --prefix web run check:ru",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked", "no-offer"]
+    },
+    {
+      "id": "release-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "verified", "needs-check", "blocked", "no-offer", "focus", "print"]
+    }
+  ],
+  "asset_specs": [
+    {
+      "id": "mobile-needs-check",
+      "platform": "web",
+      "width": 390,
+      "height": 1000,
+      "format": "png",
+      "content_type": "informative"
+    },
+    {
+      "id": "desktop-verified",
+      "platform": "web",
+      "width": 1440,
+      "height": 1100,
+      "format": "png",
+      "content_type": "informative"
+    },
+    {
+      "id": "print-blocked",
+      "platform": "web-print",
+      "width": 1440,
+      "height": 1600,
+      "format": "png",
+      "content_type": "informative"
+    }
+  ],
+  "exact_content": [
+    {
+      "id": "summary-heading",
+      "value": "Сборка ТВ-зоны",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "required-heading",
+      "value": "Необходимо",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "check-heading",
+      "value": "Проверить перед покупкой",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "calculation-source",
+      "text": "Зазор рассчитывается локальным Rust/WASM-модулем по минимальному отступу выбранного кронштейна и введённому пользователем габариту штекера с изгибом.",
+      "source_ids": ["implementation-plan", "rust-contract"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "implementation-plan",
+      "path": "product-docs/superpowers/plans/2026-08-26-tv-zone-build-summary-cable-clearance.md",
+      "retrieved_at": "2026-08-26T08:00:00Z",
+      "notes": "Утверждённый план спринта и продуктовые ограничения."
+    },
+    {
+      "id": "rust-contract",
+      "path": "crates/engine/src/installation_kit.rs",
+      "retrieved_at": "2026-08-26T08:00:00Z",
+      "notes": "Единственный вычислительный контракт результата."
+    }
+  ]
+}

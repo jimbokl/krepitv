@@ -92,19 +92,23 @@ export function buildConnectorClearanceInput({
   }
 
   const explicitDirection = connectorClearance.portDirection;
+  const passportDirections = [
+    ...new Set(
+      (modelPortPassport?.ports ?? [])
+        .filter((port) => port.kind === connectionKind && PASSPORT_DIRECTIONS.has(port.direction))
+        .map((port) => port.direction),
+    ),
+  ];
   let portDirection = null;
   let factSource = "unknown";
   if (USER_DIRECTIONS.has(explicitDirection)) {
     portDirection = explicitDirection;
-    factSource = "user";
+    factSource = connectorClearance.factSource === "passport"
+      && passportDirections.length === 1
+      && passportDirections[0] === explicitDirection
+      ? "passport"
+      : "user";
   } else {
-    const passportDirections = [
-      ...new Set(
-        (modelPortPassport?.ports ?? [])
-          .filter((port) => port.kind === connectionKind && PASSPORT_DIRECTIONS.has(port.direction))
-          .map((port) => port.direction),
-      ),
-    ];
     if (passportDirections.length === 1) {
       [portDirection] = passportDirections;
       factSource = "passport";

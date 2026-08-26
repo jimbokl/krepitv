@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "task_id": "20260826-tv-zone-build-summary",
+  "commands": [],
+  "screenshots": [],
+  "assets": [],
+  "review": {
+    "reviewer": "",
+    "independent": false,
+    "verdict": "pending",
+    "findings": []
+  },
+  "rollback": {
+    "documented": false,
+    "path": "review.md"
+  }
+}

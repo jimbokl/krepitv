@@ -162,7 +162,7 @@ export function GuidedSelectionPage({ catalog, embedded = false }) {
                   {state.step === 3 ? <WallProfileStep onChange={(value) => dispatch({ type: "set-wall-profile", value })} value={state.wallProfile} /> : null}
                   {state.step === 4 ? <ChoiceGrid label="Механизм кронштейна" onChange={(value) => dispatch({ type: "set-mechanism", value })} options={mechanisms} value={state.mechanism} /> : null}
                   {state.step === 5 ? <MountChoiceStep compatibility={compatibility} matches={compatible} onChange={(value) => dispatch({ type: "set-mount", value })} onRetry={() => setCompatibilityAttempt((value) => value + 1)} value={state.mountId} /> : null}
-                  {state.step === 6 ? <PlacementCableStep onSubmit={({ placement, cables }) => { dispatch({ type: "set-placement", value: placement }); dispatch({ type: "set-cables", value: cables }); }} /> : null}
+                  {state.step === 6 ? <PlacementCableStep modelPortPassport={modelPortPassport} onSubmit={({ placement, cables }) => { dispatch({ type: "set-placement", value: placement }); dispatch({ type: "set-cables", value: cables }); }} /> : null}
                 </div>
                 {state.step === 1 ? <KitOutcomePreview /> : null}
               </div>

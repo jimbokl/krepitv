@@ -253,3 +253,37 @@ test("монтажные поля называют единицы измерен
     await vite.close();
   }
 });
+
+test("шестой шаг раскрывает безопасную проверку самого тесного штекера", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({ root, logLevel: "silent", server: { middlewareMode: true }, appType: "custom" });
+  try {
+    const { PlacementCableStep } = await vite.ssrLoadModule(
+      "/src/components/installation-kit/PlacementCableStep.jsx",
+    );
+    const html = renderToStaticMarkup(React.createElement(PlacementCableStep, {
+      modelPortPassport: {
+        model_id: "tcl-65c7k",
+        ports: [{ kind: "hdmi", position: "rear", direction: "rearward" }],
+        evidence: {
+          source_url: "https://example.com/manual",
+          source_title: "Официальное руководство",
+          checked_at: "2026-08-25",
+        },
+      },
+      onSubmit: () => {},
+    }));
+
+    assert.match(html, /Проверка самого тесного штекера/u);
+    assert.match(html, /Куда направлен разъём/u);
+    assert.match(html, /Не знаю/u);
+    assert.match(html, /Габарит штекера с изгибом, мм/u);
+    assert.match(html, /Направление взято из паспорта модели/u);
+    assert.match(html, /aria-describedby="connector-clearance-help connector-clearance-error"/u);
+    assert.match(html, /min="1"/u);
+    assert.match(html, /max="200"/u);
+    assert.doesNotMatch(html, /купить|лучший|идеальный|HDMI 2\.1/iu);
+  } finally {
+    await vite.close();
+  }
+});
