@@ -65,3 +65,43 @@ test("первый шаг объясняет полный комплект в и
     globalThis.window = previousWindow;
   }
 });
+
+test("сводка использует только готовые статусы и скрывает CTA при кабельном конфликте", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({ root, logLevel: "silent", server: { middlewareMode: true }, appType: "custom" });
+  try {
+    const { InstallationKitBuildSummary } = await vite.ssrLoadModule(
+      "/src/components/installation-kit/InstallationKitBuildSummary.jsx",
+    );
+    const section = { status: "verified", warnings: [] };
+    const plan = {
+      overall_status: "blocked",
+      market_eligible: false,
+      compatibility: { ...section, required_load_kg: 22.5 },
+      screws: section,
+      wall_fixing: section,
+      placement: section,
+      cables: {
+        status: "blocked",
+        warnings: ["Штекер не помещается"],
+        clearance: { verdict: "conflict" },
+      },
+      tools: section,
+      checklist: section,
+    };
+    const html = renderToStaticMarkup(React.createElement(InstallationKitBuildSummary, {
+      model,
+      mount: { title: "KROMAX ATLANTIS-65", max_load_kg: 45 },
+      offer: { affiliate_href: "https://market.yandex.ru/product/1" },
+      plan,
+    }));
+
+    assert.match(html, /Сборка ТВ-зоны/u);
+    assert.match(html, /Этот штекер не помещается/u);
+    assert.match(html, /href="#kit-cables"/u);
+    assert.doesNotMatch(html, /market\.yandex\.ru/u);
+    assert.doesNotMatch(html, /Необязательное/u);
+  } finally {
+    await vite.close();
+  }
+});

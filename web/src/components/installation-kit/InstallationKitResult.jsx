@@ -1,5 +1,4 @@
-import { CheckCircle, Printer, WarningCircle, XCircle } from "@phosphor-icons/react";
-import { AffiliateLink } from "../AffiliateOffer.jsx";
+import { CheckCircle, WarningCircle, XCircle } from "@phosphor-icons/react";
 import { CompatibilityPanel } from "./CompatibilityPanel.jsx";
 import { ScrewPanel } from "./ScrewPanel.jsx";
 import { WallFixingPanel } from "./WallFixingPanel.jsx";
@@ -7,6 +6,7 @@ import { PlacementPanel } from "./PlacementPanel.jsx";
 import { CablePanel } from "./CablePanel.jsx";
 import { ToolsPanel } from "./ToolsPanel.jsx";
 import { PrintableChecklist } from "./PrintableChecklist.jsx";
+import { InstallationKitBuildSummary } from "./InstallationKitBuildSummary.jsx";
 
 const OVERALL_STATUS = {
   verified: {
@@ -43,13 +43,11 @@ export function InstallationKitResult({ model, mount, offer, plan }) {
   if (!plan) return null;
   const overall = OVERALL_STATUS[plan.overall_status] ?? OVERALL_STATUS["needs-check"];
   const OverallIcon = overall.Icon;
-  const marketEligible = plan.market_eligible
-    && plan.compatibility?.status === "verified"
-    && offer;
   return (
     <section className="mt-8" data-installation-kit-result="true" data-installation-passport="true" data-print-installation-kit="true">
-      <header className="border-y-2 border-ink bg-white py-6 sm:py-8">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-center">
+      <InstallationKitBuildSummary model={model} mount={mount} offer={offer} plan={plan} />
+      <header className="mt-10 border-y-2 border-ink bg-white py-6 sm:py-8">
+        <div>
           <div>
             <p className="font-mono text-xs uppercase tracking-wide text-action">Ваш монтажный паспорт</p>
             <div className={`mt-3 flex items-start gap-3 ${overall.classes}`}>
@@ -59,16 +57,7 @@ export function InstallationKitResult({ model, mount, offer, plan }) {
                 <p className="mt-2 text-sm leading-relaxed text-muted">{overall.description}</p>
               </div>
             </div>
-            <p className="mt-5 font-mono text-sm font-semibold uppercase tracking-wide text-ink">{model.title} + {mount.title}</p>
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">Каждый раздел имеет независимый статус: неполные данные не превращаются в точный совет.</p>
-          </div>
-          <div className="flex flex-col gap-3 print:hidden sm:flex-row xl:flex-col">
-            <button className="secondary-button w-full sm:w-auto" onClick={() => window.print()} type="button"><Printer aria-hidden="true" />Распечатать результат</button>
-            {marketEligible ? (
-              <AffiliateLink className="primary-button w-full sm:w-auto" offer={offer}>
-                Открыть на Яндекс Маркете
-              </AffiliateLink>
-            ) : null}
           </div>
         </div>
       </header>

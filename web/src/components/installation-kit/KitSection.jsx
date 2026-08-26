@@ -10,9 +10,9 @@ export function KitSection({ children, id, section, title }) {
   const status = STATUS[section?.status] ?? STATUS["needs-check"];
   const StatusIcon = status.Icon;
   return (
-    <section className="scroll-mt-6 border-t-2 border-ink py-7" data-kit-section={id} id={`kit-${id}`}>
+    <section aria-labelledby={`kit-${id}-title`} className="scroll-mt-6 border-t-2 border-ink py-7" data-kit-section={id} id={`kit-${id}`}>
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <h2 className="font-display text-2xl font-extrabold sm:text-3xl">{title}</h2>
+        <h2 className="font-display text-2xl font-extrabold sm:text-3xl" id={`kit-${id}-title`}>{title}</h2>
         <span className={`inline-flex min-h-8 items-center gap-1.5 border px-2 py-1 font-mono text-[0.68rem] uppercase ${status.classes}`} data-kit-status={section?.status ?? "needs-check"}>
           <StatusIcon aria-hidden="true" className="size-4" weight="fill" />{status.label}
         </span>

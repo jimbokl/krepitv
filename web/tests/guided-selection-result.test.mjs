@@ -152,7 +152,19 @@ test("монтажный комплект показывает семь секц
         drill_map: null,
         warnings: ["Точки сверления не подтверждены"],
       },
-      cables: { status: "needs-check", routing: "open", connections: ["hdmi"], warnings: [] },
+      cables: {
+        status: "needs-check",
+        routing: "open",
+        connections: ["hdmi"],
+        warnings: ["Нужно измерить штекер"],
+        clearance: {
+          verdict: "needs-measurement",
+          reason_code: "rear-port-envelope-missing",
+          available_clearance_mm: 22,
+          required_clearance_mm: null,
+          margin_mm: null,
+        },
+      },
       tools: { status: "needs-check", items: ["Уровень"], warnings: [] },
       checklist: { status: "blocked", items: ["Проверить основание"] },
     };
@@ -164,6 +176,15 @@ test("монтажный комплект показывает семь секц
     }));
 
     assert.equal((html.match(/data-kit-section=/g) ?? []).length, 7);
+    assert.equal(html.includes("data-installation-kit-build-summary=\"true\""), true);
+    assert.equal(html.includes("Сборка ТВ-зоны"), true);
+    assert.equal(html.includes("Необходимо"), true);
+    assert.equal(html.includes("Проверить перед покупкой"), true);
+    assert.equal((html.match(/data-kit-summary-check-visible="true"/g) ?? []).length, 3);
+    assert.equal(html.includes("data-kit-summary-checks-collapsed=\"true\""), true);
+    assert.equal(html.includes("Необязательное"), false);
+    assert.equal(html.includes("Измерьте штекер с изгибом"), true);
+    assert.equal(html.includes("Доступный зазор"), true);
     assert.equal(html.includes("Персональная карта высот"), true);
     assert.equal(html.includes("Контрольная линия настенной пластины"), true);
     assert.equal(html.includes("Точки сверления не подтверждены"), true);
@@ -214,7 +235,19 @@ test("проверенный комплект показывает ровно о
       screws: { ...verified, groups: [] },
       wall_fixing: { ...verified, exact_fastener: null },
       placement: { ...verified, height: null, mounting_map: null, drill_map: null },
-      cables: { ...verified, routing: "open", connections: [], port_sides: [] },
+      cables: {
+        ...verified,
+        routing: "open",
+        connections: ["hdmi"],
+        port_sides: ["rear"],
+        clearance: {
+          verdict: "verified",
+          reason_code: "rear-port-clearance-ok",
+          available_clearance_mm: 60,
+          required_clearance_mm: 35,
+          margin_mm: 25,
+        },
+      },
       tools: { ...verified, items: [] },
       checklist: { ...verified, items: [] },
     };
@@ -232,6 +265,9 @@ test("проверенный комплект показывает ровно о
     assert.equal(html.includes("clid=15238076"), true);
     assert.equal(html.includes("Открыть на Яндекс Маркете"), true);
     assert.equal(html.includes("data-affiliate-mode=\"non_ad_storefront\""), true);
+    assert.equal(html.includes("Помещается по введённому замеру"), true);
+    assert.equal(html.includes("Запас"), true);
+    assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
   } finally {
     await vite.close();
   }
