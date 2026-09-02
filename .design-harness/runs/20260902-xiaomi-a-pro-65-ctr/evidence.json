@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "task_id": "20260902-xiaomi-a-pro-65-ctr",
+  "commands": [
+    {
+      "id": "model-profile-test",
+      "command": "cargo test -p krepitv-sitegen measured_xiaomi_a_pro_65_2025_profile_is_static_and_fact_consistent -- --nocapture",
+      "exit_code": 0,
+      "output_path": "evidence/commands/model-profile-test.log",
+      "covers": ["loading", "empty", "error", "disabled", "SSR facts", "editorial date"]
+    },
+    {
+      "id": "commercial-profile-tests",
+      "command": "node --test web/tests/commercial-profiles.test.mjs web/tests/model-page-affiliate-render.test.mjs",
+      "exit_code": 0,
+      "output_path": "evidence/commands/commercial-profile-tests.log",
+      "covers": ["default", "success", "focus", "React parity", "affiliate boundary"]
+    },
+    {
+      "id": "full-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "output_path": "evidence/commands/full-build.log",
+      "covers": ["default", "success", "whole artifact", "SEO", "security", "datasets"]
+    },
+    {
+      "id": "design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260902-xiaomi-a-pro-65-ctr --files web/src/pages/ModelPage.jsx crates/sitegen/src/main.rs",
+      "exit_code": 0,
+      "output_path": "evidence/commands/design-drift.log",
+      "covers": ["design tokens", "responsive layout", "SSR and React parity"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "mobile-default",
+      "path": "evidence/screenshots/mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "exact_content": true}
+    },
+    {
+      "id": "tablet-success",
+      "path": "evidence/screenshots/tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "editorial_date_visible": true}
+    },
+    {
+      "id": "desktop-focus",
+      "path": "evidence/screenshots/desktop-focus.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "editorial_date_visible": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + independent headless Chrome render QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "На 320, 768 и 1440 CSS px нет горизонтального переполнения, наложений или обрезанного текста.",
+      "Точная модель отвечает до товарного блока: VESA 400×300 мм, масса 14,7 кг, корпус 1446×839×83 мм и 14 verified-fit кронштейнов.",
+      "Редакционная дата 02.09.2026 совпадает в Rust SSR и React; паспортная дата характеристик не подменена.",
+      "Фокус раскрытия методики видим; используются существующие Tailwind-токены и компоненты без нового визуального языка.",
+      "Новых URL, цен, редиректов или неподтверждённых размеров винтов не добавлено."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

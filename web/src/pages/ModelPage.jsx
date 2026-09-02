@@ -56,7 +56,7 @@ export function ModelPage({ catalog, modelId }) {
   const verifiedCount = compatible.filter((edge) => edge.fit_status === "verified-fit").length;
   const conditionalCount = compatible.filter((edge) => edge.fit_status === "conditional-fit").length;
   const editorialEvidence = buildEditorialEvidence({
-    checkedAt: model.checked_at,
+    checkedAt: commercialProfile?.updated_at ?? model.checked_at,
     contentKind: "verified-model",
   });
 

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "run_id": "20260902-xiaomi-a-pro-65-ctr",
+  "sealed_at": "2026-09-02T14:00:24.130605+00:00",
+  "task_hash": "sha256:0606c7a9a9cb366d46de1840a9bcc30607bf96e0d156baf2e9650b59a7fe9ff5",
+  "evidence_hash": "sha256:3baee005d05e03e60ca83934ff70e8e112f878b38807369fd1458f4b6ed9b93d",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/SPEC.md": "sha256:cc1b524f21da2a69677f73dec577dae9030ec585b3b9d54b438f7a907d1f5067",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/brief.md": "sha256:dc5210af90dacb25f618027c5902a53441b7fa059d1ff199bc54703af899d9dd",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/component-map.md": "sha256:622073df213cb6006123eec6a6bebd45b59eb3f463f9dc3e229e6caab358a495",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/discovery.md": "sha256:78d932ccd630d17335de902b4737220e8c14c0209a9a10edd14afb8b4b78220d",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence/commands/commercial-profile-tests.log": "sha256:c17140742d969fa50e866dda7e865680a7666eeaab817e71681737ee5eea970b",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence/commands/design-drift.log": "sha256:8833832599fd4e50ddf548b6427f90c80e230cc790fc72a037a9fee69b52e766",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence/commands/full-build.log": "sha256:89f5bb3daede817595985d9c71bd326b354742846d2657419942bcd550b4a4f5",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence/commands/model-profile-test.log": "sha256:15479decd5ba697f4ac3656cd2f2177e9513d2a0dc9ceee13eb9e21da65b4c6c",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence/drift-report.json": "sha256:4aaffb6112e4975433aa4601f70888cff5e12df8331b5cb100765ef8a5ae8ac3",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence/screenshots/desktop-focus.png": "sha256:ab23d55f71529dfdf76a09cc1b34fc229a9dfe458de2937c6a39c8c5e86d6e6e",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence/screenshots/mobile-default.png": "sha256:90f7aca667acbfaf41288708bfd8da1d91cd8e80f4ff39399b25954f6032658d",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence/screenshots/tablet-success.png": "sha256:e3d6fd9199d5f99fd20e8709a32466c3c84315a3110fe3fe6f526e787581fe34",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/evidence.json": "sha256:3baee005d05e03e60ca83934ff70e8e112f878b38807369fd1458f4b6ed9b93d",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/review.md": "sha256:3c8bff2ad981d5d4e2489e7c04a850dab554dcd57c4ede94ba7a89f7c54cef19",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/task.json": "sha256:0606c7a9a9cb366d46de1840a9bcc30607bf96e0d156baf2e9650b59a7fe9ff5",
+    ".design-harness/runs/20260902-xiaomi-a-pro-65-ctr/visual-direction.md": "sha256:5a954c21d766185ac0e2ff90cf40e128f7ddc29312800cb9c03fa1be7b54a77a"
+  },
+  "packet_hash": "sha256:e6243e6a35a40874a3f0f4129796d0b2f114cde815807898c41dd9d90b427137"
+}

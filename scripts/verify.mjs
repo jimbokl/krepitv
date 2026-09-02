@@ -57,6 +57,7 @@ const expectedCommercialProfiles = new Set([
   "model:samsung-ue55u8000fuxru:/modeli/samsung-ue55u8000fuxru/",
   "model:tcl-55c7k:/modeli/tcl-55c7k/",
   "model:xiaomi-tv-a-pro-32-2026:/modeli/xiaomi-tv-a-pro-32-2026/",
+  "model:xiaomi-tv-a-pro-65-2025:/modeli/xiaomi-tv-a-pro-65-2025/",
   "model:tcl-65c7k:/modeli/tcl-65c7k/",
   "model:tcl-75c6k:/modeli/tcl-75c6k/",
   "model:lg-oled55c5rla:/modeli/lg-oled55c5rla/",
@@ -1330,7 +1331,9 @@ const editorialRoutes = [
   })),
   ...models.map((model) => ({
     basis: "Официальные характеристики и расчёт совместимости",
-    checkedAt: model.checked_at,
+    checkedAt: commercialProfiles.find(
+      (profile) => profile.entity_kind === "model" && profile.entity_id === model.id,
+    )?.updated_at ?? model.checked_at,
     route: `/modeli/${model.id}/`,
   })),
   ...mounts.map((mount) => ({

@@ -2047,7 +2047,11 @@ fn model_page_body(
     let commercial_section = commercial_profile
         .map(commercial_profile_html)
         .unwrap_or_default();
-    let editorial_accountability = editorial_accountability_html("verified-model", &tv.checked_at);
+    let editorial_checked_at = commercial_profile
+        .and_then(|profile| profile.updated_at.as_deref())
+        .unwrap_or(&tv.checked_at);
+    let editorial_accountability =
+        editorial_accountability_html("verified-model", editorial_checked_at);
     let technical_image = technical_image_html(
         &model_technical_image_path(tv),
         &format!("Техническая схема VESA для {}", tv.title),
@@ -5076,8 +5080,8 @@ fn validate_commercial_profiles(
     );
     assert_eq!(
         file.profiles.len(),
-        34,
-        "SEO-серия должна содержать ровно 34 проверенных профиля"
+        35,
+        "SEO-серия должна содержать ровно 35 проверенных профилей"
     );
 
     let expected = [
@@ -5102,6 +5106,7 @@ fn validate_commercial_profiles(
         "model:samsung-ue55u8000fuxru",
         "model:tcl-55c7k",
         "model:xiaomi-tv-a-pro-32-2026",
+        "model:xiaomi-tv-a-pro-65-2025",
         "model:tcl-75c6k",
         "model:tcl-65c7k",
         "model:lg-oled55c5rla",
@@ -7701,7 +7706,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
 
         validate_commercial_profiles(&profiles, &models, &mounts, &graph);
-        assert_eq!(profiles.profiles.len(), 34);
+        assert_eq!(profiles.profiles.len(), 35);
 
         for profile in &profiles.profiles {
             let marker = format!(
@@ -7854,6 +7859,65 @@ mod tests {
                 .iter()
                 .any(|item| item.answer.contains("Подтверждены 18 моделей"))
         );
+    }
+
+    #[test]
+    fn measured_xiaomi_a_pro_65_2025_profile_is_static_and_fact_consistent() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let profiles: CommercialProfilesFile =
+            read_json(&root.join("data/commercial_profiles.json"));
+        let seo_pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let model = models
+            .iter()
+            .find(|candidate| candidate.id == "xiaomi-tv-a-pro-65-2025")
+            .expect("Нет модели Xiaomi TV A Pro 65 2025");
+        let profile = commercial_profile_for(&profiles.profiles, "model", &model.id)
+            .expect("Нет SEO-профиля Xiaomi TV A Pro 65 2025");
+        let matches = model_mount_matches(model, &mounts);
+        let verified_count = matches
+            .iter()
+            .filter(|matched| matched.compatible && matched.fit_status == "verified-fit")
+            .count();
+
+        assert_eq!(verified_count, 14);
+        assert_eq!(profile.updated_at.as_deref(), Some("2026-09-02"));
+        assert_eq!(
+            profile.title,
+            "Xiaomi TV A Pro 65 2025: VESA 400×300 и кронштейны"
+        );
+        assert_eq!(
+            profile.description,
+            "Крепление Xiaomi TV A Pro 65 2025 на стену: VESA 400×300, масса 14,7 кг без подставки, корпус 1446×839×83 мм и 14 проверенных кронштейнов."
+        );
+        assert!(profile.answer.contains("14 кронштейнов"));
+        assert_eq!(profile.faq.len(), 3);
+        assert!(
+            profile
+                .faq
+                .iter()
+                .any(|item| item.answer.contains("1446×839×83 мм"))
+        );
+        assert!(
+            exact_metric_screw_claims(&format!(
+                "{} {} {}",
+                profile.title, profile.description, profile.answer
+            ))
+            .is_empty()
+        );
+
+        let body = model_page_body(model, &matches, &[], 0, &seo_pages, Some(profile));
+        assert_eq!(
+            body.matches("data-commercial-profile=\"model:xiaomi-tv-a-pro-65-2025\"")
+                .count(),
+            1
+        );
+        assert!(body.contains("VESA 400×300"));
+        assert!(body.contains("14 кронштейнов"));
+        assert!(body.contains("<time datetime=\"2026-09-02\">02.09.2026</time>"));
+        assert!(!body.contains("M6×"));
+        assert!(!body.contains("M8×"));
     }
 
     #[test]

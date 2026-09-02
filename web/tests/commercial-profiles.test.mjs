@@ -65,8 +65,13 @@ test("публичный набор коммерческих профилей п
     entityId: "lg-oled55c5rla",
     pagePath: "/modeli/lg-oled55c5rla/",
   });
+  const xiaomiAPro65 = selectCommercialProfile(profiles, {
+    entityKind: "model",
+    entityId: "xiaomi-tv-a-pro-65-2025",
+    pagePath: "/modeli/xiaomi-tv-a-pro-65-2025/",
+  });
 
-  assert.equal(profiles.length, 34);
+  assert.equal(profiles.length, 35);
   assert.equal(new Set(profiles.map((item) => item.path)).size, profiles.length);
   assert.ok(tcl55c6k);
   assert.ok(
@@ -80,6 +85,9 @@ test("публичный набор коммерческих профилей п
   );
   assert.equal(lgOled55c5?.updated_at, "2026-08-05");
   assert.match(lgOled55c5?.answer ?? "", /не переносит их с соседних моделей OLED C5/);
+  assert.equal(xiaomiAPro65?.updated_at, "2026-09-02");
+  assert.match(xiaomiAPro65?.answer ?? "", /полностью подтверждены 14 кронштейнов/);
+  assert.equal(xiaomiAPro65?.faq.length, 3);
 });
 
 test("валидатор отклоняет массив вместо версионированного объекта", () => {

@@ -117,7 +117,22 @@ test("карточка модели выводит только три model-spe
       mounts,
       search: [],
       seoPages: [],
-      commercialProfiles: [],
+      commercialProfiles: [{
+        entity_kind: "model",
+        entity_id: model.id,
+        path: `/modeli/${model.id}/`,
+        updated_at: "2026-09-02",
+        title: "TCL 55C7K: проверенный профиль",
+        description: "Проверенный профиль модели для теста видимой даты материала.",
+        kicker: "Точная модель",
+        heading: "Проверенный профиль TCL 55C7K",
+        answer: "Паспорт модели обновлён после отдельной редакционной проверки.",
+        faq: [
+          { question: "Первый вопрос?", answer: "Первый проверенный ответ." },
+          { question: "Второй вопрос?", answer: "Второй проверенный ответ." },
+          { question: "Третий вопрос?", answer: "Третий проверенный ответ." },
+        ],
+      }],
       compatibilityEdges,
       affiliateOffers: [{
         ...modelOffer("onkron-tm6", 1),
@@ -138,6 +153,8 @@ test("карточка модели выводит только три model-spe
     );
 
     assert.match(html, /data-editorial-accountability="true"/u);
+    assert.match(html, /<time dateTime="2026-09-02">02\.09\.2026<\/time>/u);
+    assert.doesNotMatch(html, /<time dateTime="2026-07-30">30\.07\.2026<\/time>/u);
     assert.match(html, /href="\/redaktsiya\/"[^>]*>Редакция KREPI TV/u);
     assert.match(html, /Физический тест не проводился/u);
     assert.equal((html.match(/href="https:\/\/market\.yandex\.ru\/card\//g) ?? []).length, 3);

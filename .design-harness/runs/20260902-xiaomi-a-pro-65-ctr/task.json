@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "id": "20260902-xiaomi-a-pro-65-ctr",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-09-02T13:10:31.078030+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "behavior_evidence_states": {
+    "loading": {
+      "command_id": "model-profile-test",
+      "output_contains": "measured_xiaomi_a_pro_65_2025_profile_is_static_and_fact_consistent",
+      "reason": "Профиль рендерится сервером из локальных проверенных данных и не имеет состояния загрузки."
+    },
+    "empty": {
+      "command_id": "model-profile-test",
+      "output_contains": "measured_xiaomi_a_pro_65_2025_profile_is_static_and_fact_consistent",
+      "reason": "Для проверенной модели профиль обязателен и тест подтверждает непустой прямой ответ и три FAQ."
+    },
+    "error": {
+      "command_id": "model-profile-test",
+      "output_contains": "measured_xiaomi_a_pro_65_2025_profile_is_static_and_fact_consistent",
+      "reason": "Контент не запрашивается во время просмотра; ошибки источников закрываются на build-time валидацией."
+    },
+    "disabled": {
+      "command_id": "model-profile-test",
+      "output_contains": "measured_xiaomi_a_pro_65_2025_profile_is_static_and_fact_consistent",
+      "reason": "Статический паспорт не имеет отключаемого состояния; проверяемые переходы остаются обычными ссылками."
+    }
+  },
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "data/commercial_profiles.json",
+    "crates/sitegen/src/main.rs",
+    "scripts/verify.mjs",
+    "web/src/pages/ModelPage.jsx",
+    "web/tests/commercial-profiles.test.mjs",
+    "web/tests/model-page-affiliate-render.test.mjs",
+    "docs/data/commercial-profiles.json",
+    "web/public/data/commercial-profiles.json",
+    "docs/modeli/xiaomi-tv-a-pro-65-2025/index.html",
+    "web/modeli/xiaomi-tv-a-pro-65-2025/index.html",
+    "docs/sitemap.xml",
+    "web/public/sitemap.xml"
+  ],
+  "verification_commands": [
+    {
+      "id": "model-profile-test",
+      "command": "cargo test -p krepitv-sitegen measured_xiaomi_a_pro_65_2025_profile_is_static_and_fact_consistent -- --nocapture",
+      "required": true,
+      "covers": ["loading", "empty", "error", "disabled"]
+    },
+    {
+      "id": "commercial-profile-tests",
+      "command": "node --test web/tests/commercial-profiles.test.mjs web/tests/model-page-affiliate-render.test.mjs",
+      "required": true,
+      "covers": ["default", "success", "focus"]
+    },
+    {
+      "id": "full-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["default", "success"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "search-title",
+      "value": "Xiaomi TV A Pro 65 2025: VESA 400×300 и кронштейны",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "search-description",
+      "value": "Крепление Xiaomi TV A Pro 65 2025 на стену: VESA 400×300, масса 14,7 кг без подставки, корпус 1446×839×83 мм и 14 проверенных кронштейнов.",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "direct-answer",
+      "value": "У Xiaomi TV A Pro 65 2025 настенное крепление VESA 400×300 мм, масса без подставки 14,7 кг, а корпус без подставки — 1446×839×83 мм. В текущем графе полностью подтверждены 14 кронштейнов.",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "xiaomi-mounting-facts",
+      "text": "Xiaomi TV A Pro 65 2025 имеет VESA 400×300 мм, массу 14,7 кг и корпус 1446×839×83 мм без подставки.",
+      "source_ids": ["xiaomi-kz-ru-specs", "local-model-passport"]
+    },
+    {
+      "id": "verified-mount-count",
+      "text": "Локальный граф совместимости содержит 14 рёбер verified-fit для точной модели.",
+      "source_ids": ["local-compatibility-graph"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "xiaomi-kz-ru-specs",
+      "url": "https://www.mi.com/kz-ru/product/xiaomi-tv-a-pro-65-2025/specs/",
+      "retrieved_at": "2026-09-02T13:10:00Z",
+      "notes": "Официальная русскоязычная спецификация Xiaomi; регион Казахстан отмечается на странице как граница источника."
+    },
+    {
+      "id": "local-model-passport",
+      "path": "data/tv_models.json",
+      "retrieved_at": "2026-09-02T13:10:00Z",
+      "notes": "Паспорт точной модели с официальным глобальным URL и датой проверки."
+    },
+    {
+      "id": "local-compatibility-graph",
+      "path": "docs/data/compatibility-graph.json",
+      "retrieved_at": "2026-09-02T13:10:00Z",
+      "notes": "Сгенерированный граф; отфильтровано 14 compatible=true, fit_status=verified-fit."
+    }
+  ]
+}
