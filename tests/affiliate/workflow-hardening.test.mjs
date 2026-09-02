@@ -22,12 +22,47 @@ const rustToolchainUrl = new URL("../../rust-toolchain.toml", import.meta.url);
 const rootPackageUrl = new URL("../../package.json", import.meta.url);
 const webPackageUrl = new URL("../../web/package.json", import.meta.url);
 
+const node24ActionPins = new Map([
+  ["actions/checkout", { sha: "3d3c42e5aac5ba805825da76410c181273ba90b1", version: "v7.0.1" }],
+  ["actions/setup-node", { sha: "820762786026740c76f36085b0efc47a31fe5020", version: "v7.0.0" }],
+  ["actions/upload-artifact", { sha: "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a", version: "v7.0.1" }],
+  ["actions/upload-pages-artifact", { sha: "fc324d3547104276b827a68afc52ff2a11cc49c9", version: "v5.0.0" }],
+  ["actions/configure-pages", { sha: "45bfe0192ca1faeb007ade9deae92b16b8254a0d", version: "v6.0.0" }],
+  ["actions/deploy-pages", { sha: "368f82528645a54fb793d4d04e342629a3f51346", version: "v5.0.1" }],
+]);
+
 test("Vite SSR tests are serialized on constrained GitHub runners", async () => {
   const packageFile = JSON.parse(await readFile(webPackageUrl, "utf8"));
   assert.equal(
     packageFile.scripts?.["test:sites"],
     "node --test --test-concurrency=1 --test-force-exit tests/*.test.mjs",
   );
+});
+
+test("official JavaScript actions are pinned to audited Node 24 releases", async () => {
+  const workflows = await Promise.all([
+    workflowUrl,
+    ordersWorkflowUrl,
+    pagesWorkflowUrl,
+    ciWorkflowUrl,
+  ].map((url) => readFile(url, "utf8")));
+  const observed = new Map([...node24ActionPins.keys()].map((name) => [name, 0]));
+
+  for (const workflow of workflows) {
+    for (const match of workflow.matchAll(
+      /^\s*uses:\s*(actions\/[a-z-]+)@([0-9a-f]{40})\s+#\s+(v\d+(?:\.\d+){0,2})\s*$/gm,
+    )) {
+      const [, action, sha, version] = match;
+      const expected = node24ActionPins.get(action);
+      if (!expected) continue;
+      assert.deepEqual({ sha, version }, expected, `${action} must use its audited Node 24 pin`);
+      observed.set(action, observed.get(action) + 1);
+    }
+  }
+
+  for (const [action, count] of observed) {
+    assert.ok(count > 0, `${action} must remain present in the workflow set`);
+  }
 });
 
 test("affiliate workflow is scheduled with pinned actions and one scoped OAuth step", async () => {
@@ -213,7 +248,7 @@ test("orders workflow keeps raw ledger ephemeral and retains only a safe aggrega
   );
   assert.match(
     workflow,
-    /actions\/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02/,
+    /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/,
   );
   assert.match(workflow, /path:\s*\$\{\{ steps\.aggregate\.outputs\.path \}\}/);
   assert.match(workflow, /if-no-files-found:\s*error/);
