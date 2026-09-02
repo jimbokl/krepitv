@@ -25,6 +25,12 @@ const SOURCE_IDS = new Set([
   "saved",
   "social",
 ]);
+const ATTRIBUTION_SURFACES = new Set([
+  "model_page",
+  "mount_page",
+  "product_page",
+  "seo_hub",
+]);
 export const AFFILIATE_ELIGIBLE_REGION_AREAS_RU = Object.freeze([
   "Москва и Московская область",
   "Санкт-Петербург и Ленинградская область",
@@ -173,6 +179,39 @@ export function buildMetrikaToolUsageUrl({ counterId, date1, date2, goalId }) {
   );
   url.searchParams.set("metrics", metric);
   url.searchParams.set("sort", `-${metric}`);
+  return url;
+}
+
+export function buildMetrikaMarketClickAttributionUrl({
+  counterId,
+  date1,
+  date2,
+  goalId,
+}) {
+  if (!/^\d+$/.test(String(counterId ?? ""))) throw new Error("counterId must be numeric");
+  if (!isIsoDate(date1) || !isIsoDate(date2) || date1 > date2) {
+    throw new Error("date range must contain real ascending ISO dates");
+  }
+  if (!/^\d+$/.test(String(goalId ?? ""))) {
+    throw new Error("goalId must be numeric");
+  }
+  const metric = "ym:ep:eventsNumber";
+  const url = new URL(DATA_ENDPOINT);
+  url.searchParams.set("ids", String(counterId));
+  url.searchParams.set("date1", date1);
+  url.searchParams.set("date2", date2);
+  url.searchParams.set("accuracy", "full");
+  url.searchParams.set("limit", "1000");
+  url.searchParams.set("preset", "goal_params");
+  url.searchParams.set(
+    "dimensions",
+    ["ym:ep:eventURLPath", "ym:ep:actionGoal", ...[1, 2, 3, 4, 5]
+      .map((level) => `ym:ep:eventParamsLevel${level}`)]
+      .join(","),
+  );
+  url.searchParams.set("metrics", metric);
+  url.searchParams.set("sort", `-${metric}`);
+  url.searchParams.set("filters", `ym:ep:actionGoal==${goalId}`);
   return url;
 }
 
@@ -437,6 +476,157 @@ function normalizeAllowedLandingPaths(value) {
   return value;
 }
 
+function normalizePlacementAttributionIndex(value, allowedLandingPaths) {
+  if (value === undefined || value === null) return null;
+  if (!(value instanceof Map) || value.size === 0 || !allowedLandingPaths) {
+    throw new Error("placementAttributionIndex requires a non-empty Map and sitemap allowlist");
+  }
+  const normalized = new Map();
+  for (const [vid, placement] of value) {
+    if (
+      !/^[A-Za-z0-9_-]{1,150}$/.test(vid ?? "")
+      || placement?.vid !== vid
+      || !ATTRIBUTION_SURFACES.has(placement?.surface)
+      || !allowedLandingPaths.has(placement?.landing_path)
+      || !/^[A-Za-z0-9_-]{1,150}$/.test(placement?.entity_id ?? "")
+      || !(
+        placement?.rank === null
+        || (Number.isInteger(placement?.rank) && placement.rank >= 1 && placement.rank <= 3)
+      )
+    ) {
+      throw new Error("placementAttributionIndex contains an unsafe placement");
+    }
+    normalized.set(vid, Object.freeze({
+      entity_id: placement.entity_id,
+      landing_path: placement.landing_path,
+      rank: placement.rank,
+      surface: placement.surface,
+    }));
+  }
+  return normalized;
+}
+
+function singleMetricTotal(payload, label) {
+  if (
+    !Array.isArray(payload?.totals)
+    || payload.totals.length !== 1
+    || !Number.isFinite(payload.totals[0])
+    || payload.totals[0] < 0
+  ) {
+    throw new Error(`${label} response has invalid totals`);
+  }
+  return payload.totals[0];
+}
+
+function dimensionValues(dimension) {
+  return [dimension?.id, dimension?.name]
+    .filter((candidate) => candidate !== undefined && candidate !== null)
+    .map(String);
+}
+
+function marketClickAttributionTotals(payload, placementAttributionIndex, goalId) {
+  if (!payload || !placementAttributionIndex) {
+    return {
+      state: "unavailable",
+      coverage: "Для безопасной атрибуции требуется проверенная матрица размещений",
+      dimensions: ["surface", "landing_path", "entity_id", "rank"],
+      total_reaches: null,
+      attributed_reaches: null,
+      unattributed_reaches: null,
+      rows: null,
+      suppressed_parameter_rows: null,
+      revenue_interpretation: "not_revenue",
+    };
+  }
+  const totalReaches = singleMetricTotal(payload, "Metrika market click attribution");
+  if (payload.breakdown_state === "unavailable") {
+    return {
+      state: "unavailable",
+      coverage: "Агрегат market_click без безопасной разбивки по размещениям",
+      dimensions: ["surface", "landing_path", "entity_id", "rank"],
+      total_reaches: totalReaches,
+      attributed_reaches: null,
+      unattributed_reaches: null,
+      rows: null,
+      suppressed_parameter_rows: null,
+      revenue_interpretation: "not_revenue",
+    };
+  }
+
+  const grouped = new Map();
+  let attributedReaches = 0;
+  let suppressedParameterRows = 0;
+  for (const row of Array.isArray(payload.data) ? payload.data : []) {
+    if (
+      !Array.isArray(row?.metrics)
+      || row.metrics.length !== 1
+      || !Number.isFinite(row.metrics[0])
+      || row.metrics[0] < 0
+    ) {
+      throw new Error("Metrika market click attribution response has invalid rows");
+    }
+    const dimensions = Array.isArray(row.dimensions) ? row.dimensions : [];
+    const eventPath = dimensionValues(dimensions[0])
+      .find((candidate) => candidate.startsWith("/"));
+    const actionGoalMatches = dimensionValues(dimensions[1])
+      .includes(String(goalId));
+    const tokens = new Set(
+      dimensions
+        .slice(2)
+        .flatMap((dimension) => [dimension?.id, dimension?.name])
+        .filter((candidate) => typeof candidate === "string"),
+    );
+    const matchedVids = [...tokens].filter((candidate) => placementAttributionIndex.has(candidate));
+    if (matchedVids.length === 0 || !actionGoalMatches) {
+      suppressedParameterRows += 1;
+      continue;
+    }
+    if (matchedVids.length !== 1) {
+      throw new Error("Metrika market click attribution row matches multiple placements");
+    }
+    const placement = placementAttributionIndex.get(matchedVids[0]);
+    if (eventPath !== placement.landing_path) {
+      suppressedParameterRows += 1;
+      continue;
+    }
+    const key = JSON.stringify([
+      placement.surface,
+      placement.landing_path,
+      placement.entity_id,
+      placement.rank,
+    ]);
+    const current = grouped.get(key) ?? {
+      surface: placement.surface,
+      landing_path: placement.landing_path,
+      entity_id: placement.entity_id,
+      rank: placement.rank,
+      market_clicks: 0,
+    };
+    current.market_clicks += row.metrics[0];
+    attributedReaches += row.metrics[0];
+    grouped.set(key, current);
+  }
+  if (attributedReaches > totalReaches) {
+    throw new Error("Metrika market click attribution exceeds authoritative total");
+  }
+  return {
+    state: "available",
+    coverage: "События с проверенным размещением и совпадающим путём страницы",
+    dimensions: ["surface", "landing_path", "entity_id", "rank"],
+    total_reaches: totalReaches,
+    attributed_reaches: attributedReaches,
+    unattributed_reaches: totalReaches - attributedReaches,
+    rows: [...grouped.values()].sort((left, right) =>
+      right.market_clicks - left.market_clicks
+      || left.surface.localeCompare(right.surface)
+      || left.landing_path.localeCompare(right.landing_path)
+      || left.entity_id.localeCompare(right.entity_id)
+      || (left.rank ?? 0) - (right.rank ?? 0)),
+    suppressed_parameter_rows: suppressedParameterRows,
+    revenue_interpretation: "not_revenue",
+  };
+}
+
 function organicLandingOutcomes(payload, allowedLandingPaths) {
   if (!payload || !allowedLandingPaths) {
     return {
@@ -500,11 +690,16 @@ export async function fetchMetrikaFunnel({
   fetchImpl = globalThis.fetch,
   goalIds,
   now = new Date(),
+  placementAttributionIndex,
   token,
 }) {
   if (typeof token !== "string" || token.length < 16) throw new Error("OAuth token is missing");
   if (typeof fetchImpl !== "function") throw new Error("fetch implementation is missing");
   const landingPathAllowlist = normalizeAllowedLandingPaths(allowedLandingPaths);
+  const safePlacementAttributionIndex = normalizePlacementAttributionIndex(
+    placementAttributionIndex,
+    landingPathAllowlist,
+  );
 
   async function load({
     affiliateEligibleRegionsOnly = false,
@@ -597,6 +792,30 @@ export async function fetchMetrikaFunnel({
     return { ...payload, breakdown_state: "available" };
   }
 
+  async function loadMarketClickAttribution() {
+    const url = buildMetrikaMarketClickAttributionUrl({
+      counterId,
+      date1,
+      date2,
+      goalId: goalIds?.market_click,
+    });
+    const response = await fetchImpl(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `OAuth ${token}`,
+      },
+      method: "GET",
+    });
+    const payload = await readPayload(response);
+    if (!response.ok && safeApiError(payload) === "invalid_parameter") {
+      return loadGoalTotal(goalIds?.market_click);
+    }
+    if (!response.ok) {
+      throw new Error(`Metrika market click attribution GET failed: HTTP ${response.status}, ${safeApiError(payload)}`);
+    }
+    return { ...payload, breakdown_state: "available" };
+  }
+
   const requests = [
     () => load(),
     () => load({ organicOnly: true }),
@@ -608,6 +827,9 @@ export async function fetchMetrikaFunnel({
   ];
   if (landingPathAllowlist) {
     requests.push(() => load({ landingOutcomesOnly: true }));
+  }
+  if (safePlacementAttributionIndex) {
+    requests.push(() => loadMarketClickAttribution());
   }
   const results = [];
   for (const request of requests) {
@@ -622,11 +844,12 @@ export async function fetchMetrikaFunnel({
     toolStarted,
     toolCompleted,
     landingOutcomes,
+    marketClickAttribution,
   ] = results;
   const observedAt = now instanceof Date ? now.toISOString() : new Date(now).toISOString();
   const dailyTraffic = dailyTrafficBreakdown(dailyQualifiedTraffic.data, date1, date2);
   return {
-    schema_version: 6,
+    schema_version: 7,
     observed_at: observedAt,
     window: { date1, date2 },
     coverage: "Посетители с включённой аналитикой; сохранённый отказ исключён",
@@ -644,6 +867,11 @@ export async function fetchMetrikaFunnel({
     ),
     installation_kit_interactions: interactionTotals(interactions),
     tool_usage: toolUsageTotals(toolStarted, toolCompleted),
+    market_click_attribution: marketClickAttributionTotals(
+      marketClickAttribution,
+      safePlacementAttributionIndex,
+      goalIds?.market_click,
+    ),
     affiliate_eligible_region_areas_ru: [...AFFILIATE_ELIGIBLE_REGION_AREAS_RU],
     quality: {
       all_consenting: {
@@ -687,6 +915,15 @@ export async function fetchMetrikaFunnel({
         completed_sampled: Boolean(toolCompleted.sampled),
         completed_sample_share: Number(toolCompleted.sample_share ?? 1),
         completed_data_lag: Number(toolCompleted.data_lag ?? 0),
+      },
+      market_click_attribution: marketClickAttribution ? {
+        sampled: Boolean(marketClickAttribution.sampled),
+        sample_share: Number(marketClickAttribution.sample_share ?? 1),
+        data_lag: Number(marketClickAttribution.data_lag ?? 0),
+      } : {
+        sampled: null,
+        sample_share: null,
+        data_lag: null,
       },
     },
   };

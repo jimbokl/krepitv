@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   AFFILIATE_ELIGIBLE_REGION_AREAS_RU,
   buildMetrikaInteractionUrl,
+  buildMetrikaMarketClickAttributionUrl,
   buildMetrikaFunnelUrl,
   buildMetrikaToolUsageUrl,
   evaluateDailyTrafficGoal,
@@ -139,10 +140,108 @@ test("tool usage URL запрашивает только уровни парам
   assert.doesNotMatch(url.searchParams.get("dimensions"), /goal101/u);
 });
 
+test("market click attribution URL uses the current event-parameter report", () => {
+  const url = buildMetrikaMarketClickAttributionUrl({
+    counterId: 111176777,
+    date1: "2026-07-01",
+    date2: "2026-07-31",
+    goalId: goalIds.market_click,
+  });
+  assert.equal(url.searchParams.get("preset"), "goal_params");
+  assert.equal(url.searchParams.get("metrics"), "ym:ep:eventsNumber");
+  assert.equal(
+    url.searchParams.get("dimensions"),
+    "ym:ep:eventURLPath,ym:ep:actionGoal,ym:ep:eventParamsLevel1,ym:ep:eventParamsLevel2,ym:ep:eventParamsLevel3,ym:ep:eventParamsLevel4,ym:ep:eventParamsLevel5",
+  );
+  assert.equal(url.searchParams.get("filters"), "ym:ep:actionGoal==103");
+  assert.equal(url.searchParams.get("sort"), "-ym:ep:eventsNumber");
+  assert.equal(url.searchParams.get("accuracy"), "full");
+  assert.equal(url.searchParams.get("limit"), "1000");
+});
+
 test("report keeps authoritative users total and strips source labels and token", async () => {
   const calls = [];
+  const privateModelVid = "krepitvModelTcl55c6kOne";
+  const privateHubVid = "krepitvSeoHubOne";
+  const privatePlacementId = "model-tcl-55c6k-r01-itech-slt-460";
+  const placementAttributionIndex = new Map([
+    [privateModelVid, {
+      vid: privateModelVid,
+      surface: "model_page",
+      landing_path: "/modeli/tcl-55c6k/",
+      placement_id: privatePlacementId,
+      rank: 1,
+      entity_id: "itech-slt-460",
+    }],
+    [privateHubVid, {
+      vid: privateHubVid,
+      surface: "seo_hub",
+      landing_path: "/kronshteyny-onkron/",
+      placement_id: "seo-hub-onkron-r01-onkron-tm6",
+      rank: 1,
+      entity_id: "onkron-tm6",
+    }],
+  ]);
   const fetchImpl = async (url, options) => {
     calls.push({ url, options });
+    if (
+      url.searchParams.get("preset") === "goal_params"
+      && url.searchParams.get("metrics") === "ym:ep:eventsNumber"
+    ) {
+      return response({
+        totals: [2],
+        data: [
+          {
+            dimensions: [
+              { id: "/modeli/tcl-55c6k/" },
+              { id: "103", name: "Переход на Яндекс Маркет" },
+              { name: "vid" },
+              { name: privateModelVid },
+            ],
+            metrics: [1],
+          },
+          {
+            dimensions: [
+              { id: "/kronshteyny-onkron/" },
+              { id: "103", name: "Переход на Яндекс Маркет" },
+              { name: "vid" },
+              { name: privateHubVid },
+            ],
+            metrics: [1],
+          },
+          {
+            dimensions: [
+              { id: "/kronshteyny-onkron/" },
+              { id: "103" },
+              { name: "entity_id" },
+              { name: "onkron-tm6" },
+            ],
+            metrics: [1],
+          },
+          {
+            dimensions: [
+              { id: "/wrong-page/" },
+              { id: "103" },
+              { name: "vid" },
+              { name: privateModelVid },
+            ],
+            metrics: [1],
+          },
+          {
+            dimensions: [
+              { id: "/modeli/tcl-55c6k/" },
+              { id: "999" },
+              { name: "vid" },
+              { name: privateModelVid },
+            ],
+            metrics: [1],
+          },
+        ],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
     if (url.searchParams.get("dimensions") === "ym:s:startURLPath") {
       return response({
         totals: [7, 6, 5, 0, 1, 0],
@@ -238,6 +337,7 @@ test("report keeps authoritative users total and strips source labels and token"
     allowedLandingPaths: new Set([
       "/kak-otklyuchit-subtitry-na-televizore/",
       "/modeli/tcl-55c6k/",
+      "/kronshteyny-onkron/",
       "/skolko-elektroenergii-potreblyaet-televizor/",
     ]),
     counterId: 111176777,
@@ -246,6 +346,7 @@ test("report keeps authoritative users total and strips source labels and token"
     fetchImpl,
     goalIds,
     now: new Date("2026-07-31T10:24:00.000Z"),
+    placementAttributionIndex,
     token,
   });
   assert.equal(report.all_consenting.users, 1);
@@ -314,17 +415,49 @@ test("report keeps authoritative users total and strips source labels and token"
       },
     ],
   });
+  assert.deepEqual(report.market_click_attribution, {
+    state: "available",
+    coverage: "События с проверенным размещением и совпадающим путём страницы",
+    dimensions: ["surface", "landing_path", "entity_id", "rank"],
+    total_reaches: 2,
+    attributed_reaches: 2,
+    unattributed_reaches: 0,
+    rows: [
+      {
+        surface: "model_page",
+        landing_path: "/modeli/tcl-55c6k/",
+        entity_id: "itech-slt-460",
+        rank: 1,
+        market_clicks: 1,
+      },
+      {
+        surface: "seo_hub",
+        landing_path: "/kronshteyny-onkron/",
+        entity_id: "onkron-tm6",
+        rank: 1,
+        market_clicks: 1,
+      },
+    ],
+    suppressed_parameter_rows: 3,
+    revenue_interpretation: "not_revenue",
+  });
   assert.deepEqual(report.daily_consenting_excluding_internal_tests, [
     { date: "2026-07-29", visits: 0, users: 0 },
     { date: "2026-07-30", visits: 2, users: 1 },
     { date: "2026-07-31", visits: 0, users: 0 },
   ]);
   assert.equal(report.daily_traffic_goal.status, "lower_bound_not_reached");
-  assert.equal(calls.length, 8);
+  assert.equal(calls.length, 9);
   assert.equal(calls.every((call) => call.options.headers.Authorization === `OAuth ${token}`), true);
   assert.equal(JSON.stringify(report).includes(token), false);
   assert.equal(JSON.stringify(report).includes("Прямые заходы"), false);
   assert.equal(JSON.stringify(report).includes("user-at-example"), false);
+  assert.equal(JSON.stringify(report).includes(privateModelVid), false);
+  assert.equal(JSON.stringify(report).includes(privateHubVid), false);
+  assert.equal(JSON.stringify(report).includes(privatePlacementId), false);
+  assert.equal(JSON.stringify(report).toLowerCase().includes('"vid"'), false);
+  assert.equal(JSON.stringify(report).toLowerCase().includes("placement_id"), false);
+  assert.equal(JSON.stringify(report).toLowerCase().includes("clid"), false);
 });
 
 test("report keeps aggregate funnel totals when goal parameter dimensions are unsupported", async () => {
