@@ -62,4 +62,9 @@ test("условные совпадения не получают коммерч
   assert.match(modelPage, /fitStatus === "verified-fit" && !vesaConflict/);
   assert.match(modelPage, /Переход к покупке закрыт до сверки диапазона диагонали/);
   assert.match(heightCalculator, /`\/podbor\/\?model=\$\{encodeURIComponent\(model\.id\)\}`/);
+  assert.match(heightCalculator, /selectionStartHandlers\(globalThis\.window, "seo_next_step"\)/u);
+  assert.match(
+    heightCalculator,
+    /<a \{\.\.\.selectionHandlers\}[\s\S]*?href=\{mountSelectionHref\}/u,
+  );
 });

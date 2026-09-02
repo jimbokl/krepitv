@@ -34,6 +34,7 @@ export const SELECTION_START_GOAL = "selection_start";
 
 const METRIKA_SCRIPT_ID = "krepitv-yandex-metrika";
 const METRIKA_SCRIPT_URL = "https://mc.yandex.ru/metrika/tag.js";
+const RESULT_COMPLETED_SESSION_PREFIX = "krepitv:result-completed:v1:";
 const SAFE_TOKEN = /^[A-Za-z0-9_-]{1,150}$/;
 const SAFE_RESULT_TOKEN = /^[a-z][a-z0-9_-]{0,63}$/;
 const SAFE_PAGE_PATH = /^(?:\/|\/[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*\/?)$/;
@@ -59,6 +60,22 @@ function safePagePath(value) {
     SAFE_PAGE_PATH.test(value)
     ? value
     : undefined;
+}
+
+function sessionResultWasCompleted(windowObject, key) {
+  try {
+    return windowObject?.sessionStorage?.getItem?.(key) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function rememberSessionResult(windowObject, key) {
+  try {
+    windowObject?.sessionStorage?.setItem?.(key, "1");
+  } catch {
+    // In-memory deduplication below remains active when storage is unavailable.
+  }
 }
 
 function createQueuedMetrika(windowObject) {
@@ -162,9 +179,14 @@ export function installMetrika({
       if (value === undefined) delete parameters[key];
     }
     const completionKey = `${toolId}\n${parameters.source_path ?? ""}`;
-    if (completedResults.has(completionKey)) return false;
+    const sessionKey = `${RESULT_COMPLETED_SESSION_PREFIX}${completionKey}`;
+    if (
+      completedResults.has(completionKey)
+      || sessionResultWasCompleted(windowObject, sessionKey)
+    ) return false;
     ym(normalizedCounterId, "reachGoal", RESULT_COMPLETED_GOAL, parameters);
     completedResults.add(completionKey);
+    rememberSessionResult(windowObject, sessionKey);
     return true;
   }
 

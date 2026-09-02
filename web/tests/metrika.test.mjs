@@ -19,12 +19,17 @@ import {
 function createBrowserDouble() {
   const listeners = new Map();
   const scripts = [];
+  const session = new Map();
   const windowObject = {
     addEventListener(name, listener) {
       listeners.set(name, listener);
     },
     removeEventListener(name, listener) {
       if (listeners.get(name) === listener) listeners.delete(name);
+    },
+    sessionStorage: {
+      getItem(key) { return session.get(key) ?? null; },
+      setItem(key, value) { session.set(key, String(value)); },
     },
   };
   const documentObject = {
@@ -205,6 +210,35 @@ test("готовый результат считается один раз на 
   assert.equal(resultCalls.length, 2);
   assert.equal(resultCalls[0][3].result_type, "energy_plan");
   assert.equal(resultCalls[1][3].tool_id, "height_calculator");
+});
+
+test("готовый результат не дублируется после перезагрузки в той же вкладке", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const detail = {
+    toolId: "height_calculator",
+    resultType: "height_plan",
+    sourcePath: "/na-kakoy-vysote-veshat-televizor/",
+  };
+
+  const first = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+  assert.equal(first.trackResultCompleted(detail), true);
+  first.dispose();
+
+  const second = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+  assert.equal(second.trackResultCompleted(detail), false);
+
+  const resultCalls = calls.filter((call) => call[2] === RESULT_COMPLETED_GOAL);
+  assert.equal(resultCalls.length, 1);
 });
 
 test("начало инструмента отправляет только action, tool id и pathname", () => {

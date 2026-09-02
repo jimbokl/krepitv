@@ -6,8 +6,10 @@ import { formatNumber } from "./ModelFacts.jsx";
 import { calculateHeight } from "../lib/catalog.js";
 import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
+import { selectionStartHandlers } from "../lib/selectionStart.mjs";
 
 export function HeightCalculator({ model = null }) {
+  const selectionHandlers = selectionStartHandlers(globalThis.window, "seo_next_step");
   const mountSelectionHref = model?.id
     ? `/podbor/?model=${encodeURIComponent(model.id)}`
     : "/podbor/";
@@ -137,7 +139,7 @@ export function HeightCalculator({ model = null }) {
               <a className="primary-button" href="/kak-povesit-televizor-na-stenu/">
                 Построить монтажную карту <ArrowRight aria-hidden="true" />
               </a>
-              <a className="font-semibold text-technical underline underline-offset-4" href={mountSelectionHref}>
+              <a {...selectionHandlers} className="font-semibold text-technical underline underline-offset-4" href={mountSelectionHref}>
                 Проверить модель и кронштейн
               </a>
             </div>
