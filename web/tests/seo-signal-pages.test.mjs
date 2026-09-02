@@ -10,6 +10,7 @@ const targetIds = new Set([
   "tv-energy-consumption",
   "tv-disable-subtitles",
   "tv-disable-voice",
+  "tv-freezes",
   "tv-storage-cleanup",
   "vesa-size",
 ]);
@@ -67,6 +68,34 @@ test("storage cleanup answers the measured intent with platform-specific safe ro
   assert.ok(
     candidate.guide.sources.some(
       ({ url }) => url === "https://support.google.com/androidtv/answer/6299083?hl=ru",
+    ),
+  );
+});
+
+test("frozen TV page answers the no-response intent before destructive recovery", () => {
+  const candidate = page("tv-freezes");
+
+  assert.match(candidate.title, /^Телевизор завис и не реагирует: что делать/u);
+  assert.match(candidate.description, /не реагирует/u);
+  assert.match(candidate.description, /Samsung, LG, Google TV и YaOS/u);
+  assert.match(candidate.h1, /завис и не реагирует/u);
+  assert.match(candidate.lead, /сначала убедитесь, что на экране не идёт обновление/u);
+  assert.match(candidate.lead, /Заводской сброс — не первый шаг/u);
+  assert.equal(candidate.updated_at, "2026-09-02");
+  assert.equal(candidate.guide.updated_at, "2026-08-06");
+  assert.deepEqual(
+    candidate.guide.steps.map(({ label }) => label),
+    ["Идёт обновление", "Меню открывается", "Меню не открывается"],
+  );
+  assert.ok(candidate.faq.some(([question]) => /не реагирует на пульт/iu.test(question)));
+  assert.ok(
+    candidate.guide.sources.some(
+      ({ url }) => url === "https://www.samsung.com/ru/support/tv-audio-video/what-to-do-if-the-samsung-tv-freezes/",
+    ),
+  );
+  assert.ok(
+    candidate.guide.sources.some(
+      ({ url }) => url === "https://alice.yandex.ru/support/ru/tv/troubleshooting/",
     ),
   );
 });
