@@ -514,6 +514,19 @@ export async function fetchMetrikaFunnel({
     return { ...payload, breakdown_state: "available" };
   }
 
+  const requests = [
+    () => load(),
+    () => load({ organicOnly: true }),
+    () => load({ affiliateEligibleRegionsOnly: true }),
+    () => load({ dailyQualifiedTrafficOnly: true }),
+    () => loadInteractions(),
+    () => loadToolGoal(goalIds?.tool_usage),
+    () => loadToolGoal(goalIds?.result_completed),
+  ];
+  const results = [];
+  for (const request of requests) {
+    results.push(await request());
+  }
   const [
     allSources,
     organic,
@@ -522,15 +535,7 @@ export async function fetchMetrikaFunnel({
     interactions,
     toolStarted,
     toolCompleted,
-  ] = await Promise.all([
-    load(),
-    load({ organicOnly: true }),
-    load({ affiliateEligibleRegionsOnly: true }),
-    load({ dailyQualifiedTrafficOnly: true }),
-    loadInteractions(),
-    loadToolGoal(goalIds?.tool_usage),
-    loadToolGoal(goalIds?.result_completed),
-  ]);
+  ] = results;
   const observedAt = now instanceof Date ? now.toISOString() : new Date(now).toISOString();
   const dailyTraffic = dailyTrafficBreakdown(dailyQualifiedTraffic.data, date1, date2);
   return {

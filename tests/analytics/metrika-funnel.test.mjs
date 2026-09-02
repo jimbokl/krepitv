@@ -305,6 +305,51 @@ test("report keeps aggregate funnel totals when goal parameter dimensions are un
   });
 });
 
+test("report serializes API requests so one run cannot exhaust the account parallel quota", async () => {
+  let inFlight = 0;
+  let maximumInFlight = 0;
+  const fetchImpl = async (url) => {
+    inFlight += 1;
+    maximumInFlight = Math.max(maximumInFlight, inFlight);
+    await new Promise((resolve) => setImmediate(resolve));
+    const overloaded = inFlight > 1;
+    inFlight -= 1;
+
+    if (overloaded) {
+      return response({ errors: [{ error_type: "quota_parallel_requests_by_uid" }] }, 429);
+    }
+    const dimensions = url.searchParams.get("dimensions") ?? "";
+    if (dimensions.includes("paramsLevel")) {
+      return response({
+        totals: [0],
+        data: [],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
+    return response({
+      totals: [0, 0, 0, 0, 0, 0],
+      data: [],
+      sampled: false,
+      sample_share: 1,
+      data_lag: 0,
+    });
+  };
+
+  const report = await fetchMetrikaFunnel({
+    counterId: 111176777,
+    date1: "2026-08-26",
+    date2: "2026-09-01",
+    fetchImpl,
+    goalIds,
+    token,
+  });
+
+  assert.equal(maximumInFlight, 1);
+  assert.equal(report.organic_excluding_tests.users, 0);
+});
+
 test("invalid dates, missing goal ids and malformed totals fail closed", async () => {
   assert.throws(() => buildMetrikaFunnelUrl({
     counterId: 1,
