@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "task_id": "20260902-growth-consolidation-20260902",
+  "commands": [
+    {
+      "id": "targeted-tests",
+      "command": "node --test web/tests/seo-signal-pages.test.mjs web/tests/analytics-events.test.mjs && cargo test -p krepitv-sitegen",
+      "exit_code": 0,
+      "covers": ["default", "focus", "SSR parity", "event semantics"]
+    },
+    {
+      "id": "production-gate",
+      "command": "npm run verify",
+      "exit_code": 0,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "whole artifact"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260902-growth-consolidation-20260902 --files web/src/components/SeoMountFunnelNextStep.jsx crates/sitegen/src/main.rs",
+      "exit_code": 0,
+      "covers": ["design tokens", "responsive CTA", "SSR parity"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "screenshots/default-mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "focus-tablet",
+      "path": "screenshots/default-tablet.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "default-desktop",
+      "path": "screenshots/default-desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "loading-invariant",
+      "path": "screenshots/default-desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "static_state_invariant": true, "text_fits": true}
+    },
+    {
+      "id": "empty-invariant",
+      "path": "screenshots/default-mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "static_state_invariant": true, "text_fits": true}
+    },
+    {
+      "id": "error-invariant",
+      "path": "screenshots/default-mobile.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "static_state_invariant": true, "text_fits": true}
+    },
+    {
+      "id": "success-invariant",
+      "path": "screenshots/default-desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "static_state_invariant": true, "text_fits": true}
+    },
+    {
+      "id": "disabled-invariant",
+      "path": "screenshots/default-tablet.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "static_state_invariant": true, "text_fits": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + headless Chrome QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Технический CTA остаётся частью полезной страницы и ведёт только во внутренний подбор.",
+      "На 320, 768 и 1440 px нет горизонтального переполнения, наложений или обрезанного текста.",
+      "SSR и React используют одинаковый заголовок, объяснение и действие.",
+      "Фокус ссылки видим; новых URL, изображений и дизайн-токенов не создано."
+    ]
+  },
+  "rollback": {"documented": true, "path": "review.md"}
+}

@@ -1389,11 +1389,13 @@ for (const mount of mounts) {
 }
 for (const page of seoPages.filter((item) => item.guide)) {
   const html = htmlByRoute.get(page.path) ?? "";
+  const expectedModifiedDate = page.updated_at ?? page.guide.updated_at;
   if (
     !html.includes('"@type":["Article","HowTo"]')
     || !html.includes('"name":"Редакция KREPI TV"')
     || !html.includes('"url":"https://krepitv.ru/redaktsiya/"')
-    || !html.includes(`"dateModified":"${page.guide.updated_at}"`)
+    || !html.includes(`"datePublished":"${page.guide.updated_at}"`)
+    || !html.includes(`"dateModified":"${expectedModifiedDate}"`)
   ) {
     throw new Error(`Article/HowTo JSON-LD не совпадает с видимым автором и датой: ${page.path}`);
   }
@@ -1762,7 +1764,8 @@ for (const page of seoPages) {
   if (
     funnelMarkers.length !== 1
     || !funnelSection.includes('href="/podbor/"')
-    || !funnelSection.includes("От результата мастера — к совместимому кронштейну")
+    || !funnelSection.includes("Проверьте точную модель и получите совместимые кронштейны")
+    || !funnelSection.includes("Начать подбор по модели")
     || !funnelSection.includes("Маркет откроется только после выбора подтверждённого совместимого кронштейна")
     || funnelSection.includes("market.yandex.ru")
   ) {
@@ -2338,7 +2341,7 @@ for (const page of indexableSeoPages) {
       ].includes(page.id)
       ? trafficPagesUpdatedAt
       : corePagesUpdatedAt;
-  const expectedLastmod = [contentLastmod, seoFunnelUpdatedAt].sort().at(-1);
+  const expectedLastmod = [page.updated_at ?? contentLastmod, seoFunnelUpdatedAt].sort().at(-1);
   if (sitemapLastmods.get(page.path) !== expectedLastmod) {
     throw new Error(`SEO-страница имеет неточный sitemap lastmod: ${page.path}`);
   }

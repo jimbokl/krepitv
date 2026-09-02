@@ -20,9 +20,9 @@ function page(id) {
 test("measured SEO winners expose a truthful material-update date", () => {
   const updated = pages.filter((candidate) => candidate.updated_at === "2026-09-02");
   assert.deepEqual(new Set(updated.map((candidate) => candidate.id)), targetIds);
-  for (const candidate of updated) {
-    if (candidate.guide) assert.equal(candidate.guide.updated_at, "2026-09-02");
-  }
+  assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-08-07");
+  assert.equal(page("tv-disable-voice").guide.updated_at, "2026-08-07");
+  assert.equal(page("vesa-size").guide.updated_at, "2026-08-08");
 });
 
 test("energy page answers the measured query before the calculator", () => {

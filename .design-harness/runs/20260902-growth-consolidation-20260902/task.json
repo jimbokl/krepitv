@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "id": "20260902-growth-consolidation-20260902",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex",
+  "created_at": "2026-09-02T08:58:29.796105+00:00",
+  "states": ["default", "loading", "empty", "error", "success", "disabled", "focus"],
+  "behavior_evidence_states": {},
+  "viewports": [
+    {"id": "mobile", "width": 320, "height": 800},
+    {"id": "tablet", "width": 768, "height": 1024},
+    {"id": "desktop", "width": 1440, "height": 900}
+  ],
+  "allowed_files": [
+    "web/src/components/SeoMountFunnelNextStep.jsx",
+    "web/src/lib/metrika.mjs",
+    "web/tests/seo-signal-pages.test.mjs",
+    "web/tests/analytics-events.test.mjs",
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "scripts/verify.mjs",
+    "docs",
+    ".design-harness/runs/20260902-growth-consolidation-20260902"
+  ],
+  "verification_commands": [
+    {
+      "id": "targeted-tests",
+      "command": "node --test web/tests/seo-signal-pages.test.mjs web/tests/analytics-events.test.mjs && cargo test -p krepitv-sitegen",
+      "required": true,
+      "covers": ["default", "focus", "SSR parity", "event semantics"]
+    },
+    {
+      "id": "production-gate",
+      "command": "npm run verify",
+      "required": true,
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "whole artifact"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260902-growth-consolidation-20260902 --files web/src/components/SeoMountFunnelNextStep.jsx crates/sitegen/src/main.rs",
+      "required": true,
+      "covers": ["design tokens", "responsive CTA", "SSR parity"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id": "next-step-heading", "value": "Проверьте точную модель и получите совместимые кронштейны", "strategy": "deterministic-overlay"},
+    {"id": "next-step-action", "value": "Начать подбор по модели", "strategy": "deterministic-overlay"}
+  ],
+  "claims": [
+    {"id": "compatibility-check", "text": "Подбор сверяет VESA, массу с запасом и диапазон диагонали перед показом кронштейна.", "source_ids": ["catalog-graph"]}
+  ],
+  "sources": [
+    {"id": "catalog-graph", "path": "data/fitment.json", "retrieved_at": "2026-09-02T08:58:29Z", "notes": "Локальный граф подтверждённой совместимости телевизоров и кронштейнов"}
+  ]
+}
