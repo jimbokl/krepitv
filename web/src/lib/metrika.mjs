@@ -86,6 +86,7 @@ export function installMetrika({
   }
 
   const ym = createQueuedMetrika(windowObject);
+  const completedResults = new Set();
   if (!documentObject.getElementById(METRIKA_SCRIPT_ID)) {
     const script = documentObject.createElement("script");
     script.id = METRIKA_SCRIPT_ID;
@@ -153,7 +154,10 @@ export function installMetrika({
     for (const [key, value] of Object.entries(parameters)) {
       if (value === undefined) delete parameters[key];
     }
+    const completionKey = `${toolId}\n${parameters.source_path ?? ""}`;
+    if (completedResults.has(completionKey)) return false;
     ym(normalizedCounterId, "reachGoal", RESULT_COMPLETED_GOAL, parameters);
+    completedResults.add(completionKey);
     return true;
   }
 
@@ -213,6 +217,7 @@ export function installMetrika({
         handleInstallationKitInteraction,
       );
       windowObject.removeEventListener(TOOL_USAGE_EVENT, handleToolUsage);
+      completedResults.clear();
     },
     trackMarketClick,
     trackMountDetailClick,

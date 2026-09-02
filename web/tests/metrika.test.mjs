@@ -173,6 +173,38 @@ test("событие готового результата отправляет 
   assert.equal(browser.listeners.size, 0);
 });
 
+test("готовый результат считается один раз на инструмент и страницу", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  assert.equal(metrika.trackResultCompleted({
+    toolId: "tv_energy_calculator",
+    resultType: "energy_plan",
+    sourcePath: "/skolko-elektroenergii-potreblyaet-televizor/",
+  }), true);
+  assert.equal(metrika.trackResultCompleted({
+    toolId: "tv_energy_calculator",
+    resultType: "energy_cost_plan",
+    sourcePath: "/skolko-elektroenergii-potreblyaet-televizor/",
+  }), false);
+  assert.equal(metrika.trackResultCompleted({
+    toolId: "height_calculator",
+    resultType: "mounting_height",
+    sourcePath: "/skolko-elektroenergii-potreblyaet-televizor/",
+  }), true);
+
+  const resultCalls = calls.filter((call) => call[2] === RESULT_COMPLETED_GOAL);
+  assert.equal(resultCalls.length, 2);
+  assert.equal(resultCalls[0][3].result_type, "energy_plan");
+  assert.equal(resultCalls[1][3].tool_id, "height_calculator");
+});
+
 test("начало инструмента отправляет только action, tool id и pathname", () => {
   const browser = createBrowserDouble();
   const calls = [];
