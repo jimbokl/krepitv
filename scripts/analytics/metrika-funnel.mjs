@@ -80,6 +80,7 @@ export function buildMetrikaFunnelUrl({
   organicOnly = false,
   affiliateEligibleRegionsOnly = false,
   dailyQualifiedTrafficOnly = false,
+  landingOutcomesOnly = false,
 }) {
   if (!/^\d+$/.test(String(counterId ?? ""))) throw new Error("counterId must be numeric");
   if (!isIsoDate(date1) || !isIsoDate(date2) || date1 > date2) {
@@ -96,26 +97,30 @@ export function buildMetrikaFunnelUrl({
   url.searchParams.set("date1", date1);
   url.searchParams.set("date2", date2);
   url.searchParams.set("accuracy", "full");
-  url.searchParams.set("limit", "10000");
+  url.searchParams.set("limit", landingOutcomesOnly ? "1000" : "10000");
   url.searchParams.set(
     "dimensions",
-    organicOnly || affiliateEligibleRegionsOnly || dailyQualifiedTrafficOnly
-      ? "ym:s:date"
-      : "ym:s:lastTrafficSource",
+    landingOutcomesOnly
+      ? "ym:s:startURLPath"
+      : organicOnly || affiliateEligibleRegionsOnly || dailyQualifiedTrafficOnly
+        ? "ym:s:date"
+        : "ym:s:lastTrafficSource",
   );
   url.searchParams.set("metrics", metricNames(goalIds).join(","));
   url.searchParams.set(
     "sort",
-    organicOnly || affiliateEligibleRegionsOnly || dailyQualifiedTrafficOnly
-      ? "ym:s:date"
-      : "-ym:s:visits",
+    landingOutcomesOnly
+      ? `-ym:s:goal${goalIds.result_completed}reaches`
+      : organicOnly || affiliateEligibleRegionsOnly || dailyQualifiedTrafficOnly
+        ? "ym:s:date"
+        : "-ym:s:visits",
   );
   if (dailyQualifiedTrafficOnly) {
     url.searchParams.set("filters", QUALIFIED_TRAFFIC_FILTER);
   } else if (affiliateEligibleRegionsOnly) {
     url.searchParams.set("lang", "ru");
     url.searchParams.set("filters", `${ORGANIC_FILTER} AND ${eligibleRegionsFilter()}`);
-  } else if (organicOnly) {
+  } else if (organicOnly || landingOutcomesOnly) {
     url.searchParams.set("filters", ORGANIC_FILTER);
   }
   return url;
@@ -413,7 +418,82 @@ function sourceBreakdown(rows) {
   );
 }
 
+function normalizeAllowedLandingPaths(value) {
+  if (value === undefined || value === null) return null;
+  if (!(value instanceof Set) || value.size === 0) {
+    throw new Error("allowedLandingPaths must be a non-empty Set");
+  }
+  for (const path of value) {
+    if (
+      typeof path !== "string"
+      || !path.startsWith("/")
+      || path.includes("?")
+      || path.includes("#")
+      || path.length > 240
+    ) {
+      throw new Error("allowedLandingPaths contains an invalid canonical path");
+    }
+  }
+  return value;
+}
+
+function organicLandingOutcomes(payload, allowedLandingPaths) {
+  if (!payload || !allowedLandingPaths) {
+    return {
+      state: "unavailable",
+      coverage: "Для безопасного разреза требуется allowlist текущего sitemap",
+      rows: null,
+      suppressed: null,
+    };
+  }
+  validateTotals(payload.totals);
+  const byPath = new Map();
+  const suppressed = { not_in_sitemap: 0, zero_outcome: 0 };
+  for (const row of Array.isArray(payload.data) ? payload.data : []) {
+    const metrics = validateTotals(row?.metrics);
+    const dimensions = Array.isArray(row?.dimensions) ? row.dimensions : [];
+    const path = dimensions
+      .flatMap((dimension) => [dimension?.id, dimension?.name])
+      .find((candidate) => allowedLandingPaths.has(candidate));
+    if (!path) {
+      suppressed.not_in_sitemap += 1;
+      continue;
+    }
+    if (metrics.slice(2).every((value) => value === 0)) {
+      suppressed.zero_outcome += 1;
+      continue;
+    }
+    const current = byPath.get(path) ?? {
+      path,
+      visits: 0,
+      users: 0,
+      result_completed: 0,
+      selection_start: 0,
+      mount_detail_click: 0,
+      market_click: 0,
+    };
+    current.visits += metrics[0];
+    current.users += metrics[1];
+    current.result_completed += metrics[2];
+    current.selection_start += metrics[3];
+    current.mount_detail_click += metrics[4];
+    current.market_click += metrics[5];
+    byPath.set(path, current);
+  }
+  return {
+    state: "available",
+    coverage: "Только страницы из текущего sitemap и строки с полезным результатом или переходом",
+    rows: [...byPath.values()].sort((left, right) =>
+      right.result_completed - left.result_completed
+      || right.mount_detail_click - left.mount_detail_click
+      || right.market_click - left.market_click
+      || left.path.localeCompare(right.path)),
+    suppressed,
+  };
+}
+
 export async function fetchMetrikaFunnel({
+  allowedLandingPaths,
   counterId,
   date1,
   date2,
@@ -424,10 +504,12 @@ export async function fetchMetrikaFunnel({
 }) {
   if (typeof token !== "string" || token.length < 16) throw new Error("OAuth token is missing");
   if (typeof fetchImpl !== "function") throw new Error("fetch implementation is missing");
+  const landingPathAllowlist = normalizeAllowedLandingPaths(allowedLandingPaths);
 
   async function load({
     affiliateEligibleRegionsOnly = false,
     dailyQualifiedTrafficOnly = false,
+    landingOutcomesOnly = false,
     organicOnly = false,
   } = {}) {
     const url = buildMetrikaFunnelUrl({
@@ -437,6 +519,7 @@ export async function fetchMetrikaFunnel({
       date1,
       date2,
       goalIds,
+      landingOutcomesOnly,
       organicOnly,
     });
     const response = await fetchImpl(url, {
@@ -523,6 +606,9 @@ export async function fetchMetrikaFunnel({
     () => loadToolGoal(goalIds?.tool_usage),
     () => loadToolGoal(goalIds?.result_completed),
   ];
+  if (landingPathAllowlist) {
+    requests.push(() => load({ landingOutcomesOnly: true }));
+  }
   const results = [];
   for (const request of requests) {
     results.push(await request());
@@ -535,11 +621,12 @@ export async function fetchMetrikaFunnel({
     interactions,
     toolStarted,
     toolCompleted,
+    landingOutcomes,
   ] = results;
   const observedAt = now instanceof Date ? now.toISOString() : new Date(now).toISOString();
   const dailyTraffic = dailyTrafficBreakdown(dailyQualifiedTraffic.data, date1, date2);
   return {
-    schema_version: 5,
+    schema_version: 6,
     observed_at: observedAt,
     window: { date1, date2 },
     coverage: "Посетители с включённой аналитикой; сохранённый отказ исключён",
@@ -550,6 +637,10 @@ export async function fetchMetrikaFunnel({
     organic_excluding_tests: totalsObject(organic.totals),
     eligible_regions_organic_excluding_tests: totalsObject(
       eligibleRegionsOrganic.totals,
+    ),
+    organic_outcomes_by_landing: organicLandingOutcomes(
+      landingOutcomes,
+      landingPathAllowlist,
     ),
     installation_kit_interactions: interactionTotals(interactions),
     tool_usage: toolUsageTotals(toolStarted, toolCompleted),
@@ -569,6 +660,15 @@ export async function fetchMetrikaFunnel({
         sampled: Boolean(organic.sampled),
         sample_share: Number(organic.sample_share ?? 1),
         data_lag: Number(organic.data_lag ?? 0),
+      },
+      organic_outcomes_by_landing: landingOutcomes ? {
+        sampled: Boolean(landingOutcomes.sampled),
+        sample_share: Number(landingOutcomes.sample_share ?? 1),
+        data_lag: Number(landingOutcomes.data_lag ?? 0),
+      } : {
+        sampled: null,
+        sample_share: null,
+        data_lag: null,
       },
       eligible_regions_organic_excluding_tests: {
         sampled: Boolean(eligibleRegionsOrganic.sampled),

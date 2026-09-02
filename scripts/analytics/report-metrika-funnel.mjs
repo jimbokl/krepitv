@@ -1,5 +1,6 @@
 import { chmod, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { parseSitemapUrls } from "./google-search-console.mjs";
 import { reconcileMetrikaGoals } from "./metrika-goals.mjs";
 import { fetchMetrikaFunnel } from "./metrika-funnel.mjs";
 
@@ -13,12 +14,17 @@ const credentialsValue = argument("--credentials", process.env.YANDEX_ANALYTICS_
 const date1 = argument("--date1");
 const date2 = argument("--date2");
 const outputValue = argument("--out");
+const siteUrl = "https://krepitv.ru/";
 
 if (!credentialsValue || !date1 || !date2) {
   throw new Error("Pass --credentials (or YANDEX_ANALYTICS_CREDENTIALS), --date1 and --date2");
 }
 
 const credentials = JSON.parse(await readFile(path.resolve(credentialsValue), "utf8"));
+const sitemap = await readFile(path.resolve("docs/sitemap.xml"), "utf8");
+const allowedLandingPaths = new Set(
+  parseSitemapUrls(sitemap, siteUrl).map((url) => new URL(url).pathname),
+);
 const goals = await reconcileMetrikaGoals({
   apply: false,
   counterId,
@@ -29,6 +35,7 @@ if (goals.plan.some((item) => item.status !== "satisfied" || !item.goalId)) {
 }
 const goalIds = Object.fromEntries(goals.plan.map((item) => [item.eventId, item.goalId]));
 const report = await fetchMetrikaFunnel({
+  allowedLandingPaths,
   counterId,
   date1,
   date2,

@@ -47,6 +47,22 @@ test("organic URL has fixed full-accuracy filters and ordered goal metrics", () 
   assert.match(url.searchParams.get("filters"), /_ym_status-check/);
 });
 
+test("organic landing outcome URL groups only by query-free canonical path", () => {
+  const url = buildMetrikaFunnelUrl({
+    counterId: 111176777,
+    date1: "2026-07-01",
+    date2: "2026-07-31",
+    goalIds,
+    landingOutcomesOnly: true,
+  });
+  assert.equal(url.searchParams.get("dimensions"), "ym:s:startURLPath");
+  assert.equal(url.searchParams.get("sort"), "-ym:s:goal101reaches");
+  assert.equal(url.searchParams.get("limit"), "1000");
+  assert.match(url.searchParams.get("filters"), /lastTrafficSource=='organic'/);
+  assert.match(url.searchParams.get("filters"), /metrika-test/);
+  assert.match(url.searchParams.get("filters"), /_ym_status-check/);
+});
+
 test("eligible-region organic URL is explicit and accepted as one segment", () => {
   const url = buildMetrikaFunnelUrl({
     affiliateEligibleRegionsOnly: true,
@@ -127,6 +143,32 @@ test("report keeps authoritative users total and strips source labels and token"
   const calls = [];
   const fetchImpl = async (url, options) => {
     calls.push({ url, options });
+    if (url.searchParams.get("dimensions") === "ym:s:startURLPath") {
+      return response({
+        totals: [7, 6, 5, 0, 1, 0],
+        data: [
+          {
+            dimensions: [{ name: "/skolko-elektroenergii-potreblyaet-televizor/" }],
+            metrics: [3, 2, 4, 0, 0, 0],
+          },
+          {
+            dimensions: [{ id: "/modeli/tcl-55c6k/" }],
+            metrics: [1, 1, 0, 0, 1, 0],
+          },
+          {
+            dimensions: [{ name: "/support/user-at-example/" }],
+            metrics: [1, 1, 1, 0, 0, 0],
+          },
+          {
+            dimensions: [{ name: "/kak-otklyuchit-subtitry-na-televizore/" }],
+            metrics: [2, 2, 0, 0, 0, 0],
+          },
+        ],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
     if (url.searchParams.get("dimensions")?.includes("goal104paramsLevel1")) {
       return response({
         totals: [3],
@@ -193,6 +235,11 @@ test("report keeps authoritative users total and strips source labels and token"
     });
   };
   const report = await fetchMetrikaFunnel({
+    allowedLandingPaths: new Set([
+      "/kak-otklyuchit-subtitry-na-televizore/",
+      "/modeli/tcl-55c6k/",
+      "/skolko-elektroenergii-potreblyaet-televizor/",
+    ]),
     counterId: 111176777,
     date1: "2026-07-29",
     date2: "2026-07-31",
@@ -208,6 +255,34 @@ test("report keeps authoritative users total and strips source labels and token"
   ]);
   assert.equal(report.organic_excluding_tests.users, 0);
   assert.equal(report.eligible_regions_organic_excluding_tests.users, 0);
+  assert.deepEqual(report.organic_outcomes_by_landing, {
+    state: "available",
+    coverage: "Только страницы из текущего sitemap и строки с полезным результатом или переходом",
+    rows: [
+      {
+        path: "/skolko-elektroenergii-potreblyaet-televizor/",
+        visits: 3,
+        users: 2,
+        result_completed: 4,
+        selection_start: 0,
+        mount_detail_click: 0,
+        market_click: 0,
+      },
+      {
+        path: "/modeli/tcl-55c6k/",
+        visits: 1,
+        users: 1,
+        result_completed: 0,
+        selection_start: 0,
+        mount_detail_click: 1,
+        market_click: 0,
+      },
+    ],
+    suppressed: {
+      not_in_sitemap: 1,
+      zero_outcome: 1,
+    },
+  });
   assert.deepEqual(report.installation_kit_interactions, {
     breakdown_state: "available",
     coverage: "Только контролируемые действия со сводкой монтажного комплекта",
@@ -245,10 +320,11 @@ test("report keeps authoritative users total and strips source labels and token"
     { date: "2026-07-31", visits: 0, users: 0 },
   ]);
   assert.equal(report.daily_traffic_goal.status, "lower_bound_not_reached");
-  assert.equal(calls.length, 7);
+  assert.equal(calls.length, 8);
   assert.equal(calls.every((call) => call.options.headers.Authorization === `OAuth ${token}`), true);
   assert.equal(JSON.stringify(report).includes(token), false);
   assert.equal(JSON.stringify(report).includes("Прямые заходы"), false);
+  assert.equal(JSON.stringify(report).includes("user-at-example"), false);
 });
 
 test("report keeps aggregate funnel totals when goal parameter dimensions are unsupported", async () => {
