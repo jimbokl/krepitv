@@ -8,7 +8,7 @@
 
 **Tech Stack:** React 19, JavaScript ES modules, Yandex Metrika API, Rust sitegen, Vite, Tailwind CSS, Node test runner, GitHub Pages.
 
-**Spec:** `docs/superpowers/specs/2026-09-02-growth-consolidation-design.md`
+**Spec:** `product-docs/superpowers/specs/2026-09-02-growth-consolidation-design.md`
 
 ## Global Constraints
 
