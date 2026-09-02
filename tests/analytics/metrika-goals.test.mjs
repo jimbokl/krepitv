@@ -32,6 +32,7 @@ test("plan accepts exactly one exact action goal per event", () => {
     actionGoal(3, "C", "mount_detail_click"),
     actionGoal(4, "D", "installation_kit_interaction"),
     actionGoal(5, "E", "tool_usage"),
+    actionGoal(6, "F", "selection_start"),
   ];
   assert.deepEqual(
     planMetrikaGoals(goals).map((item) => [item.eventId, item.status, item.goalId]),
@@ -41,6 +42,7 @@ test("plan accepts exactly one exact action goal per event", () => {
       ["mount_detail_click", "satisfied", 3],
       ["installation_kit_interaction", "satisfied", 4],
       ["tool_usage", "satisfied", 5],
+      ["selection_start", "satisfied", 6],
     ],
   );
 });
@@ -76,7 +78,7 @@ test("dry run never posts missing goals", async () => {
   const result = await reconcileMetrikaGoals({ counterId: 111176777, fetchImpl, token });
   assert.deepEqual(calls, ["GET"]);
   assert.equal(result.applied, false);
-  assert.deepEqual(result.plan.map((item) => item.status), ["satisfied", "missing", "missing", "missing", "missing"]);
+  assert.deepEqual(result.plan.map((item) => item.status), ["satisfied", "missing", "missing", "missing", "missing", "missing"]);
 });
 
 test("apply creates missing goals sequentially and verifies each authoritative list", async () => {
@@ -97,7 +99,7 @@ test("apply creates missing goals sequentially and verifies each authoritative l
   });
   assert.equal(result.applied, true);
   assert.equal(result.plan.every((item) => item.status === "satisfied"), true);
-  assert.equal(methods.filter((method) => method === "POST").length, 4);
+  assert.equal(methods.filter((method) => method === "POST").length, 5);
 });
 
 test("network failure after POST is resolved by GET and is never blindly retried", async () => {
@@ -120,6 +122,6 @@ test("network failure after POST is resolved by GET and is never blindly retried
     fetchImpl,
     token,
   });
-  assert.equal(postCount, 2);
+  assert.equal(postCount, 3);
   assert.equal(result.plan.every((item) => item.status === "satisfied"), true);
 });

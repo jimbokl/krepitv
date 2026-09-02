@@ -30,6 +30,12 @@ test("общий следующий шаг ведёт к подбору, а не
   assert.match(html, /От результата мастера — к совместимому кронштейну/);
   assert.match(html, /Маркет откроется только после выбора подтверждённого совместимого кронштейна/);
   assert.doesNotMatch(html, /href="https:\/\/market\.yandex\.ru/);
+
+  const source = await readFile(
+    new URL("../src/components/MountFunnelNextStep.jsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(source, /selectionStartHandlers\([\s\S]*globalThis\.window,[\s\S]*"seo_next_step"/);
 });
 
 test("общий CTA расположен после результата и до связанных материалов", async () => {

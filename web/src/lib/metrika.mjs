@@ -12,6 +12,10 @@ import {
   TOOL_USAGE_EVENT,
   toolUsageDetail,
 } from "./toolUsage.mjs";
+import {
+  SELECTION_START_EVENT,
+  selectionStartDetail,
+} from "./selectionStart.mjs";
 
 export {
   AFFILIATE_CLICK_EVENT,
@@ -19,12 +23,14 @@ export {
   RESULT_COMPLETED_EVENT,
   INSTALLATION_KIT_INTERACTION_EVENT,
   TOOL_USAGE_EVENT,
+  SELECTION_START_EVENT,
 };
 export const AFFILIATE_CLICK_GOAL = "market_click";
 export const MOUNT_DETAIL_CLICK_GOAL = "mount_detail_click";
 export const RESULT_COMPLETED_GOAL = "result_completed";
 export const INSTALLATION_KIT_INTERACTION_GOAL = "installation_kit_interaction";
 export const TOOL_USAGE_GOAL = "tool_usage";
+export const SELECTION_START_GOAL = "selection_start";
 
 const METRIKA_SCRIPT_ID = "krepitv-yandex-metrika";
 const METRIKA_SCRIPT_URL = "https://mc.yandex.ru/metrika/tag.js";
@@ -82,6 +88,7 @@ export function installMetrika({
       trackResultCompleted() { return false; },
       trackInstallationKitInteraction() { return false; },
       trackToolUsage() { return false; },
+      trackSelectionStart() { return false; },
     };
   }
 
@@ -198,6 +205,22 @@ export function installMetrika({
     trackToolUsage(event?.detail);
   }
 
+  function trackSelectionStart(detail = {}) {
+    const safeDetail = selectionStartDetail(detail, detail?.sourcePath);
+    if (!safeDetail) return false;
+    const parameters = {
+      placement: safeDetail.placement,
+      source_path: safeDetail.sourcePath,
+    };
+    if (parameters.source_path === undefined) delete parameters.source_path;
+    ym(normalizedCounterId, "reachGoal", SELECTION_START_GOAL, parameters);
+    return true;
+  }
+
+  function handleSelectionStart(event) {
+    trackSelectionStart(event?.detail);
+  }
+
   windowObject.addEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
   windowObject.addEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
   windowObject.addEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
@@ -206,6 +229,7 @@ export function installMetrika({
     handleInstallationKitInteraction,
   );
   windowObject.addEventListener(TOOL_USAGE_EVENT, handleToolUsage);
+  windowObject.addEventListener(SELECTION_START_EVENT, handleSelectionStart);
   return {
     enabled: true,
     dispose() {
@@ -217,6 +241,7 @@ export function installMetrika({
         handleInstallationKitInteraction,
       );
       windowObject.removeEventListener(TOOL_USAGE_EVENT, handleToolUsage);
+      windowObject.removeEventListener(SELECTION_START_EVENT, handleSelectionStart);
       completedResults.clear();
     },
     trackMarketClick,
@@ -224,5 +249,6 @@ export function installMetrika({
     trackResultCompleted,
     trackInstallationKitInteraction,
     trackToolUsage,
+    trackSelectionStart,
   };
 }

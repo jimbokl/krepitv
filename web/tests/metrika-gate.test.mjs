@@ -3,6 +3,7 @@ import test from "node:test";
 import { AFFILIATE_CLICK_EVENT } from "../src/lib/affiliateClick.mjs";
 import { MOUNT_DETAIL_CLICK_EVENT } from "../src/lib/mountDetailClick.mjs";
 import { RESULT_COMPLETED_EVENT } from "../src/lib/resultCompleted.mjs";
+import { SELECTION_START_EVENT } from "../src/lib/selectionStart.mjs";
 import { installConsentGatedMetrika } from "../src/lib/metrikaGate.mjs";
 import {
   METRIKA_CONSENT_DENIED,
@@ -135,7 +136,7 @@ test("отказ после автоматического включения п
   gate.dispose();
 });
 
-test("после согласия три ступени воронки передаются в точном порядке, прошлые события не воспроизводятся", () => {
+test("после согласия четыре ступени воронки передаются в точном порядке, прошлые события не воспроизводятся", () => {
   const browser = browserDouble();
   const gate = installConsentGatedMetrika({
     counterId: 123456,
@@ -147,6 +148,10 @@ test("после согласия три ступени воронки пере�
   browser.windowObject.dispatchEvent({
     type: RESULT_COMPLETED_EVENT,
     detail: { toolId: "guided-selection", resultType: "compatible-mounts", resultCount: 3 },
+  });
+  browser.windowObject.dispatchEvent({
+    type: SELECTION_START_EVENT,
+    detail: { placement: "seo_next_step", sourcePath: "/kak-otklyuchit-golos-na-televizore/" },
   });
   browser.windowObject.dispatchEvent({
     type: MOUNT_DETAIL_CLICK_EVENT,
@@ -169,6 +174,10 @@ test("после согласия три ступени воронки пере�
     detail: { toolId: "guided-selection", resultType: "compatible-mounts", resultCount: 3 },
   });
   browser.windowObject.dispatchEvent({
+    type: SELECTION_START_EVENT,
+    detail: { placement: "seo_next_step", sourcePath: "/kak-otklyuchit-golos-na-televizore/" },
+  });
+  browser.windowObject.dispatchEvent({
     type: MOUNT_DETAIL_CLICK_EVENT,
     detail: { placement: "featured_result" },
   });
@@ -179,12 +188,17 @@ test("после согласия три ступени воронки пере�
 
   assert.deepEqual(browser.windowObject.ym.a.slice(1).map((call) => call.slice(0, 3)), [
     [123456, "reachGoal", "result_completed"],
+    [123456, "reachGoal", "selection_start"],
     [123456, "reachGoal", "mount_detail_click"],
     [123456, "reachGoal", "market_click"],
   ]);
   assert.equal(browser.windowObject.ym.a[1][3].result_count, 3);
-  assert.deepEqual(browser.windowObject.ym.a[2][3], { placement: "featured_result" });
-  assert.equal(browser.windowObject.ym.a[3][3].entity_id, "onkron-nn24");
+  assert.deepEqual(browser.windowObject.ym.a[2][3], {
+    placement: "seo_next_step",
+    source_path: "/kak-otklyuchit-golos-na-televizore/",
+  });
+  assert.deepEqual(browser.windowObject.ym.a[3][3], { placement: "featured_result" });
+  assert.equal(browser.windowObject.ym.a[4][3].entity_id, "onkron-nn24");
 
   gate.dispose();
 });

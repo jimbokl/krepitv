@@ -1,4 +1,5 @@
 import { ArrowRight } from "@phosphor-icons/react";
+import { selectionStartHandlers } from "../lib/selectionStart.mjs";
 
 const steps = [
   ["01", "Точная модель", "Выберите марку и полный код телевизора из проверенного каталога."],
@@ -7,6 +8,10 @@ const steps = [
 ];
 
 export function MountFunnelNextStep() {
+  const selectionHandlers = selectionStartHandlers(
+    globalThis.window,
+    "seo_next_step",
+  );
   return (
     <section
       aria-labelledby="mount-funnel-next-step-title"
@@ -26,6 +31,7 @@ export function MountFunnelNextStep() {
           </p>
         </div>
         <a
+          {...selectionHandlers}
           className="primary-button w-full justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 lg:w-auto"
           href="/podbor/"
         >

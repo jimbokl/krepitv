@@ -19,6 +19,10 @@ export const REQUIRED_METRIKA_GOALS = Object.freeze([
     eventId: "tool_usage",
     name: "Начало работы с инструментом",
   }),
+  Object.freeze({
+    eventId: "selection_start",
+    name: "Переход к точному подбору кронштейна",
+  }),
 ]);
 
 function isExactActionGoal(goal, eventId) {

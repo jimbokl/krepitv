@@ -7,6 +7,8 @@ import {
   MOUNT_DETAIL_CLICK_GOAL,
   RESULT_COMPLETED_EVENT,
   RESULT_COMPLETED_GOAL,
+  SELECTION_START_EVENT,
+  SELECTION_START_GOAL,
   INSTALLATION_KIT_INTERACTION_EVENT,
   INSTALLATION_KIT_INTERACTION_GOAL,
   TOOL_USAGE_EVENT,
@@ -267,6 +269,32 @@ test("переход к карточке кронштейна передаёт �
 
   metrika.dispose();
   assert.equal(browser.listeners.size, 0);
+});
+
+test("начало подбора передаёт только место CTA и безопасный pathname", () => {
+  const browser = createBrowserDouble();
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({
+    counterId: 123456,
+    documentObject: browser.documentObject,
+    windowObject: browser.windowObject,
+  });
+
+  browser.listeners.get(SELECTION_START_EVENT)({
+    detail: {
+      placement: "seo_next_step",
+      sourcePath: "/kak-otklyuchit-golos-na-televizore/",
+      query: "user@example.test",
+    },
+  });
+
+  assert.deepEqual(calls[1], [123456, "reachGoal", SELECTION_START_GOAL, {
+    placement: "seo_next_step",
+    source_path: "/kak-otklyuchit-golos-na-televizore/",
+  }]);
+  assert.equal(metrika.trackSelectionStart({ placement: "footer" }), false);
+  assert.equal(calls.length, 2);
 });
 
 test("цель результата не отправляется без обязательных controlled tokens", () => {
