@@ -56,6 +56,7 @@ const expectedCommercialProfiles = new Set([
   "model:samsung-ue50u8000fuxru:/modeli/samsung-ue50u8000fuxru/",
   "model:samsung-ue55u8000fuxru:/modeli/samsung-ue55u8000fuxru/",
   "model:tcl-55c7k:/modeli/tcl-55c7k/",
+  "model:xiaomi-tv-a-pro-32-2026:/modeli/xiaomi-tv-a-pro-32-2026/",
   "model:tcl-65c7k:/modeli/tcl-65c7k/",
   "model:tcl-75c6k:/modeli/tcl-75c6k/",
   "model:lg-oled55c5rla:/modeli/lg-oled55c5rla/",

@@ -5074,8 +5074,8 @@ fn validate_commercial_profiles(
     );
     assert_eq!(
         file.profiles.len(),
-        33,
-        "SEO-серия должна содержать ровно 33 проверенных профиля"
+        34,
+        "SEO-серия должна содержать ровно 34 проверенных профиля"
     );
 
     let expected = [
@@ -5099,6 +5099,7 @@ fn validate_commercial_profiles(
         "model:samsung-ue50u8000fuxru",
         "model:samsung-ue55u8000fuxru",
         "model:tcl-55c7k",
+        "model:xiaomi-tv-a-pro-32-2026",
         "model:tcl-75c6k",
         "model:tcl-65c7k",
         "model:lg-oled55c5rla",
@@ -7685,7 +7686,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
 
         validate_commercial_profiles(&profiles, &models, &mounts, &graph);
-        assert_eq!(profiles.profiles.len(), 33);
+        assert_eq!(profiles.profiles.len(), 34);
 
         for profile in &profiles.profiles {
             let marker = format!(
@@ -7837,6 +7838,49 @@ mod tests {
                 .faq
                 .iter()
                 .any(|item| item.answer.contains("Подтверждены 18 моделей"))
+        );
+    }
+
+    #[test]
+    fn measured_xiaomi_a_pro_32_2026_profile_is_source_bounded() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let profiles: CommercialProfilesFile =
+            read_json(&root.join("data/commercial_profiles.json"));
+        let model = models
+            .iter()
+            .find(|candidate| candidate.id == "xiaomi-tv-a-pro-32-2026")
+            .expect("Нет модели Xiaomi TV A Pro 32 2026");
+        let profile = commercial_profile_for(&profiles.profiles, "model", &model.id)
+            .expect("Нет SEO-профиля Xiaomi TV A Pro 32 2026");
+        let verified_count = model_mount_matches(model, &mounts)
+            .iter()
+            .filter(|matched| matched.compatible && matched.fit_status == "verified-fit")
+            .count();
+
+        assert_eq!(verified_count, 10);
+        assert_eq!(profile.updated_at.as_deref(), Some("2026-09-02"));
+        assert_eq!(
+            profile.title,
+            "Xiaomi TV A Pro 32 2026: VESA 100×200 и кронштейны"
+        );
+        assert_eq!(
+            profile.description,
+            "Крепление Xiaomi TV A Pro 32 2026 на стену: VESA 100×200, масса 3,1 кг без подставки и 10 проверенных кронштейнов. Винты уточните по комплекту."
+        );
+        assert!(profile.answer.contains("10 моделей кронштейнов"));
+        assert!(
+            profile
+                .answer
+                .contains("не фиксирует диаметр и длину винтов")
+        );
+        assert!(
+            exact_metric_screw_claims(&format!(
+                "{} {} {}",
+                profile.title, profile.description, profile.answer
+            ))
+            .is_empty()
         );
     }
 
