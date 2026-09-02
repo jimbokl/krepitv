@@ -3992,10 +3992,12 @@ fn seo_page_body(
         } else {
             "seo-calculated"
         },
-        page.guide
-            .as_ref()
-            .map(|guide| guide.updated_at.as_str())
-            .unwrap_or(SEO_FUNNEL_UPDATED_AT),
+        page.updated_at.as_deref().unwrap_or_else(|| {
+            page.guide
+                .as_ref()
+                .map(|guide| guide.updated_at.as_str())
+                .unwrap_or(SEO_FUNNEL_UPDATED_AT)
+        }),
     );
     let related_links = related_seo_pages(page, pages)
         .iter()
@@ -6738,6 +6740,19 @@ mod tests {
             assert!(html.contains(&format!("href=\"/modeli/{}/\"", model.id)));
             assert!(html.contains(&escape_html(&model.source_url)));
         }
+    }
+
+    #[test]
+    fn seo_editorial_accountability_prefers_the_page_modified_date() {
+        let root = workspace_root();
+        let seo_pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let page = seo_pages
+            .iter()
+            .find(|page| page.id == "tv-storage-cleanup")
+            .expect("Нет страницы очистки памяти телевизора");
+        let body = seo_page_body(page, &seo_pages, &[], &[], &[]);
+
+        assert!(body.contains("<time datetime=\"2026-09-02\">02.09.2026</time>"));
     }
 
     #[test]

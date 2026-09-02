@@ -10,6 +10,7 @@ const targetIds = new Set([
   "tv-energy-consumption",
   "tv-disable-subtitles",
   "tv-disable-voice",
+  "tv-storage-cleanup",
   "vesa-size",
 ]);
 
@@ -45,6 +46,29 @@ test("subtitle and voice pages use the users' exact problem language", () => {
   assert.match(voice.description, /экранный диктор/u);
   assert.match(voice.description, /аудиодескрипц/u);
   assert.match(voice.description, /ассистент/u);
+});
+
+test("storage cleanup answers the measured intent with platform-specific safe routes", () => {
+  const candidate = page("tv-storage-cleanup");
+
+  assert.match(candidate.title, /^Как очистить память телевизора и освободить место/u);
+  assert.match(candidate.description, /Samsung/u);
+  assert.match(candidate.description, /LG webOS/u);
+  assert.match(candidate.description, /Google TV/u);
+  assert.match(candidate.lead, /сначала удалите ненужные приложения/u);
+  assert.match(candidate.lead, /не начинайте с заводского сброса/u);
+  assert.equal(candidate.updated_at, "2026-09-02");
+  assert.equal(candidate.guide.updated_at, "2026-08-06");
+  assert.deepEqual(
+    candidate.guide.steps.map(({ label }) => label),
+    ["Samsung Tizen", "LG webOS", "Google или Android TV"],
+  );
+  assert.ok(candidate.faq.some(([question]) => /недостаточно памяти/iu.test(question)));
+  assert.ok(
+    candidate.guide.sources.some(
+      ({ url }) => url === "https://support.google.com/androidtv/answer/6299083?hl=ru",
+    ),
+  );
 });
 
 test("VESA table promises exact model lookup and source-backed download", () => {

@@ -1325,7 +1325,7 @@ const editorialRoutes = [
     basis: page.guide
       ? "Официальные инструкции и редакционная проверка"
       : "Источники, формула и перечисленные допущения",
-    checkedAt: page.guide?.updated_at ?? seoFunnelUpdatedAt,
+    checkedAt: page.updated_at ?? page.guide?.updated_at ?? seoFunnelUpdatedAt,
     route: page.path,
   })),
   ...models.map((model) => ({
