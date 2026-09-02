@@ -239,6 +239,10 @@ test("orders workflow keeps raw ledger ephemeral and retains only a safe aggrega
     workflow,
     /actions\/checkout@[0-9a-f]{40}[\s\S]*?persist-credentials:\s*false/,
   );
+  assert.match(
+    workflow,
+    /actions\/setup-node@[0-9a-f]{40}[\s\S]*?package-manager-cache:\s*false/,
+  );
   assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/);
   assert.match(workflow, /affiliate:orders-sync[\s\S]*?> \/dev\/null/);
   assert.match(workflow, /affiliate:orders-winners/);
