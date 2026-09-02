@@ -163,7 +163,7 @@ Run: `git add scripts/analytics tests/analytics && git commit -m "fix: preserve 
 - Modify: `web/tests/tv-utility-cohort-6.test.mjs`
 - Modify: `web/tests/tv-utility-cohort-7.test.mjs`
 - Modify: `web/tests/mount-funnel.test.mjs`
-- Modify: `tests/seo-signal-pages.test.mjs`
+- Create: `web/tests/seo-signal-pages.test.mjs`
 
 **Interfaces:**
 - Consumes: существующие page IDs и canonical paths.
@@ -175,7 +175,7 @@ Run: `git add scripts/analytics tests/analytics && git commit -m "fix: preserve 
 
 - [ ] **Step 2: Run tests to verify RED**
 
-Run: `node --test tests/seo-signal-pages.test.mjs web/tests/tv-utility-cohort-6.test.mjs web/tests/tv-utility-cohort-7.test.mjs web/tests/mount-funnel.test.mjs`
+Run: `node --test web/tests/seo-signal-pages.test.mjs web/tests/tv-utility-cohort-6.test.mjs web/tests/tv-utility-cohort-7.test.mjs web/tests/mount-funnel.test.mjs`
 
 Expected: FAIL на новых требованиях к ответу и CTA.
 
@@ -185,7 +185,7 @@ Expected: FAIL на новых требованиях к ответу и CTA.
 
 - [ ] **Step 4: Run focused tests to verify GREEN**
 
-Run: `node --test tests/seo-signal-pages.test.mjs web/tests/tv-utility-cohort-6.test.mjs web/tests/tv-utility-cohort-7.test.mjs web/tests/mount-funnel.test.mjs`
+Run: `node --test web/tests/seo-signal-pages.test.mjs web/tests/tv-utility-cohort-6.test.mjs web/tests/tv-utility-cohort-7.test.mjs web/tests/mount-funnel.test.mjs`
 
 Expected: PASS.
 
@@ -197,7 +197,7 @@ Expected: build exit 0 and 299 sitemap URL.
 
 - [ ] **Step 6: Commit**
 
-Run: `git add data/seo_pages.json web/src/components/MountFunnelNextStep.jsx web/tests tests/seo-signal-pages.test.mjs docs web && git commit -m "seo: strengthen proven TV utility intents"`
+Run: `git add crates/sitegen/src/main.rs data/seo_pages.json web/src/components/MountFunnelNextStep.jsx web/src/pages/SeoPage.jsx web/tests docs && git commit -m "seo: strengthen proven TV utility intents"`
 
 ### Task 5: Release and production proof
 
@@ -243,4 +243,3 @@ Send only the four substantively changed URLs through the existing IndexNow work
 - [ ] **Step 7: Capture the post-release baseline**
 
 Store private Search Console, Webmaster and Metrika reports. Record confirmed orders only from the affiliate orders API.
-

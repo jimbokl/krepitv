@@ -24,10 +24,10 @@ export function MountFunnelNextStep() {
             Следующий шаг после результата
           </p>
           <h2 className="mt-2 max-w-4xl break-words font-display text-[clamp(0.875rem,7.5vw,1.875rem)] font-extrabold leading-tight" id="mount-funnel-next-step-title">
-            От результата мастера — к совместимому кронштейну
+            Проверьте точную модель и получите совместимые кронштейны
           </h2>
           <p className="mt-3 max-w-3xl leading-relaxed text-muted">
-            Сначала завершите текущую проверку. Затем укажите точную модель телевизора — подбор покажет только подтверждённые совместимые варианты.
+            Подбор начнётся с марки и полного кода телевизора, затем сверит VESA, массу с запасом и диапазон диагонали. Случайные товары вместо подтверждённой совместимости не показываем.
           </p>
         </div>
         <a
@@ -35,7 +35,7 @@ export function MountFunnelNextStep() {
           className="primary-button w-full justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 lg:w-auto"
           href="/podbor/"
         >
-          Подобрать кронштейн <ArrowRight aria-hidden="true" />
+          Начать подбор по модели <ArrowRight aria-hidden="true" />
         </a>
       </div>
 

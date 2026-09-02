@@ -323,7 +323,7 @@ function SeoArticle({ catalog, page }) {
   const trafficUtilityCta = trafficUtilityCtas[page.id];
   const pageKindLabel = seoPageKindLabel(page);
   const editorialEvidence = buildEditorialEvidence({
-    checkedAt: page.guide?.updated_at ?? "2026-08-08",
+    checkedAt: page.updated_at ?? page.guide?.updated_at ?? "2026-08-08",
     contentKind: page.guide ? "seo-reviewed" : "seo-calculated",
   });
 

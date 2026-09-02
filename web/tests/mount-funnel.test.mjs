@@ -27,7 +27,8 @@ test("общий следующий шаг ведёт к подбору, а не
 
   assert.equal((html.match(/data-mount-funnel-next-step="true"/g) ?? []).length, 1);
   assert.match(html, /href="\/podbor\/"/);
-  assert.match(html, /От результата мастера — к совместимому кронштейну/);
+  assert.match(html, /Проверьте точную модель и получите совместимые кронштейны/);
+  assert.match(html, /Начать подбор по модели/);
   assert.match(html, /Маркет откроется только после выбора подтверждённого совместимого кронштейна/);
   assert.doesNotMatch(html, /href="https:\/\/market\.yandex\.ru/);
 

@@ -361,6 +361,8 @@ struct SeoPage {
     id: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     home_priority: Option<u8>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    updated_at: Option<String>,
     path: String,
     kind: String,
     indexable: bool,
@@ -1018,7 +1020,7 @@ fn seo_evidence_guide_json_ld(page: &SeoPage, canonical: &str) -> Option<String>
         "description": page.description,
         "inLanguage": "ru-RU",
         "datePublished": guide.updated_at,
-        "dateModified": guide.updated_at,
+        "dateModified": page.updated_at.as_deref().unwrap_or(guide.updated_at.as_str()),
         "isAccessibleForFree": true,
         "author": {
             "@type": "Organization",
@@ -1036,7 +1038,9 @@ fn seo_evidence_guide_json_ld(page: &SeoPage, canonical: &str) -> Option<String>
 }
 
 fn seo_page_lastmod(page: &SeoPage) -> &str {
-    let content_lastmod = if let Some(guide) = &page.guide {
+    let content_lastmod = if let Some(updated_at) = &page.updated_at {
+        updated_at.as_str()
+    } else if let Some(guide) = &page.guide {
         guide.updated_at.as_str()
     } else if matches!(
         page.id.as_str(),
@@ -3200,7 +3204,7 @@ fn seo_calculator_note(page_id: &str) -> &'static str {
             r#"<section class="border-y-2 border-ink py-7" data-tv-energy-calculator="true" data-tv-energy-answer="tv-energy-consumption">
 <p class="font-mono text-xs uppercase text-action">Мощность модели × фактическое время работы</p>
 <h2 class="mt-2 font-display text-3xl font-extrabold">Как посчитать расход телевизора без среднего значения</h2>
-<p class="mt-3 max-w-4xl leading-relaxed text-muted">Возьмите мощность активного режима и, если она указана, мощность ожидания из паспорта, спецификации или энергетической карточки точной модели. Яркость, HDR, режим изображения и подключённые устройства могут изменить фактическое потребление.</p>
+<p class="mt-3 max-w-4xl leading-relaxed text-muted"><strong class="text-ink">Пример:</strong> телевизор мощностью 100 Вт при 4 часах просмотра расходует 0,4 кВт·ч в день, около 12 кВт·ч за 30 дней и 146 кВт·ч в год без учёта ожидания. Для своего расчёта возьмите мощность активного режима и, если она указана, мощность ожидания из паспорта, спецификации или энергетической карточки точной модели.</p>
 <div class="mt-7 grid gap-px border border-ink bg-ink md:grid-cols-3">
 <article class="bg-paper p-5" data-tv-energy-step="active-power"><p class="font-mono text-xs uppercase text-action">1 · Активный режим</p><h3 class="mt-2 font-display text-2xl font-extrabold">Введите паспортные ватты</h3><p class="mt-3 text-sm leading-relaxed text-muted">Не подменяйте мощность своей модели средним значением по диагонали. Если документ раздельно показывает SDR и HDR, считайте выбранный сценарий отдельно.</p></article>
 <article class="bg-paper p-5" data-tv-energy-step="usage-time"><p class="font-mono text-xs uppercase text-action">2 · Время работы</p><h3 class="mt-2 font-display text-2xl font-extrabold">Укажите часы в сутки</h3><p class="mt-3 text-sm leading-relaxed text-muted">Суточный расход зависит от реального времени просмотра. Месячный и годовой результат являются расчётной проекцией при неизменном режиме использования.</p></article>
@@ -4548,6 +4552,27 @@ fn validate_mounts(mounts: &[Mount]) {
     }
 }
 
+fn is_iso_date(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    if bytes.len() != 10 || bytes[4] != b'-' || bytes[7] != b'-' {
+        return false;
+    }
+    let digits = bytes
+        .iter()
+        .enumerate()
+        .all(|(index, byte)| matches!(index, 4 | 7) || byte.is_ascii_digit());
+    if !digits {
+        return false;
+    }
+    let Ok(month) = value[5..7].parse::<u8>() else {
+        return false;
+    };
+    let Ok(day) = value[8..10].parse::<u8>() else {
+        return false;
+    };
+    (1..=12).contains(&month) && (1..=31).contains(&day)
+}
+
 fn validate_seo_pages(pages: &[SeoPage]) {
     let mut ids = HashSet::new();
     let mut paths = HashSet::new();
@@ -4573,6 +4598,14 @@ fn validate_seo_pages(pages: &[SeoPage]) {
             page.path
         );
         assert!(page.faq.len() >= 3, "Недостаточно ответов на {}", page.path);
+        if let Some(updated_at) = &page.updated_at {
+            assert!(
+                is_iso_date(updated_at),
+                "Некорректная дата обновления {} у {}",
+                updated_at,
+                page.path
+            );
+        }
     }
 
     for cohort in [
@@ -6332,6 +6365,7 @@ mod tests {
         let page = |indexable| SeoPage {
             id: "test".into(),
             home_priority: None,
+            updated_at: None,
             path: "/test/".into(),
             kind: "guide".into(),
             indexable,
@@ -7040,7 +7074,12 @@ mod tests {
             assert!(page.indexable);
             assert!(page.facts.len() >= 6);
             assert!(page.faq.len() >= 6);
-            assert_eq!(seo_page_lastmod(page), SEO_FUNNEL_UPDATED_AT);
+            let expected_lastmod = if id == "tv-energy-consumption" {
+                "2026-09-02"
+            } else {
+                SEO_FUNNEL_UPDATED_AT
+            };
+            assert_eq!(seo_page_lastmod(page), expected_lastmod);
 
             let static_answer = seo_calculator_note(id);
             for source_id in source_ids {
@@ -7226,6 +7265,23 @@ mod tests {
     }
 
     #[test]
+    fn measured_page_update_date_overrides_cohort_fallback() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        for id in [
+            "tv-energy-consumption",
+            "tv-disable-subtitles",
+            "tv-disable-voice",
+            "vesa-size",
+        ] {
+            let page = pages
+                .iter()
+                .find(|page| page.id == id)
+                .unwrap_or_else(|| panic!("Нет SEO-страницы {id}"));
+            assert_eq!(seo_page_lastmod(page), "2026-09-02");
+        }
+    }
+
+    #[test]
     fn phone_to_tv_is_one_static_first_canonical_without_market_links() {
         let root = workspace_root();
         let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
@@ -7376,6 +7432,7 @@ mod tests {
         let page = |id: &str, kind: &str| SeoPage {
             id: id.into(),
             home_priority: None,
+            updated_at: None,
             path: format!("/{id}/"),
             kind: kind.into(),
             indexable: true,
@@ -7733,6 +7790,7 @@ mod tests {
         let page = |id: &str, kind: &str| SeoPage {
             id: id.into(),
             home_priority: None,
+            updated_at: None,
             path: format!("/{id}/"),
             kind: kind.into(),
             indexable: true,
