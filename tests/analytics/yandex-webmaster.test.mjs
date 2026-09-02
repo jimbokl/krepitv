@@ -228,6 +228,42 @@ test("sitemap and available zero remain authoritative without exposing Yandex id
   }
 });
 
+test("current official Yandex exclusion reasons remain visible in the sanitized report", async () => {
+  const fixture = createFixtureFetch(({ url }) => {
+    if (url === `${fixture.base}/search-urls/events/samples?offset=0&limit=100`) {
+      return response({ count: 2, samples: [
+        {
+          event: "REMOVED_FROM_SEARCH",
+          event_date: "2026-07-30T10:00:00Z",
+          excluded_url_status: "LOW_QUALITY",
+          last_access: "2026-07-29T10:00:00Z",
+          url: "https://krepitv.ru/vesa/",
+        },
+        {
+          event: "REMOVED_FROM_SEARCH",
+          event_date: "2026-07-29T10:00:00Z",
+          excluded_url_status: "PARSER_ERROR",
+          last_access: "2026-07-28T10:00:00Z",
+          url: "https://krepitv.ru/",
+        },
+      ] });
+    }
+    return undefined;
+  });
+  const report = await fetchYandexWebmasterReport({
+    credentials,
+    date1: "2026-07-17",
+    date2: "2026-07-30",
+    fetchImpl: fixture.fetchImpl,
+    localSitemapXml: sitemap,
+    sleepImpl: async () => {},
+  });
+  assert.deepEqual(
+    report.indexation.search_events.rows.map((row) => row.excluded_url_status),
+    ["LOW_QUALITY", "PARSER_ERROR"],
+  );
+});
+
 test("query-to-URL rows enforce threshold, PII suppression and same-origin paths", async () => {
   const safeQuery = "кронштейн для телевизора";
   const rows = [
