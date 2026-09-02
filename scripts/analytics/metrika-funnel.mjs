@@ -3,6 +3,7 @@ import { KNOWN_TOOL_IDS } from "../../web/src/lib/toolUsage.mjs";
 const DATA_ENDPOINT = "https://api-metrika.yandex.net/stat/v1/data";
 const EVENT_ORDER = Object.freeze([
   "result_completed",
+  "selection_start",
   "mount_detail_click",
   "market_click",
 ]);
@@ -247,7 +248,7 @@ async function readPayload(response) {
 function validateTotals(value) {
   if (
     !Array.isArray(value)
-    || value.length !== 5
+    || value.length !== 2 + EVENT_ORDER.length
     || value.some((item) => !Number.isFinite(item) || item < 0)
   ) {
     throw new Error("Metrika response has invalid totals");
@@ -261,8 +262,9 @@ function totalsObject(value) {
     visits: totals[0],
     users: totals[1],
     result_completed: totals[2],
-    mount_detail_click: totals[3],
-    market_click: totals[4],
+    selection_start: totals[3],
+    mount_detail_click: totals[4],
+    market_click: totals[5],
   };
 }
 
@@ -274,6 +276,15 @@ function interactionTotals(payload) {
     || payload.totals[0] < 0
   ) {
     throw new Error("Metrika interaction response has invalid totals");
+  }
+  if (payload.breakdown_state === "unavailable") {
+    return {
+      breakdown_state: "unavailable",
+      coverage: "Агрегат цели без разбивки по параметрам",
+      total_reaches: payload.totals[0],
+      actions: null,
+      revenue_interpretation: "not_revenue",
+    };
   }
   const actions = Object.fromEntries(INSTALLATION_KIT_ACTIONS.map((action) => [action, 0]));
   for (const row of Array.isArray(payload.data) ? payload.data : []) {
@@ -292,6 +303,7 @@ function interactionTotals(payload) {
     if (action) actions[action] += row.metrics[0];
   }
   return {
+    breakdown_state: "available",
     coverage: "Только контролируемые действия со сводкой монтажного комплекта",
     total_reaches: payload.totals[0],
     actions,
@@ -307,6 +319,9 @@ function goalParameterTotals(payload) {
     payload.totals[0] < 0
   ) {
     throw new Error("Metrika tool usage response has invalid totals");
+  }
+  if (payload.breakdown_state === "unavailable") {
+    return { byTool: null, total: payload.totals[0], breakdownState: "unavailable" };
   }
   const byTool = new Map();
   const known = new Set(KNOWN_TOOL_IDS);
@@ -327,12 +342,21 @@ function goalParameterTotals(payload) {
       byTool.set(toolId, (byTool.get(toolId) ?? 0) + row.metrics[0]);
     }
   }
-  return { byTool, total: payload.totals[0] };
+  return { byTool, total: payload.totals[0], breakdownState: "available" };
 }
 
 function toolUsageTotals(startedPayload, completedPayload) {
   const started = goalParameterTotals(startedPayload);
   const completed = goalParameterTotals(completedPayload);
+  if (started.breakdownState === "unavailable" || completed.breakdownState === "unavailable") {
+    return {
+      breakdown_state: "unavailable",
+      coverage: "Агрегаты целей без разбивки по инструментам",
+      total_started_reaches: started.total,
+      total_completed_reaches: completed.total,
+      tools: null,
+    };
+  }
   const toolIds = new Set([...started.byTool.keys(), ...completed.byTool.keys()]);
   const tools = [...toolIds].map((toolId) => {
     const startedCount = started.byTool.get(toolId) ?? 0;
@@ -350,6 +374,7 @@ function toolUsageTotals(startedPayload, completedPayload) {
     right.completed - left.completed ||
     left.tool_id.localeCompare(right.tool_id));
   return {
+    breakdown_state: "available",
     coverage: "Только известные инструменты и обезличенные started/completed",
     total_started_reaches: started.total,
     total_completed_reaches: completed.total,
@@ -372,13 +397,15 @@ function sourceBreakdown(rows) {
       source: id,
       visits: 0,
       result_completed: 0,
+      selection_start: 0,
       mount_detail_click: 0,
       market_click: 0,
     };
     current.visits += metrics[0];
     current.result_completed += metrics[2];
-    current.mount_detail_click += metrics[3];
-    current.market_click += metrics[4];
+    current.selection_start += metrics[3];
+    current.mount_detail_click += metrics[4];
+    current.market_click += metrics[5];
     totals.set(id, current);
   }
   return [...totals.values()].sort(
@@ -436,10 +463,36 @@ export async function fetchMetrikaFunnel({
       method: "GET",
     });
     const payload = await readPayload(response);
+    if (!response.ok && safeApiError(payload) === "invalid_parameter") {
+      return loadGoalTotal(goalIds?.[INSTALLATION_KIT_INTERACTION_EVENT]);
+    }
     if (!response.ok) {
       throw new Error(`Metrika interaction GET failed: HTTP ${response.status}, ${safeApiError(payload)}`);
     }
-    return payload;
+    return { ...payload, breakdown_state: "available" };
+  }
+
+  async function loadGoalTotal(goalId) {
+    if (!/^\d+$/.test(String(goalId ?? ""))) throw new Error("goalId must be numeric");
+    const url = new URL(DATA_ENDPOINT);
+    url.searchParams.set("ids", String(counterId));
+    url.searchParams.set("date1", date1);
+    url.searchParams.set("date2", date2);
+    url.searchParams.set("accuracy", "full");
+    url.searchParams.set("limit", "1");
+    url.searchParams.set("metrics", `ym:s:goal${goalId}reaches`);
+    const response = await fetchImpl(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `OAuth ${token}`,
+      },
+      method: "GET",
+    });
+    const payload = await readPayload(response);
+    if (!response.ok) {
+      throw new Error(`Metrika goal total GET failed: HTTP ${response.status}, ${safeApiError(payload)}`);
+    }
+    return { ...payload, breakdown_state: "unavailable" };
   }
 
   async function loadToolGoal(goalId) {
@@ -452,10 +505,13 @@ export async function fetchMetrikaFunnel({
       method: "GET",
     });
     const payload = await readPayload(response);
+    if (!response.ok && safeApiError(payload) === "invalid_parameter") {
+      return loadGoalTotal(goalId);
+    }
     if (!response.ok) {
       throw new Error(`Metrika tool usage GET failed: HTTP ${response.status}, ${safeApiError(payload)}`);
     }
-    return payload;
+    return { ...payload, breakdown_state: "available" };
   }
 
   const [
@@ -478,7 +534,7 @@ export async function fetchMetrikaFunnel({
   const observedAt = now instanceof Date ? now.toISOString() : new Date(now).toISOString();
   const dailyTraffic = dailyTrafficBreakdown(dailyQualifiedTraffic.data, date1, date2);
   return {
-    schema_version: 4,
+    schema_version: 5,
     observed_at: observedAt,
     window: { date1, date2 },
     coverage: "Посетители с включённой аналитикой; сохранённый отказ исключён",

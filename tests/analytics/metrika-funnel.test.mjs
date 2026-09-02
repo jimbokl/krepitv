@@ -16,6 +16,7 @@ const goalIds = {
   market_click: 103,
   installation_kit_interaction: 104,
   tool_usage: 105,
+  selection_start: 106,
 };
 
 function response(payload, status = 200) {
@@ -39,7 +40,7 @@ test("organic URL has fixed full-accuracy filters and ordered goal metrics", () 
   assert.equal(url.searchParams.get("dimensions"), "ym:s:date");
   assert.equal(
     url.searchParams.get("metrics"),
-    "ym:s:visits,ym:s:users,ym:s:goal101reaches,ym:s:goal102reaches,ym:s:goal103reaches",
+    "ym:s:visits,ym:s:users,ym:s:goal101reaches,ym:s:goal106reaches,ym:s:goal102reaches,ym:s:goal103reaches",
   );
   assert.match(url.searchParams.get("filters"), /lastTrafficSource=='organic'/);
   assert.match(url.searchParams.get("filters"), /metrika-test/);
@@ -164,9 +165,9 @@ test("report keeps authoritative users total and strips source labels and token"
     }
     if (url.searchParams.get("filters")?.startsWith("NOT(")) {
       return response({
-        totals: [2, 1, 0, 0, 0],
+        totals: [2, 1, 0, 0, 0, 0],
         data: [
-          { dimensions: [{ id: "2026-07-30" }], metrics: [2, 1, 0, 0, 0] },
+          { dimensions: [{ id: "2026-07-30" }], metrics: [2, 1, 0, 0, 0, 0] },
         ],
         sampled: false,
         sample_share: 1,
@@ -175,16 +176,16 @@ test("report keeps authoritative users total and strips source labels and token"
     }
     const organic = url.searchParams.has("filters");
     return response(organic ? {
-      totals: [0, 0, 0, 0, 0],
+      totals: [0, 0, 0, 0, 0, 0],
       data: [],
       sampled: false,
       sample_share: 1,
       data_lag: 0,
     } : {
-      totals: [3, 1, 0, 0, 0],
+      totals: [3, 1, 0, 0, 0, 0],
       data: [
-        { dimensions: [{ id: "direct", name: "Прямые заходы" }], metrics: [2, 1, 0, 0, 0] },
-        { dimensions: [{ id: "internal", name: "Внутренние переходы" }], metrics: [1, 1, 0, 0, 0] },
+        { dimensions: [{ id: "direct", name: "Прямые заходы" }], metrics: [2, 1, 0, 0, 0, 0] },
+        { dimensions: [{ id: "internal", name: "Внутренние переходы" }], metrics: [1, 1, 0, 0, 0, 0] },
       ],
       sampled: false,
       sample_share: 1,
@@ -208,6 +209,7 @@ test("report keeps authoritative users total and strips source labels and token"
   assert.equal(report.organic_excluding_tests.users, 0);
   assert.equal(report.eligible_regions_organic_excluding_tests.users, 0);
   assert.deepEqual(report.installation_kit_interactions, {
+    breakdown_state: "available",
     coverage: "Только контролируемые действия со сводкой монтажного комплекта",
     total_reaches: 3,
     actions: {
@@ -218,6 +220,7 @@ test("report keeps authoritative users total and strips source labels and token"
     revenue_interpretation: "not_revenue",
   });
   assert.deepEqual(report.tool_usage, {
+    breakdown_state: "available",
     coverage: "Только известные инструменты и обезличенные started/completed",
     total_started_reaches: 4,
     total_completed_reaches: 3,
@@ -246,6 +249,60 @@ test("report keeps authoritative users total and strips source labels and token"
   assert.equal(calls.every((call) => call.options.headers.Authorization === `OAuth ${token}`), true);
   assert.equal(JSON.stringify(report).includes(token), false);
   assert.equal(JSON.stringify(report).includes("Прямые заходы"), false);
+});
+
+test("report keeps aggregate funnel totals when goal parameter dimensions are unsupported", async () => {
+  const fetchImpl = async (url) => {
+    if (url.searchParams.get("dimensions")?.includes("paramsLevel")) {
+      return response({ errors: [{ error_type: "invalid_parameter" }] }, 400);
+    }
+    const metrics = url.searchParams.get("metrics") ?? "";
+    if (metrics === "ym:s:goal104reaches") {
+      return response({ totals: [2], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+    }
+    if (metrics === "ym:s:goal105reaches") {
+      return response({ totals: [3], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+    }
+    if (metrics === "ym:s:goal101reaches") {
+      return response({ totals: [1], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+    }
+    const totals = [4, 3, 1, 1, 0, 0];
+    return response({
+      totals,
+      data: url.searchParams.get("dimensions") === "ym:s:date"
+        ? [{ dimensions: [{ id: "2026-08-30" }], metrics: totals }]
+        : [{ dimensions: [{ id: "organic" }], metrics: totals }],
+      sampled: false,
+      sample_share: 1,
+      data_lag: 0,
+    });
+  };
+
+  const report = await fetchMetrikaFunnel({
+    counterId: 111176777,
+    date1: "2026-08-30",
+    date2: "2026-08-30",
+    fetchImpl,
+    goalIds,
+    token,
+  });
+
+  assert.equal(report.organic_excluding_tests.result_completed, 1);
+  assert.equal(report.organic_excluding_tests.selection_start, 1);
+  assert.deepEqual(report.installation_kit_interactions, {
+    breakdown_state: "unavailable",
+    coverage: "Агрегат цели без разбивки по параметрам",
+    total_reaches: 2,
+    actions: null,
+    revenue_interpretation: "not_revenue",
+  });
+  assert.deepEqual(report.tool_usage, {
+    breakdown_state: "unavailable",
+    coverage: "Агрегаты целей без разбивки по инструментам",
+    total_started_reaches: 3,
+    total_completed_reaches: 1,
+    tools: null,
+  });
 });
 
 test("invalid dates, missing goal ids and malformed totals fail closed", async () => {

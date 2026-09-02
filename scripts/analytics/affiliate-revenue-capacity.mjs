@@ -145,6 +145,7 @@ function validateMetrikaReport(report) {
     "visits",
     "users",
     "result_completed",
+    "selection_start",
     "mount_detail_click",
     "market_click",
   ]) {
@@ -158,6 +159,7 @@ function validateMetrikaReport(report) {
     "visits",
     "users",
     "result_completed",
+    "selection_start",
     "mount_detail_click",
     "market_click",
   ]) {
