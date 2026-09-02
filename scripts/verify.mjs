@@ -13,6 +13,7 @@ const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-08-20";
 const marketModelsUpdatedAt = "2026-08-05";
 const modelPagesUpdatedAt = "2026-08-20";
+const commercialProfilesBaselineUpdatedAt = "2026-08-20";
 const trafficPagesUpdatedAt = "2026-08-06";
 const seoFunnelUpdatedAt = "2026-08-08";
 const maximumInitialJsBytes = 300 * 1024;
@@ -2181,7 +2182,6 @@ const todayIso = new Date().toISOString().slice(0, 10);
 const newestCoreDependency = [
   ...models.map((model) => model.checked_at),
   ...mounts.map((mount) => mount.checked_at),
-  commercialProfilesManifest.updated_at,
 ].sort().at(-1);
 if (corePagesUpdatedAt < newestCoreDependency) {
   throw new Error("Дата основных страниц старше зависимого каталога");
@@ -2268,7 +2268,7 @@ for (const model of models) {
     const expectedLastmod = [
       model.checked_at,
       model.wall_mount_screws?.checked_at,
-      profile ? (profile.updated_at ?? commercialProfilesManifest.updated_at) : undefined,
+      profile ? (profile.updated_at ?? commercialProfilesBaselineUpdatedAt) : undefined,
       modelPagesUpdatedAt,
     ].filter(Boolean).sort().at(-1);
     if (sitemapLastmods.get(route) !== expectedLastmod) {
@@ -2294,7 +2294,7 @@ for (const mount of mounts) {
       (item) => item.entity_kind === "mount" && item.entity_id === mount.id,
     );
     const expectedLastmod = profile
-      ? [mount.checked_at, profile.updated_at ?? commercialProfilesManifest.updated_at].sort().at(-1)
+      ? [mount.checked_at, profile.updated_at ?? commercialProfilesBaselineUpdatedAt].sort().at(-1)
       : mount.checked_at;
     if (sitemapLastmods.get(route) !== expectedLastmod) {
       throw new Error(`Кронштейн имеет неточный sitemap lastmod: ${route}`);

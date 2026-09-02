@@ -13,6 +13,7 @@ const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-06";
 const SEO_FUNNEL_UPDATED_AT: &str = "2026-08-08";
 const MARKET_MODELS_UPDATED_AT: &str = "2026-08-05";
 const MODEL_PAGES_UPDATED_AT: &str = "2026-08-20";
+const COMMERCIAL_PROFILES_BASELINE_UPDATED_AT: &str = "2026-08-20";
 const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
     ("tcl-v6c", "tcl-50v6c"),
     ("tcl-q6cs", "tcl-55q6cs"),
@@ -1395,10 +1396,13 @@ fn commercial_profile_for<'a>(
 }
 
 fn commercial_profile_updated_at<'a>(
-    file: &'a CommercialProfilesFile,
+    _file: &'a CommercialProfilesFile,
     profile: &'a CommercialProfile,
 ) -> &'a str {
-    profile.updated_at.as_deref().unwrap_or(&file.updated_at)
+    profile
+        .updated_at
+        .as_deref()
+        .unwrap_or(COMMERCIAL_PROFILES_BASELINE_UPDATED_AT)
 }
 
 fn commercial_profile_html(profile: &CommercialProfile) -> String {
@@ -5837,7 +5841,6 @@ fn main() {
                 .map(|hardware| hardware.checked_at.as_str())
         }))
         .chain(mounts.iter().map(|mount| mount.checked_at.as_str()))
-        .chain(std::iter::once(commercial_profiles.updated_at.as_str()))
     {
         assert!(
             dependent_date <= CORE_PAGES_UPDATED_AT,
@@ -6082,12 +6085,13 @@ fn write_model_offer_shards(source: &Path, target: &Path, models: &[TvModel]) {
 #[cfg(test)]
 mod tests {
     use super::{
-        CommercialProfilesFile, EditorialPolicy, HeadExtras, MarketTvModelsFile,
-        PublicAffiliateSnapshot, SEO_FUNNEL_UPDATED_AT, SeoPage, TV_UTILITY_COHORT_6,
-        TV_UTILITY_COHORT_7, TrustPage, TvModel, VESA_DATASET_RELEASE_URL,
+        COMMERCIAL_PROFILES_BASELINE_UPDATED_AT, CommercialProfilesFile, EditorialPolicy,
+        HeadExtras, MarketTvModelsFile, PublicAffiliateSnapshot, SEO_FUNNEL_UPDATED_AT, SeoPage,
+        TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage, TvModel, VESA_DATASET_RELEASE_URL,
         affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
-        commercial_profile_for, contains_verified_compatibility_count, dataset_json_ld,
-        escape_html, exact_metric_screw_claims, home_page_body, html_shell, is_indexable_model,
+        commercial_profile_for, commercial_profile_updated_at,
+        contains_verified_compatibility_count, dataset_json_ld, escape_html,
+        exact_metric_screw_claims, home_page_body, html_shell, is_indexable_model,
         is_indexable_mount, is_indexable_seo_page, is_publishable_affiliate_offer,
         is_valid_iso_date, json_ld_script, matcher_page_body, model_mount_matches,
         model_offer_shard_key, model_page_body, mount_page_body, mount_technical_scheme_html,
@@ -7719,6 +7723,10 @@ mod tests {
         let profile = commercial_profile_for(&profiles.profiles, "model", "tcl-55c6k")
             .expect("Нет проверенного коммерческого профиля");
         assert_eq!(profile.path, "/modeli/tcl-55c6k/");
+        assert_eq!(
+            commercial_profile_updated_at(&profiles, profile),
+            COMMERCIAL_PROFILES_BASELINE_UPDATED_AT
+        );
         assert!(commercial_profile_for(&profiles.profiles, "model", "lg-oled65c4").is_none());
 
         let tcl_65c7k = models
@@ -7783,6 +7791,53 @@ mod tests {
         assert!(lg_body.contains("массу 14,1 кг без подставки"));
         assert!(lg_body.contains("в официальных российских характеристиках не указаны"));
         assert!(lg_body.contains("Подтверждено: 17"));
+    }
+
+    #[test]
+    fn measured_tcl_55c7k_snippet_is_model_first_and_fact_consistent() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
+        let profiles: CommercialProfilesFile =
+            read_json(&root.join("data/commercial_profiles.json"));
+        let model = models
+            .iter()
+            .find(|candidate| candidate.id == "tcl-55c7k")
+            .expect("Нет модели TCL 55C7K");
+        let profile = commercial_profile_for(&profiles.profiles, "model", &model.id)
+            .expect("Нет SEO-профиля TCL 55C7K");
+        let verified_count = model_mount_matches(model, &mounts)
+            .iter()
+            .filter(|matched| matched.compatible && matched.fit_status == "verified-fit")
+            .count();
+
+        assert_eq!(verified_count, 19);
+        assert_eq!(profile.updated_at.as_deref(), Some("2026-09-02"));
+        assert_eq!(
+            commercial_profile_updated_at(&profiles, profile),
+            "2026-09-02"
+        );
+        assert_eq!(
+            profile.title,
+            "TCL 55C7K: VESA 300×300, винты M6×16 и кронштейны"
+        );
+        assert_eq!(
+            profile.description,
+            "Монтаж TCL 55C7K на стену: VESA 300×300, 4 винта M6×16, масса 13,3 кг без подставки и 19 проверенных совместимых кронштейнов."
+        );
+        assert!(profile.answer.contains("19 моделей кронштейнов"));
+        assert!(
+            profile
+                .faq
+                .iter()
+                .any(|item| item.answer.contains("Подтверждены 19 моделей"))
+        );
+        assert!(
+            !profile
+                .faq
+                .iter()
+                .any(|item| item.answer.contains("Подтверждены 18 моделей"))
+        );
     }
 
     #[test]
