@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "run": "20260903-seo-tools-20260903",
+  "generated_at": "2026-09-03T08:58:38.175227+00:00",
+  "scanned_files": [
+    "web/src/pages/SeoPage.jsx"
+  ],
+  "findings": []
+}

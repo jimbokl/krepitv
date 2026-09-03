@@ -1,6 +1,11 @@
-# SEO-волна 6: сравнения брендов и сильная ссылка из каталога, без новых URL.
-/kronshteyny-onkron/
-/kronshteyny-kromax/
-/kronshteyny-holder/
-/kronshteyny-itechmount/
-/kronshteyny/
+# SEO-спринт 2026-09-03: десять новых инструментов с самостоятельной ценностью.
+/televizor-nad-kaminom/
+/televizor-nad-batareey/
+/nisha-pod-televizor-razmery/
+/kak-povesit-televizor-bez-sverleniya/
+/kak-opredelit-material-steny/
+/kak-vyrovnyat-televizor-na-kronshteyne/
+/kak-vklyuchit-4k-na-televizore/
+/kak-ubrat-demo-rezhim-na-televizore/
+/kak-uznat-razreshenie-televizora/
+/kak-vklyuchit-120-gerts-na-televizore/

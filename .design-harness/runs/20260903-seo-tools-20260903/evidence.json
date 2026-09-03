@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "task_id": "20260903-seo-tools-20260903",
+  "commands": [
+    {
+      "id": "targeted-tests",
+      "command": "cargo test -p krepitv-sitegen seo_ -- --nocapture && node --test web/tests/seo-pages.test.mjs web/tests/seo-page-taxonomy.test.mjs",
+      "exit_code": 0,
+      "covers": ["default", "success", "focus", "SSR parity", "related clusters"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "covers": ["whole artifact", "SSR", "Rust", "WASM", "Russian UI"]
+    },
+    {
+      "id": "design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260903-seo-tools-20260903 --files web/src/pages/SeoPage.jsx web/src/lib/seoPages.mjs",
+      "exit_code": 0,
+      "covers": ["design tokens", "responsive composition", "zero findings"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "default-mobile",
+      "path": "mobile.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "default-tablet",
+      "path": "tablet.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "default-desktop",
+      "path": "desktop.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "success-desktop",
+      "path": "desktop.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_table_visible": true, "static_state_invariant": true}
+    },
+    {
+      "id": "focus-mobile",
+      "path": "mobile.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true, "focus_verified_by_capture_command": true}
+    },
+    {
+      "id": "loading-invariant",
+      "path": "desktop.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_state_invariant": true, "not_applicable": true}
+    },
+    {
+      "id": "empty-invariant",
+      "path": "mobile.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_state_invariant": true, "not_applicable": true}
+    },
+    {
+      "id": "error-invariant",
+      "path": "tablet.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_state_invariant": true, "not_applicable": true}
+    },
+    {
+      "id": "disabled-invariant",
+      "path": "tablet.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "static_state_invariant": true, "not_applicable": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Programmatic Design Harness + headless Chrome QA",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "Десять страниц переиспользуют утверждённую editorial/technical систему без новых визуальных примитивов.",
+      "На 320, 768 и 1440 CSS px ширина документа совпадает с viewport; горизонтального переполнения нет.",
+      "Крупный H1, таблица решения, источники и CTA сохраняют правильный порядок; CTA появляется после полезного результата.",
+      "Статическая таблица и безопасная граница доступны до JavaScript; клавиатурный focus подтверждён capture-командой."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

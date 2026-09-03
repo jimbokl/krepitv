@@ -204,6 +204,21 @@ const DAILY_SEO_COHORT_2026_08_10: [(&str, &str); 10] = [
     ),
     ("tv-hdr-enable", "/kak-vklyuchit-hdr-na-televizore/"),
 ];
+const SEO_TOOL_SPRINT_2026_09_03: [(&str, &str); 10] = [
+    ("tv-over-fireplace", "/televizor-nad-kaminom/"),
+    ("tv-over-radiator", "/televizor-nad-batareey/"),
+    ("tv-wall-niche", "/nisha-pod-televizor-razmery/"),
+    (
+        "tv-without-drilling",
+        "/kak-povesit-televizor-bez-sverleniya/",
+    ),
+    ("wall-material-check", "/kak-opredelit-material-steny/"),
+    ("tv-mount-level", "/kak-vyrovnyat-televizor-na-kronshteyne/"),
+    ("tv-4k-enable", "/kak-vklyuchit-4k-na-televizore/"),
+    ("tv-store-mode", "/kak-ubrat-demo-rezhim-na-televizore/"),
+    ("tv-resolution-check", "/kak-uznat-razreshenie-televizora/"),
+    ("tv-120hz-enable", "/kak-vklyuchit-120-gerts-na-televizore/"),
+];
 
 #[derive(Debug, Deserialize, Serialize)]
 struct TvModel {
@@ -2620,6 +2635,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-model-lookup",
             ],
             "smart-tv-setup" => &[
+                "tv-store-mode",
                 "tv-internet-setup",
                 "tv-alice-connect",
                 "tv-browser-install",
@@ -2666,6 +2682,86 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-no-signal",
                 "smart-tv-setup",
                 "camera-to-tv",
+            ],
+            "tv-over-fireplace" => &[
+                "tv-over-radiator",
+                "tv-wall-niche",
+                "mounting-height",
+                "wall-planner",
+                "mounting-map",
+                "selection-choose",
+            ],
+            "tv-over-radiator" => &[
+                "tv-over-fireplace",
+                "tv-wall-niche",
+                "wall-planner",
+                "mounting-height",
+                "selection-choose",
+                "wall-mounted-tv",
+            ],
+            "tv-wall-niche" => &[
+                "tv-dimensions",
+                "wall-planner",
+                "mounting-map",
+                "wall-mounted-tv",
+                "selection-choose",
+                "mounting-height",
+            ],
+            "tv-without-drilling" => &[
+                "mobile-tv-stand",
+                "tv-without-mount",
+                "selection-choose",
+                "wall-material-check",
+                "wall-mounted-tv",
+                "tv-wall-fasteners",
+            ],
+            "wall-material-check" => &[
+                "tv-wall-fasteners",
+                "wall-mounted-tv",
+                "mounting-map",
+                "tv-without-drilling",
+                "selection-choose",
+                "tv-mount-level",
+            ],
+            "tv-mount-level" => &[
+                "mounting-map",
+                "wall-mounted-tv",
+                "selection-choose",
+                "wall-material-check",
+                "tv-wall-fasteners",
+                "tv-wall-niche",
+            ],
+            "tv-4k-enable" => &[
+                "tv-resolution-check",
+                "tv-120hz-enable",
+                "tv-hdr-enable",
+                "picture-setup",
+                "hdmi-cable-checker",
+                "tv-model-lookup",
+            ],
+            "tv-store-mode" => &[
+                "smart-tv-setup",
+                "picture-setup",
+                "tv-model-lookup",
+                "tv-factory-reset",
+                "tv-app-install",
+                "tv-4k-enable",
+            ],
+            "tv-resolution-check" => &[
+                "tv-4k-enable",
+                "tv-120hz-enable",
+                "tv-hdr-enable",
+                "picture-setup",
+                "tv-model-lookup",
+                "hdmi-cable-checker",
+            ],
+            "tv-120hz-enable" => &[
+                "tv-4k-enable",
+                "tv-resolution-check",
+                "tv-hdr-enable",
+                "tv-game-mode",
+                "hdmi-cable-checker",
+                "tv-model-lookup",
             ],
             "tv-firmware-update" => &[
                 "tv-app-install",
@@ -4100,10 +4196,18 @@ fn seo_page_kind_label(page: &SeoPage) -> &'static str {
         | "tv-wont-turn-on"
         | "tv-freezes"
         | "tv-dark-screen" => "Диагностика телевизора",
-        "digital-channels" | "picture-setup" | "tv-firmware-update" | "tv-app-install"
-        | "tv-factory-reset" | "tv-storage-cleanup" | "tv-model-lookup" | "tv-aspect-ratio" => {
-            "Настройка телевизора"
-        }
+        "digital-channels"
+        | "picture-setup"
+        | "tv-firmware-update"
+        | "tv-app-install"
+        | "tv-factory-reset"
+        | "tv-storage-cleanup"
+        | "tv-model-lookup"
+        | "tv-aspect-ratio"
+        | "tv-4k-enable"
+        | "tv-store-mode"
+        | "tv-resolution-check"
+        | "tv-120hz-enable" => "Настройка телевизора",
         "screen-cleaning" => "Уход за телевизором",
         "tv-energy-consumption" => "Расчёт электроэнергии",
         _ => match page.kind.as_str() {
@@ -4624,6 +4728,7 @@ fn validate_seo_pages(pages: &[SeoPage]) {
         &DAILY_SEO_COHORT_2026_08_08[..],
         &DAILY_SEO_COHORT_2026_08_09[..],
         &DAILY_SEO_COHORT_2026_08_10[..],
+        &SEO_TOOL_SPRINT_2026_09_03[..],
     ] {
         for &(id, path) in cohort {
             let cohort_matches = pages
@@ -8553,10 +8658,85 @@ mod tests {
         };
 
         assert_eq!(label("tv-firmware-update"), "Настройка телевизора");
+        assert_eq!(label("tv-4k-enable"), "Настройка телевизора");
+        assert_eq!(label("tv-store-mode"), "Настройка телевизора");
+        assert_eq!(label("tv-resolution-check"), "Настройка телевизора");
+        assert_eq!(label("tv-120hz-enable"), "Настройка телевизора");
         assert_eq!(label("tv-no-signal"), "Диагностика телевизора");
         assert_eq!(label("phone-to-tv"), "Подключение устройств");
         assert_eq!(label("screen-cleaning"), "Уход за телевизором");
         assert_eq!(label("mounting-height"), "Расчёт установки");
+    }
+
+    #[test]
+    fn september_seo_sprint_has_ten_distinct_source_backed_tools() {
+        let root = workspace_root();
+        let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let expected = [
+            ("tv-over-fireplace", "/televizor-nad-kaminom/"),
+            ("tv-over-radiator", "/televizor-nad-batareey/"),
+            ("tv-wall-niche", "/nisha-pod-televizor-razmery/"),
+            (
+                "tv-without-drilling",
+                "/kak-povesit-televizor-bez-sverleniya/",
+            ),
+            ("wall-material-check", "/kak-opredelit-material-steny/"),
+            ("tv-mount-level", "/kak-vyrovnyat-televizor-na-kronshteyne/"),
+            ("tv-4k-enable", "/kak-vklyuchit-4k-na-televizore/"),
+            ("tv-store-mode", "/kak-ubrat-demo-rezhim-na-televizore/"),
+            ("tv-resolution-check", "/kak-uznat-razreshenie-televizora/"),
+            ("tv-120hz-enable", "/kak-vklyuchit-120-gerts-na-televizore/"),
+        ];
+
+        for (id, path) in expected {
+            let matches = pages
+                .iter()
+                .filter(|page| page.id == id || page.path == path)
+                .collect::<Vec<_>>();
+            assert_eq!(matches.len(), 1, "{id} должен иметь один canonical");
+            let page = matches[0];
+            assert_eq!(page.id, id);
+            assert_eq!(page.path, path);
+            assert_eq!(page.kind, "calculator");
+            assert!(page.indexable);
+            assert_eq!(page.updated_at.as_deref(), Some("2026-09-03"));
+            assert!(page.facts.len() >= 6, "{id}: мало самостоятельной пользы");
+            assert!(page.faq.len() >= 6, "{id}: мало ответов на задачу");
+
+            let guide = page
+                .guide
+                .as_ref()
+                .unwrap_or_else(|| panic!("{id}: нет интерактивной развилки"));
+            assert_eq!(
+                guide.steps.len(),
+                3,
+                "{id}: нужен законченный выбор из трёх веток"
+            );
+            assert!(
+                guide.sources.len() >= 2,
+                "{id}: нужно минимум два первичных источника"
+            );
+            assert_eq!(guide.updated_at, "2026-09-03");
+            assert!(
+                !guide.stop.trim().is_empty(),
+                "{id}: отсутствует граница безопасности"
+            );
+            assert!(
+                guide
+                    .sources
+                    .iter()
+                    .all(|source| source.url.starts_with("https://"))
+            );
+
+            let body = seo_page_body(page, &pages, &[], &[], &[]);
+            assert_eq!(body.matches("<h1").count(), 1);
+            assert!(body.contains(&format!("data-evidence-guide=\"{id}\"")));
+            assert_eq!(body.matches("data-evidence-guide-step=").count(), 3);
+            assert!(body.contains("data-mount-funnel-next-step=\"true\""));
+            assert!(body.contains("href=\"/podbor/\""));
+            assert!(!body.contains("https://market.yandex.ru/search"));
+            assert!(!body.contains("₽"));
+        }
     }
 
     #[test]

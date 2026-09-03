@@ -79,7 +79,8 @@ const diagnosticsPageIds = new Set([
 const setupPageIds = new Set([
   "digital-channels", "picture-setup", "tv-firmware-update", "tv-app-install",
   "tv-factory-reset", "tv-storage-cleanup", "tv-model-lookup", "tv-aspect-ratio",
-  "tv-disable-subtitles", "tv-disable-voice", "tv-game-mode",
+  "tv-disable-subtitles", "tv-disable-voice", "tv-game-mode", "tv-4k-enable",
+  "tv-store-mode", "tv-resolution-check", "tv-120hz-enable",
 ]);
 
 export function seoPageKindLabel(page) {

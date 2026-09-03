@@ -187,6 +187,53 @@ test("2026-08-10 evidence guides form a reciprocal related-link graph", () => {
   for (const id of newIds) assert.equal(incoming.has(id), true, `${id} должен иметь входящую ссылку`);
 });
 
+test("сентябрьские инструменты образуют монтажный и сигнальный кластеры", () => {
+  const newIds = [
+    "tv-over-fireplace",
+    "tv-over-radiator",
+    "tv-wall-niche",
+    "tv-without-drilling",
+    "wall-material-check",
+    "tv-mount-level",
+    "tv-4k-enable",
+    "tv-store-mode",
+    "tv-resolution-check",
+    "tv-120hz-enable",
+  ];
+  const supportIds = [
+    "wall-mounted-tv",
+    "mounting-map",
+    "wall-planner",
+    "tv-dimensions",
+    "selection-choose",
+    "mounting-height",
+    "tv-wall-fasteners",
+    "mobile-tv-stand",
+    "picture-setup",
+    "tv-hdr-enable",
+    "tv-game-mode",
+    "hdmi-cable-checker",
+    "tv-model-lookup",
+    "smart-tv-setup",
+  ];
+  const catalog = [...newIds, ...supportIds].map((id) => ({ id, kind: "calculator", indexable: true }));
+  const byId = new Map(catalog.map((page) => [page.id, page]));
+
+  assert.deepEqual(
+    getRelatedPages(byId.get("tv-wall-niche"), catalog).map((page) => page.id),
+    ["tv-dimensions", "wall-planner", "mounting-map", "wall-mounted-tv", "selection-choose", "mounting-height"],
+  );
+  assert.deepEqual(
+    getRelatedPages(byId.get("tv-120hz-enable"), catalog).map((page) => page.id),
+    ["tv-4k-enable", "tv-resolution-check", "tv-hdr-enable", "tv-game-mode", "hdmi-cable-checker", "tv-model-lookup"],
+  );
+
+  const incoming = new Set(
+    catalog.flatMap((page) => getRelatedPages(page, catalog).map((related) => related.id)),
+  );
+  for (const id of newIds) assert.equal(incoming.has(id), true, `${id} должен иметь контекстную входящую ссылку`);
+});
+
 const pages = [
   { id: "current", kind: "calculator", indexable: true },
   { id: "thin-same-kind", kind: "calculator", indexable: false },

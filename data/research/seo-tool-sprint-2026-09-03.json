@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "research_contract": {
+    "product": "KREPI TV — бесплатные инструменты настройки и планирования монтажа телевизора",
+    "intended_conversion": "Законченный локальный результат, затем выбор точной модели и проверенного кронштейна внутри KREPI TV",
+    "relevance_rule": "Отдельная задача установки или настройки телевизора с проверяемым результатом, минимум двумя первичными источниками и естественным переходом к модели или монтажу",
+    "region_id": 225,
+    "region": "Россия",
+    "period": "последний месяц на дату исходного сбора Wordstat Top queries",
+    "devices": "все устройства",
+    "search_scope": "точная операторная частота Wordstat; не прогноз кликов, трафика или дохода",
+    "selection_date": "2026-09-03",
+    "source_manifests": [
+      "data/research/daily-seo-candidates-demand-2026-08-09.json",
+      "data/research/daily-seo-candidates-demand-2026-08-10.json"
+    ],
+    "cannibalization_exclusions": [
+      "tv-wifi-setup исключён: интент уже закрывают /kak-podklyuchit-televizor-k-internetu/ и /televizor-ne-podklyuchaetsya-k-internetu/",
+      "diagonal-100 исключён: отдельная страница не получила бы достаточного проверенного каталога кронштейнов"
+    ]
+  },
+  "pages": [
+    {"id": "tv-over-fireplace", "path": "/televizor-nad-kaminom/", "query": "телевизор над камином", "seo_frequency": 334, "frequency_observed_at": "2026-08-10T07:59:42.953Z"},
+    {"id": "tv-over-radiator", "path": "/televizor-nad-batareey/", "query": "телевизор над батареей", "seo_frequency": 78, "frequency_observed_at": "2026-08-10T07:59:42.953Z"},
+    {"id": "tv-wall-niche", "path": "/nisha-pod-televizor-razmery/", "query": "ниша под телевизор размеры", "seo_frequency": 70, "frequency_observed_at": "2026-08-10T07:59:42.953Z"},
+    {"id": "tv-without-drilling", "path": "/kak-povesit-televizor-bez-sverleniya/", "query": "как повесить телевизор без сверления", "seo_frequency": 39, "frequency_observed_at": "2026-08-10T07:59:42.953Z"},
+    {"id": "wall-material-check", "path": "/kak-opredelit-material-steny/", "query": "как определить материал стены", "seo_frequency": 39, "frequency_observed_at": "2026-08-09T05:24:37.041Z"},
+    {"id": "tv-mount-level", "path": "/kak-vyrovnyat-televizor-na-kronshteyne/", "query": "как выровнять телевизор на кронштейне", "seo_frequency": 23, "frequency_observed_at": "2026-08-10T07:59:42.953Z"},
+    {"id": "tv-4k-enable", "path": "/kak-vklyuchit-4k-na-televizore/", "query": "как включить 4к на телевизоре", "seo_frequency": 320, "frequency_observed_at": "2026-08-10T07:59:42.953Z"},
+    {"id": "tv-store-mode", "path": "/kak-ubrat-demo-rezhim-na-televizore/", "query": "как убрать демо режим на телевизоре", "seo_frequency": 174, "frequency_observed_at": "2026-08-10T07:59:42.953Z"},
+    {"id": "tv-resolution-check", "path": "/kak-uznat-razreshenie-televizora/", "query": "как узнать разрешение телевизора", "seo_frequency": 164, "frequency_observed_at": "2026-08-10T07:59:42.953Z"},
+    {"id": "tv-120hz-enable", "path": "/kak-vklyuchit-120-gerts-na-televizore/", "query": "как включить 120 герц на телевизоре", "seo_frequency": 145, "frequency_observed_at": "2026-08-10T07:59:42.953Z"}
+  ],
+  "interpretation": "Частоты относятся к отдельным точным фразам и не суммируются как прогноз трафика. Страницы отобраны по самостоятельной задаче и полезности, а не только по объёму спроса."
+}

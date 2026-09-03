@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "id": "20260903-seo-tools-20260903",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "Codex /root",
+  "created_at": "2026-09-03T08:33:58.040872+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "behavior_evidence_states": {},
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "crates/sitegen/src/main.rs",
+    "data/seo_pages.json",
+    "data/research/seo-tool-sprint-2026-09-03.json",
+    "data/research/daily-seo-cohort-2026-09-03.json",
+    "data/indexnow/changed-urls.txt",
+    "scripts/verify.mjs",
+    "web/src/lib/seoPages.mjs",
+    "web/src/pages/SeoPage.jsx",
+    "web/tests",
+    "web/public/sitemap.xml",
+    "web/kak-*",
+    "web/nisha-*",
+    "web/televizor-*",
+    "web/spravochnik/index.html",
+    "docs",
+    ".design-harness/runs/20260903-seo-tools-20260903"
+  ],
+  "verification_commands": [
+    {
+      "id": "targeted-tests",
+      "command": "cargo test -p krepitv-sitegen seo_ -- --nocapture && node --test web/tests/seo-pages.test.mjs web/tests/seo-page-taxonomy.test.mjs",
+      "required": true,
+      "covers": ["default", "success", "focus", "SSR parity", "related clusters"]
+    },
+    {
+      "id": "production-build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["whole artifact", "SSR", "Rust", "WASM", "Russian UI"]
+    },
+    {
+      "id": "design-drift",
+      "command": "./.design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260903-seo-tools-20260903 --files web/src/pages/SeoPage.jsx web/src/lib/seoPages.mjs",
+      "required": true,
+      "covers": ["design tokens", "responsive composition"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "canonical-count",
+      "value": "10 новых self-canonical URL",
+      "strategy": "deterministic-overlay"
+    },
+    {
+      "id": "conversion-order",
+      "value": "локальный результат → /podbor/ → карточка совместимого кронштейна",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "wordstat-demand",
+      "text": "Для каждого из 10 интентов сохранена наблюдённая точная частотность Wordstat по России; значения не суммируются и не являются прогнозом трафика.",
+      "source_ids": ["demand-manifest"]
+    },
+    {
+      "id": "official-guidance",
+      "text": "Технические шаги ограничены официальными инструкциями производителей и не подменяют паспорт точной модели.",
+      "source_ids": ["samsung-wall", "sony-ventilation", "lg-wall", "sony-4k", "samsung-120hz"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "demand-manifest",
+      "path": "data/research/seo-tool-sprint-2026-09-03.json",
+      "retrieved_at": "2026-09-03T08:00:00Z"
+    },
+    {
+      "id": "samsung-wall",
+      "url": "https://www.samsung.com/ae/support/tv-audio-video/things-to-consider-before-wall-mounting-your-samsung-tv/",
+      "retrieved_at": "2026-09-03T08:00:00Z"
+    },
+    {
+      "id": "sony-ventilation",
+      "url": "https://www.sony.com/electronics/support/televisions-projectors-lcd-tvs/kdl-46xbr8/articles/00029129",
+      "retrieved_at": "2026-09-03T08:00:00Z"
+    },
+    {
+      "id": "lg-wall",
+      "url": "https://www.lg.com/us/support/help-library/lg-tv-tv-wall-mounting-steps--20154861578838",
+      "retrieved_at": "2026-09-03T08:00:00Z"
+    },
+    {
+      "id": "sony-4k",
+      "url": "https://www.sony.com/electronics/support/articles/00280274",
+      "retrieved_at": "2026-09-03T08:00:00Z"
+    },
+    {
+      "id": "samsung-120hz",
+      "url": "https://www.samsung.com/uk/support/tv-audio-video/4k-120hz-game-mode/",
+      "retrieved_at": "2026-09-03T08:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "cohort_date": "2026-09-03",
+  "product": "KREPI TV",
+  "region": "Россия",
+  "source": "Яндекс Wordstat через XMLRiver, сохранённые срезы от 2026-08-09 и 2026-08-10",
+  "aggregation_rule": "Частотности не складываются между вариантами; для страницы фиксируется один измеренный exact-запрос без дублей.",
+  "release_rule": "Каждая страница даёт самостоятельный SSR-ответ, таблицу решений, минимум два официальных источника, безопасную границу и путь к подбору совместимого кронштейна.",
+  "pages": [
+    {"id":"tv-over-fireplace","path":"/televizor-nad-kaminom/","query":"телевизор над камином","operator_query":"\"[телевизор над камином]\"","frequency":334,"interpretation":"Проверка нагрева, вентиляции и высоты без универсального разрешения на монтаж.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"},
+    {"id":"tv-over-radiator","path":"/televizor-nad-batareey/","query":"телевизор над батареей","operator_query":"\"[телевизор над батареей]\"","frequency":78,"interpretation":"Решение по наблюдаемому нагреву и паспортным условиям точной модели.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"},
+    {"id":"tv-wall-niche","path":"/nisha-pod-televizor-razmery/","query":"ниша под телевизор размеры","operator_query":"\"[ниша под телевизор размеры]\"","frequency":70,"interpretation":"Разделяет размер корпуса, вентиляционный запас, разъёмы и доступ для снятия телевизора.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"},
+    {"id":"tv-without-drilling","path":"/kak-povesit-televizor-bez-sverleniya/","query":"как повесить телевизор без сверления","operator_query":"\"[как повесить телевизор без сверления]\"","frequency":39,"interpretation":"Не предлагает клей как универсальный подвес и ведёт к проверяемой напольной или штатной опоре.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"},
+    {"id":"wall-material-check","path":"/kak-opredelit-material-steny/","query":"как определить материал стены","operator_query":"\"[как определить материал стены]\"","frequency":39,"interpretation":"Фиксирует наблюдаемые признаки основания, но запрещает угадывать крепёж без подтверждения.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-09.json"},
+    {"id":"tv-mount-level","path":"/kak-vyrovnyat-televizor-na-kronshteyne/","query":"как выровнять телевизор на кронштейне","operator_query":"\"[как выровнять телевизор на кронштейне]\"","frequency":23,"interpretation":"Разводит перекос экрана, площадки и люфт механизма до повторного сверления.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"},
+    {"id":"tv-4k-enable","path":"/kak-vklyuchit-4k-na-televizore/","query":"как включить 4к на телевизоре","operator_query":"\"[как включить 4к на телевизоре]\"","frequency":320,"interpretation":"Проверяет разрешение панели, контент, источник, порт, кабель и фактический входной сигнал.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"},
+    {"id":"tv-store-mode","path":"/kak-ubrat-demo-rezhim-na-televizore/","query":"как убрать демо режим на телевизоре","operator_query":"\"[как убрать демо режим на телевизоре]\"","frequency":174,"interpretation":"Помогает отличить магазинный режим от экранной заставки и рекламы приложения.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"},
+    {"id":"tv-resolution-check","path":"/kak-uznat-razreshenie-televizora/","query":"как узнать разрешение телевизора","operator_query":"\"[как узнать разрешение телевизора]\"","frequency":164,"interpretation":"Разделяет паспортное разрешение панели, разрешение входного сигнала и контента.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"},
+    {"id":"tv-120hz-enable","path":"/kak-vklyuchit-120-gerts-na-televizore/","query":"как включить 120 герц на телевизоре","operator_query":"\"[как включить 120 герц на телевизоре]\"","frequency":145,"interpretation":"Проверяет поддержку панели и всю HDMI-цепь без обещания 120 Гц для несовместимой модели.","evidence_file":"data/research/daily-seo-candidates-demand-2026-08-10.json"}
+  ],
+  "cannibalization_decisions": [
+    "Отдельная страница Wi-Fi не создаётся: интент уже закрывают страницы подключения к интернету и диагностики сети.",
+    "Диагональ 100 дюймов не получает отдельную страницу до появления достаточного проверенного каталога креплений.",
+    "4K, разрешение и 120 Гц разведены по трём задачам: паспорт панели, фактический входной сигнал и высокочастотный игровой тракт.",
+    "Монтажные страницы не называют крепёж по одному внешнему признаку стены и не разрешают сверление без подтверждения основания."
+  ]
+}

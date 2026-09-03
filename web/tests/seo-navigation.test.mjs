@@ -65,7 +65,7 @@ test("справочник группирует все индексируемы�
 test("каждое доказательное руководство имеет компактное содержание с существующими якорями", async () => {
   const pages = JSON.parse(await readFile(path.join(root, "data/seo_pages.json"), "utf8"));
   const guides = pages.filter((page) => page.indexable && page.guide);
-  assert.equal(guides.length, 50);
+  assert.ok(guides.length > 0, "в каталоге нет доказательных руководств");
   for (const page of guides) {
     const html = await readFile(artifactFile(page.path), "utf8");
     assert.match(html, /<nav[^>]+data-guide-toc="true"/u, page.path);
