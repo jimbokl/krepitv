@@ -54,7 +54,7 @@ test("emit передаёт один очищенный CustomEvent без по�
   });
 });
 
-test("делегированный tracker считает первое осознанное действие один раз на tool и path", () => {
+test("делегированный tracker считает первый клик один раз и дедуплицирует последующие события tool и path", () => {
   const listeners = new Map();
   const documentObject = {
     addEventListener(type, listener) { listeners.set(type, listener); },
@@ -82,6 +82,8 @@ test("делегированный tracker считает первое осоз�
   };
 
   const tracker = installToolUsageTracker({ documentObject, windowObject });
+  assert.equal(typeof listeners.get("click"), "function");
+  listeners.get("click")({ target });
   listeners.get("input")({ target });
   listeners.get("change")({ target });
   listeners.get("submit")({ target });

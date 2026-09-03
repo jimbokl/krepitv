@@ -97,6 +97,7 @@ export function installToolUsageTracker({
     return { dispose() {}, enabled: false };
   }
 
+  const interactionEvents = ["click", "input", "change", "submit"];
   const started = new Set();
   function handleInteraction(event) {
     const boundary = event?.target?.closest?.("[data-analytics-tool]");
@@ -109,12 +110,12 @@ export function installToolUsageTracker({
     if (emitToolUsage(windowObject, detail)) started.add(key);
   }
 
-  for (const eventName of ["input", "change", "submit"]) {
+  for (const eventName of interactionEvents) {
     documentObject.addEventListener(eventName, handleInteraction, true);
   }
   return {
     dispose() {
-      for (const eventName of ["input", "change", "submit"]) {
+      for (const eventName of interactionEvents) {
         documentObject.removeEventListener?.(eventName, handleInteraction, true);
       }
       started.clear();
