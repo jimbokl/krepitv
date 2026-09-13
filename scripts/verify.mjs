@@ -12,6 +12,7 @@ const maximumAffiliateAgeMs = 48 * 60 * 60 * 1000;
 const affiliateFutureToleranceMs = 5 * 60 * 1000;
 const corePagesUpdatedAt = "2026-08-20";
 const marketModelsUpdatedAt = "2026-08-05";
+const modelCatalogUpdatedAt = "2026-09-13";
 const modelPagesUpdatedAt = "2026-08-20";
 const commercialProfilesBaselineUpdatedAt = "2026-08-20";
 const trafficPagesUpdatedAt = "2026-08-06";
@@ -59,6 +60,10 @@ const expectedCommercialProfiles = new Set([
   "model:xiaomi-tv-a-pro-32-2026:/modeli/xiaomi-tv-a-pro-32-2026/",
   "model:xiaomi-tv-a-pro-65-2025:/modeli/xiaomi-tv-a-pro-65-2025/",
   "model:tcl-65c7k:/modeli/tcl-65c7k/",
+  "model:xiaomi-tv-a-50-2025:/modeli/xiaomi-tv-a-50-2025/",
+  "model:xiaomi-tv-a-pro-55-2026:/modeli/xiaomi-tv-a-pro-55-2026/",
+  "model:xiaomi-tv-s-pro-mini-led-55-2026:/modeli/xiaomi-tv-s-pro-mini-led-55-2026/",
+  "model:tuvio-td55ufbth51:/modeli/tuvio-td55ufbth51/",
   "model:tcl-75c6k:/modeli/tcl-75c6k/",
   "model:lg-oled55c5rla:/modeli/lg-oled55c5rla/",
   "model:samsung-qe43q7faauxru:/modeli/samsung-qe43q7faauxru/",
@@ -2240,7 +2245,7 @@ for (const route of ["/", "/podbor/", "/kronshteyny/"]) {
     throw new Error(`Основная страница имеет неточный sitemap lastmod: ${route}`);
   }
 }
-if (sitemapLastmods.get("/modeli/") !== marketModelsUpdatedAt) {
+if (sitemapLastmods.get("/modeli/") !== modelCatalogUpdatedAt) {
   throw new Error("Каталог моделей имеет неточный sitemap lastmod");
 }
 const sitemapPaths = new Set(sitemapUrls.map((value) => new URL(value).pathname));
