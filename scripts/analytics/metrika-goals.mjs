@@ -4,6 +4,10 @@ export const REQUIRED_METRIKA_GOALS = Object.freeze([
     name: "Переход на Яндекс Маркет",
   }),
   Object.freeze({
+    eventId: "market_offer_view",
+    name: "Показ предложения Яндекс Маркета",
+  }),
+  Object.freeze({
     eventId: "result_completed",
     name: "Готовый результат расчёта или подбора",
   }),

@@ -1,4 +1,4 @@
-import { AFFILIATE_CLICK_EVENT } from "./affiliateClick.mjs";
+import { AFFILIATE_CLICK_EVENT, AFFILIATE_VIEW_EVENT } from "./affiliateClick.mjs";
 import {
   MOUNT_DETAIL_CLICK_EVENT,
   mountDetailClickDetail,
@@ -19,6 +19,7 @@ import {
 
 export {
   AFFILIATE_CLICK_EVENT,
+  AFFILIATE_VIEW_EVENT,
   MOUNT_DETAIL_CLICK_EVENT,
   RESULT_COMPLETED_EVENT,
   INSTALLATION_KIT_INTERACTION_EVENT,
@@ -26,6 +27,7 @@ export {
   SELECTION_START_EVENT,
 };
 export const AFFILIATE_CLICK_GOAL = "market_click";
+export const AFFILIATE_VIEW_GOAL = "market_offer_view";
 export const MOUNT_DETAIL_CLICK_GOAL = "mount_detail_click";
 export const RESULT_COMPLETED_GOAL = "result_completed";
 export const INSTALLATION_KIT_INTERACTION_GOAL = "installation_kit_interaction";
@@ -101,6 +103,7 @@ export function installMetrika({
       enabled: false,
       dispose() {},
       trackMarketClick() { return false; },
+      trackMarketOfferView() { return false; },
       trackMountDetailClick() { return false; },
       trackResultCompleted() { return false; },
       trackInstallationKitInteraction() { return false; },
@@ -126,7 +129,7 @@ export function installMetrika({
     webvisor: false,
   });
 
-  function trackMarketClick(detail = {}) {
+  function safeAffiliateParameters(detail = {}) {
     const parameters = {
       entity_id: safeToken(detail.entityId),
       offer_id: safeToken(detail.offerId),
@@ -142,12 +145,27 @@ export function installMetrika({
     for (const [key, value] of Object.entries(parameters)) {
       if (value === undefined) delete parameters[key];
     }
+    return parameters;
+  }
+
+  function trackMarketClick(detail = {}) {
+    const parameters = safeAffiliateParameters(detail);
     ym(normalizedCounterId, "reachGoal", AFFILIATE_CLICK_GOAL, parameters);
+    return true;
+  }
+
+  function trackMarketOfferView(detail = {}) {
+    const parameters = safeAffiliateParameters(detail);
+    ym(normalizedCounterId, "reachGoal", AFFILIATE_VIEW_GOAL, parameters);
     return true;
   }
 
   function handleAffiliateClick(event) {
     trackMarketClick(event?.detail);
+  }
+
+  function handleAffiliateView(event) {
+    trackMarketOfferView(event?.detail);
   }
 
   function trackMountDetailClick(detail = {}) {
@@ -244,6 +262,7 @@ export function installMetrika({
   }
 
   windowObject.addEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
+  windowObject.addEventListener(AFFILIATE_VIEW_EVENT, handleAffiliateView);
   windowObject.addEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
   windowObject.addEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
   windowObject.addEventListener(
@@ -256,6 +275,7 @@ export function installMetrika({
     enabled: true,
     dispose() {
       windowObject.removeEventListener(AFFILIATE_CLICK_EVENT, handleAffiliateClick);
+      windowObject.removeEventListener(AFFILIATE_VIEW_EVENT, handleAffiliateView);
       windowObject.removeEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
       windowObject.removeEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
       windowObject.removeEventListener(
@@ -267,6 +287,7 @@ export function installMetrika({
       completedResults.clear();
     },
     trackMarketClick,
+    trackMarketOfferView,
     trackMountDetailClick,
     trackResultCompleted,
     trackInstallationKitInteraction,

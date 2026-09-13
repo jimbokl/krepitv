@@ -765,6 +765,9 @@ const declaredPublishableAffiliateOffers = (affiliateSnapshot.offers ?? []).filt
 const declaredPublishableHubAffiliateOffers = (hubAffiliateSnapshot.placements ?? [])
   .map((placement) => placement.offer)
   .filter((offer) => offer?.publishable && offer.eligibility === "publishable");
+const declaredPublishableModelAffiliateOffers = (modelAffiliateSnapshot.placements ?? [])
+  .map((placement) => placement.offer)
+  .filter((offer) => offer?.publishable && offer.eligibility === "publishable");
 const isFreshAffiliateOffer = (offer) => {
   const checkedAt = Date.parse(offer.checked_at ?? "");
   const age = affiliateNow - checkedAt;
@@ -774,9 +777,11 @@ const isFreshAffiliateOffer = (offer) => {
 };
 const publishableAffiliateOffers = declaredPublishableAffiliateOffers.filter(isFreshAffiliateOffer);
 const publishableHubAffiliateOffers = declaredPublishableHubAffiliateOffers.filter(isFreshAffiliateOffer);
+const publishableModelAffiliateOffers = declaredPublishableModelAffiliateOffers.filter(isFreshAffiliateOffer);
 const publishableMarketOffers = [
   ...publishableAffiliateOffers,
   ...publishableHubAffiliateOffers,
+  ...publishableModelAffiliateOffers,
 ];
 const publishableAffiliateHrefs = new Set(
   publishableMarketOffers.map((offer) => offer.affiliate_href),
@@ -1252,9 +1257,6 @@ for (const file of pageHtmlFiles) {
   const marketLinks = html.match(
     /<a\b[^>]*href=["']https:\/\/market\.yandex\.ru\/[^"']*["'][^>]*>/gi,
   ) ?? [];
-  if (/\bdata-affiliate-offer-id=/i.test(html)) {
-    throw new Error(`Действующий affiliate CTA попал в статический HTML: ${path.relative(root, file)}`);
-  }
   for (const link of marketLinks) {
     const marketHref = decodeHtmlAttribute(matchAttribute(link, "href"));
     if (matchAttribute(link, "data-market-source") === "identity") {
@@ -1288,8 +1290,8 @@ for (const file of pageHtmlFiles) {
       }
       continue;
     }
-    if (publishableAffiliateHrefs.has(marketHref)) {
-      throw new Error(`Партнёрский URL попал в статический HTML: ${path.relative(root, file)}`);
+    if (!publishableAffiliateHrefs.has(marketHref)) {
+      throw new Error(`Статический CTA не входит в свежий проверенный снимок: ${path.relative(root, file)}`);
     }
     if (!/\brel=["'][^"']*\bsponsored\b[^"']*["']/i.test(link)) {
       throw new Error(`Партнёрская ссылка без rel=sponsored: ${path.relative(root, file)}`);
@@ -1583,19 +1585,39 @@ for (const offer of publishableAffiliateOffers) {
   ) {
     throw new Error(`Статический affiliate slot потерял идентичность изделия: ${offer.id}`);
   }
-  if (/\bhref\s*=/.test(slot) || html.includes(`data-affiliate-offer-id="${offer.id}"`)) {
-    throw new Error(`Статический affiliate slot не должен содержать активную ссылку: ${offer.id}`);
+  const exactLinks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
+    (tag) => matchAttribute(tag, "data-affiliate-offer-id") === offer.id,
+  );
+  if (
+    exactLinks.length !== 1
+    || decodeHtmlAttribute(matchAttribute(exactLinks[0], "href")) !== offer.affiliate_href
+    || matchAttribute(exactLinks[0], "target") !== "_blank"
+    || !new Set((matchAttribute(exactLinks[0], "rel") ?? "").split(/\s+/u)).has("sponsored")
+  ) {
+    throw new Error(`Статический affiliate slot не содержит точный прямой CTA: ${offer.id}`);
   }
   const slotPosition = html.indexOf(`data-affiliate-slot="${offer.id}"`);
   const modelListPosition = html.indexOf("Подтверждённые популярные телевизоры");
   if (slotPosition < 0 || modelListPosition < 0 || slotPosition > modelListPosition) {
     throw new Error(`Affiliate slot расположен после списка телевизоров: ${offer.id}`);
   }
-  const leakedLink = (html.match(/<a\b[^>]*>/gi) ?? []).find(
-    (tag) => decodeHtmlAttribute(matchAttribute(tag, "href")) === offer.affiliate_href,
+}
+
+for (const placement of modelAffiliateSnapshot.placements.filter(
+  (item) => isFreshAffiliateOffer(item.offer),
+)) {
+  const html = htmlByRoute.get(placement.model_path);
+  if (!html) throw new Error(`Нет модельной страницы для affiliate placement: ${placement.placement_id}`);
+  const exactLinks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
+    (tag) => matchAttribute(tag, "data-affiliate-offer-id") === placement.placement_id,
   );
-  if (leakedLink) {
-    throw new Error(`Партнёрский URL попал в статический HTML: ${offer.id}`);
+  if (
+    exactLinks.length !== 1
+    || decodeHtmlAttribute(matchAttribute(exactLinks[0], "href")) !== placement.offer.affiliate_href
+    || matchAttribute(exactLinks[0], "data-affiliate-placement-id") !== placement.placement_id
+    || Number(matchAttribute(exactLinks[0], "data-affiliate-rank")) !== placement.rank
+  ) {
+    throw new Error(`Модельный SSR потерял прямой проверенный CTA: ${placement.placement_id}`);
   }
 }
 

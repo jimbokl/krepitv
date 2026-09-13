@@ -3,6 +3,8 @@ import test from "node:test";
 import {
   AFFILIATE_CLICK_EVENT,
   AFFILIATE_CLICK_GOAL,
+  AFFILIATE_VIEW_EVENT,
+  AFFILIATE_VIEW_GOAL,
   MOUNT_DETAIL_CLICK_EVENT,
   MOUNT_DETAIL_CLICK_GOAL,
   RESULT_COMPLETED_EVENT,
@@ -59,7 +61,7 @@ test("без идентификатора Метрика не загружает
   assert.equal(browser.windowObject.ym, undefined);
 });
 
-test("счётчик грузится один раз и получает обезличенную цель перехода", () => {
+test("счётчик грузится один раз и получает обезличенные цели показа и перехода", () => {
   const browser = createBrowserDouble();
   const calls = [];
   browser.windowObject.ym = (...args) => calls.push(args);
@@ -92,6 +94,27 @@ test("счётчик грузится один раз и получает обе
     },
   });
   assert.deepEqual(calls[1], [123456, "reachGoal", AFFILIATE_CLICK_GOAL, {
+    entity_id: "itech-slt-460",
+    offer_id: "offer01",
+    page_path: "/kronshteyny/itech-slt-460/",
+    placement_id: "seo-hub-buy-tv-mount-r03-itech-slt-460",
+    placement_rank: 3,
+    source_path: "/modeli/tcl-55c6k/",
+    vid: "krepitvsl46001",
+  }]);
+
+  browser.listeners.get(AFFILIATE_VIEW_EVENT)({
+    detail: {
+      entityId: "itech-slt-460",
+      offerId: "offer01",
+      pagePath: "/kronshteyny/itech-slt-460/",
+      placementId: "seo-hub-buy-tv-mount-r03-itech-slt-460",
+      placementRank: 3,
+      sourcePath: "/modeli/tcl-55c6k/",
+      vid: "krepitvsl46001",
+    },
+  });
+  assert.deepEqual(calls[2], [123456, "reachGoal", AFFILIATE_VIEW_GOAL, {
     entity_id: "itech-slt-460",
     offer_id: "offer01",
     page_path: "/kronshteyny/itech-slt-460/",

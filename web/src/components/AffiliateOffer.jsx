@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { emitAffiliateClick } from "../lib/affiliateClick.mjs";
 import { getAffiliatePresentation } from "../lib/affiliateOffer.mjs";
 import { MountDetailLink } from "./MountDetailLink.jsx";
 
@@ -11,15 +10,15 @@ export function AffiliateLink({ children, className = "primary-button", offer })
     <a
       className={className}
       data-affiliate-mode={presentation.mode}
+      data-affiliate-offer-id={offer.id}
       data-affiliate-placement-id={offer.placement_id ?? undefined}
       data-affiliate-rank={offer.rank ?? undefined}
       data-clid={presentation.clid}
       data-erid={presentation.erid ?? undefined}
+      data-entity-id={offer.entity_id}
+      data-page-path={offer.page_path}
+      data-vid={offer.vid}
       href={presentation.href}
-      onAuxClick={(event) => {
-        if (event.button === 1) emitAffiliateClick(window, offer);
-      }}
-      onClick={() => emitAffiliateClick(window, offer)}
       rel={presentation.rel}
       target={presentation.target}
     >

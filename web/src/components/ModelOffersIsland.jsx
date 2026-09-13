@@ -1,6 +1,17 @@
 import AffiliateOffer from "./AffiliateOffer.jsx";
 
 export function ModelOffersIsland({ offers }) {
+  if (!offers.length) {
+    return (
+      <section className="border-b-2 border-ink py-8" aria-label="Предложения Яндекс Маркета">
+        <h2 className="font-display text-3xl font-extrabold">Предложения обновляются</h2>
+        <p className="mt-3 max-w-3xl text-muted">
+          Свежую точную карточку сейчас подтвердить не удалось. Подбор совместимости остаётся доступен без перехода в магазин.
+        </p>
+        <a className="primary-button mt-5" href="/podbor/">Подобрать кронштейн по параметрам</a>
+      </section>
+    );
+  }
   return (
     <section className="border-b-2 border-ink py-8" aria-label="Проверка предложений Яндекс Маркета">
       <h2 className="font-display text-3xl font-extrabold">Сейчас доступны на Маркете</h2>

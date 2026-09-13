@@ -537,6 +537,24 @@ struct PublicAffiliateOffer {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct PublicModelAffiliateSnapshot {
+    schema_version: u32,
+    generated_at: String,
+    placements: Vec<PublicModelAffiliatePlacement>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct PublicModelAffiliatePlacement {
+    placement_id: String,
+    model_id: String,
+    model_path: String,
+    rank: u8,
+    offer: PublicAffiliateOffer,
+}
+
+#[derive(Debug, Deserialize)]
 struct AffiliateCreative {
     erid: String,
     disclosure: AffiliateDisclosure,
@@ -792,13 +810,44 @@ fn is_publishable_affiliate_offer(offer: &PublicAffiliateOffer, now_seconds: i64
     }
 }
 
-fn affiliate_offer_placeholder_html(offer: &PublicAffiliateOffer, heading_level: u8) -> String {
+fn affiliate_offer_html(
+    offer: &PublicAffiliateOffer,
+    heading_level: u8,
+    placement_id: &str,
+    rank: Option<u8>,
+) -> String {
     let heading = if heading_level == 3 { "h3" } else { "h2" };
+    let rank_attribute = rank
+        .map(|value| format!(" data-affiliate-rank=\"{value}\""))
+        .unwrap_or_default();
+    let notice = offer.creative.as_ref().map_or_else(String::new, |creative| {
+        format!(
+            "<p class=\"font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">{} · erid: {}</p>",
+            escape_html(&creative.disclosure.label),
+            escape_html(&creative.erid),
+        )
+    });
+    let erid_attribute = offer
+        .creative
+        .as_ref()
+        .map_or_else(String::new, |creative| {
+            format!(" data-erid=\"{}\"", escape_html(&creative.erid))
+        });
     format!(
-        "<aside aria-label=\"Проверка предложения Яндекс Маркета\" class=\"border-2 border-ink bg-white p-5\" data-affiliate-slot=\"{offer_id}\" data-entity-kind=\"mount\" data-entity-id=\"{entity_id}\"><p class=\"font-mono text-[0.68rem] uppercase leading-relaxed text-muted\">Предложение проверяется</p><{heading} class=\"mt-2 font-display text-2xl font-extrabold\">Проверяем наличие на Яндекс Маркете</{heading}><p class=\"mt-2 text-sm leading-relaxed text-muted\">Кнопка появится после проверки свежести данных и точного совпадения модели кронштейна.</p></aside>",
+        "<aside aria-label=\"Партнёрское предложение\" class=\"grid gap-4 border-2 border-ink bg-white p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\" data-affiliate-compact=\"true\" data-affiliate-slot=\"{offer_id}\" data-affiliate-mode=\"{mode}\" data-affiliate-placement-id=\"{placement_id}\"{rank_attribute} data-entity-kind=\"mount\" data-entity-id=\"{entity_id}\"><div class=\"min-w-0\">{notice}<{heading} class=\"font-display text-xl font-extrabold leading-tight sm:text-2xl\">{title}</{heading}><a class=\"mt-3 inline-flex text-sm font-semibold text-action underline underline-offset-4\" href=\"{details_href}\">Проверить VESA и нагрузку</a></div><a aria-label=\"Открыть {title} на Яндекс Маркете\" class=\"primary-button w-full justify-center sm:w-auto\" data-affiliate-mode=\"{mode}\" data-affiliate-offer-id=\"{offer_id}\" data-affiliate-placement-id=\"{placement_id}\"{rank_attribute} data-clid=\"{clid}\"{erid_attribute} data-entity-id=\"{entity_id}\" data-page-path=\"{details_href}\" data-vid=\"{vid}\" href=\"{affiliate_href}\" rel=\"sponsored nofollow noopener noreferrer\" target=\"_blank\">Открыть на Яндекс Маркете</a></aside>",
         heading = heading,
         offer_id = escape_html(&offer.id),
+        mode = escape_html(&offer.compliance_mode),
+        placement_id = escape_html(placement_id),
+        rank_attribute = rank_attribute,
         entity_id = escape_html(&offer.entity_id),
+        notice = notice,
+        title = escape_html(&offer.title),
+        details_href = escape_html(&offer.page_path),
+        vid = escape_html(&offer.vid),
+        affiliate_href = escape_html(&offer.affiliate_href),
+        clid = escape_html(&offer.clid),
+        erid_attribute = erid_attribute,
     )
 }
 
@@ -1939,7 +1988,7 @@ fn model_weight_reserve_explanation(tv: &TvModel) -> &'static str {
 fn model_page_body(
     tv: &TvModel,
     matches: &[MountMatch],
-    affiliate_offers: &[PublicAffiliateOffer],
+    affiliate_placements: &[PublicModelAffiliatePlacement],
     affiliate_now_seconds: i64,
     seo_pages: &[SeoPage],
     commercial_profile: Option<&CommercialProfile>,
@@ -1977,25 +2026,36 @@ fn model_page_body(
     } else {
         brand_catalog_html(compatible, "Кронштейнов", "div", "border-b border-line")
     };
-    let affiliate_cards = affiliate_offers
+    let affiliate_cards = affiliate_placements
         .iter()
-        .filter(|offer| {
-            is_publishable_affiliate_offer(offer, affiliate_now_seconds)
+        .filter(|placement| {
+            placement.model_id == tv.id
+                && placement.model_path == format!("/modeli/{}/", tv.id)
+                && (1..=3).contains(&placement.rank)
+                && placement.placement_id == placement.offer.id
+                && is_publishable_affiliate_offer(&placement.offer, affiliate_now_seconds)
                 && matches.iter().any(|matched| {
                     matched.compatible
                         && matched.fit_status == "verified-fit"
-                        && matched.mount.id == offer.entity_id
+                        && matched.mount.id == placement.offer.entity_id
                 })
         })
         .take(3)
-        .map(|offer| affiliate_offer_placeholder_html(offer, 3))
+        .map(|placement| {
+            affiliate_offer_html(
+                &placement.offer,
+                3,
+                &placement.placement_id,
+                Some(placement.rank),
+            )
+        })
         .collect::<Vec<_>>()
         .join("\n");
     let affiliate_section_content = if affiliate_cards.is_empty() {
         String::new()
     } else {
         format!(
-            "<section class=\"border-b-2 border-ink py-8\" aria-label=\"Проверка предложений Яндекс Маркета\"><h2 class=\"font-display text-3xl font-extrabold\">Проверяем предложения Яндекс Маркета</h2><p class=\"mt-3 max-w-3xl text-muted\">Прямые кнопки появятся только после клиентской проверки свежести данных и точного совпадения модели кронштейна.</p><div class=\"mt-5 grid gap-5\">{affiliate_cards}</div></section>"
+            "<section class=\"border-b-2 border-ink py-8\" aria-label=\"Предложения Яндекс Маркета\"><h2 class=\"font-display text-3xl font-extrabold\">Сейчас доступны на Маркете</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны только свежие точные карточки кронштейнов, прошедших проверку совместимости с этой моделью.</p><div class=\"mt-5 grid gap-5\">{affiliate_cards}</div></section>"
         )
     };
     let affiliate_section =
@@ -2350,7 +2410,7 @@ fn mount_page_body(
         offer.entity_id == mount.id && is_publishable_affiliate_offer(offer, affiliate_now_seconds)
     });
     let affiliate_placeholder = affiliate_offer
-        .map(|offer| affiliate_offer_placeholder_html(offer, 2))
+        .map(|offer| affiliate_offer_html(offer, 2, &offer.id, None))
         .unwrap_or_default();
     let market_offer_fallback = if affiliate_offer.is_some() {
         String::new()
@@ -5392,6 +5452,8 @@ fn main() {
         read_json(&data.join("commercial_profiles.json"));
     let affiliate_snapshot: PublicAffiliateSnapshot =
         read_json(&data.join("affiliate/public-offers.json"));
+    let model_affiliate_snapshot: PublicModelAffiliateSnapshot =
+        read_json(&data.join("affiliate/public-model-offers.json"));
     assert_eq!(
         affiliate_snapshot.schema_version, 2,
         "Неподдерживаемая версия публичного affiliate snapshot"
@@ -5399,6 +5461,14 @@ fn main() {
     assert!(
         parse_rfc3339_utc_seconds(&affiliate_snapshot.generated_at).is_some(),
         "Некорректная дата генерации публичного affiliate snapshot"
+    );
+    assert_eq!(
+        model_affiliate_snapshot.schema_version, 1,
+        "Неподдерживаемая версия публичного model affiliate snapshot"
+    );
+    assert!(
+        parse_rfc3339_utc_seconds(&model_affiliate_snapshot.generated_at).is_some(),
+        "Некорректная дата генерации публичного model affiliate snapshot"
     );
     let affiliate_now_seconds = unix_now_seconds();
     let compatibility_graph = build_compatibility_graph(&models, &mounts);
@@ -5666,7 +5736,7 @@ fn main() {
         let static_body = model_page_body(
             tv,
             &matches,
-            &affiliate_snapshot.offers,
+            &model_affiliate_snapshot.placements,
             affiliate_now_seconds,
             &seo_pages,
             commercial_profile,
@@ -5775,7 +5845,7 @@ fn main() {
         let static_body = model_page_body(
             tv,
             &matches,
-            &affiliate_snapshot.offers,
+            &model_affiliate_snapshot.placements,
             affiliate_now_seconds,
             &seo_pages,
             commercial_profile,
@@ -6201,7 +6271,7 @@ mod tests {
         COMMERCIAL_PROFILES_BASELINE_UPDATED_AT, CommercialProfilesFile, EditorialPolicy,
         HeadExtras, MarketTvModelsFile, PublicAffiliateSnapshot, SEO_FUNNEL_UPDATED_AT, SeoPage,
         TV_UTILITY_COHORT_6, TV_UTILITY_COHORT_7, TrustPage, TvModel, VESA_DATASET_RELEASE_URL,
-        affiliate_offer_placeholder_html, brand_catalog_html, build_compatibility_graph,
+        affiliate_offer_html, brand_catalog_html, build_compatibility_graph,
         commercial_profile_for, commercial_profile_updated_at,
         contains_verified_compatibility_count, dataset_json_ld, escape_html,
         exact_metric_screw_claims, home_page_body, html_shell, is_indexable_model,
@@ -6538,7 +6608,7 @@ mod tests {
     }
 
     #[test]
-    fn affiliate_offer_is_fresh_for_48_hours_but_static_html_has_only_a_placeholder() {
+    fn affiliate_offer_is_fresh_for_48_hours_and_static_html_has_a_direct_cta() {
         let snapshot: PublicAffiliateSnapshot =
             read_json(&workspace_root().join("data/affiliate/public-offers.json"));
         let offer = snapshot
@@ -6559,12 +6629,13 @@ mod tests {
             checked_at + 48 * 60 * 60 + 1
         ));
 
-        let html = affiliate_offer_placeholder_html(offer, 2);
+        let html = affiliate_offer_html(offer, 2, &offer.id, None);
         assert!(html.contains("data-affiliate-slot="));
-        assert!(html.contains("Проверяем наличие на Яндекс Маркете"));
-        assert!(!html.contains("data-affiliate-offer-id="));
-        assert!(!html.contains("href="));
-        assert!(!html.contains(&offer.affiliate_href));
+        assert!(html.contains("data-affiliate-offer-id="));
+        assert!(html.contains("Открыть на Яндекс Маркете"));
+        assert!(html.contains("rel=\"sponsored nofollow noopener noreferrer\""));
+        assert!(html.contains(&escape_html(&offer.affiliate_href)));
+        assert!(!html.contains("/go/"));
         assert!(!html.contains("может получить вознаграждение"));
         assert!(!html.contains("promise"));
         assert!(!html.contains("stock"));
@@ -8581,7 +8652,7 @@ mod tests {
     }
 
     #[test]
-    fn mount_page_places_safe_affiliate_placeholder_before_compatible_televisions() {
+    fn mount_page_places_fresh_direct_affiliate_cta_before_compatible_televisions() {
         let root = workspace_root();
         let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
         let mounts: Vec<Mount> = read_json(&root.join("data/mounts.json"));
@@ -8619,8 +8690,14 @@ mod tests {
         assert!(slot_position < models_position);
         assert!(models_position < scheme_position);
         assert!(scheme_position < context_position);
-        assert!(!body.contains("data-affiliate-offer-id="));
-        assert!(!body.contains(&escape_html(&offer.affiliate_href)));
+        assert!(body.contains(&format!(
+            "data-affiliate-offer-id=\"{}\"",
+            escape_html(&offer.id)
+        )));
+        assert!(body.contains(&format!(
+            "href=\"{}\" rel=\"sponsored nofollow noopener noreferrer\"",
+            escape_html(&offer.affiliate_href)
+        )));
         assert!(!body.contains("data-market-mount-search=\"true\""));
         assert!(!body.contains("https://market.yandex.ru/search"));
     }

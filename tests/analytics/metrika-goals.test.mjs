@@ -28,6 +28,7 @@ function actionGoal(id, name, eventId, conditionType = "exact") {
 test("plan accepts exactly one exact action goal per event", () => {
   const goals = [
     actionGoal(1, "A", "market_click"),
+    actionGoal(7, "G", "market_offer_view"),
     actionGoal(2, "B", "result_completed"),
     actionGoal(3, "C", "mount_detail_click"),
     actionGoal(4, "D", "installation_kit_interaction"),
@@ -38,6 +39,7 @@ test("plan accepts exactly one exact action goal per event", () => {
     planMetrikaGoals(goals).map((item) => [item.eventId, item.status, item.goalId]),
     [
       ["market_click", "satisfied", 1],
+      ["market_offer_view", "satisfied", 7],
       ["result_completed", "satisfied", 2],
       ["mount_detail_click", "satisfied", 3],
       ["installation_kit_interaction", "satisfied", 4],
@@ -55,8 +57,9 @@ test("plan refuses duplicates and same-name goals with another condition", () =>
   ];
   const plan = planMetrikaGoals(goals);
   assert.equal(plan[0].status, "conflict_duplicate_condition");
-  assert.equal(plan[1].status, "conflict_name_mismatch");
-  assert.equal(plan[2].status, "missing");
+  assert.equal(plan[1].status, "missing");
+  assert.equal(plan[2].status, "conflict_name_mismatch");
+  assert.equal(plan[3].status, "missing");
 });
 
 test("payload contains only the exact JavaScript event condition", () => {
@@ -78,7 +81,7 @@ test("dry run never posts missing goals", async () => {
   const result = await reconcileMetrikaGoals({ counterId: 111176777, fetchImpl, token });
   assert.deepEqual(calls, ["GET"]);
   assert.equal(result.applied, false);
-  assert.deepEqual(result.plan.map((item) => item.status), ["satisfied", "missing", "missing", "missing", "missing", "missing"]);
+  assert.deepEqual(result.plan.map((item) => item.status), ["satisfied", "missing", "missing", "missing", "missing", "missing", "missing"]);
 });
 
 test("apply creates missing goals sequentially and verifies each authoritative list", async () => {
@@ -99,7 +102,7 @@ test("apply creates missing goals sequentially and verifies each authoritative l
   });
   assert.equal(result.applied, true);
   assert.equal(result.plan.every((item) => item.status === "satisfied"), true);
-  assert.equal(methods.filter((method) => method === "POST").length, 5);
+  assert.equal(methods.filter((method) => method === "POST").length, 6);
 });
 
 test("network failure after POST is resolved by GET and is never blindly retried", async () => {
@@ -122,6 +125,6 @@ test("network failure after POST is resolved by GET and is never blindly retried
     fetchImpl,
     token,
   });
-  assert.equal(postCount, 3);
+  assert.equal(postCount, 4);
   assert.equal(result.plan.every((item) => item.status === "satisfied"), true);
 });

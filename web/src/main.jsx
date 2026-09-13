@@ -9,6 +9,7 @@ import "@fontsource/ibm-plex-mono/400.css";
 import { bootClient } from "./lib/clientBoot.mjs";
 import { YANDEX_METRIKA_COUNTER_ID } from "./lib/metrikaConfig.mjs";
 import { installConsentGatedMetrika } from "./lib/metrikaGate.mjs";
+import { installAffiliateInteractionTracker } from "./lib/affiliateClick.mjs";
 import { installStaticNavigation } from "./lib/staticNavigation.mjs";
 import { installToolUsageTracker } from "./lib/toolUsage.mjs";
 import "./styles.css";
@@ -16,6 +17,7 @@ import "./styles.css";
 const rootElement = document.getElementById("root");
 
 installConsentGatedMetrika({ counterId: YANDEX_METRIKA_COUNTER_ID });
+installAffiliateInteractionTracker();
 installToolUsageTracker();
 const staticNavigation = installStaticNavigation();
 
@@ -47,7 +49,6 @@ if (rootElement?.dataset.pageKind === "home") {
       rootElement,
       loadIslandData: () => loadFreshModelAffiliateOffers({ modelId }),
       renderIsland(island, offers) {
-        if (!offers.length) return;
         createRoot(island).render(
           <React.StrictMode>
             <ModelOffersIsland offers={offers} />
