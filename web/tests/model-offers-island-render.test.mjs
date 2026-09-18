@@ -57,8 +57,9 @@ test("model offer island рендерит только три прямых пр�
       offer("kromax-flat-4", 3),
       offer("onkron-tm6", 4),
     ];
-    const html = renderToStaticMarkup(React.createElement(ModelOffersIsland, { offers }));
+    const html = renderToStaticMarkup(React.createElement(ModelOffersIsland, { modelId: "tcl-55c6k", offers }));
 
+    assert.equal(html.includes('id="predlozheniya"'), true);
     assert.equal((html.match(/data-affiliate-compact="true"/g) ?? []).length, 3);
     assert.equal((html.match(/href="https:\/\/market\.yandex\.ru\/card\//g) ?? []).length, 3);
     assert.equal((html.match(/rel="sponsored nofollow noopener noreferrer"/g) ?? []).length, 3);
@@ -70,6 +71,28 @@ test("model offer island рендерит только три прямых пр�
     assert.equal(html.includes(offers[3].title), false);
     assert.equal(html.includes("/go/"), false);
     assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
+  } finally {
+    await vite.close();
+  }
+});
+
+test("если предложения устарели, выбранная модель сохраняется в пути подбора", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({
+    root,
+    logLevel: "silent",
+    server: { middlewareMode: true },
+    appType: "custom",
+  });
+  try {
+    const { ModelOffersIsland } = await vite.ssrLoadModule("/src/components/ModelOffersIsland.jsx");
+    const html = renderToStaticMarkup(React.createElement(ModelOffersIsland, {
+      modelId: "tcl-55c6k",
+      offers: [],
+    }));
+    assert.equal(html.includes('href="/podbor/?model=tcl-55c6k"'), true);
+    assert.equal(html.includes('id="predlozheniya"'), true);
+    assert.equal(html.includes("market.yandex.ru"), false);
   } finally {
     await vite.close();
   }

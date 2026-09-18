@@ -51,7 +51,7 @@ if (rootElement?.dataset.pageKind === "home") {
       renderIsland(island, offers) {
         createRoot(island).render(
           <React.StrictMode>
-            <ModelOffersIsland offers={offers} />
+            <ModelOffersIsland modelId={modelId} offers={offers} />
           </React.StrictMode>,
         );
       },
