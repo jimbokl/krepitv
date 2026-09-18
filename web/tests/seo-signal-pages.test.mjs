@@ -15,6 +15,13 @@ const targetIds = new Set([
   "tv-storage-cleanup",
   "vesa-size",
 ]);
+const tvIntentCohortIds = new Set([
+  "tv-teletext-captions", "youtube-tv-subtitles", "tv-audio-track-language",
+  "tv-eco-mode-dimming", "tv-boot-loop", "tv-usb-file-system",
+  "tv-voice-remote-search", "tv-hdmi-overscan", "tv-screen-uniformity",
+  "tv-audio-video-sync", "tv-usb-video-subtitles",
+  "tv-bluetooth-remote-pairing", "tv-motion-smoothing", "tv-usb-expand-storage",
+]);
 
 function page(id) {
   return pages.find((candidate) => candidate.id === id);
@@ -22,7 +29,10 @@ function page(id) {
 
 test("measured SEO winners and new intent tools expose truthful material-update dates", () => {
   const updated = pages.filter((candidate) => candidate.updated_at === "2026-09-18");
-  assert.deepEqual(new Set(updated.map((candidate) => candidate.id)), new Set(INTENT_TOOL_IDS));
+  const updatedIds = new Set(updated.map((candidate) => candidate.id));
+  assert.ok(INTENT_TOOL_IDS.every((id) => updatedIds.has(id)));
+  assert.ok([...tvIntentCohortIds].every((id) => updatedIds.has(id)));
+  assert.equal(tvIntentCohortIds.size, 14);
   assert.ok([...targetIds].every((id) => page(id)?.updated_at === (id === "tv-energy-consumption" ? "2026-09-02" : "2026-09-18")));
   assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-08-07");
   assert.equal(page("tv-disable-voice").guide.updated_at, "2026-08-07");

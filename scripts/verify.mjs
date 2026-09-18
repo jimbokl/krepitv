@@ -21,6 +21,7 @@ const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
 const baselineIndexableUrlCount = 309;
+const tvIntentIndexableUrlCount = 14;
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -474,6 +475,7 @@ const modelSearch = JSON.parse(
   await readFile(path.join(docs, "data/model-search.json"), "utf8"),
 );
 const expectedIndexableUrlCount = baselineIndexableUrlCount
+  + tvIntentIndexableUrlCount
   + marketModelsManifest.summary.indexable_observed_canonicals;
 const mounts = JSON.parse(await readFile(path.join(docs, "data/mounts.json"), "utf8"));
 const compatibilityEdges = JSON.parse(
@@ -1807,8 +1809,21 @@ for (const page of seoPages) {
 
 const dailyEvidenceGuidePages = seoPages.filter((page) => page.guide);
 const expectedDailyGuideCount = dailySeoCohorts.reduce((total, cohort) => total + cohort.pages.length, 0);
-if (dailyEvidenceGuidePages.length !== expectedDailyGuideCount) {
-  throw new Error(`Ежедневные SEO-когорты должны содержать ${expectedDailyGuideCount} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
+const tvIntentGuideIds = [
+  "tv-teletext-captions", "youtube-tv-subtitles", "tv-audio-track-language",
+  "tv-eco-mode-dimming", "tv-boot-loop", "tv-usb-file-system",
+  "tv-voice-remote-search", "tv-hdmi-overscan", "tv-screen-uniformity",
+  "tv-audio-video-sync", "tv-usb-video-subtitles", "tv-bluetooth-remote-pairing",
+  "tv-motion-smoothing", "tv-usb-expand-storage",
+];
+if (dailyEvidenceGuidePages.length !== expectedDailyGuideCount + tvIntentGuideIds.length) {
+  throw new Error(`Ожидалось ${expectedDailyGuideCount + tvIntentGuideIds.length} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
+}
+for (const id of tvIntentGuideIds) {
+  const page = dailyEvidenceGuidePages.find((item) => item.id === id);
+  if (!page || page.guide.updated_at !== "2026-09-18") {
+    throw new Error(`Новый SEO-интент ${id} не содержит актуальный evidence guide`);
+  }
 }
 const dailyCohortIds = new Set();
 for (const cohort of dailySeoCohorts) {

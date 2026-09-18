@@ -76,6 +76,8 @@ const diagnosticsPageIds = new Set([
   "tv-turns-off", "tv-no-internet", "tv-usb-not-seen", "tv-wont-turn-on",
   "tv-freezes", "tv-dark-screen", "tv-youtube-recovery", "tv-flicker",
   "dead-pixel-test",
+  "tv-boot-loop", "tv-voice-remote-search", "tv-screen-uniformity",
+  "tv-audio-video-sync",
 ]);
 
 const setupPageIds = new Set([
@@ -83,6 +85,10 @@ const setupPageIds = new Set([
   "tv-factory-reset", "tv-storage-cleanup", "tv-model-lookup", "tv-aspect-ratio",
   "tv-disable-subtitles", "tv-disable-voice", "tv-game-mode", "tv-4k-enable",
   "tv-store-mode", "tv-resolution-check", "tv-120hz-enable",
+  "tv-teletext-captions", "youtube-tv-subtitles", "tv-audio-track-language",
+  "tv-eco-mode-dimming", "tv-usb-file-system", "tv-hdmi-overscan",
+  "tv-usb-video-subtitles", "tv-bluetooth-remote-pairing",
+  "tv-motion-smoothing", "tv-usb-expand-storage",
 ]);
 
 export function seoPageKindLabel(page) {

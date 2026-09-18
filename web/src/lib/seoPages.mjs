@@ -172,6 +172,20 @@ function preferredRelatedIds(pageId) {
   }
 
   const groups = {
+    "tv-teletext-captions": ["tv-disable-subtitles", "digital-channels", "youtube-tv-subtitles", "tv-usb-video-subtitles"],
+    "youtube-tv-subtitles": ["tv-disable-subtitles", "tv-youtube-recovery", "tv-teletext-captions", "tv-usb-video-subtitles"],
+    "tv-audio-track-language": ["tv-no-sound", "tv-antenna-connect", "digital-channels", "tv-usb-video-subtitles"],
+    "tv-eco-mode-dimming": ["tv-dark-screen", "picture-setup", "tv-turns-off", "tv-energy-consumption"],
+    "tv-boot-loop": ["tv-wont-turn-on", "tv-restart", "tv-freezes", "tv-firmware-update"],
+    "tv-usb-file-system": ["tv-usb-not-seen", "tv-usb-video-subtitles", "tv-usb-expand-storage", "tv-firmware-update"],
+    "tv-voice-remote-search": ["tv-bluetooth-remote-pairing", "tv-remote-not-working", "tv-microphone", "tv-no-internet"],
+    "tv-hdmi-overscan": ["tv-aspect-ratio", "laptop-to-tv", "tv-no-signal", "picture-setup"],
+    "tv-screen-uniformity": ["dead-pixel-test", "tv-dark-screen", "picture-setup", "tv-purchase-checklist"],
+    "tv-audio-video-sync": ["soundbar-to-tv", "tv-no-sound", "tv-headphones", "tv-speakers"],
+    "tv-usb-video-subtitles": ["tv-disable-subtitles", "tv-usb-file-system", "tv-audio-track-language", "youtube-tv-subtitles"],
+    "tv-bluetooth-remote-pairing": ["tv-voice-remote-search", "tv-remote-not-working", "tv-bluetooth-setup", "phone-tv-remote"],
+    "tv-motion-smoothing": ["picture-setup", "tv-game-mode", "tv-120hz-enable", "tv-hdmi-overscan"],
+    "tv-usb-expand-storage": ["tv-storage-cleanup", "tv-usb-file-system", "tv-app-install", "tv-usb-not-seen"],
     "tv-wont-turn-on": ["tv-freezes", "tv-remote-not-working", "tv-turns-off", "tv-dark-screen", "tv-model-lookup", "tv-firmware-update"],
     "tv-antenna-connect": ["digital-channels", "digital-box-connect", "tv-no-signal", "tv-model-lookup", "tv-aspect-ratio", "smart-tv-box"],
     "tv-freezes": ["tv-wont-turn-on", "tv-factory-reset", "tv-firmware-update", "tv-app-install", "tv-remote-not-working", "tv-no-internet"],

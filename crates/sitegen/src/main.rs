@@ -205,6 +205,61 @@ const DAILY_SEO_COHORT_2026_08_10: [(&str, &str); 10] = [
     ),
     ("tv-hdr-enable", "/kak-vklyuchit-hdr-na-televizore/"),
 ];
+const SEO_TV_INTENT_COHORT_2026_09_18: [(&str, &str); 14] = [
+    (
+        "tv-teletext-captions",
+        "/kak-ubrat-teletext-i-skrytye-subtitry/",
+    ),
+    (
+        "youtube-tv-subtitles",
+        "/kak-otklyuchit-subtitry-youtube-na-televizore/",
+    ),
+    (
+        "tv-audio-track-language",
+        "/kak-pomenyat-yazyk-zvuka-na-televizore/",
+    ),
+    (
+        "tv-eco-mode-dimming",
+        "/kak-otklyuchit-eko-rezhim-televizora/",
+    ),
+    ("tv-boot-loop", "/televizor-postoyanno-perezagruzhaetsya/"),
+    (
+        "tv-usb-file-system",
+        "/kakoy-format-fleshki-nuzhen-dlya-televizora/",
+    ),
+    (
+        "tv-voice-remote-search",
+        "/ne-rabotaet-golosovoy-poisk-na-televizore/",
+    ),
+    (
+        "tv-hdmi-overscan",
+        "/obrezany-kraya-ekrana-televizora-cherez-hdmi/",
+    ),
+    (
+        "tv-screen-uniformity",
+        "/proverka-televizora-na-zasvety-i-pyatna/",
+    ),
+    (
+        "tv-audio-video-sync",
+        "/otstaet-zvuk-ot-video-na-televizore/",
+    ),
+    (
+        "tv-usb-video-subtitles",
+        "/kak-otklyuchit-subtitry-v-filme-s-fleshki/",
+    ),
+    (
+        "tv-bluetooth-remote-pairing",
+        "/kak-privyazat-bluetooth-pult-k-televizoru/",
+    ),
+    (
+        "tv-motion-smoothing",
+        "/kak-ubrat-effekt-mylnoy-opery-na-televizore/",
+    ),
+    (
+        "tv-usb-expand-storage",
+        "/kak-uvelichit-pamyat-televizora-fleshkoy/",
+    ),
+];
 const SEO_TOOL_SPRINT_2026_09_03: [(&str, &str); 10] = [
     ("tv-over-fireplace", "/televizor-nad-kaminom/"),
     ("tv-over-radiator", "/televizor-nad-batareey/"),
@@ -2598,6 +2653,90 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "tv-teletext-captions" => &[
+                "tv-disable-subtitles",
+                "digital-channels",
+                "youtube-tv-subtitles",
+                "tv-usb-video-subtitles",
+            ],
+            "youtube-tv-subtitles" => &[
+                "tv-disable-subtitles",
+                "tv-youtube-recovery",
+                "tv-teletext-captions",
+                "tv-usb-video-subtitles",
+            ],
+            "tv-audio-track-language" => &[
+                "tv-no-sound",
+                "tv-antenna-connect",
+                "digital-channels",
+                "tv-usb-video-subtitles",
+            ],
+            "tv-eco-mode-dimming" => &[
+                "tv-dark-screen",
+                "picture-setup",
+                "tv-turns-off",
+                "tv-energy-consumption",
+            ],
+            "tv-boot-loop" => &[
+                "tv-wont-turn-on",
+                "tv-restart",
+                "tv-freezes",
+                "tv-firmware-update",
+            ],
+            "tv-usb-file-system" => &[
+                "tv-usb-not-seen",
+                "tv-usb-video-subtitles",
+                "tv-usb-expand-storage",
+                "tv-firmware-update",
+            ],
+            "tv-voice-remote-search" => &[
+                "tv-bluetooth-remote-pairing",
+                "tv-remote-not-working",
+                "tv-microphone",
+                "tv-no-internet",
+            ],
+            "tv-hdmi-overscan" => &[
+                "tv-aspect-ratio",
+                "laptop-to-tv",
+                "tv-no-signal",
+                "picture-setup",
+            ],
+            "tv-screen-uniformity" => &[
+                "dead-pixel-test",
+                "tv-dark-screen",
+                "picture-setup",
+                "tv-purchase-checklist",
+            ],
+            "tv-audio-video-sync" => &[
+                "soundbar-to-tv",
+                "tv-no-sound",
+                "tv-headphones",
+                "tv-speakers",
+            ],
+            "tv-usb-video-subtitles" => &[
+                "tv-disable-subtitles",
+                "tv-usb-file-system",
+                "tv-audio-track-language",
+                "youtube-tv-subtitles",
+            ],
+            "tv-bluetooth-remote-pairing" => &[
+                "tv-voice-remote-search",
+                "tv-remote-not-working",
+                "tv-bluetooth-setup",
+                "phone-tv-remote",
+            ],
+            "tv-motion-smoothing" => &[
+                "picture-setup",
+                "tv-game-mode",
+                "tv-120hz-enable",
+                "tv-hdmi-overscan",
+            ],
+            "tv-usb-expand-storage" => &[
+                "tv-storage-cleanup",
+                "tv-usb-file-system",
+                "tv-app-install",
+                "tv-usb-not-seen",
+            ],
             "tv-wont-turn-on" => &[
                 "tv-freezes",
                 "tv-remote-not-working",
@@ -4807,6 +4946,7 @@ fn validate_seo_pages(pages: &[SeoPage]) {
         &DAILY_SEO_COHORT_2026_08_08[..],
         &DAILY_SEO_COHORT_2026_08_09[..],
         &DAILY_SEO_COHORT_2026_08_10[..],
+        &SEO_TV_INTENT_COHORT_2026_09_18[..],
         &SEO_TOOL_SPRINT_2026_09_03[..],
     ] {
         for &(id, path) in cohort {
