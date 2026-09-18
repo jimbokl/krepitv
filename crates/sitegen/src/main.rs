@@ -13,7 +13,7 @@ const TRAFFIC_PAGES_UPDATED_AT: &str = "2026-08-06";
 const SEO_FUNNEL_UPDATED_AT: &str = "2026-08-08";
 const MARKET_MODELS_UPDATED_AT: &str = "2026-08-05";
 const MODEL_CATALOG_UPDATED_AT: &str = "2026-09-13";
-const MODEL_PAGES_UPDATED_AT: &str = "2026-08-20";
+const MODEL_PAGES_UPDATED_AT: &str = "2026-09-18";
 const COMMERCIAL_PROFILES_BASELINE_UPDATED_AT: &str = "2026-08-20";
 const LEGACY_VERIFIED_MODEL_ROUTES: [(&str, &str); 4] = [
     ("tcl-v6c", "tcl-50v6c"),
@@ -2068,7 +2068,7 @@ fn model_page_body(
         String::new()
     } else {
         format!(
-            "<section class=\"border-b-2 border-ink py-8\" aria-label=\"Предложения Яндекс Маркета\"><h2 class=\"font-display text-3xl font-extrabold\">Сейчас доступны на Маркете</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны только свежие точные карточки кронштейнов, прошедших проверку совместимости с этой моделью.</p><div class=\"mt-5 grid gap-5\">{affiliate_cards}</div></section>"
+            "<section class=\"border-b-2 border-ink py-8\" aria-label=\"Предложения Яндекс Маркета\" id=\"predlozheniya\"><h2 class=\"font-display text-3xl font-extrabold\">Сейчас доступны на Маркете</h2><p class=\"mt-3 max-w-3xl text-muted\">Показаны только свежие точные карточки кронштейнов, прошедших проверку совместимости с этой моделью.</p><div class=\"mt-5 grid gap-5\">{affiliate_cards}</div></section>"
         )
     };
     let affiliate_section =
@@ -2132,9 +2132,15 @@ fn model_page_body(
             "<nav class=\"mt-5 border-y border-line\" aria-label=\"Связанные подборы\">{context_links}</nav>"
         )
     };
+    let offer_jump = if affiliate_cards.is_empty() {
+        String::new()
+    } else {
+        "<a class=\"mt-5 inline-flex min-h-12 items-center font-semibold text-action underline underline-offset-4\" data-model-offers-jump=\"true\" href=\"#predlozheniya\">Смотреть проверенные предложения на Маркете ↓</a>".to_string()
+    };
     let commercial_section = commercial_profile
         .map(commercial_profile_html)
         .unwrap_or_default();
+    let commercial_section = format!("{offer_jump}{commercial_section}");
     let editorial_checked_at = commercial_profile
         .and_then(|profile| profile.updated_at.as_deref())
         .unwrap_or(&tv.checked_at);
@@ -7065,6 +7071,7 @@ mod tests {
             assert!(html.contains(&format!("href=\"/podbor/?model={}\"", tv.id)));
             assert_eq!(html.matches("data-model-installation-kit=").count(), 1);
             assert_eq!(html.matches("data-model-offers-island=\"true\"").count(), 1);
+            assert!(!html.contains("data-model-offers-jump=\"true\""));
         }
     }
 
