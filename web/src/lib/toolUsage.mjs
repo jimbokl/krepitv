@@ -1,3 +1,5 @@
+import { INTENT_TOOL_IDS } from "./intentTools.mjs";
+
 export const TOOL_USAGE_EVENT = "krepitv:tool-usage";
 export const TOOL_USAGE_STARTED = "started";
 
@@ -36,6 +38,7 @@ export const KNOWN_TOOL_IDS = Object.freeze([
   "vesa_screw_length_calculator",
   "viewing_distance_calculator",
   "wall_planner",
+  ...INTENT_TOOL_IDS.map((id) => `intent_${id.replaceAll("-", "_")}`),
 ]);
 
 const TOOL_IDS = new Set(KNOWN_TOOL_IDS);

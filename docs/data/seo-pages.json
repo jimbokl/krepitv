@@ -1300,6 +1300,7 @@
   },
   {
     "id": "tv-wont-turn-on",
+    "updated_at": "2026-09-18",
     "path": "/televizor-ne-vklyuchaetsya/",
     "kind": "calculator",
     "indexable": true,
@@ -1342,6 +1343,7 @@
   },
   {
     "id": "tv-antenna-connect",
+    "updated_at": "2026-09-18",
     "path": "/kak-podklyuchit-antennu-k-televizoru/",
     "kind": "calculator",
     "indexable": true,
@@ -1392,7 +1394,7 @@
     "description": "Телевизор завис и не реагирует: проверьте приложение или HDMI, затем выполните безопасный перезапуск для Samsung, LG, Google TV и YaOS.",
     "h1": "Телевизор завис и не реагирует: что делать",
     "lead": "Если телевизор завис и не реагирует, сначала убедитесь, что на экране не идёт обновление. Если меню открывается — проверьте приложение или HDMI; если не открывается — используйте официальный перезапуск своей платформы. Заводской сброс — не первый шаг.",
-    "updated_at": "2026-09-02",
+    "updated_at": "2026-09-18",
     "facts": [
       "Во время установки системного обновления питание не отключают: прерывание процесса может сделать телевизор неработоспособным.",
       "Если HOME или меню открывается, система отвечает; сначала отделяют зависшее приложение, канал или внешний HDMI-источник.",
@@ -1473,6 +1475,7 @@
   },
   {
     "id": "tv-dark-screen",
+    "updated_at": "2026-09-18",
     "path": "/temnyy-ekran-na-televizore/",
     "kind": "calculator",
     "indexable": true,
@@ -1523,7 +1526,7 @@
     "description": "Как освободить память Smart TV: удалить ненужные приложения на Samsung, LG webOS и Google TV, отличив очистку данных от заводского сброса.",
     "h1": "Как очистить память телевизора",
     "lead": "Чтобы очистить память телевизора, сначала удалите ненужные приложения через штатное меню своей платформы. Очистка данных удалит вход и локальные настройки отдельного приложения; не начинайте с заводского сброса — он затрагивает весь телевизор.",
-    "updated_at": "2026-09-02",
+    "updated_at": "2026-09-18",
     "facts": [
       "Удаление ненужных приложений — подтверждаемый способ освободить внутреннее хранилище на поддерживаемой платформе.",
       "Очистка данных приложения может удалить вход, загрузки и персональные настройки этого приложения.",
@@ -1647,6 +1650,7 @@
   },
   {
     "id": "tv-model-lookup",
+    "updated_at": "2026-09-18",
     "path": "/kak-uznat-model-televizora/",
     "kind": "calculator",
     "indexable": true,
@@ -1690,6 +1694,7 @@
   },
   {
     "id": "tv-aspect-ratio",
+    "updated_at": "2026-09-18",
     "path": "/izobrazhenie-ne-na-ves-ekran-televizora/",
     "kind": "calculator",
     "indexable": true,
@@ -1819,7 +1824,7 @@
   },
   {
     "id": "tv-disable-subtitles",
-    "updated_at": "2026-09-02",
+    "updated_at": "2026-09-18",
     "path": "/kak-otklyuchit-subtitry-na-televizore/",
     "kind": "calculator",
     "indexable": true,
@@ -1863,7 +1868,7 @@
   },
   {
     "id": "tv-disable-voice",
-    "updated_at": "2026-09-02",
+    "updated_at": "2026-09-18",
     "path": "/kak-otklyuchit-golos-na-televizore/",
     "kind": "calculator",
     "indexable": true,
@@ -1907,6 +1912,7 @@
   },
   {
     "id": "tv-keyboard-mouse",
+    "updated_at": "2026-09-18",
     "path": "/kak-podklyuchit-klaviaturu-i-mysh-k-televizoru/",
     "kind": "calculator",
     "indexable": true,
@@ -1950,6 +1956,7 @@
   },
   {
     "id": "tv-microphone",
+    "updated_at": "2026-09-18",
     "path": "/kak-podklyuchit-mikrofon-k-televizoru/",
     "kind": "calculator",
     "indexable": true,
@@ -2036,6 +2043,7 @@
   },
   {
     "id": "dead-pixel-test",
+    "updated_at": "2026-09-18",
     "path": "/proverka-televizora-na-bitye-pikseli/",
     "kind": "calculator",
     "indexable": true,
@@ -2079,6 +2087,7 @@
   },
   {
     "id": "tv-purchase-checklist",
+    "updated_at": "2026-09-18",
     "path": "/proverka-televizora-pered-pokupkoy/",
     "kind": "calculator",
     "indexable": true,
@@ -2122,6 +2131,7 @@
   },
   {
     "id": "tv-game-mode",
+    "updated_at": "2026-09-18",
     "path": "/kak-nastroit-televizor-dlya-igr/",
     "kind": "calculator",
     "indexable": true,
@@ -2379,7 +2389,7 @@
   },
   {
     "id": "vesa-size",
-    "updated_at": "2026-09-02",
+    "updated_at": "2026-09-18",
     "path": "/tablica-vesa-televizorov/",
     "kind": "calculator",
     "indexable": true,
@@ -2466,6 +2476,7 @@
   },
   {
     "id": "diagonal-85",
+    "updated_at": "2026-09-18",
     "path": "/kronshteyn-dlya-televizora-85-dyuyma/",
     "kind": "calculator",
     "indexable": true,
@@ -3068,6 +3079,7 @@
   },
   {
     "id": "tv-alice-connect",
+    "updated_at": "2026-09-18",
     "path": "/kak-podklyuchit-televizor-k-alise/",
     "kind": "calculator",
     "indexable": true,
@@ -3111,6 +3123,7 @@
   },
   {
     "id": "tv-restart",
+    "updated_at": "2026-09-18",
     "path": "/kak-perezagruzit-televizor/",
     "kind": "calculator",
     "indexable": true,
@@ -3153,6 +3166,7 @@
   },
   {
     "id": "tv-bluetooth-setup",
+    "updated_at": "2026-09-18",
     "path": "/kak-vklyuchit-bluetooth-na-televizore/",
     "kind": "calculator",
     "indexable": true,
@@ -3195,6 +3209,7 @@
   },
   {
     "id": "smart-tv-setup",
+    "updated_at": "2026-09-18",
     "path": "/kak-nastroit-smart-tv/",
     "kind": "calculator",
     "indexable": true,

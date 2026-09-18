@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { INTENT_TOOL_IDS } from "../src/lib/intentTools.mjs";
 
 const root = new URL("../../", import.meta.url);
 const pages = JSON.parse(await readFile(new URL("data/seo_pages.json", root), "utf8"));
@@ -19,9 +20,10 @@ function page(id) {
   return pages.find((candidate) => candidate.id === id);
 }
 
-test("measured SEO winners expose a truthful material-update date", () => {
-  const updated = pages.filter((candidate) => candidate.updated_at === "2026-09-02");
-  assert.deepEqual(new Set(updated.map((candidate) => candidate.id)), targetIds);
+test("measured SEO winners and new intent tools expose truthful material-update dates", () => {
+  const updated = pages.filter((candidate) => candidate.updated_at === "2026-09-18");
+  assert.deepEqual(new Set(updated.map((candidate) => candidate.id)), new Set(INTENT_TOOL_IDS));
+  assert.ok([...targetIds].every((id) => page(id)?.updated_at === (id === "tv-energy-consumption" ? "2026-09-02" : "2026-09-18")));
   assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-08-07");
   assert.equal(page("tv-disable-voice").guide.updated_at, "2026-08-07");
   assert.equal(page("vesa-size").guide.updated_at, "2026-08-08");
@@ -58,7 +60,7 @@ test("storage cleanup answers the measured intent with platform-specific safe ro
   assert.match(candidate.description, /Google TV/u);
   assert.match(candidate.lead, /сначала удалите ненужные приложения/u);
   assert.match(candidate.lead, /не начинайте с заводского сброса/u);
-  assert.equal(candidate.updated_at, "2026-09-02");
+  assert.equal(candidate.updated_at, "2026-09-18");
   assert.equal(candidate.guide.updated_at, "2026-08-06");
   assert.deepEqual(
     candidate.guide.steps.map(({ label }) => label),
@@ -81,7 +83,7 @@ test("frozen TV page answers the no-response intent before destructive recovery"
   assert.match(candidate.h1, /завис и не реагирует/u);
   assert.match(candidate.lead, /сначала убедитесь, что на экране не идёт обновление/u);
   assert.match(candidate.lead, /Заводской сброс — не первый шаг/u);
-  assert.equal(candidate.updated_at, "2026-09-02");
+  assert.equal(candidate.updated_at, "2026-09-18");
   assert.equal(candidate.guide.updated_at, "2026-08-06");
   assert.deepEqual(
     candidate.guide.steps.map(({ label }) => label),

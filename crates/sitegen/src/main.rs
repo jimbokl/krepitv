@@ -6956,7 +6956,7 @@ mod tests {
             .expect("Нет страницы очистки памяти телевизора");
         let body = seo_page_body(page, &seo_pages, &[], &[], &[]);
 
-        assert!(body.contains("<time datetime=\"2026-09-02\">02.09.2026</time>"));
+        assert!(body.contains("<time datetime=\"2026-09-18\">18.09.2026</time>"));
     }
 
     #[test]
@@ -7492,18 +7492,18 @@ mod tests {
     #[test]
     fn measured_page_update_date_overrides_cohort_fallback() {
         let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
-        for id in [
-            "tv-energy-consumption",
-            "tv-disable-subtitles",
-            "tv-disable-voice",
-            "vesa-size",
-        ] {
+        for id in ["tv-disable-subtitles", "tv-disable-voice", "vesa-size"] {
             let page = pages
                 .iter()
                 .find(|page| page.id == id)
                 .unwrap_or_else(|| panic!("Нет SEO-страницы {id}"));
-            assert_eq!(seo_page_lastmod(page), "2026-09-02");
+            assert_eq!(seo_page_lastmod(page), "2026-09-18");
         }
+        let energy = pages
+            .iter()
+            .find(|page| page.id == "tv-energy-consumption")
+            .expect("Нет страницы расхода электричества");
+        assert_eq!(seo_page_lastmod(energy), "2026-09-02");
     }
 
     #[test]

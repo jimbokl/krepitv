@@ -27,6 +27,7 @@ import {
   TvTrafficTaskWizard,
 } from "../components/TvTrafficTaskWizard.jsx";
 import { TvEnergyCalculator } from "../components/TvEnergyCalculator.jsx";
+import { IntentDecisionTool } from "../components/IntentDecisionTool.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
 import { MountFunnelNextStep } from "../components/MountFunnelNextStep.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
@@ -43,6 +44,7 @@ import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { WallPlannerCalculator } from "../components/WallPlannerCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
+import { INTENT_TOOLS } from "../lib/intentTools.mjs";
 import { buildEditorialEvidence } from "../lib/editorialPolicy.mjs";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
 import {
@@ -593,6 +595,7 @@ function SeoArticle({ catalog, page }) {
 function SeoEvidenceGuide({ guide, pageId }) {
   const [selectedLabel, setSelectedLabel] = useState("");
   const selectedStep = guide.steps.find((step) => step.label === selectedLabel);
+  const hasIntentTool = Boolean(INTENT_TOOLS[pageId]);
 
   return (
     <section
@@ -614,6 +617,7 @@ function SeoEvidenceGuide({ guide, pageId }) {
         {guide.heading}
       </h2>
       <p className="mt-3 max-w-4xl leading-relaxed text-muted">{guide.summary}</p>
+      {hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
       <fieldset className="mt-7 border-2 border-ink bg-white p-5" data-evidence-guide-tool="true">
         <legend className="px-2 font-display text-2xl font-extrabold">Что вы наблюдаете?</legend>
         <div className="mt-2 grid gap-3 md:grid-cols-3">
@@ -647,6 +651,7 @@ function SeoEvidenceGuide({ guide, pageId }) {
           )}
         </div>
       </fieldset>
+      )}
       <h3 className="mt-7 font-display text-2xl font-extrabold [overflow-wrap:anywhere]" id={`${pageId}-guide-table-title`}>
         Таблица решений по наблюдаемому признаку
       </h3>
