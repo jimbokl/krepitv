@@ -1,11 +1,2 @@
-# SEO-спринт 2026-09-03: десять новых инструментов с самостоятельной ценностью.
-/televizor-nad-kaminom/
-/televizor-nad-batareey/
-/nisha-pod-televizor-razmery/
-/kak-povesit-televizor-bez-sverleniya/
-/kak-opredelit-material-steny/
-/kak-vyrovnyat-televizor-na-kronshteyne/
-/kak-vklyuchit-4k-na-televizore/
-/kak-ubrat-demo-rezhim-na-televizore/
-/kak-uznat-razreshenie-televizora/
-/kak-vklyuchit-120-gerts-na-televizore/
+# Спринт 2026-09-18: содержательно обновлён путь к предложениям на проверенных карточках моделей.
+@models

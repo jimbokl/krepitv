@@ -2282,6 +2282,17 @@ for (const href of ["/podbor/", "/modeli/", "/vesa/"]) {
 
 for (const model of models) {
   const route = `/modeli/${model.id}/`;
+  const modelHtml = htmlByRoute.get(route);
+  const offerJumpCount = (modelHtml.match(/data-model-offers-jump="true"/g) ?? []).length;
+  const offerTargetCount = (modelHtml.match(/id="predlozheniya"/g) ?? []).length;
+  if (
+    offerJumpCount !== offerTargetCount ||
+    offerJumpCount > 1 ||
+    (offerJumpCount === 1 &&
+      modelHtml.indexOf('data-model-offers-jump="true"') > modelHtml.indexOf('id="predlozheniya"'))
+  ) {
+    throw new Error(`Ссылка на предложения и её цель не согласованы: ${route}`);
+  }
   const indexable = compatibilityEdges.some(
     (edge) => edge.tv_id === model.id && edge.fit_status === "verified-fit",
   );
