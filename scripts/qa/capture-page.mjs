@@ -260,6 +260,20 @@ try {
   }
   let phoneTvReport = null;
   if (connectionState) {
+    // Production loads route chunks and catalog data asynchronously. Page.load
+    // is not an interaction-ready signal; use a bounded DOM readiness check.
+    const ready = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const deadline = Date.now() + 20000;
+        while (Date.now() < deadline) {
+          if (document.querySelector('[data-connection-helper] select')) return true;
+          await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        throw new Error('Connection helper readiness timed out: ' + document.body.innerText.slice(0, 300));
+      })()`,
+      awaitPromise: true, returnByValue: true,
+    });
+    if (ready.exceptionDetails) throw new Error(ready.exceptionDetails.exception?.description ?? 'Connection helper readiness failed');
     const interaction = await send("Runtime.evaluate", {
       expression: `(async () => {
         const state = ${JSON.stringify(connectionState)};
