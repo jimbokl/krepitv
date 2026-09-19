@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "run": "20260919-semantic-helpers-20260919",
+  "generated_at": "2026-09-19T08:38:08.990133+00:00",
+  "scanned_files": [
+    "web/src/components/ConnectionHelper.jsx",
+    "web/src/components/VesaMatchCalculator.jsx",
+    "web/src/pages/SeoPage.jsx"
+  ],
+  "findings": []
+}

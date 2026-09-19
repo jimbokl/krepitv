@@ -1,0 +1,1117 @@
+[
+  {
+    "seed": {
+      "candidate_id": "phone-hotspot",
+      "candidate_path": "/kak-razdat-internet-s-telefona-na-televizor/",
+      "query": "как раздать интернет на телевизор",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[как раздать интернет на телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "336329",
+          "text": "телеканалы онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "50044",
+          "text": "тв программа онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "14394",
+          "text": "кино тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "19862",
+          "text": "кино тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "562",
+          "text": "russia tv online цифровое телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "7915",
+          "text": "все телеканалы онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "12906",
+          "text": "цифровое тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "593",
+          "text": "xuy tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "6506",
+          "text": "телик онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "2312",
+          "text": "он тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "1300",
+          "text": "доза тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "10552",
+          "text": "цифровое тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "618",
+          "text": "кинозал тв раздачи"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "5559",
+          "text": "как раздать интернет на телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "phone-hotspot",
+      "candidate_path": "/kak-razdat-internet-s-telefona-na-televizor/",
+      "query": "раздать интернет с телефона на телевизор",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[раздать интернет с телефона на телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "417",
+          "text": "ограничили только мобильный интернет"
+        },
+        {
+          "isAssociations": true,
+          "value": "2551",
+          "text": "как сделать электронную почту на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "1696",
+          "text": "как транслировать с телефона на ноутбук"
+        },
+        {
+          "isAssociations": true,
+          "value": "1047",
+          "text": "как сделать раздачу интернета с айфона"
+        },
+        {
+          "isAssociations": true,
+          "value": "5012",
+          "text": "тв каналы онлайн бесплатно смотреть на телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "631",
+          "text": "как передать изображение с телефона на ноутбук"
+        },
+        {
+          "isAssociations": true,
+          "value": "6196",
+          "text": "к телеком телефон"
+        },
+        {
+          "isAssociations": true,
+          "value": "468",
+          "text": "как сжать видео на телефоне для отправки"
+        },
+        {
+          "isAssociations": true,
+          "value": "302",
+          "text": "wlan что это такое в телефоне"
+        },
+        {
+          "isAssociations": true,
+          "value": "609",
+          "text": "кинозал тв раздачи"
+        },
+        {
+          "isAssociations": true,
+          "value": "711",
+          "text": "как сделать синхронизацию с телефона на телефон"
+        },
+        {
+          "isAssociations": true,
+          "value": "1531",
+          "text": "трансляция с телефона на ноутбук"
+        },
+        {
+          "isAssociations": true,
+          "value": "554",
+          "text": "заработок онлайн с телефона"
+        },
+        {
+          "isAssociations": true,
+          "value": "402",
+          "text": "как сделать трансляцию с телефона на ноутбук"
+        },
+        {
+          "isAssociations": true,
+          "value": "65",
+          "text": "введи в смартфон программу передач телевизионных"
+        },
+        {
+          "isAssociations": true,
+          "value": "57",
+          "text": "что такое вай фай директ в смартфоне"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "5200",
+          "text": "раздать интернет с телефона на телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "phone-hotspot",
+      "candidate_path": "/kak-razdat-internet-s-telefona-na-televizor/",
+      "query": "раздать интернет с айфона на телевизор",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[раздать интернет с айфона на телевизор]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3479",
+          "text": "как включить режим модема на iphone"
+        },
+        {
+          "isAssociations": true,
+          "value": "4356",
+          "text": "канал суббота онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "1354",
+          "text": "тв онлайн 18"
+        },
+        {
+          "isAssociations": true,
+          "value": "375",
+          "text": "почему режим модема на iphone недоступен"
+        },
+        {
+          "isAssociations": true,
+          "value": "2128",
+          "text": "телеканал суббота онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "4069",
+          "text": "бридж тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "2",
+          "text": "инетком тв онлайн телевидение смотреть бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "147",
+          "text": "запись видео чеат парно онлайн"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "838",
+          "text": "раздать интернет с айфона на телевизор"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "offline-tv",
+      "candidate_path": "/kak-smotret-televizor-bez-interneta/",
+      "query": "телевизор без интернета",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[телевизор без интернета]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "50044",
+          "text": "тв программа онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "14394",
+          "text": "кино тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "5469",
+          "text": "что такое смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "19862",
+          "text": "кино тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "562",
+          "text": "russia tv online цифровое телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "3031",
+          "text": "телевизорус ру"
+        },
+        {
+          "isAssociations": true,
+          "value": "12906",
+          "text": "цифровое тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "2594",
+          "text": "телевизорус ру смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "5266",
+          "text": "смарт тв что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "6506",
+          "text": "телик онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "864",
+          "text": "ру фильм тв смотреть онлайн бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "2312",
+          "text": "он тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "10552",
+          "text": "цифровое тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "1003",
+          "text": "телевизорус ру смотреть онлайн"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "18237",
+          "text": "телевизор без интернета"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "offline-tv",
+      "candidate_path": "/kak-smotret-televizor-bez-interneta/",
+      "query": "как смотреть телевизор без интернета",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[как смотреть телевизор без интернета]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "91581",
+          "text": "ю онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "706512",
+          "text": "ты онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "466895",
+          "text": "та онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "14819",
+          "text": "хочу тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3282",
+          "text": "где ты когда ты не онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "2662",
+          "text": "поро онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "9363",
+          "text": "в б онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "46324",
+          "text": "что такое онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "36741",
+          "text": "едим тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "294",
+          "text": "w tv что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "32893",
+          "text": "вид онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "18035",
+          "text": "онлайн кинотеатр бесплатно"
+        },
+        {
+          "isAssociations": true,
+          "value": "6506",
+          "text": "телик онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "443",
+          "text": "реши за меня онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "146916",
+          "text": "т онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "604",
+          "text": "наш выбор онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "689",
+          "text": "televizorus com"
+        },
+        {
+          "isAssociations": true,
+          "value": "28",
+          "text": "televizor24 ru online"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1062",
+          "text": "как смотреть телевизор без интернета"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "offline-tv",
+      "candidate_path": "/kak-smotret-televizor-bez-interneta/",
+      "query": "работает ли телевизор без интернета",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[работает ли телевизор без интернета]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "14394",
+          "text": "кино тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "19862",
+          "text": "кино тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "12906",
+          "text": "цифровое тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "2312",
+          "text": "он тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "1300",
+          "text": "доза тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "1020",
+          "text": "он тв тайм онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "10552",
+          "text": "цифровое тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "12236",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "7330",
+          "text": "интерактивное тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "272",
+          "text": "нет видеосигнала на мониторе компьютера причина"
+        },
+        {
+          "isAssociations": true,
+          "value": "727",
+          "text": "нпо телеком"
+        },
+        {
+          "isAssociations": true,
+          "value": "723",
+          "text": "смотреть тв нет"
+        },
+        {
+          "isAssociations": true,
+          "value": "523",
+          "text": "интерактивное тв что это"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "555",
+          "text": "работает ли телевизор без интернета"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "universal-remote",
+      "candidate_path": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+      "query": "как настроить универсальный пульт к телевизору",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[как настроить универсальный пульт к телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "118341",
+          "text": "настройка телевизора"
+        },
+        {
+          "isAssociations": true,
+          "value": "2370",
+          "text": "пульт для приставки цифрового телевидения"
+        },
+        {
+          "isAssociations": true,
+          "value": "1355",
+          "text": "как настроить триколор тв самостоятельно"
+        },
+        {
+          "isAssociations": true,
+          "value": "692",
+          "text": "пульты ду huayu"
+        },
+        {
+          "isAssociations": true,
+          "value": "212",
+          "text": "android tv remote control"
+        },
+        {
+          "isAssociations": true,
+          "value": "2542",
+          "text": "настройка триколор тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "84",
+          "text": "настройка android tv и smart tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "6581",
+          "text": "настройка тв приставки"
+        },
+        {
+          "isAssociations": true,
+          "value": "62",
+          "text": "триколор код 34 что это за ошибка"
+        },
+        {
+          "isAssociations": true,
+          "value": "55",
+          "text": "приложение лампа для андроид тв настройка"
+        },
+        {
+          "isAssociations": true,
+          "value": "74",
+          "text": "настройка torrserve matrix для андроид тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "4902",
+          "text": "настройка смарт тв"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3168",
+          "text": "как настроить универсальный пульт к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "universal-remote",
+      "candidate_path": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+      "query": "настройка универсального пульта для телевизора",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[настройка универсального пульта для телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "3269",
+          "text": "как настроить триколор тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "8284",
+          "text": "как настроить тв приставку"
+        },
+        {
+          "isAssociations": true,
+          "value": "212",
+          "text": "android tv remote control"
+        },
+        {
+          "isAssociations": true,
+          "value": "448",
+          "text": "телеинструктор триколор тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "122",
+          "text": "ру тв онлайн пульт"
+        },
+        {
+          "isAssociations": true,
+          "value": "312",
+          "text": "как настроить iptv на телевизоре"
+        },
+        {
+          "isAssociations": true,
+          "value": "1925",
+          "text": "как настроить пульт к приставке"
+        },
+        {
+          "isAssociations": true,
+          "value": "2463",
+          "text": "обозначения на кондиционере пульт"
+        },
+        {
+          "isAssociations": true,
+          "value": "244",
+          "text": "как настроить телевизор hisense на тв каналы"
+        },
+        {
+          "isAssociations": true,
+          "value": "865",
+          "text": "как настроить пульт от кондиционера"
+        },
+        {
+          "isAssociations": true,
+          "value": "5238",
+          "text": "как настроить пульт huayu"
+        },
+        {
+          "isAssociations": true,
+          "value": "152",
+          "text": "канал закодирован что делать на телевизоре"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "920",
+          "text": "настройка универсального пульта для телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "universal-remote",
+      "candidate_path": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+      "query": "как подобрать пульт к телевизору",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[как подобрать пульт к телевизору]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "7851",
+          "text": "вместе тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "5465",
+          "text": "что такое смарт тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "1323",
+          "text": "какой кондиционер лучше выбрать для квартиры"
+        },
+        {
+          "isAssociations": true,
+          "value": "2637",
+          "text": "телевизорус ру смотреть"
+        },
+        {
+          "isAssociations": true,
+          "value": "768",
+          "text": "телек или телик"
+        },
+        {
+          "isAssociations": true,
+          "value": "9625",
+          "text": "смотреть телик"
+        },
+        {
+          "isAssociations": true,
+          "value": "13977",
+          "text": "нам тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "12356",
+          "text": "оне тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "2029",
+          "text": "телевик это"
+        },
+        {
+          "isAssociations": true,
+          "value": "254",
+          "text": "тв на радио области"
+        },
+        {
+          "isAssociations": true,
+          "value": "42974",
+          "text": "тв ком"
+        },
+        {
+          "isAssociations": true,
+          "value": "144",
+          "text": "как выбрать сплит систему правильно для квартиры"
+        },
+        {
+          "isAssociations": true,
+          "value": "1964",
+          "text": "как выбрать роутер для квартиры"
+        },
+        {
+          "isAssociations": true,
+          "value": "486",
+          "text": "televizor tv"
+        },
+        {
+          "isAssociations": true,
+          "value": "2090",
+          "text": "смарт тв что это такое"
+        },
+        {
+          "isAssociations": true,
+          "value": "42561",
+          "text": "а тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "3222",
+          "text": "телев"
+        },
+        {
+          "isAssociations": true,
+          "value": "7603",
+          "text": "тв поиск"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "755",
+          "text": "как подобрать пульт к телевизору"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "bandwidth",
+      "candidate_path": "/kak-podklyuchit-televizor-k-internetu/",
+      "query": "какая скорость интернета нужна для телевизора",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[какая скорость интернета нужна для телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "337137",
+          "text": "телеканалы онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "19795",
+          "text": "кино тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "1077",
+          "text": "инет телеком"
+        },
+        {
+          "isAssociations": true,
+          "value": "551",
+          "text": "russia tv online цифровое телевидение"
+        },
+        {
+          "isAssociations": true,
+          "value": "5946",
+          "text": "кино тв онлайн прямой эфир"
+        },
+        {
+          "isAssociations": true,
+          "value": "7879",
+          "text": "все телеканалы онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "12857",
+          "text": "цифровое тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "4790",
+          "text": "телек онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "6481",
+          "text": "телик онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "5055",
+          "text": "см тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "2328",
+          "text": "он тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "1272",
+          "text": "доза тв смотреть онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "495",
+          "text": "оме тв онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "1028",
+          "text": "он тв тайм онлайн"
+        },
+        {
+          "isAssociations": true,
+          "value": "5259",
+          "text": "кино тв смотреть онлайн прямой эфир"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "182",
+          "text": "какая скорость интернета нужна для телевизора"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "dimensions",
+      "candidate_path": "/razmery-televizora-po-diagonali/",
+      "query": "размеры телевизоров в см",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[размеры телевизоров в см]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "186730",
+          "text": "дюйм сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "89878",
+          "text": "размер л"
+        },
+        {
+          "isAssociations": true,
+          "value": "4255",
+          "text": "65 диагональ в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "28722",
+          "text": "дюйм это сколько в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "557",
+          "text": "65 диагональ в см ширина и высота"
+        },
+        {
+          "isAssociations": true,
+          "value": "708",
+          "text": "диагональ 65 размеры ширина и высота"
+        },
+        {
+          "isAssociations": true,
+          "value": "7956",
+          "text": "32 диагональ в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1898",
+          "text": "размер л в цифрах"
+        },
+        {
+          "isAssociations": true,
+          "value": "1088",
+          "text": "43 дюйма это сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "643",
+          "text": "а4 сколько см в длину и ширину"
+        },
+        {
+          "isAssociations": true,
+          "value": "939",
+          "text": "сколько дюймов бывают телевизоры"
+        },
+        {
+          "isAssociations": true,
+          "value": "1113",
+          "text": "75 диагональ сколько см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1099",
+          "text": "85 диагональ в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "1539",
+          "text": "75 диагональ в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "101457",
+          "text": "диагональ в см"
+        },
+        {
+          "isAssociations": true,
+          "value": "8676",
+          "text": "диагональ что это"
+        },
+        {
+          "isAssociations": true,
+          "value": "1568",
+          "text": "диагональ 50 это сколько"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "20175",
+          "text": "размеры телевизоров в см"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "screws",
+      "candidate_path": "/vinty-dlya-krepleniya-televizora/",
+      "query": "болты для крепления телевизора",
+      "variant": "phrase_ordered"
+    },
+    "operator_query": "\"[болты для крепления телевизора]\"",
+    "response": {
+      "associations": [
+        {
+          "isAssociations": true,
+          "value": "13511",
+          "text": "кронштейн для тв"
+        },
+        {
+          "isAssociations": true,
+          "value": "7552",
+          "text": "скоба крепежная"
+        },
+        {
+          "isAssociations": true,
+          "value": "5290",
+          "text": "крепежная планка"
+        },
+        {
+          "isAssociations": true,
+          "value": "1140",
+          "text": "клипса крепежная автомобильная"
+        },
+        {
+          "isAssociations": true,
+          "value": "1385",
+          "text": "крепеж для плинтуса"
+        },
+        {
+          "isAssociations": true,
+          "value": "259",
+          "text": "кронштейн ра5"
+        },
+        {
+          "isAssociations": true,
+          "value": "4311",
+          "text": "кронштейн крепежный"
+        },
+        {
+          "isAssociations": true,
+          "value": "377",
+          "text": "крепеж для провода на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "857",
+          "text": "скоба крепежная металлическая"
+        },
+        {
+          "isAssociations": true,
+          "value": "7281",
+          "text": "кронштейн vesa"
+        },
+        {
+          "isAssociations": true,
+          "value": "1200",
+          "text": "крепеж для карниза"
+        },
+        {
+          "isAssociations": true,
+          "value": "1640",
+          "text": "крепеж для штор"
+        },
+        {
+          "isAssociations": true,
+          "value": "332",
+          "text": "такелажный крепеж"
+        },
+        {
+          "isAssociations": true,
+          "value": "570",
+          "text": "кронштейн vesa 200x200"
+        },
+        {
+          "isAssociations": true,
+          "value": "2789",
+          "text": "кронштейн kromax"
+        },
+        {
+          "isAssociations": true,
+          "value": "5039",
+          "text": "клипса крепежная"
+        },
+        {
+          "isAssociations": true,
+          "value": "412",
+          "text": "кронштейн для установки din рейки"
+        },
+        {
+          "isAssociations": true,
+          "value": "946",
+          "text": "кронштейн для тв на стену"
+        },
+        {
+          "isAssociations": true,
+          "value": "3174",
+          "text": "хомут крепежный"
+        }
+      ],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3400",
+          "text": "болты для крепления телевизора"
+        }
+      ]
+    }
+  }
+]

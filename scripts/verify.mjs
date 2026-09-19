@@ -22,6 +22,7 @@ const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
 const baselineIndexableUrlCount = 309;
 const tvIntentIndexableUrlCount = 14;
+const connectionGuideIds = ["phone-hotspot", "offline-tv", "universal-remote"];
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -476,6 +477,7 @@ const modelSearch = JSON.parse(
 );
 const expectedIndexableUrlCount = baselineIndexableUrlCount
   + tvIntentIndexableUrlCount
+  + connectionGuideIds.length
   + marketModelsManifest.summary.indexable_observed_canonicals;
 const mounts = JSON.parse(await readFile(path.join(docs, "data/mounts.json"), "utf8"));
 const compatibilityEdges = JSON.parse(
@@ -1816,8 +1818,13 @@ const tvIntentGuideIds = [
   "tv-audio-video-sync", "tv-usb-video-subtitles", "tv-bluetooth-remote-pairing",
   "tv-motion-smoothing", "tv-usb-expand-storage",
 ];
-if (dailyEvidenceGuidePages.length !== expectedDailyGuideCount + tvIntentGuideIds.length) {
-  throw new Error(`Ожидалось ${expectedDailyGuideCount + tvIntentGuideIds.length} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
+const expectedGuideCount = expectedDailyGuideCount + tvIntentGuideIds.length + connectionGuideIds.length;
+if (dailyEvidenceGuidePages.length !== expectedGuideCount) {
+  throw new Error(`Ожидалось ${expectedGuideCount} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
+}
+for (const id of connectionGuideIds) {
+  const page = dailyEvidenceGuidePages.find((item) => item.id === id);
+  if (!page || page.guide.updated_at !== "2026-09-19") throw new Error(`Missing connection guide: ${id}`);
 }
 for (const id of tvIntentGuideIds) {
   const page = dailyEvidenceGuidePages.find((item) => item.id === id);

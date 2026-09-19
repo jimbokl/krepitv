@@ -437,6 +437,13 @@ export async function calculateTvNoSignal(values) {
   return response;
 }
 
+export async function calculateConnectionHelper(task, values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(engine.connection_helper_json(task, ...values));
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateTvTrafficTask(values) {
   const engine = await loadEngine();
   const response = JSON.parse(

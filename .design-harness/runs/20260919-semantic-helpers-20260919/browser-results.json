@@ -1,0 +1,242 @@
+[
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "mobile",
+    "state": "default",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-mobile-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "tablet",
+    "state": "default",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-tablet-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "desktop",
+    "state": "default",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-desktop-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "offline",
+    "route": "/kak-smotret-televizor-bez-interneta/",
+    "viewport": "mobile",
+    "state": "default",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/offline-mobile-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "offline",
+    "route": "/kak-smotret-televizor-bez-interneta/",
+    "viewport": "tablet",
+    "state": "default",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/offline-tablet-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "offline",
+    "route": "/kak-smotret-televizor-bez-interneta/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/offline-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "offline",
+    "route": "/kak-smotret-televizor-bez-interneta/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/offline-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "offline",
+    "route": "/kak-smotret-televizor-bez-interneta/",
+    "viewport": "desktop",
+    "state": "default",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/offline-desktop-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "offline",
+    "route": "/kak-smotret-televizor-bez-interneta/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/offline-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "remote",
+    "route": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+    "viewport": "mobile",
+    "state": "default",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/remote-mobile-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "remote",
+    "route": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+    "viewport": "tablet",
+    "state": "default",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/remote-tablet-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "remote",
+    "route": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/remote-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "remote",
+    "route": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+    "viewport": "desktop",
+    "state": "default",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/remote-desktop-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "remote",
+    "route": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/remote-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "remote",
+    "route": "/kak-nastroit-universalnyy-pult-dlya-televizora/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/remote-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "mobile",
+    "state": "focus",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-mobile-focus.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "mobile",
+    "state": "empty",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-mobile-empty.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "mobile",
+    "state": "disabled",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-mobile-disabled.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "mobile",
+    "state": "loading",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-mobile-loading.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "mobile",
+    "state": "error",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-mobile-error.png",
+    "exit_code": 0
+  },
+  {
+    "id": "hotspot",
+    "route": "/kak-razdat-internet-s-telefona-na-televizor/",
+    "viewport": "mobile",
+    "state": "needs-review",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260919-semantic-helpers-20260919/evidence/screenshots/hotspot-mobile-needs-review.png",
+    "exit_code": 0
+  }
+]

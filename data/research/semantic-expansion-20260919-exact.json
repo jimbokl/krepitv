@@ -1,0 +1,14 @@
+[
+ {"candidate_id":"phone-hotspot","candidate_path":"/kak-razdat-internet-s-telefona-na-televizor/","query":"как раздать интернет на телевизор","variant":"phrase_ordered"},
+ {"candidate_id":"phone-hotspot","candidate_path":"/kak-razdat-internet-s-telefona-na-televizor/","query":"раздать интернет с телефона на телевизор","variant":"phrase_ordered"},
+ {"candidate_id":"phone-hotspot","candidate_path":"/kak-razdat-internet-s-telefona-na-televizor/","query":"раздать интернет с айфона на телевизор","variant":"phrase_ordered"},
+ {"candidate_id":"offline-tv","candidate_path":"/kak-smotret-televizor-bez-interneta/","query":"телевизор без интернета","variant":"phrase_ordered"},
+ {"candidate_id":"offline-tv","candidate_path":"/kak-smotret-televizor-bez-interneta/","query":"как смотреть телевизор без интернета","variant":"phrase_ordered"},
+ {"candidate_id":"offline-tv","candidate_path":"/kak-smotret-televizor-bez-interneta/","query":"работает ли телевизор без интернета","variant":"phrase_ordered"},
+ {"candidate_id":"universal-remote","candidate_path":"/kak-nastroit-universalnyy-pult-dlya-televizora/","query":"как настроить универсальный пульт к телевизору","variant":"phrase_ordered"},
+ {"candidate_id":"universal-remote","candidate_path":"/kak-nastroit-universalnyy-pult-dlya-televizora/","query":"настройка универсального пульта для телевизора","variant":"phrase_ordered"},
+ {"candidate_id":"universal-remote","candidate_path":"/kak-nastroit-universalnyy-pult-dlya-televizora/","query":"как подобрать пульт к телевизору","variant":"phrase_ordered"},
+ {"candidate_id":"bandwidth","candidate_path":"/kak-podklyuchit-televizor-k-internetu/","query":"какая скорость интернета нужна для телевизора","variant":"phrase_ordered"},
+ {"candidate_id":"dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"размеры телевизоров в см","variant":"phrase_ordered"},
+ {"candidate_id":"screws","candidate_path":"/vinty-dlya-krepleniya-televizora/","query":"болты для крепления телевизора","variant":"phrase_ordered"}
+]

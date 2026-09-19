@@ -7,7 +7,7 @@ const ROOT = path.resolve(import.meta.dirname, "../..");
 const REGION_ID = "225";
 const SOURCE_URL = "https://wordstat.yandex.ru/";
 const SOURCE_LABEL =
-  "Яндекс Wordstat через XMLRiver: Top queries, запрос в кавычках и квадратных скобках, Россия, все устройства";
+  "Яндекс Wordstat через XMLRiver: Top queries, Россия, все устройства; операторы сохранены отдельно для каждого запроса";
 const DEFAULT_SECRET = path.join(os.homedir(), ".codex/secrets/xmlriver-wordstat.json");
 const observedAt = new Date().toISOString();
 const date = observedAt.slice(0, 10);
@@ -60,8 +60,15 @@ function requestUrl(secret, query) {
 
 async function fetchWordstat(secret, query) {
   for (let attempt = 1; attempt <= 5; attempt += 1) {
-    const response = await fetch(requestUrl(secret, query), { redirect: "follow" });
-    const body = await response.text();
+    let response;
+    let body;
+    try {
+      response = await fetch(requestUrl(secret, query), { redirect: "follow", signal: AbortSignal.timeout(45_000) });
+      body = await response.text();
+    } catch {
+      if (attempt === 5) throw new Error(`Wordstat network timeout for ${query}`);
+      continue;
+    }
     let payload;
     try {
       payload = JSON.parse(body);

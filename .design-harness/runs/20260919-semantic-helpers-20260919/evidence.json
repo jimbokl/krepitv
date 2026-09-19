@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "task_id": "20260919-semantic-helpers-20260919",
+  "commands": [
+    {
+      "id": "build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "output_path": "evidence/commands/build.log",
+      "covers": [
+        "engine",
+        "ssr",
+        "sources",
+        "privacy"
+      ]
+    },
+    {
+      "id": "browser",
+      "command": "node scripts/qa/semantic-helpers.mjs",
+      "exit_code": 0,
+      "environment": {
+        "QA_BASE_URL": "http://127.0.0.1:4189"
+      },
+      "output_path": "evidence/commands/browser.log",
+      "covers": [
+        "default",
+        "empty",
+        "disabled",
+        "focus",
+        "loading",
+        "error",
+        "success",
+        "reflow",
+        "keyboard"
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "hotspot-mobile-default",
+      "path": "evidence/screenshots/hotspot-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "inspected_by": "/root/semantic_release_review",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "hotspot-mobile-empty",
+      "path": "evidence/screenshots/hotspot-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "inspected_by": "root",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "hotspot-mobile-disabled",
+      "path": "evidence/screenshots/hotspot-mobile-disabled.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "inspected_by": "root",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "hotspot-mobile-focus",
+      "path": "evidence/screenshots/hotspot-mobile-focus.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "inspected_by": "/root/semantic_release_review",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "hotspot-mobile-loading",
+      "path": "evidence/screenshots/hotspot-mobile-loading.png",
+      "state": "loading",
+      "viewport_id": "mobile",
+      "inspected_by": "/root/semantic_release_review",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "hotspot-mobile-error",
+      "path": "evidence/screenshots/hotspot-mobile-error.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "inspected_by": "/root/semantic_release_review",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "hotspot-mobile-success",
+      "path": "evidence/screenshots/hotspot-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "inspected_by": "/root/semantic_release_review",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "hotspot-tablet-success",
+      "path": "evidence/screenshots/hotspot-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "inspected_by": "root",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "wide_table_scrolls": true
+      }
+    },
+    {
+      "id": "hotspot-desktop-default",
+      "path": "evidence/screenshots/hotspot-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "inspected_by": "/root/semantic_release_review",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    }
+  ],
+  "assets": [],
+  "state_coverage": {
+    "default": [
+      "hotspot-mobile-default"
+    ],
+    "empty": [
+      "hotspot-mobile-empty"
+    ],
+    "disabled": [
+      "hotspot-mobile-disabled"
+    ],
+    "focus": [
+      "hotspot-mobile-focus"
+    ],
+    "loading": [
+      "hotspot-mobile-loading"
+    ],
+    "error": [
+      "hotspot-mobile-error"
+    ],
+    "success": [
+      "hotspot-mobile-success"
+    ]
+  },
+  "viewport_coverage": {
+    "mobile": [
+      "hotspot-mobile-default"
+    ],
+    "tablet": [
+      "hotspot-tablet-success"
+    ],
+    "desktop": [
+      "hotspot-desktop-default"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/semantic_release_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "P3 SSR/React related-link mismatch corrected and rechecked.",
+      "Scope and limitations recorded in review.md; no axe or Enter-submit claim."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

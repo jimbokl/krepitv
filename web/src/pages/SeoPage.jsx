@@ -41,6 +41,8 @@ import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx
 import { TvDimensionsCalculator } from "../components/TvDimensionsCalculator.jsx";
 import { TvDimensionsReference } from "../components/TvDimensionsReference.jsx";
 import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
+import { ConnectionHelper } from "../components/ConnectionHelper.jsx";
+import { CONNECTION_HELPERS } from "../lib/connectionHelpers.mjs";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
 import { WallPlannerCalculator } from "../components/WallPlannerCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
@@ -451,7 +453,7 @@ function SeoArticle({ catalog, page }) {
             search={catalog.search}
           />
         ) : null}
-        {page.id === "vesa" ? <VesaMatchCalculator /> : null}
+        {["vesa", "vesa-200x200", "vesa-300x200"].includes(page.id) ? <VesaMatchCalculator initialWidth={page.id === "vesa-300x200" ? "300" : "200"} /> : null}
         {prioritizesScrewLookup ? (
           <TvMountScrewCatalog models={catalog.models} search={catalog.search} />
         ) : null}
@@ -623,7 +625,7 @@ function SeoEvidenceGuide({ guide, pageId }) {
         {guide.heading}
       </h2>
       <p className="mt-3 max-w-4xl leading-relaxed text-muted">{guide.summary}</p>
-      {hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
+      {CONNECTION_HELPERS[pageId] ? <ConnectionHelper pageId={pageId} /> : hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
       <fieldset className="mt-7 border-2 border-ink bg-white p-5" data-evidence-guide-tool="true">
         <legend className="px-2 font-display text-2xl font-extrabold">Что вы наблюдаете?</legend>
         <div className="mt-2 grid gap-3 md:grid-cols-3">

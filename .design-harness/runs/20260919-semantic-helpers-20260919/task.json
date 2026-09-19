@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "id": "20260919-semantic-helpers-20260919",
+  "kind": "ui",
+  "status": "specified",
+  "implementer": "root",
+  "states": [
+    "default",
+    "empty",
+    "disabled",
+    "focus",
+    "loading",
+    "error",
+    "success"
+  ],
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "web",
+    "crates/engine/src",
+    "crates/sitegen/src",
+    "data",
+    "scripts/research",
+    "scripts/qa",
+    "scripts/verify.mjs",
+    ".design-harness",
+    "product-docs",
+    "docs"
+  ],
+  "verification_commands": [
+    {
+      "id": "build",
+      "command": "npm run build",
+      "required": true,
+      "covers": [
+        "engine",
+        "ssr",
+        "sources",
+        "privacy"
+      ]
+    },
+    {
+      "id": "browser",
+      "command": "node scripts/qa/semantic-helpers.mjs",
+      "required": true,
+      "covers": [
+        "default",
+        "empty",
+        "disabled",
+        "focus",
+        "loading",
+        "error",
+        "success",
+        "reflow",
+        "keyboard"
+      ]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {
+      "id": "copy",
+      "value": "Составить план",
+      "strategy": "deterministic-overlay"
+    }
+  ],
+  "claims": [
+    {
+      "id": "hotspot",
+      "source_ids": [
+        "google-hotspot",
+        "apple-hotspot"
+      ]
+    },
+    {
+      "id": "offline",
+      "source_ids": [
+        "sony-usb",
+        "samsung-channels"
+      ]
+    },
+    {
+      "id": "remote",
+      "source_ids": [
+        "oneforall"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-hotspot",
+      "url": "https://support.google.com/android/answer/9059108?hl=ru",
+      "retrieved_at": "2026-09-19"
+    },
+    {
+      "id": "apple-hotspot",
+      "url": "https://support.apple.com/ru-ru/111785",
+      "retrieved_at": "2026-09-19"
+    },
+    {
+      "id": "sony-usb",
+      "url": "https://www.sony.ru/electronics/support/articles/00109938",
+      "retrieved_at": "2026-09-19"
+    },
+    {
+      "id": "samsung-channels",
+      "url": "https://www.samsung.com/ru/support/tv-audio-video/where-can-i-find-free-channels-on-my-samsung-tv/",
+      "retrieved_at": "2026-09-19"
+    },
+    {
+      "id": "oneforall",
+      "url": "https://www.oneforall.com/sites/default/files/2023-05/URC2140_Manual.pdf",
+      "retrieved_at": "2026-09-19"
+    }
+  ]
+}

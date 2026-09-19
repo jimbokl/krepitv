@@ -18,8 +18,8 @@ const INITIAL_VALUES = {
   mountSpec: "75×75, 100×100, 200×100, 200×200, 300×200, 400×400 мм",
 };
 
-export function VesaMatchCalculator() {
-  const [values, setValues] = useState(INITIAL_VALUES);
+export function VesaMatchCalculator({ initialWidth = "200" }) {
+  const [values, setValues] = useState({ ...INITIAL_VALUES, width: initialWidth });
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
@@ -80,6 +80,17 @@ export function VesaMatchCalculator() {
         </div>
 
         <form className="grid gap-5" onSubmit={submit}>
+          <div className="min-w-0 overflow-x-auto" data-vesa-size-reference="true">
+            <table className="w-full text-left text-sm">
+              <caption className="mb-2 text-left font-display text-lg font-bold">Размеры между центрами отверстий</caption>
+              <thead><tr><th className="p-2">VESA, мм</th><th className="p-2">В сантиметрах</th><th className="p-2">Что сверить</th></tr></thead>
+              <tbody>
+                <tr className="border-t border-line"><th className="p-2">200×200</th><td className="p-2">20×20</td><td className="p-2">Именно 200×200 в перечне кронштейна</td></tr>
+                <tr className="border-t border-line"><th className="p-2">300×200</th><td className="p-2">30×20</td><td className="p-2">300×300 не подтверждает совпадение</td></tr>
+              </tbody>
+            </table>
+            <p className="mt-3 text-xs leading-relaxed text-muted">Это отверстия телевизора, не разметка стены. Совпадение VESA не проверяет массу, винты и разъёмы. <a className="underline" href="https://www.vesa.org/wp-content/uploads/2010/12/FDMI-Overview.pdf" target="_blank" rel="noreferrer">Назначение стандарта VESA</a>.</p>
+          </div>
           <fieldset>
             <legend className="font-display text-xl font-bold">Замер телевизора</legend>
             <div className="mt-3 grid gap-4 sm:grid-cols-[1fr_1fr_9rem]">

@@ -1,0 +1,1386 @@
+
+> krepitv@0.1.0 build
+> npm run build:release && npm run verify
+
+
+> krepitv@0.1.0 build:release
+> node scripts/clean.mjs && npm run build:content && npm run build:wasm && npm run build:web && npm run build:publish
+
+
+> krepitv@0.1.0 build:content
+> cargo run --locked -p krepitv-sitegen --release
+
+    Finished `release` profile [optimized] target(s) in 0.31s
+     Running `target/release/krepitv-sitegen`
+Сгенерировано страниц: 326
+
+> krepitv@0.1.0 build:wasm
+> node scripts/build-wasm.mjs
+
+[INFO]: 🎯  Checking for the Wasm target...
+[INFO]: 🌀  Compiling to Wasm...
+    Finished `release` profile [optimized] target(s) in 0.04s
+[INFO]: ⬇️  Installing wasm-bindgen...
+[INFO]: ✨   Done in 0.78s
+[INFO]: 📦   Your wasm pkg is ready to publish at /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/web/public/pkg.
+[WARN]: ⚠️   There's a newer version of wasm-pack available, the new version is: 0.15.0, you are using: 0.13.1. To update, navigate to: https://rustwasm.github.io/wasm-pack/installer/
+
+> krepitv@0.1.0 build:web
+> npm --prefix web run build
+
+
+> web@0.0.0 build
+> vite build && node scripts/prepare-sites-build.mjs
+
+vite v6.4.2 building for production...
+transforming...
+✓ 5072 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/assets/roboto-condensed-vietnamese-700-normal-BtNeb9D6.woff                             5.60 kB
+dist/client/assets/roboto-condensed-vietnamese-800-normal-Dk8k-tGZ.woff                             5.61 kB
+dist/client/assets/ibm-plex-mono-vietnamese-400-normal-DDuiU_S-.woff                                5.62 kB
+dist/client/assets/ibm-plex-mono-cyrillic-ext-400-normal-DMdlQ8Kv.woff                              5.82 kB
+dist/client/assets/ibm-plex-mono-vietnamese-400-normal-BulugwFq.woff2                               5.87 kB
+dist/client/assets/ibm-plex-sans-vietnamese-400-normal-fK1oJ5dG.woff                                6.39 kB
+dist/client/assets/ibm-plex-sans-vietnamese-600-normal-DgdngZtN.woff                                6.58 kB
+dist/client/assets/ibm-plex-sans-vietnamese-500-normal-BEb3_waV.woff                                6.59 kB
+dist/client/assets/ibm-plex-mono-cyrillic-ext-400-normal-xuaO2J-f.woff2                             6.91 kB
+dist/client/assets/ibm-plex-mono-cyrillic-400-normal-CEL4l2ZJ.woff                                  7.20 kB
+dist/client/assets/roboto-condensed-greek-800-normal-By4nNPaB.woff                                  7.48 kB
+dist/client/assets/roboto-condensed-greek-700-normal-89Up2Xly.woff                                  7.51 kB
+dist/client/assets/roboto-condensed-vietnamese-700-normal-D35V1G0s.woff2                            8.00 kB
+dist/client/assets/roboto-condensed-vietnamese-800-normal-1BlB1rlc.woff2                            8.09 kB
+dist/client/assets/ibm-plex-sans-vietnamese-400-normal-DG4YqDda.woff2                               8.20 kB
+dist/client/assets/ibm-plex-mono-cyrillic-400-normal-BSMlKf0J.woff2                                 8.36 kB
+dist/client/assets/ibm-plex-sans-vietnamese-500-normal-e4dixQRQ.woff2                               8.42 kB
+dist/client/assets/ibm-plex-sans-vietnamese-600-normal-DpPYBSTl.woff2                               8.46 kB
+dist/client/assets/ibm-plex-sans-greek-400-normal-D9ESIMu3.woff                                     8.76 kB
+dist/client/404.html                                                                                8.94 kB │ gzip:  2.80 kB
+dist/client/assets/ibm-plex-sans-greek-500-normal-CuWXN6rf.woff                                     9.15 kB
+dist/client/assets/ibm-plex-sans-greek-600-normal-D-CqTdkO.woff                                     9.22 kB
+dist/client/assets/roboto-condensed-greek-800-normal-BtxGB1n5.woff2                                 9.67 kB
+dist/client/assets/roboto-condensed-greek-700-normal-DWMOA2VK.woff2                                 9.67 kB
+dist/client/assets/ibm-plex-sans-greek-400-normal-_efipK4i.woff2                                    9.94 kB
+dist/client/assets/roboto-condensed-cyrillic-800-normal-DFV8qOD4.woff                               9.97 kB
+dist/client/assets/roboto-condensed-cyrillic-700-normal-BGMkBBYx.woff                              10.01 kB
+dist/client/assets/ibm-plex-sans-cyrillic-ext-400-normal-Dsrv2Tcn.woff                             10.29 kB
+dist/client/assets/ibm-plex-sans-greek-600-normal-DzTrcv_p.woff2                                   10.37 kB
+dist/client/assets/ibm-plex-sans-greek-500-normal-JMMifIXV.woff2                                   10.38 kB
+dist/client/assets/ibm-plex-sans-cyrillic-ext-500-normal-DB5PtV2g.woff                             10.59 kB
+dist/client/assets/ibm-plex-sans-cyrillic-ext-600-normal-Bz0x94Yp.woff                             10.62 kB
+dist/client/kontakty/index.html                                                                    11.27 kB │ gzip:  3.69 kB
+dist/client/assets/ibm-plex-mono-latin-ext-400-normal-D3D2R8hC.woff                                11.77 kB
+dist/client/o-proekte/index.html                                                                   11.93 kB │ gzip:  3.75 kB
+dist/client/redaktsiya/index.html                                                                  12.09 kB │ gzip:  3.86 kB
+dist/client/assets/roboto-condensed-cyrillic-700-normal-9RN-Z7cI.woff2                             12.14 kB
+dist/client/assets/ibm-plex-sans-cyrillic-ext-400-normal-g30qAdWV.woff2                            12.15 kB
+dist/client/assets/roboto-condensed-cyrillic-800-normal-BbeOyxaC.woff2                             12.17 kB
+dist/client/assets/ibm-plex-sans-cyrillic-ext-600-normal-DUMzJB7m.woff2                            12.30 kB
+dist/client/assets/ibm-plex-sans-cyrillic-ext-500-normal-Cs5J6C77.woff2                            12.31 kB
+dist/client/assets/roboto-condensed-latin-ext-800-normal-BmiUfIPx.woff                             12.60 kB
+dist/client/assets/roboto-condensed-latin-ext-700-normal-O6H_RRvN.woff                             12.66 kB
+dist/client/assets/ibm-plex-mono-latin-400-normal-CvHOgSBP.woff                                    13.14 kB
+dist/client/assets/ibm-plex-mono-latin-ext-400-normal-BmRBH3aV.woff2                               13.35 kB
+dist/client/assets/ibm-plex-sans-cyrillic-400-normal-BTotfTJu.woff                                 13.51 kB
+dist/client/assets/ibm-plex-sans-cyrillic-500-normal-ByOcLdNv.woff                                 13.86 kB
+dist/client/assets/ibm-plex-sans-cyrillic-600-normal-BGq0mW3O.woff                                 13.89 kB
+dist/client/assets/roboto-condensed-latin-ext-700-normal-B004qtqu.woff2                            14.24 kB
+dist/client/assets/roboto-condensed-latin-ext-800-normal-BQWsuNSs.woff2                            14.24 kB
+dist/client/assets/ibm-plex-sans-latin-ext-400-normal-RBey6euL.woff                                14.36 kB
+dist/client/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2                                   14.71 kB
+dist/client/assets/ibm-plex-sans-latin-ext-500-normal-D0aIdm-b.woff                                14.74 kB
+dist/client/assets/ibm-plex-sans-latin-ext-600-normal-DIrixKbi.woff                                14.77 kB
+dist/client/assets/ibm-plex-sans-cyrillic-400-normal-DZqxrq2p.woff2                                14.80 kB
+dist/client/assets/ibm-plex-sans-cyrillic-500-normal-CocWQlwt.woff2                                15.00 kB
+dist/client/assets/ibm-plex-sans-cyrillic-600-normal-71GNu3SW.woff2                                15.04 kB
+dist/client/metodika/index.html                                                                    15.08 kB │ gzip:  4.61 kB
+dist/client/assets/roboto-condensed-cyrillic-ext-800-normal-D4PkCfKP.woff                          15.52 kB
+dist/client/assets/roboto-condensed-cyrillic-ext-700-normal-CWPRiRXS.woff                          15.56 kB
+dist/client/assets/ibm-plex-sans-latin-ext-400-normal-C5H60-Va.woff2                               15.98 kB
+dist/client/assets/ibm-plex-sans-latin-ext-600-normal-DOrvGEcy.woff2                               16.45 kB
+dist/client/assets/ibm-plex-sans-latin-ext-500-normal-DakdToA3.woff2                               16.46 kB
+dist/client/politika-konfidencialnosti/index.html                                                  16.86 kB │ gzip:  5.00 kB
+dist/client/assets/roboto-condensed-cyrillic-ext-700-normal-CTXjXnze.woff2                         17.50 kB
+dist/client/assets/roboto-condensed-cyrillic-ext-800-normal-CVNsXHGx.woff2                         17.56 kB
+dist/client/kak-uznat-vesa-televizora/index.html                                                   17.62 kB │ gzip:  5.21 kB
+dist/client/rasstoyanie-do-televizora-i-diagonal/index.html                                        19.05 kB │ gzip:  5.44 kB
+dist/client/modeli/leff-32h690t/index.html                                                         19.46 kB │ gzip:  5.68 kB
+dist/client/modeli/skyworth-50q66h/index.html                                                      19.53 kB │ gzip:  5.71 kB
+dist/client/modeli/skyworth-43q67h/index.html                                                      19.55 kB │ gzip:  5.73 kB
+dist/client/modeli/skyworth-100q79h/index.html                                                     19.58 kB │ gzip:  5.73 kB
+dist/client/modeli/hi-hy-24h01fw/index.html                                                        19.61 kB │ gzip:  5.72 kB
+dist/client/modeli/razz-hh24h25f/index.html                                                        19.61 kB │ gzip:  5.73 kB
+dist/client/modeli/doffler-24lh15/index.html                                                       19.62 kB │ gzip:  5.72 kB
+dist/client/modeli/artel-ua32h4101/index.html                                                      19.64 kB │ gzip:  5.72 kB
+dist/client/modeli/vityaz-d24hn01bf/index.html                                                     19.73 kB │ gzip:  5.75 kB
+dist/client/assets/roboto-condensed-latin-800-normal-3yalVcRJ.woff                                 19.74 kB
+dist/client/assets/roboto-condensed-latin-700-normal-BOl6B_hI.woff                                 19.74 kB
+dist/client/modeli/vityaz-d24hs01bf/index.html                                                     19.75 kB │ gzip:  5.76 kB
+dist/client/modeli/supra-stv-lc24st0080w/index.html                                                19.76 kB │ gzip:  5.77 kB
+dist/client/modeli/general-electronics-ge40lfn0/index.html                                         19.82 kB │ gzip:  5.74 kB
+dist/client/modeli/general-electronics-ge32lhn0/index.html                                         19.82 kB │ gzip:  5.74 kB
+dist/client/modeli/general-electronics-ge50lqy2/index.html                                         19.82 kB │ gzip:  5.74 kB
+dist/client/modeli/general-electronics-ge50lus2/index.html                                         19.82 kB │ gzip:  5.74 kB
+dist/client/modeli/general-electronics-ge24lhn0/index.html                                         19.82 kB │ gzip:  5.74 kB
+dist/client/modeli/asano-24lf1210t/index.html                                                      20.12 kB │ gzip:  5.77 kB
+dist/client/modeli/sony-k-75xr50b/index.html                                                       20.13 kB │ gzip:  5.79 kB
+dist/client/modeli/bbk-24lem-1045-ts2c/index.html                                                  20.18 kB │ gzip:  5.78 kB
+dist/client/modeli/skyworth-43q66h/index.html                                                      20.18 kB │ gzip:  5.82 kB
+dist/client/modeli/haier-h1/index.html                                                             20.25 kB │ gzip:  5.85 kB
+dist/client/modeli/leff-24h250t/index.html                                                         20.26 kB │ gzip:  5.85 kB
+dist/client/modeli/haier-s2-43/index.html                                                          20.26 kB │ gzip:  5.84 kB
+dist/client/modeli/haier-d1/index.html                                                             20.27 kB │ gzip:  5.87 kB
+dist/client/modeli/xpx-12v/index.html                                                              20.28 kB │ gzip:  5.89 kB
+dist/client/modeli/haier-dh1zh0d00ru/index.html                                                    20.28 kB │ gzip:  5.85 kB
+dist/client/modeli/tcl-v4c/index.html                                                              20.28 kB │ gzip:  5.89 kB
+dist/client/index.html                                                                             20.28 kB │ gzip:  4.68 kB
+dist/client/modeli/hyundai-h-led50qbu7500/index.html                                               20.29 kB │ gzip:  5.82 kB
+dist/client/modeli/lg-43lm55/index.html                                                            20.29 kB │ gzip:  5.87 kB
+dist/client/modeli/lg-32lm55/index.html                                                            20.30 kB │ gzip:  5.90 kB
+dist/client/modeli/leff-24h690t/index.html                                                         20.31 kB │ gzip:  5.89 kB
+dist/client/modeli/haier-s2-32/index.html                                                          20.31 kB │ gzip:  5.88 kB
+dist/client/modeli/lg-32lm57/index.html                                                            20.31 kB │ gzip:  5.88 kB
+dist/client/modeli/haier-32h6gfg/index.html                                                        20.32 kB │ gzip:  5.89 kB
+dist/client/modeli/leff-24f690t/index.html                                                         20.33 kB │ gzip:  5.90 kB
+dist/client/modeli/sber-sdx-32h3114-market-4939838850/index.html                                   20.33 kB │ gzip:  5.89 kB
+dist/client/modeli/sber-sdx-43u5500dba/index.html                                                  20.34 kB │ gzip:  5.85 kB
+dist/client/modeli/haier-h55k85gux/index.html                                                      20.35 kB │ gzip:  5.91 kB
+dist/client/modeli/bbk-24lem-1032-ts2c/index.html                                                  20.36 kB │ gzip:  5.87 kB
+dist/client/modeli/konka-kt50-q682wb/index.html                                                    20.37 kB │ gzip:  5.90 kB
+dist/client/modeli/bbk-24lem-1033-ts2c/index.html                                                  20.37 kB │ gzip:  5.88 kB
+dist/client/modeli/bbk-42lem-1016-fts2c/index.html                                                 20.38 kB │ gzip:  5.88 kB
+dist/client/modeli/lc-thinq-fhd-43/index.html                                                      20.39 kB │ gzip:  5.93 kB
+dist/client/modeli/haier-50h5gux-fx/index.html                                                     20.41 kB │ gzip:  5.90 kB
+dist/client/modeli/tuvio-tm85ufbch51/index.html                                                    20.43 kB │ gzip:  5.93 kB
+dist/client/modeli/bbk-24lem-1047-ts2c/index.html                                                  20.44 kB │ gzip:  5.90 kB
+dist/client/modeli/sunwind-sun-led65xu401/index.html                                               20.45 kB │ gzip:  5.90 kB
+dist/client/modeli/candy-televizor-32-dyuyma/index.html                                            20.49 kB │ gzip:  5.85 kB
+dist/client/modeli/smart-televizor-32/index.html                                                   20.51 kB │ gzip:  5.91 kB
+dist/client/modeli/je-android-tv-24-smart-televizor/index.html                                     20.52 kB │ gzip:  5.86 kB
+dist/client/modeli/smart-televizor-26-dyuymov-s/index.html                                         20.58 kB │ gzip:  5.83 kB
+dist/client/modeli/thinq-ai-32-du-aeromysh/index.html                                              20.63 kB │ gzip:  5.93 kB
+dist/client/modeli/brend-ne-ukazan-19-dyuymovyy/index.html                                         20.64 kB │ gzip:  5.98 kB
+dist/client/modeli/haier-s2-32-market-5190478149/index.html                                        20.88 kB │ gzip:  5.97 kB
+dist/client/modeli/sber-sdx-43u5500dba-market-5719401357/index.html                                20.90 kB │ gzip:  5.96 kB
+dist/client/modeli/hyundai-h-led32bs5003-market-5643921334/index.html                              20.92 kB │ gzip:  5.95 kB
+dist/client/modeli/sber-sdx-43u5500dba-market-5718479093/index.html                                21.08 kB │ gzip:  6.04 kB
+dist/client/modeli/bbk-32lex-7235-fts2c-market-1874979175/index.html                               21.11 kB │ gzip:  6.05 kB
+dist/client/assets/roboto-condensed-latin-700-normal-DRbp0YnP.woff2                                21.13 kB
+dist/client/modeli/brend-ne-ukazan-19-dyuymovyy-market-5891562672/index.html                       21.16 kB │ gzip:  6.04 kB
+dist/client/assets/roboto-condensed-latin-800-normal-BKEDuQ6Q.woff2                                21.17 kB
+dist/client/modeli/smart-tv-bezramochnyy-ekran-du-aeromysh-s-golosovym-upravleniem-32/index.html   21.64 kB │ gzip:  6.01 kB
+dist/client/assets/ibm-plex-sans-latin-400-normal-CYLoc0-x.woff                                    22.10 kB
+dist/client/rozetki-pod-televizor-na-stene/index.html                                              22.51 kB │ gzip:  6.29 kB
+dist/client/kronshteyn-dlya-televizora-na-stenu/index.html                                         22.51 kB │ gzip:  6.23 kB
+dist/client/kak-povesit-televizor-na-stenu/index.html                                              22.56 kB │ gzip:  6.23 kB
+dist/client/assets/ibm-plex-sans-latin-400-normal-CDDApCn2.woff2                                   22.59 kB
+dist/client/tipy-kronshteynov/fiksirovannyy/index.html                                             22.77 kB │ gzip:  6.00 kB
+dist/client/kronshteyny-godoo/index.html                                                           23.43 kB │ gzip:  6.35 kB
+dist/client/kronshteyny/index.html                                                                 23.78 kB │ gzip:  3.60 kB
+dist/client/assets/ibm-plex-sans-latin-600-normal-Cu4Hd6ag.woff                                    23.88 kB
+dist/client/assets/ibm-plex-sans-latin-500-normal-BgVn5rGT.woff                                    23.92 kB
+dist/client/assets/ibm-plex-sans-latin-500-normal-6ng42L7E.woff2                                   24.18 kB
+dist/client/assets/ibm-plex-sans-latin-600-normal-CuJfVYMP.woff2                                   24.25 kB
+dist/client/kak-podklyuchit-noutbuk-k-televizoru/index.html                                        24.86 kB │ gzip:  6.73 kB
+dist/client/nastroyka-izobrazheniya-televizora/index.html                                          25.20 kB │ gzip:  6.89 kB
+dist/client/chem-protirat-ekran-televizora/index.html                                              25.25 kB │ gzip:  6.89 kB
+dist/client/kak-nastroit-tsifrovye-kanaly-na-televizore/index.html                                 25.29 kB │ gzip:  6.91 kB
+dist/client/na-kakoy-vysote-veshat-televizor/index.html                                            25.56 kB │ gzip:  6.77 kB
+dist/client/skolko-elektroenergii-potreblyaet-televizor/index.html                                 25.76 kB │ gzip:  6.94 kB
+dist/client/televizor-na-stene/index.html                                                          25.77 kB │ gzip:  6.89 kB
+dist/client/kak-podklyuchit-saundbar-k-televizoru/index.html                                       25.96 kB │ gzip:  7.05 kB
+dist/client/vesa/400x400/index.html                                                                25.97 kB │ gzip:  6.42 kB
+dist/client/kak-ustanovit-prilozhenie-na-televizor/index.html                                      26.00 kB │ gzip:  6.89 kB
+dist/client/kak-podklyuchit-smart-tv-pristavku-k-televizoru/index.html                             26.35 kB │ gzip:  7.05 kB
+dist/client/kak-podklyuchit-kolonki-k-televizoru/index.html                                        26.52 kB │ gzip:  7.05 kB
+dist/client/kak-podklyuchit-naushniki-k-televizoru/index.html                                      26.54 kB │ gzip:  7.05 kB
+dist/client/kak-sbrosit-televizor-do-zavodskih-nastroek/index.html                                 26.55 kB │ gzip:  6.95 kB
+dist/client/net-zvuka-na-televizore/index.html                                                     26.58 kB │ gzip:  7.10 kB
+dist/client/televizor-ne-vidit-fleshku/index.html                                                  26.65 kB │ gzip:  7.09 kB
+dist/client/kronshteyn-dlya-televizora-xiaomi/index.html                                           26.80 kB │ gzip:  6.33 kB
+dist/client/kronshteyny-holder/index.html                                                          26.92 kB │ gzip:  6.35 kB
+dist/client/razmery-televizora-po-diagonali/index.html                                             26.97 kB │ gzip:  7.00 kB
+dist/client/kak-obnovit-televizor/index.html                                                       26.97 kB │ gzip:  7.10 kB
+dist/client/ne-rabotaet-pult-ot-televizora/index.html                                              27.01 kB │ gzip:  7.17 kB
+dist/client/modeli/tuvio-td100ufbhh12/index.html                                                   27.04 kB │ gzip:  7.07 kB
+dist/client/televizor-pishet-net-signala/index.html                                                27.09 kB │ gzip:  7.22 kB
+dist/client/kak-podklyuchit-telefon-k-televizoru/index.html                                        27.11 kB │ gzip:  7.36 kB
+dist/client/televizor-zvuk-est-izobrazheniya-net/index.html                                        27.14 kB │ gzip:  7.11 kB
+dist/client/televizor-ne-podklyuchaetsya-k-internetu/index.html                                    27.25 kB │ gzip:  7.02 kB
+dist/client/vesa/600x400/index.html                                                                27.39 kB │ gzip:  7.14 kB
+dist/client/kak-nastroit-universalnyy-pult-dlya-televizora/index.html                              27.45 kB │ gzip:  7.20 kB
+dist/client/kronshteyn-dlya-televizora-75-dyuyma/index.html                                        27.57 kB │ gzip:  6.61 kB
+dist/client/tablica-vesa-televizorov/index.html                                                    27.87 kB │ gzip:  7.32 kB
+dist/client/kak-otklyuchit-subtitry-youtube-na-televizore/index.html                               27.87 kB │ gzip:  7.15 kB
+dist/client/vesa/100x100/index.html                                                                27.88 kB │ gzip:  7.18 kB
+dist/client/kak-pomenyat-yazyk-zvuka-na-televizore/index.html                                      27.93 kB │ gzip:  7.27 kB
+dist/client/kronshteyn-dlya-televizora-85-dyuyma/index.html                                        27.96 kB │ gzip:  7.24 kB
+dist/client/kak-smotret-televizor-bez-interneta/index.html                                         28.11 kB │ gzip:  7.40 kB
+dist/client/kak-razdat-internet-s-telefona-na-televizor/index.html                                 28.11 kB │ gzip:  7.26 kB
+dist/client/kak-povesit-televizor-na-gazobeton/index.html                                          28.18 kB │ gzip:  7.34 kB
+dist/client/kak-uznat-razreshenie-televizora/index.html                                            28.22 kB │ gzip:  7.22 kB
+dist/client/televizor-sam-vyklyuchaetsya/index.html                                                28.27 kB │ gzip:  7.40 kB
+dist/client/ne-rabotaet-golosovoy-poisk-na-televizore/index.html                                   28.27 kB │ gzip:  7.28 kB
+dist/client/kak-ubrat-effekt-mylnoy-opery-na-televizore/index.html                                 28.29 kB │ gzip:  7.40 kB
+dist/client/kak-uznat-god-vypuska-televizora/index.html                                            28.30 kB │ gzip:  7.19 kB
+dist/client/mobilnaya-stoyka-dlya-televizora/index.html                                            28.32 kB │ gzip:  7.32 kB
+dist/client/kabel-kanal-dlya-televizora/index.html                                                 28.41 kB │ gzip:  7.56 kB
+dist/client/kak-otklyuchit-subtitry-v-filme-s-fleshki/index.html                                   28.45 kB │ gzip:  7.37 kB
+dist/client/otstaet-zvuk-ot-video-na-televizore/index.html                                         28.51 kB │ gzip:  7.37 kB
+dist/client/kak-uvelichit-pamyat-televizora-fleshkoy/index.html                                    28.54 kB │ gzip:  7.40 kB
+dist/client/kak-vklyuchit-120-gerts-na-televizore/index.html                                       28.55 kB │ gzip:  7.28 kB
+dist/client/televizor-v-uglu-komnaty/index.html                                                    28.58 kB │ gzip:  7.48 kB
+dist/client/kak-otklyuchit-eko-rezhim-televizora/index.html                                        28.63 kB │ gzip:  7.43 kB
+dist/client/kakoy-hdmi-kabel-nuzhen/index.html                                                     28.65 kB │ gzip:  7.41 kB
+dist/client/kak-perezagruzit-televizor/index.html                                                  28.66 kB │ gzip:  7.39 kB
+dist/client/kak-vklyuchit-4k-na-televizore/index.html                                              28.70 kB │ gzip:  7.35 kB
+dist/client/kak-uznat-model-televizora/index.html                                                  28.70 kB │ gzip:  7.34 kB
+dist/client/kak-povesit-televizor-na-betonnuyu-stenu/index.html                                    28.72 kB │ gzip:  7.54 kB
+dist/client/kakoy-format-fleshki-nuzhen-dlya-televizora/index.html                                 28.74 kB │ gzip:  7.40 kB
+dist/client/rasstoyanie-ot-televizora-do-steny/index.html                                          28.75 kB │ gzip:  7.42 kB
+dist/client/kak-podklyuchit-kameru-k-televizoru/index.html                                         28.76 kB │ gzip:  7.39 kB
+dist/client/obrezany-kraya-ekrana-televizora-cherez-hdmi/index.html                                28.76 kB │ gzip:  7.46 kB
+dist/client/proverka-televizora-na-zasvety-i-pyatna/index.html                                     28.79 kB │ gzip:  7.55 kB
+dist/client/modeli/hisense-85e7s/index.html                                                        28.80 kB │ gzip:  7.46 kB
+dist/client/kak-vybrat-kronshteyn-dlya-televizora/index.html                                       28.81 kB │ gzip:  7.42 kB
+dist/client/kak-vyrovnyat-televizor-na-kronshteyne/index.html                                      28.84 kB │ gzip:  7.38 kB
+dist/client/krepezh-dlya-televizora-na-stenu/index.html                                            28.98 kB │ gzip:  7.48 kB
+dist/client/kak-ubrat-demo-rezhim-na-televizore/index.html                                         28.99 kB │ gzip:  7.35 kB
+dist/client/polka-pod-televizor-na-stenu/index.html                                                29.00 kB │ gzip:  7.52 kB
+dist/client/kak-privyazat-bluetooth-pult-k-televizoru/index.html                                   29.00 kB │ gzip:  7.40 kB
+dist/client/proverka-televizora-na-bitye-pikseli/index.html                                        29.03 kB │ gzip:  7.54 kB
+dist/client/potolochnyy-kronshteyn-dlya-televizora/index.html                                      29.05 kB │ gzip:  7.41 kB
+dist/client/kak-vklyuchit-bluetooth-na-televizore/index.html                                       29.05 kB │ gzip:  7.38 kB
+dist/client/temnyy-ekran-na-televizore/index.html                                                  29.05 kB │ gzip:  7.48 kB
+dist/client/kak-povesit-televizor-na-gipsokarton/index.html                                        29.08 kB │ gzip:  7.53 kB
+dist/client/televizor-nad-batareey/index.html                                                      29.09 kB │ gzip:  7.59 kB
+dist/client/kak-otklyuchit-golos-na-televizore/index.html                                          29.11 kB │ gzip:  7.40 kB
+dist/client/kak-nastroit-televizor-dlya-igr/index.html                                             29.14 kB │ gzip:  7.47 kB
+dist/client/kronshteyn-dlya-saundbara-k-televizoru/index.html                                      29.16 kB │ gzip:  7.44 kB
+dist/client/kak-nastroit-smart-tv/index.html                                                       29.17 kB │ gzip:  7.55 kB
+dist/client/kak-otklyuchit-subtitry-na-televizore/index.html                                       29.19 kB │ gzip:  7.45 kB
+dist/client/kak-opredelit-material-steny/index.html                                                29.20 kB │ gzip:  7.48 kB
+dist/client/kak-povesit-televizor-bez-sverleniya/index.html                                        29.22 kB │ gzip:  7.47 kB
+dist/client/proverka-televizora-pered-pokupkoy/index.html                                          29.25 kB │ gzip:  7.52 kB
+dist/client/migaet-ekran-televizora/index.html                                                     29.25 kB │ gzip:  7.50 kB
+dist/client/vesa/300x200/index.html                                                                29.26 kB │ gzip:  6.70 kB
+dist/client/kak-podklyuchit-dvd-k-televizoru/index.html                                            29.27 kB │ gzip:  7.50 kB
+dist/client/televizor-ne-vklyuchaetsya/index.html                                                  29.28 kB │ gzip:  7.47 kB
+dist/client/televizor-postoyanno-perezagruzhaetsya/index.html                                      29.29 kB │ gzip:  7.51 kB
+dist/client/izobrazhenie-ne-na-ves-ekran-televizora/index.html                                     29.31 kB │ gzip:  7.43 kB
+dist/client/kak-podklyuchit-mikrofon-k-televizoru/index.html                                       29.32 kB │ gzip:  7.44 kB
+dist/client/kak-podklyuchit-antennu-k-televizoru/index.html                                        29.33 kB │ gzip:  7.50 kB
+dist/client/kak-podklyuchit-televizor-k-alise/index.html                                           29.34 kB │ gzip:  7.46 kB
+dist/client/modeli/samsung-qe85q7faauxru/index.html                                                29.41 kB │ gzip:  7.23 kB
+dist/client/stoimost-ustanovki-televizora-na-stenu/index.html                                      29.42 kB │ gzip:  7.56 kB
+dist/client/kak-upravlyat-televizorom-s-telefona/index.html                                        29.43 kB │ gzip:  7.36 kB
+dist/client/kak-spryatat-provoda-ot-televizora/index.html                                          29.44 kB │ gzip:  7.66 kB
+dist/client/modeli/samsung-qe85qef1auxru/index.html                                                29.48 kB │ gzip:  7.25 kB
+dist/client/kak-ustanovit-brauzer-na-televizor/index.html                                          29.51 kB │ gzip:  7.42 kB
+dist/client/kak-ubrat-teletext-i-skrytye-subtitry/index.html                                       29.53 kB │ gzip:  7.55 kB
+dist/client/kak-podklyuchit-klaviaturu-i-mysh-k-televizoru/index.html                              29.53 kB │ gzip:  7.48 kB
+dist/client/kak-podklyuchit-tsifrovuyu-pristavku-k-televizoru/index.html                           29.54 kB │ gzip:  7.44 kB
+dist/client/kak-vklyuchit-hdr-na-televizore/index.html                                             29.61 kB │ gzip:  7.51 kB
+dist/client/televizor-nad-kaminom/index.html                                                       29.63 kB │ gzip:  7.61 kB
+dist/client/nisha-pod-televizor-razmery/index.html                                                 29.65 kB │ gzip:  7.59 kB
+dist/client/kak-podklyuchit-igrovuyu-pristavku-k-televizoru/index.html                             29.67 kB │ gzip:  7.49 kB
+dist/client/kak-podklyuchit-televizor-k-internetu/index.html                                       29.76 kB │ gzip:  7.47 kB
+dist/client/kak-snyat-televizor-s-kronshteyna/index.html                                           29.80 kB │ gzip:  7.70 kB
+dist/client/kak-povesit-televizor-bez-kronshteyna/index.html                                       29.80 kB │ gzip:  7.57 kB
+dist/client/ne-rabotaet-youtube-na-televizore/index.html                                           29.97 kB │ gzip:  7.55 kB
+dist/client/kronshteyny-kromax/index.html                                                          30.12 kB │ gzip:  6.66 kB
+dist/client/tipy-kronshteynov/naklonnyy/index.html                                                 30.30 kB │ gzip:  7.02 kB
+dist/client/tipy-kronshteynov/povorotnyy/index.html                                                30.38 kB │ gzip:  6.56 kB
+dist/client/kak-ochistit-pamyat-televizora/index.html                                              30.60 kB │ gzip:  7.69 kB
+dist/client/modeli/hisense-75u7q/index.html                                                        30.62 kB │ gzip:  7.29 kB
+dist/client/modeli/tcl-65q7d/index.html                                                            30.62 kB │ gzip:  7.31 kB
+dist/client/modeli/tcl-q7d/index.html                                                              30.70 kB │ gzip:  7.35 kB
+dist/client/televizor-zavis/index.html                                                             30.96 kB │ gzip:  7.78 kB
+dist/client/kronshteyny-itechmount/index.html                                                      31.86 kB │ gzip:  6.72 kB
+dist/client/kronshteyn-dlya-televizora-tcl/index.html                                              32.79 kB │ gzip:  6.61 kB
+dist/client/kronshteyn-dlya-televizora-hisense/index.html                                          33.14 kB │ gzip:  6.63 kB
+dist/client/kronshteyn-dlya-televizora-65-dyuyma/index.html                                        33.16 kB │ gzip:  6.50 kB
+dist/client/modeli/samsung-qe77s85faexru/index.html                                                33.75 kB │ gzip:  7.48 kB
+dist/client/modeli/samsung-ue85u8000fuxru/index.html                                               33.98 kB │ gzip:  7.48 kB
+dist/client/tipy-kronshteynov/vydvizhnoy/index.html                                                34.01 kB │ gzip:  7.43 kB
+dist/client/kronshteyn-dlya-televizora-lg/index.html                                               34.22 kB │ gzip:  6.68 kB
+dist/client/kronshteyn-dlya-televizora-50-dyuyma/index.html                                        34.24 kB │ gzip:  6.91 kB
+dist/client/modeli/samsung-ue75u8000fuxru/index.html                                               34.25 kB │ gzip:  7.47 kB
+dist/client/vesa/300x300/index.html                                                                34.25 kB │ gzip:  6.71 kB
+dist/client/kronshteyny-onkron/index.html                                                          34.54 kB │ gzip:  7.11 kB
+dist/client/modeli/xiaomi-tv-s-pro-mini-led-75-2026/index.html                                     34.82 kB │ gzip:  7.56 kB
+dist/client/modeli/samsung-qe75q7faauxru/index.html                                                36.93 kB │ gzip:  7.60 kB
+dist/client/modeli/hisense-40a4s/index.html                                                        37.04 kB │ gzip:  8.05 kB
+dist/client/modeli/tuvio-tm75ufgch52/index.html                                                    37.11 kB │ gzip:  7.71 kB
+dist/client/modeli/hisense-40e44sl/index.html                                                      37.12 kB │ gzip:  8.05 kB
+dist/client/modeli/samsung-qe65qn70fauxru/index.html                                               37.14 kB │ gzip:  7.95 kB
+dist/client/modeli/samsung-qe65q7faauxru/index.html                                                37.16 kB │ gzip:  7.93 kB
+dist/client/modeli/xiaomi-tv-a-pro-43-2025/index.html                                              37.21 kB │ gzip:  7.96 kB
+dist/client/kronshteyn-dlya-televizora-samsung/index.html                                          37.28 kB │ gzip:  6.93 kB
+dist/client/modeli/tcl-65p8l/index.html                                                            37.48 kB │ gzip:  8.18 kB
+dist/client/kronshteyn-dlya-televizora-43-dyuyma/index.html                                        38.15 kB │ gzip:  6.81 kB
+dist/client/modeli/tcl-55c755/index.html                                                           39.09 kB │ gzip:  8.37 kB
+dist/client/modeli/tcl-55c765/index.html                                                           39.10 kB │ gzip:  8.38 kB
+dist/client/modeli/tcl-55c745/index.html                                                           39.13 kB │ gzip:  8.39 kB
+dist/client/modeli/hisense-50e77sl-pro/index.html                                                  39.93 kB │ gzip:  8.65 kB
+dist/client/modeli/hisense-43e66sl/index.html                                                      40.02 kB │ gzip:  8.51 kB
+dist/client/modeli/tuvio-td50ufbhh11/index.html                                                    40.26 kB │ gzip:  8.66 kB
+dist/client/modeli/lg-oled65c5rla/index.html                                                       40.35 kB │ gzip:  8.21 kB
+dist/client/modeli/samsung-qe65s85faexru/index.html                                                40.55 kB │ gzip:  8.24 kB
+dist/client/modeli/xiaomi-tv-a-pro-65-2025/index.html                                              40.55 kB │ gzip:  8.50 kB
+dist/client/modeli/samsung-qe65s90faexru/index.html                                                40.71 kB │ gzip:  8.30 kB
+dist/client/modeli/xiaomi-tv-a-pro-32-2026/index.html                                              40.80 kB │ gzip:  8.85 kB
+dist/client/modeli/lg-65qned86a6a/index.html                                                       41.47 kB │ gzip:  8.27 kB
+dist/client/modeli/lg-65qned80a6a/index.html                                                       41.56 kB │ gzip:  8.31 kB
+dist/client/modeli/tuvio-tq65ufghh13/index.html                                                    41.78 kB │ gzip:  8.27 kB
+dist/client/modeli/hisense-43e7s/index.html                                                        42.16 kB │ gzip:  9.09 kB
+dist/client/modeli/tuvio-td65ufbhh12/index.html                                                    42.16 kB │ gzip:  8.39 kB
+dist/client/modeli/hisense-55u8q/index.html                                                        42.27 kB │ gzip:  8.67 kB
+dist/client/modeli/lg-oled42c5rla/index.html                                                       42.27 kB │ gzip:  8.58 kB
+dist/client/modeli/hisense-50e7s/index.html                                                        42.32 kB │ gzip:  9.37 kB
+dist/client/modeli/hisense-55e7s/index.html                                                        42.33 kB │ gzip:  9.37 kB
+dist/client/modeli/hisense-65u7s/index.html                                                        42.35 kB │ gzip:  9.16 kB
+dist/client/modeli/lg-oled48c5rla/index.html                                                       42.37 kB │ gzip:  8.59 kB
+dist/client/kronshteyn-dlya-televizora-55-dyuyma/index.html                                        42.44 kB │ gzip:  7.06 kB
+dist/client/modeli/hisense-55e77sl/index.html                                                      42.44 kB │ gzip:  9.36 kB
+dist/client/modeli/lg-oled55g5rla/index.html                                                       42.67 kB │ gzip:  8.67 kB
+dist/client/modeli/lg-oled55c4rla/index.html                                                       42.69 kB │ gzip:  8.60 kB
+dist/client/modeli/lg-55qned83b6a/index.html                                                       42.70 kB │ gzip:  8.60 kB
+dist/client/modeli/hi-hx-24h01fb/index.html                                                        42.77 kB │ gzip:  8.80 kB
+dist/client/modeli/lg-oled55b5rla/index.html                                                       42.77 kB │ gzip:  8.62 kB
+dist/client/modeli/harper-24r470t/index.html                                                       42.96 kB │ gzip:  8.78 kB
+dist/client/modeli/bbk-32lem-1075-ts2c/index.html                                                  42.99 kB │ gzip:  8.78 kB
+dist/client/modeli/blackton-bt-24fs34b/index.html                                                  43.01 kB │ gzip:  8.73 kB
+dist/client/modeli/sber-sdx-32f2139/index.html                                                     43.02 kB │ gzip:  8.67 kB
+dist/client/modeli/samsung-qe55s90fauxru/index.html                                                43.02 kB │ gzip:  8.65 kB
+dist/client/modeli/sber-sdx-32f3112/index.html                                                     43.03 kB │ gzip:  8.69 kB
+dist/client/modeli/sber-sdx-32h3113/index.html                                                     43.03 kB │ gzip:  8.69 kB
+dist/client/modeli/sber-sdx-32h3114/index.html                                                     43.03 kB │ gzip:  8.68 kB
+dist/client/modeli/hisense-65u77sl/index.html                                                      43.06 kB │ gzip:  9.35 kB
+dist/client/modeli/bq-32f40b/index.html                                                            43.08 kB │ gzip:  8.74 kB
+dist/client/modeli/hisense-32a4s/index.html                                                        43.11 kB │ gzip:  8.68 kB
+dist/client/modeli/samsung-qe55s85faexru/index.html                                                43.12 kB │ gzip:  8.67 kB
+dist/client/modeli/lg-50qned70b6c/index.html                                                       43.16 kB │ gzip:  8.74 kB
+dist/client/modeli/hi-hx-32h01fb/index.html                                                        43.17 kB │ gzip:  8.80 kB
+dist/client/modeli/hisense-32e55sl/index.html                                                      43.19 kB │ gzip:  8.68 kB
+dist/client/modeli/hisense-32e44sl/index.html                                                      43.19 kB │ gzip:  8.67 kB
+dist/client/modeli/tcl-32a400-pro/index.html                                                       43.22 kB │ gzip:  8.71 kB
+dist/client/modeli/yasin-32e9000/index.html                                                        43.23 kB │ gzip:  8.75 kB
+dist/client/modeli/topdevice-tdhtv24y1hd-bk/index.html                                             43.27 kB │ gzip:  8.80 kB
+dist/client/modeli/akai-ta32bh500/index.html                                                       43.31 kB │ gzip:  8.78 kB
+dist/client/modeli/bbk-32lex-7244-ts2c/index.html                                                  43.37 kB │ gzip:  8.79 kB
+dist/client/modeli/bbk-32lem-1045-ts2c/index.html                                                  43.37 kB │ gzip:  8.79 kB
+dist/client/modeli/bbk-32lex-7235-fts2c/index.html                                                 43.45 kB │ gzip:  8.82 kB
+dist/client/modeli/starwind-sw-led24sg304/index.html                                               43.47 kB │ gzip:  8.78 kB
+dist/client/modeli/hi-hy-40f01fb/index.html                                                        43.54 kB │ gzip:  8.88 kB
+dist/client/modeli/bbk-40lem-1030-fts2c/index.html                                                 43.63 kB │ gzip:  8.81 kB
+dist/client/modeli/topdevice-tdhtv32gfd-bk/index.html                                              43.70 kB │ gzip:  8.83 kB
+dist/client/modeli/tcl-32s4k/index.html                                                            43.74 kB │ gzip:  8.98 kB
+dist/client/modeli/tcl-75c6k/index.html                                                            43.80 kB │ gzip:  8.89 kB
+dist/client/modeli/xiaomi-tv-a-pro-55-2026/index.html                                              43.81 kB │ gzip:  9.24 kB
+dist/client/modeli/tcl-55t8d/index.html                                                            43.96 kB │ gzip:  8.65 kB
+dist/client/modeli/tcl-55q6cs/index.html                                                           44.01 kB │ gzip:  8.67 kB
+dist/client/modeli/tcl-t8d/index.html                                                              44.04 kB │ gzip:  8.69 kB
+dist/client/modeli/lg-55qned86a6a/index.html                                                       44.06 kB │ gzip:  8.62 kB
+dist/client/modeli/lg-55qned85b6c/index.html                                                       44.06 kB │ gzip:  8.62 kB
+dist/client/modeli/harper-40f720t/index.html                                                       44.07 kB │ gzip:  8.82 kB
+dist/client/modeli/topdevice-tdhtv32ghd-bk/index.html                                              44.08 kB │ gzip:  8.82 kB
+dist/client/modeli/tcl-q6cs/index.html                                                             44.09 kB │ gzip:  8.71 kB
+dist/client/modeli/tcl-50p7l/index.html                                                            44.10 kB │ gzip:  8.78 kB
+dist/client/modeli/lg-55qned93a6a/index.html                                                       44.11 kB │ gzip:  8.64 kB
+dist/client/modeli/xiaomi-tv-a-43-2025/index.html                                                  44.19 kB │ gzip:  8.71 kB
+dist/client/modeli/philips-50pud7029/index.html                                                    44.24 kB │ gzip:  8.77 kB
+dist/client/modeli/bbk-43lex-7247-fts2c/index.html                                                 44.37 kB │ gzip:  8.86 kB
+dist/client/modeli/tcl-55p7l/index.html                                                            44.48 kB │ gzip:  8.81 kB
+dist/client/modeli/tuvio-td50ufbhh12/index.html                                                    44.55 kB │ gzip:  8.84 kB
+dist/client/modeli/hisense-50u77sl/index.html                                                      44.56 kB │ gzip:  9.50 kB
+dist/client/modeli/asano-32lh1110t/index.html                                                      44.57 kB │ gzip:  9.13 kB
+dist/client/modeli/hisense-55u7q/index.html                                                        44.58 kB │ gzip:  9.17 kB
+dist/client/modeli/tcl-43p7l/index.html                                                            44.59 kB │ gzip:  9.00 kB
+dist/client/kupit-kronshteyn-dlya-televizora/index.html                                            44.67 kB │ gzip:  8.40 kB
+dist/client/modeli/tcl-55q6c/index.html                                                            44.77 kB │ gzip:  8.98 kB
+dist/client/modeli/samsung-ue65u8000fuxru/index.html                                               44.98 kB │ gzip:  8.43 kB
+dist/client/modeli/hisense-55u7s/index.html                                                        45.05 kB │ gzip:  9.55 kB
+dist/client/modeli/tcl-65v6c/index.html                                                            45.26 kB │ gzip:  8.67 kB
+dist/client/modeli/hisense-65u8q/index.html                                                        45.85 kB │ gzip:  9.47 kB
+dist/client/modeli/hisense-65ur9s/index.html                                                       45.87 kB │ gzip:  9.47 kB
+dist/client/modeli/hisense-55u7s-pro/index.html                                                    45.88 kB │ gzip:  9.75 kB
+dist/client/modeli/candy-uno-32/index.html                                                         46.16 kB │ gzip:  9.38 kB
+dist/client/modeli/hisense-65u7q/index.html                                                        46.25 kB │ gzip:  9.51 kB
+dist/client/modeli/lg-oled55c5rla/index.html                                                       46.36 kB │ gzip:  9.33 kB
+dist/client/modeli/tuvio-td24hbch11/index.html                                                     46.50 kB │ gzip:  8.97 kB
+dist/client/modeli/lg-32lq63806lc/index.html                                                       46.75 kB │ gzip:  8.88 kB
+dist/client/modeli/lg-32lq63006la/index.html                                                       46.75 kB │ gzip:  8.88 kB
+dist/client/modeli/lg-32lq630b6la/index.html                                                       46.76 kB │ gzip:  8.90 kB
+dist/client/modeli/digma-dm-led32sbb39/index.html                                                  46.80 kB │ gzip:  8.91 kB
+dist/client/modeli/hi-ht-32h01fb/index.html                                                        46.81 kB │ gzip:  9.03 kB
+dist/client/modeli/hi-hs-32f01fb/index.html                                                        46.90 kB │ gzip:  9.05 kB
+dist/client/kronshteyn-dlya-televizora-32-dyuyma/index.html                                        46.92 kB │ gzip:  7.31 kB
+dist/client/modeli/tcl-43s5k/index.html                                                            46.92 kB │ gzip:  9.46 kB
+dist/client/modeli/harper-32r670t/index.html                                                       47.03 kB │ gzip:  9.02 kB
+dist/client/modeli/tcl-50v6c/index.html                                                            47.08 kB │ gzip:  8.91 kB
+dist/client/modeli/starwind-sw-led32bg200/index.html                                               47.09 kB │ gzip:  8.99 kB
+dist/client/modeli/lg-50qned80b6b/index.html                                                       47.10 kB │ gzip:  8.84 kB
+dist/client/modeli/lg-50qned85b6a/index.html                                                       47.11 kB │ gzip:  8.83 kB
+dist/client/modeli/samsung-ue32h5000fuxru/index.html                                               47.11 kB │ gzip:  8.95 kB
+dist/client/modeli/tuvio-td32hfbch12/index.html                                                    47.12 kB │ gzip:  9.05 kB
+dist/client/modeli/lg-50qned82a6b/index.html                                                       47.16 kB │ gzip:  8.85 kB
+dist/client/modeli/tcl-v6c/index.html                                                              47.16 kB │ gzip:  8.94 kB
+dist/client/modeli/lg-50nano81a6a/index.html                                                       47.22 kB │ gzip:  8.86 kB
+dist/client/modeli/hyundai-h-led32bs5003/index.html                                                47.26 kB │ gzip:  9.04 kB
+dist/client/modeli/hyundai-h-led32bs5002/index.html                                                47.27 kB │ gzip:  9.06 kB
+dist/client/modeli/hyundai-h-led40bs5011/index.html                                                47.27 kB │ gzip:  8.89 kB
+dist/client/modeli/xiaomi-tv-a-55-2025/index.html                                                  47.32 kB │ gzip:  8.89 kB
+dist/client/modeli/samsung-qe55q7f5auxru/index.html                                                47.33 kB │ gzip:  8.87 kB
+dist/client/modeli/lg-43qned82a6b/index.html                                                       47.33 kB │ gzip:  8.85 kB
+dist/client/modeli/lg-43qned80a6a/index.html                                                       47.33 kB │ gzip:  8.84 kB
+dist/client/modeli/samsung-qe55q70dauxru/index.html                                                47.35 kB │ gzip:  8.91 kB
+dist/client/modeli/lg-43qned80b6b/index.html                                                       47.35 kB │ gzip:  8.88 kB
+dist/client/modeli/samsung-qe55q7faauxru/index.html                                                47.38 kB │ gzip:  8.90 kB
+dist/client/modeli/tuvio-td43ufbhh13/index.html                                                    47.38 kB │ gzip:  8.92 kB
+dist/client/modeli/lg-43qned70a6a/index.html                                                       47.40 kB │ gzip:  8.90 kB
+dist/client/modeli/xiaomi-tv-a-pro-55-2025/index.html                                              47.43 kB │ gzip:  8.88 kB
+dist/client/modeli/sber-sdx-43f3000dba/index.html                                                  47.49 kB │ gzip:  8.94 kB
+dist/client/modeli/samsung-qe50qn90fauxru/index.html                                               47.52 kB │ gzip:  8.92 kB
+dist/client/modeli/samsung-qe55qn70fauxru/index.html                                               47.53 kB │ gzip:  8.94 kB
+dist/client/modeli/starwind-sw-led40sg300/index.html                                               47.55 kB │ gzip:  9.00 kB
+dist/client/modeli/hi-hx-43f01fb/index.html                                                        47.55 kB │ gzip:  9.08 kB
+dist/client/modeli/samsung-qe43qn90fauxru/index.html                                               47.70 kB │ gzip:  8.91 kB
+dist/client/modeli/samsung-ue55du7100uxru/index.html                                               47.70 kB │ gzip:  9.00 kB
+dist/client/modeli/samsung-qe43qef1auxru/index.html                                                47.72 kB │ gzip:  8.95 kB
+dist/client/modeli/samsung-ue43f6000fuxru/index.html                                               47.75 kB │ gzip:  8.94 kB
+dist/client/modeli/harper-43f670ts/index.html                                                      47.79 kB │ gzip:  9.06 kB
+dist/client/modeli/samsung-qe43q8faauxru/index.html                                                47.80 kB │ gzip:  8.96 kB
+dist/client/modeli/candy-uno-43-uhd/index.html                                                     47.98 kB │ gzip:  9.16 kB
+dist/client/modeli/tcl-65c7k/index.html                                                            48.04 kB │ gzip:  9.68 kB
+dist/client/modeli/skyline-43lst6575/index.html                                                    48.10 kB │ gzip:  9.19 kB
+dist/client/modeli/xiaomi-tv-s-pro-mini-led-55-2026/index.html                                     48.62 kB │ gzip:  9.53 kB
+dist/client/modeli/tcl-55c7k/index.html                                                            49.24 kB │ gzip:  9.73 kB
+dist/client/modeli/tcl-55c7l/index.html                                                            49.37 kB │ gzip:  9.70 kB
+dist/client/modeli/tcl-55c6k/index.html                                                            49.57 kB │ gzip:  9.83 kB
+dist/client/modeli/tuvio-td55ufbth51/index.html                                                    51.00 kB │ gzip:  9.73 kB
+dist/client/modeli/xiaomi-tv-a-50-2025/index.html                                                  51.06 kB │ gzip:  9.65 kB
+dist/client/modeli/tcl-55p7k/index.html                                                            51.19 kB │ gzip: 10.17 kB
+dist/client/modeli/samsung-ue32f6000fuxru/index.html                                               52.91 kB │ gzip: 10.23 kB
+dist/client/podbor/index.html                                                                      53.07 kB │ gzip:  7.64 kB
+dist/client/modeli/samsung-ue55u8000fuxru/index.html                                               53.16 kB │ gzip: 10.13 kB
+dist/client/modeli/samsung-qe50q7faauxru/index.html                                                53.20 kB │ gzip: 10.13 kB
+dist/client/modeli/samsung-ue50u8000fuxru/index.html                                               53.25 kB │ gzip: 10.14 kB
+dist/client/modeli/samsung-qe43q7faauxru/index.html                                                53.48 kB │ gzip: 10.18 kB
+dist/client/modeli/samsung-ue43u8000fuxru/index.html                                               53.51 kB │ gzip: 10.18 kB
+dist/client/modeli/tcl-55p6k/index.html                                                            54.42 kB │ gzip: 10.40 kB
+dist/client/vesa/200x200/index.html                                                                56.07 kB │ gzip:  8.52 kB
+dist/client/spravochnik/index.html                                                                 56.22 kB │ gzip:  6.95 kB
+dist/client/vinty-dlya-krepleniya-televizora/index.html                                            69.14 kB │ gzip: 11.75 kB
+dist/client/kronshteyny/itech-ptrb460ln/index.html                                                 96.09 kB │ gzip: 10.82 kB
+dist/client/kronshteyny/holder-lcds-5038/index.html                                                97.58 kB │ gzip: 10.50 kB
+dist/client/kronshteyny/holder-lcds-5036/index.html                                                98.69 kB │ gzip: 11.00 kB
+dist/client/kronshteyny/onkron-tm4/index.html                                                     101.17 kB │ gzip: 10.61 kB
+dist/client/kronshteyny/onkron-m4s/index.html                                                     101.42 kB │ gzip: 10.64 kB
+dist/client/kronshteyny/kromax-corbel-4/index.html                                                106.64 kB │ gzip: 11.25 kB
+dist/client/kronshteyny/holder-lcds-5066/index.html                                               116.73 kB │ gzip: 11.74 kB
+dist/client/kronshteyny/itech-plb440nt/index.html                                                 117.90 kB │ gzip: 12.06 kB
+dist/client/kronshteyny/godoo-gd77-696/index.html                                                 120.19 kB │ gzip: 11.22 kB
+dist/client/kronshteyny/itech-plb640nt/index.html                                                 121.93 kB │ gzip: 11.70 kB
+dist/client/kronshteyny/holder-lcds-5010/index.html                                               127.15 kB │ gzip: 11.67 kB
+dist/client/kronshteyny/kromax-atlantis-65/index.html                                             130.63 kB │ gzip: 11.68 kB
+dist/client/modeli/index.html                                                                     136.53 kB │ gzip: 10.22 kB
+dist/client/kronshteyny/kromax-ideal-4w-new/index.html                                            136.57 kB │ gzip: 12.04 kB
+dist/client/kronshteyny/itech-slt-440/index.html                                                  136.64 kB │ gzip: 12.00 kB
+dist/client/kronshteyny/kromax-flat-4/index.html                                                  137.50 kB │ gzip: 12.51 kB
+dist/client/kronshteyny/kromax-atlantis-45/index.html                                             141.04 kB │ gzip: 12.72 kB
+dist/client/kronshteyny/kromax-dix-18/index.html                                                  141.49 kB │ gzip: 12.69 kB
+dist/client/kronshteyny/itech-ptrb440ln/index.html                                                142.61 kB │ gzip: 13.23 kB
+dist/client/kronshteyny/itech-slt-460/index.html                                                  146.38 kB │ gzip: 13.22 kB
+dist/client/kronshteyny/itech-p4f/index.html                                                      146.42 kB │ gzip: 12.19 kB
+dist/client/kronshteyny/onkron-tm5-bw/index.html                                                  151.97 kB │ gzip: 13.47 kB
+dist/client/kronshteyny/onkron-nn24/index.html                                                    152.01 kB │ gzip: 13.42 kB
+dist/client/kronshteyny/onkron-uf4/index.html                                                     155.64 kB │ gzip: 12.52 kB
+dist/client/kronshteyny/onkron-m6l/index.html                                                     156.03 kB │ gzip: 12.77 kB
+dist/client/kronshteyny/onkron-tm6/index.html                                                     159.12 kB │ gzip: 13.70 kB
+dist/client/vesa/index.html                                                                       204.67 kB │ gzip: 16.46 kB
+dist/client/assets/main-DOfweUKl.css                                                               72.04 kB │ gzip: 20.40 kB
+dist/client/assets/russianGrammar-CQiNQhhd.js                                                       0.12 kB │ gzip:  0.13 kB
+dist/client/assets/HomeSearchIsland-XSeO1ijY.js                                                     0.39 kB │ gzip:  0.28 kB
+dist/client/assets/Brand-CCElLB7G.js                                                                0.51 kB │ gzip:  0.38 kB
+dist/client/assets/IconBase.es-D8K1WJPs.js                                                          0.58 kB │ gzip:  0.39 kB
+dist/client/assets/Breadcrumbs-C0u_hjUr.js                                                          0.60 kB │ gzip:  0.41 kB
+dist/client/assets/modelSearch-DK_2lBq1.js                                                          0.74 kB │ gzip:  0.50 kB
+dist/client/assets/CatalogBrandGroups-Czxv5wqS.js                                                   0.90 kB │ gzip:  0.51 kB
+dist/client/assets/CommercialProfile-DjW4LW5m.js                                                    1.45 kB │ gzip:  0.70 kB
+dist/client/assets/Check.es-BG5oKA7s.js                                                             1.57 kB │ gzip:  0.58 kB
+dist/client/assets/ModelOffersIsland-COyIhMmo.js                                                    1.63 kB │ gzip:  0.81 kB
+dist/client/assets/catalogGroups-CQk8yuYH.js                                                        1.64 kB │ gzip:  0.74 kB
+dist/client/assets/MetrikaConsent-MmJ1AN7i.js                                                       1.68 kB │ gzip:  0.93 kB
+dist/client/assets/X.es-BdY5_rlu.js                                                                 1.96 kB │ gzip:  0.66 kB
+dist/client/assets/GuideIndexPage-CA0dnISZ.js                                                       2.21 kB │ gzip:  1.14 kB
+dist/client/assets/TelevisionSimple.es-BpF5ldoR.js                                                  2.23 kB │ gzip:  0.74 kB
+dist/client/assets/affiliateOffer-DPdIfWbo.js                                                       2.54 kB │ gzip:  1.23 kB
+dist/client/assets/TrustMark-DdeK3Tsv.js                                                            2.72 kB │ gzip:  1.13 kB
+dist/client/assets/Printer.es-CBvuGXqW.js                                                           3.00 kB │ gzip:  1.08 kB
+dist/client/assets/AffiliateOffer-C1IYNV64.js                                                       3.42 kB │ gzip:  1.43 kB
+dist/client/assets/TrustPage-C9ggAHgs.js                                                            3.89 kB │ gzip:  1.67 kB
+dist/client/assets/SiteHeader-Cvaw5kjb.js                                                           4.16 kB │ gzip:  1.79 kB
+dist/client/assets/ShieldCheck.es-jmJPxSYi.js                                                       4.86 kB │ gzip:  1.52 kB
+dist/client/assets/WarningCircle.es-HayGtpmS.js                                                     7.10 kB │ gzip:  1.84 kB
+dist/client/assets/CatalogIndexPage-BTmM2LxB.js                                                     7.10 kB │ gzip:  2.62 kB
+dist/client/assets/ModelSearch-BPoexqdH.js                                                          7.49 kB │ gzip:  3.11 kB
+dist/client/assets/editorialPolicy-B3axFbOo.js                                                     11.20 kB │ gzip:  4.07 kB
+dist/client/assets/ObservedModelPage-CWV8koY8.js                                                   11.30 kB │ gzip:  3.89 kB
+dist/client/assets/ModelPage-XTQvvroj.js                                                           15.98 kB │ gzip:  5.17 kB
+dist/client/assets/seoPages-qXhxu8vz.js                                                            18.89 kB │ gzip:  4.90 kB
+dist/client/assets/ModelFacts-Cg9a_9Ob.js                                                          20.09 kB │ gzip:  5.28 kB
+dist/client/assets/MountPage-BwJIZ43x.js                                                           20.71 kB │ gzip:  6.21 kB
+dist/client/assets/HomePage-VMU9z_mA.js                                                            21.22 kB │ gzip:  6.07 kB
+dist/client/assets/catalog-Djmr6YsR.js                                                             21.80 kB │ gzip:  7.30 kB
+dist/client/assets/WallMountScrews-1JM1axt6.js                                                     32.33 kB │ gzip:  9.44 kB
+dist/client/assets/App-CLl5gS7D.js                                                                 37.24 kB │ gzip: 10.92 kB
+dist/client/assets/GuidedSelectionPage-DmpligTg.js                                                104.29 kB │ gzip: 27.91 kB
+dist/client/assets/main-Cnln_ncH.js                                                               232.09 kB │ gzip: 72.52 kB
+dist/client/assets/SeoPage-CtNaSE8l.js                                                            366.39 kB │ gzip: 86.08 kB
+✓ built in 13.08s
+Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json
+
+> krepitv@0.1.0 build:publish
+> node scripts/copy-dist.mjs
+
+Статический релиз подготовлен в docs/
+
+> krepitv@0.1.0 verify
+> cargo fmt --all --check && cargo test --workspace --locked && npm run verify:wasm-repro && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run validate:installation-kit-data && npm run catalog:verify && npm run catalog:test && npm run qa:test && npm run dataset:check && node scripts/verify.mjs && npm run catalog:audit-model-pages && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running unittests src/lib.rs (target/debug/deps/krepitv_engine-217cfc0764a66a11)
+
+running 118 tests
+test connection_helper::tests::unknown_hardware_and_online_content_never_get_a_ready_result ... ok
+test connection_helper::tests::every_valid_combination_is_controlled_and_has_a_next_step ... ok
+test installation_kit::tests::sourced_height_map_is_verified_without_wall_drill_coordinates ... ok
+test installation_kit::tests::measured_rearward_connector_that_fits_is_verified ... ok
+test installation_kit::tests::connector_clearance_requires_a_selected_connection_kind ... ok
+test installation_kit::tests::incompatible_pair_blocks_the_plan ... ok
+test installation_kit::tests::rearward_port_without_measurement_requires_a_check_and_hides_market ... ok
+test installation_kit::tests::missing_port_evidence_keeps_cable_plan_needs_check ... ok
+test installation_kit::tests::rearward_connector_larger_than_wall_gap_blocks_the_plan ... ok
+test installation_kit::tests::missing_screw_passport_never_returns_a_length ... ok
+test installation_kit::tests::unknown_wall_never_returns_exact_fasteners ... ok
+test installation_kit::tests::verified_pair_keeps_seven_ordered_sections ... ok
+test installation_kit::tests::full_motion_on_drywall_without_blocking_is_blocked ... ok
+test tests::accepts_exact_vesa_with_load_reserve ... ok
+test tests::any_mechanism_reports_three_real_catalog_checks ... ok
+test tests::inverse_viewing_calculations_are_consistent ... ok
+test tests::keeps_screen_clear_of_furniture ... ok
+test tests::marks_out_of_range_diagonal_as_conditional_fit ... ok
+test tests::mounting_map_respects_signed_offsets ... ok
+test tests::calculates_distance_from_diagonal_and_horizontal_angle ... ok
+test tests::mounting_map_calculates_vesa_and_plate_reference_heights ... ok
+test tests::calculates_ninety_degree_extension_for_centered_vesa ... ok
+test tests::mounting_map_rejects_impossible_or_non_finite_inputs ... ok
+test tests::rejects_invalid_turn_clearance_inputs ... ok
+test tests::mounting_map_wasm_json_has_stable_shape_and_errors ... ok
+test tests::phone_tv_connection_never_infers_video_from_usb_c_alone ... ok
+test tests::phone_tv_connection_rejects_impossible_platform_connector_pairs ... ok
+test tests::phone_tv_connection_wasm_json_has_stable_shape_and_error_only_failure ... ok
+test tests::rejects_non_finite_and_out_of_range_viewing_inputs ... ok
+test tests::phone_tv_connection_matrix_is_conservative_and_deterministic ... ok
+test tests::phone_tv_connection_sources_match_the_selected_tv_family ... ok
+test tests::rejects_wrong_vesa ... ok
+test tests::reports_maximum_angle_and_deficit_for_short_mount ... ok
+test tests::tilt_angle_plan_rejects_invalid_values_and_floor_conflict ... ok
+test tests::tilt_angle_plan_calculates_downward_range_and_screen_bounds ... ok
+test tests::tilt_angle_plan_uses_display_precision_for_boundary_verdict ... ok
+test tests::tilt_angle_plan_reports_deficit_and_upward_direction ... ok
+test tests::turn_clearance_wasm_json_has_stable_shape_and_errors ... ok
+test tests::tilt_angle_wasm_json_has_stable_shape_and_errors ... ok
+test installation_kit::tests::json_contract_is_stable_and_contains_no_non_finite_values ... ok
+test tests::tv_diagnostics_cohort_4_rejects_invalid_closed_values ... ok
+test tests::tv_diagnostics_cohort_4_external_paths_stay_outside_the_tv ... ok
+test tests::tv_diagnostics_cohort_4_needs_check_paths_fail_closed ... ok
+test tests::tv_diagnostics_task_body_button_steps_fail_closed_for_wall_mounts ... ok
+test tests::tv_diagnostics_task_is_deterministic_and_wasm_safe ... ok
+test tests::tv_diagnostics_task_rejects_invalid_closed_enum_values ... ok
+test tests::tv_dimensions_niche_mode_selects_largest_fitting_standard_size ... ok
+test tests::tv_dimensions_diagonal_mode_uses_exact_16_by_9_geometry ... ok
+test tests::tv_diagnostics_task_unknown_observations_fail_closed ... ok
+test tests::tv_diagnostics_task_main_branches_are_explicit ... ok
+test tests::tv_dimensions_measured_mode_preserves_input_rectangle ... ok
+test tests::tv_dimensions_niche_checks_exact_case_fit_and_deltas ... ok
+test tests::tv_dimensions_rejects_invalid_modes_ranges_and_partial_pairs ... ok
+test tests::tv_no_signal_cable_box_requires_visible_receiver_menu_for_provider_path ... ok
+test tests::tv_dimensions_wasm_json_has_stable_shape_and_errors ... ok
+test tests::tv_no_signal_hdmi_orders_input_power_and_direct_isolation ... ok
+test tests::tv_diagnostics_cohort_4_success_paths_are_bounded_and_source_backed ... ok
+test tests::tv_no_signal_terrestrial_uses_safe_dtv_checks ... ok
+test tests::tv_no_signal_unknown_and_missing_tv_menu_fail_closed ... ok
+test tests::tv_traffic_task_digital_channels_separates_tuner_and_provider ... ok
+test tests::tv_traffic_task_laptop_hdmi_and_wireless_are_distinct ... ok
+test tests::tv_diagnostics_cohort_4_service_boundaries_name_no_hardware_cause ... ok
+test tests::tv_no_signal_satellite_stops_before_roof_or_dish_work ... ok
+test tests::tv_no_signal_wasm_json_has_stable_shape_and_error_only_failure ... ok
+test tests::tv_traffic_task_usb_c_fails_closed_without_model_support ... ok
+test tests::tv_utility_cohort_5_rejects_every_invalid_closed_field ... ok
+test tests::tv_traffic_task_picture_plan_is_reversible_and_non_numeric ... ok
+test tests::tv_utility_cohort_5_is_deterministic_and_wasm_shape_stays_stable ... ok
+test tests::tv_traffic_task_rejects_unknown_values_and_wasm_shape_is_stable ... ok
+test tests::tv_diagnostics_task_steps_have_bounded_source_shape ... ok
+test tests::tv_utility_cohort_6_energy_boundaries_and_optional_tariff_are_explicit ... ok
+test tests::tv_utility_cohort_5_unknown_and_contradictory_answers_fail_closed ... ok
+test tests::tv_utility_cohort_6_energy_formula_and_assumptions_are_exact ... ok
+test tests::tv_utility_cohort_6_energy_rejects_non_finite_and_out_of_range_values ... ok
+test tests::tv_utility_cohort_6_rejects_every_invalid_closed_field ... ok
+test tests::tv_utility_cohort_6_speaker_and_headphone_success_paths_are_explicit ... ok
+test tests::tv_utility_cohort_6_unsafe_is_always_the_first_boundary ... ok
+test tests::tv_utility_cohort_6_energy_json_shape_is_stable_and_deterministic ... ok
+test tests::tv_utility_cohort_7_rejects_invalid_closed_enum_values ... ok
+test tests::tv_utility_cohort_5_success_paths_are_bounded_and_source_backed ... ok
+test tests::tv_utility_cohort_5_safety_boundaries_stop_before_action ... ok
+test tests::tv_utility_cohort_7_unsafe_and_running_updates_take_priority ... ok
+test tests::tv_utility_cohort_6_unknown_no_and_mismatch_fail_closed ... ok
+test tests::tv_zone_socket_plan_confirms_clear_hidden_block ... ok
+test tests::tv_zone_socket_plan_finds_shortest_shift_around_plate ... ok
+test tests::tv_utility_cohort_7_unknown_and_unconfirmed_inputs_fail_closed ... ok
+test tests::tv_zone_socket_plan_rejects_invalid_geometry_and_modules ... ok
+test tests::tv_zone_socket_plan_rejects_plate_or_screen_outside_physical_bounds ... ok
+test tests::tv_zone_socket_plan_reports_depth_shortage_and_visibility ... ok
+test tests::vesa_match_ignores_unrelated_dimensions_and_dimension_triples ... ok
+test tests::tv_zone_socket_wasm_json_has_stable_shape_and_errors ... ok
+test tests::vesa_match_keeps_axes_order_and_reports_mismatch ... ok
+test tests::vesa_match_parses_explicit_pairs_symbols_and_units ... ok
+test tests::vesa_match_reports_near_measurement_as_candidate ... ok
+test tests::vesa_match_rejects_maximum_only_claim ... ok
+test tests::vesa_offset_uses_the_longer_side_for_either_direction ... ok
+test tests::vesa_screw_length_plan_adds_confirmed_range_without_selecting_a_size ... ok
+test tests::vesa_match_wasm_json_has_stable_shape_and_errors ... ok
+test tests::vesa_screw_length_plan_rejects_negative_measurements ... ok
+test tests::vesa_screw_length_plan_rejects_non_finite_and_out_of_range_values ... ok
+test tests::vesa_screw_length_plan_rejects_reversed_passport_range ... ok
+test tests::tv_utility_cohort_7_wasm_json_is_deterministic_and_fail_closed ... ok
+test tests::vesa_screw_length_plan_requires_both_passport_bounds ... ok
+test tests::vesa_screw_length_wasm_json_has_stable_shape_and_errors ... ok
+test tests::tv_utility_cohort_6_passive_speakers_require_powered_external_path ... ok
+test tests::viewing_json_reports_errors_without_panicking ... ok
+test tests::tv_utility_cohort_7_success_paths_require_every_confirmation ... ok
+test tests::wall_scene_exact_dimensions_are_authoritative ... ok
+test tests::wall_scene_clamps_requested_center_inside_wall ... ok
+test tests::wall_scene_rejects_partial_or_impossible_geometry ... ok
+test tests::wall_scene_manual_mode_uses_16_by_9_geometry ... ok
+test tests::wall_scene_reports_furniture_overlap ... ok
+test tests::zero_angle_only_needs_the_requested_clearance ... ok
+test tests::wasm_json_response_has_stable_shape ... ok
+test tests::wall_scene_wasm_json_has_stable_shape_and_errors ... ok
+test tests::tv_utility_cohort_6_allowed_value_matrices_are_total_and_bounded ... ok
+test tests::tv_utility_cohort_5_allowed_value_matrix_is_total_and_bounded ... ok
+test tests::tv_utility_cohort_7_allowed_matrices_are_bounded_and_source_backed ... ok
+
+test result: ok. 118 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/main.rs (target/debug/deps/krepitv_sitegen-36faa98e847eefc8)
+
+running 61 tests
+test tests::catalog_groups_every_link_by_brand_under_native_details ... ok
+test tests::brand_and_diagonal_pages_have_reciprocal_static_links ... ok
+test tests::escapes_html_attributes ... ok
+test tests::escapes_script_breakout_in_json_ld ... ok
+test tests::dataset_json_ld_describes_two_distinct_downloadable_datasets ... ok
+test tests::every_html_shell_has_a_sitewide_affiliate_slot ... ok
+test tests::affiliate_offer_is_fresh_for_48_hours_and_static_html_has_a_direct_cta ... ok
+test tests::contacts_expose_a_real_public_channel_without_requesting_personal_data ... ok
+test tests::exact_screw_claim_parser_ignores_vesa_and_keeps_shorthand_lengths ... ok
+test tests::exact_models_keep_source_backed_wall_mount_screw_passports ... ok
+test tests::demand_backed_wave_two_pages_are_substantial_and_indexable ... ok
+test tests::keeps_market_verification_out_of_search_descriptions ... ok
+test tests::demand_backed_model_cohort_prerenders_source_fact_and_limitations ... ok
+test tests::home_prerenders_stable_search_island_with_a_no_javascript_fallback ... ok
+test tests::every_market_observation_resolves_without_invented_mount_facts ... ok
+test tests::measured_page_update_date_overrides_cohort_fallback ... ok
+test tests::measured_tcl_55c7k_snippet_is_model_first_and_fact_consistent ... ok
+test tests::measured_xiaomi_a_pro_32_2026_profile_is_source_bounded ... ok
+test tests::model_offer_shards_use_only_safe_brand_keys ... ok
+test tests::matcher_starts_with_brand_then_model_without_phantom_selection ... ok
+test tests::model_catalog_explains_compatibility_before_listing_models ... ok
+test tests::measured_xiaomi_a_pro_65_2025_profile_is_static_and_fact_consistent ... ok
+test tests::mounting_height_page_prerenders_room_scenarios_and_reference_geometry ... ok
+test tests::mounts_catalog_links_to_existing_brand_comparisons ... ok
+test tests::home_prioritizes_one_evidence_backed_model_without_listing_every_model ... ok
+test tests::russian_404_is_useful_noindex_and_keeps_required_routes ... ok
+test tests::russian_plural_labels_cover_teen_exceptions ... ok
+test tests::screw_length_cannot_mask_a_wrong_compatibility_count ... ok
+test tests::mounting_map_page_is_indexable_and_sets_safe_boundaries ... ok
+test tests::phone_to_tv_is_one_static_first_canonical_without_market_links ... ok
+test tests::mount_page_places_fresh_direct_affiliate_cta_before_compatible_televisions ... ok
+test tests::seo_editorial_accountability_prefers_the_page_modified_date ... ok
+test tests::static_navigation_links_the_primary_no_signal_traffic_wedge ... ok
+test tests::seo_taxonomy_distinguishes_setup_diagnostics_and_connections ... ok
+test tests::trust_pages_and_editorial_policy_are_valid ... ok
+test tests::search_signal_model_profiles_are_specific_source_bounded_and_complete ... ok
+test tests::september_seo_sprint_has_ten_distinct_source_backed_tools ... ok
+test tests::tilt_mount_page_is_indexable_and_keeps_geometric_boundary ... ok
+test tests::tv_diagnostic_pages_are_unique_static_first_and_stop_before_hardware_diagnosis ... ok
+test tests::tv_dimensions_page_is_one_canonical_with_static_reference_answer ... ok
+test tests::tv_diagnostics_cohort_4_is_unique_static_first_source_backed_and_non_commercial ... ok
+test tests::tv_no_signal_is_one_static_first_canonical_without_market_links ... ok
+test tests::tv_utility_cohort_5_is_unique_static_first_source_backed_and_non_commercial ... ok
+test tests::tv_traffic_cohort_two_has_three_static_first_canonicals_without_market_links ... ok
+test tests::uses_explicit_indexability_policy ... ok
+test tests::validates_real_calendar_dates ... ok
+test tests::tv_utility_cohort_6_is_allowlisted_static_first_source_backed_and_non_commercial ... ok
+test tests::tv_zone_socket_page_is_indexable_and_keeps_electrical_boundary ... ok
+test tests::tv_utility_cohort_7_is_allowlisted_static_first_source_backed_and_non_commercial ... ok
+test tests::vesa_page_is_indexable_and_keeps_compatibility_boundary ... ok
+test tests::wall_mount_master_page_is_indexable_and_has_its_own_calculator_copy ... ok
+test tests::editorial_accountability_is_prerendered_for_all_content_families ... ok
+test tests::wall_planner_is_one_indexable_static_first_canonical ... ok
+test tests::wall_mount_master_page_links_to_narrow_guides_and_back ... ok
+test tests::every_mount_page_keeps_unverified_market_search_out_of_ssr ... ok
+test tests::every_mount_gets_an_honest_responsive_technical_scheme_in_ssr ... ok
+test tests::seo_catalog_renders_verified_models_mounts_and_case_insensitive_brand ... ok
+test tests::demand_backed_commercial_profiles_render_once_on_existing_entity_pages ... ok
+test tests::vesa_lookup_prerenders_all_models_sources_and_conflicts ... ok
+test tests::verified_model_pages_link_to_the_single_installation_kit_canonical ... ok
+test tests::compatibility_graph_contains_only_useful_edges_and_mount_pages_are_reciprocal ... ok
+
+test result: ok. 61 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.63s
+
+   Doc-tests krepitv_engine
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> krepitv@0.1.0 verify:wasm-repro
+> node scripts/verify-wasm-reproducibility.mjs
+
+[INFO]: 🎯  Checking for the Wasm target...
+[INFO]: 🌀  Compiling to Wasm...
+    Finished `release` profile [optimized] target(s) in 0.11s
+[INFO]: ⬇️  Installing wasm-bindgen...
+[INFO]: ✨   Done in 0.58s
+[INFO]: 📦   Your wasm pkg is ready to publish at /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/web/public/pkg.
+[WARN]: ⚠️   There's a newer version of wasm-pack available, the new version is: 0.15.0, you are using: 0.13.1. To update, navigate to: https://rustwasm.github.io/wasm-pack/installer/
+[INFO]: 🎯  Checking for the Wasm target...
+[INFO]: 🌀  Compiling to Wasm...
+    Finished `release` profile [optimized] target(s) in 0.04s
+[INFO]: ⬇️  Installing wasm-bindgen...
+[INFO]: ✨   Done in 0.67s
+[INFO]: 📦   Your wasm pkg is ready to publish at /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/web/public/pkg.
+[WARN]: ⚠️   There's a newer version of wasm-pack available, the new version is: 0.15.0, you are using: 0.13.1. To update, navigate to: https://rustwasm.github.io/wasm-pack/installer/
+WASM package воспроизводим при повторной сборке
+
+> web@0.0.0 check:ru
+> node scripts/check-russian-ui.mjs
+
+Публичные исходники проверены: служебные английские строки не найдены
+
+> web@0.0.0 test:sites
+> node --test --test-concurrency=1 --test-force-exit tests/*.test.mjs
+
+✔ единый трекер считает SSR-ссылку один раз и не дублирует показ в сессии (3.323958ms)
+✔ уведомление содержит точную сноску, политику, подтверждение и отказ (1.704792ms)
+✔ analytics notice has no loading state (0.189709ms)
+✔ analytics notice has no empty state (0.088ms)
+✔ analytics notice has no error state (0.108333ms)
+✔ analytics notice has no success state (0.095916ms)
+✔ каждый production page-kind заранее загружает только свой интерактивный модуль (11755.232667ms)
+✔ брендовый подбор оставляет только точные модели бренда и полезен без ссылки Маркета (7816.201292ms)
+✔ каталог группируется по брендам без изменения порядка (2.374708ms)
+✔ вложенная модель группируется через переданный селектор (0.159166ms)
+✔ страница доверия отрисовывается сразу и не загружает каталог (4.167167ms)
+✔ страница 404 сохраняет полезный статический DOM после загрузки JavaScript (0.313792ms)
+✔ главная усиливает только поисковый island и не заменяет корневой SSR (0.235708ms)
+✔ модель усиливает только блок предложений и сохраняет паспортный SSR (0.369333ms)
+✔ на остальных страницах статический DOM сохраняется до готовности каталога (0.334042ms)
+✔ ошибка каталога оставляет статический DOM и не запускает React (0.327709ms)
+✔ строгая схема очищает текст и сохраняет безопасный профиль (1.770333ms)
+✔ профиль может иметь собственную дату, но не новее даты набора (0.528791ms)
+✔ публичный набор коммерческих профилей проходит клиентскую схему (6.593417ms)
+✔ валидатор отклоняет массив вместо версионированного объекта (0.152834ms)
+✔ валидатор отклоняет несовпадающий путь и повтор сущности (0.199917ms)
+✔ валидатор не пропускает денежные значения и неполный FAQ (0.155458ms)
+✔ селектор требует точного типа, id и канонического пути (0.103459ms)
+✔ catalog loader прокидывает проверенные профили в состояние (3.966375ms)
+✔ компонент имеет стабильный marker, FAQ под катом и стоит перед предложением (2.154458ms)
+✔ три разных помощника имеют каноникал, SSR-таблицу, источники и контролируемые поля (2.291584ms)
+✔ два VESA-интента сохраняют разные данные, дату и каталог (0.190584ms)
+✔ основная и hover-кнопки сохраняют контраст белого текста не ниже WCAG AA (1.146625ms)
+(node:47373) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ страница кронштейна показывает автора, основание, дату и закрытый физический тест до Маркета (10296.0175ms)
+✔ редакционный evidence builder закрывается на неизвестном типе и неверной дате (204.848292ms)
+✔ единица измерения не остаётся отдельной строкой (1.192875ms)
+✔ capture helper opens step 5 before waiting for compatibility states (5.384958ms)
+✔ guided selection radio controls expose stable form values (0.801167ms)
+✔ mount choice exposes stable loading, error, and success states (0.471917ms)
+✔ capture helper supports deterministic cable verdicts and print media (0.766292ms)
+✔ capture helper accepts a model deep-link that starts directly on step 2 (0.505583ms)
+✔ марки сортируются по числу моделей, а список моделей остаётся внутри марки (8837.891167ms)
+(node:47542) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ свежий подбор начинается с марки и не подставляет случайную модель (501.848833ms)
+✔ встроенный подбор отдаёт только интерактивную оболочку без вложенного main (418.173541ms)
+✔ точная deep link выбирает марку и оставляет подтверждение модели (438.743917ms)
+✔ варианты стены имеют крупную нативную radio-семантику с доступным именем (423.73025ms)
+✔ переход между шагами возвращает мобильный экран и фокус к новому заголовку (406.360375ms)
+✔ готовый новый расчёт переводит пользователя к результату ровно один раз (393.245ms)
+✔ результат подбора сначала показывает три проверенных варианта, остальные — по брендам под катом (8319.923417ms)
+✔ монтажный комплект показывает семь секций и не продаёт заблокированный результат (423.034959ms)
+✔ проверенный комплект показывает ровно одну прямую ссылку точного кронштейна (320.596458ms)
+✔ монтажные поля называют единицы измерения ровно один раз (54.101166ms)
+✔ шестой шаг раскрывает безопасную проверку самого тесного штекера (60.203375ms)
+✔ схема высоты доступно показывает три отметки и помещается в responsive viewBox (5.634833ms)
+✔ схема не строится по неполным или противоречивым высотам (0.196292ms)
+✔ результат высоты ведёт к монтажной карте и точной модели без ссылки на Маркет (10.385792ms)
+✔ справочная таблица высоты использует только геометрию 16:9 и явный условный центр (0.352083ms)
+✔ главная сохраняет один доказанный модельный spotlight до и после гидратации (6.365125ms)
+✔ главная загружает только компактный поисковый индекс (2.77975ms)
+✔ главная оставляет SSR при повреждённом поисковом индексе (0.856625ms)
+✔ hub loader принимает только свежий same-origin snapshot (4.050875ms)
+✔ catalog загружает product и hub affiliate snapshots в разные поля (3.783417ms)
+✔ паспортные модели и кронштейны публикуют отдельную crawlable техническую схему (150.43175ms)
+✔ image sitemap обнаруживает каждую техническую схему, а главная описывает реальную сущность сайта (3.071708ms)
+✔ схемы отражают фактическую пропорцию VESA и тип механизма (62.913459ms)
+✔ the browser adapter emits the exact Rust input contract (2.443208ms)
+✔ missing secondary evidence stays null instead of being guessed (0.154916ms)
+✔ invalid port evidence cannot enter the Rust model contract (0.1605ms)
+✔ an explicit direction is recorded as a user fact instead of a passport guess (0.11725ms)
+✔ engine response preserves section statuses and error envelopes fail closed (0.618375ms)
+✔ fresh and model-deep-link states contain only allowed initial data (2.361416ms)
+✔ the reducer advances through six steps only after valid answers (0.545541ms)
+✔ connector clearance is controlled, ephemeral and reset with its dependencies (0.210708ms)
+✔ changing an upstream answer clears every dependent answer (0.278959ms)
+✔ back and guarded step navigation never create an impossible state (0.137583ms)
+(node:47676) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ первый шаг объясняет полный комплект в инженерной оболочке без коммерческих обещаний (8116.266084ms)
+✔ сводка использует только готовые статусы и скрывает CTA при кабельном конфликте (500.975625ms)
+✔ двадцать интерактивных проверок привязаны к отдельным существующим страницам с источниками (1.266458ms)
+✔ каждый инструмент измеряется только контролируемым ID без пользовательского ввода (1.606667ms)
+✔ страница кронштейна не конкурирует с партнёрным CTA обычной ссылкой Маркета (3.496291ms)
+✔ решение об аналитике сохраняется только из разрешённого набора (1.120708ms)
+✔ первый визит автоматически включает аналитику, но сохранённый отказ имеет приоритет (0.32475ms)
+✔ закрытие сноски хранится отдельно от решения об аналитике (0.203292ms)
+✔ согласие передаётся одним локальным событием без пользовательских данных (1.149792ms)
+✔ сохранённый отказ не грузит Метрику, последующее включение не воспроизводит прошлые события (2.140833ms)
+✔ без сохранённого решения Метрика включается автоматически (0.12075ms)
+✔ сохранённое согласие включает Метрику сразу и только один раз (0.095083ms)
+✔ отказ после автоматического включения прекращает отправку целей (0.648792ms)
+✔ после согласия четыре ступени воронки передаются в точном порядке, прошлые события не воспроизводятся (0.624458ms)
+✔ без идентификатора Метрика не загружается и не подписывается на клики (1.094959ms)
+✔ счётчик грузится один раз и получает обезличенные цели показа и перехода (1.318208ms)
+✔ параметры цели фильтруются до безопасных технических идентификаторов (0.174333ms)
+✔ корневая SEO-страница сохраняется в обезличенном событии (0.099292ms)
+✔ событие готового результата отправляет только безопасные параметры (0.238125ms)
+✔ готовый результат считается один раз на инструмент и страницу (0.116375ms)
+✔ готовый результат не дублируется после перезагрузки в той же вкладке (0.110416ms)
+✔ начало инструмента отправляет только action, tool id и pathname (0.173958ms)
+✔ переход к карточке кронштейна передаёт только тип места ссылки (0.163709ms)
+✔ начало подбора передаёт только место CTA и безопасный pathname (0.203375ms)
+✔ цель результата не отправляется без обязательных controlled tokens (0.097791ms)
+✔ прямой вызов цели результата отбрасывает небезопасные optional-поля (0.080417ms)
+✔ действия со сводкой отправляют только три контролируемых измерения (0.182ms)
+✔ model parser возвращает только placements запрошенной модели (2.983792ms)
+✔ model parser fail-closed отклоняет коллизии и неверную привязку (0.478542ms)
+✔ model selector связывает rank с фактически совместимым кронштейном (1.109792ms)
+✔ model snapshot загружается только same-origin и фильтруется по модели (0.621333ms)
+✔ model snapshot выбирает безопасный брендовый шард до сетевого запроса (0.105167ms)
+✔ model route parser допускает только каноническую карточку (0.26925ms)
+✔ model offer island рендерит только три прямых проверяемых CTA без цены и редиректа (3914.027167ms)
+✔ если предложения устарели, выбранная модель сохраняется в пути подбора (243.94975ms)
+(node:47713) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ карточка модели выводит только три model-specific CTA, а полный список остаётся внутренним (5743.5635ms)
+✔ паспорт Hisense отличает диапазон L от полной длины и показывает конфликт VESA (263.061875ms)
+✔ пустой поиск не подставляет первую модель каталога (1.611584ms)
+✔ частичный запрос показывает варианты, но не считается выбором (0.147084ms)
+✔ точная модель находится независимо от регистра и разделителей (0.060042ms)
+✔ неизвестная модель не оставляет пользователя в тупике (3.000084ms)
+✔ поиск моделей поддерживает полный клавиатурный combobox-контракт (0.587208ms)
+✔ масса без подставки остаётся обычным паспортным фактом (0.875125ms)
+✔ более высокая масса с подставкой честно маркируется как консервативная (0.085625ms)
+✔ неизвестное основание массы не превращается в массу без подставки (0.057208ms)
+✔ detail принимает только два контролируемых места ссылки (1.459625ms)
+✔ emit отправляет только очищенный CustomEvent и безопасно обрабатывает ошибки (0.137958ms)
+✔ внутренняя ссылка считает ровно одно обычное и одно среднее нажатие (0.114583ms)
+✔ общий следующий шаг ведёт к подбору, а не прямо на Маркет (5929.577333ms)
+✔ общий CTA расположен после результата и до связанных материалов (0.915917ms)
+✔ условные совпадения не получают коммерческий переход, а мастер высоты сохраняет модель (0.687292ms)
+✔ React-схема честно показывает три типа механизма и не изображает фото товара (6.846875ms)
+✔ страница кронштейна показывает итог до предложения, а полную схему после совместимости (1.131583ms)
+✔ 133 наблюдения Маркета сведены в канонические, alias и проверенные маршруты (7.309084ms)
+(node:47740) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ страница наблюдаемой модели полезна без выдуманной совместимости и партнёрского CTA (6744.273ms)
+✔ phone-to-TV has one indexable canonical and no combinatorial pages (18.1425ms)
+✔ React wizard is local, fail-closed and emits only a controlled result (4.693958ms)
+✔ локальный WASM-загрузчик повторяет попытку без сброса выбранных значений (8.542625ms)
+✔ phone-to-TV bypasses generic catalog and affiliate placements (1.212208ms)
+✔ SSR answer survives without JavaScript and keeps commerce after the official sources (0.809917ms)
+✔ редакционная страница честно раскрывает автора, автоматизацию и границы проверки (1.252583ms)
+✔ контакты ведут в публичный канал и заранее запрещают персональные данные (0.223875ms)
+✔ политика точно описывает автоматическую аналитику, события инструментов и отказ (0.15075ms)
+✔ data-error.yml предупреждает о публичности и требует отказа от персональных данных (1.169208ms)
+✔ model-request.yml предупреждает о публичности и требует отказа от персональных данных (0.444667ms)
+✔ detail содержит только controlled tokens, pathname и bounded count (1.934084ms)
+✔ необязательные небезопасные значения удаляются (0.119334ms)
+✔ невалидные обязательные tokens запрещают detail и событие (0.132042ms)
+✔ похожее на пользовательский телефон значение не считается controlled token (0.063708ms)
+✔ emit отправляет очищенный CustomEvent (0.176167ms)
+✔ emit безопасно завершается без browser API (0.101417ms)
+✔ emit берёт только безопасный pathname из browser location (0.099167ms)
+✔ каждый калькулятор фиксирует ровно один успешный результат (5.813959ms)
+✔ каждый инструмент объявляет стабильную границу первого взаимодействия (3.598583ms)
+✔ подбор винтов фиксирует результат без модели и пользовательского ввода (0.583667ms)
+✔ согласие доступно на обычных и двух нестандартных входных страницах (0.814583ms)
+✔ монтажный комплект передаёт только контролируемые ids, статус и число секций (0.391167ms)
+✔ брендовый подбор фиксирует только тип и размер результата (0.322625ms)
+✔ мастер телефон → ТВ отправляет только контролируемый тип результата (0.362958ms)
+✔ сводка монтажного комплекта фиксирует только три явных действия без замеров (0.354584ms)
+✔ русские формы числительных работают для единиц, десятков и исключений (0.8945ms)
+✔ проверенный датасет содержит 27 паспортов винтов четырёх брендов (6.94125ms)
+✔ React-каталог держит модели под брендами и не превращается в витрину Маркета (5499.511875ms)
+✔ страница винтов объясняет диапазон полной длины без товарного округления (11.19025ms)
+✔ калькулятор показывается только для паспортного диапазона зацепления (5321.059125ms)
+✔ результат калькулятора сбрасывается при выборе другой модели (0.718417ms)
+✔ начало подбора принимает только контролируемое место и pathname (1.836625ms)
+✔ emit отправляет один очищенный CustomEvent без пользовательских полей (0.174167ms)
+✔ ссылка подбора считает обычный и средний клик без отмены навигации (0.115541ms)
+✔ commercial SEO page receives the complete verified mount catalog (1.669458ms)
+✔ extendable SEO page receives only full-motion mounts (0.095125ms)
+✔ mount brand SEO page never mixes another brand (0.112416ms)
+✔ all new mount-brand hubs use the exact catalog brand (0.152291ms)
+✔ TV brand, diagonal and VESA hubs keep distinct filters (0.124166ms)
+✔ parser возвращает отдельные свежие placement-офферы без смешивания метаданных (2.86575ms)
+✔ parser fail-closed отклоняет просрочку, неверные метаданные и коллизии (0.834ms)
+✔ селектор использует exact hub id/path, фактический каталог и rank (1.493375ms)
+✔ manifest задаёт 17 уникальных placement-ссылок и порядок шести хабов (11.443ms)
+(node:47874) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ финальный React DOM ставит короткое сравнение и три CTA раньше полного каталога (5359.754291ms)
+✔ ONKRON hub shows comparison and internal verification before Market exit (34.76225ms)
+✔ каждый индексируемый non-home URL показывает ту же навигационную цепочку, что и JSON-LD (199.737875ms)
+✔ справочник группирует все индексируемые материалы и является их реальным breadcrumb-родителем (22.858959ms)
+✔ каждое доказательное руководство имеет компактное содержание с существующими якорями (18.119ms)
+✔ React и Rust SSR используют одинаковые смысловые категории технических страниц (6.438333ms)
+✔ home features only explicitly prioritized indexable traffic tools (10.147583ms)
+✔ traffic utilities link to each other without creating diagnostic variants (0.668917ms)
+✔ home diagnostic block uses nine canonical pages without generated variants (0.130208ms)
+✔ 2026-08-10 evidence guides form a reciprocal related-link graph (1.028125ms)
+✔ сентябрьские инструменты образуют монтажный и сигнальный кластеры (0.284209ms)
+✔ treats only explicitly indexable pages as indexable (0.06175ms)
+✔ related pages exclude current and noindex pages (0.071875ms)
+✔ model context links only to existing indexable brand, diagonal and VESA hubs (0.183333ms)
+✔ model context sends exact models to the two main traffic tools (0.096166ms)
+✔ model context suppresses a single VESA hub when official sources conflict (0.134334ms)
+✔ model with an official screw passport links to the shared screw lookup (0.087375ms)
+✔ master page leads to the compatibility chain before generic calculators (0.069334ms)
+✔ mounting map leads to the geometry and compatibility chain (0.054792ms)
+✔ TV-zone socket page leads back to mounting geometry and compatibility (0.050791ms)
+✔ tilt mount page leads to height, mounting, and mechanism checks (0.055917ms)
+✔ VESA matcher stays on the VESA hub and links to measurement guidance (0.06125ms)
+✔ screw lookup leads to VESA, measurement and mounting checks (0.058041ms)
+✔ measured SEO winners and new intent tools expose truthful material-update dates (1.043125ms)
+✔ energy page answers the measured query before the calculator (0.214084ms)
+✔ subtitle and voice pages use the users' exact problem language (0.132458ms)
+✔ storage cleanup answers the measured intent with platform-specific safe routes (1.04675ms)
+✔ frozen TV page answers the no-response intent before destructive recovery (0.1875ms)
+✔ VESA table promises exact model lookup and source-backed download (0.0625ms)
+✔ post-result CTA names the model-first selection job (0.065875ms)
+✔ footer каждой React-страницы выводит безопасную прямую ссылку Маркета (3698.268708ms)
+✔ общий CTA не дублирует точное предложение модельной страницы (318.206625ms)
+✔ модель без актуального точного оффера получает один общий безопасный CTA (303.692958ms)
+✔ мобильное меню сообщает состояние и закрывается Escape с возвратом фокуса (4.664166ms)
+✔ serves existing static assets without a fallback (37.355334ms)
+✔ falls back to index.html for an unknown app route (0.914ms)
+✔ does not turn missing API or write requests into the app shell (0.442333ms)
+✔ emits the files required by Sites packaging (2.550291ms)
+✔ tool usage detail принимает только известный инструмент, действие и pathname (1.935125ms)
+✔ emit передаёт один очищенный CustomEvent без пользовательских полей (0.201459ms)
+✔ делегированный tracker считает первый клик один раз и дедуплицирует последующие события tool и path (0.253083ms)
+✔ tracker игнорирует события вне размеченных или известных инструментов (0.123416ms)
+(node:47914) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ редакция доступна из footer, а trust page показывает ответственного издателя (5712.948625ms)
+✔ три диагностических интента используют один общий мастер (7.541792ms)
+✔ закрытые варианты cohort 3 совпадают с Rust-контрактом (1.164083ms)
+✔ официальные source ids разрешаются в едином registry (2.010208ms)
+✔ normalizer fail-closed ограничивает статус, шаги и предупреждения (0.976291ms)
+✔ существующий picture-setup сохраняет пятишаговый HDR-план как документированное исключение (26.685333ms)
+✔ loading блокирует fieldset и устаревший Promise не меняет экран (1.057708ms)
+✔ default, disabled, error, retry, success и focus имеют явный UI-контракт (1.526417ms)
+✔ результат показывает один primary step и закрывает остаток под details (0.710375ms)
+✔ result_completed ограничен allowlist и не содержит ответов (0.939375ms)
+✔ диагностические страницы подавляют каталог и коммерческий CTA (8.575292ms)
+✔ общая JS-обёртка передаёт cohort 3 в WASM в фиксированном порядке (30.032042ms)
+✔ capture helper знает три задачи и bounded diagnostic states (1.291167ms)
+✔ три новых канонических интента используют общий локальный мастер (12.045584ms)
+✔ закрытые варианты совпадают с Rust-контрактом и не принимают пользовательский текст (21.678375ms)
+✔ официальные источники разрешаются в едином registry (3.3675ms)
+✔ выключение fail-closed, интернет приватен, USB не форматируется (1.032667ms)
+✔ опасные и неподтверждённые признаки не требуют второго вопроса (0.956625ms)
+✔ capture helper фиксирует danger-selected до submit и отдельный result (0.488583ms)
+✔ новые диагностические страницы не получают Market CTA (7.043292ms)
+✔ главная и related-map дают каждой странице входящую внутреннюю ссылку (23.916667ms)
+✔ общая JS-обёртка передаёт cohort 4 в WASM в фиксированном порядке (3.067708ms)
+✔ после client boot таблица, методика и мобильный поиск остаются рабочими (8390.94875ms)
+✔ canonical размеров телевизора представлен одной indexable SEO-записью (14.759375ms)
+✔ сгенерированный HTML содержит самостоятельный SSR-ответ и только семь справочных строк (19.975625ms)
+✔ SSR-страница не превращается в affiliate-каталог и оставляет общий CTA после ответа (1.550584ms)
+✔ React-инструмент показывает три режима без длинного открытого списка (7702.770083ms)
+✔ публичные DOM-маркеры результата покрывают все три режима и exact-model state (0.885292ms)
+✔ JS-wrapper вызывает Rust tv_dimensions_plan_json и пробрасывает его ошибку (0.547167ms)
+✔ result_completed испускается один раз и только из явного submit (0.702917ms)
+✔ мастер сигнала использует локальный Rust/WASM-контракт (4.5145ms)
+✔ JS-обёртка передаёт ответы в WASM в фиксированном порядке (4.023791ms)
+✔ UI поддерживает четыре безопасных результата и доступный повтор (1.174708ms)
+✔ ветки показывают только привязанные официальные источники (0.847333ms)
+✔ аналитика результата контролируема и не содержит ответов пользователя (1.120708ms)
+✔ длинный справочный материал закрыт в native details (0.450375ms)
+✔ три интента имеют по одному индексируемому каноникалу (10.268417ms)
+✔ JS-обёртка вызывает один локальный Rust/WASM-контракт в фиксированном порядке (5.442334ms)
+✔ общий мастер покрывает обязательные состояния и доступный повтор (3.248917ms)
+✔ мастера остаются самостоятельными и не подмешивают коммерцию (2.111708ms)
+✔ аналитика результата передаёт только закрытый тип результата (1.201542ms)
+✔ SSR-ответы и официальные источники присутствуют до JavaScript (5.293042ms)
+✔ источники когорты аудируемы и не содержат непроверенных доменов (2.0465ms)
+✔ три traffic-first utility имеют по одному индексируемому canonical и общий локальный мастер (12.221917ms)
+✔ закрытые варианты интерфейса совпадают с Rust-контрактом и не принимают произвольный текст (8.434833ms)
+✔ восемь официальных источников точно совпадают с manifest и разрешаются локально (3.985208ms)
+✔ utility остаются самостоятельными и не содержат Market CTA, цены или скрытый редирект (6.408875ms)
+✔ каждая новая страница получает контекстные входящие ссылки, а главная сохраняет девять карточек (3.927458ms)
+✔ опасное питание приставки закрывает путь, а нечётная двухколоночная сетка не оставляет пустую полуячейку (4.28925ms)
+✔ общая JS-обёртка передаёт cohort 5 в WASM в фиксированном порядке (3.253833ms)
+✔ capture helper знает success, needs-check и границы остановки для cohort 5 (1.411833ms)
+✔ cohort 6 имеет три самостоятельных индексируемых canonical с полезным SSR (12.524834ms)
+✔ аудиомастера используют только закрытые варианты и fail-closed статусы (5.282584ms)
+✔ восемь официальных источников совпадают с manifest и локальными allowlist (7.130042ms)
+✔ калькулятор расхода передаёт числа в WASM по фиксированному ABI (3.191ms)
+✔ энергокалькулятор не угадывает тариф, не отправляет ввод и проверяет ответ WASM (0.82525ms)
+✔ related-навигация одинакова в клиенте и sitegen (2.386041ms)
+✔ существующие тематические страницы дают каждой новой canonical входящие ссылки (3.243375ms)
+✔ cohort 6 остаётся без Market CTA, товарных цен и скрытого редиректа (6.365083ms)
+✔ capture helper знает четыре границы обоих аудиомастеров (0.656333ms)
+✔ три canonical подключены к общему закрытому мастеру (10.659958ms)
+✔ четыре закрытых поля каждого мастера совпадают с Rust enum-контрактом (7.417625ms)
+✔ 14 официальных источников имеют точный URL и привязаны к своим задачам (2.470625ms)
+✔ нормализатор принимает локальный план и fail-closed отклоняет чужой источник (1.737ms)
+✔ общая JS-обёртка отправляет три задачи в WASM в фиксированном порядке (2.611417ms)
+✔ loading, error и retry сохраняют единый доступный паттерн (0.86ms)
+✔ заводской сброс требует явного подтверждения потери данных (0.6185ms)
+✔ related-граф образует связный системный кластер без коммерческих CTA (0.833583ms)
+✔ масштабная схема держит все прямоугольники во viewBox и показывает направление сдвига (7625.858083ms)
+✔ top-3 сортируется по edge.score, а свежий оффер решает только равенство (453.046542ms)
+✔ DOM результата содержит печатную SVG-схему и только внутренние ссылки кронштейнов (449.613792ms)
+✔ усиление не создаёт второе result_completed или новый аналитический event (16.277375ms)
+✔ поиск VESA различает проверенный размер, конфликт и неизвестную модель (1.916625ms)
+✔ конфликт VESA останавливает автоподбор, а обычный счётчик учитывает только verified-fit (0.158167ms)
+✔ точная модель передаёт паспортный корпус, а ручной режим — нулевую пару для Rust (2.182084ms)
+✔ масштабная схема остаётся внутри viewBox и переводит указатель в доли стены (0.383333ms)
+✔ SVG-экспорт содержит точные значения и не содержит URL или идентификаторов пользователя (15.510084ms)
+✔ тумба описывается без ложного нулевого зазора (0.151792ms)
+✔ результат доступен с клавиатуры и ведёт только во внутренние проверки (7544.520708ms)
+✔ React сохраняет три индексируемых примера после гидратации (386.556875ms)
+✔ аналитика результата вызывается только из явного submit (13.732041ms)
+ℹ tests 291
+ℹ suites 0
+ℹ pass 291
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 153338.696416
+
+> krepitv@0.1.0 validate:installation-kit-data
+> node scripts/catalog/validate-installation-kit-data.mjs
+
+Монтажный комплект: 3 классов систем, 0 точных схем, 0 паспортов портов, 1 профиль соединения.
+
+> krepitv@0.1.0 catalog:verify
+> node scripts/catalog/verify-coverage.mjs
+
+Catalog coverage: status=growing; full catalog ready=YES
+Verified models=161; brands=22 (AKAI, Asano, BBK, Blackton, BQ, Candy, DIGMA, HARPER, Hi, Hisense, Hyundai, LG, Philips, Samsung, Sber, SkyLine, Starwind, TCL, TopDevice, Tuvio, Xiaomi, YASIN); series=102 (7000 series, A400 PRO, A4S, BH500, BS5002, BS5003, BS5011, C6K, C745, C755, C765, C7K, C7L, DLED Frameless Google TV, DLED Frameless YaOS, DLED YaOS, DM-LED, DU7100, E44SL, E55SL, E66SL, E77SL, E77SL PRO, E7S, E9000, F40B, F6000F, F670TS, F720T, FS34B, Google TV, H5000, HS, HT, HX, HY, LEM-1030, LEM-1045, LEM-1075, LEX-7235, LEX-7244, LEX-7247, LH1110T, LQ630, LQ6300, LQ6380, LST6575, MiniLED Google TV, NANO81, OLED B5, OLED C4, OLED C5, OLED G5, P6K, P7K, P7L, P8L, Q6C, Q6CS, Q70D, Q7D, Q7F, Q7F5, Q7FA, Q8F, QEF1, QN70F, QN90F, QNED70, QNED80, QNED82, QNED83, QNED85, QNED86, QNED93, R470T, R670T, S4K, S5K, S85F, S90F, SDX, SW-LED, T8D, TD UFBHH11, TD UFBHH12, Tuvio, TV A 2025, TV A Pro, TV A Pro 2025, TV A Pro 2026, TV S Pro Mini LED 2026, U77SL, U7Q, U7S, U7S PRO, U8000F, U8Q, Uno, UR9S, V6C, YaOS)
+Diagonals=24, 31.5, 32, 40, 42, 43, 48, 50, 55, 65, 75, 77, 85, 100; model years=2022, 2023, 2024, 2025, 2026
+Demand target=50; covered=50; coverage=100.0%
+
+> krepitv@0.1.0 catalog:test
+> node --test tests/catalog/*.test.mjs
+
+✔ current manifest reports a growing catalog that now passes the measured completion gate (30.829375ms)
+✔ the measured completion gate permits a full claim without changing the operational status (7.32375ms)
+✔ the completion threshold cannot be lowered to make a demo pass (3.063ms)
+✔ every catalog model has sourced series and diagonal; unknown year stays null (3.975875ms)
+✔ unmeasured demand cannot contain an unsourced target list (2.430667ms)
+✔ a measured target is ranked and bound to the exact catalog identity (2.252041ms)
+✔ the sourced installation-kit datasets pass the strict contract (5.334583ms)
+✔ unknown fields are rejected instead of being silently published (0.729125ms)
+✔ a model port passport must reference an exact catalog model and HTTPS evidence (0.401791ms)
+✔ an exact wall recommendation cannot exist without complete mount geometry (0.323458ms)
+✔ class-level wall guidance cannot masquerade as an exact recommendation (0.285209ms)
+✔ future, stale, and non-HTTPS evidence is rejected (0.266625ms)
+✔ schema files stay strict and versioned (10.6405ms)
+✔ diagonal extraction ignores model years and uses explicit screen size (2.189292ms)
+✔ route slug is deterministic for Cyrillic and punctuation (0.534041ms)
+✔ real Market snapshot resolves all observations without unverified compatibility facts (27.842875ms)
+✔ verified source register is the exact operational catalog source (9.215667ms)
+✔ verified mount register excludes unresolved identities and drives the catalog (0.379583ms)
+✔ revenue-weighted mount wave preserves exact verified SKUs and specifications (2.028917ms)
+✔ measured exact demand is preserved without inflating zero-frequency SKU (0.847458ms)
+✔ purchase count supports plain and compact labels (5.89625ms)
+✔ category parser keeps only a canonical untracked card URL (3.25775ms)
+✔ catalog matching is exact-token and brand aware (0.918625ms)
+✔ model inference handles diagonal before the brand (5.775208ms)
+✔ deduplication keeps the best observed rank (0.253208ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 300.018542
+
+> krepitv@0.1.0 qa:test
+> node --test tests/qa/*.test.mjs
+
+✔ performance gate принимает стабильное progressive enhancement (4.19175ms)
+✔ performance gate отклоняет даже короткое исчезновение SSR-корня (0.282333ms)
+✔ итог маршрута использует медиану трёх запусков, но не скрывает замену root (0.347208ms)
+✔ временный профиль удаляется только после фактического выхода Chrome (7.489542ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 196.328042
+
+> krepitv@0.1.0 dataset:check
+> node scripts/datasets/generate-tv-vesa-screws.mjs --check && node scripts/datasets/generate-tv-vesa-sizes.mjs --check && node scripts/catalog/sync-market-model-pages.mjs --check
+
+Датасет актуален: 27 моделей, 30 строк
+Таблица VESA актуальна: 161 моделей
+Market model page dataset is current
+Проверено: 393 HTML-страниц (минимум 25), 1 файл подтверждения Яндекса и 1 файл подтверждения Google, 161 модели ТВ, 25 кронштейна, 3200 рёбер графа, 132 SEO-материалов; в sitemap 326 индексируемых URL; полнота каталога: growing, полный=true
+
+> krepitv@0.1.0 catalog:audit-model-pages
+> node scripts/catalog/audit-model-page-quality.mjs
+
+Аудит пройден: 161/161 паспортных моделей имеют проверенный крепёж; 160/161 имеют точное актуальное предложение Яндекс Маркета, 1 используют общий проверенный fallback (434 проверенных размещений); 73 наблюдений Маркета ведут на проверенные модели; 7 дублей закрыты от индекса и канонизированы; 53 неподтверждённых карточек безопасно закрыты от индекса без рекомендации крепежа.
+
+> krepitv@0.1.0 affiliate:validate
+> node scripts/affiliate/validate.mjs --kind source data/affiliate/market-products.json
+
+Valid source: /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/data/affiliate/market-products.json
+
+> krepitv@0.1.0 affiliate:validate-public
+> node scripts/affiliate/validate.mjs --kind public data/affiliate/public-offers.json
+
+Valid public: /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/data/affiliate/public-offers.json
+
+> krepitv@0.1.0 affiliate:validate-hubs
+> node scripts/affiliate/validate-hub-placements.mjs --kind manifest data/affiliate/seo-hub-placements.json
+
+Valid hub manifest: /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/data/affiliate/seo-hub-placements.json
+
+> krepitv@0.1.0 affiliate:validate-hubs-public
+> node scripts/affiliate/validate-hub-placements.mjs --kind public data/affiliate/public-hub-offers.json
+
+Valid hub public: /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/data/affiliate/public-hub-offers.json
+
+> krepitv@0.1.0 affiliate:check-model-manifest
+> node scripts/affiliate/generate-model-placements.mjs --check
+
+Model placement manifest is current: 161 models, 482 offers
+
+> krepitv@0.1.0 affiliate:validate-models
+> node scripts/affiliate/validate-model-placements.mjs --kind manifest data/affiliate/model-page-placements.json
+
+Модельные размещения (manifest) прошли строгую проверку: /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/data/affiliate/model-page-placements.json
+
+> krepitv@0.1.0 affiliate:validate-models-public
+> node scripts/affiliate/validate-model-placements.mjs --kind public data/affiliate/public-model-offers.json
+
+Модельные размещения (public) прошли строгую проверку: /Volumes/DevSim/Projects/krepitv/.worktrees/traffic-sprint-20260919/data/affiliate/public-model-offers.json
+
+> krepitv@0.1.0 affiliate:test
+> node --test tests/affiliate/*.test.mjs
+
+✔ browser checker requires a saved Chrome window ID and a validated tab index (13.512667ms)
+✔ Chrome AppleScript targets only the saved window ID and tab index (4.522458ms)
+✔ manifest creates exact one-card API requests with placement-specific VID (7.100791ms)
+✔ private snapshot keeps every decision and public snapshot removes private numbers (7.832ms)
+✔ unavailable placement remains a private decision and disappears from public subset (6.564833ms)
+✔ one-card core builder rejects a placement link bound to another VID (1.270333ms)
+✔ snapshot publication rejects tampered CLID and source-card binding (1.694417ms)
+✔ manifest rejects duplicate or base-colliding VID (0.595208ms)
+✔ manifest rejects duplicate and non-contiguous ranks (0.662041ms)
+✔ manifest rejects an unknown, non-indexable or path-mismatched SEO page (0.510417ms)
+✔ manifest binds source card entity and CLID and enforces expected counts (0.537333ms)
+✔ manifest rejects a mount outside the SEO hub brand or mechanism (0.814333ms)
+✔ validates example.invalid source, batch, private and public snapshot fixtures (20.128167ms)
+✔ publishes only eligible offers without private decision numbers (4.999ms)
+✔ public snapshot validator rejects private decision fields (1.903333ms)
+✔ builds advertising and explicit non-ad storefront offers (4.8715ms)
+✔ strips an unmarked advertising draft href (2.435333ms)
+✔ retains a fresh matching offer only when a private snapshot is supplied (2.147834ms)
+✔ rejects sensitive keys before a snapshot can be written (1.390417ms)
+✔ rejects a publishable href whose ERID does not match (2.389083ms)
+✔ requires the explicit Yandex Market advertising disclosure (1.226958ms)
+✔ requires an explicit non-ad storefront classification with CLID and no creative (1.3665ms)
+✔ builds a CLID request without place_id or ERID for non-ad storefronts (0.986166ms)
+✔ requires the configured product identity in the Market title (0.274667ms)
+✔ classifies a structurally valid rewarded Market payload as ok (0.779625ms)
+✔ maps nullable Market business signals to sanitized unavailable checks (0.5065ms)
+✔ maps a valid but wrong Market title to a sanitized unavailable check (0.155167ms)
+✔ rejects structurally corrupted Market payload fields (0.147083ms)
+✔ keeps integer zero reward and stock as ok before eligibility redaction (2.24225ms)
+✔ never publishes a zero-price ok check (4.577709ms)
+✔ rejects a Market card mapped to another catalog entity (2.880625ms)
+✔ binds every source card to the exact catalog brand and model (1.377875ms)
+✔ publishes a direct sponsored link with the visible disclosure data (0.510333ms)
+✔ publishes a transparent non-ad storefront link without ad markers (0.119625ms)
+✔ rejects missing, wrong, duplicate or ERID-bearing CLID storefront links (0.47975ms)
+✔ emits one sanitized affiliate-click payload for every Market CTA (0.235375ms)
+✔ affiliate-click emitter fails closed without a browser event API (0.096917ms)
+✔ hides stale offers and falls back to a fresh offer for the same page (1.228084ms)
+✔ rejects the whole affiliate snapshot when its envelope is stale (0.192125ms)
+✔ loads affiliate offers only from a fresh same-origin snapshot (0.859833ms)
+✔ refuses same-site, redirect and unmarked affiliate destinations (0.373125ms)
+✔ requires one sanitized check for every source card (3.9755ms)
+✔ does not retain an old offer after CLID or compliance mode changes (2.188125ms)
+✔ writes generated snapshots with owner-only permissions (5.144667ms)
+✔ CLI refuses to write a snapshot outside .private (148.164083ms)
+✔ selects only source-backed exact-VESA/load-reserve mounts in Rust score order (5.38325ms)
+✔ generator is canonical across catalog ordering and emits unique deterministic IDs (9.064ms)
+✔ strict manifest validation rejects drift in coverage, compatibility, rank, binding and VID (9.863459ms)
+✔ expands exact one-card Market requests without mutating the source (2.009791ms)
+✔ builds complete private decisions and a publishable public subset (13.774709ms)
+✔ real catalog produces deterministic top-three placements for all 161 models (76.459041ms)
+Generated 482 placements for 161 models -> /var/folders/4t/fvvb5p9x15ndq691zkjhkgc40000gn/T/krepitv-model-placements-rC4X7z/model-page-placements.json
+Model placement manifest is current: 161 models, 482 offers
+✔ CLI writes canonical output and --check detects any byte drift (101.913542ms)
+✔ CLI argument parser requires exactly one mode (0.356791ms)
+✔ normalizes Moscow API dates and converts rubles to exact integer kopecks (4.334459ms)
+✔ uses an HMAC key and sanitizes the API order before it leaves memory (4.052417ms)
+✔ uses the current official cancellation reason codes (0.550167ms)
+✔ fetches pages sequentially with one fixed update window and total=true (57.910666ms)
+✔ uses the official maximum page size by default (0.561833ms)
+✔ retries bounded transient and rate-limit responses without exposing OAuth (2.426584ms)
+✔ requires an explicit first backfill then overlaps a successful cursor by 48 hours (0.694666ms)
+✔ keeps the cursor fail-closed when any API page fails (1.440084ms)
+✔ quarantines unknown VIDs, promotes them when provided, and keeps transition history (14.184834ms)
+✔ successful sync persists only the sanitized projection (2.175ms)
+✔ monthly report counts only currently APPROVED rewards by dateUpdated (0.691542ms)
+✔ collects exact manifest/base VIDs and rejects non-private ledger paths (0.873541ms)
+✔ aggregates private placement attribution without exposing order keys (1.025583ms)
+✔ durable aggregate and its log cannot expose raw or hashed order identifiers (2.32475ms)
+✔ safe attribution winners group public dimensions and retain payment only for APPROVED (7.103208ms)
+✔ safe aggregate validates every placement dimension even when it has no orders (0.687333ms)
+✔ monthly aggregate JSON Schema closes every durable object boundary (16.037916ms)
+✔ каждая индексируемая страница содержит общий fail-closed слот Маркета (223.36ms)
+✔ Vite SSR tests are serialized on constrained GitHub runners (15.715917ms)
+✔ official JavaScript actions are pinned to audited Node 24 releases (5.293709ms)
+✔ affiliate workflow is scheduled with pinned actions and one scoped OAuth step (6.116834ms)
+✔ Pages builds and deploys the current source artifact (2.108209ms)
+✔ source CI runs the complete pinned build without deploy or secrets (5.582416ms)
+✔ orders workflow keeps raw ledger ephemeral and retains only a safe aggregate (2.268875ms)
+✔ orders winners CLI is documented and keeps the legacy aggregate command (168.131125ms)
+ℹ tests 78
+ℹ suites 0
+ℹ pass 78
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 463.6895
+
+> krepitv@0.1.0 indexnow:test
+> node --test tests/indexnow/*.test.mjs
+
+✔ publishes the exact verification key in source and release artifacts (6.032959ms)
+✔ normalizes local paths and removes duplicates (1.454667ms)
+✔ rejects query strings and off-site URLs (0.350959ms)
+✔ builds a Yandex-compatible batch without secrets (0.134375ms)
+✔ keeps the first positional URL when no manifest flag is present (0.16375ms)
+✔ expands audited catalog groups and rejects unknown directives (0.229458ms)
+✔ expands only the entities whose static context changed in SEO wave two (0.145292ms)
+✔ refuses to notify a URL missing from the sitemap (0.27275ms)
+✔ verifies the public key before posting and accepts HTTP 202 (48.339334ms)
+✔ fails closed when the published key does not match (0.586584ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 207.964917
+
+> krepitv@0.1.0 analytics:test
+> node --test tests/analytics/*.test.mjs
+
+✔ summarizes only publishable API promise estimates without private fields (1.902458ms)
+✔ calculates traffic from the direct measurable revenue path (0.368375ms)
+✔ zero-event upper bound is exact and does not claim a zero conversion rate (0.253291ms)
+✔ builds privacy-safe evidence and keeps unobserved ratios unknown (4.217583ms)
+✔ uses observed approved payment only when an approved order exists (0.552833ms)
+✔ rejects a publishable offer without a positive promise estimate (0.588041ms)
+✔ JWT uses the fixed read-only scope and has a verifiable RS256 signature (10.067458ms)
+✔ write JWT is explicit and accepts only the fixed sitemap-management scope (1.662542ms)
+✔ sitemap submit is locked to the verified production property and verifies the result (4.866958ms)
+✔ sitemap parser rejects duplicates, queries and another origin (0.344042ms)
+✔ page-only diagnostics may observe one impression but never accept zero (0.442458ms)
+✔ report keeps authoritative zero, filters query rows and strips credentials (20.833042ms)
+✔ property failure and API errors never echo OAuth or remote messages (2.522792ms)
+✔ successful HTML or empty Google responses fail instead of becoming zero (6.21375ms)
+✔ invalid URL Inspection payloads remain unknown or partial, never authoritative zero (3.456375ms)
+✔ query and page opportunities can be refreshed without claiming URL Inspection (2.452542ms)
+✔ common bounded retries recover network, 429 and 503 failures (2.061667ms)
+✔ bounded retries stop after three attempts without leaking remote detail (1.497041ms)
+✔ the request timeout also bounds a response body that never finishes (17.182667ms)
+✔ malformed query and sitemap schemas fail instead of becoming empty data (13.332958ms)
+✔ the reporter requires an HTTPS URL-prefix property (0.190542ms)
+✔ private report writer rejects a symlinked output parent (3.747666ms)
+✔ organic URL has fixed full-accuracy filters and ordered goal metrics (3.748875ms)
+✔ organic landing outcome URL groups only by query-free canonical path (0.261459ms)
+✔ eligible-region organic URL is explicit and accepted as one segment (0.328541ms)
+✔ daily traffic URL excludes internal and tagged test visits (1.179375ms)
+✔ daily traffic gate requires more than 1000 users for seven trailing days (2.062125ms)
+✔ interaction URL requests only controlled goal-parameter levels (0.775ms)
+✔ tool usage URL запрашивает только уровни параметров одной цели (0.586667ms)
+✔ market click attribution URL uses the current event-parameter report (0.370583ms)
+✔ report keeps authoritative users total and strips source labels and token (14.487667ms)
+✔ report keeps aggregate funnel totals when goal parameter dimensions are unsupported (1.438458ms)
+✔ report serializes API requests so one run cannot exhaust the account parallel quota (6.47775ms)
+✔ invalid dates, missing goal ids and malformed totals fail closed (1.008417ms)
+✔ plan accepts exactly one exact action goal per event (2.638083ms)
+✔ plan refuses duplicates and same-name goals with another condition (0.188125ms)
+✔ payload contains only the exact JavaScript event condition (0.164708ms)
+✔ dry run never posts missing goals (0.4925ms)
+✔ apply creates missing goals sequentially and verifies each authoritative list (0.651417ms)
+✔ network failure after POST is resolved by GET and is never blindly retried (0.502625ms)
+✔ CLI defaults to 14 complete UTC days and accepts only an external credential path (3.924333ms)
+✔ sitemap and available zero remain authoritative without exposing Yandex identifiers (5.935417ms)
+✔ current official Yandex exclusion reasons remain visible in the sanitized report (1.804417ms)
+✔ query-to-URL rows enforce threshold, PII suppression and same-origin paths (7.394ms)
+✔ NOT_LOADED and NOT_INDEXED remain not_matured rather than becoming observed zero (2.496625ms)
+✔ malformed successful sections remain unknown and a 14-day window is enforced (1.490917ms)
+✔ unknown query analytics stays null in the CLI summary (1.14975ms)
+✔ query analytics retries without date sorting when Yandex rejects the restriction (0.899666ms)
+✔ a truncated sitemap list cannot prove the target is absent (1.895ms)
+✔ malformed sitemap and indexation rows keep their sections unknown (1.012917ms)
+✔ bounded retry covers network, transient HTTP and response-body timeout (17.028958ms)
+✔ remote API failures expose only a bounded status/code and never the response message (0.379833ms)
+✔ report requires the exact verified URL-prefix host (0.241167ms)
+✔ CLI reads an owner-only external credential, writes atomically as 0600 and never prints queries or IDs (15.354167ms)
+✔ credential and output guards allow only a safe .private alias to an external owner-only file (5.250833ms)
+ℹ tests 55
+ℹ suites 0
+ℹ pass 55
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 287.518833

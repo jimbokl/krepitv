@@ -22,6 +22,7 @@ const observedModelState = argument("--observed-model-state", null);
 const phoneTvState = argument("--phone-tv-state", null);
 const tvNoSignalState = argument("--tv-no-signal-state", null);
 const tvTrafficState = argument("--tv-traffic-state", null);
+const connectionState = argument("--connection-state", null);
 const tvEnergyState = argument("--tv-energy-state", null);
 const guidedSelectionState = argument("--guided-selection-state", null);
 const media = argument("--media", "screen");
@@ -212,7 +213,7 @@ try {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
     });
   }
-  const wasmQaState = phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState || guidedSelectionState;
+  const wasmQaState = connectionState || phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState || guidedSelectionState;
   if (["loading", "error", "retry"].includes(wasmQaState)) {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: wasmQaState === "loading"
@@ -258,6 +259,67 @@ try {
     });
   }
   let phoneTvReport = null;
+  if (connectionState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(connectionState)};
+        const form = document.querySelector('[data-connection-helper]');
+        if (!form) throw new Error('Connection helper missing');
+        const fields = [...form.querySelectorAll('select')];
+        const button = form.querySelector('button[type=submit]');
+        const output = form.querySelector('[data-connection-result]');
+        const events = [];
+        window.addEventListener('krepitv:result-completed', (e) => events.push(e.detail));
+        const tick = () => new Promise(resolve => setTimeout(resolve, 40));
+        if (fields.length !== 3 || !button.disabled) throw new Error('Invalid initial state');
+        if (state === 'focus') {
+          fields[0].focus();
+          if (document.activeElement !== fields[0]) throw new Error('Focus failed');
+        } else if (state === 'disabled') {
+          fields[0].value = fields[0].options[1].value;
+          fields[0].dispatchEvent(new Event('change', {bubbles:true}));
+          await tick();
+          if (!button.disabled) throw new Error('Incomplete form must be disabled');
+        } else if (['success','loading','error','needs-review'].includes(state)) {
+          for (const field of fields) {
+            field.value = field.options[1].value;
+            field.dispatchEvent(new Event('change', {bubbles:true}));
+            await tick();
+          }
+          if (state === 'needs-review') {
+            fields[1].value = fields[1].options[fields[1].options.length - 1].value;
+            fields[1].dispatchEvent(new Event('change', {bubbles:true}));
+            await tick();
+          }
+          if (button.disabled) throw new Error('Complete form still disabled');
+          button.click(); button.click();
+          for (let i = 0; i < 150; i++) {
+            if (form.dataset.state === (state === 'needs-review' ? 'success' : state)) break;
+            await tick();
+          }
+          if (form.dataset.state !== (state === 'needs-review' ? 'success' : state)) throw new Error('Unexpected helper state: ' + form.dataset.state);
+          if (state === 'loading' && (!button.disabled || events.length)) throw new Error('Loading guard failed');
+          if (state === 'error' && (!output.querySelector('[role=alert]') || events.length)) throw new Error('Error fallback failed');
+          if (state === 'success' || state === 'needs-review') {
+            if (events.length !== 1 || !output.querySelector('ol li') || !output.querySelector('a[href^="/"]')) throw new Error('Result or deduplication failed');
+            if (Object.keys(events[0]).some(k => !['toolId','resultType','sourcePath'].includes(k))) throw new Error('Unexpected analytics field');
+            if (state === 'needs-review' && events[0].resultType !== 'needs_review') throw new Error('Unknown input must fail closed');
+          }
+        }
+        if (document.documentElement.scrollWidth > innerWidth + 1) throw new Error('Horizontal overflow');
+        return {state, tool: form.dataset.connectionHelper, events: events.length};
+      })()`,
+      awaitPromise: true, returnByValue: true,
+    });
+    if (interaction.exceptionDetails) throw new Error(interaction.exceptionDetails.exception?.description ?? 'Connection QA failed');
+    process.stdout.write(JSON.stringify(interaction.result.value) + '\n');
+    if (connectionState === 'focus') {
+      await send('Input.dispatchKeyEvent', {type:'keyDown', key:'Tab', code:'Tab', windowsVirtualKeyCode:9});
+      await send('Input.dispatchKeyEvent', {type:'keyUp', key:'Tab', code:'Tab', windowsVirtualKeyCode:9});
+      const focused = await send('Runtime.evaluate', {expression:"document.activeElement?.name === 'step-1'", returnByValue:true});
+      if (!focused.result.value) throw new Error('Keyboard navigation failed');
+    }
+  }
   if (phoneTvState) {
     const interaction = await send("Runtime.evaluate", {
       expression: `(async () => {

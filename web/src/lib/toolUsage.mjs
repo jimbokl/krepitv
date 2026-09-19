@@ -1,9 +1,11 @@
 import { INTENT_TOOL_IDS } from "./intentTools.mjs";
+import { CONNECTION_HELPERS, connectionToolId } from "./connectionHelpers.mjs";
 
 export const TOOL_USAGE_EVENT = "krepitv:tool-usage";
 export const TOOL_USAGE_STARTED = "started";
 
 export const KNOWN_TOOL_IDS = Object.freeze([
+  ...Object.keys(CONNECTION_HELPERS).map(connectionToolId),
   "brand_mount_match",
   "digital_channel_setup",
   "height_calculator",

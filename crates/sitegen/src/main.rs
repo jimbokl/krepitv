@@ -2653,6 +2653,23 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "phone-hotspot" => &[
+                "offline-tv",
+                "tv-no-internet",
+                "tv-internet-setup",
+                "phone-to-tv",
+            ],
+            "offline-tv" => &[
+                "phone-hotspot",
+                "digital-channels",
+                "tv-usb-not-seen",
+                "laptop-to-tv",
+            ],
+            "universal-remote" => &[
+                "tv-remote-not-working",
+                "tv-bluetooth-remote-pairing",
+                "phone-tv-remote",
+            ],
             "tv-teletext-captions" => &[
                 "tv-disable-subtitles",
                 "digital-channels",
@@ -2720,6 +2737,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "youtube-tv-subtitles",
             ],
             "tv-bluetooth-remote-pairing" => &[
+                "universal-remote",
                 "tv-voice-remote-search",
                 "tv-remote-not-working",
                 "tv-bluetooth-setup",
@@ -2821,6 +2839,8 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "viewing-distance",
             ],
             "tv-internet-setup" => &[
+                "phone-hotspot",
+                "offline-tv",
                 "smart-tv-setup",
                 "tv-alice-connect",
                 "tv-browser-install",
@@ -3447,6 +3467,9 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "vesa-200x200" | "vesa-300x200" => {
+            r#"<section class="border-y-2 border-ink py-7" data-vesa-size-reference="true"><h2 class="font-display text-3xl font-bold">Как читать пару размеров VESA</h2><p class="mt-3">Замер идёт между центрами отверстий на телевизоре: горизонталь × вертикаль. Это не точки сверления стены.</p><div class="mt-5 overflow-x-auto"><table class="w-full text-left"><caption class="sr-only">Проверка точной пары VESA</caption><thead><tr><th class="p-3">На ТВ</th><th class="p-3">В сантиметрах</th><th class="p-3">У кронштейна</th></tr></thead><tbody><tr><th class="p-3">200×200 мм</th><td class="p-3">20×20 см</td><td class="p-3">Должна быть явно указана пара 200×200</td></tr><tr><th class="p-3">300×200 мм</th><td class="p-3">30×20 см</td><td class="p-3">300×300 или только максимальный размер не подтверждают совпадение</td></tr></tbody></table></div><p class="mt-4">Точное совпадение отверстий не проверяет массу, винты, разъёмы и крепление к стене. Сверьте инструкции обеих моделей. Интерактивная проверка перечня VESA доступна после загрузки страницы.</p><p class="mt-3"><a class="underline" href="https://www.vesa.org/wp-content/uploads/2010/12/FDMI-Overview.pdf" rel="noreferrer" target="_blank">VESA: назначение стандарта крепления дисплеев</a></p></section>"#
+        }
         "tv-firmware-update" => {
             r#"<section class="border-y-2 border-ink py-7" data-tv-utility-answer="tv-firmware-update" data-tv-utility-task="tv-firmware-update">
 <p class="font-mono text-xs uppercase text-action">Бренд → точная модель → официальный способ</p>

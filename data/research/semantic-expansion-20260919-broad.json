@@ -1,0 +1,11 @@
+[
+  {"candidate_id":"internet","candidate_path":"/kak-podklyuchit-televizor-k-internetu/","query":"телевизор интернет","operator_query":"телевизор интернет","variant":"broad_discovery"},
+  {"candidate_id":"hdmi","candidate_path":"/hdmi-kabel-dlya-televizora/","query":"телевизор hdmi","operator_query":"телевизор hdmi","variant":"broad_discovery"},
+  {"candidate_id":"sound","candidate_path":"/kak-podklyuchit-kolonki-k-televizoru/","query":"телевизор звук","operator_query":"телевизор звук","variant":"broad_discovery"},
+  {"candidate_id":"dimensions","candidate_path":"/razmery-televizora-po-diagonali/","query":"телевизор размеры","operator_query":"телевизор размеры","variant":"broad_discovery"},
+  {"candidate_id":"mount","candidate_path":"/vinty-dlya-krepleniya-televizora/","query":"телевизор крепление","operator_query":"телевизор крепление","variant":"broad_discovery"},
+  {"candidate_id":"usb","candidate_path":"/televizor-ne-vidit-fleshku/","query":"телевизор флешка","operator_query":"телевизор флешка","variant":"broad_discovery"},
+  {"candidate_id":"remote","candidate_path":"/televizor-ne-reagiruet-na-pult/","query":"телевизор пульт","operator_query":"телевизор пульт","variant":"broad_discovery"},
+  {"candidate_id":"network-speed","candidate_path":"/kak-podklyuchit-televizor-k-internetu/","query":"скорость интернета телевизор","operator_query":"скорость интернета телевизор","variant":"broad_discovery"},
+  {"candidate_id":"data-usage","candidate_path":"/kak-podklyuchit-televizor-k-internetu/","query":"трафик телевизор","operator_query":"трафик телевизор","variant":"broad_discovery"}
+]

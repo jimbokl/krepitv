@@ -1,7 +1,16 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
+mod connection_helper;
 mod installation_kit;
+
+#[wasm_bindgen]
+pub fn connection_helper_json(task: &str, first: &str, second: &str, third: &str) -> String {
+    match connection_helper::plan(task, first, second, third) {
+        Ok(plan) => serde_json::to_string(&plan).expect("serializable connection plan"),
+        Err(error) => serde_json::json!({"error": error}).to_string(),
+    }
+}
 pub use installation_kit::*;
 
 const LOAD_SAFETY_FACTOR: f64 = 1.25;
