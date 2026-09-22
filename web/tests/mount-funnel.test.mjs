@@ -48,6 +48,8 @@ test("общий CTA расположен после результата и д�
   assert.ok(resultPosition >= 0);
   assert.ok(funnelPosition > resultPosition);
   assert.ok(relatedPosition > funnelPosition);
+  assert.match(source, /trafficUtilityHref === "\/podbor\/"[\s\S]*selectionStartHandlers\(globalThis\.window, "seo_next_step"\)/u);
+  assert.equal((source.match(/\{\.\.\.trafficUtilitySelectionHandlers\}/gu) ?? []).length, 2);
 });
 
 test("условные совпадения не получают коммерческий переход, а мастер высоты сохраняет модель", async () => {

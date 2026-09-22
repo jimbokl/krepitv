@@ -49,6 +49,7 @@ import { modelHref } from "../lib/catalog.js";
 import { INTENT_TOOLS } from "../lib/intentTools.mjs";
 import { buildEditorialEvidence } from "../lib/editorialPolicy.mjs";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
+import { selectionStartHandlers } from "../lib/selectionStart.mjs";
 import {
   getCatalogItems,
   selectSeoHubAffiliateOffers,
@@ -332,6 +333,10 @@ function SeoArticle({ catalog, page }) {
       .filter(Boolean);
   }, [catalog.mounts, prioritizesBuyComparison]);
   const trafficUtilityCta = trafficUtilityCtas[page.id];
+  const trafficUtilityHref = trafficUtilityCta?.href ?? "/podbor/";
+  const trafficUtilitySelectionHandlers = trafficUtilityHref === "/podbor/"
+    ? selectionStartHandlers(globalThis.window, "seo_next_step")
+    : {};
   const pageKindLabel = seoPageKindLabel(page);
   const editorialEvidence = buildEditorialEvidence({
     checkedAt: page.updated_at ?? page.guide?.updated_at ?? "2026-08-08",
@@ -548,8 +553,9 @@ function SeoArticle({ catalog, page }) {
                   ?? "Укажите модель, стену и нужный механизм. Проверка VESA и нагрузки выполняется по каталогу."}
               </p>
               <a
+                {...trafficUtilitySelectionHandlers}
                 className="primary-button mt-5 w-full"
-                href={trafficUtilityCta?.href ?? "/podbor/"}
+                href={trafficUtilityHref}
               >
                 {trafficUtilityCta?.label ?? "Начать подбор"} <ArrowRight aria-hidden="true" />
               </a>
@@ -576,8 +582,9 @@ function SeoArticle({ catalog, page }) {
           <div className="flex flex-wrap items-end justify-between gap-3">
             <h2 className="font-display text-3xl font-bold" id="more-title">Полезные материалы</h2>
             <a
+              {...trafficUtilitySelectionHandlers}
               className="text-sm font-semibold text-action underline underline-offset-4"
-              href={trafficUtilityCta?.href ?? "/podbor/"}
+              href={trafficUtilityHref}
             >
               {trafficUtilityCta?.shortLabel ?? "Перейти к подбору"}
             </a>

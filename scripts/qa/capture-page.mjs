@@ -22,6 +22,7 @@ const observedModelState = argument("--observed-model-state", null);
 const phoneTvState = argument("--phone-tv-state", null);
 const tvNoSignalState = argument("--tv-no-signal-state", null);
 const tvTrafficState = argument("--tv-traffic-state", null);
+const intentState = argument("--intent-state", null);
 const connectionState = argument("--connection-state", null);
 const tvEnergyState = argument("--tv-energy-state", null);
 const guidedSelectionState = argument("--guided-selection-state", null);
@@ -748,6 +749,67 @@ try {
     if (tvTrafficReport.marketLinks !== 0) {
       throw new Error("TV traffic task route contains Market links");
     }
+  }
+  let intentReport = null;
+  if (intentState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(intentState)};
+        const tool = document.querySelector('[data-intent-tool]');
+        if (!tool) throw new Error('Intent tool not found');
+        const resultEvents = [];
+        const usageEvents = [];
+        window.addEventListener('krepitv:result-completed', event => resultEvents.push(event.detail));
+        window.addEventListener('krepitv:tool-usage', event => usageEvents.push(event.detail));
+        const waitFor = (predicate, message, timeout = 5000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            const value = predicate();
+            if (value) {
+              clearInterval(timer);
+              resolve(value);
+            } else if (Date.now() - startedAt > timeout) {
+              clearInterval(timer);
+              reject(new Error(message));
+            }
+          }, 25);
+        });
+        const situation = tool.querySelector('fieldset button[type="button"]');
+        if (!situation) throw new Error('Intent situation choice missing');
+        situation.click();
+        await waitFor(() => tool.querySelector('[data-intent-step]'), 'Intent result did not render');
+        if (resultEvents.length !== 1 || usageEvents.length !== 1) {
+          throw new Error('First useful result was not measured exactly once');
+        }
+        if (state === 'complete') {
+          const outcomeFieldset = [...tool.querySelectorAll('fieldset')]
+            .find(fieldset => fieldset.querySelector('legend')?.textContent.includes('Необязательно'));
+          const outcome = [...(outcomeFieldset?.querySelectorAll('button[type="button"]') ?? [])]
+            .find(button => button.textContent.trim() === 'Да');
+          if (!outcome) throw new Error('Intent outcome choice missing');
+          outcome.click();
+          await waitFor(() => tool.querySelector('[data-intent-result]')?.textContent.includes('Итог проверки'), 'Intent refinement did not render');
+          if (resultEvents.length !== 1 || usageEvents.length !== 1) {
+            throw new Error('Intent refinement duplicated funnel events');
+          }
+        }
+        return {
+          state,
+          toolId: tool.dataset.analyticsTool,
+          resultEvents: resultEvents.length,
+          usageEvents: usageEvents.length,
+          hasResult: Boolean(tool.querySelector('[data-intent-step]')),
+          hasRefinement: tool.querySelector('[data-intent-result]')?.textContent.includes('Итог проверки') ?? false,
+        };
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error(interaction.exceptionDetails?.exception?.description ?? "Intent interaction failed");
+    }
+    intentReport = interaction.result.value;
+    process.stdout.write(JSON.stringify(intentReport) + "\n");
   }
   let tvEnergyReport = null;
   if (tvEnergyState) {

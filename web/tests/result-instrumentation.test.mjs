@@ -58,6 +58,16 @@ test("каждый инструмент объявляет стабильную 
   assert.match(trafficWizard, /data-analytics-tool=\{config\.toolId\}/u);
 });
 
+test("интент-инструмент считает результат при показе первого полезного шага", async () => {
+  const code = await source("components/IntentDecisionTool.jsx");
+  const chooseStep = code.match(/function chooseStep\(index\) \{([\s\S]*?)\n  \}/u)?.[1] ?? "";
+  const complete = code.match(/function complete\(value\) \{([\s\S]*?)\n  \}/u)?.[1] ?? "";
+
+  assert.match(chooseStep, /emitResultCompleted\(window, \{ toolId, resultType: "safe_step_shown" \}\)/u);
+  assert.doesNotMatch(complete, /emitResultCompleted/u);
+  assert.match(code, /Необязательно:/u);
+});
+
 test("подбор винтов фиксирует результат без модели и пользовательского ввода", async () => {
   const code = await source("components/TvMountScrewCatalog.jsx");
   const eventBlock = code.match(/emitResultCompleted\(window, \{([\s\S]*?)\n    \}\);/);

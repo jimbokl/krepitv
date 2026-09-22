@@ -7523,7 +7523,7 @@ mod tests {
             assert!(page.facts.len() >= 6);
             assert!(page.faq.len() >= 6);
             let expected_lastmod = if id == "tv-energy-consumption" {
-                "2026-09-02"
+                "2026-09-22"
             } else {
                 SEO_FUNNEL_UPDATED_AT
             };
@@ -7726,7 +7726,7 @@ mod tests {
             .iter()
             .find(|page| page.id == "tv-energy-consumption")
             .expect("Нет страницы расхода электричества");
-        assert_eq!(seo_page_lastmod(energy), "2026-09-02");
+        assert_eq!(seo_page_lastmod(energy), "2026-09-22");
     }
 
     #[test]

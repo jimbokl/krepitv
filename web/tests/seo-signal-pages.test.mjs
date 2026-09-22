@@ -33,7 +33,7 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   assert.ok(INTENT_TOOL_IDS.every((id) => updatedIds.has(id)));
   assert.ok([...tvIntentCohortIds].every((id) => updatedIds.has(id)));
   assert.equal(tvIntentCohortIds.size, 14);
-  assert.ok([...targetIds].every((id) => page(id)?.updated_at === (id === "tv-energy-consumption" ? "2026-09-02" : "2026-09-18")));
+  assert.ok([...targetIds].every((id) => page(id)?.updated_at === (id === "tv-energy-consumption" ? "2026-09-22" : "2026-09-18")));
   assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-08-07");
   assert.equal(page("tv-disable-voice").guide.updated_at, "2026-08-07");
   assert.equal(page("vesa-size").guide.updated_at, "2026-08-08");
@@ -41,8 +41,8 @@ test("measured SEO winners and new intent tools expose truthful material-update 
 
 test("energy page answers the measured query before the calculator", () => {
   const candidate = page("tv-energy-consumption");
-  assert.match(candidate.title, /Сколько потребляет телевизор/u);
-  assert.match(candidate.description, /за час, день, месяц и год/u);
+  assert.match(candidate.title, /Сколько электричества потребляет телевизор/u);
+  assert.match(candidate.description, /за месяц и год/u);
   assert.match(candidate.lead, /100 Вт/u);
   assert.match(candidate.lead, /12 кВт·ч за 30 дней/u);
   assert.match(candidate.lead, /146 кВт·ч в год/u);
