@@ -23,6 +23,18 @@ const maximumSeoChunkBytes = 400 * 1024;
 const baselineIndexableUrlCount = 309;
 const tvIntentIndexableUrlCount = 14;
 const connectionGuideIds = ["phone-hotspot", "offline-tv", "universal-remote"];
+const seoSprintGuideIds = [
+  "usb-video-codec",
+  "tv-dlna",
+  "tv-usb-recording",
+  "tv-channel-order",
+  "tv-hdmi-cec",
+  "tv-airplay-failure",
+  "tv-transport",
+  "tv-cam-module",
+  "tv-pin-reset",
+  "tv-arc-no-sound",
+];
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -478,6 +490,7 @@ const modelSearch = JSON.parse(
 const expectedIndexableUrlCount = baselineIndexableUrlCount
   + tvIntentIndexableUrlCount
   + connectionGuideIds.length
+  + seoSprintGuideIds.length
   + marketModelsManifest.summary.indexable_observed_canonicals;
 const mounts = JSON.parse(await readFile(path.join(docs, "data/mounts.json"), "utf8"));
 const compatibilityEdges = JSON.parse(
@@ -1818,13 +1831,25 @@ const tvIntentGuideIds = [
   "tv-audio-video-sync", "tv-usb-video-subtitles", "tv-bluetooth-remote-pairing",
   "tv-motion-smoothing", "tv-usb-expand-storage",
 ];
-const expectedGuideCount = expectedDailyGuideCount + tvIntentGuideIds.length + connectionGuideIds.length;
+const expectedGuideCount = expectedDailyGuideCount
+  + tvIntentGuideIds.length
+  + connectionGuideIds.length
+  + seoSprintGuideIds.length;
 if (dailyEvidenceGuidePages.length !== expectedGuideCount) {
   throw new Error(`Ожидалось ${expectedGuideCount} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
 }
 for (const id of connectionGuideIds) {
   const page = dailyEvidenceGuidePages.find((item) => item.id === id);
   if (!page || page.guide.updated_at !== "2026-09-19") throw new Error(`Missing connection guide: ${id}`);
+}
+for (const id of seoSprintGuideIds) {
+  const page = dailyEvidenceGuidePages.find((item) => item.id === id);
+  if (!page || page.guide.updated_at !== "2026-09-22") {
+    throw new Error(`SEO-спринт 2026-09-22 не содержит актуальный evidence guide: ${id}`);
+  }
+  if (!page.indexable || page.guide.steps.length !== 3 || page.guide.sources.length < 2) {
+    throw new Error(`SEO-спринт 2026-09-22 не прошёл контракт полезности: ${id}`);
+  }
 }
 for (const id of tvIntentGuideIds) {
   const page = dailyEvidenceGuidePages.find((item) => item.id === id);

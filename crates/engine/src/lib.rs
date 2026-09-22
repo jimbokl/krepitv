@@ -3,6 +3,7 @@ use wasm_bindgen::prelude::*;
 
 mod connection_helper;
 mod installation_kit;
+mod tv_task_helper;
 
 #[wasm_bindgen]
 pub fn connection_helper_json(task: &str, first: &str, second: &str, third: &str) -> String {

@@ -1,0 +1,177 @@
+{
+  "version": 1,
+  "task_id": "20260922-seo-10-20260922",
+  "commands": [
+    {
+      "id": "engine-tests",
+      "command": "cargo test -p krepitv-engine tv_task_helper",
+      "exit_code": 0,
+      "covers": ["success", "needs-review", "fail-closed", "200+ combinations"]
+    },
+    {
+      "id": "web-tests",
+      "command": "npm --prefix web run test:sites",
+      "exit_code": 0,
+      "output_path": "../../../.private/test-sites-seo-10-20260922.log",
+      "covers": ["default", "empty", "error", "success", "disabled", "focus", "SSR", "privacy"]
+    },
+    {
+      "id": "build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "output_path": "../../../.private/build-seo-10-20260922.log",
+      "covers": ["Rust", "WASM", "React", "SSR", "sources", "SEO", "whole artifact"]
+    },
+    {
+      "id": "browser",
+      "command": "node scripts/qa/seo-10-20260922.mjs",
+      "exit_code": 0,
+      "output_path": "browser-results.json",
+      "covers": ["default", "loading", "empty", "error", "success", "disabled", "focus", "needs-review", "320", "768", "1440"]
+    },
+    {
+      "id": "design-drift",
+      "command": ".design-harness/design-harness scan-drift --workspace $PWD --run .design-harness/runs/20260922-seo-10-20260922 --files web/src/lib/connectionHelpers.mjs web/src/lib/seoPages.mjs data/seo_pages.json",
+      "exit_code": 0,
+      "output_path": "evidence/drift-report.json",
+      "covers": ["design tokens", "allowed visual scope"]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "usb-default-mobile",
+      "path": "evidence/screenshots/usb-video-codec-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "usb-loading-mobile",
+      "path": "evidence/screenshots/usb-video-codec-mobile-loading.png",
+      "state": "loading",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "aria_busy": true}
+    },
+    {
+      "id": "usb-empty-mobile",
+      "path": "evidence/screenshots/usb-video-codec-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "validation_visible": true}
+    },
+    {
+      "id": "usb-error-mobile",
+      "path": "evidence/screenshots/usb-video-codec-mobile-error.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "alert_visible": true}
+    },
+    {
+      "id": "usb-success-mobile",
+      "path": "evidence/screenshots/usb-video-codec-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "result_visible": true}
+    },
+    {
+      "id": "usb-disabled-mobile",
+      "path": "evidence/screenshots/usb-video-codec-mobile-disabled.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "control_disabled": true}
+    },
+    {
+      "id": "usb-focus-mobile",
+      "path": "evidence/screenshots/usb-video-codec-mobile-focus.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "focus_visible": true}
+    },
+    {
+      "id": "usb-needs-review-mobile",
+      "path": "evidence/screenshots/usb-video-codec-mobile-needs-review.png",
+      "state": "needs-review",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true, "boundary_visible": true}
+    },
+    {
+      "id": "dlna-success-tablet",
+      "path": "evidence/screenshots/tv-dlna-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "recording-success-desktop",
+      "path": "evidence/screenshots/tv-usb-recording-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "channels-success-mobile",
+      "path": "evidence/screenshots/tv-channel-order-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "cec-success-desktop",
+      "path": "evidence/screenshots/tv-hdmi-cec-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "airplay-success-tablet",
+      "path": "evidence/screenshots/tv-airplay-failure-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "transport-success-mobile",
+      "path": "evidence/screenshots/tv-transport-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "cam-success-desktop",
+      "path": "evidence/screenshots/tv-cam-module-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "pin-success-tablet",
+      "path": "evidence/screenshots/tv-pin-reset-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "arc-success-desktop",
+      "path": "evidence/screenshots/tv-arc-no-sound-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    }
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent seo_visual_review agent + Programmatic Design Harness + isolated headless Chrome",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      "37 из 37 сценариев прошли на 320, 768 и 1440 px без общего overflow или перекрытий.",
+      "Десять страниц имеют разные интенты, самостоятельные ответы, таблицы, FAQ и официальные источники.",
+      "Доступны клавиатурный фокус, fieldset/legend, aria-live, aria-busy, error и needs-review состояния.",
+      "Партнёрских ссылок на новых информационных страницах нет; fail-closed логика проверена тестами."
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

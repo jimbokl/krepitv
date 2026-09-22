@@ -1,0 +1,86 @@
+[
+  {
+    "candidate_id": "tv-usb-video-codec",
+    "candidate_path": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "query": "телевизор не воспроизводит видео с флешки",
+    "variant": "broad",
+    "operator_query": "телевизор не воспроизводит видео с флешки"
+  },
+  {
+    "candidate_id": "tv-dlna",
+    "candidate_path": "/kak-smotret-video-s-kompyutera-na-televizore-po-seti/",
+    "query": "dlna телевизор",
+    "variant": "broad",
+    "operator_query": "dlna телевизор"
+  },
+  {
+    "candidate_id": "tv-usb-recording",
+    "candidate_path": "/kak-zapisat-peredachu-s-televizora-na-fleshku/",
+    "query": "как записать с телевизора на флешку",
+    "variant": "broad",
+    "operator_query": "как записать с телевизора на флешку"
+  },
+  {
+    "candidate_id": "tv-channel-order",
+    "candidate_path": "/kak-uporyadochit-kanaly-na-televizore/",
+    "query": "как поменять каналы местами на телевизоре",
+    "variant": "broad",
+    "operator_query": "как поменять каналы местами на телевизоре"
+  },
+  {
+    "candidate_id": "tv-hdmi-cec",
+    "candidate_path": "/hdmi-cec-na-televizore/",
+    "query": "hdmi cec",
+    "variant": "broad",
+    "operator_query": "hdmi cec"
+  },
+  {
+    "candidate_id": "tv-wifi-5ghz",
+    "candidate_path": "/televizor-ne-vidit-wifi-5-ggc/",
+    "query": "телевизор не видит wifi 5",
+    "variant": "broad",
+    "operator_query": "телевизор не видит wifi 5"
+  },
+  {
+    "candidate_id": "tv-airplay-failure",
+    "candidate_path": "/ne-rabotaet-airplay-na-televizore/",
+    "query": "не работает airplay",
+    "variant": "broad",
+    "operator_query": "не работает airplay"
+  },
+  {
+    "candidate_id": "tv-volume-level",
+    "candidate_path": "/kak-vyrovnyat-gromkost-na-televizore/",
+    "query": "выравнивание громкости телевизор",
+    "variant": "broad",
+    "operator_query": "выравнивание громкости телевизор"
+  },
+  {
+    "candidate_id": "tv-transport",
+    "candidate_path": "/kak-perevozit-televizor/",
+    "query": "как перевозить телевизор",
+    "variant": "broad",
+    "operator_query": "как перевозить телевизор"
+  },
+  {
+    "candidate_id": "tv-cam-module",
+    "candidate_path": "/cam-modul-dlya-televizora/",
+    "query": "cam модуль для телевизора",
+    "variant": "broad",
+    "operator_query": "cam модуль для телевизора"
+  },
+  {
+    "candidate_id": "tv-pin-reset",
+    "candidate_path": "/zabyl-pin-kod-televizora/",
+    "query": "забыл пин код телевизора",
+    "variant": "broad",
+    "operator_query": "забыл пин код телевизора"
+  },
+  {
+    "candidate_id": "tv-arc-no-sound",
+    "candidate_path": "/net-zvuka-cherez-hdmi-arc/",
+    "query": "нет звука hdmi arc",
+    "variant": "broad",
+    "operator_query": "нет звука hdmi arc"
+  }
+]

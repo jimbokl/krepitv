@@ -1,0 +1,372 @@
+[
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-dlna",
+    "route": "/kak-smotret-video-s-kompyutera-na-televizore-po-seti/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-dlna-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-dlna",
+    "route": "/kak-smotret-video-s-kompyutera-na-televizore-po-seti/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-dlna-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-dlna",
+    "route": "/kak-smotret-video-s-kompyutera-na-televizore-po-seti/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-dlna-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-usb-recording",
+    "route": "/kak-zapisat-peredachu-s-televizora-na-fleshku/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-usb-recording-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-usb-recording",
+    "route": "/kak-zapisat-peredachu-s-televizora-na-fleshku/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-usb-recording-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-usb-recording",
+    "route": "/kak-zapisat-peredachu-s-televizora-na-fleshku/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-usb-recording-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-channel-order",
+    "route": "/kak-uporyadochit-kanaly-na-televizore/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-channel-order-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-channel-order",
+    "route": "/kak-uporyadochit-kanaly-na-televizore/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-channel-order-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-channel-order",
+    "route": "/kak-uporyadochit-kanaly-na-televizore/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-channel-order-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-hdmi-cec",
+    "route": "/hdmi-cec-na-televizore/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-hdmi-cec-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-hdmi-cec",
+    "route": "/hdmi-cec-na-televizore/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-hdmi-cec-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-hdmi-cec",
+    "route": "/hdmi-cec-na-televizore/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-hdmi-cec-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-airplay-failure",
+    "route": "/ne-rabotaet-airplay-na-televizore/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-airplay-failure-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-airplay-failure",
+    "route": "/ne-rabotaet-airplay-na-televizore/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-airplay-failure-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-airplay-failure",
+    "route": "/ne-rabotaet-airplay-na-televizore/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-airplay-failure-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-transport",
+    "route": "/kak-perevozit-televizor/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-transport-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-transport",
+    "route": "/kak-perevozit-televizor/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-transport-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-transport",
+    "route": "/kak-perevozit-televizor/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-transport-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-cam-module",
+    "route": "/cam-modul-dlya-televizora/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-cam-module-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-cam-module",
+    "route": "/cam-modul-dlya-televizora/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-cam-module-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-cam-module",
+    "route": "/cam-modul-dlya-televizora/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-cam-module-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-pin-reset",
+    "route": "/zabyl-pin-kod-televizora/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-pin-reset-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-pin-reset",
+    "route": "/zabyl-pin-kod-televizora/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-pin-reset-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-pin-reset",
+    "route": "/zabyl-pin-kod-televizora/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-pin-reset-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-arc-no-sound",
+    "route": "/net-zvuka-cherez-hdmi-arc/",
+    "viewport": "mobile",
+    "state": "success",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-arc-no-sound-mobile-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-arc-no-sound",
+    "route": "/net-zvuka-cherez-hdmi-arc/",
+    "viewport": "desktop",
+    "state": "success",
+    "width": 1440,
+    "height": 900,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-arc-no-sound-desktop-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "tv-arc-no-sound",
+    "route": "/net-zvuka-cherez-hdmi-arc/",
+    "viewport": "tablet",
+    "state": "success",
+    "width": 768,
+    "height": 1024,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/tv-arc-no-sound-tablet-success.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "mobile",
+    "state": "empty",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-mobile-empty.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "mobile",
+    "state": "disabled",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-mobile-disabled.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "mobile",
+    "state": "default",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-mobile-default.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "mobile",
+    "state": "focus",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-mobile-focus.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "mobile",
+    "state": "error",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-mobile-error.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "mobile",
+    "state": "loading",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-mobile-loading.png",
+    "exit_code": 0
+  },
+  {
+    "id": "usb-video-codec",
+    "route": "/televizor-ne-vosproizvodit-video-s-fleshki/",
+    "viewport": "mobile",
+    "state": "needs-review",
+    "width": 320,
+    "height": 800,
+    "path": ".design-harness/runs/20260922-seo-10-20260922/evidence/screenshots/usb-video-codec-mobile-needs-review.png",
+    "exit_code": 0
+  }
+]

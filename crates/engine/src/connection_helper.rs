@@ -146,7 +146,7 @@ pub fn plan(
                 result.next_label = "Проверить условия сопряжения";
             }
         }
-        _ => return Err("Этот помощник не поддерживается."),
+        _ => return crate::tv_task_helper::plan(task, first, second, third),
     }
     Ok(result)
 }

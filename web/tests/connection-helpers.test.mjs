@@ -5,8 +5,25 @@ import { CONNECTION_HELPERS, connectionToolId } from "../src/lib/connectionHelpe
 import { KNOWN_TOOL_IDS, toolUsageDetail } from "../src/lib/toolUsage.mjs";
 const pages = JSON.parse(await fs.readFile(new URL("../../data/seo_pages.json", import.meta.url)));
 
-test("три разных помощника имеют каноникал, SSR-таблицу, источники и контролируемые поля", () => {
-  assert.equal(Object.keys(CONNECTION_HELPERS).length, 3);
+test("все интерактивные помощники имеют каноникал, SSR-таблицу, источники и контролируемые поля", () => {
+  assert.deepEqual(
+    Object.keys(CONNECTION_HELPERS).sort(),
+    [
+      "offline-tv",
+      "phone-hotspot",
+      "tv-airplay-failure",
+      "tv-arc-no-sound",
+      "tv-cam-module",
+      "tv-channel-order",
+      "tv-dlna",
+      "tv-hdmi-cec",
+      "tv-pin-reset",
+      "tv-transport",
+      "tv-usb-recording",
+      "usb-video-codec",
+      "universal-remote",
+    ].sort(),
+  );
   for (const [id, config] of Object.entries(CONNECTION_HELPERS)) {
     const page = pages.find((p) => p.id === id);
     assert.equal(page.guide.steps.length, 3);

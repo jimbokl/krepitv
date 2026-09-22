@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "id": "20260922-seo-10-20260922",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "root",
+  "created_at": "2026-09-22T11:10:12.240814+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus",
+    "needs-review"
+  ],
+  "behavior_evidence_states": {},
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": [
+    "web",
+    "crates/engine/src",
+    "crates/sitegen/src",
+    "data",
+    "scripts/qa",
+    "scripts/verify.mjs",
+    ".design-harness",
+    "product-docs",
+    "docs"
+  ],
+  "verification_commands": [
+    {
+      "id": "build",
+      "command": "npm run build",
+      "required": true,
+      "covers": ["engine", "ssr", "sources", "privacy"]
+    },
+    {
+      "id": "browser",
+      "command": "node scripts/qa/seo-10-20260922.mjs",
+      "required": true,
+      "covers": ["default", "empty", "disabled", "focus", "loading", "error", "success", "reflow", "keyboard"]
+    }
+  ],
+  "asset_specs": [],
+  "exact_content": [
+    {"id": "action", "value": "Составить план", "strategy": "deterministic-overlay"}
+  ],
+  "claims": [
+    {"id": "usb-codec", "source_ids": ["sony-usb"]},
+    {"id": "dlna", "source_ids": ["sony-dlna"]},
+    {"id": "recording", "source_ids": ["samsung-recording"]},
+    {"id": "channels", "source_ids": ["sony-channels"]},
+    {"id": "cec", "source_ids": ["sony-cec"]},
+    {"id": "airplay", "source_ids": ["apple-airplay"]},
+    {"id": "transport", "source_ids": ["sony-manual"]},
+    {"id": "cam", "source_ids": ["samsung-cam"]},
+    {"id": "pin", "source_ids": ["samsung-pin"]},
+    {"id": "arc", "source_ids": ["samsung-arc"]}
+  ],
+  "sources": [
+    {"id": "sony-usb", "url": "https://www.sony.ru/electronics/support/articles/00064168", "retrieved_at": "2026-09-22"},
+    {"id": "sony-dlna", "url": "https://www.sony.ru/electronics/support/articles/00106319", "retrieved_at": "2026-09-22"},
+    {"id": "samsung-recording", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-record-tv-programs-on-samsung-tv/", "retrieved_at": "2026-09-22"},
+    {"id": "sony-channels", "url": "https://helpguide.sony.net/tv/iga1/v1/ru-142/02-01-02_04.html", "retrieved_at": "2026-09-22"},
+    {"id": "sony-cec", "url": "https://www.sony.ru/electronics/support/articles/00126149", "retrieved_at": "2026-09-22"},
+    {"id": "apple-airplay", "url": "https://support.apple.com/ru-ru/102587", "retrieved_at": "2026-09-22"},
+    {"id": "sony-manual", "url": "https://pro.sony/support/res/manuals/5038/ac33ccb749a17b7a3391ebffd0210489/50381580M.pdf", "retrieved_at": "2026-09-22"},
+    {"id": "samsung-cam", "url": "https://www.samsung.com/ru/support/tv-audio-video/what-can-i-do-if-samsung-tv-does-not-recognize-cam-module/", "retrieved_at": "2026-09-22"},
+    {"id": "samsung-pin", "url": "https://www.samsung.com/ru/support/tv-audio-video/what-can-i-do-if-i-forget-the-samsung-tv-pin-code/", "retrieved_at": "2026-09-22"},
+    {"id": "samsung-arc", "url": "https://www.samsung.com/ru/support/tv-audio-video/how-to-use-hdmi-arc-on-samsung-smart-tv/", "retrieved_at": "2026-09-22"}
+  ]
+}
