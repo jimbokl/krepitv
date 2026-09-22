@@ -9,7 +9,10 @@ import { fileURLToPath } from "node:url";
 
 const docsRoot = fileURLToPath(new URL("../../docs/", import.meta.url));
 
-test("после client boot таблица, методика и мобильный поиск остаются рабочими", { timeout: 30_000 }, async () => {
+// Этот сквозной сценарий последовательно загружает три страницы в реальном
+// headless Chrome. На холодном Linux runner 30 секунд недостаточно даже при
+// исправном интерфейсе, поэтому общий предел учитывает три отдельных boot.
+test("после client boot таблица, методика и мобильный поиск остаются рабочими", { timeout: 90_000 }, async () => {
   const chromePath = await findChrome();
   const server = await startStaticServer();
   const profile = await mkdtemp(path.join(os.tmpdir(), "krepitv-hydration-"));
