@@ -136,8 +136,8 @@ export function GuidedSelectionPage({ catalog, embedded = false }) {
   }
 
   const shell = (
-    <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[18.5rem_minmax(0,1fr)]" data-analytics-tool="installation_kit" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
-          <aside className="border-b border-line bg-panel px-5 py-3 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
+    <div className="mx-auto grid min-h-screen max-w-[1487px] content-start lg:grid-cols-[18.5rem_minmax(0,1fr)]" data-analytics-tool="installation_kit" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
+          <aside className="self-start border-b border-line bg-panel px-5 py-3 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
             <div className="flex items-center justify-between gap-3 lg:block"><Brand compact /><span className="font-mono text-xs text-muted lg:hidden">Шаг {state.step} из 6</span></div>
             <p className="mt-3 hidden max-w-48 text-sm leading-snug text-muted lg:block">От модели телевизора до безопасного плана установки</p>
             <div className="mt-5 hidden items-center gap-3 border-y border-line py-3 font-mono text-[0.68rem] uppercase leading-relaxed text-muted lg:flex" data-kit-ruler="true">

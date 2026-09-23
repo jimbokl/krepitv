@@ -1771,23 +1771,22 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
     .collect::<Vec<_>>()
     .join("\n");
 
-    let search_island = "<div class=\"relative z-20 mt-3 min-h-[8rem]\" data-home-search-island=\"true\"><form action=\"/modeli/\" class=\"grid min-w-0 gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" data-home-search-fallback=\"true\" method=\"get\"><label class=\"sr-only\" for=\"home-model-search\">Модель телевизора</label><input aria-label=\"Модель телевизора\" autocomplete=\"off\" class=\"h-16 min-w-0 w-full rounded-md border-2 border-action bg-white px-4 text-lg\" id=\"home-model-search\" name=\"model\" placeholder=\"Например, TCL 55C7K\"><button class=\"min-h-14 rounded-md bg-action px-6 font-display text-xl font-bold text-white\" type=\"submit\">Найти мой телевизор →</button></form></div>";
+    let search_island = "<div class=\"relative z-20 mt-4\" data-home-search-island=\"true\"><form action=\"/modeli/\" class=\"grid min-w-0 gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" data-home-search-fallback=\"true\" method=\"get\"><label class=\"sr-only\" for=\"home-model-search\">Модель телевизора</label><input aria-label=\"Модель телевизора\" autocomplete=\"off\" class=\"h-16 min-w-0 w-full rounded-md border-2 border-action bg-white px-4 text-lg\" id=\"home-model-search\" name=\"model\" placeholder=\"Например, TCL 55C7K\"><button class=\"min-h-14 rounded-md bg-action px-6 font-display text-xl font-bold text-white\" type=\"submit\">Найти мой телевизор →</button></form></div>";
 
     static_layout(&format!(
         r##"<div class="mx-auto max-w-[1440px] px-5 pb-16 sm:px-8 lg:px-12">
 <div class="hidden items-center justify-between gap-2 border-b border-line py-3 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted lg:flex"><span>Крепи ТВ / монтаж без догадок</span><span>Сначала проверка — потом сверление</span></div>
 <header class="grid border-b-2 border-ink lg:grid-cols-[minmax(0,1.03fr)_minmax(0,0.97fr)]">
-  <div class="order-1 flex flex-col justify-center py-8 pr-0 sm:py-12 lg:pr-10 lg:py-16">
+  <div class="order-1 flex flex-col justify-center py-8 pr-0 sm:py-12 lg:pr-10 lg:py-14">
     <p class="font-mono text-xs font-semibold uppercase tracking-[0.15em] text-action">Поможем разобраться без специальных знаний</p>
     <h1 class="mt-4 max-w-[760px] font-display text-[clamp(2.7rem,5.2vw,5.8rem)] font-extrabold leading-[0.94] tracking-[-0.035em]">Как повесить телевизор <span class="text-action">на кронштейн</span></h1>
     <p class="mt-5 max-w-[36rem] text-lg leading-snug text-ink sm:text-xl">Не знаете, с чего начать? Найдём ваш телевизор, покажем подходящий кронштейн и объясним порядок монтажа.</p>
-    <div class="mt-7 rounded-lg border border-line bg-panel p-4 sm:p-5" id="home-start"><p class="font-display text-xl font-bold" id="home-search-heading">Шаг 1. Какая у вас модель?</p><p class="mt-1 text-sm leading-relaxed text-muted">Посмотрите название на наклейке сзади телевизора или в его настройках.</p>{search_island}<a class="inline-flex min-h-11 items-center font-semibold text-technical underline underline-offset-4" href="/podbor/">Не знаете название? Выберите марку из списка →</a></div>
-    <p class="mt-5 border-l-2 border-verified pl-4 text-sm leading-relaxed text-muted">Не сверлите стену по расчёту сайта: места отверстий определяются только по инструкции вашего кронштейна. <a class="font-semibold text-ink underline underline-offset-4" href="#home-steps">Как действовать безопасно ↓</a></p>
+    <div class="mt-7 border-t-4 border-action bg-white px-4 pb-4 pt-4 sm:px-6 sm:pb-5 sm:pt-5" id="home-start"><p class="font-display text-xl font-bold" id="home-search-heading">Начните с модели телевизора</p><p class="mt-1 text-sm leading-relaxed text-muted">Код указан на наклейке сзади или в настройках. Марки недостаточно.</p>{search_island}<a class="mt-2 inline-flex min-h-11 items-center font-semibold text-technical underline underline-offset-4" href="/podbor/">Не знаете код? Выберите марку и модель →</a></div>
+    <p class="mt-5 border-l-2 border-verified pl-4 text-sm leading-relaxed text-muted">Перед сверлением проверьте стену и инструкцию кронштейна. Размер VESA не показывает точки сверления. <a class="font-semibold text-ink underline underline-offset-4" href="#home-steps">Порядок действий ↓</a></p>
   </div>
-  <figure class="order-2 flex min-h-[17rem] flex-col justify-between border-t border-line bg-white p-4 sm:p-6 lg:min-h-[36rem] lg:border-l lg:border-t-0">
-    <div class="flex items-start justify-between gap-3 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-muted"><span>Как устроено крепление</span><span>Не схема отверстий</span></div>
-    <picture class="block w-full"><source srcset="/assets/images/mount-wall-system.avif" type="image/avif"><source srcset="/assets/images/mount-wall-system.webp" type="image/webp"><img alt="Схема: телевизор, направляющие кронштейна, настенная пластина и стена — отдельные части крепления" class="mx-auto h-56 w-full object-contain sm:h-80 lg:h-[23rem]" decoding="async" fetchpriority="high" height="800" src="/assets/images/mount-wall-system.png" width="1400"></picture>
-    <figcaption class="border-t border-line pt-4 text-sm leading-relaxed text-muted">Кронштейн соединяет телевизор со стеной. Размер крепления на телевизоре не показывает, где сверлить стену.</figcaption>
+  <figure class="order-2 overflow-hidden border-t border-line bg-white lg:border-l lg:border-t-0">
+    <div class="relative h-64 overflow-hidden bg-panel sm:h-[25rem] lg:h-[30rem]"><img alt="Мужчина сверяет модель по наклейке на задней панели телевизора перед выбором кронштейна" class="h-full w-full object-cover object-[57%_center]" decoding="async" fetchpriority="high" height="1024" src="/assets/images/home-hero-model.webp" width="1536"><span class="absolute bottom-4 left-4 max-w-[15rem] border-l-4 border-action bg-ink px-4 py-3 font-display text-lg font-bold leading-tight text-white sm:bottom-6 sm:left-6 sm:max-w-[18rem] sm:text-xl">Сначала найдите модель. Потом выбирайте крепление.</span></div>
+    <figcaption class="grid gap-4 border-t border-line p-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center sm:p-6"><picture class="block"><source srcset="/assets/images/mount-wall-system.avif" type="image/avif"><source srcset="/assets/images/mount-wall-system.webp" type="image/webp"><img alt="Схема: телевизор, направляющие, настенная пластина и стена" class="h-24 w-full object-contain sm:h-28" decoding="async" height="800" loading="lazy" src="/assets/images/mount-wall-system.png" width="1400"></picture><span class="text-sm leading-relaxed text-muted"><strong class="mb-1 block font-display text-base text-ink">Телевизор → кронштейн → стена</strong>Это разные соединения. Отверстия на стене размечают по конкретной пластине кронштейна, не по VESA.</span></figcaption>
   </figure>
 </header>
 <section class="border-b border-line bg-white/60 px-5 py-8 sm:px-8 lg:px-10" aria-labelledby="home-short-answer"><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Если коротко</p><h2 class="mt-2 font-display text-2xl font-bold leading-tight sm:text-3xl" id="home-short-answer">Сначала убедитесь, что всё подходит. Потом сверлите.</h2><p class="mt-3 max-w-4xl text-base leading-relaxed text-muted">Нужны три проверки: модель телевизора и кронштейн совместимы; стена выдержит нагрузку; место и высота удобны. После этого размечайте отверстия по шаблону кронштейна, крепите его по инструкции и вешайте телевизор вдвоём.</p></section>
@@ -7405,10 +7404,15 @@ mod tests {
 
         assert!(html.contains("Как повесить телевизор <span class=\"text-action\">на кронштейн"));
         assert!(html.contains("Сначала убедитесь, что всё подходит. Потом сверлите."));
-        assert!(html.contains("Размер крепления на телевизоре не показывает, где сверлить стену."));
+        assert!(html.contains("Размер VESA не показывает точки сверления."));
         assert!(html.contains("href=\"/kak-povesit-televizor-na-stenu/\""));
         assert!(html.contains("href=\"/krepezh-dlya-televizora-na-stenu/\""));
-        assert!(html.contains("Не схема отверстий"));
+        assert!(html.contains("не по VESA"));
+        assert!(html.contains("/assets/images/home-hero-model.webp"));
+        assert!(
+            root.join("web/public/assets/images/home-hero-model.webp")
+                .is_file()
+        );
         assert_eq!(html.matches("id=\"home-start\"").count(), 1);
         assert_eq!(html.matches("id=\"home-steps\"").count(), 1);
         for image in ["model", "wall", "height"] {
@@ -7446,7 +7450,8 @@ mod tests {
         assert!(html.contains("data-home-search-fallback=\"true\""));
         assert!(html.contains("action=\"/modeli/\""));
         assert!(html.contains("aria-label=\"Модель телевизора\""));
-        assert!(html.contains("mt-3 min-h-[8rem]"));
+        assert!(html.contains("relative z-20 mt-4"));
+        assert!(!html.contains("mt-3 min-h-[8rem]"));
     }
 
     #[test]
