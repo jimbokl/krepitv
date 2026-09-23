@@ -260,6 +260,32 @@ const SEO_TV_INTENT_COHORT_2026_09_18: [(&str, &str); 14] = [
         "/kak-uvelichit-pamyat-televizora-fleshkoy/",
     ),
 ];
+const SEO_YANDEX_SUGGEST_COHORT_2026_09_23: [(&str, &str); 6] = [
+    (
+        "tv-wifi-limited",
+        "/televizor-podklyuchen-k-wifi-no-net-interneta/",
+    ),
+    (
+        "tv-safe-mode-exit",
+        "/kak-vyyti-iz-bezopasnogo-rezhima-televizora/",
+    ),
+    (
+        "tv-hdmi-laptop-not-detected",
+        "/televizor-ne-vidit-noutbuk-cherez-hdmi/",
+    ),
+    (
+        "tv-ten-digital-channels",
+        "/televizor-pokazyvaet-tolko-10-kanalov-iz-20/",
+    ),
+    (
+        "tv-pickup-point-check",
+        "/kak-proverit-televizor-v-punkte-vydachi/",
+    ),
+    (
+        "tv-color-distortion",
+        "/televizor-pokazyvaet-sinim-ili-cherno-belym/",
+    ),
+];
 const SEO_TOOL_SPRINT_2026_09_03: [(&str, &str); 10] = [
     ("tv-over-fireplace", "/televizor-nad-kaminom/"),
     ("tv-over-radiator", "/televizor-nad-batareey/"),
@@ -2685,6 +2711,20 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "tv-wifi-limited" => &["tv-no-internet", "tv-internet-setup", "phone-hotspot"],
+            "tv-safe-mode-exit" => &["tv-app-install", "tv-restart", "tv-factory-reset"],
+            "tv-hdmi-laptop-not-detected" => {
+                &["laptop-to-tv", "tv-no-signal", "hdmi-cable-checker"]
+            }
+            "tv-ten-digital-channels" => {
+                &["digital-channels", "tv-antenna-connect", "tv-no-signal"]
+            }
+            "tv-pickup-point-check" => &[
+                "tv-purchase-checklist",
+                "dead-pixel-test",
+                "tv-model-lookup",
+            ],
+            "tv-color-distortion" => &["picture-setup", "tv-dark-screen", "tv-hdmi-overscan"],
             "phone-hotspot" => &[
                 "offline-tv",
                 "tv-no-internet",
@@ -3076,6 +3116,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-model-lookup",
                 "tv-factory-reset",
                 "tv-app-install",
+                "tv-safe-mode-exit",
                 "tv-4k-enable",
             ],
             "tv-resolution-check" => &[
@@ -3254,6 +3295,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "digital-channels",
                 "laptop-to-tv",
                 "phone-to-tv",
+                "tv-hdmi-laptop-not-detected",
                 "tv-no-internet",
                 "tv-turns-off",
             ],
@@ -3292,11 +3334,12 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             ],
             "tv-no-internet" => &[
                 "tv-usb-not-seen",
+                "tv-wifi-limited",
+                "smart-tv-box",
                 "digital-channels",
                 "tv-no-signal",
                 "phone-to-tv",
                 "laptop-to-tv",
-                "smart-tv-box",
                 "tv-turns-off",
             ],
             "tv-usb-not-seen" => &[
@@ -3321,6 +3364,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "phone-to-tv",
                 "tv-no-internet",
                 "tv-usb-not-seen",
+                "tv-hdmi-laptop-not-detected",
                 "picture-setup",
                 "digital-channels",
             ],
@@ -3330,6 +3374,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-no-signal",
                 "tv-no-internet",
                 "picture-setup",
+                "tv-ten-digital-channels",
                 "laptop-to-tv",
                 "phone-to-tv",
             ],
@@ -3339,6 +3384,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-game-mode",
                 "tv-energy-consumption",
                 "screen-cleaning",
+                "tv-color-distortion",
                 "tv-aspect-ratio",
                 "tv-dark-screen",
                 "viewing-distance",
@@ -3442,6 +3488,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-model-lookup",
                 "vesa",
                 "tv-mount-screws",
+                "tv-pickup-point-check",
                 "tv-dimensions",
                 "wall-planner",
             ],
@@ -4576,6 +4623,10 @@ fn seo_page_kind_label(page: &SeoPage) -> &'static str {
         | "tv-remote-not-working"
         | "tv-turns-off"
         | "tv-no-internet"
+        | "tv-wifi-limited"
+        | "tv-hdmi-laptop-not-detected"
+        | "tv-ten-digital-channels"
+        | "tv-color-distortion"
         | "tv-usb-not-seen"
         | "tv-wont-turn-on"
         | "tv-freezes"
@@ -4590,8 +4641,10 @@ fn seo_page_kind_label(page: &SeoPage) -> &'static str {
         | "tv-aspect-ratio"
         | "tv-4k-enable"
         | "tv-store-mode"
+        | "tv-safe-mode-exit"
         | "tv-resolution-check"
         | "tv-120hz-enable" => "Настройка телевизора",
+        "tv-pickup-point-check" => "Проверка перед покупкой",
         "screen-cleaning" => "Уход за телевизором",
         "tv-energy-consumption" => "Расчёт электроэнергии",
         _ => match page.kind.as_str() {
@@ -5113,6 +5166,7 @@ fn validate_seo_pages(pages: &[SeoPage]) {
         &DAILY_SEO_COHORT_2026_08_09[..],
         &DAILY_SEO_COHORT_2026_08_10[..],
         &SEO_TV_INTENT_COHORT_2026_09_18[..],
+        &SEO_YANDEX_SUGGEST_COHORT_2026_09_23[..],
         &SEO_TOOL_SPRINT_2026_09_03[..],
     ] {
         for &(id, path) in cohort {

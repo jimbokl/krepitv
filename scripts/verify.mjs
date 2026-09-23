@@ -35,6 +35,14 @@ const seoSprintGuideIds = [
   "tv-pin-reset",
   "tv-arc-no-sound",
 ];
+const yandexSuggestGuideIds = [
+  "tv-wifi-limited",
+  "tv-safe-mode-exit",
+  "tv-hdmi-laptop-not-detected",
+  "tv-ten-digital-channels",
+  "tv-pickup-point-check",
+  "tv-color-distortion",
+];
 const mountingIntentIds = [
   "vesa-200x100",
   "vesa-200x300",
@@ -498,6 +506,7 @@ const expectedIndexableUrlCount = baselineIndexableUrlCount
   + tvIntentIndexableUrlCount
   + connectionGuideIds.length
   + seoSprintGuideIds.length
+  + yandexSuggestGuideIds.length
   + mountingIntentIds.length
   + marketModelsManifest.summary.indexable_observed_canonicals;
 const mounts = JSON.parse(await readFile(path.join(docs, "data/mounts.json"), "utf8"));
@@ -1845,6 +1854,7 @@ const expectedGuideCount = expectedDailyGuideCount
   + tvIntentGuideIds.length
   + connectionGuideIds.length
   + seoSprintGuideIds.length
+  + yandexSuggestGuideIds.length
   + 1; // Сценарий монтажа на деревянную стену.
 if (dailyEvidenceGuidePages.length !== expectedGuideCount) {
   throw new Error(`Ожидалось ${expectedGuideCount} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
@@ -1860,6 +1870,15 @@ for (const id of seoSprintGuideIds) {
   }
   if (!page.indexable || page.guide.steps.length !== 3 || page.guide.sources.length < 2) {
     throw new Error(`SEO-спринт 2026-09-22 не прошёл контракт полезности: ${id}`);
+  }
+}
+for (const id of yandexSuggestGuideIds) {
+  const page = dailyEvidenceGuidePages.find((item) => item.id === id);
+  if (!page || !page.indexable || page.guide.updated_at !== "2026-09-23") {
+    throw new Error(`Яндекс-подсказка не содержит актуальный индексируемый guide: ${id}`);
+  }
+  if (page.guide.steps.length !== 3 || page.guide.sources.length < 2) {
+    throw new Error(`Яндекс-подсказка не прошла контракт полезности: ${id}`);
   }
 }
 for (const id of tvIntentGuideIds) {

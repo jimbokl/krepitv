@@ -91,7 +91,12 @@ test("traffic utilities link to each other without creating diagnostic variants"
   );
   assert.deepEqual(
     getRelatedPages(catalog[11], catalog).map((page) => page.id),
-    ["tv-usb-not-seen", "digital-channels", "tv-no-signal", "phone-to-tv", "laptop-to-tv", "smart-tv-box"],
+    ["tv-usb-not-seen", "smart-tv-box", "digital-channels", "tv-no-signal", "phone-to-tv", "laptop-to-tv"],
+  );
+  const withLimitedWifi = [...catalog, { id: "tv-wifi-limited", kind: "calculator", indexable: true }];
+  assert.deepEqual(
+    getRelatedPages(withLimitedWifi[11], withLimitedWifi).map((page) => page.id),
+    ["tv-usb-not-seen", "tv-wifi-limited", "smart-tv-box", "digital-channels", "tv-no-signal", "phone-to-tv"],
   );
   assert.deepEqual(
     getRelatedPages(catalog[12], catalog).map((page) => page.id),

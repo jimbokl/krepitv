@@ -84,6 +84,8 @@ const diagnosticsPageIds = new Set([
   "dead-pixel-test",
   "tv-boot-loop", "tv-voice-remote-search", "tv-screen-uniformity",
   "tv-audio-video-sync",
+  "tv-wifi-limited", "tv-hdmi-laptop-not-detected", "tv-ten-digital-channels",
+  "tv-color-distortion",
 ]);
 
 const setupPageIds = new Set([
@@ -95,6 +97,7 @@ const setupPageIds = new Set([
   "tv-eco-mode-dimming", "tv-usb-file-system", "tv-hdmi-overscan",
   "tv-usb-video-subtitles", "tv-bluetooth-remote-pairing",
   "tv-motion-smoothing", "tv-usb-expand-storage",
+  "tv-safe-mode-exit",
 ]);
 
 export function seoPageKindLabel(page) {
@@ -102,7 +105,7 @@ export function seoPageKindLabel(page) {
   if (diagnosticsPageIds.has(page.id)) return "Диагностика телевизора";
   if (setupPageIds.has(page.id)) return "Настройка телевизора";
   if (page.id === "hide-tv-wires") return "Планирование установки";
-  if (page.id === "tv-purchase-checklist") return "Проверка перед покупкой";
+  if (["tv-purchase-checklist", "tv-pickup-point-check"].includes(page.id)) return "Проверка перед покупкой";
   if (page.id === "screen-cleaning") return "Уход за телевизором";
   if (page.id === "tv-energy-consumption") return "Расчёт электроэнергии";
   return kindLabels[page.kind] ?? "Технический справочник";
