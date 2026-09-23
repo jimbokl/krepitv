@@ -22,5 +22,9 @@ When implementing from a selected generated mock, treat that image as the source
   a required application server or Cloud.ru dependency.
 - Do not fabricate technical specifications, compatibility, review counts,
   prices, affiliate rewards, sources, ERID, or availability.
+- Главная отвечает на широкий монтажный интент «как повесить телевизор на
+  кронштейн»: сначала понятный порядок и проверка модели, затем стены, высоты
+  и крепления. Она не подменяет подробную монтажную карту по адресу
+  `/kak-povesit-televizor-na-stenu/` и не превращается в товарную витрину.
 
 Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.

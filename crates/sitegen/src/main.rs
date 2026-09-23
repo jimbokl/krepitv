@@ -1738,10 +1738,42 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
     .collect::<Vec<_>>()
     .join("\n");
 
-    let search_island = "<div class=\"relative z-20 mt-6 min-h-20 min-h-[10.75rem] md:min-h-20\" data-home-search-island=\"true\"><form action=\"/modeli/\" class=\"grid min-w-0 gap-3 md:grid-cols-[minmax(0,1fr)_22rem]\" data-home-search-fallback=\"true\" method=\"get\"><label class=\"sr-only\" for=\"home-model-search\">Модель телевизора</label><input aria-label=\"Модель телевизора\" autocomplete=\"off\" class=\"h-20 min-w-0 w-full rounded-md border-2 border-action bg-white px-5 text-lg sm:text-xl lg:text-3xl\" id=\"home-model-search\" name=\"model\" placeholder=\"Введите модель ТВ\"><button class=\"h-20 rounded-md bg-action px-7 font-display text-2xl font-bold text-white\" type=\"submit\">Открыть каталог</button></form></div>";
+    let search_island = "<div class=\"relative z-20 mt-5 min-h-[10.75rem] md:min-h-20\" data-home-search-island=\"true\"><form action=\"/modeli/\" class=\"grid min-w-0 gap-3 md:grid-cols-[minmax(0,1fr)_22rem]\" data-home-search-fallback=\"true\" method=\"get\"><label class=\"sr-only\" for=\"home-model-search\">Модель телевизора</label><input aria-label=\"Модель телевизора\" autocomplete=\"off\" class=\"h-20 min-w-0 w-full rounded-md border-2 border-action bg-white px-5 text-lg sm:text-xl lg:text-3xl\" id=\"home-model-search\" name=\"model\" placeholder=\"Введите модель ТВ\"><button class=\"h-20 rounded-md bg-action px-7 font-display text-2xl font-bold text-white\" type=\"submit\">Открыть каталог</button></form></div>";
 
     static_layout(&format!(
-        "<div class=\"mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase text-action\">Независимый технический подбор</p><h1 class=\"mt-3 max-w-[1100px] font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold uppercase leading-[0.92]\">Кронштейн для вашего телевизора</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Введите точную модель: KREPI TV сверит VESA, диагональ и массу, а затем соберёт высоты, крепёжные ограничения, кабели и чек-лист монтажа.</p>{search_island}<a class=\"primary-button mt-6\" href=\"/podbor/\">Собрать монтажный комплект</a></header><section class=\"py-9\"><p class=\"font-mono text-xs uppercase text-action\">Точные модели с источниками · {model_count}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">Найдите точную модель в каталоге</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Полный список сгруппирован по брендам, чтобы главная оставалась короткой, а каждая модель была доступна через каталог.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/modeli/\">Открыть все проверенные модели →</a>{spotlight_model}</section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Что даёт сервис без покупки</h2><ul class=\"mt-5 grid gap-3 text-base leading-relaxed sm:grid-cols-2\"><li>Точный VESA конкретной модели телевизора.</li><li>Проверку массы с запасом нагрузки 25%.</li><li>Персональную карту высот и контрольную линию пластины.</li><li>Ограничения крепежа для выбранной стены.</li><li>Кабельный план и печатный чек-лист.</li><li>Ссылки на официальные источники характеристик.</li></ul></section><section class=\"border-t border-line py-9\"><h2 class=\"font-display text-3xl font-extrabold\">Главные справочники и калькуляторы</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Проверьте физический размер, расположение на стене, высоту и VESA до выбора конкретного кронштейна.</p><nav class=\"mt-5 grid gap-px border border-line bg-line sm:grid-cols-3\" aria-label=\"Главные справочники и калькуляторы\">{seo_links}</nav><p class=\"mt-5\"><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/\">Открыть каталог проверенных кронштейнов →</a></p></section><section class=\"border-t border-line py-9\" data-home-tv-diagnostics=\"true\"><p class=\"font-mono text-xs uppercase text-action\">Без разборки и догадок</p><div class=\"mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end\"><h2 class=\"font-display text-3xl font-extrabold\">Диагностика телевизора</h2><p class=\"max-w-2xl leading-relaxed text-muted\">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class=\"mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3\" aria-label=\"Диагностика телевизора\">{diagnostic_links}</nav></section></div>",
+        r##"<div class="mx-auto max-w-[1440px] px-5 pb-16 sm:px-8 lg:px-12">
+<div class="flex flex-wrap items-center justify-between gap-2 border-b border-line py-4 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted"><span>Крепи ТВ / монтаж без догадок</span><span>Модель → стена → высота → крепление</span></div>
+<header class="grid border-b-2 border-ink lg:grid-cols-[minmax(0,1.03fr)_minmax(0,0.97fr)]">
+  <div class="order-1 flex flex-col justify-center py-9 pr-0 sm:py-12 lg:pr-10 lg:py-16">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.15em] text-action">Понятный маршрут установки</p>
+    <h1 class="mt-5 max-w-[760px] font-display text-[clamp(3.2rem,5.2vw,6rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.035em]">Как повесить телевизор <span class="text-action">на кронштейн</span></h1>
+    <p class="mt-6 max-w-[38rem] text-base leading-relaxed text-muted sm:text-lg">Начните не с отверстий в стене. Узнайте VESA и массу своей модели, проверьте основание, рассчитайте высоту и только затем выберите совместимый кронштейн.</p>
+    <div class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3"><a class="primary-button" href="#home-start">Начать с модели <span aria-hidden="true">↗</span></a><a class="inline-flex min-h-12 items-center font-semibold text-ink underline decoration-action decoration-2 underline-offset-4 hover:text-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href="#home-steps">Посмотреть порядок действий ↓</a></div>
+    <p class="mt-7 max-w-[36rem] border-l-2 border-verified pl-4 text-sm leading-relaxed text-muted">Калькуляторы помогают подготовиться к монтажу, но не подтверждают прочность стены и не заменяют инструкцию конкретного кронштейна.</p>
+  </div>
+  <figure class="order-3 flex min-h-[17rem] flex-col justify-between border-t border-line bg-white p-4 sm:p-6 lg:order-2 lg:min-h-[36rem] lg:border-l lg:border-t-0">
+    <div class="flex items-start justify-between gap-3 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-muted"><span>Схема / 01</span><span>Не шаблон сверления</span></div>
+    <picture class="block w-full"><source srcset="/assets/images/mount-wall-system.avif" type="image/avif"><source srcset="/assets/images/mount-wall-system.webp" type="image/webp"><img alt="Схема: телевизор, направляющие кронштейна, настенная пластина и стена — отдельные части крепления" class="mx-auto h-56 w-full object-contain sm:h-80 lg:h-[23rem]" decoding="async" fetchpriority="high" height="800" src="/assets/images/mount-wall-system.png" width="1400"></picture>
+    <figcaption class="grid grid-cols-2 gap-2 border-t border-line pt-4 font-mono text-[0.67rem] uppercase tracking-[0.08em] text-muted sm:grid-cols-4"><span>01 Телевизор</span><span>02 Направляющие</span><span>03 Пластина</span><span>04 Стена</span></figcaption>
+  </figure>
+<section class="order-2 grid gap-6 border-t border-line bg-panel py-8 sm:px-6 lg:order-3 lg:col-span-2 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] lg:items-center lg:gap-10" id="home-start" aria-labelledby="home-search-heading">
+  <div><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Первое действие / точная модель</p><h2 class="mt-2 font-display text-3xl font-extrabold uppercase leading-tight sm:text-4xl" id="home-search-heading">Проверьте свой телевизор</h2><p class="mt-3 max-w-md text-sm leading-relaxed text-muted sm:text-base">Модель определяет VESA, массу и подходящие крепления. Названия серии или одной диагонали недостаточно.</p></div>
+  <div>{search_island}<div class="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm"><a class="font-semibold text-technical underline underline-offset-4" href="/modeli/">Выбрать модель из каталога →</a><a class="font-semibold text-technical underline underline-offset-4" href="/vesa/">Не знаете модель? Измерьте VESA →</a></div></div>
+</section>
+</header>
+<section class="grid gap-5 border-b border-line py-8 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,1fr)] lg:gap-12" aria-labelledby="home-short-answer"><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Короткий ответ</p><div><h2 class="font-display text-2xl font-bold leading-tight sm:text-3xl" id="home-short-answer">Как повесить телевизор на стену с кронштейном?</h2><p class="mt-3 max-w-4xl text-base leading-relaxed text-muted">Сверьте отверстия VESA и массу телевизора с паспортом кронштейна. Проверьте материал, состояние стены и скрытые коммуникации. Разметьте высоту экрана, затем перенесите на стену точки крепления только по штатному шаблону или самой пластине. Установите пластину и направляющие по инструкции производителя; поднимайте телевизор вдвоём, зафиксируйте замки и проверьте устойчивость и доступ к кабелям.</p></div></section>
+<section class="border-b border-line py-10" id="home-steps" aria-labelledby="home-steps-heading"><div class="flex flex-wrap items-end justify-between gap-4"><div><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">От поиска модели до проверки крепления</p><h2 class="mt-2 font-display text-3xl font-extrabold uppercase sm:text-4xl" id="home-steps-heading">Четыре шага перед монтажом</h2></div><a class="font-semibold text-action underline underline-offset-4" href="/podbor/">Собрать монтажный комплект →</a></div>
+  <ol class="mt-6 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+    <li class="flex min-h-56 flex-col bg-white p-5"><span class="font-display text-4xl font-extrabold text-action">01</span><h3 class="mt-5 font-display text-xl font-bold">Найдите модель и VESA</h3><p class="mt-2 flex-1 text-sm leading-relaxed text-muted">Сверьте точный код модели, массу без подставки и расстояние между отверстиями.</p><a class="mt-4 font-semibold text-technical underline underline-offset-4" href="/modeli/">Каталог моделей →</a></li>
+    <li class="flex min-h-56 flex-col bg-white p-5"><span class="font-display text-4xl font-extrabold text-action">02</span><h3 class="mt-5 font-display text-xl font-bold">Проверьте стену</h3><p class="mt-2 flex-1 text-sm leading-relaxed text-muted">Основание и крепёж оценивают отдельно от VESA. При сомнении в прочности нужен специалист.</p><a class="mt-4 font-semibold text-technical underline underline-offset-4" href="/krepezh-dlya-televizora-na-stenu/">Проверка крепежа →</a></li>
+    <li class="flex min-h-56 flex-col bg-white p-5"><span class="font-display text-4xl font-extrabold text-action">03</span><h3 class="mt-5 font-display text-xl font-bold">Рассчитайте высоту</h3><p class="mt-2 flex-1 text-sm leading-relaxed text-muted">Постройте карту экрана и контрольной линии. VESA — не схема отверстий на стене.</p><a class="mt-4 font-semibold text-technical underline underline-offset-4" href="/kak-povesit-televizor-na-stenu/">Открыть монтажную карту →</a></li>
+    <li class="flex min-h-56 flex-col bg-white p-5"><span class="font-display text-4xl font-extrabold text-action">04</span><h3 class="mt-5 font-display text-xl font-bold">Сверьте кронштейн</h3><p class="mt-2 flex-1 text-sm leading-relaxed text-muted">Проверьте VESA, диапазон диагонали, нагрузку и нужный вылет до покупки.</p><a class="mt-4 font-semibold text-technical underline underline-offset-4" href="/podbor/">Подобрать совместимый →</a></li>
+  </ol>
+  <p class="mt-5 text-sm"><a class="font-semibold text-action underline underline-offset-4" href="/kronshteyny/">Сравнить все проверенные кронштейны →</a></p>
+</section>
+<section class="grid gap-6 border-b border-line py-9 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)] lg:items-center"><div><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Проверенный пример / {model_count} моделей в каталоге</p><h2 class="mt-2 font-display text-3xl font-extrabold">Посмотрите, как выглядит результат</h2><p class="mt-3 max-w-xl leading-relaxed text-muted">У каждой подтверждённой модели — паспортные параметры и подходящие варианты крепления. Это полезно даже без покупки.</p></div>{spotlight_model}</section>
+<section class="border-b border-line py-9"><h2 class="font-display text-3xl font-extrabold">Справочники и калькуляторы</h2><p class="mt-3 max-w-3xl leading-relaxed text-muted">Дополнительные инструменты для высоты, размеров, VESA и монтажа. Каждый расчёт можно использовать отдельно.</p><nav class="mt-5 grid gap-px border border-line bg-line sm:grid-cols-3" aria-label="Главные справочники и калькуляторы">{seo_links}</nav><p class="mt-5"><a class="font-semibold text-action underline underline-offset-4" href="/spravochnik/">Весь справочник →</a></p></section>
+<section class="border-b border-line py-9" data-home-tv-diagnostics="true"><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Другие задачи с телевизором</p><div class="mt-2 grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,2fr)] lg:items-end"><h2 class="font-display text-3xl font-extrabold">Диагностика телевизора</h2><p class="max-w-2xl leading-relaxed text-muted">Выберите наблюдаемый симптом. Мастер даст одну безопасную следующую проверку и остановится там, где нужна инструкция точной модели или официальная поддержка.</p></div><nav class="mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 md:grid-cols-3" aria-label="Диагностика телевизора">{diagnostic_links}</nav></section></div>"##,
         model_count = models.len(),
         search_island = search_island,
         spotlight_model = spotlight_model,
@@ -5917,8 +5949,8 @@ fn main() {
     write(
         &web.join("index.html"),
         &html_shell(
-            "Проверка совместимости телевизора и кронштейна — KREPI TV",
-            "Проверьте VESA, массу, диагональ и высоту установки для точной модели телевизора. Расчёт работает локально в браузере.",
+            "Как повесить телевизор на кронштейн: порядок действий — KREPI TV",
+            "Как повесить телевизор на стену с кронштейном: проверьте модель и VESA, оцените стену, рассчитайте высоту и подберите совместимое крепление до сверления.",
             "https://krepitv.ru/",
             "home",
             None,
@@ -7270,7 +7302,7 @@ mod tests {
         ] {
             assert!(html.contains(&format!("data-home-tv-diagnostic=\"{id}\"")));
         }
-        assert!(html.contains(&format!("Точные модели с источниками · {}", models.len())));
+        assert!(html.contains(&format!("{} моделей в каталоге", models.len())));
         assert!(html.contains("href=\"/modeli/\""));
         assert!(html.contains("href=\"/kronshteyny/\""));
         for model in &models {
@@ -7281,6 +7313,23 @@ mod tests {
         }
         assert_eq!(html.matches("data-home-model-spotlight=").count(), 1);
         assert!(html.contains("data-home-model-spotlight=\"tcl-65c7k\""));
+    }
+
+    #[test]
+    fn home_answers_mounting_intent_before_catalog_and_keeps_wall_map_distinct() {
+        let root = workspace_root();
+        let models: Vec<TvModel> = read_json(&root.join("data/tv_models.json"));
+        let pages: Vec<SeoPage> = read_json(&root.join("data/seo_pages.json"));
+        let html = home_page_body(&models, &pages);
+
+        assert!(html.contains("Как повесить телевизор <span class=\"text-action\">на кронштейн"));
+        assert!(html.contains("Как повесить телевизор на стену с кронштейном?"));
+        assert!(html.contains("VESA — не схема отверстий на стене"));
+        assert!(html.contains("href=\"/kak-povesit-televizor-na-stenu/\""));
+        assert!(html.contains("href=\"/krepezh-dlya-televizora-na-stenu/\""));
+        assert!(html.contains("Не шаблон сверления"));
+        assert_eq!(html.matches("id=\"home-start\"").count(), 1);
+        assert_eq!(html.matches("id=\"home-steps\"").count(), 1);
     }
 
     #[test]
