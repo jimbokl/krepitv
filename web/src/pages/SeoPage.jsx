@@ -382,11 +382,23 @@ function SeoArticle({ catalog, page }) {
           <p className="mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl">
             {page.lead}
           </p>
+          {page.id === "mounting-map" ? <a className="primary-button mt-5 inline-flex min-h-14 items-center" href="#монтажная-карта">Рассчитать высоту экрана ↓</a> : null}
         </header>
 
-        <EditorialAccountability evidence={editorialEvidence} />
+        {page.id === "mounting-map" ? (
+          <aside className="my-6 rounded-lg bg-ink p-5 text-white sm:p-7" aria-label="Порядок работы с монтажной картой">
+            <p className="font-mono text-xs uppercase tracking-wide text-white/70">Начните здесь</p>
+            <h2 className="mt-2 font-display text-2xl font-bold sm:text-3xl">Три простых действия</h2>
+            <ol className="mt-5 grid gap-4 sm:grid-cols-3">
+              <li><strong className="block text-lg text-[#ff8a62]">1. Измерьте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Расстояние от пола до глаз и высоту мебели.</span></li>
+              <li><strong className="block text-lg text-[#ff8a62]">2. Рассчитайте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Посмотрите, где окажется экран.</span></li>
+              <li><strong className="block text-lg text-[#ff8a62]">3. Сверьте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Отверстия размечайте по вашему кронштейну, не по экрану.</span></li>
+            </ol>
+            <a className="mt-5 inline-flex min-h-11 items-center font-semibold underline underline-offset-4" href="#монтажная-карта">Перейти к расчёту ↓</a>
+          </aside>
+        ) : <EditorialAccountability evidence={editorialEvidence} />}
 
-        {!prioritizesPrimaryLookup && !prioritizesBrandComparison ? (
+        {!prioritizesPrimaryLookup && !prioritizesBrandComparison && page.id !== "mounting-map" ? (
           <section
             className={`${["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
             aria-label="Ключевые факты"
@@ -445,7 +457,11 @@ function SeoArticle({ catalog, page }) {
         {page.id === "wall-mounted-tv" ? <TurnClearanceCalculator /> : null}
         {page.id === "extendable-mount" ? <TurnClearanceCalculator /> : null}
         {page.id === "tilt-mount" ? <TiltAngleCalculator /> : null}
-        {page.id === "mounting-map" ? <MountingMapCalculator /> : null}
+        {page.id === "mounting-map" ? <>
+          <MountingMapCalculator />
+          <details className="border-b border-line py-5"><summary className="cursor-pointer font-display text-xl font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action">Что важно проверить перед сверлением</summary><ol className="mt-4 grid gap-3 text-sm leading-relaxed text-muted sm:grid-cols-2">{page.facts.map((fact, index) => <li className="flex gap-3" key={fact}><span className="font-bold text-action">{index + 1}.</span>{fact}</li>)}</ol></details>
+          <EditorialAccountability evidence={editorialEvidence} />
+        </> : null}
         {prioritizesWallPlanner ? (
           <WallPlannerCalculator models={catalog.models} search={catalog.search} />
         ) : null}

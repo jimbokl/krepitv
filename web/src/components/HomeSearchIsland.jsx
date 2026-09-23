@@ -10,8 +10,11 @@ export function HomeSearchIsland({ search }) {
 
   return (
     <ModelSearch
+      buttonLabel="Открыть модель"
+      compact
       onChange={setQuery}
       onSubmit={openModel}
+      placeholder="Например, TCL 55C7K"
       search={search}
       value={query}
     />

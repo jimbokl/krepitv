@@ -18,7 +18,6 @@ import { selectAffiliateOffer } from "../lib/affiliateOffer.mjs";
 import { modelHref, mountHref } from "../lib/catalog.js";
 import { groupCatalogItemsByBrand } from "../lib/catalogGroups.mjs";
 import { canAdvance, createInstallationKitState, getCompletedSteps, installationKitModelIdFromSearch, installationKitReducer } from "../lib/installationKitState.js";
-import { modelWeightSuffix } from "../lib/modelWeight.js";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 import { pluralizeRu } from "../lib/russianGrammar.js";
 
@@ -29,12 +28,12 @@ const mechanisms = [
 ];
 
 const STEP_COPY = {
-  1: ["Сначала выберите марку телевизора", "Так мы исключим модели других производителей и оставим только точную часть проверенного каталога."],
-  2: ["Теперь выберите точную модель", "Полный код можно сверить с шильдиком на задней панели. Похожая модель не считается заменой."],
-  3: ["Как устроена стена", "Материал основания влияет только на секцию настенного крепежа и не подменяет проверку VESA."],
-  4: ["Как должен двигаться телевизор", "Выберите механизм. Совместимость проверим локально по VESA, диагонали и нагрузке с запасом."],
-  5: ["Выберите проверенный кронштейн", "В финал допускаются только варианты со статусом verified-fit. Условные совпадения не продаём."],
-  6: ["Задайте высоты и подключения", "Получите персональную карту высот, кабельный план, инструменты и последовательность монтажа."],
+  1: ["Сначала выберите марку телевизора", "Посмотрите название марки на рамке телевизора или на наклейке сзади."],
+  2: ["Теперь выберите точную модель", "Нужны буквы и цифры целиком — обычно они написаны на наклейке сзади телевизора."],
+  3: ["Из чего сделана стена?", "Выберите материал стены. Если не уверены, не сверлите: сначала уточните у мастера."],
+  4: ["Хотите поворачивать экран?", "Выберите, будет ли телевизор висеть неподвижно, наклоняться или поворачиваться."],
+  5: ["Выберите кронштейн", "Покажем только те варианты, совместимость которых удалось подтвердить."],
+  6: ["Где будет висеть экран?", "Укажите высоту и подключения — соберём понятный план перед монтажом."],
 };
 
 export function getGuidedBrandOptions(models) {
@@ -138,26 +137,27 @@ export function GuidedSelectionPage({ catalog, embedded = false }) {
 
   const shell = (
     <div className="mx-auto grid min-h-screen max-w-[1487px] lg:grid-cols-[18.5rem_minmax(0,1fr)]" data-analytics-tool="installation_kit" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
-          <aside className="border-b border-line bg-panel px-5 py-5 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
-            <Brand compact />
-            <p className="mt-3 max-w-48 text-sm leading-snug text-muted">Полный монтажный комплект для точной модели телевизора</p>
-            <div className="mt-5 flex items-center gap-3 border-y border-line py-3 font-mono text-[0.68rem] uppercase leading-relaxed text-muted" data-kit-ruler="true">
+          <aside className="border-b border-line bg-panel px-5 py-3 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
+            <div className="flex items-center justify-between gap-3 lg:block"><Brand compact /><span className="font-mono text-xs text-muted lg:hidden">Шаг {state.step} из 6</span></div>
+            <p className="mt-3 hidden max-w-48 text-sm leading-snug text-muted lg:block">От модели телевизора до безопасного плана установки</p>
+            <div className="mt-5 hidden items-center gap-3 border-y border-line py-3 font-mono text-[0.68rem] uppercase leading-relaxed text-muted lg:flex" data-kit-ruler="true">
               <Ruler aria-hidden="true" className="size-5 shrink-0 text-action" />
-              Шесть проверяемых шагов
+              Шесть простых шагов
             </div>
-            <KitStepRail current={state.step} completed={getCompletedSteps(state)} onStep={(step) => dispatch({ type: "go-to-step", value: step })} />
+            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-line lg:hidden" role="progressbar" aria-label="Прогресс подбора" aria-valuemin={1} aria-valuemax={6} aria-valuenow={state.step}><div className="h-full rounded-full bg-action transition-all" style={{ width: `${state.step / 6 * 100}%` }} /></div>
+            <div className="hidden lg:block"><KitStepRail current={state.step} completed={getCompletedSteps(state)} onStep={(step) => dispatch({ type: "go-to-step", value: step })} /></div>
             <div className="mt-8 hidden items-start gap-3 text-verified lg:flex lg:pt-24"><CheckCircle aria-hidden="true" className="size-9 shrink-0" /><p className="text-sm leading-snug">Каждый точный совет<br />подтверждён источником.</p></div>
           </aside>
 
           <div className="min-w-0">
-            <section className="border-b border-line px-5 py-8 sm:px-10 lg:px-12 lg:py-12" data-guided-step-content="true" data-kit-step-layout="true">
-              <Breadcrumbs items={[{ href: "/", label: "Главная" }, { label: "Монтажный комплект" }]} />
-              <p className="font-mono text-xs uppercase tracking-wide text-muted">Шаг {state.step} из 6</p>
-              <h1 className="mt-2 break-words font-display text-4xl font-extrabold leading-none outline-none sm:text-5xl lg:text-6xl" ref={stepHeadingRef} tabIndex={-1}>{heading}{state.step === 2 && state.brand ? ` ${state.brand}` : ""}</h1>
-              <p className="mt-4 max-w-[900px] text-lg leading-relaxed text-muted">{description}</p>
-              <div className={state.step === 1 ? "mt-7 grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(19rem,0.72fr)] xl:gap-12" : "mt-7"}>
+            <section className="border-b border-line px-5 py-6 sm:px-10 lg:px-12 lg:py-12" data-guided-step-content="true" data-kit-step-layout="true">
+              <div className="hidden lg:block"><Breadcrumbs items={[{ href: "/", label: "Главная" }, { label: "Подбор кронштейна" }]} /></div>
+              <p className="hidden font-mono text-xs uppercase tracking-wide text-muted lg:block">Шаг {state.step} из 6</p>
+              <h1 className="mt-2 break-words font-display text-[clamp(2rem,5vw,4rem)] font-extrabold leading-[1.02] outline-none" ref={stepHeadingRef} tabIndex={-1}>{heading}{state.step === 2 && state.brand ? ` ${state.brand}` : ""}</h1>
+              <p className="mt-3 max-w-[900px] text-base leading-relaxed text-muted sm:text-lg">{description}</p>
+              <div className={state.step === 1 ? "mt-5 grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(19rem,0.72fr)] xl:gap-12" : "mt-7"}>
                 <div className="relative z-20 min-w-0">
-                  {state.step === 1 ? <BrandStep brand={state.brand} brandOptions={brandOptions} catalogSize={catalog.models.length} onChange={(value) => dispatch({ type: "set-brand", value })} onSubmit={advance} /> : null}
+                  {state.step === 1 ? <BrandStep brand={state.brand} brandOptions={brandOptions} onChange={(value) => dispatch({ type: "set-brand", value })} onSubmit={advance} /> : null}
                   {state.step === 2 ? <ModelStep brand={state.brand} modelId={state.modelId} modelOptions={modelOptions} onChange={(value) => dispatch({ type: "set-model", value })} onSubmit={advance} /> : null}
                   {state.step === 3 ? <WallProfileStep onChange={(value) => dispatch({ type: "set-wall-profile", value })} value={state.wallProfile} /> : null}
                   {state.step === 4 ? <ChoiceGrid label="Механизм кронштейна" onChange={(value) => dispatch({ type: "set-mechanism", value })} options={mechanisms} value={state.mechanism} /> : null}
@@ -188,8 +188,8 @@ export function GuidedSelectionPage({ catalog, embedded = false }) {
   );
 }
 
-function BrandStep({ brand, brandOptions, catalogSize, onChange, onSubmit }) {
-  return <form data-guided-brand-step="true" onSubmit={onSubmit}><label className="block font-display text-lg font-bold" htmlFor="guided-tv-brand">Марка телевизора</label><div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto]"><Select id="guided-tv-brand" onChange={onChange} value={brand}><option value="">Выберите марку</option>{brandOptions.map((option) => <option key={option.brand} value={option.brand}>{option.brand} — {option.count} {pluralizeRu(option.count, "модель", "модели", "моделей")}</option>)}</Select><button className="primary-button w-full lg:w-auto" data-kit-primary-action="true" disabled={!brand} type="submit">Выбрать модель <ArrowRight aria-hidden="true" /></button></div><p className="mt-3 font-mono text-xs text-muted">{brandOptions.length} {pluralizeRu(brandOptions.length, "марка", "марки", "марок")} · {catalogSize} проверенных моделей</p></form>;
+function BrandStep({ brand, brandOptions, onChange, onSubmit }) {
+  return <form data-guided-brand-step="true" onSubmit={onSubmit}><label className="block font-display text-lg font-bold" htmlFor="guided-tv-brand">Марка телевизора</label><div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto]"><Select id="guided-tv-brand" onChange={onChange} value={brand}><option value="">Выберите марку</option>{brandOptions.map((option) => <option key={option.brand} value={option.brand}>{option.brand} — {option.count} {pluralizeRu(option.count, "модель", "модели", "моделей")}</option>)}</Select><button className="primary-button w-full lg:w-auto" data-kit-primary-action="true" disabled={!brand} type="submit">Дальше: модель <ArrowRight aria-hidden="true" /></button></div><p className="mt-3 text-sm text-muted">Марки нет в списке? Пока не будем угадывать совместимость.</p></form>;
 }
 
 function ModelStep({ brand, modelId, modelOptions, onChange, onSubmit }) {
@@ -205,7 +205,7 @@ function ChoiceGrid({ label, options, value, onChange }) {
 }
 
 function ModelSummary({ model }) {
-  return <section className="border-b border-line bg-white/50 px-5 py-6 sm:px-10 lg:px-12" data-kit-selected-model="true"><div className="grid gap-5 xl:grid-cols-[19rem_minmax(0,1fr)]"><div><p className="font-mono text-[0.68rem] uppercase tracking-wide text-technical">Выбранная модель</p><a className="mt-2 block font-display text-3xl font-bold text-ink hover:text-action hover:underline" href={modelHref(model)}>{model.title}</a><div className="mt-5 tabular-measure"><ModelFacts detailed model={model} /></div></div><div className="flex items-start gap-3 border-l-2 border-verified bg-white p-4 text-sm leading-relaxed"><Info aria-hidden="true" className="size-6 shrink-0 text-verified" /><p><strong>Паспортная проверка:</strong> VESA {model.vesa_width_mm}×{model.vesa_height_mm}, масса {model.weight_kg} кг ({modelWeightSuffix(model)}) и диагональ {model.diagonal_inches}″. Точные винты, порты и геометрия выводятся только при отдельном источнике.</p></div></div></section>;
+  return <section className="border-b border-line bg-white/50 px-5 py-6 sm:px-10 lg:px-12" data-kit-selected-model="true"><div className="grid gap-5 xl:grid-cols-[19rem_minmax(0,1fr)]"><div><p className="font-mono text-[0.68rem] uppercase tracking-wide text-technical">Выбранная модель</p><a className="mt-2 block font-display text-3xl font-bold text-ink hover:text-action hover:underline" href={modelHref(model)}>{model.title}</a><details className="mt-4"><summary className="cursor-pointer font-semibold text-technical underline underline-offset-4">Посмотреть размеры и вес</summary><div className="mt-3 tabular-measure"><ModelFacts detailed model={model} /></div></details></div><div className="flex items-start gap-3 border-l-2 border-verified bg-white p-4 text-sm leading-relaxed"><Info aria-hidden="true" className="size-6 shrink-0 text-verified" /><p><strong>Модель найдена.</strong> Размер крепления, вес и диагональ сверены с паспортом. Винты и разъёмы покажем только при наличии подтверждённых данных.</p></div></div></section>;
 }
 
 export function CompatibilityResult({ availableOfferMountIds = new Set(), compatibility, matches, model, onRetry }) {
@@ -216,11 +216,11 @@ export function CompatibilityResult({ availableOfferMountIds = new Set(), compat
   const shortlist = ranked.slice(0, 3);
   const remaining = ranked.slice(3);
   const groups = groupCatalogItemsByBrand(remaining, (item) => item.mount.brand);
-  return <div className="mt-7 border-t-2 border-ink pt-5" data-guided-compatibility-state="success"><p className="font-display text-2xl font-bold">Подтверждённых вариантов: {ranked.length}</p><p className="mt-1 text-sm text-muted">Все показанные варианты проверены. При одинаковой технической оценке выше варианты с доступной точной карточкой Маркета.</p><div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3" data-result-shortlist="true">{shortlist.map((match) => <CompatibilityCard key={match.mount.id} marketCardAvailable={availableOfferMountIds.has(match.mount.id)} match={match} placement="featured_result" />)}</div>{remaining.length ? <details className="mt-4 border-y border-line" data-result-catalog="collapsed"><summary className="cursor-pointer py-4 font-display text-lg font-bold">Показать ещё {remaining.length} {variantWord(remaining.length)} по брендам</summary><div className="border-t border-line pb-3"><h3 className="py-4 font-mono text-xs uppercase text-verified">Полностью проверены: {remaining.length}</h3>{groups.map((group) => <section className="border-t border-line py-4" key={group.brand}><h4 className="font-display text-2xl font-extrabold">{group.brand}</h4><span className="font-mono text-xs text-muted">Кронштейнов: {group.items.length}</span><div className="mt-3 grid gap-3 md:grid-cols-2">{group.items.map((match) => <CompatibilityCard compact key={match.mount.id} marketCardAvailable={availableOfferMountIds.has(match.mount.id)} match={match} placement="compatibility_result" />)}</div></section>)}</div></details> : null}</div>;
+  return <div className="mt-7 border-t-2 border-ink pt-5" data-guided-compatibility-state="success"><p className="font-display text-2xl font-bold">Подходят {ranked.length} {variantWord(ranked.length)}</p><p className="mt-1 text-sm text-muted">Мы проверили размеры крепления, вес и диагональ. Сначала показываем три варианта, остальные — ниже.</p><div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3" data-result-shortlist="true">{shortlist.map((match) => <CompatibilityCard key={match.mount.id} marketCardAvailable={availableOfferMountIds.has(match.mount.id)} match={match} placement="featured_result" />)}</div>{remaining.length ? <details className="mt-4 border-y border-line" data-result-catalog="collapsed"><summary className="cursor-pointer py-4 font-display text-lg font-bold">Показать ещё {remaining.length} {variantWord(remaining.length)} по брендам</summary><div className="border-t border-line pb-3"><h3 className="py-4 font-mono text-xs uppercase text-verified">Полностью проверены: {remaining.length}</h3>{groups.map((group) => <section className="border-t border-line py-4" key={group.brand}><h4 className="font-display text-2xl font-extrabold">{group.brand}</h4><span className="font-mono text-xs text-muted">Кронштейнов: {group.items.length}</span><div className="mt-3 grid gap-3 md:grid-cols-2">{group.items.map((match) => <CompatibilityCard compact key={match.mount.id} marketCardAvailable={availableOfferMountIds.has(match.mount.id)} match={match} placement="compatibility_result" />)}</div></section>)}</div></details> : null}</div>;
 }
 
 function CompatibilityCard({ compact = false, marketCardAvailable, match, placement }) {
-  return <article className={`flex flex-col border bg-white ${compact ? "border-line p-4" : "border-ink p-5"}`} data-fit-status={match.fit_status} data-market-card-available={marketCardAvailable ? "true" : "false"} data-result-tier={placement}><p className="font-mono text-[0.68rem] uppercase text-verified">VESA, нагрузка и диагональ проверены</p><h3 className="mt-2 font-display text-xl font-bold"><MountDetailLink href={mountHref(match.mount)} placement={placement}>{match.mount.title}</MountDetailLink></h3>{marketCardAvailable ? <p className="mt-2 text-xs font-semibold text-technical">На момент проверки есть точная карточка на Маркете</p> : null}<ul className="mt-3 space-y-1 text-sm text-muted">{(match.reasons ?? []).slice(0, compact ? 2 : 3).map((reason) => <li key={reason}>✓ {reason}</li>)}</ul><MountDetailLink className={compact ? "secondary-button mt-4" : "primary-button mt-4"} href={mountHref(match.mount)} placement={placement}>Проверить кронштейн <ArrowRight aria-hidden="true" /></MountDetailLink></article>;
+  return <article className={`flex flex-col border bg-white ${compact ? "border-line p-4" : "border-ink p-5"}`} data-fit-status={match.fit_status} data-market-card-available={marketCardAvailable ? "true" : "false"} data-result-tier={placement}><p className="font-mono text-[0.68rem] uppercase text-verified">Подходит по креплению, весу и размеру</p><h3 className="mt-2 font-display text-xl font-bold"><MountDetailLink href={mountHref(match.mount)} placement={placement}>{match.mount.title}</MountDetailLink></h3>{marketCardAvailable ? <p className="mt-2 text-xs font-semibold text-technical">На момент проверки есть точная карточка на Маркете</p> : null}<details className="mt-3 text-sm text-muted"><summary className="cursor-pointer font-semibold text-technical underline underline-offset-4">Почему подходит</summary><ul className="mt-2 space-y-1">{(match.reasons ?? []).slice(0, compact ? 2 : 3).map((reason) => <li key={reason}>✓ {reason}</li>)}</ul></details><MountDetailLink className={compact ? "secondary-button mt-4" : "primary-button mt-4"} href={mountHref(match.mount)} placement={placement}>Посмотреть кронштейн <ArrowRight aria-hidden="true" /></MountDetailLink></article>;
 }
 
 export function rankCompatibilityMatches(matches, availableOfferMountIds = new Set()) {

@@ -2364,13 +2364,13 @@ for (const href of ["/podbor/", "/modeli/", "/vesa/"]) {
 for (const model of models) {
   const route = `/modeli/${model.id}/`;
   const modelHtml = htmlByRoute.get(route);
-  const offerJumpCount = (modelHtml.match(/data-model-offers-jump="true"/g) ?? []).length;
-  const offerTargetCount = (modelHtml.match(/id="predlozheniya"/g) ?? []).length;
+  const offerJumpCount = (modelHtml.match(/data-model-matches-jump="true"/g) ?? []).length;
+  const offerTargetCount = (modelHtml.match(/id="podhodyashchie-kronshteyny"/g) ?? []).length;
   if (
-    offerJumpCount !== offerTargetCount ||
     offerJumpCount > 1 ||
+    offerTargetCount !== 1 ||
     (offerJumpCount === 1 &&
-      modelHtml.indexOf('data-model-offers-jump="true"') > modelHtml.indexOf('id="predlozheniya"'))
+      modelHtml.indexOf('data-model-matches-jump="true"') > modelHtml.indexOf('id="podhodyashchie-kronshteyny"'))
   ) {
     throw new Error(`Ссылка на предложения и её цель не согласованы: ${route}`);
   }

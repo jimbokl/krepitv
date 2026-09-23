@@ -77,6 +77,8 @@ export function ModelPage({ catalog, modelId }) {
           <h1 className="font-display text-[clamp(2.5rem,4.7vw,4.7rem)] font-extrabold leading-none tracking-[-0.025em]">
             Кронштейн для {model.title}
           </h1>
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">Мы уже проверили размер крепления и вес этого телевизора. Ниже — кронштейны, которые подходят по паспортным данным. Стену и винты нужно проверить отдельно.</p>
+          {verifiedCount > 0 && !vesaConflict ? <a className="primary-button mt-5 inline-flex min-h-14 items-center" href="#podhodyashchie-kronshteyny">Показать подходящие кронштейны ↓</a> : null}
           <div className="mt-4 grid gap-2 border-y border-ink py-3 font-mono text-xs text-muted sm:grid-cols-3">
             <span>Источник: база Крепи ТВ · {model.brand} · {model.model}</span>
             <span className="sm:text-center">
@@ -85,8 +87,6 @@ export function ModelPage({ catalog, modelId }) {
             <span className="sm:text-right">Характеристики модели проверены: {formatCheckedDate(model.checked_at)}</span>
           </div>
         </section>
-
-        <CommercialProfile profile={commercialProfile} />
 
         <EditorialAccountability evidence={editorialEvidence} />
 
@@ -111,6 +111,7 @@ export function ModelPage({ catalog, modelId }) {
           model={model}
           vesaConflict={vesaConflict}
         />
+        <CommercialProfile profile={commercialProfile} />
 
         <section className="grid border-b-2 border-ink lg:grid-cols-[minmax(22rem,0.9fr)_minmax(0,1.15fr)]">
           <div className="border-b border-ink py-6 lg:border-b-0 lg:border-r lg:pr-8">
@@ -171,7 +172,7 @@ export function ModelPage({ catalog, modelId }) {
             </div>
           </div>
 
-          <div className="py-6 lg:pl-8">
+          <div className="py-6 lg:pl-8" id="podhodyashchie-kronshteyny">
             <div className="flex items-center gap-4">
               <span className={`flex size-14 shrink-0 items-center justify-center rounded-full text-white ${vesaConflict ? "bg-action" : "bg-verified"}`}>
                 {vesaConflict
@@ -180,7 +181,7 @@ export function ModelPage({ catalog, modelId }) {
               </span>
               <div>
                 <h2 className={`font-display text-3xl font-extrabold sm:text-4xl lg:text-5xl ${vesaConflict ? "text-action" : "text-verified"}`}>
-                  {vesaConflict ? "Кандидаты после проверки VESA" : "Подтверждённые варианты"}
+                  {vesaConflict ? "Сначала проверьте отверстия" : "Подходящие кронштейны"}
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed sm:text-base">
                   {vesaConflict

@@ -67,11 +67,10 @@ export function MountingMapCalculator() {
               Расчёт в браузере
             </p>
             <h2 className="mt-2 font-display text-4xl font-bold leading-none">
-              Монтажная карта до сверления
+              Где будет экран?
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Получите пять контрольных высот от пола. Смещения VESA и пластины
-              возьмите из инструкции телевизора и кронштейна.
+              Введите размеры комнаты и телевизора. Мы покажем высоту экрана от пола. Для точной разметки кронштейна понадобятся размеры из инструкций.
             </p>
           </div>
         </div>
@@ -89,8 +88,8 @@ export function MountingMapCalculator() {
               value={values.diagonal}
             />
             <NumberField
-              hint="В привычной позе просмотра."
-              label="Высота глаз"
+              hint="Сядьте на диван и измерьте расстояние от пола до глаз."
+              label="Глаза от пола"
               max="220"
               min="50"
               name="eyeHeight"
@@ -98,8 +97,8 @@ export function MountingMapCalculator() {
               value={values.eyeHeight}
             />
             <NumberField
-              hint="От глаз до плоскости экрана."
-              label="До экрана"
+              hint="От вашего места до будущего экрана."
+              label="Расстояние до ТВ"
               max="1000"
               min="30"
               name="viewingDistance"
@@ -139,8 +138,8 @@ export function MountingMapCalculator() {
               value={values.clearance}
             />
             <NumberField
-              hint="Плюс — VESA выше центра корпуса."
-              label="Смещение центра VESA"
+              hint="Из схемы телевизора: насколько крепёжные отверстия выше или ниже центра экрана. Если не знаете — оставьте 0 и не используйте итог как точную разметку."
+              label="Отверстия на ТВ: сдвиг от центра"
               max="75"
               min="-75"
               name="vesaVerticalOffset"
@@ -149,8 +148,8 @@ export function MountingMapCalculator() {
               value={values.vesaVerticalOffset}
             />
             <NumberField
-              hint="Плюс — линия пластины выше VESA."
-              label="Смещение линии пластины"
+              hint="Из инструкции кронштейна: сдвиг его настенной пластины относительно отверстий на ТВ. Без этого нельзя точно разметить пластину."
+              label="Пластина кронштейна: сдвиг"
               max="100"
               min="-100"
               name="wallPlateOffset"
@@ -160,7 +159,7 @@ export function MountingMapCalculator() {
             />
           </div>
           <button className="primary-button justify-self-start" disabled={status === "loading"} type="submit">
-            {status === "loading" ? "Строим карту…" : "Рассчитать монтажную карту"}
+            {status === "loading" ? "Считаем…" : "Показать высоту экрана"}
             <ArrowRight aria-hidden="true" />
           </button>
         </form>

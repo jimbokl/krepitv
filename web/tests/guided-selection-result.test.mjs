@@ -90,9 +90,10 @@ test("результат подбора сначала показывает тр
     assert.equal((html.match(/data-result-tier="compatibility_result"/g) ?? []).length, 2);
     assert.equal(html.includes("data-result-catalog=\"collapsed\""), true);
     assert.equal(html.includes("Показать ещё 2 варианта по брендам"), true);
-    assert.equal(html.includes("Подтверждённых вариантов: 5"), true);
+    assert.equal(html.includes("Подходят 5 вариантов"), true);
     assert.equal(html.includes("Полностью проверены: 2"), true);
-    assert.equal(html.includes("При одинаковой технической оценке"), true);
+    assert.equal(html.includes("Мы проверили размеры крепления, вес и диагональ"), true);
+    assert.equal((html.match(/<summary[^>]*>Почему подходит<\/summary>/g) ?? []).length, 5);
     assert.equal((html.match(/data-market-card-available="true"/g) ?? []).length, 1);
     assert.equal((html.match(/На момент проверки есть точная карточка на Маркете/g) ?? []).length, 1);
     assert.equal(html.includes("Кронштейнов: 1"), true);
