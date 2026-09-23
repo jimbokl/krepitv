@@ -821,20 +821,20 @@ try {
     const interaction = await send("Runtime.evaluate", {
       expression: `(async () => {
         const state = ${JSON.stringify(subtitleState)};
-        const tool = document.querySelector('[data-subtitle-wizard="true"]');
-        if (!tool) throw new Error('Subtitle wizard not found');
+        const waitFor = (predicate, message, timeout = 5000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            const value = predicate();
+            if (value) { clearInterval(timer); resolve(value); }
+            else if (Date.now() - startedAt > timeout) { clearInterval(timer); reject(new Error(message)); }
+          }, 25);
+        });
+        const tool = await waitFor(() => document.querySelector('[data-subtitle-wizard="true"]'), 'Subtitle wizard not found', 10000);
         const events = [];
         const usageEvents = [];
         window.addEventListener('krepitv:result-completed', event => events.push(event.detail));
         window.addEventListener('krepitv:tool-usage', event => usageEvents.push(event.detail));
         const choices = state === 'teletext' ? [0, 0, 1] : state === 'accessibility' ? [0, 1, 0] : [4, 2, 2];
-        const waitFor = (predicate, message, timeout = 5000) => new Promise((resolve, reject) => {
-          const startedAt = Date.now();
-          const timer = setInterval(() => {
-            if (predicate()) { clearInterval(timer); resolve(); }
-            else if (Date.now() - startedAt > timeout) { clearInterval(timer); reject(new Error(message)); }
-          }, 25);
-        });
         for (let index = 0; index < choices.length; index += 1) {
           await waitFor(() => tool.querySelectorAll('fieldset').length > index, 'Subtitle step did not render');
           const button = tool.querySelectorAll('fieldset')[index]?.querySelectorAll('button')[choices[index]];
