@@ -18,6 +18,16 @@ export function getCatalogItems(page, catalog) {
     return { type: "mounts", values: catalog.mounts };
   }
 
+  if (page.kind === "slim") {
+    return {
+      type: "mounts",
+      values: catalog.mounts.filter(
+        (mount) => Number.isFinite(mount.wall_distance_min_mm)
+          && mount.wall_distance_min_mm <= 35,
+      ),
+    };
+  }
+
   if (page.kind === "mount-brand") {
     const brand = page.id.replace(/^mount-brand-/i, "").toLocaleLowerCase("ru-RU");
     return {

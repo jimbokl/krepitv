@@ -3014,6 +3014,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-wall-fasteners",
             ],
             "wall-material-check" => &[
+                "tv-wooden-wall",
                 "tv-wall-fasteners",
                 "wall-mounted-tv",
                 "mounting-map",
@@ -3150,6 +3151,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "selection-choose",
             ],
             "tv-wall-gap" => &[
+                "slim-tv-mount",
                 "corner-tv-mount",
                 "tv-device-shelf",
                 "fixed-mount",
@@ -3446,6 +3448,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "how-to-find-vesa",
             ],
             "fixed-mount" => &[
+                "slim-tv-mount",
                 "buy-tv-mount",
                 "mount-brand-onkron",
                 "wall-mounted-tv",
@@ -3527,6 +3530,15 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
 
 fn seo_calculator_note(page_id: &str) -> &'static str {
     match page_id {
+        "vesa-200x100" => {
+            r#"<section class="border-y-2 border-ink py-7" data-vesa-size-reference="200x100"><h2 class="font-display text-3xl font-bold">Проверка VESA 200×100</h2><p class="mt-3">Между центрами отверстий телевизора должно быть 200 мм по горизонтали и 100 мм по вертикали. Это 20×10 см, а не размер стеновой площадки.</p><div class="mt-5 overflow-x-auto"><table class="w-full text-left"><caption class="sr-only">Условия совместимости VESA 200×100</caption><thead><tr><th class="p-3">Проверка</th><th class="p-3">Что должно совпасть</th></tr></thead><tbody><tr><th class="p-3">Отверстия ТВ</th><td class="p-3">200×100 мм, в этом порядке</td></tr><tr><th class="p-3">Направляющие кронштейна</th><td class="p-3">Явная поддержка 200×100, а не только максимальный размер</td></tr><tr><th class="p-3">После VESA</th><td class="p-3">Масса, диагональ, винты и зазор разъёмов по паспортам</td></tr></tbody></table></div><p class="mt-4">Ниже — точные модели из паспортного каталога и проверенные пары. Интерактивная сверка списка VESA доступна после загрузки страницы.</p><p class="mt-3"><a class="underline" href="https://www.vesa.org/wp-content/uploads/2010/12/FDMI-Overview.pdf" rel="noreferrer" target="_blank">VESA: назначение интерфейса крепления дисплеев</a></p></section>"#
+        }
+        "vesa-200x300" => {
+            r#"<section class="border-y-2 border-ink py-7" data-vesa-size-reference="200x300"><h2 class="font-display text-3xl font-bold">Проверка VESA 200×300</h2><p class="mt-3">Между центрами отверстий телевизора: 200 мм по горизонтали и 300 мм по вертикали, или 20×30 см. Не меняйте числа местами: 300×200 — другая схема.</p><div class="mt-5 overflow-x-auto"><table class="w-full text-left"><caption class="sr-only">Условия совместимости VESA 200×300</caption><thead><tr><th class="p-3">Проверка</th><th class="p-3">Что должно совпасть</th></tr></thead><tbody><tr><th class="p-3">Отверстия ТВ</th><td class="p-3">200×300 мм, в этом порядке</td></tr><tr><th class="p-3">Направляющие кронштейна</th><td class="p-3">Явная поддержка 200×300; 300×200 недостаточно</td></tr><tr><th class="p-3">После VESA</th><td class="p-3">Масса, диагональ, винты и зазор разъёмов по паспортам</td></tr></tbody></table></div><p class="mt-4">Точная пара VESA не задаёт точки сверления стены. Ниже — паспортные модели и проверенные пары.</p><p class="mt-3"><a class="underline" href="https://www.vesa.org/wp-content/uploads/2010/12/FDMI-Overview.pdf" rel="noreferrer" target="_blank">VESA: назначение интерфейса крепления дисплеев</a></p></section>"#
+        }
+        "vesa-400x300" => {
+            r#"<section class="border-y-2 border-ink py-7" data-vesa-size-reference="400x300"><h2 class="font-display text-3xl font-bold">Проверка VESA 400×300</h2><p class="mt-3">Между центрами отверстий телевизора: 400 мм по горизонтали и 300 мм по вертикали, или 40×30 см. Квадрат 400×400 не подтверждает эту пару автоматически.</p><div class="mt-5 overflow-x-auto"><table class="w-full text-left"><caption class="sr-only">Условия совместимости VESA 400×300</caption><thead><tr><th class="p-3">Проверка</th><th class="p-3">Что должно совпасть</th></tr></thead><tbody><tr><th class="p-3">Отверстия ТВ</th><td class="p-3">400×300 мм, в этом порядке</td></tr><tr><th class="p-3">Направляющие кронштейна</th><td class="p-3">Явная поддержка 400×300, не только 400×400</td></tr><tr><th class="p-3">После VESA</th><td class="p-3">Масса, диагональ, винты и зазор разъёмов по паспортам</td></tr></tbody></table></div><p class="mt-4">Точная пара VESA не задаёт точки сверления стены. Ниже — паспортные модели и проверенные пары.</p><p class="mt-3"><a class="underline" href="https://www.vesa.org/wp-content/uploads/2010/12/FDMI-Overview.pdf" rel="noreferrer" target="_blank">VESA: назначение интерфейса крепления дисплеев</a></p></section>"#
+        }
         "vesa-200x200" | "vesa-300x200" => {
             r#"<section class="border-y-2 border-ink py-7" data-vesa-size-reference="true"><h2 class="font-display text-3xl font-bold">Как читать пару размеров VESA</h2><p class="mt-3">Замер идёт между центрами отверстий на телевизоре: горизонталь × вертикаль. Это не точки сверления стены.</p><div class="mt-5 overflow-x-auto"><table class="w-full text-left"><caption class="sr-only">Проверка точной пары VESA</caption><thead><tr><th class="p-3">На ТВ</th><th class="p-3">В сантиметрах</th><th class="p-3">У кронштейна</th></tr></thead><tbody><tr><th class="p-3">200×200 мм</th><td class="p-3">20×20 см</td><td class="p-3">Должна быть явно указана пара 200×200</td></tr><tr><th class="p-3">300×200 мм</th><td class="p-3">30×20 см</td><td class="p-3">300×300 или только максимальный размер не подтверждают совпадение</td></tr></tbody></table></div><p class="mt-4">Точное совпадение отверстий не проверяет массу, винты, разъёмы и крепление к стене. Сверьте инструкции обеих моделей. Интерактивная проверка перечня VESA доступна после загрузки страницы.</p><p class="mt-3"><a class="underline" href="https://www.vesa.org/wp-content/uploads/2010/12/FDMI-Overview.pdf" rel="noreferrer" target="_blank">VESA: назначение стандарта крепления дисплеев</a></p></section>"#
         }
@@ -3866,6 +3878,11 @@ fn seo_model_catalog_html(
                     .filter(|tv| {
                         tv.vesa_width_mm == width
                             && tv.vesa_height_mm == height
+                            && tv
+                                .wall_mount_screws
+                                .as_ref()
+                                .and_then(|hardware| hardware.vesa_conflict.as_ref())
+                                .is_none()
                             && is_indexable_model(&tv.id, graph)
                     })
                     .collect::<Vec<_>>();
@@ -4017,6 +4034,17 @@ fn seo_mechanism_catalog_html(
             };
             (heading, explanation, selected)
         }
+        "slim" => (
+            "Низкопрофильные кронштейны с паспортными размерами".to_string(),
+            "В таблице только модели с указанным производителем минимальным отступом не более 35 мм. Это исходный фильтр, а не обещание, что телевизор с кабелями поместится: учитывайте выступ штекера, толщину направляющих, форму задней панели и вентиляцию.".to_string(),
+            mounts
+                .iter()
+                .filter(|mount| {
+                    mount.wall_distance_min_mm <= 35.0
+                        && is_indexable_mount(&mount.id, graph)
+                })
+                .collect::<Vec<_>>(),
+        ),
         "commercial" => (
             "Сравнение проверенных кронштейнов".to_string(),
             "Каталог содержит только точные модели с подтверждёнными характеристиками. Сначала выберите телевизор, затем сравните механизм, нагрузку, диапазон диагоналей, VESA и расстояние от стены в карточках подходящих изделий.".to_string(),
@@ -4052,10 +4080,16 @@ fn seo_mechanism_catalog_html(
     };
     let (heading, explanation, mut selected) = selection;
     selected.sort_by(|left, right| {
-        left.brand
-            .to_lowercase()
-            .cmp(&right.brand.to_lowercase())
-            .then_with(|| left.title.to_lowercase().cmp(&right.title.to_lowercase()))
+        if page.kind == "slim" {
+            left.wall_distance_min_mm
+                .total_cmp(&right.wall_distance_min_mm)
+                .then_with(|| left.title.to_lowercase().cmp(&right.title.to_lowercase()))
+        } else {
+            left.brand
+                .to_lowercase()
+                .cmp(&right.brand.to_lowercase())
+                .then_with(|| left.title.to_lowercase().cmp(&right.title.to_lowercase()))
+        }
     });
 
     let selected_ids = selected
@@ -4081,6 +4115,23 @@ fn seo_mechanism_catalog_html(
         .collect::<Vec<_>>();
     let catalog = if rows.is_empty() {
         "<p class=\"mt-6 border border-line bg-white p-5 leading-relaxed text-muted\">В проверенном каталоге пока нет кронштейнов этого типа. До появления точных карточек страница остаётся техническим руководством.</p>".to_string()
+    } else if page.kind == "slim" {
+        let table_rows = selected
+            .iter()
+            .map(|mount| format!(
+                "<tr class=\"border-t border-line align-top\"><th class=\"p-3 text-left\" scope=\"row\"><a class=\"font-semibold text-action underline\" href=\"/kronshteyny/{id}/\">{title}</a></th><td class=\"p-3\">{distance} мм</td><td class=\"p-3\">{mechanism}</td><td class=\"p-3\">{count}</td><td class=\"p-3\"><a class=\"text-technical underline\" href=\"{source}\" rel=\"noreferrer\" target=\"_blank\">Паспорт</a></td></tr>",
+                id = escape_html(&mount.id),
+                title = escape_html(&mount.title),
+                distance = format_mm(mount.wall_distance_min_mm),
+                mechanism = escape_html(mechanism_label(&mount.mechanism)),
+                count = verified_model_count(&mount.id, graph),
+                source = escape_html(&mount.source_url),
+            ))
+            .collect::<Vec<_>>()
+            .join("\n");
+        format!(
+            "<div class=\"overflow-x-auto\"><table class=\"w-full min-w-[680px] text-left\" data-slim-mount-table=\"true\"><caption class=\"p-3 text-left font-display text-xl font-bold\">Паспортные отступы и проверенные модели</caption><thead><tr><th class=\"p-3\">Кронштейн</th><th class=\"p-3\">Мин. отступ</th><th class=\"p-3\">Механизм</th><th class=\"p-3\">Проверенных ТВ</th><th class=\"p-3\">Источник</th></tr></thead><tbody>{table_rows}</tbody></table></div>"
+        )
     } else if page.kind == "mount-brand" {
         let comparison = selected
             .iter()
@@ -4282,7 +4333,7 @@ fn seo_vesa_model_catalog_html(models: &[TvModel], graph: &[CompatibilityEdge]) 
         .join("\n");
 
     format!(
-        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"vesa-model-catalog-title\" data-vesa-model-catalog=\"true\" data-searchable-model-count=\"{model_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатный поиск без регистрации</p><h2 id=\"vesa-model-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите VESA по модели телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Введите полный код с шильдика. Покажем расстояние между отверстиями, источник паспорта и число кронштейнов, прошедших точную проверку.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-vesa-model-search-count=\"{model_count}\"><label class=\"sr-only\" for=\"static-vesa-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-vesa-model\" list=\"static-vesa-models\" name=\"model\" placeholder=\"Например, TCL 55P6K\" autocomplete=\"off\"><datalist id=\"static-vesa-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть модель</button></form><p class=\"mt-4 border-l-2 border-action pl-4 text-sm leading-relaxed text-muted\">VESA записывается как горизонталь × вертикаль в миллиметрах. Диагональ экрана сама по себе не определяет расположение отверстий.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Точных моделей</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Схем VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_count}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Открытый датасет «Размеры VESA популярных в России телевизоров», версия {dataset_version}: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.csv\">скачать CSV</a> или <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.json\">JSON</a>. В файлах {model_count} точных моделей, размеры VESA, основание массы и источники паспортов; фиксированная копия опубликована в <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{release_url}\" rel=\"noreferrer\" target=\"_blank\">GitHub release {dataset_version}</a>. <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE\" rel=\"noreferrer\" target=\"_blank\">Лицензия MIT</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Таблица VESA телевизоров</h3>{catalog}</div></section>",
+        "<section class=\"border-y-2 border-ink py-8\" aria-labelledby=\"vesa-model-catalog-title\" data-vesa-model-catalog=\"true\" data-searchable-model-count=\"{model_count}\"><p class=\"font-mono text-xs uppercase text-action\">Бесплатный поиск без регистрации</p><h2 id=\"vesa-model-catalog-title\" class=\"mt-2 font-display text-4xl font-extrabold\">Найдите VESA по модели телевизора</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Введите полный код с шильдика. Покажем расстояние между отверстиями, источник паспорта и число кронштейнов, прошедших точную проверку.</p><p class=\"mt-4 max-w-3xl leading-relaxed text-muted\">Проверка точных размеров: <a class=\"font-semibold text-technical underline\" href=\"/vesa/200x100/\">200×100</a>, <a class=\"font-semibold text-technical underline\" href=\"/vesa/200x300/\">200×300</a>, <a class=\"font-semibold text-technical underline\" href=\"/vesa/400x300/\">400×300</a>. Каждая страница показывает модели с паспортным размером и границы совместимости.</p><form class=\"mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]\" action=\"/modeli/\" method=\"get\" data-vesa-model-search-count=\"{model_count}\"><label class=\"sr-only\" for=\"static-vesa-model\">Модель телевизора</label><input class=\"h-16 min-w-0 rounded-md border-2 border-ink bg-white px-5 text-xl\" id=\"static-vesa-model\" list=\"static-vesa-models\" name=\"model\" placeholder=\"Например, TCL 55P6K\" autocomplete=\"off\"><datalist id=\"static-vesa-models\">{model_options}</datalist><button class=\"rounded-md bg-action px-7 font-display text-xl font-bold text-white\" type=\"submit\">Открыть модель</button></form><p class=\"mt-4 border-l-2 border-action pl-4 text-sm leading-relaxed text-muted\">VESA записывается как горизонталь × вертикаль в миллиметрах. Диагональ экрана сама по себе не определяет расположение отверстий.</p><dl class=\"mt-7 grid gap-px border border-ink bg-ink sm:grid-cols-3\"><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Точных моделей</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{model_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Брендов</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{brand_count}</dd></div><div class=\"bg-paper p-4\"><dt class=\"font-mono text-xs uppercase text-muted\">Схем VESA</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{vesa_count}</dd></div></dl><p class=\"mt-5 text-sm leading-relaxed text-muted\">Открытый датасет «Размеры VESA популярных в России телевизоров», версия {dataset_version}: <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.csv\">скачать CSV</a> или <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"/data/tv-vesa-sizes.json\">JSON</a>. В файлах {model_count} точных моделей, размеры VESA, основание массы и источники паспортов; фиксированная копия опубликована в <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"{release_url}\" rel=\"noreferrer\" target=\"_blank\">GitHub release {dataset_version}</a>. <a class=\"font-semibold text-technical underline underline-offset-4\" href=\"https://github.com/jimbokl/krepitv/blob/2f19d58ef793ffc1e26c8c8fdb6d53f2a20edbfe/LICENSE\" rel=\"noreferrer\" target=\"_blank\">Лицензия MIT</a>.</p><div class=\"mt-9\"><h3 class=\"border-b-2 border-ink pb-4 font-display text-3xl font-extrabold\">Таблица VESA телевизоров</h3>{catalog}</div></section>",
         model_count = models.len(),
         brand_count = brand_count,
         vesa_count = vesa_count,
@@ -4303,7 +4354,7 @@ fn seo_catalog_html(
         return seo_vesa_model_catalog_html(models, graph);
     }
     match page.kind.as_str() {
-        "mechanism" | "commercial" | "mount-brand" => {
+        "mechanism" | "commercial" | "mount-brand" | "slim" => {
             seo_mechanism_catalog_html(page, mounts, graph)
         }
         "vesa" | "diagonal" | "brand" => seo_model_catalog_html(page, models, graph),

@@ -58,6 +58,10 @@ select {
     @apply block leading-5 sm:flex sm:h-10 sm:items-end;
     text-wrap: pretty;
   }
+
+  [data-vesa-size-reference] table {
+    min-width: 32rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

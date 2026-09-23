@@ -35,6 +35,13 @@ const seoSprintGuideIds = [
   "tv-pin-reset",
   "tv-arc-no-sound",
 ];
+const mountingIntentIds = [
+  "vesa-200x100",
+  "vesa-200x300",
+  "vesa-400x300",
+  "tv-wooden-wall",
+  "slim-tv-mount",
+];
 const legacyVerifiedModelAliases = new Map([
   ["/modeli/tcl-v6c/", "/modeli/tcl-50v6c/"],
   ["/modeli/tcl-q6cs/", "/modeli/tcl-55q6cs/"],
@@ -491,6 +498,7 @@ const expectedIndexableUrlCount = baselineIndexableUrlCount
   + tvIntentIndexableUrlCount
   + connectionGuideIds.length
   + seoSprintGuideIds.length
+  + mountingIntentIds.length
   + marketModelsManifest.summary.indexable_observed_canonicals;
 const mounts = JSON.parse(await readFile(path.join(docs, "data/mounts.json"), "utf8"));
 const compatibilityEdges = JSON.parse(
@@ -1563,7 +1571,9 @@ for (const model of models) {
   const candidateIds = [
     `brand-${String(model.brand).trim().toLocaleLowerCase("ru-RU")}`,
     `diagonal-${Number(model.diagonal_inches)}`,
-    `vesa-${model.vesa_width_mm}x${model.vesa_height_mm}`,
+    ...(!model.wall_mount_screws?.vesa_conflict
+      ? [`vesa-${model.vesa_width_mm}x${model.vesa_height_mm}`]
+      : []),
   ];
   const expectedPages = candidateIds
     .map((id) => seoPages.find((page) => page.id === id && page.indexable))
@@ -1834,7 +1844,8 @@ const tvIntentGuideIds = [
 const expectedGuideCount = expectedDailyGuideCount
   + tvIntentGuideIds.length
   + connectionGuideIds.length
-  + seoSprintGuideIds.length;
+  + seoSprintGuideIds.length
+  + 1; // Сценарий монтажа на деревянную стену.
 if (dailyEvidenceGuidePages.length !== expectedGuideCount) {
   throw new Error(`Ожидалось ${expectedGuideCount} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
 }
@@ -2180,6 +2191,7 @@ function seoCatalogExpectation(page) {
           (model) =>
             model.vesa_width_mm === Number(width) &&
             model.vesa_height_mm === Number(height) &&
+            !model.wall_mount_screws?.vesa_conflict &&
             hasVerifiedModel(model.id),
         )
         .map((model) => `/modeli/${model.id}/`),

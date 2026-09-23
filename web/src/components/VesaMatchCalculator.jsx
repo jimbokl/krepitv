@@ -15,11 +15,11 @@ const INITIAL_VALUES = {
   width: "200",
   height: "200",
   unit: "мм",
-  mountSpec: "75×75, 100×100, 200×100, 200×200, 300×200, 400×400 мм",
+  mountSpec: "",
 };
 
-export function VesaMatchCalculator({ initialWidth = "200" }) {
-  const [values, setValues] = useState({ ...INITIAL_VALUES, width: initialWidth });
+export function VesaMatchCalculator({ initialWidth = "200", initialHeight = "200" }) {
+  const [values, setValues] = useState({ ...INITIAL_VALUES, width: initialWidth, height: initialHeight });
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
@@ -85,8 +85,7 @@ export function VesaMatchCalculator({ initialWidth = "200" }) {
               <caption className="mb-2 text-left font-display text-lg font-bold">Размеры между центрами отверстий</caption>
               <thead><tr><th className="p-2">VESA, мм</th><th className="p-2">В сантиметрах</th><th className="p-2">Что сверить</th></tr></thead>
               <tbody>
-                <tr className="border-t border-line"><th className="p-2">200×200</th><td className="p-2">20×20</td><td className="p-2">Именно 200×200 в перечне кронштейна</td></tr>
-                <tr className="border-t border-line"><th className="p-2">300×200</th><td className="p-2">30×20</td><td className="p-2">300×300 не подтверждает совпадение</td></tr>
+                <tr className="border-t border-line"><th className="p-2">{initialWidth}×{initialHeight}</th><td className="p-2">{Number(initialWidth) / 10}×{Number(initialHeight) / 10}</td><td className="p-2">Ищите именно эту пару в перечне кронштейна</td></tr>
               </tbody>
             </table>
             <p className="mt-3 text-xs leading-relaxed text-muted">Это отверстия телевизора, не разметка стены. Совпадение VESA не проверяет массу, винты и разъёмы. <a className="underline" href="https://www.vesa.org/wp-content/uploads/2010/12/FDMI-Overview.pdf" target="_blank" rel="noreferrer">Назначение стандарта VESA</a>.</p>
@@ -135,6 +134,7 @@ export function VesaMatchCalculator({ initialWidth = "200" }) {
               className="input-control min-h-28 resize-y leading-relaxed"
               maxLength="600"
               onChange={(event) => update("mountSpec", event.target.value)}
+              placeholder="Вставьте перечень VESA из паспорта конкретного кронштейна"
               required
               value={values.mountSpec}
             />

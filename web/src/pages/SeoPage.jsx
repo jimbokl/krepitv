@@ -41,6 +41,7 @@ import { TvZoneSocketCalculator } from "../components/TvZoneSocketCalculator.jsx
 import { TvDimensionsCalculator } from "../components/TvDimensionsCalculator.jsx";
 import { TvDimensionsReference } from "../components/TvDimensionsReference.jsx";
 import { VesaMatchCalculator } from "../components/VesaMatchCalculator.jsx";
+import { SlimMountClearance } from "../components/SlimMountClearance.jsx";
 import { ConnectionHelper } from "../components/ConnectionHelper.jsx";
 import { CONNECTION_HELPERS } from "../lib/connectionHelpers.mjs";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
@@ -64,6 +65,7 @@ const kindLabels = {
   "mount-brand": "Кронштейны по бренду",
   mechanism: "Типы кронштейнов",
   commercial: "Сравнение кронштейнов",
+  slim: "Тонкий профиль",
   calculator: "Расчёт установки",
   screws: "Подбор винтов VESA",
 };
@@ -458,7 +460,13 @@ function SeoArticle({ catalog, page }) {
             search={catalog.search}
           />
         ) : null}
-        {["vesa", "vesa-200x200", "vesa-300x200"].includes(page.id) ? <VesaMatchCalculator initialWidth={page.id === "vesa-300x200" ? "300" : "200"} /> : null}
+        {(page.id === "vesa" || page.kind === "vesa") ? (
+          <VesaMatchCalculator
+            initialWidth={page.kind === "vesa" ? page.id.split("-")[1].split("x")[0] : "200"}
+            initialHeight={page.kind === "vesa" ? page.id.split("-")[1].split("x")[1] : "200"}
+          />
+        ) : null}
+        {page.id === "slim-tv-mount" ? <SlimMountClearance mounts={catalogItems.values} /> : null}
         {prioritizesScrewLookup ? (
           <TvMountScrewCatalog models={catalog.models} search={catalog.search} />
         ) : null}
