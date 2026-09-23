@@ -1792,10 +1792,10 @@ fn home_page_body(models: &[TvModel], seo_pages: &[SeoPage]) -> String {
 </header>
 <section class="border-b border-line bg-white/60 px-5 py-8 sm:px-8 lg:px-10" aria-labelledby="home-short-answer"><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Если коротко</p><h2 class="mt-2 font-display text-2xl font-bold leading-tight sm:text-3xl" id="home-short-answer">Сначала убедитесь, что всё подходит. Потом сверлите.</h2><p class="mt-3 max-w-4xl text-base leading-relaxed text-muted">Нужны три проверки: модель телевизора и кронштейн совместимы; стена выдержит нагрузку; место и высота удобны. После этого размечайте отверстия по шаблону кронштейна, крепите его по инструкции и вешайте телевизор вдвоём.</p></section>
 <section class="border-b border-line py-10" id="home-steps" aria-labelledby="home-steps-heading"><div class="flex flex-wrap items-end justify-between gap-4"><div><p class="font-mono text-xs uppercase tracking-[0.12em] text-action">Простой порядок</p><h2 class="mt-2 font-display text-3xl font-extrabold sm:text-4xl" id="home-steps-heading">Что делать дальше</h2></div><a class="font-semibold text-action underline underline-offset-4" href="/podbor/">Пройти подбор по шагам →</a></div>
-  <ol class="mt-6 grid gap-4 lg:grid-cols-[1.1fr_1fr_1fr]">
-    <li class="rounded-lg bg-ink p-6 text-white"><span class="font-display text-5xl font-extrabold text-action">1</span><h3 class="mt-5 font-display text-2xl font-bold">Узнайте точную модель</h3><p class="mt-2 text-base leading-relaxed text-white/80">Название есть на наклейке сзади. Мы покажем, какое крепление подходит именно вашему телевизору.</p><a class="mt-5 inline-flex min-h-11 items-center font-semibold underline underline-offset-4" href="/podbor/">Выбрать телевизор →</a></li>
-    <li class="rounded-lg border border-line bg-panel p-6"><span class="font-display text-5xl font-extrabold text-action">2</span><h3 class="mt-5 font-display text-2xl font-bold">Осмотрите стену</h3><p class="mt-2 text-base leading-relaxed text-muted">Уточните материал стены и проверьте, нет ли там проводки или труб. Если стена вызывает сомнения — позовите мастера.</p><a class="mt-5 inline-flex min-h-11 items-center font-semibold text-technical underline underline-offset-4" href="/krepezh-dlya-televizora-na-stenu/">Как проверить стену →</a></li>
-    <li class="rounded-lg border border-line bg-white p-6"><span class="font-display text-5xl font-extrabold text-action">3</span><h3 class="mt-5 font-display text-2xl font-bold">Выберите высоту и повесьте</h3><p class="mt-2 text-base leading-relaxed text-muted">Примерьте положение экрана. Отверстия отмечайте по пластине кронштейна, а телевизор поднимайте вдвоём.</p><a class="mt-5 inline-flex min-h-11 items-center font-semibold text-technical underline underline-offset-4" href="/kak-povesit-televizor-na-stenu/">Посчитать высоту →</a></li>
+  <ol class="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,1fr)]">
+    <li class="overflow-hidden rounded-lg bg-ink text-white lg:row-span-2"><img alt="Мужчина смотрит код модели на наклейке сзади телевизора" class="h-52 w-full object-cover sm:h-64 lg:h-[22rem]" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-model.webp" width="960"><div class="p-6"><span class="font-display text-5xl font-extrabold text-[#ff8a62]">1</span><h3 class="mt-3 font-display text-2xl font-bold">Найдите точную модель</h3><p class="mt-2 text-base leading-relaxed text-white/80">Ищите код на наклейке сзади телевизора, а не только марку на рамке.</p><a class="mt-4 inline-flex min-h-11 items-center font-semibold underline underline-offset-4" href="/podbor/">Выбрать телевизор →</a></div></li>
+    <li class="overflow-hidden rounded-lg border border-line bg-panel sm:grid sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"><img alt="Мужчина проверяет стену детектором до сверления" class="h-48 w-full object-cover object-[60%_center] sm:h-full" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-wall.webp" width="960"><div class="p-5 sm:p-6"><span class="font-display text-4xl font-extrabold text-action">2</span><h3 class="mt-2 font-display text-2xl font-bold">Проверьте стену</h3><p class="mt-2 text-sm leading-relaxed text-muted">Уточните материал стены и проверьте скрытую проводку. Есть сомнения — позовите мастера.</p><a class="mt-3 inline-flex min-h-11 items-center font-semibold text-technical underline underline-offset-4" href="/krepezh-dlya-televizora-na-stenu/">Как проверить →</a></div></li>
+    <li class="overflow-hidden rounded-lg border border-line bg-white sm:grid sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"><img alt="Мужчина примеряет высоту будущего экрана рулеткой до установки" class="h-48 w-full object-cover object-[60%_center] sm:h-full" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-height.webp" width="960"><div class="p-5 sm:p-6"><span class="font-display text-4xl font-extrabold text-action">3</span><h3 class="mt-2 font-display text-2xl font-bold">Примерьте высоту</h3><p class="mt-2 text-sm leading-relaxed text-muted">Отверстия отмечайте по пластине кронштейна. Телевизор поднимайте вдвоём.</p><a class="mt-3 inline-flex min-h-11 items-center font-semibold text-technical underline underline-offset-4" href="/kak-povesit-televizor-na-stenu/">Посчитать высоту →</a></div></li>
   </ol>
   <p class="mt-5 text-sm"><a class="font-semibold text-action underline underline-offset-4" href="/kronshteyny/">Сравнить проверенные кронштейны →</a></p>
 </section>
@@ -4523,6 +4523,7 @@ fn seo_page_body(
     let buy_mount_comparison = seo_buy_mount_comparison_html(page, mounts, graph);
     let catalog = seo_catalog_html(page, models, mounts, graph);
     let evidence_guide = seo_evidence_guide_html(page);
+    let editorial_photo = seo_editorial_photo_html(&page.id);
     let editorial_accountability = editorial_accountability_html(
         if page.guide.is_some() {
             "seo-reviewed"
@@ -4565,14 +4566,30 @@ fn seo_page_body(
     let mount_funnel_next_step = seo_mount_funnel_next_step_html();
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{editorial_accountability}{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\" id=\"svyazannye-materialy\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{editorial_photo}{editorial_accountability}{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\" id=\"svyazannye-materialy\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
         page_kind_label = escape_html(page_kind_label),
         h1 = escape_html(&page.h1),
         lead = escape_html(&page.lead),
+        editorial_photo = editorial_photo,
         editorial_accountability = editorial_accountability,
         answer_content = answer_content,
         mount_funnel_next_step = mount_funnel_next_step,
     ))
+}
+
+fn seo_editorial_photo_html(page_id: &str) -> &'static str {
+    match page_id {
+        "tv-model-lookup" => {
+            r#"<figure class="mt-7 overflow-hidden border border-line bg-white" data-editorial-photo="model"><img alt="Мужчина ищет заводскую наклейку с кодом модели сзади телевизора" class="h-56 w-full object-cover object-center sm:h-80" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-model.webp" width="960"><figcaption class="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted">На фото — телевизор на тумбе. Если ваш уже висит на стене, сначала ищите модель в меню или документах; не снимайте тяжёлый экран в одиночку.</figcaption></figure>"#
+        }
+        "tv-wall-fasteners" => {
+            r#"<figure class="mt-7 overflow-hidden border border-line bg-white" data-editorial-photo="wall"><img alt="Мужчина проверяет стену детектором до начала сверления" class="h-56 w-full object-cover object-[60%_center] sm:h-80" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-wall.webp" width="960"><figcaption class="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted">Иллюстрация предварительной проверки. Детектор не подтверждает материал и несущую способность стены: крепёж выбирают по основанию и инструкции кронштейна.</figcaption></figure>"#
+        }
+        "mounting-map" => {
+            r#"<figure class="mt-7 overflow-hidden border border-line bg-white" data-editorial-photo="height"><img alt="Мужчина примеряет высоту будущего экрана рулеткой" class="h-56 w-full object-cover object-[55%_center] sm:h-80" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-height.webp" width="960"><figcaption class="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted">Сначала примерьте высоту экрана. Иллюстрация не задаёт точку сверления: её определяют по стеновой пластине вашего кронштейна.</figcaption></figure>"#
+        }
+        _ => "",
+    }
 }
 
 fn guide_index_body(pages: &[SeoPage]) -> String {
@@ -6673,11 +6690,12 @@ mod tests {
         mount_technical_scheme_html, mounts_catalog_body, not_found_page_html,
         observed_model_page_body, parse_rfc3339_utc_seconds, read_json, related_seo_pages,
         russian_plural_label, seo_brand_mount_matcher_html, seo_buy_mount_comparison_html,
-        seo_calculator_note, seo_catalog_html, seo_evidence_guide_json_ld, seo_page_body,
-        seo_page_kind_label, seo_page_lastmod, seo_screw_catalog_html, seo_vesa_model_catalog_html,
-        static_footer, static_header, trust_page_body, tv_product_json_ld,
-        validate_commercial_profiles, validate_editorial_policy, validate_market_models,
-        validate_seo_pages, validate_trust_pages, wall_mount_screws_html, workspace_root,
+        seo_calculator_note, seo_catalog_html, seo_editorial_photo_html,
+        seo_evidence_guide_json_ld, seo_page_body, seo_page_kind_label, seo_page_lastmod,
+        seo_screw_catalog_html, seo_vesa_model_catalog_html, static_footer, static_header,
+        trust_page_body, tv_product_json_ld, validate_commercial_profiles,
+        validate_editorial_policy, validate_market_models, validate_seo_pages,
+        validate_trust_pages, wall_mount_screws_html, workspace_root,
     };
     use krepitv_engine::Mount;
     use serde_json::json;
@@ -7393,6 +7411,28 @@ mod tests {
         assert!(html.contains("Не схема отверстий"));
         assert_eq!(html.matches("id=\"home-start\"").count(), 1);
         assert_eq!(html.matches("id=\"home-steps\"").count(), 1);
+        for image in ["model", "wall", "height"] {
+            assert!(html.contains(&format!("/assets/images/home-step-{image}.webp")));
+            assert!(
+                root.join(format!("web/public/assets/images/home-step-{image}.webp"))
+                    .is_file()
+            );
+        }
+    }
+
+    #[test]
+    fn editorial_photos_only_appear_on_relevant_guides() {
+        for (page_id, image) in [
+            ("tv-model-lookup", "model"),
+            ("tv-wall-fasteners", "wall"),
+            ("mounting-map", "height"),
+        ] {
+            let html = seo_editorial_photo_html(page_id);
+            assert!(html.contains(&format!("home-step-{image}.webp")));
+            assert!(html.contains("loading=\"lazy\""));
+            assert!(html.contains("<figcaption"));
+        }
+        assert!(seo_editorial_photo_html("other-guide").is_empty());
     }
 
     #[test]

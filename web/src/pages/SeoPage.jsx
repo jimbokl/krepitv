@@ -100,6 +100,30 @@ const setupPageIds = new Set([
   "tv-safe-mode-exit",
 ]);
 
+const editorialPhotos = {
+  "tv-model-lookup": {
+    name: "model",
+    src: "/assets/images/home-step-model.webp",
+    alt: "Мужчина ищет заводскую наклейку с кодом модели сзади телевизора",
+    caption: "На фото — телевизор на тумбе. Если ваш уже висит на стене, сначала ищите модель в меню или документах; не снимайте тяжёлый экран в одиночку.",
+    position: "object-center",
+  },
+  "tv-wall-fasteners": {
+    name: "wall",
+    src: "/assets/images/home-step-wall.webp",
+    alt: "Мужчина проверяет стену детектором до начала сверления",
+    caption: "Иллюстрация предварительной проверки. Детектор не подтверждает материал и несущую способность стены: крепёж выбирают по основанию и инструкции кронштейна.",
+    position: "object-[60%_center]",
+  },
+  "mounting-map": {
+    name: "height",
+    src: "/assets/images/home-step-height.webp",
+    alt: "Мужчина примеряет высоту будущего экрана рулеткой",
+    caption: "Сначала примерьте высоту экрана. Иллюстрация не задаёт точку сверления: её определяют по стеновой пластине вашего кронштейна.",
+    position: "object-[55%_center]",
+  },
+};
+
 export function seoPageKindLabel(page) {
   if (connectionPageIds.has(page.id)) return "Подключение устройств";
   if (diagnosticsPageIds.has(page.id)) return "Диагностика телевизора";
@@ -344,6 +368,7 @@ function SeoArticle({ catalog, page }) {
     ? selectionStartHandlers(globalThis.window, "seo_next_step")
     : {};
   const pageKindLabel = seoPageKindLabel(page);
+  const editorialPhoto = editorialPhotos[page.id];
   const editorialEvidence = buildEditorialEvidence({
     checkedAt: page.updated_at ?? page.guide?.updated_at ?? "2026-08-08",
     contentKind: page.guide ? "seo-reviewed" : "seo-calculated",
@@ -384,6 +409,23 @@ function SeoArticle({ catalog, page }) {
           </p>
           {page.id === "mounting-map" ? <a className="primary-button mt-5 inline-flex min-h-14 items-center" href="#монтажная-карта">Рассчитать высоту экрана ↓</a> : null}
         </header>
+
+        {editorialPhoto ? (
+          <figure className="mt-7 overflow-hidden border border-line bg-white" data-editorial-photo={editorialPhoto.name}>
+            <img
+              alt={editorialPhoto.alt}
+              className={`h-56 w-full object-cover sm:h-80 ${editorialPhoto.position}`}
+              decoding="async"
+              height="640"
+              loading="lazy"
+              src={editorialPhoto.src}
+              width="960"
+            />
+            <figcaption className="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted">
+              {editorialPhoto.caption}
+            </figcaption>
+          </figure>
+        ) : null}
 
         {page.id === "mounting-map" ? (
           <aside className="my-6 rounded-lg bg-ink p-5 text-white sm:p-7" aria-label="Порядок работы с монтажной картой">
