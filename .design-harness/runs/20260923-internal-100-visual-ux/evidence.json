@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "20260923-internal-100-visual-ux",
+  "commands": [
+    {"id":"visual-cohort","command":"node scripts/qa/verify-internal-visual-pages.mjs","exit_code":0,"output_path":"evidence/commands/visual-cohort.log","covers":["loading","empty","error","success","disabled"]},
+    {"id":"build","command":"npm run build","exit_code":0,"output_path":"evidence/commands/build.log"}
+  ],
+  "screenshots": [
+    {"id":"wireless-mobile","path":"wireless-mobile-release.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"stand-mobile","path":"stand-mobile-v2.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"connection-tablet","path":"connection-tablet-v2.png","state":"default","viewport_id":"tablet","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"transport-desktop","path":"transport-desktop-v2.png","state":"default","viewport_id":"desktop","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"diagnostics-zoom200","path":"diagnostics-zoom200-v2.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"diagnostics-focus","path":"diagnostics-focus-v2.png","state":"focus","viewport_id":"desktop","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true,"focus_visible":true}}
+  ],
+  "assets": [
+    {"id":"connection","path":"evidence/assets/internal-connection.webp","alt_text":"Человек рассматривает разъёмы на задней панели телевизора перед подключением устройства","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}},
+    {"id":"diagnostics","path":"evidence/assets/internal-diagnostics.webp","alt_text":"Человек проверяет телевизор с помощью пульта, не разбирая корпус","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}},
+    {"id":"settings","path":"evidence/assets/internal-settings.webp","alt_text":"Человек настраивает телевизор с пульта в гостиной","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}},
+    {"id":"display","path":"evidence/assets/internal-display.webp","alt_text":"Человек осматривает экран телевизора при дневном освещении","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}},
+    {"id":"inspection","path":"evidence/assets/internal-inspection.webp","alt_text":"Человек осматривает телевизор рядом с его упаковкой","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}},
+    {"id":"wireless","path":"evidence/assets/internal-wireless.webp","alt_text":"Человек проверяет беспроводное подключение телефона и телевизора","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}},
+    {"id":"stand","path":"evidence/assets/internal-stand.webp","alt_text":"Человек проверяет телевизор на мобильной напольной стойке","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}},
+    {"id":"transport","path":"evidence/assets/internal-transport.webp","alt_text":"Два человека готовят телевизор в упаковке к перевозке","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}}
+  ],
+  "review": {
+    "reviewer": "/root/internal_100_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": ["100/100 URL и CTA проверены", "Мобильный line-clamp удалён после замечания ревью", "До релиза проверена пересборка CSS"]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

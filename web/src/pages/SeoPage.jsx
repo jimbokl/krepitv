@@ -49,6 +49,7 @@ import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculat
 import { WallPlannerCalculator } from "../components/WallPlannerCalculator.jsx";
 import { modelHref } from "../lib/catalog.js";
 import { INTENT_TOOLS } from "../lib/intentTools.mjs";
+import { getInternalVisual } from "../lib/internalVisualPages.mjs";
 import { buildEditorialEvidence } from "../lib/editorialPolicy.mjs";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
 import { selectionStartHandlers } from "../lib/selectionStart.mjs";
@@ -99,30 +100,6 @@ const setupPageIds = new Set([
   "tv-motion-smoothing", "tv-usb-expand-storage",
   "tv-safe-mode-exit",
 ]);
-
-const editorialPhotos = {
-  "tv-model-lookup": {
-    name: "model",
-    src: "/assets/images/home-step-model.webp",
-    alt: "Мужчина ищет заводскую наклейку с кодом модели сзади телевизора",
-    caption: "На фото — телевизор на тумбе. Если ваш уже висит на стене, сначала ищите модель в меню или документах; не снимайте тяжёлый экран в одиночку.",
-    position: "object-center",
-  },
-  "tv-wall-fasteners": {
-    name: "wall",
-    src: "/assets/images/home-step-wall.webp",
-    alt: "Мужчина проверяет стену детектором до начала сверления",
-    caption: "Иллюстрация предварительной проверки. Детектор не подтверждает материал и несущую способность стены: крепёж выбирают по основанию и инструкции кронштейна.",
-    position: "object-[60%_center]",
-  },
-  "mounting-map": {
-    name: "height",
-    src: "/assets/images/home-step-height.webp",
-    alt: "Мужчина примеряет высоту будущего экрана рулеткой",
-    caption: "Сначала примерьте высоту экрана. Иллюстрация не задаёт точку сверления: её определяют по стеновой пластине вашего кронштейна.",
-    position: "object-[55%_center]",
-  },
-};
 
 export function seoPageKindLabel(page) {
   if (connectionPageIds.has(page.id)) return "Подключение устройств";
@@ -367,8 +344,26 @@ function SeoArticle({ catalog, page }) {
   const trafficUtilitySelectionHandlers = trafficUtilityHref === "/podbor/"
     ? selectionStartHandlers(globalThis.window, "seo_next_step")
     : {};
-  const pageKindLabel = seoPageKindLabel(page);
-  const editorialPhoto = editorialPhotos[page.id];
+  const editorialPhoto = getInternalVisual(page.id);
+  const pageKindLabel = editorialPhoto ? {
+    connection: "Подключение и воспроизведение",
+    wireless: "Беспроводное подключение",
+    diagnostics: "Проверка неисправности",
+    settings: "Настройка телевизора",
+    display: "Экран и изображение",
+    inspection: "Проверка телевизора",
+    transport: "Перевозка телевизора",
+    model: "Модель и параметры",
+    wall: "Монтаж и крепёж",
+    stand: "Напольная стойка",
+    height: "Планирование монтажа",
+  }[editorialPhoto.name] : seoPageKindLabel(page);
+  const visualAction = {
+    "phone-to-tv": { href: "#мастер-подключения", label: "Выбрать способ подключения" },
+    "tv-no-signal": { href: "#мастер-проверки-сигнала", label: "Проверить сигнал" },
+    "mounting-map": { href: "#монтажная-карта", label: "Рассчитать высоту экрана" },
+    "mounting-height": { href: "#калькулятор-высоты", label: "Рассчитать высоту" },
+  }[page.id] ?? { href: "#мастер", label: "Найти свой случай" };
   const editorialEvidence = buildEditorialEvidence({
     checkedAt: page.updated_at ?? page.guide?.updated_at ?? "2026-08-08",
     contentKind: page.guide ? "seo-reviewed" : "seo-calculated",
@@ -390,12 +385,16 @@ function SeoArticle({ catalog, page }) {
           { label: page.h1 },
         ]} />
 
-        <header className="mt-5 border-b-2 border-ink pb-7">
+        <header className={`mt-5 border-b-2 border-ink pb-7 ${editorialPhoto ? "seo-editorial-hero" : ""}`} data-internal-visual-page={editorialPhoto ? page.id : undefined}>
+          <div className="seo-editorial-hero__copy">
+          <div className="seo-editorial-hero__heading">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
             {pageKindLabel}
           </p>
           <h1 className={`mt-3 max-w-[1180px] font-display font-extrabold leading-[0.92] tracking-[-0.035em] [overflow-wrap:anywhere] ${
-            ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner", "tv-dimensions", "phone-to-tv", "tv-no-signal"].includes(page.id)
+            editorialPhoto
+              ? "text-[clamp(2.6rem,5vw,5.4rem)]"
+              : ["tv-zone-sockets", "tilt-mount", "vesa", "wall-planner", "tv-dimensions", "phone-to-tv", "tv-no-signal"].includes(page.id)
               || prioritizesTvTrafficTask || prioritizesTvEnergy
               ? "text-[min(4.4rem,11vw)]"
               : ["wall-mounted-tv", "mounting-map"].includes(page.id)
@@ -404,28 +403,35 @@ function SeoArticle({ catalog, page }) {
           }`}>
             {page.h1}
           </h1>
+          </div>
+          <div className="seo-editorial-hero__intro">
           <p className="mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl">
             {page.lead}
           </p>
-          {page.id === "mounting-map" ? <a className="primary-button mt-5 inline-flex min-h-14 items-center" href="#монтажная-карта">Рассчитать высоту экрана ↓</a> : null}
-        </header>
-
-        {editorialPhoto ? (
-          <figure className="mt-7 overflow-hidden border border-line bg-white" data-editorial-photo={editorialPhoto.name}>
+          {editorialPhoto ? <a className="primary-button mt-6 inline-flex min-h-14 items-center gap-3" href={visualAction.href}>{visualAction.label}<span aria-hidden="true">↓</span></a> : null}
+          </div>
+          </div>
+          {editorialPhoto ? <figure className="seo-editorial-hero__media" data-editorial-photo={editorialPhoto.name}>
             <img
               alt={editorialPhoto.alt}
-              className={`h-56 w-full object-cover sm:h-80 ${editorialPhoto.position}`}
+              className="seo-editorial-hero__image"
               decoding="async"
+              fetchPriority="high"
               height="640"
-              loading="lazy"
+              loading="eager"
               src={editorialPhoto.src}
               width="960"
             />
-            <figcaption className="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted">
+            <figcaption className="seo-editorial-hero__caption">
               {editorialPhoto.caption}
             </figcaption>
-          </figure>
-        ) : null}
+          </figure> : null}
+        </header>
+
+        {editorialPhoto && page.guide ? <section className="seo-visual-route" aria-label="Как найти свой случай" data-visual-steps={page.id}>
+          <div className="seo-visual-route__intro"><p className="seo-visual-route__eyebrow">Посмотрите, что ближе к вашей ситуации</p><h2>С чего начать</h2></div>
+          <ol className="seo-visual-route__list">{page.guide.steps.map((step, index) => <li className="seo-visual-route__item" key={step.label}><span className="seo-visual-route__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><p className="seo-visual-route__label">{step.label}</p><h3>{step.title}</h3><a href="#мастер">Проверить в мастере <span aria-hidden="true">↗</span></a></li>)}</ol>
+        </section> : null}
 
         {page.id === "mounting-map" ? (
           <aside className="my-6 rounded-lg bg-ink p-5 text-white sm:p-7" aria-label="Порядок работы с монтажной картой">

@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "id": "20260923-internal-100-visual-ux",
+  "kind": "mixed",
+  "status": "specified",
+  "implementer": "Codex primary",
+  "created_at": "2026-09-23T21:50:30.586027+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "behavior_evidence_states": {
+    "loading": {"command_id":"visual-cohort","output_contains":"STATIC_EDITORIAL_HERO: loading/empty/error/success/disabled not applicable","reason":"Статичный редакционный блок не делает запросы и не имеет состояния загрузки."},
+    "empty": {"command_id":"visual-cohort","output_contains":"STATIC_EDITORIAL_HERO: loading/empty/error/success/disabled not applicable","reason":"Все 100 выбранных страниц имеют заранее собранные заголовок, лид, CTA и изображение."},
+    "error": {"command_id":"visual-cohort","output_contains":"STATIC_EDITORIAL_HERO: loading/empty/error/success/disabled not applicable","reason":"Новый блок не содержит формы, асинхронного вызова или отдельного UI ошибки."},
+    "success": {"command_id":"visual-cohort","output_contains":"STATIC_EDITORIAL_HERO: loading/empty/error/success/disabled not applicable","reason":"Ссылка ведёт к существующему инструменту, а не меняет состояние первого экрана."},
+    "disabled": {"command_id":"visual-cohort","output_contains":"STATIC_EDITORIAL_HERO: loading/empty/error/success/disabled not applicable","reason":"Единственное действие — нативная ссылка без состояния disabled."}
+  },
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": ["data/internal_visual_pages.json", "web/src/pages/SeoPage.jsx", "web/src/styles.css", "web/src/lib/internalVisualPages.mjs", "crates/sitegen/src/main.rs", "scripts/qa/verify-internal-visual-pages.mjs", "tests/qa/internal-visual-pages.test.mjs", "web/tests/seo-page-taxonomy.test.mjs", "web/public/assets/images", "product-docs/design-references/internal-visual-2026-09-23", "web/AGENTS.md", "DESIGN.md", ".design-harness/runs/20260923-internal-100-visual-ux", "docs", "web/dist"],
+  "verification_commands": [
+    {"id": "visual-cohort", "command": "node scripts/qa/verify-internal-visual-pages.mjs", "required": true, "covers": ["loading", "empty", "error", "success", "disabled"]},
+    {"id": "build", "command": "npm run build", "required": true}
+  ],
+  "asset_specs": [
+    {"id": "connection", "path": "web/public/assets/images/internal-connection.webp", "width": 960, "height": 640, "format": "webp", "platform": "web"},
+    {"id": "diagnostics", "path": "web/public/assets/images/internal-diagnostics.webp", "width": 960, "height": 640, "format": "webp", "platform": "web"},
+    {"id": "settings", "path": "web/public/assets/images/internal-settings.webp", "width": 960, "height": 640, "format": "webp", "platform": "web"},
+    {"id": "display", "path": "web/public/assets/images/internal-display.webp", "width": 960, "height": 640, "format": "webp", "platform": "web"},
+    {"id": "inspection", "path": "web/public/assets/images/internal-inspection.webp", "width": 960, "height": 640, "format": "webp", "platform": "web"},
+    {"id": "wireless", "path": "web/public/assets/images/internal-wireless.webp", "width": 960, "height": 640, "format": "webp", "platform": "web"},
+    {"id": "stand", "path": "web/public/assets/images/internal-stand.webp", "width": 960, "height": 640, "format": "webp", "platform": "web"},
+    {"id": "transport", "path": "web/public/assets/images/internal-transport.webp", "width": 960, "height": 640, "format": "webp", "platform": "web"}
+  ],
+  "exact_content": [],
+  "claims": [],
+  "sources": []
+}

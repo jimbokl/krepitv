@@ -4,6 +4,7 @@ use serde_json::{Value, json};
 use std::collections::{BTreeMap, HashSet};
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::sync::OnceLock;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 const MAX_AFFILIATE_AGE_SECONDS: i64 = 48 * 60 * 60;
@@ -479,6 +480,29 @@ struct SeoPage {
     faq: Vec<(String, String)>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     guide: Option<SeoEvidenceGuide>,
+}
+
+#[derive(Debug, Deserialize)]
+struct InternalVisualTheme {
+    src: String,
+    alt: String,
+    caption: String,
+    ids: Vec<String>,
+}
+
+fn internal_visual_theme(page_id: &str) -> Option<(&'static str, &'static InternalVisualTheme)> {
+    static THEMES: OnceLock<BTreeMap<String, InternalVisualTheme>> = OnceLock::new();
+    let themes = THEMES.get_or_init(|| {
+        serde_json::from_str(include_str!("../../../data/internal_visual_pages.json"))
+            .expect("Некорректный реестр внутренних изображений")
+    });
+    themes.iter().find_map(|(name, theme)| {
+        theme
+            .ids
+            .iter()
+            .any(|id| id == page_id)
+            .then_some((name.as_str(), theme))
+    })
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -4511,7 +4535,8 @@ fn seo_page_body(
     mounts: &[Mount],
     graph: &[CompatibilityEdge],
 ) -> String {
-    let page_kind_label = seo_page_kind_label(page);
+    let page_kind_label =
+        internal_visual_label(&page.id).unwrap_or_else(|| seo_page_kind_label(page));
     let facts = page
         .facts
         .iter()
@@ -4536,6 +4561,8 @@ fn seo_page_body(
     let catalog = seo_catalog_html(page, models, mounts, graph);
     let evidence_guide = seo_evidence_guide_html(page);
     let editorial_photo = seo_editorial_photo_html(&page.id);
+    let visual_action = seo_visual_action(&page.id);
+    let visual_steps = seo_visual_steps_html(page);
     let editorial_accountability = editorial_accountability_html(
         if page.guide.is_some() {
             "seo-reviewed"
@@ -4561,8 +4588,17 @@ fn seo_page_body(
         .collect::<Vec<_>>()
         .join("\n");
 
+    let static_action_anchor = match page.id.as_str() {
+        "phone-to-tv" | "tv-no-signal" | "mounting-map" | "mounting-height" => {
+            format!(
+                " id=\"{}\"",
+                escape_html(&seo_visual_action(&page.id).0[1..])
+            )
+        }
+        _ => String::new(),
+    };
     let facts_section = format!(
-        "<section class=\"py-8\" data-check-list=\"true\"><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>"
+        "<section class=\"py-8\" data-check-list=\"true\"{static_action_anchor}><h2 class=\"font-display text-3xl font-extrabold\">Что проверить</h2><ul class=\"mt-5 space-y-3 border-l-2 border-action pl-5 text-lg leading-relaxed\">{facts}</ul></section>"
     );
     let answer_content = if page.kind == "screws" {
         format!("{catalog}{facts_section}{calculator_note}")
@@ -4576,32 +4612,102 @@ fn seo_page_body(
         )
     };
     let mount_funnel_next_step = seo_mount_funnel_next_step_html();
+    let intro = if !editorial_photo.is_empty() {
+        format!(
+            "<header class=\"seo-editorial-hero mt-5 border-b-2 border-ink pb-7\" data-internal-visual-page=\"{}\"><div class=\"seo-editorial-hero__copy\"><div class=\"seo-editorial-hero__heading\"><p class=\"font-mono text-xs uppercase text-action\">{}</p><h1 class=\"mt-3 font-display text-[clamp(2.6rem,5vw,5.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em] [overflow-wrap:anywhere]\">{}</h1></div><div class=\"seo-editorial-hero__intro\"><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted sm:text-xl\">{}</p><a class=\"primary-button mt-6 inline-flex min-h-14 items-center gap-3\" href=\"{}\">{}<span aria-hidden=\"true\">↓</span></a></div></div>{}</header>{}",
+            escape_html(&page.id),
+            escape_html(page_kind_label),
+            escape_html(&page.h1),
+            escape_html(&page.lead),
+            escape_html(visual_action.0),
+            escape_html(visual_action.1),
+            editorial_photo,
+            visual_steps,
+        )
+    } else {
+        format!(
+            "<p class=\"font-mono text-xs uppercase text-action\">{}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{}</p>",
+            escape_html(page_kind_label),
+            escape_html(&page.h1),
+            escape_html(&page.lead),
+        )
+    };
 
+    let article_width = if editorial_photo.is_empty() {
+        "max-w-[1100px]"
+    } else {
+        "max-w-[1440px]"
+    };
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{page_kind_label}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{h1}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{lead}</p>{editorial_photo}{editorial_accountability}{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\" id=\"svyazannye-materialy\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
-        page_kind_label = escape_html(page_kind_label),
-        h1 = escape_html(&page.h1),
-        lead = escape_html(&page.lead),
-        editorial_photo = editorial_photo,
+        "<article class=\"mx-auto {article_width} px-5 py-12 sm:px-8\">{intro}{editorial_accountability}{answer_content}<section class=\"py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Частые вопросы</h2><div class=\"mt-5 border-b border-line\">{faq}</div></section>{mount_funnel_next_step}<section class=\"border-t-2 border-ink py-7\" id=\"svyazannye-materialy\"><h2 class=\"font-display text-2xl font-extrabold\">Связанные материалы</h2><nav class=\"mt-4 grid\" aria-label=\"Связанные материалы\">{related_links}</nav></section></article>",
+        intro = intro,
         editorial_accountability = editorial_accountability,
         answer_content = answer_content,
         mount_funnel_next_step = mount_funnel_next_step,
     ))
 }
 
-fn seo_editorial_photo_html(page_id: &str) -> &'static str {
+fn seo_editorial_photo_html(page_id: &str) -> String {
+    let Some((name, theme)) = internal_visual_theme(page_id) else {
+        return String::new();
+    };
+    format!(
+        "<figure class=\"seo-editorial-hero__media\" data-editorial-photo=\"{}\"><img alt=\"{}\" class=\"seo-editorial-hero__image\" decoding=\"async\" fetchpriority=\"high\" height=\"640\" loading=\"eager\" src=\"{}\" width=\"960\"><figcaption class=\"seo-editorial-hero__caption\">{}</figcaption></figure>",
+        escape_html(name),
+        escape_html(&theme.alt),
+        escape_html(&theme.src),
+        escape_html(&theme.caption),
+    )
+}
+
+fn internal_visual_label(page_id: &str) -> Option<&'static str> {
+    let (name, _) = internal_visual_theme(page_id)?;
+    Some(match name {
+        "connection" => "Подключение и воспроизведение",
+        "wireless" => "Беспроводное подключение",
+        "diagnostics" => "Проверка неисправности",
+        "settings" => "Настройка телевизора",
+        "display" => "Экран и изображение",
+        "inspection" => "Проверка телевизора",
+        "transport" => "Перевозка телевизора",
+        "model" => "Модель и параметры",
+        "wall" => "Монтаж и крепёж",
+        "stand" => "Напольная стойка",
+        "height" => "Планирование монтажа",
+        _ => return None,
+    })
+}
+
+fn seo_visual_action(page_id: &str) -> (&'static str, &'static str) {
     match page_id {
-        "tv-model-lookup" => {
-            r#"<figure class="mt-7 overflow-hidden border border-line bg-white" data-editorial-photo="model"><img alt="Мужчина ищет заводскую наклейку с кодом модели сзади телевизора" class="h-56 w-full object-cover object-center sm:h-80" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-model.webp" width="960"><figcaption class="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted">На фото — телевизор на тумбе. Если ваш уже висит на стене, сначала ищите модель в меню или документах; не снимайте тяжёлый экран в одиночку.</figcaption></figure>"#
-        }
-        "tv-wall-fasteners" => {
-            r#"<figure class="mt-7 overflow-hidden border border-line bg-white" data-editorial-photo="wall"><img alt="Мужчина проверяет стену детектором до начала сверления" class="h-56 w-full object-cover object-[60%_center] sm:h-80" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-wall.webp" width="960"><figcaption class="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted">Иллюстрация предварительной проверки. Детектор не подтверждает материал и несущую способность стены: крепёж выбирают по основанию и инструкции кронштейна.</figcaption></figure>"#
-        }
-        "mounting-map" => {
-            r#"<figure class="mt-7 overflow-hidden border border-line bg-white" data-editorial-photo="height"><img alt="Мужчина примеряет высоту будущего экрана рулеткой" class="h-56 w-full object-cover object-[55%_center] sm:h-80" decoding="async" height="640" loading="lazy" src="/assets/images/home-step-height.webp" width="960"><figcaption class="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted">Сначала примерьте высоту экрана. Иллюстрация не задаёт точку сверления: её определяют по стеновой пластине вашего кронштейна.</figcaption></figure>"#
-        }
-        _ => "",
+        "phone-to-tv" => ("#мастер-подключения", "Выбрать способ подключения"),
+        "tv-no-signal" => ("#мастер-проверки-сигнала", "Проверить сигнал"),
+        "mounting-map" => ("#монтажная-карта", "Рассчитать высоту экрана"),
+        "mounting-height" => ("#калькулятор-высоты", "Рассчитать высоту"),
+        _ => ("#мастер", "Найти свой случай"),
     }
+}
+
+fn seo_visual_steps_html(page: &SeoPage) -> String {
+    let Some(guide) = &page.guide else {
+        return String::new();
+    };
+    if internal_visual_theme(&page.id).is_none() {
+        return String::new();
+    }
+    let steps = guide.steps.iter().enumerate().map(|(index, step)| {
+        format!(
+            "<li class=\"seo-visual-route__item\"><span class=\"seo-visual-route__number\" aria-hidden=\"true\">{:02}</span><p class=\"seo-visual-route__label\">{}</p><h3>{}</h3><a href=\"#мастер\">Проверить в мастере <span aria-hidden=\"true\">↗</span></a></li>",
+            index + 1,
+            escape_html(&step.label),
+            escape_html(&step.title),
+        )
+    }).collect::<Vec<_>>().join("\n");
+    format!(
+        "<section class=\"seo-visual-route\" aria-label=\"Как найти свой случай\" data-visual-steps=\"{}\"><div class=\"seo-visual-route__intro\"><p class=\"seo-visual-route__eyebrow\">Посмотрите, что ближе к вашей ситуации</p><h2>С чего начать</h2></div><ol class=\"seo-visual-route__list\">{}</ol></section>",
+        escape_html(&page.id),
+        steps,
+    )
 }
 
 fn guide_index_body(pages: &[SeoPage]) -> String {
@@ -7446,7 +7552,8 @@ mod tests {
         ] {
             let html = seo_editorial_photo_html(page_id);
             assert!(html.contains(&format!("home-step-{image}.webp")));
-            assert!(html.contains("loading=\"lazy\""));
+            assert!(html.contains("loading=\"eager\""));
+            assert!(html.contains("fetchpriority=\"high\""));
             assert!(html.contains("<figcaption"));
         }
         assert!(seo_editorial_photo_html("other-guide").is_empty());

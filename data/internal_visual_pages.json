@@ -1,0 +1,68 @@
+{
+  "connection": {
+    "src": "/assets/images/internal-connection.webp",
+    "alt": "Человек рассматривает разъёмы на задней панели телевизора перед подключением устройства",
+    "caption": "Фото показывает подготовку к подключению, а не расположение портов вашей модели. Сверьте разъёмы с инструкцией телевизора.",
+    "ids": ["offline-tv", "tv-antenna-connect", "digital-box-connect", "game-console-to-tv", "tv-keyboard-mouse", "tv-microphone", "hdmi-cable-checker", "camera-to-tv", "dvd-to-tv", "tv-usb-file-system", "tv-usb-video-subtitles", "tv-usb-expand-storage", "usb-video-codec", "tv-usb-recording", "tv-hdmi-cec", "tv-cam-module", "tv-arc-no-sound", "tv-hdmi-laptop-not-detected", "phone-to-tv"]
+  },
+  "wireless": {
+    "src": "/assets/images/internal-wireless.webp",
+    "alt": "Человек проверяет беспроводное подключение телефона и телевизора",
+    "caption": "Фото иллюстрирует беспроводное подключение. Наличие Wi‑Fi, Bluetooth и трансляции экрана проверьте в меню и паспорте вашей модели.",
+    "ids": ["phone-hotspot", "phone-tv-remote", "tv-internet-setup", "tv-alice-connect", "tv-bluetooth-setup", "tv-bluetooth-remote-pairing", "tv-dlna", "tv-airplay-failure", "tv-wifi-limited"]
+  },
+  "diagnostics": {
+    "src": "/assets/images/internal-diagnostics.webp",
+    "alt": "Человек проверяет телевизор с помощью пульта, не разбирая корпус",
+    "caption": "Иллюстрация первого осмотра. Причину неисправности определяйте по наблюдаемым признакам и безопасным шагам ниже.",
+    "ids": ["tv-wont-turn-on", "tv-freezes", "tv-youtube-recovery", "tv-boot-loop", "tv-voice-remote-search", "tv-audio-video-sync", "tv-pin-reset", "tv-ten-digital-channels", "tv-audio-noise", "tv-no-signal"]
+  },
+  "settings": {
+    "src": "/assets/images/internal-settings.webp",
+    "alt": "Человек настраивает телевизор с пульта в гостиной",
+    "caption": "Экран на фото условный. Названия пунктов меню и доступные настройки зависят от модели и прошивки телевизора.",
+    "ids": ["universal-remote", "tv-storage-cleanup", "tv-disable-subtitles", "tv-disable-voice", "tv-game-mode", "tv-restart", "smart-tv-setup", "tv-browser-install", "tv-4k-enable", "tv-store-mode", "tv-resolution-check", "tv-120hz-enable", "tv-teletext-captions", "youtube-tv-subtitles", "tv-audio-track-language", "tv-eco-mode-dimming", "tv-safe-mode-exit", "tv-channel-order", "tv-motion-smoothing", "tv-hdr-enable", "tv-aspect-ratio"]
+  },
+  "display": {
+    "src": "/assets/images/internal-display.webp",
+    "alt": "Человек осматривает экран телевизора при дневном освещении",
+    "caption": "Фото — общий осмотр, не результат теста. Проверяйте экран на своей модели по шагам и стоп-условиям ниже.",
+    "ids": ["tv-dark-screen", "tv-flicker", "dead-pixel-test", "tv-hdmi-overscan", "tv-screen-uniformity", "tv-color-distortion", "tv-half-screen-dark"]
+  },
+  "inspection": {
+    "src": "/assets/images/internal-inspection.webp",
+    "alt": "Человек осматривает телевизор рядом с его упаковкой",
+    "caption": "Иллюстрация спокойной проверки покупки. Комплектность, повреждения и условия возврата сверяйте по документам продавца.",
+    "ids": ["tv-purchase-checklist", "tv-pickup-point-check"]
+  },
+  "transport": {
+    "src": "/assets/images/internal-transport.webp",
+    "alt": "Два человека готовят телевизор в упаковке к перевозке",
+    "caption": "Фото показывает общую подготовку к перевозке. Ориентацию упаковки и требования к транспортировке сверяйте с инструкцией вашей модели.",
+    "ids": ["tv-transport"]
+  },
+  "model": {
+    "src": "/assets/images/home-step-model.webp",
+    "alt": "Человек ищет сведения о модели телевизора на задней панели",
+    "caption": "Сначала ищите модель в меню или документах. Не снимайте тяжёлый экран со стены в одиночку; размеры крепления сверяйте по паспорту.",
+    "ids": ["tv-model-lookup", "model-year-decoder", "vesa-size", "vesa-600x400", "vesa-100x100", "diagonal-85", "selection-choose"]
+  },
+  "wall": {
+    "src": "/assets/images/home-step-wall.webp",
+    "alt": "Человек проверяет стену перед установкой телевизора",
+    "caption": "Фото не задаёт место сверления и тип крепежа. Основание и стеновую пластину проверяйте до разметки по инструкции кронштейна.",
+    "ids": ["hide-tv-wires", "wall-drywall-how", "wall-concrete-dowel", "wall-aerated-how", "wires-cable-channel", "remove-tv-from-mount", "ceiling-tv-mount", "tv-device-shelf", "tv-wall-fasteners", "soundbar-mount", "corner-tv-mount", "tv-installation-cost", "tv-without-mount", "tv-over-fireplace", "tv-over-radiator", "tv-wall-niche", "tv-without-drilling", "wall-material-check", "tv-wooden-wall", "tv-mount-level"]
+  },
+  "stand": {
+    "src": "/assets/images/internal-stand.webp",
+    "alt": "Человек проверяет телевизор на мобильной напольной стойке",
+    "caption": "Фото показывает мобильную стойку, не её допустимую нагрузку. Перед установкой проверьте паспорт стойки, VESA и массу телевизора.",
+    "ids": ["mobile-tv-stand"]
+  },
+  "height": {
+    "src": "/assets/images/home-step-height.webp",
+    "alt": "Человек примеряет высоту расположения телевизора рулеткой",
+    "caption": "Фото показывает примерку высоты экрана, не точку сверления. Разметку стеновой пластины выполняйте по вашему кронштейну.",
+    "ids": ["tv-wall-gap", "mounting-map", "mounting-height"]
+  }
+}

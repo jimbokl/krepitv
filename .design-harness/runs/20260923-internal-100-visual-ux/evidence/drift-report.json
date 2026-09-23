@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "run": "20260923-internal-100-visual-ux",
+  "generated_at": "2026-09-23T22:30:37.740285+00:00",
+  "scanned_files": [
+    "web/src/pages/SeoPage.jsx"
+  ],
+  "findings": [
+    {
+      "severity": "error",
+      "rule": "raw-color",
+      "path": "web/src/pages/SeoPage.jsx",
+      "line": 441,
+      "match": "#ff8a62"
+    },
+    {
+      "severity": "error",
+      "rule": "raw-color",
+      "path": "web/src/pages/SeoPage.jsx",
+      "line": 442,
+      "match": "#ff8a62"
+    },
+    {
+      "severity": "error",
+      "rule": "raw-color",
+      "path": "web/src/pages/SeoPage.jsx",
+      "line": 443,
+      "match": "#ff8a62"
+    }
+  ]
+}

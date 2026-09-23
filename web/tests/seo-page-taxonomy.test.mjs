@@ -14,11 +14,14 @@ test("React и Rust SSR используют одинаковые смыслов
     "Настройка телевизора",
     "Уход за телевизором",
     "Расчёт электроэнергии",
+    "Беспроводное подключение",
+    "Перевозка телевизора",
+    "Напольная стойка",
   ]) {
     assert.equal(reactSource.includes(label), true, `React не содержит категорию: ${label}`);
     assert.equal(rustSource.includes(label), true, `SSR не содержит категорию: ${label}`);
   }
 
-  assert.match(reactSource, /const pageKindLabel = seoPageKindLabel\(page\)/);
-  assert.match(rustSource, /let page_kind_label = seo_page_kind_label\(page\);/);
+  assert.match(reactSource, /\}\[editorialPhoto\.name\] : seoPageKindLabel\(page\)/);
+  assert.match(rustSource, /internal_visual_label\(&page\.id\)\.unwrap_or_else\(\|\| seo_page_kind_label\(page\)\)/);
 });
