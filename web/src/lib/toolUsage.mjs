@@ -15,6 +15,7 @@ export const KNOWN_TOOL_IDS = Object.freeze([
   "phone_tv_connection",
   "picture_setup",
   "screen_cleaning",
+  "subtitle_source_wizard",
   "slim_mount_clearance",
   "screw_lookup",
   "smart_tv_box",

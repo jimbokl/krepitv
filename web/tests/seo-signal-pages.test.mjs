@@ -30,11 +30,19 @@ function page(id) {
 test("measured SEO winners and new intent tools expose truthful material-update dates", () => {
   const updated = pages.filter((candidate) => candidate.updated_at === "2026-09-18");
   const updatedIds = new Set(updated.map((candidate) => candidate.id));
-  assert.ok(INTENT_TOOL_IDS.every((id) => updatedIds.has(id)));
+  assert.ok(INTENT_TOOL_IDS.every((id) => (
+    id === "tv-disable-subtitles"
+      ? page(id)?.updated_at === "2026-09-23"
+      : updatedIds.has(id)
+  )));
   assert.ok([...tvIntentCohortIds].every((id) => updatedIds.has(id)));
   assert.equal(tvIntentCohortIds.size, 14);
-  assert.ok([...targetIds].every((id) => page(id)?.updated_at === (id === "tv-energy-consumption" ? "2026-09-22" : "2026-09-18")));
-  assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-08-07");
+  const updateDates = {
+    "tv-disable-subtitles": "2026-09-23",
+    "tv-energy-consumption": "2026-09-22",
+  };
+  assert.ok([...targetIds].every((id) => page(id)?.updated_at === (updateDates[id] || "2026-09-18")));
+  assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-09-23");
   assert.equal(page("tv-disable-voice").guide.updated_at, "2026-08-07");
   assert.equal(page("vesa-size").guide.updated_at, "2026-08-08");
 });

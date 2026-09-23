@@ -7820,7 +7820,12 @@ mod tests {
                 .iter()
                 .find(|page| page.id == id)
                 .unwrap_or_else(|| panic!("Нет SEO-страницы {id}"));
-            assert_eq!(seo_page_lastmod(page), "2026-09-18");
+            let expected = if id == "tv-disable-subtitles" {
+                "2026-09-23"
+            } else {
+                "2026-09-18"
+            };
+            assert_eq!(seo_page_lastmod(page), expected);
         }
         let energy = pages
             .iter()

@@ -23,6 +23,7 @@ const phoneTvState = argument("--phone-tv-state", null);
 const tvNoSignalState = argument("--tv-no-signal-state", null);
 const tvTrafficState = argument("--tv-traffic-state", null);
 const intentState = argument("--intent-state", null);
+const subtitleState = argument("--subtitle-state", null);
 const connectionState = argument("--connection-state", null);
 const tvEnergyState = argument("--tv-energy-state", null);
 const guidedSelectionState = argument("--guided-selection-state", null);
@@ -39,6 +40,9 @@ if (!Number.isInteger(height) || height < 480 || height > 5000) throw new Error(
 if (!["denied", "granted", "prompt"].includes(consent)) throw new Error("Invalid consent mode");
 if (![100, 200].includes(textZoom)) throw new Error("Invalid text zoom; use 100 or 200");
 if (!["screen", "print"].includes(media)) throw new Error("Invalid media; use screen or print");
+if (subtitleState && !["teletext", "unknown", "accessibility"].includes(subtitleState)) {
+  throw new Error("Invalid subtitle wizard state");
+}
 if (observedModelState && ![
   "default",
   "loading",
@@ -812,6 +816,49 @@ try {
     process.stdout.write(JSON.stringify(intentReport) + "\n");
   }
   let tvEnergyReport = null;
+  let subtitleReport = null;
+  if (subtitleState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(subtitleState)};
+        const tool = document.querySelector('[data-subtitle-wizard="true"]');
+        if (!tool) throw new Error('Subtitle wizard not found');
+        const events = [];
+        const usageEvents = [];
+        window.addEventListener('krepitv:result-completed', event => events.push(event.detail));
+        window.addEventListener('krepitv:tool-usage', event => usageEvents.push(event.detail));
+        const choices = state === 'teletext' ? [0, 0, 1] : state === 'accessibility' ? [0, 1, 0] : [4, 2, 2];
+        const waitFor = (predicate, message, timeout = 5000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            if (predicate()) { clearInterval(timer); resolve(); }
+            else if (Date.now() - startedAt > timeout) { clearInterval(timer); reject(new Error(message)); }
+          }, 25);
+        });
+        for (let index = 0; index < choices.length; index += 1) {
+          await waitFor(() => tool.querySelectorAll('fieldset').length > index, 'Subtitle step did not render');
+          const button = tool.querySelectorAll('fieldset')[index]?.querySelectorAll('button')[choices[index]];
+          if (!button) throw new Error('Subtitle choice missing');
+          button.click();
+        }
+        await waitFor(() => tool.querySelector('[data-subtitle-result] h4'), 'Subtitle route did not render');
+        if (events.length !== 1 || events[0].toolId !== 'subtitle_source_wizard' || usageEvents.length !== 1) {
+          throw new Error('Subtitle result and usage were not measured exactly once');
+        }
+        const resultText = tool.querySelector('[data-subtitle-result]').textContent;
+        const expected = state === 'unknown' ? 'не определён' : state === 'accessibility' ? 'согласуйте' : 'телетекст';
+        if (!resultText.includes(expected)) throw new Error('Subtitle route has an unexpected result');
+        return { state, toolId: events[0].toolId, resultType: events[0].resultType, usageEvents: usageEvents.length, hasResult: true };
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      throw new Error(interaction.exceptionDetails?.exception?.description ?? "Subtitle interaction failed");
+    }
+    subtitleReport = interaction.result.value;
+    process.stdout.write(JSON.stringify(subtitleReport) + "\n");
+  }
   if (tvEnergyState) {
     const interaction = await send("Runtime.evaluate", {
       expression: `(async () => {
@@ -1574,6 +1621,7 @@ try {
   if (tvNoSignalReport) process.stdout.write(`${JSON.stringify(tvNoSignalReport)}\n`);
   if (tvTrafficReport) process.stdout.write(`${JSON.stringify(tvTrafficReport)}\n`);
   if (tvEnergyReport) process.stdout.write(`${JSON.stringify(tvEnergyReport)}\n`);
+  if (subtitleReport) process.stdout.write(`${JSON.stringify(subtitleReport)}\n`);
   if (guidedSelectionReport) process.stdout.write(`${JSON.stringify(guidedSelectionReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {

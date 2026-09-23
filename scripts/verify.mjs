@@ -1879,7 +1879,8 @@ for (const cohort of dailySeoCohorts) {
     }
     dailyCohortIds.add(expected.id);
     const page = dailyEvidenceGuidePages.find((item) => item.id === expected.id);
-    if (!page || page.path !== expected.path || page.guide.updated_at !== cohort.cohort_date) {
+    // A material revision may be newer than the discovery cohort, but never older.
+    if (!page || page.path !== expected.path || page.guide.updated_at < cohort.cohort_date) {
       throw new Error(`SEO-когорта ${cohort.cohort_date} не совпадает с canonical ${expected.id}`);
     }
     if (!Number.isFinite(expected.frequency) || expected.frequency <= 0 || !expected.evidence_file) {
