@@ -286,6 +286,13 @@ const SEO_YANDEX_SUGGEST_COHORT_2026_09_23: [(&str, &str); 6] = [
         "/televizor-pokazyvaet-sinim-ili-cherno-belym/",
     ),
 ];
+const SEO_YANDEX_SUGGEST_FOLLOWUP_2026_09_23: [(&str, &str); 2] = [
+    ("tv-audio-noise", "/shum-i-pomehi-v-zvuke-televizora/"),
+    (
+        "tv-half-screen-dark",
+        "/potemnela-polovina-ekrana-televizora/",
+    ),
+];
 const SEO_TOOL_SPRINT_2026_09_03: [(&str, &str); 10] = [
     ("tv-over-fireplace", "/televizor-nad-kaminom/"),
     ("tv-over-radiator", "/televizor-nad-batareey/"),
@@ -2725,6 +2732,8 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-model-lookup",
             ],
             "tv-color-distortion" => &["picture-setup", "tv-dark-screen", "tv-hdmi-overscan"],
+            "tv-audio-noise" => &["tv-no-sound", "soundbar-to-tv", "tv-arc-no-sound"],
+            "tv-half-screen-dark" => &["tv-dark-screen", "tv-screen-uniformity", "picture-setup"],
             "phone-hotspot" => &[
                 "offline-tv",
                 "tv-no-internet",
@@ -2920,6 +2929,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "tv-aspect-ratio",
             ],
             "tv-dark-screen" => &[
+                "tv-half-screen-dark",
                 "tv-sound-no-picture",
                 "picture-setup",
                 "tv-aspect-ratio",
@@ -3308,6 +3318,7 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "laptop-to-tv",
             ],
             "tv-no-sound" => &[
+                "tv-audio-noise",
                 "tv-speakers",
                 "tv-headphones",
                 "soundbar-to-tv",
@@ -4627,6 +4638,8 @@ fn seo_page_kind_label(page: &SeoPage) -> &'static str {
         | "tv-hdmi-laptop-not-detected"
         | "tv-ten-digital-channels"
         | "tv-color-distortion"
+        | "tv-audio-noise"
+        | "tv-half-screen-dark"
         | "tv-usb-not-seen"
         | "tv-wont-turn-on"
         | "tv-freezes"
@@ -5167,6 +5180,7 @@ fn validate_seo_pages(pages: &[SeoPage]) {
         &DAILY_SEO_COHORT_2026_08_10[..],
         &SEO_TV_INTENT_COHORT_2026_09_18[..],
         &SEO_YANDEX_SUGGEST_COHORT_2026_09_23[..],
+        &SEO_YANDEX_SUGGEST_FOLLOWUP_2026_09_23[..],
         &SEO_TOOL_SPRINT_2026_09_03[..],
     ] {
         for &(id, path) in cohort {

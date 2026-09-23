@@ -85,7 +85,7 @@ const diagnosticsPageIds = new Set([
   "tv-boot-loop", "tv-voice-remote-search", "tv-screen-uniformity",
   "tv-audio-video-sync",
   "tv-wifi-limited", "tv-hdmi-laptop-not-detected", "tv-ten-digital-channels",
-  "tv-color-distortion",
+  "tv-color-distortion", "tv-audio-noise", "tv-half-screen-dark",
 ]);
 
 const setupPageIds = new Set([

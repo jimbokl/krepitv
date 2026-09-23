@@ -42,6 +42,8 @@ const yandexSuggestGuideIds = [
   "tv-ten-digital-channels",
   "tv-pickup-point-check",
   "tv-color-distortion",
+  "tv-audio-noise",
+  "tv-half-screen-dark",
 ];
 const mountingIntentIds = [
   "vesa-200x100",
