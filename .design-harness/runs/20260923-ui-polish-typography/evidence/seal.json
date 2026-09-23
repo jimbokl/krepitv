@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "run_id": "20260923-ui-polish-typography",
+  "sealed_at": "2026-09-23T20:29:06.396968+00:00",
+  "task_hash": "sha256:77eff40d5dfad7d870e5907239fe08f3cd73c8abfd995521006759664ea32b80",
+  "evidence_hash": "sha256:b0605b7da97a8a8c630458a480d6ece0ce636249b512aa8ce789283a16a766b9",
+  "files": {
+    ".design-harness/config.json": "sha256:04072df9107eee519a90bbfd4b2e242e773a13cb6841e47e0d207cd2679128f5",
+    ".design-harness/runs/20260923-ui-polish-typography/SPEC.md": "sha256:73341438f3a38cb6d8bd7b4801647dd2601da9cc03759f67596cc26cf77070d4",
+    ".design-harness/runs/20260923-ui-polish-typography/brief.md": "sha256:e52388551c3f6ce013deafdd4d1ed03bedf3ef7181ad7b08f267b4308e499a43",
+    ".design-harness/runs/20260923-ui-polish-typography/component-map.md": "sha256:470eb89a3d35215db3efadd9a130a7913249ea613eeace7ccbbe084a74995c52",
+    ".design-harness/runs/20260923-ui-polish-typography/discovery.md": "sha256:1494b522117f9bb26387caf056d677276294e29435a64fc60a53529b03db6ee7",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/drift-report.json": "sha256:82eaa022e668086b5a89396606d55efd56e3d462598bf1206066391c36587ef3",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/home-desktop.png": "sha256:5062df5c707648cb8794d43404dfad956fa8500a253b5f7da8d5ff7352092be5",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/model-focus-mobile.png": "sha256:ca25818691e3c95c660d7dc0f47f793ef30e8bd02732f90f2d4754c43b4ee89c",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/model-tablet.png": "sha256:f0f0d0bac6da49e7766c6a2f76390f3cc12e2f4258a6891bfc56e4c7614d6b9c",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/model-zoom200-mobile.png": "sha256:a720e36bd4b5b78332473a76c9251bbbe6297c41948de77266e0c3434cce383b",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/mount-mobile.png": "sha256:cf70cfa55daec657ade5e7717a65c47675ad48aecc9070ba5ca20032b9dde5ef",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/mount-zoom200-mobile.png": "sha256:edebb32b953133f1c0badb7f0cc343099307a6c1aa22089019a832c3e5634acb",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/podbor-default-mobile.png": "sha256:1da78dc32242bd17c7137d1401f32344b5e56f1745fe53f7932565b077b053e6",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/podbor-disabled-mobile.png": "sha256:406ad14c77c6d6667ced590657892d59f1d9777c3bbb8eaab0584d7f3d87bfc0",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/podbor-empty-mobile.png": "sha256:b00001d7a108d371c7650ef55a091ad892346dc5d0d838d4f1cd570197d1d8d9",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/podbor-error-mobile.png": "sha256:8817a6b95f3c217545043f9350ae2c336c6a3fda18a5fccae417f46af8eaff18",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/podbor-focus-mobile.png": "sha256:406ad14c77c6d6667ced590657892d59f1d9777c3bbb8eaab0584d7f3d87bfc0",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/podbor-loading-mobile.png": "sha256:4ef98b8fde3d1134c747daeab01cd3309428fa80ffd129eff3e61e900f452850",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/podbor-success-mobile.png": "sha256:af745f08b275c938d478ba8344009f84ee65009890c4827b838cd7dabc18c66b",
+    ".design-harness/runs/20260923-ui-polish-typography/evidence.json": "sha256:b0605b7da97a8a8c630458a480d6ece0ce636249b512aa8ce789283a16a766b9",
+    ".design-harness/runs/20260923-ui-polish-typography/review.md": "sha256:c5b690c915a9e4cc1fa73b784b6d78ccccbb493fe546b42641b88b52c24e2741",
+    ".design-harness/runs/20260923-ui-polish-typography/task.json": "sha256:77eff40d5dfad7d870e5907239fe08f3cd73c8abfd995521006759664ea32b80",
+    ".design-harness/runs/20260923-ui-polish-typography/visual-direction.md": "sha256:4c8eb871a493814d125e80984343b483521ef708a15003d83d8b2a6348421171"
+  },
+  "packet_hash": "sha256:b1168e5903c71031d528064ed238d6713354a187fb3137b06a1ffda9e2caf389"
+}

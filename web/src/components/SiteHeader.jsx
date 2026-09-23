@@ -33,19 +33,14 @@ export function SiteHeader({ active = "" }) {
 
   return (
     <>
-      <header className="border-b-2 border-ink bg-paper">
+      <header className="relative border-b-2 border-ink bg-paper">
         <div className="mx-auto flex min-w-0 max-w-[1440px] items-center justify-between gap-3 px-5 py-4 sm:gap-6 sm:px-8">
-          <div className="flex min-w-0 items-center gap-6">
-            <Brand compact />
-            <p className="hidden max-w-[17rem] border-l border-line pl-6 font-mono text-xs uppercase leading-tight lg:block">
-              Независимый сервис проверки совместимости кронштейнов и телевизоров
-            </p>
-          </div>
+          <Brand compact />
 
           <button
             aria-controls="site-primary-navigation"
             aria-expanded={menuOpen}
-            className="shrink-0 rounded p-2 focus:outline-none focus:ring-2 focus:ring-action lg:hidden"
+            className="flex size-11 shrink-0 items-center justify-center rounded focus:outline-none focus:ring-2 focus:ring-action xl:hidden"
             onClick={() => setMenuOpen((value) => !value)}
             type="button"
             aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
@@ -55,13 +50,14 @@ export function SiteHeader({ active = "" }) {
           </button>
 
           <nav
-            className={`${menuOpen ? "flex" : "hidden"} absolute inset-x-4 top-[5.3rem] z-40 flex-col gap-1 rounded-md border border-line bg-white p-3 shadow-menu lg:static lg:flex lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none`}
+            className={`${menuOpen ? "flex" : "hidden"} absolute inset-x-4 top-full z-40 max-h-screen flex-col gap-1 overflow-y-auto rounded-md border border-line bg-white p-3 shadow-menu xl:static xl:flex xl:max-h-none xl:flex-row xl:items-center xl:gap-5 xl:overflow-visible xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none`}
             aria-label="Основная навигация"
             id="site-primary-navigation"
           >
             {links.map((link) => (
               <a
-                className={`border-b-2 px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2 ${active === link.href ? "border-ink" : "border-transparent"}`}
+                aria-current={active === link.href ? "page" : undefined}
+                className={`border-b-2 px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink xl:py-2 ${active === link.href ? "border-ink" : "border-transparent"}`}
                 href={link.href}
                 key={link.href}
                 onClick={() => setMenuOpen(false)}

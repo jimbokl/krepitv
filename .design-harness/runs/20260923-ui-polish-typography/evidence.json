@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "20260923-ui-polish-typography",
+  "commands": [
+    {"id":"build","command":"npm run build","exit_code":0},
+    {"id":"visual","command":"npm run qa:screenshot -- --url http://127.0.0.1:4187/ --output .design-harness/runs/20260923-ui-polish-typography/evidence/screenshots/home-desktop.png --width 1440 --height 900","exit_code":0}
+  ],
+  "screenshots": [
+    {"id":"default-mobile","path":"evidence/screenshots/podbor-default-mobile.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"loading-mobile","path":"evidence/screenshots/podbor-loading-mobile.png","state":"loading","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"empty-mobile","path":"evidence/screenshots/podbor-empty-mobile.png","state":"empty","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"error-mobile","path":"evidence/screenshots/podbor-error-mobile.png","state":"error","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"success-mobile","path":"evidence/screenshots/podbor-success-mobile.png","state":"success","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"disabled-mobile","path":"evidence/screenshots/podbor-disabled-mobile.png","state":"disabled","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"focus-mobile","path":"evidence/screenshots/model-focus-mobile.png","state":"focus","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true,"focus_visible":true}},
+    {"id":"model-tablet","path":"evidence/screenshots/model-tablet.png","state":"default","viewport_id":"tablet","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"home-desktop","path":"evidence/screenshots/home-desktop.png","state":"default","viewport_id":"desktop","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"mount-mobile","path":"evidence/screenshots/mount-mobile.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"model-zoom200-mobile","path":"evidence/screenshots/model-zoom200-mobile.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"mount-zoom200-mobile","path":"evidence/screenshots/mount-zoom200-mobile.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}}
+  ],
+  "assets": [],
+  "review": {
+    "reviewer": "Independent Codex reviewer",
+    "independent": true,
+    "verdict": "pass",
+    "findings": ["No release blockers in initial and final source reviews; React menu tap target increased to 44px after review.", "Model and mount 320px/200% zoom captures have no horizontal overflow.", "Static shared header lacks per-route aria-current; follow-up only."]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

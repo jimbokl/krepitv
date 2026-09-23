@@ -90,10 +90,16 @@ export function MountPage({ catalog, mountId }) {
           <h1 className="mt-3 font-display text-[clamp(3rem,5.8vw,6.2rem)] font-extrabold leading-[0.92] tracking-[-0.035em]">
             {mount.title}
           </h1>
+          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted sm:text-xl">
+            Подходит ли он вашему ТВ? Найдите модель в списке ниже. Стену и винты проверьте отдельно.
+          </p>
+          <a className="primary-button mt-5" href="#sovmestimye-televizory">
+            Проверить совместимость с ТВ ↓
+          </a>
           <div className="mt-5 grid gap-2 border-y border-ink py-3 font-mono text-xs text-muted sm:grid-cols-3">
             <span>{mount.brand} · {mount.model}</span>
             <span className="sm:text-center">Проверено: {formatCheckedDate(mount.checked_at)}</span>
-            <span className="sm:text-right">Граф рассчитан в Rust</span>
+            <span className="sm:text-right">Совместимость по паспортным данным</span>
           </div>
         </header>
 
@@ -107,7 +113,7 @@ export function MountPage({ catalog, mountId }) {
             value={`${mount.vesa.length} ${pluralizeRu(mount.vesa.length, "схема", "схемы", "схем")}`}
           />
           <SummaryFact
-            label="Подтверждено"
+            label="Подходят по паспорту"
             value={`${verifiedModels.length} ${pluralizeRu(verifiedModels.length, "модель", "модели", "моделей")}`}
             verified
           />
@@ -192,7 +198,7 @@ export function MountPage({ catalog, mountId }) {
             </a>
           </div>
 
-          <div className="py-7 lg:pl-8">
+          <div className="py-7 lg:pl-8" id="sovmestimye-televizory">
             <div className="flex items-start gap-4">
               <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-verified text-white">
                 <CheckCircle aria-hidden="true" className="size-9" weight="fill" />

@@ -37,6 +37,54 @@ select {
   background: #f04a0b;
 }
 
+:where(a, summary):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+a {
+  overflow-wrap: anywhere;
+}
+
+a.inline-flex {
+  max-width: 100%;
+  min-width: 0;
+}
+
+footer nav a {
+  min-width: 0;
+}
+
+:where(h1, h2, h3) {
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+:where(p, li, dt, dd) {
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+:where(.grid) > * {
+  min-width: 0;
+}
+
+[data-editorial-accountability] .inline-flex {
+  flex-wrap: wrap;
+}
+
+:where(.primary-button, .secondary-button) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+[data-wall-mount-screws] a.inline-flex {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
 @layer components {
   .primary-button {
     @apply inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-sm bg-action px-5 py-3 font-display text-lg font-bold text-white transition hover:bg-action-hover focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40;

@@ -14,10 +14,12 @@ export function CatalogBrandGroups({
     <div className="border-b border-line">
       {groups.map((group) => (
         <details className="group border-t border-line" key={group.brand}>
-          <summary className="grid min-h-16 cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-4 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
-            <span className="font-display text-2xl font-extrabold">{group.brand}</span>
-            <span className="font-mono text-xs uppercase text-muted">
-              {countLabel}: {group.items.length}
+          <summary className="grid min-h-16 cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-action">
+            <span className="min-w-0">
+              <span className="block font-display text-2xl font-extrabold [overflow-wrap:anywhere]">{group.brand}</span>
+              <span className="block font-mono text-xs uppercase text-muted">
+                {countLabel}: {group.items.length}
+              </span>
             </span>
             <CaretDown
               aria-hidden="true"

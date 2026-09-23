@@ -1454,7 +1454,20 @@ fn html_shell(
 }
 
 fn static_header() -> &'static str {
-    "<header class=\"relative border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex min-w-0 max-w-[1440px] items-center justify-between gap-3 px-5 py-4 sm:gap-6 sm:px-8\"><a class=\"font-display text-xl font-extrabold\" href=\"/\">KREPI TV</a><button aria-controls=\"site-primary-navigation\" aria-expanded=\"false\" aria-label=\"Открыть меню\" class=\"flex size-11 shrink-0 items-center justify-center rounded focus:outline-none focus:ring-2 focus:ring-action lg:hidden\" data-static-navigation-toggle=\"true\" type=\"button\"><span aria-hidden=\"true\" class=\"font-mono text-2xl leading-none\" data-static-navigation-open-icon=\"true\">☰</span><span aria-hidden=\"true\" class=\"hidden font-mono text-3xl leading-none\" data-static-navigation-close-icon=\"true\">×</span></button><nav class=\"absolute inset-x-4 top-full z-40 hidden flex-col gap-1 rounded-md border border-line bg-white p-3 shadow-menu lg:static lg:flex lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none\" aria-label=\"Основная навигация\" id=\"site-primary-navigation\"><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/televizor-pishet-net-signala/\">Нет сигнала</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/podbor/\">Подбор</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/modeli/\">Телевизоры</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/kronshteyny/\">Кронштейны</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/vesa/\">VESA</a><a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action lg:py-2\" href=\"/spravochnik/\">Справочник</a></nav></div></header>"
+    concat!(
+        "<header class=\"relative border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex min-w-0 max-w-[1440px] items-center justify-between gap-3 px-5 py-4 sm:gap-6 sm:px-8\">",
+        "<a class=\"inline-flex shrink-0 items-baseline gap-1 whitespace-nowrap font-display font-extrabold uppercase leading-none tracking-[-0.05em] text-ink\" href=\"/\" aria-label=\"Крепи ТВ — главная\"><span class=\"text-[clamp(1rem,8vw,2.2rem)]\">Крепи</span><span class=\"text-[clamp(1rem,8vw,2.2rem)] text-action\">ТВ</span></a>",
+        "<button aria-controls=\"site-primary-navigation\" aria-expanded=\"false\" aria-label=\"Открыть меню\" class=\"flex size-11 shrink-0 items-center justify-center rounded focus:outline-none focus:ring-2 focus:ring-action xl:hidden\" data-static-navigation-toggle=\"true\" type=\"button\"><span aria-hidden=\"true\" class=\"font-mono text-2xl leading-none\" data-static-navigation-open-icon=\"true\">☰</span><span aria-hidden=\"true\" class=\"hidden font-mono text-3xl leading-none\" data-static-navigation-close-icon=\"true\">×</span></button>",
+        "<nav class=\"absolute inset-x-4 top-full z-40 hidden max-h-screen flex-col gap-1 overflow-y-auto rounded-md border border-line bg-white p-3 shadow-menu xl:static xl:flex xl:max-h-none xl:flex-row xl:items-center xl:gap-5 xl:overflow-visible xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none\" aria-label=\"Основная навигация\" id=\"site-primary-navigation\">",
+        "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/televizor-pishet-net-signala/\">Нет сигнала</a>",
+        "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/kak-podklyuchit-telefon-k-televizoru/\">Телефон → ТВ</a>",
+        "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/podbor/\">Подбор по модели</a>",
+        "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/modeli/\">Телевизоры</a>",
+        "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/kronshteyny/\">Кронштейны</a>",
+        "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/razmery-televizora-po-diagonali/\">Размеры ТВ</a>",
+        "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/vesa/\">VESA</a>",
+        "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/spravochnik/\">Справочник</a></nav></div></header>",
+    )
 }
 
 fn static_footer() -> &'static str {
@@ -1513,7 +1526,7 @@ fn brand_catalog_html(
         .into_iter()
         .map(|(brand, rows)| {
             format!(
-                "<details class=\"group border-t border-line\"><summary class=\"grid min-h-16 cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-4 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-action\"><span class=\"font-display text-2xl font-extrabold\">{brand}</span><span class=\"font-mono text-xs uppercase text-muted\">{count_label}: {count}</span><span class=\"text-action transition group-open:rotate-180\" aria-hidden=\"true\">⌄</span></summary><{list_tag} class=\"{list_class}\">{rows}</{list_tag}></details>",
+                "<details class=\"group border-t border-line\"><summary class=\"grid min-h-16 cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-action\"><span class=\"min-w-0\"><span class=\"block font-display text-2xl font-extrabold [overflow-wrap:anywhere]\">{brand}</span><span class=\"block font-mono text-xs uppercase text-muted\">{count_label}: {count}</span></span><span class=\"text-action transition group-open:rotate-180\" aria-hidden=\"true\">⌄</span></summary><{list_tag} class=\"{list_class}\">{rows}</{list_tag}></details>",
                 brand = escape_html(&brand),
                 count_label = escape_html(count_label),
                 count = rows.len(),
@@ -2249,7 +2262,7 @@ fn model_page_body(
     let offer_jump = if affiliate_cards.is_empty() {
         String::new()
     } else {
-        "<a class=\"mt-5 inline-flex min-h-12 items-center rounded-full bg-action px-6 font-display font-bold text-white\" data-model-matches-jump=\"true\" href=\"#podhodyashchie-kronshteyny\">Показать подходящие кронштейны ↓</a>".to_string()
+        "<a class=\"primary-button mt-5\" data-model-matches-jump=\"true\" href=\"#podhodyashchie-kronshteyny\">Показать подходящие кронштейны ↓</a>".to_string()
     };
     let commercial_section = commercial_profile
         .map(commercial_profile_html)
