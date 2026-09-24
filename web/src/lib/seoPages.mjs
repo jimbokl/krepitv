@@ -38,6 +38,21 @@ export function getHomeDiagnosticPages(pages) {
 }
 
 export function getRelatedPages(page, pages, limit = 6) {
+  if (page.section) {
+    const hubId = {
+      "Питание и розетки": "tv-zone-sockets",
+      "Подсветка": "picture-setup",
+      "Саундбары и звук": "soundbar-to-tv",
+      "Эфир и антенна": "tv-antenna-connect",
+      "Приставки и приложения": "smart-tv-box",
+      "Пульты": "universal-remote",
+      "HDMI и кабели": "hdmi-cable-checker",
+      "Беспроводное подключение": "tv-bluetooth-setup",
+    }[page.section];
+    const sameSection = pages.filter((item) => item.id !== page.id && item.section === page.section && isIndexableSeoPage(item)).slice(0, Math.max(0, limit - 1));
+    const hub = pages.find((item) => item.id === hubId && isIndexableSeoPage(item));
+    return hub ? [...sameSection, hub] : sameSection;
+  }
   const preferred = preferredRelatedIds(page.id);
   return pages
     .filter((item) => item.id !== page.id && isIndexableSeoPage(item))

@@ -505,6 +505,7 @@ const modelSearch = JSON.parse(
   await readFile(path.join(docs, "data/model-search.json"), "utf8"),
 );
 const expectedIndexableUrlCount = baselineIndexableUrlCount
+  + 100 // Смежные самостоятельные инструменты по ТВ.
   + tvIntentIndexableUrlCount
   + connectionGuideIds.length
   + seoSprintGuideIds.length
@@ -1841,6 +1842,13 @@ for (const page of seoPages) {
   ) {
     throw new Error(`SEO-страница не содержит полного статического материала: ${page.path}`);
   }
+  if (page.section) {
+    const imageRoute = `/assets/adjacent/${page.id}.svg`;
+    const diagram = await readFile(path.join(docs, imageRoute.slice(1)), "utf8");
+    if (!html.includes(`src="${imageRoute}"`) || !diagram.includes(page.h1) || !page.guide?.steps.every((step) => diagram.includes(step.label))) {
+      throw new Error(`Смежный инструмент не содержит индивидуальную схему: ${page.path}`);
+    }
+  }
 
   const funnelMarkers = html.match(/data-mount-funnel-next-step="true"/g) ?? [];
   const funnelSection = html.match(/<section\b[^>]*data-mount-funnel-next-step="true"[^>]*>[\s\S]*?<\/section>/i)?.[0] ?? "";
@@ -1866,6 +1874,7 @@ const tvIntentGuideIds = [
   "tv-motion-smoothing", "tv-usb-expand-storage",
 ];
 const expectedGuideCount = expectedDailyGuideCount
+  + 100 // Смежные интенты по ТВ.
   + tvIntentGuideIds.length
   + connectionGuideIds.length
   + seoSprintGuideIds.length

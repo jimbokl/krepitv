@@ -5,9 +5,10 @@ import { SiteHeader } from "../components/SiteHeader.jsx";
 export function GuideIndexPage({ catalog }) {
   const pages = catalog.seoPages.filter((page) => page.indexable);
   const groups = [
-    { label: "Практические инструкции", pages: pages.filter((page) => page.guide) },
-    { label: "Калькуляторы, таблицы и подборы", pages: pages.filter((page) => !page.guide) },
+    { label: "Практические инструкции", pages: pages.filter((page) => page.guide && !page.section) },
+    { label: "Калькуляторы, таблицы и подборы", pages: pages.filter((page) => !page.guide && !page.section) },
   ];
+  const sections = [...new Set(pages.map((page) => page.section).filter(Boolean))];
 
   return (
     <main className="min-h-screen bg-paper text-ink">
@@ -40,6 +41,21 @@ export function GuideIndexPage({ catalog }) {
             </section>
           ))}
         </div>
+        <section className="border-t-2 border-ink py-8" aria-label="Смежные задачи по телевизору">
+          <h2 className="font-display text-3xl font-extrabold">Выберите задачу</h2>
+          <p className="mt-3 max-w-3xl leading-relaxed text-muted">Питание, свет, звук, эфир и устройства рядом с телевизором. В каждом материале — схема, быстрый помощник и таблица проверок.</p>
+          <div className="mt-6 grid gap-3 md:grid-cols-2">
+            {sections.map((section) => {
+              const sectionPages = pages.filter((page) => page.section === section);
+              return <details className="border-2 border-ink bg-white p-5" key={section}>
+                <summary className="cursor-pointer font-display text-xl font-extrabold focus:outline-none focus-visible:ring-2 focus-visible:ring-action">{section} <span className="font-mono text-sm font-normal text-muted">{sectionPages.length}</span></summary>
+                <nav aria-label={section} className="mt-4 grid border-b border-line">
+                  {sectionPages.map((page) => <a className="border-t border-line py-3 font-semibold hover:text-action" data-guide-index-link={page.path} href={page.path} key={page.id}>{page.h1} <span aria-hidden="true">→</span></a>)}
+                </nav>
+              </details>;
+            })}
+          </div>
+        </section>
       </article>
     </main>
   );

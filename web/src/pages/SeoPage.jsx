@@ -344,8 +344,13 @@ function SeoArticle({ catalog, page }) {
   const trafficUtilitySelectionHandlers = trafficUtilityHref === "/podbor/"
     ? selectionStartHandlers(globalThis.window, "seo_next_step")
     : {};
-  const editorialPhoto = getInternalVisual(page.id);
-  const pageKindLabel = editorialPhoto ? {
+  const editorialPhoto = page.section ? {
+    name: "adjacent-tool",
+    alt: `Наглядная схема: ${page.h1}. Три ситуации для выбора следующего шага`,
+    caption: "Схема помогает выбрать свой случай. Точный порядок действий и границы безопасности — ниже.",
+    src: `/assets/adjacent/${page.id}.svg`,
+  } : getInternalVisual(page.id);
+  const pageKindLabel = page.section ?? (editorialPhoto ? {
     connection: "Подключение и воспроизведение",
     wireless: "Беспроводное подключение",
     diagnostics: "Проверка неисправности",
@@ -367,7 +372,7 @@ function SeoArticle({ catalog, page }) {
     "mount-choice": "Выбор кронштейна",
     cleaning: "Уход за экраном",
     energy: "Расчёт электроэнергии",
-  }[editorialPhoto.name] : seoPageKindLabel(page);
+  }[editorialPhoto.name] : seoPageKindLabel(page));
   const visualAction = {
     "phone-to-tv": { href: "#мастер-подключения", label: "Выбрать способ подключения" },
     "tv-no-signal": { href: "#мастер-проверки-сигнала", label: "Проверить сигнал" },
@@ -436,6 +441,7 @@ function SeoArticle({ catalog, page }) {
             />
             <figcaption className="seo-editorial-hero__caption">
               {editorialPhoto.caption}
+              {page.section ? <a className="ml-2 font-semibold text-action underline underline-offset-2" href={editorialPhoto.src}>Открыть схему крупно</a> : null}
             </figcaption>
           </figure> : null}
         </header>
@@ -749,7 +755,7 @@ function SeoEvidenceGuide({ guide, pageId }) {
             </>
           ) : (
             <p className="max-w-2xl pt-3 leading-relaxed text-muted">
-              Выберите ближайшую ситуацию — расчёт выполняется локально в браузере без регистрации и отправки данных.
+              Выберите ближайшую ситуацию — подсказка формируется локально в браузере без регистрации и отправки данных.
             </p>
           )}
         </div>

@@ -1,0 +1,38 @@
+{
+  "Питание и розетки": [
+    {"id":"mchs-extension","label":"МЧС России: безопасная эксплуатация удлинителей","url":"https://25.mchs.gov.ru/deyatelnost/press-centr/vse_novosti/5820928"},
+    {"id":"mchs-power","label":"МЧС России: признаки опасной розетки","url":"https://22.mchs.gov.ru/deyatelnost/press-centr/news/1964028"}
+  ],
+  "Подсветка": [
+    {"id":"hue-sync","label":"Philips Hue: способы синхронизации подсветки с ТВ","url":"https://www.philips-hue.com/en-ca/support/article/philips-hue-sync-guide/000020"},
+    {"id":"hue-placement","label":"Philips Hue: размещение светодиодной ленты","url":"https://www.philips-hue.com/en-us/explore-hue/faq/strip-lights/where-to-put-led-strip-lights"}
+  ],
+  "Саундбары и звук": [
+    {"id":"samsung-arc","label":"Samsung Россия: подключение звука по HDMI ARC","url":"https://www.samsung.com/ru/support/tv-audio-video/how-to-use-hdmi-arc-on-samsung-smart-tv/"},
+    {"id":"samsung-optical","label":"Samsung Россия: подключение внешнего звука по оптике","url":"https://www.samsung.com/ru/support/tv-audio-video/how-to-connect-external-audio-using-an-optical-cable/"},
+    {"id":"lg-arc","label":"LG: подключение саундбара по ARC","url":"https://www.lg.com/us/support/help-library/lg-sound-bar-how-to-connect-via-arc--20153197748715"}
+  ],
+  "Эфир и антенна": [
+    {"id":"rtrs-coverage","label":"РТРС: цифровое эфирное телевидение и карта покрытия","url":"https://plus.rtrs.ru/info/"},
+    {"id":"samsung-signal","label":"Samsung Россия: проверка качества цифрового сигнала","url":"https://www.samsung.com/ru/support/tv-audio-video/how-to-view-information-about-the-digital-signal-on-samsung-tv/"}
+  ],
+  "Приставки и приложения": [
+    {"id":"google-tv-setup","label":"Google TV: настройка устройства и пульта","url":"https://support.google.com/googletv/answer/10050221?hl=ru"},
+    {"id":"google-tv-fix","label":"Google TV: устранение неполадок воспроизведения","url":"https://support.google.com/googletv/answer/10070482?hl=ru"},
+    {"id":"samsung-hdmi-box","label":"Samsung Россия: подключение ТВ-приставки по HDMI","url":"https://www.samsung.com/ru/support/tv-audio-video/how-can-i-connect-receiver-or-console-to-samsung-tv-via-hdmi/"}
+  ],
+  "Пульты": [
+    {"id":"samsung-remote","label":"Samsung Россия: проверка кнопок Smart Control","url":"https://www.samsung.com/ru/support/tv-audio-video/what-to-do-if-the-buttons-on-the-samsung-tv-stc-do-not-work/"},
+    {"id":"google-tv-remote","label":"Google TV: настройка пульта и устройства","url":"https://support.google.com/googletv/answer/10050221?hl=ru"}
+  ],
+  "HDMI и кабели": [
+    {"id":"hdmi-cert","label":"HDMI Licensing: сертификация Ultra High Speed HDMI","url":"https://www.hdmi.org/spec21sub/ultrahighspeedcable/1000"},
+    {"id":"samsung-hdmi","label":"Samsung Россия: подключение внешнего устройства по HDMI","url":"https://www.samsung.com/ru/support/tv-audio-video/how-can-i-connect-receiver-or-console-to-samsung-tv-via-hdmi/"},
+    {"id":"samsung-source","label":"Samsung Россия: выбор источника сигнала","url":"https://www.samsung.com/ru/support/tv-audio-video/how-do-i-change-and-select-the-signal-source-on-samsung-tv/"}
+  ],
+  "Беспроводное подключение": [
+    {"id":"google-tv-bluetooth","label":"Google TV: Bluetooth-устройства","url":"https://support.google.com/googletv/answer/10049908?hl=ru"},
+    {"id":"google-tv-network","label":"Google TV: устранение проблем сети","url":"https://support.google.com/googletv/answer/10070482?hl=ru"},
+    {"id":"samsung-wifi","label":"Samsung Россия: телевизор теряет Wi-Fi","url":"https://www.samsung.com/ru/support/tv-audio-video/what-to-do-if-the-samsung-tv-loses-wi-fi-connection/"}
+  ]
+}

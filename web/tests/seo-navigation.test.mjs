@@ -43,7 +43,7 @@ test("справочник группирует все индексируемы�
   const guideIndexFile = path.join(docs, "spravochnik/index.html");
   assert.equal(existsSync(guideIndexFile), true, "нет artifact /spravochnik/");
   const [pages, sitemap, html] = await Promise.all([
-    readFile(path.join(root, "data/seo_pages.json"), "utf8").then(JSON.parse),
+    readFile(path.join(docs, "data/seo-pages.json"), "utf8").then(JSON.parse),
     readFile(path.join(docs, "sitemap.xml"), "utf8"),
     readFile(guideIndexFile, "utf8"),
   ]);
@@ -63,7 +63,7 @@ test("справочник группирует все индексируемы�
 });
 
 test("каждое доказательное руководство имеет компактное содержание с существующими якорями", async () => {
-  const pages = JSON.parse(await readFile(path.join(root, "data/seo_pages.json"), "utf8"));
+  const pages = JSON.parse(await readFile(path.join(docs, "data/seo-pages.json"), "utf8"));
   const guides = pages.filter((page) => page.indexable && page.guide);
   assert.ok(guides.length > 0, "в каталоге нет доказательных руководств");
   for (const page of guides) {

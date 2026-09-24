@@ -22,6 +22,6 @@ test("React и Rust SSR используют одинаковые смыслов
     assert.equal(rustSource.includes(label), true, `SSR не содержит категорию: ${label}`);
   }
 
-  assert.match(reactSource, /\}\[editorialPhoto\.name\] : seoPageKindLabel\(page\)/);
-  assert.match(rustSource, /internal_visual_label\(&page\.id\)\.unwrap_or_else\(\|\| seo_page_kind_label\(page\)\)/);
+  assert.match(reactSource, /page\.section \?\? \(editorialPhoto \?/);
+  assert.match(rustSource, /\.section\s*\.as_deref\(\)\s*\.or_else\(\|\| internal_visual_label\(&page\.id\)\)/);
 });

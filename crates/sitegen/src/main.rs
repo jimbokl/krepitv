@@ -462,9 +462,11 @@ struct CompatibilityEdge {
     required_load_kg: f64,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 struct SeoPage {
     id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    section: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     home_priority: Option<u8>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -516,7 +518,7 @@ fn internal_visual_theme(page_id: &str) -> Option<(&'static str, &'static Intern
     })
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct SeoEvidenceGuide {
     kicker: String,
@@ -528,7 +530,7 @@ struct SeoEvidenceGuide {
     sources: Vec<SeoEvidenceSource>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct SeoEvidenceStep {
     label: String,
@@ -536,12 +538,146 @@ struct SeoEvidenceStep {
     body: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct SeoEvidenceSource {
     id: String,
     label: String,
     url: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AdjacentTool {
+    id: String,
+    path: String,
+    section: String,
+    query: String,
+    h1: String,
+    lead: String,
+    facts: Vec<String>,
+    faq: Vec<(String, String)>,
+    steps: Vec<SeoEvidenceStep>,
+    stop: String,
+}
+
+fn adjacent_tool_pages(
+    tools: Vec<AdjacentTool>,
+    sources: &BTreeMap<String, Vec<SeoEvidenceSource>>,
+) -> Vec<SeoPage> {
+    assert_eq!(
+        tools.len(),
+        100,
+        "Реестр смежных инструментов должен содержать ровно 100 страниц"
+    );
+    let mut queries = HashSet::new();
+    tools.into_iter().map(|tool| {
+        assert!(
+            tool.id.starts_with("adj-")
+                && tool.id.chars().all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-')
+                && tool.path == format!("/{}/", tool.id.trim_start_matches("adj-")),
+            "{}: идентификатор и URL должны быть согласованным ASCII slug",
+            tool.id
+        );
+        assert!(queries.insert(tool.query.clone()), "Повтор интента: {}", tool.query);
+        assert_eq!(tool.steps.len(), 3, "{}: нужны три независимых результата", tool.id);
+        assert!(tool.facts.len() >= 3 && !tool.faq.is_empty(), "{}: не хватает самостоятельного текста", tool.id);
+        assert!(tool.lead.chars().count() >= 90, "{}: вводный ответ слишком краткий", tool.id);
+        let source_list = sources.get(&tool.section)
+            .unwrap_or_else(|| panic!("{}: неизвестный раздел {}", tool.id, tool.section));
+        assert!(source_list.len() >= 2, "{}: нужны два первичных источника", tool.id);
+        SeoPage {
+            id: tool.id,
+            section: Some(tool.section),
+            home_priority: None,
+            updated_at: Some("2026-09-24".to_string()),
+            path: tool.path,
+            kind: "calculator".to_string(),
+            indexable: true,
+            title: format!("{} — Крепи ТВ", tool.h1),
+            description: tool.lead.clone(),
+            h1: tool.h1,
+            lead: tool.lead,
+            facts: tool.facts,
+            faq: tool.faq,
+            guide: Some(SeoEvidenceGuide {
+                kicker: "Проверка без регистрации".to_string(),
+                heading: "Выберите свою ситуацию".to_string(),
+                summary: "Отметьте наблюдаемый признак. Помощник покажет следующий безопасный шаг и границу, за которой нужна инструкция именно вашей модели.".to_string(),
+                updated_at: "2026-09-24".to_string(),
+                steps: tool.steps,
+                stop: tool.stop,
+                sources: source_list.clone(),
+            }),
+        }
+    }).collect()
+}
+
+fn short_svg_label(value: &str, limit: usize) -> String {
+    let mut chars = value.chars();
+    let short: String = chars.by_ref().take(limit).collect();
+    if chars.next().is_some() {
+        format!("{}…", short.trim_end())
+    } else {
+        short
+    }
+}
+
+fn adjacent_tool_svg(tool: &AdjacentTool) -> String {
+    let (accent, symbol) = match tool.section.as_str() {
+        "Питание и розетки" => (
+            "#e87434",
+            "<rect x='152' y='262' width='118' height='96' rx='18' fill='#fffaf0' stroke='#181818' stroke-width='7'/><circle cx='184' cy='299' r='9' fill='#181818'/><circle cx='238' cy='299' r='9' fill='#181818'/><path d='M211 319v15' stroke='#181818' stroke-width='7' stroke-linecap='round'/>",
+        ),
+        "Подсветка" => (
+            "#f0a724",
+            "<path d='M103 266h230v92H103z' fill='none' stroke='#f0a724' stroke-width='12' stroke-linejoin='round'/><path d='M115 365h210' stroke='#f0a724' stroke-width='10' stroke-linecap='round'/>",
+        ),
+        "Саундбары и звук" => (
+            "#6979e0",
+            "<rect x='100' y='293' width='236' height='51' rx='18' fill='#e6e8ff' stroke='#181818' stroke-width='6'/><circle cx='132' cy='318' r='9' fill='#6979e0'/><circle cx='300' cy='318' r='9' fill='#6979e0'/>",
+        ),
+        "Эфир и антенна" => (
+            "#249b82",
+            "<path d='M220 330V216m-70-51 70 67 70-67m-105 165h70' fill='none' stroke='#181818' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/><circle cx='220' cy='216' r='13' fill='#249b82'/>",
+        ),
+        "Приставки и приложения" => (
+            "#745fc2",
+            "<rect x='144' y='267' width='152' height='82' rx='16' fill='#ede8ff' stroke='#181818' stroke-width='7'/><circle cx='267' cy='308' r='8' fill='#745fc2'/>",
+        ),
+        "Пульты" => (
+            "#da5b69",
+            "<rect x='190' y='252' width='62' height='155' rx='27' fill='#fff0f1' stroke='#181818' stroke-width='7'/><circle cx='221' cy='286' r='13' fill='#da5b69'/><circle cx='207' cy='327' r='6' fill='#181818'/><circle cx='234' cy='327' r='6' fill='#181818'/>",
+        ),
+        "HDMI и кабели" => (
+            "#3d7fbd",
+            "<path d='M130 300h82l24 22h92v34h-92l-24 22h-82z' fill='#e8f4ff' stroke='#181818' stroke-width='7' stroke-linejoin='round'/><path d='M157 318v42m25-42v42' stroke='#3d7fbd' stroke-width='8'/>",
+        ),
+        "Беспроводное подключение" => (
+            "#43a7a4",
+            "<path d='M133 310q86-92 174 0m-141 24q54-59 108 0' fill='none' stroke='#43a7a4' stroke-width='13' stroke-linecap='round'/><circle cx='220' cy='361' r='13' fill='#181818'/>",
+        ),
+        _ => panic!("Неизвестная категория схемы: {}", tool.section),
+    };
+    let cards = tool.steps.iter().enumerate().map(|(index, step)| {
+        let y = 143 + index * 145;
+        format!("<path d='M337 319H370V{line_y}H421' fill='none' stroke='{accent}' stroke-width='5' stroke-linecap='round'/><circle cx='421' cy='{line_y}' r='6' fill='{accent}'/><rect x='430' y='{y}' width='468' height='117' rx='19' fill='#fffdf8' stroke='#181818' stroke-width='3'/><circle cx='465' cy='{number_y}' r='17' fill='{accent}'/><text x='465' y='{number_text_y}' fill='#181818' font-size='19' font-weight='700' text-anchor='middle'>{number}</text><text x='496' y='{label_y}' fill='#55534d' font-size='18' font-weight='600'>{label}</text><text x='459' y='{title_y}' fill='#181818' font-size='24' font-weight='700'>{title}</text>",
+            line_y=y+58,number_y=y+39,number_text_y=y+46,number=index+1,label_y=y+46,title_y=y+87,
+            label=escape_html(&short_svg_label(&step.label, 29)),title=escape_html(&short_svg_label(&step.title, 28)))
+    }).collect::<Vec<_>>().join("");
+    format!(
+        "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 640' role='img' aria-labelledby='title desc' font-family='Arial, Helvetica, sans-serif'><title id='title'>{title}</title><desc id='desc'>Наглядная схема из трёх ситуаций: {labels}</desc><rect width='960' height='640' fill='#f2ede1'/><rect x='26' y='28' width='908' height='584' rx='30' fill='#f8f5ee' stroke='#181818' stroke-width='3'/><text x='72' y='98' fill='#55534d' font-size='18' font-weight='700' letter-spacing='3'>СХЕМА ПРОВЕРКИ</text><rect x='69' y='142' width='307' height='391' rx='28' fill='#e9e2d4'/><rect x='104' y='180' width='231' height='130' rx='16' fill='#252827' stroke='#181818' stroke-width='6'/><path d='M122 201h193v89H122z' fill='{accent}' opacity='.74'/><path d='M218 313v32m-58 5h118' stroke='#181818' stroke-width='8' stroke-linecap='round'/>{symbol}<text x='222' y='477' fill='#181818' font-size='20' font-weight='700' text-anchor='middle'>{section}</text>{cards}<text x='72' y='578' fill='#55534d' font-size='17'>Выберите ситуацию в интерактивном помощнике ниже ↓</text></svg>",
+        title = escape_html(&tool.h1),
+        labels = escape_html(
+            &tool
+                .steps
+                .iter()
+                .map(|s| s.label.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
+        ),
+        section = escape_html(&short_svg_label(&tool.section, 25))
+    )
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -2822,6 +2958,35 @@ fn mount_page_body(
 }
 
 fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPage> {
+    if let Some(section) = page.section.as_deref() {
+        let mut related: Vec<&SeoPage> = pages
+            .iter()
+            .filter(|item| {
+                item.id != page.id
+                    && item.section.as_deref() == Some(section)
+                    && is_indexable_seo_page(item)
+            })
+            .take(5)
+            .collect();
+        let hub = match section {
+            "Питание и розетки" => "tv-zone-sockets",
+            "Подсветка" => "picture-setup",
+            "Саундбары и звук" => "soundbar-to-tv",
+            "Эфир и антенна" => "tv-antenna-connect",
+            "Приставки и приложения" => "smart-tv-box",
+            "Пульты" => "universal-remote",
+            "HDMI и кабели" => "hdmi-cable-checker",
+            "Беспроводное подключение" => "tv-bluetooth-setup",
+            _ => "vesa",
+        };
+        if let Some(item) = pages
+            .iter()
+            .find(|item| item.id == hub && is_indexable_seo_page(item))
+        {
+            related.push(item);
+        }
+        return related;
+    }
     let preferred_ids: &[&str] = if page.id == "tv-mount-screws" {
         &[
             "vesa",
@@ -4667,8 +4832,11 @@ fn seo_page_body(
     mounts: &[Mount],
     graph: &[CompatibilityEdge],
 ) -> String {
-    let page_kind_label =
-        internal_visual_label(&page.id).unwrap_or_else(|| seo_page_kind_label(page));
+    let page_kind_label = page
+        .section
+        .as_deref()
+        .or_else(|| internal_visual_label(&page.id))
+        .unwrap_or_else(|| seo_page_kind_label(page));
     let facts = page
         .facts
         .iter()
@@ -4692,7 +4860,7 @@ fn seo_page_body(
     let buy_mount_comparison = seo_buy_mount_comparison_html(page, mounts, graph);
     let catalog = seo_catalog_html(page, models, mounts, graph);
     let evidence_guide = seo_evidence_guide_html(page);
-    let editorial_photo = seo_editorial_photo_html(&page.id);
+    let editorial_photo = seo_editorial_photo_html(page);
     let visual_action = seo_visual_action(&page.id, page.guide.is_some());
     let visual_steps = seo_visual_steps_html(page);
     let editorial_accountability = editorial_accountability_html(
@@ -4780,8 +4948,16 @@ fn seo_page_body(
     ))
 }
 
-fn seo_editorial_photo_html(page_id: &str) -> String {
-    let Some((name, theme)) = internal_visual_theme(page_id) else {
+fn seo_editorial_photo_html(page: &SeoPage) -> String {
+    if page.section.is_some() {
+        return format!(
+            "<figure class=\"seo-editorial-hero__media\" data-editorial-photo=\"adjacent-tool\"><img alt=\"Наглядная схема: {}. Три ситуации для выбора следующего шага\" class=\"seo-editorial-hero__image\" decoding=\"async\" fetchpriority=\"high\" height=\"640\" loading=\"eager\" src=\"/assets/adjacent/{}.svg\" width=\"960\"><figcaption class=\"seo-editorial-hero__caption\">Схема помогает выбрать свой случай. Точный порядок действий и границы безопасности — ниже.<a class=\"ml-2 font-semibold text-action underline underline-offset-2\" href=\"/assets/adjacent/{}.svg\">Открыть схему крупно</a></figcaption></figure>",
+            escape_html(&page.h1),
+            escape_html(&page.id),
+            escape_html(&page.id),
+        );
+    }
+    let Some((name, theme)) = internal_visual_theme(&page.id) else {
         return String::new();
     };
     format!(
@@ -4836,7 +5012,7 @@ fn seo_visual_steps_html(page: &SeoPage) -> String {
     let Some(guide) = &page.guide else {
         return String::new();
     };
-    if internal_visual_theme(&page.id).is_none() {
+    if page.section.is_none() && internal_visual_theme(&page.id).is_none() {
         return String::new();
     }
     let steps = guide.steps.iter().enumerate().map(|(index, step)| {
@@ -4858,7 +5034,7 @@ fn guide_index_body(pages: &[SeoPage]) -> String {
     let group_html = |title: &str, has_guide: bool| {
         let links = pages
             .iter()
-            .filter(|page| is_indexable_seo_page(page) && page.guide.is_some() == has_guide)
+            .filter(|page| is_indexable_seo_page(page) && page.section.is_none() && page.guide.is_some() == has_guide)
             .map(|page| {
                 format!(
                     "<a class=\"grid min-h-14 grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-t border-line py-3 font-display font-bold transition hover:text-action\" data-guide-index-link=\"{}\" href=\"{}\"><span>{}</span><span aria-hidden=\"true\">→</span></a>",
@@ -4881,8 +5057,22 @@ fn guide_index_body(pages: &[SeoPage]) -> String {
         .count();
     let instructions = group_html("Практические инструкции", true);
     let utilities = group_html("Калькуляторы, таблицы и подборы", false);
+    let mut sections: BTreeMap<&str, Vec<&SeoPage>> = BTreeMap::new();
+    for page in pages.iter().filter(|page| is_indexable_seo_page(page)) {
+        if let Some(section) = page.section.as_deref() {
+            sections.entry(section).or_default().push(page);
+        }
+    }
+    let adjacent_sections = sections.iter().map(|(name, section_pages)| {
+        let links = section_pages.iter().map(|page| format!(
+            "<a class=\"border-t border-line py-3 font-semibold hover:text-action\" data-guide-index-link=\"{}\" href=\"{}\">{} <span aria-hidden=\"true\">→</span></a>",
+            escape_html(&page.path), escape_html(&page.path), escape_html(&page.h1),
+        )).collect::<Vec<_>>().join("");
+        format!("<details class=\"border-2 border-ink bg-white p-5\"><summary class=\"cursor-pointer font-display text-xl font-extrabold\">{} <span class=\"font-mono text-sm font-normal text-muted\">{}</span></summary><nav aria-label=\"{}\" class=\"mt-4 grid border-b border-line\">{}</nav></details>",
+            escape_html(name), section_pages.len(), escape_html(name), links)
+    }).collect::<Vec<_>>().join("");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-guide-index=\"true\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{guide_count} полезных материалов</p><h1 class=\"mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]\">Справочник по телевизорам и креплениям</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Инструкции, проверочные таблицы и локальные калькуляторы KREPI TV. Каждый материал ведёт к точной модели, VESA или следующему безопасному шагу.</p></header><div class=\"grid gap-8 py-8 lg:grid-cols-2\">{instructions}{utilities}</div></article>"
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-guide-index=\"true\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{guide_count} полезных материалов</p><h1 class=\"mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]\">Справочник по телевизорам и креплениям</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Инструкции, проверочные таблицы и локальные калькуляторы KREPI TV. Каждый материал ведёт к точной модели, VESA или следующему безопасному шагу.</p></header><div class=\"grid gap-8 py-8 lg:grid-cols-2\">{instructions}{utilities}</div><section class=\"border-t-2 border-ink py-8\" aria-label=\"Смежные задачи по телевизору\"><h2 class=\"font-display text-3xl font-extrabold\">Выберите задачу</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Питание, свет, звук, эфир и устройства рядом с телевизором. В каждом материале — схема, быстрый помощник и таблица проверок.</p><div class=\"mt-6 grid gap-3 md:grid-cols-2\">{adjacent_sections}</div></section></article>"
     ))
 }
 
@@ -5435,7 +5625,11 @@ fn validate_seo_pages(pages: &[SeoPage]) {
             "Недостаточно полезных фактов на {}",
             page.path
         );
-        assert!(page.faq.len() >= 3, "Недостаточно ответов на {}", page.path);
+        assert!(
+            page.faq.len() >= if page.section.is_some() { 1 } else { 3 },
+            "Недостаточно ответов на {}",
+            page.path
+        );
         if let Some(updated_at) = &page.updated_at {
             assert!(
                 is_iso_date(updated_at),
@@ -6116,7 +6310,17 @@ fn main() {
     let models: Vec<TvModel> = read_json(&data.join("tv_models.json"));
     let market_models: MarketTvModelsFile = read_json(&data.join("market_tv_models.json"));
     let mounts: Vec<Mount> = read_json(&data.join("mounts.json"));
-    let seo_pages: Vec<SeoPage> = read_json(&data.join("seo_pages.json"));
+    let mut seo_pages: Vec<SeoPage> = read_json(&data.join("seo_pages.json"));
+    let adjacent_tools: Vec<AdjacentTool> = read_json(&data.join("adjacent_tools.json"));
+    let adjacent_sources: BTreeMap<String, Vec<SeoEvidenceSource>> =
+        read_json(&data.join("adjacent_tool_sources.json"));
+    for tool in &adjacent_tools {
+        write(
+            &web.join(format!("public/assets/adjacent/{}.svg", tool.id)),
+            &adjacent_tool_svg(tool),
+        );
+    }
+    seo_pages.extend(adjacent_tool_pages(adjacent_tools, &adjacent_sources));
     let trust_pages: Vec<TrustPage> = read_json(&data.join("trust_pages.json"));
     let editorial_policy: EditorialPolicy = read_json(&data.join("editorial_policy.json"));
     let commercial_profiles: CommercialProfilesFile =
@@ -6213,11 +6417,10 @@ fn main() {
         &serde_json::to_string_pretty(&compatibility_graph)
             .expect("Граф совместимости сериализуется"),
     );
-    fs::copy(
-        data.join("seo_pages.json"),
-        public_data.join("seo-pages.json"),
-    )
-    .expect("Не удалось скопировать SEO-страницы");
+    write(
+        &public_data.join("seo-pages.json"),
+        &serde_json::to_string_pretty(&seo_pages).expect("SEO-страницы сериализуются"),
+    );
     fs::copy(
         data.join("trust_pages.json"),
         public_data.join("trust-pages.json"),
@@ -7223,6 +7426,7 @@ mod tests {
     fn uses_explicit_indexability_policy() {
         let page = |indexable| SeoPage {
             id: "test".into(),
+            section: None,
             home_priority: None,
             updated_at: None,
             path: "/test/".into(),
@@ -7689,18 +7893,25 @@ mod tests {
 
     #[test]
     fn editorial_photos_only_appear_on_relevant_guides() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
         for (page_id, image) in [
             ("tv-model-lookup", "model"),
             ("tv-wall-fasteners", "wall"),
             ("mounting-map", "height"),
         ] {
-            let html = seo_editorial_photo_html(page_id);
+            let page = pages
+                .iter()
+                .find(|page| page.id == page_id)
+                .expect("Страница существует");
+            let html = seo_editorial_photo_html(page);
             assert!(html.contains(&format!("home-step-{image}.webp")));
             assert!(html.contains("loading=\"eager\""));
             assert!(html.contains("fetchpriority=\"high\""));
             assert!(html.contains("<figcaption"));
         }
-        assert!(seo_editorial_photo_html("other-guide").is_empty());
+        let mut other = pages.first().expect("Есть SEO-страница").clone();
+        other.id = "no-editorial-photo".to_string();
+        assert!(seo_editorial_photo_html(&other).is_empty());
     }
 
     #[test]
@@ -8356,6 +8567,7 @@ mod tests {
         let graph = build_compatibility_graph(&models, &mounts);
         let page = |id: &str, kind: &str| SeoPage {
             id: id.into(),
+            section: None,
             home_priority: None,
             updated_at: None,
             path: format!("/{id}/"),
@@ -8929,6 +9141,7 @@ mod tests {
     fn brand_and_diagonal_pages_have_reciprocal_static_links() {
         let page = |id: &str, kind: &str| SeoPage {
             id: id.into(),
+            section: None,
             home_priority: None,
             updated_at: None,
             path: format!("/{id}/"),
