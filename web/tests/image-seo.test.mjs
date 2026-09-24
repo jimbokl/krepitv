@@ -26,7 +26,11 @@ test("паспортные модели и кронштейны публикую
       const html = await readFile(path.join(docs, kind, item.id, "index.html"), "utf8");
       const match = html.match(/<img[^>]+data-technical-image="true"[^>]+src="([^"]+)"[^>]*>/u);
       assert.ok(match, `${kind}/${item.id}`);
-      assert.match(match[0], /alt="[^"]+схем[^"]*"/iu, `${kind}/${item.id} alt`);
+      if (kind === "modeli" && item.wall_mount_screws?.vesa_conflict) {
+        assert.match(match[0], /alt="[^"]+расхождени[^"]*"/iu, `${kind}/${item.id} alt предупреждения`);
+      } else {
+        assert.match(match[0], /alt="[^"]+схем[^"]*"/iu, `${kind}/${item.id} alt`);
+      }
       assert.match(match[0], /width="1200"/u);
       assert.match(match[0], /height="630"/u);
       assert.equal(existsSync(path.join(docs, match[1].replace(/^\//u, ""))), true, match[1]);
@@ -57,6 +61,11 @@ test("схемы отражают фактическую пропорцию VESA
   const models = JSON.parse(await readFile(path.join(root, "data/tv_models.json"), "utf8"));
   for (const model of models) {
     const svg = await readFile(path.join(docs, `images/modeli/${model.id}-vesa.svg`), "utf8");
+    if (model.wall_mount_screws?.vesa_conflict) {
+      assert.match(svg, /VESA нужно проверить/u, model.id);
+      assert.equal((svg.match(/<circle /gu) ?? []).length, 0, `${model.id}: неподтверждённые отверстия не рисуются`);
+      continue;
+    }
     const points = [...svg.matchAll(/<circle cx="([0-9.]+)" cy="([0-9.]+)" r="16"/gu)]
       .map((match) => ({ x: Number(match[1]), y: Number(match[2]) }));
     assert.equal(points.length, 4, model.id);

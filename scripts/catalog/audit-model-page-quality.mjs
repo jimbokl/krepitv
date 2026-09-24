@@ -27,6 +27,7 @@ const sitemapPaths = new Set(
     .map((match) => new URL(match[1]).pathname),
 );
 const failures = [];
+const vesaRecheckCount = models.filter((model) => model.wall_mount_screws?.vesa_conflict).length;
 const compatibleMountsByModel = new Map();
 const publicOffersByModel = new Map();
 const currentOfferMountIds = new Set(
@@ -51,6 +52,7 @@ for (const placement of publicModelOffers.placements) {
 
 for (const model of models) {
   const route = `/modeli/${model.id}/`;
+  const needsVesaRecheck = Boolean(model.wall_mount_screws?.vesa_conflict);
   const matches = compatibleMountsByModel.get(model.id) ?? [];
   const publicOffers = publicOffersByModel.get(model.id) ?? [];
   requireValue(model.source_url?.startsWith("https://"), model.id, "нет HTTPS-источника характеристик");
@@ -118,7 +120,16 @@ for (const model of models) {
     model.id,
     "на странице нет ни точного слота, ни общего fail-closed слота Яндекс Маркета",
   );
-  requireValue(html.includes("Точная пара VESA"), model.id, "нет объяснения проверки точной VESA");
+  if (needsVesaRecheck) {
+    requireValue(html.includes("Сначала измерьте VESA"), model.id, "конфликт VESA не объяснён до списка кандидатов");
+    requireValue(
+      !html.includes('data-affiliate-offer-id='),
+      model.id,
+      "для модели с конфликтом VESA появился партнёрский оффер до ручной сверки",
+    );
+  } else {
+    requireValue(html.includes("Точная пара VESA"), model.id, "нет объяснения проверки точной VESA");
+  }
   requireValue(html.includes("запас 25%"), model.id, "нет объяснения запаса нагрузки 25%");
   requireValue(/диапазон[а-яё]*\s+диагонал/iu.test(html), model.id, "нет объяснения проверки диагонали");
 
@@ -163,7 +174,7 @@ if (failures.length) {
 }
 
 process.stdout.write(
-  `Аудит пройден: ${models.length}/${models.length} паспортных моделей имеют проверенный крепёж; `
+  `Аудит пройден: ${models.length - vesaRecheckCount}/${models.length} паспортных моделей показывают проверенный крепёж, ${vesaRecheckCount} требует ручной сверки VESA; `
     + `${publicOffersByModel.size}/${models.length} имеют точное актуальное предложение Яндекс Маркета, `
     + `${models.length - publicOffersByModel.size} используют общий проверенный fallback `
     + `(${publicModelOffers.placements.length} проверенных размещений); `

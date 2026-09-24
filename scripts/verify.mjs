@@ -1654,6 +1654,13 @@ for (const placement of modelAffiliateSnapshot.placements.filter(
   const exactLinks = (html.match(/<a\b[^>]*>/gi) ?? []).filter(
     (tag) => matchAttribute(tag, "data-affiliate-offer-id") === placement.placement_id,
   );
+  const model = models.find((item) => item.id === placement.model_id);
+  if (model?.wall_mount_screws?.vesa_conflict) {
+    if (exactLinks.length !== 0 || html.includes('id="predlozheniya"')) {
+      throw new Error(`При конфликте VESA модельный CTA должен быть закрыт: ${placement.model_id}`);
+    }
+    continue;
+  }
   if (
     exactLinks.length !== 1
     || decodeHtmlAttribute(matchAttribute(exactLinks[0], "href")) !== placement.offer.affiliate_href
@@ -1738,13 +1745,16 @@ for (const model of models) {
   const verifiedMountIds = compatibilityEdges
     .filter((edge) => edge.tv_id === model.id && edge.fit_status === "verified-fit")
     .map((edge) => edge.mount_id);
+  const vesaConflict = Boolean(model.wall_mount_screws?.vesa_conflict);
   if (
     verifiedMountIds.length < 2
     || !html.includes("data-page-kind=\"model\"")
-    || !html.includes(`VESA ${model.vesa_width_mm}×${model.vesa_height_mm}`)
+    || (!vesaConflict && !html.includes(`VESA ${model.vesa_width_mm}×${model.vesa_height_mm}`))
+    || (vesaConflict && !html.includes("VESA нужно проверить"))
     || !html.includes(`${model.weight_kg} кг`)
     || !html.includes(modelWeightSuffix(model))
-    || !html.includes("Подходящие кронштейны")
+    || (!vesaConflict && !html.includes("Подходящие кронштейны"))
+    || (vesaConflict && !html.includes("Кронштейны для проверки"))
     || !html.includes("Размеры модели")
     || !html.includes("Что подтверждено источником")
     || (html.match(/<section\b/gu) ?? []).length < 5
@@ -1763,7 +1773,10 @@ for (const record of marketModelsManifest.records) {
     const hasVerifiedMount = compatibilityEdges.some(
       (edge) => edge.tv_id === verifiedModel?.id && edge.fit_status === "verified-fit",
     );
-    if (!verifiedModel || !hasVerifiedMount || !html.includes("Подходящие кронштейны")) {
+    const mountHeading = verifiedModel?.wall_mount_screws?.vesa_conflict
+      ? "Кронштейны для проверки"
+      : "Подходящие кронштейны";
+    if (!verifiedModel || !hasVerifiedMount || !html.includes(mountHeading)) {
       throw new Error(`Наблюдение Маркета не ведёт на полноценную проверенную модель: ${record.record_id}`);
     }
     continue;
@@ -1967,7 +1980,7 @@ if ((screwLookupHtml.match(/<option value=/g) ?? []).length !== models.length) {
 }
 if (
   screwLookupHtml.indexOf('data-screw-catalog="true"')
-  > screwLookupHtml.indexOf("Что проверить")
+  > screwLookupHtml.indexOf('data-check-list="true"')
 ) {
   throw new Error("Интерактивный ответ должен находиться раньше общего списка проверок");
 }
@@ -2139,7 +2152,7 @@ if ((vesaLookupHtml.match(/<option value=/g) ?? []).length !== models.length) {
 }
 if (
   vesaLookupHtml.indexOf('data-vesa-model-catalog="true"')
-  > vesaLookupHtml.indexOf("Что проверить")
+  > vesaLookupHtml.indexOf('data-check-list="true"')
 ) {
   throw new Error("Поиск VESA по модели должен находиться раньше общего списка проверок");
 }

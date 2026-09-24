@@ -2,6 +2,7 @@ import { ArrowRight, BracketsSquare, TelevisionSimple } from "@phosphor-icons/re
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
+import { EditorialScene } from "../components/EditorialScene.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { modelHref, mountHref } from "../lib/catalog.js";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
@@ -29,6 +30,8 @@ export function CatalogIndexPage({ catalog, kind }) {
           { href: "/", label: "Главная" },
           { label: models ? "Модели телевизоров" : "Кронштейны" },
         ]} />
+        <header className="technical-editorial-hero">
+          <div className="technical-editorial-hero__copy">
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
           {models ? "Два уровня проверки" : "Проверенная база"}
         </p>
@@ -40,6 +43,13 @@ export function CatalogIndexPage({ catalog, kind }) {
             ? "Сначала идут точные паспорта с подтверждёнными VESA и массой. Ниже — модели из актуального снимка Маркета: для них уже собрана точная идентичность и план проверки, но совместимость не показывается до подтверждения характеристик."
             : "Точные изделия с явными VESA, нагрузкой, механизмом и списком подходящих популярных телевизоров."}
         </p>
+          </div>
+          <EditorialScene
+            alt={models ? "Человек проверяет обозначение модели телевизора" : "Человек сравнивает варианты кронштейнов для телевизора"}
+            caption={models ? "Фото показывает, где искать точную модель. Характеристики каждой модели приведены в её паспорте ниже." : "На фото условные крепления, не товары каталога. Открывайте точные карточки с паспортными VESA и нагрузкой."}
+            src={models ? "/assets/images/home-step-model.webp" : "/assets/images/internal-mount-choice.webp"}
+          />
+        </header>
 
         {!models ? (
           <nav className="mt-7 flex flex-wrap items-center gap-2" aria-label="Сравнение кронштейнов по бренду">

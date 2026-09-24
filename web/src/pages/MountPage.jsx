@@ -83,7 +83,8 @@ export function MountPage({ catalog, mountId }) {
           { href: "/kronshteyny/", label: "Кронштейны" },
           { label: mount.title },
         ]} />
-        <header>
+        <header className="technical-editorial-hero">
+          <div className="technical-editorial-hero__copy">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
             Проверенный кронштейн
           </p>
@@ -101,6 +102,23 @@ export function MountPage({ catalog, mountId }) {
             <span className="sm:text-center">Проверено: {formatCheckedDate(mount.checked_at)}</span>
             <span className="sm:text-right">Совместимость по паспортным данным</span>
           </div>
+          </div>
+          <figure className="technical-editorial-hero__media">
+          <img
+            alt={`Техническая схема кронштейна ${mount.title}`}
+            className="technical-editorial-hero__image"
+            data-technical-image="true"
+            decoding="async"
+            height="630"
+            loading="eager"
+            fetchPriority="high"
+            src={`/images/kronshteyny/${mount.id}-skhema.svg`}
+            width="1200"
+          />
+          <figcaption className="technical-editorial-hero__caption">
+            Условная схема показывает тип механизма; размеры деталей и углы не являются монтажным чертежом.
+          </figcaption>
+          </figure>
         </header>
 
         <section
@@ -126,22 +144,6 @@ export function MountPage({ catalog, mountId }) {
         <CommercialProfile profile={commercialProfile} />
 
         <EditorialAccountability evidence={editorialEvidence} />
-
-        <figure className="my-7 border border-ink bg-white p-3 sm:p-5">
-          <img
-            alt={`Техническая схема кронштейна ${mount.title}`}
-            className="block h-auto w-full"
-            data-technical-image="true"
-            decoding="async"
-            height="630"
-            loading="lazy"
-            src={`/images/kronshteyny/${mount.id}-skhema.svg`}
-            width="1200"
-          />
-          <figcaption className="mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted">
-            Условная схема показывает тип механизма; размеры деталей и углы не являются монтажным чертежом.
-          </figcaption>
-        </figure>
 
         <section
           aria-label={`Предложения Яндекс Маркета для ${mount.title}`}

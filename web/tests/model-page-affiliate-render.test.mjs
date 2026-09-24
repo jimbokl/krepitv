@@ -193,6 +193,29 @@ test("карточка модели выводит только три model-spe
       assert.equal(html.includes(fragment), false);
     }
     assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
+
+    const conflictedModel = {
+      ...model,
+      wall_mount_screws: {
+        ...model.wall_mount_screws,
+        vesa_conflict: {
+          catalog_value: "300×300 мм",
+          manual_value: "400×400 мм",
+          note: "Проверить отверстия на своём экземпляре.",
+        },
+      },
+    };
+    const conflictHtml = renderToStaticMarkup(React.createElement(ModelPage, {
+      catalog: { ...catalog, models: [conflictedModel], commercialProfiles: [] },
+      modelId: model.id,
+    }));
+    assert.match(conflictHtml, /Ни один вариант ниже пока не подтверждён/u);
+    assert.match(conflictHtml, /Сначала измерьте расстояние между отверстиями/u);
+    assert.doesNotMatch(conflictHtml, /Мы уже проверили размер крепления/u);
+    assert.doesNotMatch(conflictHtml, /Сейчас доступны на Маркете/u);
+    assert.doesNotMatch(conflictHtml, /data-affiliate-placement-id="model-/u);
+    assert.doesNotMatch(conflictHtml, /data-affiliate-rank=/u);
+    assert.doesNotMatch(conflictHtml, /href="https:\/\/market\.yandex\.ru\/card\//u);
   } finally {
     await vite.close();
   }

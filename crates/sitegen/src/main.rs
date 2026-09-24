@@ -493,8 +493,19 @@ struct InternalVisualTheme {
 fn internal_visual_theme(page_id: &str) -> Option<(&'static str, &'static InternalVisualTheme)> {
     static THEMES: OnceLock<BTreeMap<String, InternalVisualTheme>> = OnceLock::new();
     let themes = THEMES.get_or_init(|| {
-        serde_json::from_str(include_str!("../../../data/internal_visual_pages.json"))
-            .expect("Некорректный реестр внутренних изображений")
+        let mut themes: BTreeMap<String, InternalVisualTheme> =
+            serde_json::from_str(include_str!("../../../data/internal_visual_pages.json"))
+                .expect("Некорректный реестр внутренних изображений");
+        let remaining: BTreeMap<String, InternalVisualTheme> =
+            serde_json::from_str(include_str!("../../../data/internal_visual_remaining.json"))
+                .expect("Некорректный реестр остальных внутренних изображений");
+        for (name, theme) in remaining {
+            assert!(
+                themes.insert(name, theme).is_none(),
+                "Повтор темы изображения"
+            );
+        }
+        themes
     });
     themes.iter().find_map(|(name, theme)| {
         theme
@@ -1308,6 +1319,18 @@ fn mount_technical_image_path(mount: &Mount) -> String {
 }
 
 fn model_technical_image_svg(tv: &TvModel) -> String {
+    if let Some(conflict) = tv
+        .wall_mount_screws
+        .as_ref()
+        .and_then(|hardware| hardware.vesa_conflict.as_ref())
+    {
+        return format!(
+            r##"<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc"><title id="title">Расхождение данных VESA для {title}</title><desc id="desc">Каталог указывает {catalog}, руководство указывает {manual}. Размер отверстий нужно проверить по своей модели до выбора кронштейна.</desc><rect width="1200" height="630" fill="#F7F5F0"/><rect x="75" y="75" width="1050" height="480" rx="18" fill="#fff" stroke="#111" stroke-width="8"/><path d="M600 135 865 490H335Z" fill="#FFDFCB" stroke="#111" stroke-width="8"/><text x="600" y="310" text-anchor="middle" font-family="Arial,sans-serif" font-size="82" font-weight="700" fill="#111">!</text><text x="600" y="385" text-anchor="middle" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#111">VESA нужно проверить</text><text x="600" y="594" text-anchor="middle" font-family="Arial,sans-serif" font-size="26" fill="#111">Каталог: {catalog} · руководство: {manual}</text></svg>"##,
+            title = escape_html(&tv.title),
+            catalog = escape_html(&conflict.catalog_value),
+            manual = escape_html(&conflict.manual_value),
+        );
+    }
     let longest_side = tv.vesa_width_mm.max(tv.vesa_height_mm);
     let scale = 240.0 / f64::from(longest_side);
     let drawing_width = f64::from(tv.vesa_width_mm) * scale;
@@ -1358,7 +1381,7 @@ fn mount_technical_image_svg(mount: &Mount) -> String {
 
 fn technical_image_html(path: &str, alt: &str, caption: &str) -> String {
     format!(
-        "<figure class=\"my-7 border border-ink bg-white p-3 sm:p-5\"><img data-technical-image=\"true\" src=\"{}\" alt=\"{}\" width=\"1200\" height=\"630\" loading=\"lazy\" decoding=\"async\" class=\"block h-auto w-full\"><figcaption class=\"mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted\">{}</figcaption></figure>",
+        "<figure class=\"technical-editorial-hero__media\"><img data-technical-image=\"true\" src=\"{}\" alt=\"{}\" width=\"1200\" height=\"630\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\" class=\"technical-editorial-hero__image\"><figcaption class=\"technical-editorial-hero__caption\">{}</figcaption></figure>",
         escape_html(path),
         escape_html(alt),
         escape_html(caption),
@@ -1499,11 +1522,75 @@ fn static_footer() -> &'static str {
 }
 
 fn static_layout(content: &str) -> String {
+    let content = static_editorial_scene(content);
     format!(
         "{}<main class=\"min-h-screen bg-paper text-ink\">{content}</main>{}",
         static_header(),
         static_footer(),
     )
+}
+
+fn static_editorial_scene(content: &str) -> String {
+    let scene = if content.contains("data-market-model-page=\"true\"") {
+        Some((
+            "/assets/images/home-step-model.webp",
+            "Человек проверяет заводскую модель на задней панели телевизора",
+            "Общее фото поиска шильдика, не изображение этой модели. VESA и массу нужно подтвердить по её руководству.",
+        ))
+    } else if content.contains("data-guide-index=\"true\"") {
+        Some((
+            "/assets/images/home-step-model.webp",
+            "Человек проверяет параметры телевизора перед установкой",
+            "Фото иллюстрирует подготовку. Откройте нужный инструмент или инструкцию ниже и проверьте данные именно своей модели.",
+        ))
+    } else if content.contains("data-model-catalog-method=\"true\"") {
+        Some((
+            "/assets/images/home-step-model.webp",
+            "Человек проверяет обозначение модели телевизора",
+            "Фото показывает, где искать точную модель. Характеристики каждой модели приведены в её паспорте ниже.",
+        ))
+    } else if content.contains("aria-label=\"Кронштейны\"") {
+        Some((
+            "/assets/images/internal-mount-choice.webp",
+            "Человек сравнивает варианты кронштейнов для телевизора",
+            "На фото условные крепления, не товары каталога. Открывайте точные карточки с паспортными VESA и нагрузкой.",
+        ))
+    } else {
+        None
+    };
+    let Some((src, alt, caption)) = scene else {
+        return content.to_string();
+    };
+    let Some(h1_end) = content.find("</h1>") else {
+        return content.to_string();
+    };
+    let Some(intro_end) = content[h1_end + 5..].find("</p>") else {
+        return content.to_string();
+    };
+    let insertion = h1_end + 5 + intro_end + 4;
+    let scene = format!(
+        "<figure class=\"technical-editorial-hero__media\" data-editorial-scene=\"true\"><img alt=\"{}\" class=\"editorial-scene__image\" decoding=\"async\" fetchpriority=\"high\" height=\"640\" loading=\"eager\" src=\"{}\" width=\"960\"><figcaption class=\"technical-editorial-hero__caption\">{}</figcaption></figure>",
+        escape_html(alt),
+        escape_html(src),
+        escape_html(caption),
+    );
+    let decorated = format!(
+        "{}{}{}",
+        &content[..insertion],
+        scene,
+        &content[insertion..]
+    );
+    if content.contains("data-guide-index=\"true\"")
+        || content.contains("data-market-model-page=\"true\"")
+    {
+        decorated.replacen(
+            "<header class=\"",
+            "<header class=\"technical-editorial-hero ",
+            1,
+        )
+    } else {
+        decorated
+    }
 }
 
 fn not_found_page_body() -> String {
@@ -2158,6 +2245,10 @@ fn model_page_body(
     commercial_profile: Option<&CommercialProfile>,
 ) -> String {
     let required_load_kg = tv.weight_kg * 1.25;
+    let vesa_conflict = tv
+        .wall_mount_screws
+        .as_ref()
+        .and_then(|hardware| hardware.vesa_conflict.as_ref());
     let compatible_count = matches.iter().filter(|matched| matched.compatible).count();
     let verified_count = matches
         .iter()
@@ -2176,10 +2267,10 @@ fn model_page_body(
                 format!(
                     "<article class=\"grid gap-3 border-t border-line py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\"><div><h3 class=\"font-display text-2xl font-extrabold\">{title}</h3><p class=\"mt-1 text-sm text-muted\">{fit} · {mechanism} · нагрузка до {load} кг</p><p class=\"mt-2 text-sm\">{reasons}</p></div><a class=\"font-semibold text-action underline underline-offset-4\" href=\"/kronshteyny/{id}/\">Кронштейн {title}</a></article>",
                     title = escape_html(&matched.mount.title),
-                    fit = fit_label(&matched.fit_status),
+                    fit = if vesa_conflict.is_some() { "Нужно сверить VESA" } else { fit_label(&matched.fit_status) },
                     mechanism = mechanism_label(&matched.mount.mechanism),
                     load = matched.mount.max_load_kg,
-                    reasons = escape_html(&matched.reasons.join(" · ")),
+                    reasons = if vesa_conflict.is_some() { "Сначала измерьте расстояние между отверстиями своего телевизора.".to_string() } else { escape_html(&matched.reasons.join(" · ")) },
                     id = escape_html(&matched.mount.id),
                 ),
             )
@@ -2197,6 +2288,7 @@ fn model_page_body(
                 && placement.model_path == format!("/modeli/{}/", tv.id)
                 && (1..=3).contains(&placement.rank)
                 && placement.placement_id == placement.offer.id
+                && vesa_conflict.is_none()
                 && is_publishable_affiliate_offer(&placement.offer, affiliate_now_seconds)
                 && matches.iter().any(|matched| {
                     matched.compatible
@@ -2224,10 +2316,11 @@ fn model_page_body(
     };
     let affiliate_section =
         format!("<div data-model-offers-island=\"true\">{affiliate_section_content}</div>");
-    let vesa_conflict = tv
-        .wall_mount_screws
-        .as_ref()
-        .and_then(|hardware| hardware.vesa_conflict.as_ref());
+    let model_intro = if vesa_conflict.is_some() {
+        "Официальные источники расходятся по расстоянию между отверстиями. Сначала измерьте VESA на своём телевизоре и сверьте инструкцию, затем выбирайте кронштейн. Ни один вариант ниже пока не подтверждён для этой модели."
+    } else {
+        "Мы уже проверили размер крепления и вес этого телевизора. Ниже — кронштейны, которые подходят по паспортным данным. Стену и винты нужно проверить отдельно."
+    };
     let mut context_candidates = vec![
         (
             "tv-dimensions".to_string(),
@@ -2283,7 +2376,7 @@ fn model_page_body(
             "<nav class=\"mt-5 border-y border-line\" aria-label=\"Связанные подборы\">{context_links}</nav>"
         )
     };
-    let offer_jump = if affiliate_cards.is_empty() {
+    let offer_jump = if affiliate_cards.is_empty() || vesa_conflict.is_some() {
         String::new()
     } else {
         "<a class=\"primary-button mt-5\" data-model-matches-jump=\"true\" href=\"#podhodyashchie-kronshteyny\">Показать подходящие кронштейны ↓</a>".to_string()
@@ -2297,13 +2390,27 @@ fn model_page_body(
         .unwrap_or(&tv.checked_at);
     let editorial_accountability =
         editorial_accountability_html("verified-model", editorial_checked_at);
-    let technical_image = technical_image_html(
-        &model_technical_image_path(tv),
-        &format!("Техническая схема VESA для {}", tv.title),
-        &format!(
+    let technical_caption = if let Some(conflict) = vesa_conflict {
+        format!(
+            "Источники расходятся: каталог — {}, руководство — {}. Схема не задаёт точки сверления: проверьте VESA своей модели.",
+            escape_html(&conflict.catalog_value),
+            escape_html(&conflict.manual_value),
+        )
+    } else {
+        format!(
             "Схема показывает паспортную пару VESA {}×{} мм; геометрия корпуса условная.",
             tv.vesa_width_mm, tv.vesa_height_mm
-        ),
+        )
+    };
+    let technical_alt = if vesa_conflict.is_some() {
+        format!("Предупреждение о расхождении данных VESA для {}", tv.title)
+    } else {
+        format!("Техническая схема VESA для {}", tv.title)
+    };
+    let technical_image = technical_image_html(
+        &model_technical_image_path(tv),
+        &technical_alt,
+        &technical_caption,
     );
     let limitations = if tv.limitations.is_empty() {
         String::new()
@@ -2363,10 +2470,35 @@ fn model_page_body(
             "Число полностью подтверждённых вариантов: {verified_count}. Перед монтажом сверьте комплект винтов с официальной инструкцией телевизора."
         );
     }
+    let vesa_proof = if vesa_conflict.is_some() {
+        "В официальных источниках указаны разные VESA. Список ниже — только кандидаты: измерьте отверстия на своём экземпляре, затем сверьте заявленную пару у кронштейна."
+    } else {
+        "В список попадают только кронштейны с точно заявленной парой VESA; максимальный размер рамки не считается совпадением."
+    };
+    let model_stage_label = if vesa_conflict.is_some() {
+        "Модель требует сверки VESA"
+    } else {
+        "Проверенная модель"
+    };
+    let vesa_proof_heading = if vesa_conflict.is_some() {
+        "Сначала измерьте VESA"
+    } else {
+        "Точная пара VESA"
+    };
+    let matches_heading = if vesa_conflict.is_some() {
+        "Кронштейны для проверки"
+    } else {
+        "Подходящие кронштейны"
+    };
 
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">Проверенная модель · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">Мы уже проверили размер крепления и вес этого телевизора. Ниже — кронштейны, которые подходят по паспортным данным. Стену и винты нужно проверить отдельно.</p>{commercial_section}{editorial_accountability}{technical_image}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Точная пара VESA</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">В список попадают только кронштейны, где явно заявлена пара {vesa_fact}; максимальный размер рамки не считается совпадением.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{installation_kit_cta}{context_section}{affiliate_section}<section class=\"py-8\" id=\"podhodyashchie-kronshteyny\"><h2 class=\"font-display text-3xl font-extrabold\">Подходящие кронштейны</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры модели</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Характеристики модели проверены {checked_at}.</p></section>{source_evidence}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\"><p class=\"font-mono text-xs uppercase text-action\">{model_stage_label} · {series} · {year}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">Кронштейн для {title}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{model_intro}</p>{commercial_section}{editorial_accountability}{technical_image}<dl class=\"mt-8 grid gap-4 border-y-2 border-ink py-6 sm:grid-cols-3\"><div><dt class=\"font-mono text-xs uppercase text-muted\">VESA</dt><dd class=\"mt-1 font-display text-2xl font-extrabold sm:text-3xl\">{vesa_fact}</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">Диагональ</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{diagonal}″</dd></div><div><dt class=\"font-mono text-xs uppercase text-muted\">{weight_label}</dt><dd class=\"mt-1 font-display text-3xl font-extrabold\">{weight} кг</dd><p class=\"mt-1 text-xs text-muted\">{weight_suffix}</p></div></dl><section class=\"grid gap-px border-b border-ink bg-ink md:grid-cols-3\" aria-label=\"Как проверена совместимость\"><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">01 · Отверстия</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{vesa_proof_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{vesa_proof}</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">02 · Нагрузка</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">Минимум {required_load:.2} кг</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{weight_explanation} Номинальная нагрузка каждого показанного кронштейна не ниже этого порога.</p></article><article class=\"bg-paper p-5\"><p class=\"font-mono text-xs uppercase text-action\">03 · Результат</p><h2 class=\"mt-2 font-display text-2xl font-extrabold\">{result_heading}</h2><p class=\"mt-3 text-sm leading-relaxed text-muted\">{result_explanation}</p></article></section>{wall_mount_screws}{installation_kit_cta}{context_section}{affiliate_section}<section class=\"py-8\" id=\"podhodyashchie-kronshteyny\"><h2 class=\"font-display text-3xl font-extrabold\">{matches_heading}</h2><p class=\"mt-3 max-w-3xl text-muted\">{compatibility_lead}</p><div class=\"mt-5\">{compatible}</div></section><section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Размеры модели</h2><p class=\"mt-3 text-lg text-muted\">Серия {series}. {year_fact}. Корпус {width}×{height}×{depth} мм без подставки. Характеристики модели проверены {checked_at}.</p></section>{source_evidence}<section class=\"border-t border-line py-8\"><h2 class=\"font-display text-3xl font-extrabold\">Что сервис не подтверждает автоматически</h2><p class=\"mt-3 text-lg leading-relaxed text-muted\">Состояние стены, тип анкеров, скрытую проводку, перекрытие разъёмов и положение VESA относительно геометрического центра экрана необходимо проверить на месте.</p><a class=\"mt-5 inline-flex font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Открыть полную методику</a></section></article>",
         title = escape_html(&tv.title),
+        model_intro = model_intro,
+        vesa_proof = vesa_proof,
+        model_stage_label = model_stage_label,
+        vesa_proof_heading = vesa_proof_heading,
+        matches_heading = matches_heading,
         series = escape_html(&tv.series),
         year = model_year_label(tv.model_year),
         year_fact = model_year_fact(tv.model_year),
@@ -4561,7 +4693,7 @@ fn seo_page_body(
     let catalog = seo_catalog_html(page, models, mounts, graph);
     let evidence_guide = seo_evidence_guide_html(page);
     let editorial_photo = seo_editorial_photo_html(&page.id);
-    let visual_action = seo_visual_action(&page.id);
+    let visual_action = seo_visual_action(&page.id, page.guide.is_some());
     let visual_steps = seo_visual_steps_html(page);
     let editorial_accountability = editorial_accountability_html(
         if page.guide.is_some() {
@@ -4592,9 +4724,10 @@ fn seo_page_body(
         "phone-to-tv" | "tv-no-signal" | "mounting-map" | "mounting-height" => {
             format!(
                 " id=\"{}\"",
-                escape_html(&seo_visual_action(&page.id).0[1..])
+                escape_html(&seo_visual_action(&page.id, page.guide.is_some()).0[1..])
             )
         }
+        _ if page.guide.is_none() => " id=\"действие\"".to_string(),
         _ => String::new(),
     };
     let facts_section = format!(
@@ -4674,17 +4807,28 @@ fn internal_visual_label(page_id: &str) -> Option<&'static str> {
         "wall" => "Монтаж и крепёж",
         "stand" => "Напольная стойка",
         "height" => "Планирование монтажа",
+        "connection-more" => "Подключение устройств",
+        "diagnostics-more" => "Проверка неисправности",
+        "settings-more" => "Настройка телевизора",
+        "wireless-more" => "Беспроводное подключение",
+        "measurements" => "Размеры и расположение",
+        "mounting" => "Монтаж и крепёж",
+        "vesa-reference" => "Справочник VESA",
+        "mount-choice" => "Выбор кронштейна",
+        "cleaning" => "Уход за экраном",
+        "energy" => "Расчёт электроэнергии",
         _ => return None,
     })
 }
 
-fn seo_visual_action(page_id: &str) -> (&'static str, &'static str) {
+fn seo_visual_action(page_id: &str, has_guide: bool) -> (&'static str, &'static str) {
     match page_id {
         "phone-to-tv" => ("#мастер-подключения", "Выбрать способ подключения"),
         "tv-no-signal" => ("#мастер-проверки-сигнала", "Проверить сигнал"),
         "mounting-map" => ("#монтажная-карта", "Рассчитать высоту экрана"),
         "mounting-height" => ("#калькулятор-высоты", "Рассчитать высоту"),
-        _ => ("#мастер", "Найти свой случай"),
+        _ if has_guide => ("#мастер", "Найти свой случай"),
+        _ => ("#действие", "Что проверить перед выбором"),
     }
 }
 

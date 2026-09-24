@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "task_id": "20260924-remaining-internal-visual-ux",
+  "commands": [
+    {"id":"remaining-pages","command":"node scripts/qa/verify-remaining-internal-pages.mjs","exit_code":0,"output_path":"evidence/commands/remaining-pages.log","covers":["loading","empty","error","success","disabled"]},
+    {"id":"build","command":"npm run build","exit_code":0,"output_path":"evidence/commands/build.log"}
+  ],
+  "screenshots": [
+    {"id":"seo-mobile","path":"evidence/seo-mobile.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"mount-tablet","path":"evidence/mount-tablet.png","state":"default","viewport_id":"tablet","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"model-desktop","path":"evidence/model-desktop.png","state":"default","viewport_id":"desktop","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"observed-mobile","path":"evidence/observed-mobile.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"models-mobile","path":"evidence/models-mobile.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"guides-desktop","path":"evidence/guides-desktop.png","state":"default","viewport_id":"desktop","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"seo-zoom200","path":"evidence/seo-zoom200.png","state":"default","viewport_id":"mobile","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true}},
+    {"id":"seo-focus","path":"evidence/seo-focus.png","state":"focus","viewport_id":"desktop","checks":{"nonblank":true,"no_overflow":true,"no_overlap":true,"text_fits":true,"focus_visible":true}}
+  ],
+  "assets": [
+    {"id":"model-vesa","path":"evidence/assets/tcl-65c7k-vesa.svg","alt_text":"Схема расположения VESA на телевизоре TCL 65C7K по проверенным техническим данным","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"deterministic"}},
+    {"id":"mount-scheme","path":"evidence/assets/holder-lcds-5010-skhema.svg","alt_text":"Техническая схема кронштейна Holder LCDS-5010 по каталожным данным","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"deterministic"}},
+    {"id":"cleaning","path":"evidence/assets/internal-cleaning.webp","alt_text":"Человек аккуратно очищает экран телевизора в квартире","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}},
+    {"id":"mount-choice","path":"evidence/assets/internal-mount-choice.webp","alt_text":"Человек сравнивает настенное крепление с телевизором перед монтажом","checks":{"nonblank":true,"no_crop":true,"no_overlap":true,"text_legible":true,"thumbnail_legible":true,"contrast_checked":true,"safe_zone_clear":true,"brand_consistent":true,"fact_checked":true,"ai_artifacts_checked":true},"provenance":{"method":"imagegen","prompt_path":"evidence/prompts/imagegen.md"}}
+  ],
+  "review": {
+    "reviewer": "/root/remaining_visual_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": ["Покрыты 55 оставшихся SEO-материалов и все карточки каталогов", "Для конфликтной VESA нет ложной схемы и модельного партнёрского оффера", "На проверенных размерах экрана нет горизонтального переполнения"]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}

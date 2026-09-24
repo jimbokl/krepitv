@@ -1,4 +1,5 @@
 import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
+import { EditorialScene } from "../components/EditorialScene.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 
 export function GuideIndexPage({ catalog }) {
@@ -13,10 +14,17 @@ export function GuideIndexPage({ catalog }) {
       <SiteHeader active="/spravochnik/" />
       <article className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8" data-guide-index="true">
         <Breadcrumbs items={[{ href: "/", label: "Главная" }, { label: "Справочник" }]} />
-        <header className="mt-5 border-b-2 border-ink pb-8">
+        <header className="technical-editorial-hero mt-5 border-b-2 border-ink pb-8">
+          <div className="technical-editorial-hero__copy">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">{pages.length} полезных материалов</p>
           <h1 className="mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]">Справочник по телевизорам и креплениям</h1>
           <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted">Инструкции, проверочные таблицы и локальные калькуляторы KREPI TV. Каждый материал ведёт к точной модели, VESA или следующему безопасному шагу.</p>
+          </div>
+          <EditorialScene
+            alt="Человек проверяет параметры телевизора перед установкой"
+            caption="Фото иллюстрирует подготовку. Откройте нужный инструмент или инструкцию ниже и проверьте данные именно своей модели."
+            src="/assets/images/home-step-model.webp"
+          />
         </header>
         <div className="grid gap-8 py-8 lg:grid-cols-2">
           {groups.map((group) => (

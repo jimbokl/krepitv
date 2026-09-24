@@ -73,11 +73,16 @@ export function ModelPage({ catalog, modelId }) {
           { href: "/modeli/", label: "Модели телевизоров" },
           { label: model.title },
         ]} />
-        <section>
+        <section className="technical-editorial-hero">
+          <div className="technical-editorial-hero__copy">
           <h1 className="font-display text-[clamp(2.5rem,4.7vw,4.7rem)] font-extrabold leading-none tracking-[-0.025em]">
             Кронштейн для {model.title}
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">Мы уже проверили размер крепления и вес этого телевизора. Ниже — кронштейны, которые подходят по паспортным данным. Стену и винты нужно проверить отдельно.</p>
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+            {vesaConflict
+              ? "Официальные источники расходятся по расстоянию между отверстиями. Сначала измерьте VESA на своём телевизоре и сверьте инструкцию, затем выбирайте кронштейн. Ни один вариант ниже пока не подтверждён для этой модели."
+              : "Мы уже проверили размер крепления и вес этого телевизора. Ниже — кронштейны, которые подходят по паспортным данным. Стену и винты нужно проверить отдельно."}
+          </p>
           {verifiedCount > 0 && !vesaConflict ? <a className="primary-button mt-5 inline-flex min-h-14 items-center" href="#podhodyashchie-kronshteyny">Показать подходящие кронштейны ↓</a> : null}
           <div className="mt-4 grid gap-2 border-y border-ink py-3 font-mono text-xs text-muted sm:grid-cols-3">
             <span>Источник: база Крепи ТВ · {model.brand} · {model.model}</span>
@@ -86,25 +91,28 @@ export function ModelPage({ catalog, modelId }) {
             </span>
             <span className="sm:text-right">Характеристики модели проверены: {formatCheckedDate(model.checked_at)}</span>
           </div>
-        </section>
-
-        <EditorialAccountability evidence={editorialEvidence} />
-
-        <figure className="my-7 border border-ink bg-white p-3 sm:p-5">
+          </div>
+          <figure className="technical-editorial-hero__media">
           <img
-            alt={`Техническая схема VESA для ${model.title}`}
-            className="block h-auto w-full"
+            alt={vesaConflict ? `Предупреждение о расхождении данных VESA для ${model.title}` : `Техническая схема VESA для ${model.title}`}
+            className="technical-editorial-hero__image"
             data-technical-image="true"
             decoding="async"
             height="630"
-            loading="lazy"
+            loading="eager"
+            fetchPriority="high"
             src={`/images/modeli/${model.id}-vesa.svg`}
             width="1200"
           />
-          <figcaption className="mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted">
-            Схема показывает паспортную пару VESA {model.vesa_width_mm}×{model.vesa_height_mm} мм; геометрия корпуса условная.
+          <figcaption className="technical-editorial-hero__caption">
+            {vesaConflict
+              ? `Источники расходятся: каталог — ${vesaConflict.catalog_value}, руководство — ${vesaConflict.manual_value}. Схема не задаёт точки сверления: проверьте VESA своей модели.`
+              : `Схема показывает паспортную пару VESA ${model.vesa_width_mm}×${model.vesa_height_mm} мм; геометрия корпуса условная.`}
           </figcaption>
         </figure>
+        </section>
+
+        <EditorialAccountability evidence={editorialEvidence} />
 
         <CompatibilityProof
           matches={compatible}
@@ -277,12 +285,12 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
   if (!matches.length) {
     return <p className="py-6 text-muted">В проверенном каталоге пока нет совместимых вариантов.</p>;
   }
-  const featuredOffers = selectModelAffiliateOffers(
+  const vesaConflict = Boolean(model.wall_mount_screws?.vesa_conflict);
+  const featuredOffers = vesaConflict ? [] : selectModelAffiliateOffers(
     model,
     matches,
     modelAffiliateOffers,
   );
-  const vesaConflict = Boolean(model.wall_mount_screws?.vesa_conflict);
 
   return (
     <>
@@ -291,7 +299,7 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
           <div className="flex flex-wrap items-end justify-between gap-2 border-b border-ink pb-3">
             <h2 className="font-display text-2xl font-extrabold">Сейчас доступны на Маркете</h2>
             <span className="font-mono text-xs uppercase text-muted">
-              {vesaConflict ? "До 3 вариантов после ручной сверки VESA" : "До 3 проверенных вариантов"}
+              До 3 проверенных вариантов
             </span>
           </div>
           <div className="grid gap-4 pt-4 lg:grid-cols-3">
@@ -363,7 +371,12 @@ function MountMatches({ matches, model, modelAffiliateOffers }) {
               </span>
             </div>
             <ul className="mt-2 grid gap-2 text-sm sm:grid-cols-2">
-              {reasons.map((reason) => (
+              {vesaConflict ? (
+                <li className="flex gap-2 text-action sm:col-span-2">
+                  <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+                  Сначала измерьте расстояние между отверстиями своего телевизора.
+                </li>
+              ) : reasons.map((reason) => (
                 <li className="flex gap-2" key={reason}>
                   <CheckCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-verified" weight="fill" />
                   <span>{reason}</span>

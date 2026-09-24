@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 import { ModelSearch } from "../components/ModelSearch.jsx";
 import { EditorialAccountability } from "../components/EditorialAccountability.jsx";
+import { EditorialScene } from "../components/EditorialScene.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { formatCheckedDate } from "../components/TrustMark.jsx";
@@ -40,7 +41,8 @@ export function ObservedModelPage({ catalog, model }) {
           { label: model.title },
         ]} />
 
-        <header className="mt-6 border-b-2 border-ink pb-8">
+        <header className="technical-editorial-hero mt-6 border-b-2 border-ink pb-8">
+          <div className="technical-editorial-hero__copy">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
             Модель найдена на Маркете · паспорт проверяется
           </p>
@@ -51,6 +53,12 @@ export function ObservedModelPage({ catalog, model }) {
           <p className="mt-4 border-l-2 border-action pl-4 font-semibold">
             Без подтверждённых VESA и массы KREPI TV не показывает «подходящие» кронштейны и не подменяет проверку догадкой.
           </p>
+          </div>
+          <EditorialScene
+            alt="Человек проверяет заводскую модель на задней панели телевизора"
+            caption="Общее фото поиска шильдика, не изображение этой модели. VESA и массу нужно подтвердить по её руководству."
+            src="/assets/images/home-step-model.webp"
+          />
         </header>
 
         <EditorialAccountability evidence={editorialEvidence} />

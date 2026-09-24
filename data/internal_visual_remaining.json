@@ -1,0 +1,62 @@
+{
+  "connection-more": {
+    "src": "/assets/images/internal-connection.webp",
+    "alt": "Человек осматривает разъёмы телевизора перед подключением устройства",
+    "caption": "Иллюстрация подключения: конкретные порты и режимы зависят от модели телевизора и подключаемого устройства.",
+    "ids": ["laptop-to-tv", "soundbar-to-tv", "smart-tv-box", "tv-speakers", "tv-headphones"]
+  },
+  "diagnostics-more": {
+    "src": "/assets/images/internal-diagnostics.webp",
+    "alt": "Человек проверяет телевизор и пульт без разборки корпуса",
+    "caption": "Фото иллюстрирует первичную безопасную проверку. Причину неисправности определяйте по наблюдаемым признакам ниже.",
+    "ids": ["tv-sound-no-picture", "tv-no-sound", "tv-remote-not-working", "tv-turns-off", "tv-usb-not-seen"]
+  },
+  "settings-more": {
+    "src": "/assets/images/internal-settings.webp",
+    "alt": "Человек проверяет настройки телевизора с пульта",
+    "caption": "Меню на фото условное: названия пунктов и доступные действия зависят от модели и версии прошивки.",
+    "ids": ["digital-channels", "picture-setup", "tv-firmware-update", "tv-app-install", "tv-factory-reset"]
+  },
+  "wireless-more": {
+    "src": "/assets/images/internal-wireless.webp",
+    "alt": "Человек проверяет беспроводную связь телевизора в комнате",
+    "caption": "Это общий кадр подключения, не диагностика конкретного роутера. Следуйте проверкам сети и телевизора ниже.",
+    "ids": ["tv-no-internet"]
+  },
+  "measurements": {
+    "src": "/assets/images/home-step-height.webp",
+    "alt": "Человек примеряет расположение телевизора рулеткой",
+    "caption": "Фото показывает примерку размеров и высоты, но не задаёт точки сверления. Габариты корпуса сверяйте отдельно.",
+    "ids": ["wall-planner", "tv-dimensions", "viewing-distance", "tv-zone-sockets", "wall-mounted-tv"]
+  },
+  "mounting": {
+    "src": "/assets/images/home-step-wall.webp",
+    "alt": "Человек изучает стену перед установкой телевизора",
+    "caption": "Изображение не является схемой крепления. Основание, скрытую проводку и стеновую пластину проверяйте на месте.",
+    "ids": ["slim-tv-mount", "tv-mount-screws"]
+  },
+  "vesa-reference": {
+    "src": "/assets/images/home-step-model.webp",
+    "alt": "Человек ищет модель и сведения о креплении на телевизоре",
+    "caption": "Фото иллюстрирует поиск данных. Пару отверстий VESA и винты сверяйте по паспорту вашей модели, а не по изображению.",
+    "ids": ["vesa", "vesa-200x200", "vesa-300x200", "vesa-200x100", "vesa-200x300", "vesa-400x300", "vesa-300x300", "vesa-400x400", "how-to-find-vesa"]
+  },
+  "mount-choice": {
+    "src": "/assets/images/internal-mount-choice.webp",
+    "alt": "Человек сравнивает два вида настенных кронштейнов для телевизора",
+    "caption": "Кронштейны на фото условные. Выбирайте точную модель по VESA, массе телевизора, диапазону диагоналей и стене.",
+    "ids": ["diagonal-32", "diagonal-43", "diagonal-55", "diagonal-65", "diagonal-50", "diagonal-75", "brand-lg", "brand-samsung", "brand-hisense", "brand-tcl", "brand-xiaomi", "fixed-mount", "tilt-mount", "full-motion-mount", "extendable-mount", "buy-tv-mount", "mount-brand-onkron", "mount-brand-kromax", "mount-brand-holder", "mount-brand-itechmount", "mount-brand-godoo"]
+  },
+  "cleaning": {
+    "src": "/assets/images/internal-cleaning.webp",
+    "alt": "Человек осматривает выключенный экран телевизора с мягкой салфеткой в руке",
+    "caption": "Сцена иллюстрирует уход, но не инструкцию производителя. Средства и порядок очистки сверяйте с руководством вашей модели.",
+    "ids": ["screen-cleaning"]
+  },
+  "energy": {
+    "src": "/assets/images/internal-display.webp",
+    "alt": "Телевизор в жилой комнате при дневном свете",
+    "caption": "Фото не сообщает мощность телевизора. Для расчёта подставьте реальные ватты вашей модели и время просмотра.",
+    "ids": ["tv-energy-consumption"]
+  }
+}

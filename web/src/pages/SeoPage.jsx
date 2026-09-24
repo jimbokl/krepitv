@@ -357,13 +357,25 @@ function SeoArticle({ catalog, page }) {
     wall: "Монтаж и крепёж",
     stand: "Напольная стойка",
     height: "Планирование монтажа",
+    "connection-more": "Подключение устройств",
+    "diagnostics-more": "Проверка неисправности",
+    "settings-more": "Настройка телевизора",
+    "wireless-more": "Беспроводное подключение",
+    measurements: "Размеры и расположение",
+    mounting: "Монтаж и крепёж",
+    "vesa-reference": "Справочник VESA",
+    "mount-choice": "Выбор кронштейна",
+    cleaning: "Уход за экраном",
+    energy: "Расчёт электроэнергии",
   }[editorialPhoto.name] : seoPageKindLabel(page);
   const visualAction = {
     "phone-to-tv": { href: "#мастер-подключения", label: "Выбрать способ подключения" },
     "tv-no-signal": { href: "#мастер-проверки-сигнала", label: "Проверить сигнал" },
     "mounting-map": { href: "#монтажная-карта", label: "Рассчитать высоту экрана" },
     "mounting-height": { href: "#калькулятор-высоты", label: "Рассчитать высоту" },
-  }[page.id] ?? { href: "#мастер", label: "Найти свой случай" };
+  }[page.id] ?? (page.guide
+    ? { href: "#мастер", label: "Найти свой случай" }
+    : { href: "#действие", label: "Что проверить перед выбором" });
   const editorialEvidence = buildEditorialEvidence({
     checkedAt: page.updated_at ?? page.guide?.updated_at ?? "2026-08-08",
     contentKind: page.guide ? "seo-reviewed" : "seo-calculated",
@@ -438,9 +450,9 @@ function SeoArticle({ catalog, page }) {
             <p className="font-mono text-xs uppercase tracking-wide text-white/70">Начните здесь</p>
             <h2 className="mt-2 font-display text-2xl font-bold sm:text-3xl">Три простых действия</h2>
             <ol className="mt-5 grid gap-4 sm:grid-cols-3">
-              <li><strong className="block text-lg text-[#ff8a62]">1. Измерьте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Расстояние от пола до глаз и высоту мебели.</span></li>
-              <li><strong className="block text-lg text-[#ff8a62]">2. Рассчитайте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Посмотрите, где окажется экран.</span></li>
-              <li><strong className="block text-lg text-[#ff8a62]">3. Сверьте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Отверстия размечайте по вашему кронштейну, не по экрану.</span></li>
+              <li><strong className="block text-lg text-orange-400">1. Измерьте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Расстояние от пола до глаз и высоту мебели.</span></li>
+              <li><strong className="block text-lg text-orange-400">2. Рассчитайте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Посмотрите, где окажется экран.</span></li>
+              <li><strong className="block text-lg text-orange-400">3. Сверьте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Отверстия размечайте по вашему кронштейну, не по экрану.</span></li>
             </ol>
             <a className="mt-5 inline-flex min-h-11 items-center font-semibold underline underline-offset-4" href="#монтажная-карта">Перейти к расчёту ↓</a>
           </aside>
@@ -571,7 +583,7 @@ function SeoArticle({ catalog, page }) {
 
         <div className="grid gap-8 border-t border-ink pt-7 lg:grid-cols-[minmax(0,1fr)_22rem] xl:grid-cols-[minmax(0,1fr)_27rem]">
           <div className="min-w-0">
-            <section aria-labelledby="check-title">
+            <section aria-labelledby="check-title" id={!page.guide ? "действие" : undefined}>
               <div className="flex items-center gap-3">
                 <ShieldCheck aria-hidden="true" className="size-9 text-verified" />
                 <h2 className="font-display text-3xl font-bold" id="check-title">

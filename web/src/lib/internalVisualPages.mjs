@@ -1,8 +1,9 @@
 import visualPages from "../../../data/internal_visual_pages.json" with { type: "json" };
+import remainingVisualPages from "../../../data/internal_visual_remaining.json" with { type: "json" };
 
 const visualByPageId = new Map();
 
-for (const [name, theme] of Object.entries(visualPages)) {
+for (const [name, theme] of Object.entries({ ...visualPages, ...remainingVisualPages })) {
   for (const id of theme.ids) {
     if (visualByPageId.has(id)) {
       throw new Error(`Повтор страницы во внутренней визуальной когорте: ${id}`);

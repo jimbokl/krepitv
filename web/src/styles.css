@@ -134,6 +134,90 @@ footer nav a {
 }
 
 /* Внутренний редакционный первый экран: один читаемый вход в действие. */
+.technical-editorial-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+  padding: clamp(1rem, 2vw, 2rem) 0;
+}
+
+.technical-editorial-hero__copy { min-width: 0; }
+
+[data-guide-index="true"] .technical-editorial-hero h1 {
+  font-size: clamp(2.6rem, 4.4vw, 4.6rem);
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.technical-editorial-hero__media {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  background: #fff;
+  box-shadow: 12px 12px 0 rgb(21 20 18 / 0.08);
+}
+
+.technical-editorial-hero__image {
+  display: block;
+  width: 100%;
+  height: clamp(18rem, 31vw, 31rem);
+  object-fit: contain;
+}
+
+.editorial-scene__image {
+  display: block;
+  width: 100%;
+  height: clamp(18rem, 31vw, 31rem);
+  object-fit: cover;
+}
+
+.technical-editorial-hero__caption {
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--color-line);
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+/* SSR-карточки показывают свою техническую схему сразу, до длинной проверки. */
+article:has(> figure img[data-technical-image="true"]) {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  column-gap: clamp(1.5rem, 4vw, 4rem);
+}
+article:has(> figure img[data-technical-image="true"]) > * { grid-column: 1 / -1; }
+article:has(> figure img[data-technical-image="true"]) > p:first-child,
+article:has(> figure img[data-technical-image="true"]) > h1,
+article:has(> figure img[data-technical-image="true"]) > h1 + p { grid-column: 1; }
+article:has(> figure img[data-technical-image="true"]) > figure:has(img[data-technical-image="true"]) {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+}
+article:has(> figure[data-editorial-scene="true"]) {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  column-gap: clamp(1.5rem, 4vw, 4rem);
+}
+article:has(> figure[data-editorial-scene="true"]) > * { grid-column: 1 / -1; }
+article:has(> figure[data-editorial-scene="true"]) > p:first-child,
+article:has(> figure[data-editorial-scene="true"]) > h1,
+article:has(> figure[data-editorial-scene="true"]) > h1 + p { grid-column: 1; }
+article:has(> figure[data-editorial-scene="true"]) > figure[data-editorial-scene="true"] {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+}
+.technical-editorial-hero:has(> figure[data-editorial-scene="true"]):not(:has(> .technical-editorial-hero__copy)) > :not(figure) {
+  grid-column: 1;
+}
+.technical-editorial-hero:has(> figure[data-editorial-scene="true"]):not(:has(> .technical-editorial-hero__copy)) > figure {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+}
+
 .seo-editorial-hero {
   display: grid;
   grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
@@ -272,6 +356,25 @@ footer nav a {
 }
 
 @media (max-width: 900px) {
+  .technical-editorial-hero { grid-template-columns: minmax(0, 1fr); }
+  .technical-editorial-hero__image { height: clamp(14rem, 58vw, 26rem); }
+  .editorial-scene__image { height: clamp(14rem, 58vw, 26rem); }
+  article:has(> figure img[data-technical-image="true"]) { grid-template-columns: minmax(0, 1fr); }
+  article:has(> figure[data-editorial-scene="true"]) { grid-template-columns: minmax(0, 1fr); }
+  article:has(> figure img[data-technical-image="true"]) > figure:has(img[data-technical-image="true"]) {
+    grid-column: 1;
+    grid-row: 4;
+    margin: 1rem 0;
+  }
+  article:has(> figure[data-editorial-scene="true"]) > figure[data-editorial-scene="true"] {
+    grid-column: 1;
+    grid-row: 4;
+    margin: 1rem 0;
+  }
+  .technical-editorial-hero:has(> figure[data-editorial-scene="true"]):not(:has(> .technical-editorial-hero__copy)) > figure {
+    grid-column: 1;
+    grid-row: 4;
+  }
   .seo-editorial-hero {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "heading" "intro" "media";

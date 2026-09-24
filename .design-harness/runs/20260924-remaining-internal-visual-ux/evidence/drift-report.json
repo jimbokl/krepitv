@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "run": "20260924-remaining-internal-visual-ux",
+  "generated_at": "2026-09-24T06:25:13.568590+00:00",
+  "scanned_files": [
+    "web/src/pages/SeoPage.jsx",
+    "web/src/pages/ModelPage.jsx",
+    "web/src/pages/MountPage.jsx",
+    "web/src/pages/ObservedModelPage.jsx",
+    "web/src/pages/CatalogIndexPage.jsx",
+    "web/src/pages/GuideIndexPage.jsx",
+    "web/src/components/EditorialScene.jsx"
+  ],
+  "findings": []
+}
