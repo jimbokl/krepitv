@@ -1,11 +1,14 @@
+import { useMemo, useState } from "react";
 import { ArrowRight, BracketsSquare, TelevisionSimple } from "@phosphor-icons/react";
 import { CatalogBrandGroups } from "../components/CatalogBrandGroups.jsx";
+import { ModelSearch } from "../components/ModelSearch.jsx";
 import { SiteHeader } from "../components/SiteHeader.jsx";
 import { Breadcrumbs } from "../components/Breadcrumbs.jsx";
 import { EditorialScene } from "../components/EditorialScene.jsx";
 import { formatNumber } from "../components/ModelFacts.jsx";
 import { modelHref, mountHref } from "../lib/catalog.js";
 import { modelWeightSuffix } from "../lib/modelWeight.js";
+import { filterModelSearchResults } from "../lib/modelSearch.mjs";
 
 const mountBrandHubs = [
   { href: "/kronshteyny-godoo/", label: "GoDoo" },
@@ -18,6 +21,16 @@ const mountBrandHubs = [
 export function CatalogIndexPage({ catalog, kind }) {
   const models = kind === "models";
   const items = models ? catalog.models : catalog.mounts;
+  const incomingModelQuery = models
+    ? (new URLSearchParams(window.location.search).get("model") ?? "").trim().slice(0, 120)
+    : "";
+  const [query, setQuery] = useState(incomingModelQuery);
+  const [requestedQuery, setRequestedQuery] = useState(incomingModelQuery);
+  const verifiedIds = useMemo(() => new Set(catalog.models.map((item) => item.id)), [catalog.models]);
+  const requestedMatches = useMemo(
+    () => requestedQuery ? filterModelSearchResults(catalog.search, requestedQuery, 6) : [],
+    [catalog.search, requestedQuery],
+  );
   const observedModels = models
     ? catalog.marketModels.filter((item) => item.page_kind === "observed")
     : [];
@@ -33,16 +46,59 @@ export function CatalogIndexPage({ catalog, kind }) {
         <header className="technical-editorial-hero">
           <div className="technical-editorial-hero__copy">
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
-          {models ? "Два уровня проверки" : "Проверенная база"}
+          {models ? "Начните с точной модели" : "Проверенная база"}
         </p>
         <h1 className="mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em]">
           {models ? "Модели телевизоров" : "Кронштейны для телевизоров"}
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted">
           {models
-            ? "Сначала идут точные паспорта с подтверждёнными VESA и массой. Ниже — модели из актуального снимка Маркета: для них уже собрана точная идентичность и план проверки, но совместимость не показывается до подтверждения характеристик."
+            ? "Посмотрите код на наклейке сзади телевизора и введите его ниже. Если данные о креплении проверены, откроем паспорт модели и покажем подходящие кронштейны."
             : "Точные изделия с явными VESA, нагрузкой, механизмом и списком подходящих популярных телевизоров."}
         </p>
+            {models ? (
+              <section className="mt-6 border-2 border-ink bg-white p-4 sm:p-5" data-model-catalog-search="true" aria-labelledby="model-catalog-search-title">
+                <h2 className="font-display text-2xl font-extrabold" id="model-catalog-search-title">Найдите свой телевизор</h2>
+                <div className="mt-4">
+                  <ModelSearch
+                    buttonLabel="Открыть модель"
+                    compact
+                    emptyMessage="Такого кода пока нет в каталоге."
+                    onChange={(value) => {
+                      setQuery(value);
+                      setRequestedQuery("");
+                    }}
+                    onSubmit={(item) => window.location.assign(item.href || modelHref(item))}
+                    placeholder="Например, TCL 55C7K"
+                    resultLabel={(item) => verifiedIds.has(item.id) ? "Паспорт проверен" : "Характеристики проверяются"}
+                    search={catalog.search}
+                    value={query}
+                  />
+                </div>
+                {requestedQuery ? (
+                  <div className="mt-5 border-t border-line pt-5" data-model-catalog-query-result="true" aria-live="polite">
+                    {requestedMatches.length ? (
+                      <>
+                        <p className="text-sm font-semibold">По запросу «{requestedQuery}» найдены модели:</p>
+                        <ul className="mt-3 grid gap-2">
+                          {requestedMatches.map((item) => (
+                            <li key={item.id}>
+                              <a className="flex min-h-12 flex-wrap items-center justify-between gap-2 border border-line px-4 py-3 font-semibold text-action hover:border-action" href={item.href || modelHref(item)}>
+                                <span>{item.title}</span>
+                                <span className="text-xs font-normal text-muted">{verifiedIds.has(item.id) ? "Паспорт проверен" : "Характеристики проверяются"}</span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      <p className="leading-relaxed">По запросу «{requestedQuery}» модель не нашлась. Сверьте код на наклейке или выберите бренд в списке ниже.</p>
+                    )}
+                  </div>
+                ) : null}
+                <p className="mt-4 text-sm text-muted">Не знаете код? <a className="font-semibold text-action underline underline-offset-4" href="#checked-models">Выберите бренд в списке ниже</a>.</p>
+              </section>
+            ) : null}
           </div>
           <EditorialScene
             alt={models ? "Человек проверяет обозначение модели телевизора" : "Человек сравнивает варианты кронштейнов для телевизора"}
@@ -83,7 +139,7 @@ export function CatalogIndexPage({ catalog, kind }) {
           </aside>
         ) : null}
 
-        <section className="mt-9">
+        <section className="mt-9" id={models ? "checked-models" : undefined}>
           {models ? (
             <>
               <p className="font-mono text-xs uppercase text-verified">Проверено по источникам · {items.length}</p>
