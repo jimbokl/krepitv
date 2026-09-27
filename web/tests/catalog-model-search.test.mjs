@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import React from "react";
@@ -31,6 +32,16 @@ const catalog = {
     search: `${model.brand} ${model.model} ${model.title}`,
   }],
 };
+
+test("поиск модели доступен в первом экране до загрузки приложения", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+  const html = await readFile(path.join(root, "docs/modeli/index.html"), "utf8");
+  assert.match(html, /<h1[^>]*>Модели телевизоров<\/h1>/u);
+  assert.match(html, /<form[^>]*action="\/modeli\/"[^>]*method="get"/u);
+  assert.match(html, /<input[^>]*name="model"/u);
+  assert.match(html, /id="checked-models"/u);
+  assert.match(html, /technical-editorial-hero__media/u);
+});
 
 test("каталог показывает быстрый поиск и отвечает на запросы с других страниц", async () => {
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
