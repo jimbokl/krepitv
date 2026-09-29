@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { X } from "@phosphor-icons/react";
 import {
   dismissMetrikaNotice,
   emitMetrikaConsent,
@@ -27,34 +28,32 @@ export function MetrikaConsent() {
   return (
     <aside
       aria-label="Настройка аналитики"
-      className="border-b border-line bg-paper text-muted"
+      className="border-b border-line/60 bg-white text-muted"
       data-consent-placement="inline"
     >
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-1 px-5 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-5 sm:px-8 sm:py-1">
-        <p className="max-w-5xl text-[13px] leading-5">
-          Продолжая пользоваться сайтом, вы принимаете необходимую аналитику.
-          {" "}Метрика — без Вебвизора; введённые данные не передаём.{" "}
-          <a className="font-medium text-ink underline decoration-line underline-offset-2 hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink" href="/politika-konfidencialnosti/">
+      <div className="mx-auto flex max-w-[1440px] items-center gap-2 px-4 sm:px-8 lg:px-12">
+        <p className="min-w-0 flex-1 py-2 text-xs leading-[18px]">
+          Для улучшения сайта используем Метрику без записи ввода.{" "}
+          <a className="text-muted underline decoration-line underline-offset-2 hover:text-ink hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink" href="/politika-konfidencialnosti/">
             Политика
           </a>
-          .
-        </p>
-        <div className="flex shrink-0 items-center gap-4 sm:justify-end">
+          <span aria-hidden="true"> · </span>
           <button
-            className="min-h-11 text-[13px] underline decoration-line underline-offset-2 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className="inline-flex min-h-6 items-center text-muted underline decoration-line underline-offset-2 hover:text-ink hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             onClick={disable}
             type="button"
           >
             Отключить аналитику
           </button>
-          <button
-            className="min-h-11 text-[13px] font-semibold text-ink underline decoration-line underline-offset-2 transition-colors hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-            onClick={dismiss}
-            type="button"
-          >
-            Понятно
-          </button>
-        </div>
+        </p>
+        <button
+          aria-label="Скрыть уведомление об аналитике"
+          className="flex size-10 shrink-0 items-center justify-center text-muted transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          onClick={dismiss}
+          type="button"
+        >
+          <X aria-hidden="true" size={16} weight="regular" />
+        </button>
       </div>
     </aside>
   );

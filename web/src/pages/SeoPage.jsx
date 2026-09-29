@@ -294,6 +294,7 @@ export function SeoPage({ catalog, page, requestedPath }) {
 
 function SeoArticle({ catalog, page }) {
   const [query, setQuery] = useState("");
+  const is65MountPage = page.id === "diagonal-65";
   const prioritizesBrandComparison = page.id === "mount-brand-onkron";
   const prioritizesBuyComparison = page.id === "buy-tv-mount";
   const prioritizesScrewLookup = page.id === "tv-mount-screws";
@@ -324,6 +325,14 @@ function SeoArticle({ catalog, page }) {
     () => getCatalogItems(page, catalog),
     [catalog, page],
   );
+  const diagonalModelSearch = useMemo(() => {
+    if (!is65MountPage) return [];
+    const modelIds = new Set(catalogItems.values.map((model) => model.id));
+    return catalog.search.filter((item) => modelIds.has(item.id));
+  }, [catalog.search, catalogItems.values, is65MountPage]);
+  const diagonalVesaCount = is65MountPage
+    ? new Set(catalogItems.values.map((model) => `${model.vesa_width_mm}×${model.vesa_height_mm}`)).size
+    : 0;
   const affiliateOffers = useMemo(
     () => selectSeoHubAffiliateOffers(
       page,
@@ -428,7 +437,24 @@ function SeoArticle({ catalog, page }) {
           <p className="mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl">
             {page.lead}
           </p>
-          {editorialPhoto ? <a className="primary-button mt-6 inline-flex min-h-14 items-center gap-3" href={visualAction.href}>{visualAction.label}<span aria-hidden="true">↓</span></a> : null}
+          {is65MountPage ? <div className="diagonal-lookup" id="seo-model-search">
+            <p className="diagonal-lookup__evidence">
+              <strong>Проверено моделей: {catalogItems.values.length}</strong>
+              <span aria-hidden="true">·</span>
+              <span>Схем VESA: {diagonalVesaCount}</span>
+            </p>
+            <h2 className="diagonal-lookup__heading">Найдите свой телевизор</h2>
+            <ModelSearch
+              buttonLabel="Показать крепления"
+              compact
+              onChange={setQuery}
+              onSubmit={openModel}
+              placeholder="Например, TCL 65C7K"
+              search={diagonalModelSearch}
+              value={query}
+            />
+            <p className="diagonal-lookup__hint">Полный код есть на наклейке сзади. <a href="#seo-catalog-heading">Или выберите модель из списка ↓</a></p>
+          </div> : editorialPhoto ? <a className="primary-button mt-6 inline-flex min-h-14 items-center gap-3" href={visualAction.href}>{visualAction.label}<span aria-hidden="true">↓</span></a> : null}
           </div>
           </div>
           {editorialPhoto ? <figure className="seo-editorial-hero__media" data-editorial-photo={editorialPhoto.name}>
@@ -568,7 +594,7 @@ function SeoArticle({ catalog, page }) {
           <TvMountScrewCatalog models={catalog.models} search={catalog.search} />
         ) : null}
 
-        {!prioritizesPrimaryLookup && !prioritizesBrandComparison ? (
+        {!is65MountPage && !prioritizesPrimaryLookup && !prioritizesBrandComparison ? (
           <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
           <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-end">
             <div>
@@ -969,14 +995,14 @@ function CatalogEvidence({ items, page }) {
       : "Модели из проверенной базы";
 
   return (
-    <section className="mt-10" aria-labelledby="catalog-evidence-title">
+    <section className="mt-10" aria-labelledby={page.id === "diagonal-65" ? "seo-catalog-heading" : "catalog-evidence-title"}>
       <div className="flex items-center gap-3">
         {isMountList ? (
           <Wrench aria-hidden="true" className="size-8 text-action" />
         ) : (
           <CirclesThreePlus aria-hidden="true" className="size-8 text-action" />
         )}
-        <h2 className="font-display text-3xl font-bold" id="catalog-evidence-title">{title}</h2>
+        <h2 className="font-display text-3xl font-bold" id={page.id === "diagonal-65" ? "seo-catalog-heading" : "catalog-evidence-title"}>{title}</h2>
       </div>
 
       {items.values.length ? (

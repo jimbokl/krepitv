@@ -277,6 +277,47 @@ article:has(> figure[data-editorial-scene="true"]) > figure[data-editorial-scene
   line-height: 1.45;
 }
 
+.diagonal-lookup {
+  position: relative;
+  z-index: 2;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.diagonal-lookup__evidence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.diagonal-lookup__evidence strong { color: #087443; }
+.diagonal-lookup__heading {
+  margin: 0.5rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.seo-editorial-hero__intro .diagonal-lookup__hint {
+  margin-top: 0.65rem;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.diagonal-lookup__hint a {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--color-action);
+  text-underline-offset: 0.2rem;
+}
+
 .seo-visual-route {
   padding: clamp(1.5rem, 3vw, 2.5rem) 0;
   border-bottom: 2px solid var(--color-ink);

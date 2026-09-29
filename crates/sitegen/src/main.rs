@@ -5011,14 +5011,22 @@ fn seo_page_body(
     };
     let mount_funnel_next_step = seo_mount_funnel_next_step_html();
     let intro = if !editorial_photo.is_empty() {
+        let intro_action = if page.id == "diagonal-65" {
+            seo_diagonal_65_intro_action_html(models, graph)
+        } else {
+            format!(
+                "<a class=\"primary-button mt-6 inline-flex min-h-14 items-center gap-3\" href=\"{}\">{}<span aria-hidden=\"true\">↓</span></a>",
+                escape_html(visual_action.0),
+                escape_html(visual_action.1),
+            )
+        };
         format!(
-            "<header class=\"seo-editorial-hero mt-5 border-b-2 border-ink pb-7\" data-internal-visual-page=\"{}\"><div class=\"seo-editorial-hero__copy\"><div class=\"seo-editorial-hero__heading\"><p class=\"font-mono text-xs uppercase text-action\">{}</p><h1 class=\"mt-3 font-display text-[clamp(2.6rem,5vw,5.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em] [overflow-wrap:anywhere]\">{}</h1></div><div class=\"seo-editorial-hero__intro\"><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted sm:text-xl\">{}</p><a class=\"primary-button mt-6 inline-flex min-h-14 items-center gap-3\" href=\"{}\">{}<span aria-hidden=\"true\">↓</span></a></div></div>{}</header>{}",
+            "<header class=\"seo-editorial-hero mt-5 border-b-2 border-ink pb-7\" data-internal-visual-page=\"{}\"><div class=\"seo-editorial-hero__copy\"><div class=\"seo-editorial-hero__heading\"><p class=\"font-mono text-xs uppercase text-action\">{}</p><h1 class=\"mt-3 font-display text-[clamp(2.6rem,5vw,5.4rem)] font-extrabold leading-[0.92] tracking-[-0.035em] [overflow-wrap:anywhere]\">{}</h1></div><div class=\"seo-editorial-hero__intro\"><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted sm:text-xl\">{}</p>{}</div></div>{}</header>{}",
             escape_html(&page.id),
             escape_html(page_kind_label),
             escape_html(&page.h1),
             escape_html(&page.lead),
-            escape_html(visual_action.0),
-            escape_html(visual_action.1),
+            intro_action,
             editorial_photo,
             visual_steps,
         )
@@ -5043,6 +5051,22 @@ fn seo_page_body(
         answer_content = answer_content,
         mount_funnel_next_step = mount_funnel_next_step,
     ))
+}
+
+fn seo_diagonal_65_intro_action_html(models: &[TvModel], graph: &[CompatibilityEdge]) -> String {
+    let selected = models
+        .iter()
+        .filter(|tv| (tv.diagonal_inches - 65.0).abs() < 0.05 && is_indexable_model(&tv.id, graph))
+        .collect::<Vec<_>>();
+    let vesa_count = selected
+        .iter()
+        .map(|tv| (tv.vesa_width_mm, tv.vesa_height_mm))
+        .collect::<HashSet<_>>()
+        .len();
+    format!(
+        "<div class=\"diagonal-lookup\" id=\"seo-model-search\"><p class=\"diagonal-lookup__evidence\"><strong>Проверено моделей: {}</strong><span aria-hidden=\"true\">·</span><span>Схем VESA: {vesa_count}</span></p><h2 class=\"diagonal-lookup__heading\">Найдите свой телевизор</h2><a class=\"primary-button inline-flex min-h-14 items-center gap-3\" href=\"#seo-catalog-heading\">Выбрать модель из списка<span aria-hidden=\"true\">↓</span></a><p class=\"diagonal-lookup__hint\">Полный код есть на наклейке сзади. Для каждой модели покажем её VESA и подходящие крепления.</p></div>",
+        selected.len(),
+    )
 }
 
 fn seo_followup_routes_html(page_id: &str) -> &'static str {

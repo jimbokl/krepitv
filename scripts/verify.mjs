@@ -2152,6 +2152,22 @@ for (const sourceRoute of [
   }
 }
 
+const diagonal65Html = htmlByRoute.get("/kronshteyn-dlya-televizora-65-dyuyma/") ?? "";
+const diagonal65Hero = diagonal65Html.match(/<header class="seo-editorial-hero[^]*?<\/header>/u)?.[0] ?? "";
+const diagonal65Models = models.filter((model) => model.diagonal_inches === 65);
+const diagonal65VesaCount = new Set(
+  diagonal65Models.map((model) => `${model.vesa_width_mm}x${model.vesa_height_mm}`),
+).size;
+if (
+  !diagonal65Hero.includes(`Проверено моделей: ${diagonal65Models.length}`)
+  || !diagonal65Hero.includes(`Схем VESA: ${diagonal65VesaCount}`)
+  || !diagonal65Hero.includes('href="#seo-catalog-heading"')
+  || !diagonal65Html.includes('id="seo-catalog-heading"')
+  || !diagonal65Models.every((model) => diagonal65Html.includes(`/modeli/${model.id}/`))
+) {
+  throw new Error("Страница 65″ не показывает первый шаг и проверенные модели в статическом HTML");
+}
+
 const vesaLookupPage = seoPages.find((page) => page.id === "vesa");
 if (
   !vesaLookupPage
