@@ -128,16 +128,18 @@ test("interaction URL requests only controlled goal-parameter levels", () => {
   assert.equal(url.searchParams.has("filters"), false);
 });
 
-test("tool usage URL запрашивает только уровни параметров одной цели", () => {
+test("tool usage URL запрашивает параметры событий только нужной цели", () => {
   const url = buildMetrikaToolUsageUrl({
     counterId: 111176777,
     date1: "2026-07-01",
     date2: "2026-07-31",
     goalId: goalIds.tool_usage,
   });
-  assert.equal(url.searchParams.get("metrics"), "ym:s:goal105reaches");
-  assert.match(url.searchParams.get("dimensions"), /goal105paramsLevel1/u);
-  assert.doesNotMatch(url.searchParams.get("dimensions"), /goal101/u);
+  assert.equal(url.searchParams.get("preset"), "goal_params");
+  assert.equal(url.searchParams.get("metrics"), "ym:ep:eventsNumber");
+  assert.equal(url.searchParams.get("dimensions"), "ym:ep:actionGoal,ym:ep:eventParamsLevel1,ym:ep:eventParamsLevel2,ym:ep:eventParamsLevel3,ym:ep:eventParamsLevel4,ym:ep:eventParamsLevel5");
+  assert.equal(url.searchParams.get("filters"), "ym:ep:actionGoal==105");
+  assert.equal(url.searchParams.get("accuracy"), "full");
 });
 
 test("market click attribution URL uses the current event-parameter report", () => {
@@ -186,7 +188,7 @@ test("report keeps authoritative users total and strips source labels and token"
     calls.push({ url, options });
     if (
       url.searchParams.get("preset") === "goal_params"
-      && url.searchParams.get("metrics") === "ym:ep:eventsNumber"
+      && url.searchParams.get("filters") === "ym:ep:actionGoal==103"
     ) {
       return response({
         totals: [2],
@@ -242,6 +244,36 @@ test("report keeps authoritative users total and strips source labels and token"
         data_lag: 0,
       });
     }
+    if (url.searchParams.get("filters") === "ym:ep:actionGoal==105") {
+      return response({
+        totals: [4],
+        data: [
+          { dimensions: [{ id: "105" }, { name: "tool_id" }, { name: "height_calculator" }], metrics: [3] },
+          { dimensions: [{ id: "105" }, { name: "tool_id" }, { name: "unknown_user_value" }], metrics: [1] },
+        ],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
+    if (url.searchParams.get("filters") === "ym:ep:actionGoal==101") {
+      return response({
+        totals: [3],
+        data: [
+          { dimensions: [{ id: "101" }, { name: "tool_id" }, { name: "height_calculator" }], metrics: [2] },
+          { dimensions: [{ id: "101" }, { name: "tool_id" }, { name: "tv_energy_calculator" }], metrics: [1] },
+        ],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
+    if (url.searchParams.get("metrics") === "ym:s:goal105reaches") {
+      return response({ totals: [4], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+    }
+    if (url.searchParams.get("metrics") === "ym:s:goal101reaches") {
+      return response({ totals: [3], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+    }
     if (url.searchParams.get("dimensions") === "ym:s:startURLPath") {
       return response({
         totals: [7, 6, 5, 0, 1, 0],
@@ -274,30 +306,6 @@ test("report keeps authoritative users total and strips source labels and token"
         data: [
           { dimensions: [{ name: "action" }, { name: "checks_opened" }], metrics: [2] },
           { dimensions: [{ name: "action" }, { name: "print_started" }], metrics: [1] },
-        ],
-        sampled: false,
-        sample_share: 1,
-        data_lag: 0,
-      });
-    }
-    if (url.searchParams.get("dimensions")?.includes("goal105paramsLevel1")) {
-      return response({
-        totals: [4],
-        data: [
-          { dimensions: [{ name: "tool_id" }, { name: "height_calculator" }], metrics: [3] },
-          { dimensions: [{ name: "tool_id" }, { name: "unknown_user_value" }], metrics: [1] },
-        ],
-        sampled: false,
-        sample_share: 1,
-        data_lag: 0,
-      });
-    }
-    if (url.searchParams.get("dimensions")?.includes("goal101paramsLevel1")) {
-      return response({
-        totals: [3],
-        data: [
-          { dimensions: [{ name: "tool_id" }, { name: "height_calculator" }], metrics: [2] },
-          { dimensions: [{ name: "tool_id" }, { name: "tv_energy_calculator" }], metrics: [1] },
         ],
         sampled: false,
         sample_share: 1,
@@ -397,21 +405,24 @@ test("report keeps authoritative users total and strips source labels and token"
   });
   assert.deepEqual(report.tool_usage, {
     breakdown_state: "available",
-    coverage: "Только известные инструменты и обезличенные started/completed",
+    coverage: "Достижения целей и события с параметрами по всем источникам; органика и путь одного посетителя не выделяются",
     total_started_reaches: 4,
     total_completed_reaches: 3,
+    parameter_events: {
+      started: 4,
+      completed: 3,
+      comparable_to_goal_reaches: true,
+    },
     tools: [
       {
         tool_id: "height_calculator",
-        started: 3,
-        completed: 2,
-        completion_rate: 0.6667,
+        started_events: 3,
+        completed_events: 2,
       },
       {
         tool_id: "tv_energy_calculator",
-        started: 0,
-        completed: 1,
-        completion_rate: null,
+        started_events: 0,
+        completed_events: 1,
       },
     ],
   });
@@ -447,7 +458,7 @@ test("report keeps authoritative users total and strips source labels and token"
     { date: "2026-07-31", visits: 0, users: 0 },
   ]);
   assert.equal(report.daily_traffic_goal.status, "lower_bound_not_reached");
-  assert.equal(calls.length, 9);
+  assert.equal(calls.length, 11);
   assert.equal(calls.every((call) => call.options.headers.Authorization === `OAuth ${token}`), true);
   assert.equal(JSON.stringify(report).includes(token), false);
   assert.equal(JSON.stringify(report).includes("Прямые заходы"), false);
@@ -462,7 +473,7 @@ test("report keeps authoritative users total and strips source labels and token"
 
 test("report keeps aggregate funnel totals when goal parameter dimensions are unsupported", async () => {
   const fetchImpl = async (url) => {
-    if (url.searchParams.get("dimensions")?.includes("paramsLevel")) {
+    if (/paramsLevel|eventParamsLevel/u.test(url.searchParams.get("dimensions") ?? "")) {
       return response({ errors: [{ error_type: "invalid_parameter" }] }, 400);
     }
     const metrics = url.searchParams.get("metrics") ?? "";
@@ -507,11 +518,59 @@ test("report keeps aggregate funnel totals when goal parameter dimensions are un
   });
   assert.deepEqual(report.tool_usage, {
     breakdown_state: "unavailable",
-    coverage: "Агрегаты целей без разбивки по инструментам",
+    coverage: "Достижения целей по всем источникам без разбивки по инструментам",
     total_started_reaches: 3,
     total_completed_reaches: 1,
+    parameter_events: null,
     tools: null,
   });
+});
+
+test("parameter-event counts never replace or silently divide goal reaches", async () => {
+  const fetchImpl = async (url) => {
+    const filter = url.searchParams.get("filters");
+    if (filter === "ym:ep:actionGoal==105" || filter === "ym:ep:actionGoal==101") {
+      const started = filter.endsWith("105");
+      return response({
+        totals: [started ? 2 : 1],
+        data: [{
+          dimensions: [{ id: started ? "105" : "101" }, { name: "tool_id" }, { name: "height_calculator" }],
+          metrics: [started ? 2 : 1],
+        }],
+        sampled: false,
+        sample_share: 1,
+        data_lag: 0,
+      });
+    }
+    const metric = url.searchParams.get("metrics") ?? "";
+    if (metric === "ym:s:goal105reaches" || metric === "ym:s:goal101reaches") {
+      return response({ totals: [metric.includes("105") ? 1 : 0], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+    }
+    if (/paramsLevel/u.test(url.searchParams.get("dimensions") ?? "")) {
+      return response({ totals: [0], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+    }
+    return response({ totals: [0, 0, 0, 0, 0, 0], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+  };
+  const report = await fetchMetrikaFunnel({
+    counterId: 111176777,
+    date1: "2026-09-15",
+    date2: "2026-09-28",
+    fetchImpl,
+    goalIds,
+    token,
+  });
+  assert.equal(report.tool_usage.total_started_reaches, 1);
+  assert.equal(report.tool_usage.total_completed_reaches, 0);
+  assert.deepEqual(report.tool_usage.parameter_events, {
+    started: 2,
+    completed: 1,
+    comparable_to_goal_reaches: false,
+  });
+  assert.deepEqual(report.tool_usage.tools, [{
+    tool_id: "height_calculator",
+    started_events: 2,
+    completed_events: 1,
+  }]);
 });
 
 test("report serializes API requests so one run cannot exhaust the account parallel quota", async () => {
@@ -528,7 +587,10 @@ test("report serializes API requests so one run cannot exhaust the account paral
       return response({ errors: [{ error_type: "quota_parallel_requests_by_uid" }] }, 429);
     }
     const dimensions = url.searchParams.get("dimensions") ?? "";
-    if (dimensions.includes("paramsLevel")) {
+    if (/^ym:s:goal\d+reaches$/u.test(url.searchParams.get("metrics") ?? "")) {
+      return response({ totals: [0], data: [], sampled: false, sample_share: 1, data_lag: 0 });
+    }
+    if (/paramsLevel|eventParamsLevel/u.test(dimensions)) {
       return response({
         totals: [0],
         data: [],

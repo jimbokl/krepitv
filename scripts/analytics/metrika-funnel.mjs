@@ -164,21 +164,22 @@ export function buildMetrikaToolUsageUrl({ counterId, date1, date2, goalId }) {
   if (!/^\d+$/.test(String(goalId ?? ""))) {
     throw new Error("goalId must be numeric");
   }
-  const metric = `ym:s:goal${goalId}reaches`;
+  const metric = "ym:ep:eventsNumber";
   const url = new URL(DATA_ENDPOINT);
   url.searchParams.set("ids", String(counterId));
   url.searchParams.set("date1", date1);
   url.searchParams.set("date2", date2);
   url.searchParams.set("accuracy", "full");
   url.searchParams.set("limit", "1000");
+  url.searchParams.set("preset", "goal_params");
   url.searchParams.set(
     "dimensions",
-    [1, 2, 3, 4, 5]
-      .map((level) => `ym:s:goal${goalId}paramsLevel${level}`)
-      .join(","),
+    ["ym:ep:actionGoal", ...[1, 2, 3, 4, 5]
+      .map((level) => `ym:ep:eventParamsLevel${level}`)].join(","),
   );
   url.searchParams.set("metrics", metric);
   url.searchParams.set("sort", `-${metric}`);
+  url.searchParams.set("filters", `ym:ep:actionGoal==${goalId}`);
   return url;
 }
 
@@ -365,7 +366,10 @@ function goalParameterTotals(payload) {
     throw new Error("Metrika tool usage response has invalid totals");
   }
   if (payload.breakdown_state === "unavailable") {
-    return { byTool: null, total: payload.totals[0], breakdownState: "unavailable" };
+    return { byTool: null, goalReaches: payload.totals[0], parameterEvents: null, breakdownState: "unavailable" };
+  }
+  if (!Number.isFinite(payload.goal_reaches) || payload.goal_reaches < 0) {
+    throw new Error("Metrika tool usage response has invalid goal reaches");
   }
   const byTool = new Map();
   const known = new Set(KNOWN_TOOL_IDS);
@@ -386,7 +390,12 @@ function goalParameterTotals(payload) {
       byTool.set(toolId, (byTool.get(toolId) ?? 0) + row.metrics[0]);
     }
   }
-  return { byTool, total: payload.totals[0], breakdownState: "available" };
+  return {
+    byTool,
+    goalReaches: payload.goal_reaches,
+    parameterEvents: payload.totals[0],
+    breakdownState: "available",
+  };
 }
 
 function toolUsageTotals(startedPayload, completedPayload) {
@@ -395,33 +404,38 @@ function toolUsageTotals(startedPayload, completedPayload) {
   if (started.breakdownState === "unavailable" || completed.breakdownState === "unavailable") {
     return {
       breakdown_state: "unavailable",
-      coverage: "Агрегаты целей без разбивки по инструментам",
-      total_started_reaches: started.total,
-      total_completed_reaches: completed.total,
+      coverage: "Достижения целей по всем источникам без разбивки по инструментам",
+      total_started_reaches: started.goalReaches,
+      total_completed_reaches: completed.goalReaches,
+      parameter_events: null,
       tools: null,
     };
   }
+  const comparable = started.goalReaches === started.parameterEvents
+    && completed.goalReaches === completed.parameterEvents;
   const toolIds = new Set([...started.byTool.keys(), ...completed.byTool.keys()]);
   const tools = [...toolIds].map((toolId) => {
     const startedCount = started.byTool.get(toolId) ?? 0;
     const completedCount = completed.byTool.get(toolId) ?? 0;
     return {
       tool_id: toolId,
-      started: startedCount,
-      completed: completedCount,
-      completion_rate: startedCount > 0
-        ? Math.round((completedCount / startedCount) * 10_000) / 10_000
-        : null,
+      started_events: startedCount,
+      completed_events: completedCount,
     };
   }).sort((left, right) =>
-    right.started - left.started ||
-    right.completed - left.completed ||
+    right.started_events - left.started_events ||
+    right.completed_events - left.completed_events ||
     left.tool_id.localeCompare(right.tool_id));
   return {
     breakdown_state: "available",
-    coverage: "Только известные инструменты и обезличенные started/completed",
-    total_started_reaches: started.total,
-    total_completed_reaches: completed.total,
+    coverage: "Достижения целей и события с параметрами по всем источникам; органика и путь одного посетителя не выделяются",
+    total_started_reaches: started.goalReaches,
+    total_completed_reaches: completed.goalReaches,
+    parameter_events: {
+      started: started.parameterEvents,
+      completed: completed.parameterEvents,
+      comparable_to_goal_reaches: comparable,
+    },
     tools,
   };
 }
@@ -789,7 +803,12 @@ export async function fetchMetrikaFunnel({
     if (!response.ok) {
       throw new Error(`Metrika tool usage GET failed: HTTP ${response.status}, ${safeApiError(payload)}`);
     }
-    return { ...payload, breakdown_state: "available" };
+    const goal = await loadGoalTotal(goalId);
+    return {
+      ...payload,
+      breakdown_state: "available",
+      goal_reaches: goal.totals?.[0],
+    };
   }
 
   async function loadMarketClickAttribution() {
