@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { INTENT_TOOL_IDS } from "../src/lib/intentTools.mjs";
+import { KNOWN_TOOL_IDS, toolUsageDetail } from "../src/lib/toolUsage.mjs";
+import { resultCompletedDetail } from "../src/lib/resultCompleted.mjs";
 
 const root = new URL("../../", import.meta.url);
 const pages = JSON.parse(await readFile(new URL("data/seo_pages.json", root), "utf8"));
@@ -33,6 +35,8 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   assert.ok(INTENT_TOOL_IDS.every((id) => (
     id === "tv-disable-subtitles"
       ? page(id)?.updated_at === "2026-09-23"
+      : ["tv-freezes", "tv-purchase-checklist"].includes(id)
+        ? page(id)?.updated_at === "2026-09-29"
       : updatedIds.has(id)
   )));
   assert.ok([...tvIntentCohortIds].every((id) => updatedIds.has(id)));
@@ -40,6 +44,7 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   const updateDates = {
     "tv-disable-subtitles": "2026-09-23",
     "tv-energy-consumption": "2026-09-22",
+    "tv-freezes": "2026-09-29",
   };
   assert.ok([...targetIds].every((id) => page(id)?.updated_at === (updateDates[id] || "2026-09-18")));
   assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-09-23");
@@ -95,13 +100,13 @@ test("storage cleanup answers the measured intent with platform-specific safe ro
 test("frozen TV page answers the no-response intent before destructive recovery", () => {
   const candidate = page("tv-freezes");
 
-  assert.match(candidate.title, /^Телевизор завис и не реагирует: что делать/u);
+  assert.match(candidate.title, /^Что делать, если телевизор завис и не реагирует на пульт/u);
   assert.match(candidate.description, /не реагирует/u);
-  assert.match(candidate.description, /Samsung, LG, Google TV и YaOS/u);
+  assert.match(candidate.description, /обновление/u);
   assert.match(candidate.h1, /завис и не реагирует/u);
   assert.match(candidate.lead, /сначала убедитесь, что на экране не идёт обновление/u);
   assert.match(candidate.lead, /Заводской сброс — не первый шаг/u);
-  assert.equal(candidate.updated_at, "2026-09-18");
+  assert.equal(candidate.updated_at, "2026-09-29");
   assert.equal(candidate.guide.updated_at, "2026-08-06");
   assert.deepEqual(
     candidate.guide.steps.map(({ label }) => label),
@@ -131,4 +136,19 @@ test("VESA table promises exact model lookup and source-backed download", () => 
 test("post-result CTA names the model-first selection job", () => {
   assert.match(source, /Проверьте точную модель и получите совместимые кронштейны/u);
   assert.match(source, /Начать подбор по модели/u);
+});
+
+test("purchase checklist has a measured, private completion path", () => {
+  const candidate = page("tv-purchase-checklist");
+  assert.match(candidate.title, /чек-лист из 6 шагов/u);
+  assert.equal(candidate.updated_at, "2026-09-29");
+  assert.ok(KNOWN_TOOL_IDS.includes("tv_purchase_checklist"));
+  assert.deepEqual(toolUsageDetail({ action: "started", toolId: "tv_purchase_checklist" }, candidate.path), {
+    action: "started", toolId: "tv_purchase_checklist", sourcePath: candidate.path,
+  });
+  assert.deepEqual(resultCompletedDetail({
+    toolId: "tv_purchase_checklist", resultType: "issue_recorded", serialNumber: "private",
+  }, candidate.path), {
+    toolId: "tv_purchase_checklist", resultType: "issue_recorded", sourcePath: candidate.path,
+  });
 });

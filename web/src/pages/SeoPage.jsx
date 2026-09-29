@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   CheckCircle,
@@ -58,6 +58,9 @@ import {
   selectSeoHubAffiliateOffers,
 } from "../lib/seoCatalogItems.mjs";
 import { getRelatedPages, isIndexableSeoPage } from "../lib/seoPages.mjs";
+
+const TvPurchaseChecklist = lazy(() => import("../components/TvPurchaseChecklist.jsx")
+  .then((module) => ({ default: module.TvPurchaseChecklist })));
 
 const kindLabels = {
   guide: "Практическое руководство",
@@ -515,6 +518,11 @@ function SeoArticle({ catalog, page }) {
           </>
         ) : null}
         {prioritizesTvEnergy ? <TvEnergyCalculator /> : null}
+        {page.id === "tv-purchase-checklist" ? (
+          <Suspense fallback={<p className="my-8 text-sm text-muted">Загружаем чек-лист проверки телевизора…</p>}>
+            <TvPurchaseChecklist />
+          </Suspense>
+        ) : null}
         {prioritizesEvidenceGuide ? <SeoEvidenceGuide guide={page.guide} pageId={page.id} /> : null}
         {["adj-vysota-televizora-nad-tumboy", "adj-vysota-televizora-v-spalne", "adj-vysota-televizora-na-kuhne"].includes(page.id) ? <HeightCalculator initiallyBlank /> : null}
         {prioritizesTvDimensions ? (

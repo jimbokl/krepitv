@@ -31,6 +31,7 @@ export const KNOWN_TOOL_IDS = Object.freeze([
   "tv_no_internet",
   "tv_no_signal",
   "tv_picture_without_sound",
+  "tv_purchase_checklist",
   "tv_remote_control",
   "tv_speakers",
   "tv_sound_without_picture",

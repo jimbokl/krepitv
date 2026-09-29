@@ -11,9 +11,9 @@ When implementing from a selected generated mock, treat that image as the source
 - The public product is Russian-only. English UI copy, placeholders, errors,
   navigation, metadata, and accessibility labels are forbidden. Official model
   identifiers and standards such as VESA, HDMI and USB remain unchanged.
-- Use `/Users/dmitrij/Documents/krepitv/DESIGN.md` as the binding token and
+- Use `../DESIGN.md` (relative to this file) as the binding token and
   rationale contract.
-- Use `product-docs/design-references/01-homepage.png` for the home page,
+- Use `../product-docs/design-references/01-homepage.png` for the home page,
   `02-guided-selection.png` for the guided matcher, and `03-model-page.png` for
   an exact model page.
 - Use Tailwind CSS. Domain calculations and mount compatibility must come from
