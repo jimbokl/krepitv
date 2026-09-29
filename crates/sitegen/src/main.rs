@@ -559,16 +559,22 @@ struct AdjacentTool {
     faq: Vec<(String, String)>,
     steps: Vec<SeoEvidenceStep>,
     stop: String,
+    #[serde(default)]
+    sources: Vec<SeoEvidenceSource>,
+    guide_heading: Option<String>,
+    guide_summary: Option<String>,
+    updated_at: Option<String>,
 }
 
 fn adjacent_tool_pages(
     tools: Vec<AdjacentTool>,
     sources: &BTreeMap<String, Vec<SeoEvidenceSource>>,
+    expected_count: usize,
 ) -> Vec<SeoPage> {
     assert_eq!(
         tools.len(),
-        100,
-        "Реестр смежных инструментов должен содержать ровно 100 страниц"
+        expected_count,
+        "Неожиданное число страниц в реестре смежных инструментов"
     );
     let mut queries = HashSet::new();
     tools.into_iter().map(|tool| {
@@ -583,14 +589,24 @@ fn adjacent_tool_pages(
         assert_eq!(tool.steps.len(), 3, "{}: нужны три независимых результата", tool.id);
         assert!(tool.facts.len() >= 3 && !tool.faq.is_empty(), "{}: не хватает самостоятельного текста", tool.id);
         assert!(tool.lead.chars().count() >= 90, "{}: вводный ответ слишком краткий", tool.id);
-        let source_list = sources.get(&tool.section)
-            .unwrap_or_else(|| panic!("{}: неизвестный раздел {}", tool.id, tool.section));
+        if expected_count == 20 {
+            assert!(tool.facts.len() >= 4 && tool.faq.len() >= 2, "{}: новая страница недостаточно полна", tool.id);
+            assert!(tool.guide_heading.is_some() && tool.guide_summary.is_some(), "{}: нужна самостоятельная постановка задачи", tool.id);
+        }
+        let source_list = if tool.sources.is_empty() {
+            sources.get(&tool.section)
+                .unwrap_or_else(|| panic!("{}: неизвестный раздел {}", tool.id, tool.section))
+                .clone()
+        } else {
+            tool.sources.clone()
+        };
         assert!(source_list.len() >= 2, "{}: нужны два первичных источника", tool.id);
+        let updated_at = tool.updated_at.unwrap_or_else(|| "2026-09-24".to_string());
         SeoPage {
             id: tool.id,
             section: Some(tool.section),
             home_priority: None,
-            updated_at: Some("2026-09-24".to_string()),
+            updated_at: Some(updated_at.clone()),
             path: tool.path,
             kind: "calculator".to_string(),
             indexable: true,
@@ -602,12 +618,12 @@ fn adjacent_tool_pages(
             faq: tool.faq,
             guide: Some(SeoEvidenceGuide {
                 kicker: "Проверка без регистрации".to_string(),
-                heading: "Выберите свою ситуацию".to_string(),
-                summary: "Отметьте наблюдаемый признак. Помощник покажет следующий безопасный шаг и границу, за которой нужна инструкция именно вашей модели.".to_string(),
-                updated_at: "2026-09-24".to_string(),
+                heading: tool.guide_heading.unwrap_or_else(|| "Выберите свою ситуацию".to_string()),
+                summary: tool.guide_summary.unwrap_or_else(|| "Отметьте наблюдаемый признак. Помощник покажет следующий безопасный шаг и границу, за которой нужна инструкция именно вашей модели.".to_string()),
+                updated_at,
                 steps: tool.steps,
                 stop: tool.stop,
-                sources: source_list.clone(),
+                sources: source_list,
             }),
         }
     }).collect()
@@ -656,6 +672,14 @@ fn adjacent_tool_svg(tool: &AdjacentTool) -> String {
         "Беспроводное подключение" => (
             "#43a7a4",
             "<path d='M133 310q86-92 174 0m-141 24q54-59 108 0' fill='none' stroke='#43a7a4' stroke-width='13' stroke-linecap='round'/><circle cx='220' cy='361' r='13' fill='#181818'/>",
+        ),
+        "Монтаж и размещение" => (
+            "#d3754e",
+            "<path d='M105 277h230v123H105z' fill='#ece0d5' stroke='#181818' stroke-width='7'/><path d='M150 337h140m-70-60v120' stroke='#d3754e' stroke-width='8'/>",
+        ),
+        "Настройки и проверка ТВ" => (
+            "#558e8a",
+            "<rect x='112' y='260' width='216' height='140' rx='16' fill='#dfecea' stroke='#181818' stroke-width='7'/><path d='M155 304h127m-127 34h91' stroke='#558e8a' stroke-width='9' stroke-linecap='round'/>",
         ),
         _ => panic!("Неизвестная категория схемы: {}", tool.section),
     };
@@ -6326,15 +6350,17 @@ fn main() {
     let mounts: Vec<Mount> = read_json(&data.join("mounts.json"));
     let mut seo_pages: Vec<SeoPage> = read_json(&data.join("seo_pages.json"));
     let adjacent_tools: Vec<AdjacentTool> = read_json(&data.join("adjacent_tools.json"));
+    let sprint_tools: Vec<AdjacentTool> = read_json(&data.join("seo_sprint_20260929_tools.json"));
     let adjacent_sources: BTreeMap<String, Vec<SeoEvidenceSource>> =
         read_json(&data.join("adjacent_tool_sources.json"));
-    for tool in &adjacent_tools {
+    for tool in adjacent_tools.iter().chain(sprint_tools.iter()) {
         write(
             &web.join(format!("public/assets/adjacent/{}.svg", tool.id)),
             &adjacent_tool_svg(tool),
         );
     }
-    seo_pages.extend(adjacent_tool_pages(adjacent_tools, &adjacent_sources));
+    seo_pages.extend(adjacent_tool_pages(adjacent_tools, &adjacent_sources, 100));
+    seo_pages.extend(adjacent_tool_pages(sprint_tools, &adjacent_sources, 20));
     let trust_pages: Vec<TrustPage> = read_json(&data.join("trust_pages.json"));
     let editorial_policy: EditorialPolicy = read_json(&data.join("editorial_policy.json"));
     let commercial_profiles: CommercialProfilesFile =

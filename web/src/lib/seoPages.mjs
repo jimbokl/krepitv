@@ -38,6 +38,41 @@ export function getHomeDiagnosticPages(pages) {
 }
 
 export function getRelatedPages(page, pages, limit = 6) {
+  if (page.section === "Монтаж и размещение" || page.section === "Настройки и проверка ТВ") {
+    const wallMaterials = [
+      "adj-televizor-na-stenu-s-plitkoy", "adj-televizor-na-kirpichnuyu-stenu",
+      "adj-televizor-na-pazogrebnevuyu-plitu", "adj-televizor-na-vagonku",
+    ];
+    const compatibility = [
+      "adj-kreplenie-televizora-s-utoplennymi-vesa-otverstiyami",
+      "adj-kronshteyn-dlya-oled-televizora", "adj-kronshteyn-dlya-televizora-100-dyuyma",
+      "adj-vesa-400x200-kronshteyn", "adj-vesa-600x300-kronshteyn",
+    ];
+    const clearance = [
+      "adj-rozetka-meshaet-kronshteynu-televizora", "adj-kronshteyn-dlya-televizora-v-nishe",
+      "adj-povorot-televizora-na-90-gradusov",
+    ];
+    const heights = [
+      "adj-razmetka-vysoty-kronshteyna-dlya-televizora",
+      "adj-vysota-televizora-nad-tumboy", "adj-vysota-televizora-v-spalne",
+      "adj-vysota-televizora-na-kuhne",
+    ];
+    const settingsHub = {
+      "adj-kak-otklyuchit-taymer-na-televizore": "tv-turns-off",
+      "adj-kak-udalit-prilozhenie-s-televizora": "tv-storage-cleanup",
+      "adj-kak-uznat-narabotku-televizora": "tv-purchase-checklist",
+      "adj-televizor-ne-vidit-wifi-set": "tv-no-internet",
+    };
+    const group = wallMaterials.includes(page.id) ? [...wallMaterials, "wall-material-check"]
+      : compatibility.includes(page.id) ? [...compatibility, "vesa", "wall-mounted-tv"]
+      : clearance.includes(page.id) ? [...clearance, "wall-mounted-tv", "full-motion-mount"]
+      : heights.includes(page.id) ? [...heights, "mounting-height", "mounting-map"]
+      : ["adj-kak-otklyuchit-taymer-na-televizore", "adj-kak-udalit-prilozhenie-s-televizora",
+        "adj-kak-uznat-narabotku-televizora", "adj-televizor-ne-vidit-wifi-set", settingsHub[page.id]];
+    return group.filter((id) => id && id !== page.id)
+      .map((id) => pages.find((item) => item.id === id && isIndexableSeoPage(item)))
+      .filter(Boolean).slice(0, limit);
+  }
   if (page.section) {
     const hubId = {
       "Питание и розетки": "tv-zone-sockets",

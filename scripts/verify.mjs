@@ -506,6 +506,7 @@ const modelSearch = JSON.parse(
 );
 const expectedIndexableUrlCount = baselineIndexableUrlCount
   + 100 // Смежные самостоятельные инструменты по ТВ.
+  + 20 // Спринт практических страниц 29.09.
   + tvIntentIndexableUrlCount
   + connectionGuideIds.length
   + seoSprintGuideIds.length
@@ -1865,6 +1866,22 @@ for (const page of seoPages) {
 }
 
 const dailyEvidenceGuidePages = seoPages.filter((page) => page.guide);
+const sprintTools20260929 = JSON.parse(await readFile(path.join(root, "data/seo_sprint_20260929_tools.json"), "utf8"));
+if (sprintTools20260929.length !== 20 || new Set(sprintTools20260929.map((tool) => tool.path)).size !== 20) {
+  throw new Error("Спринт 29.09 должен содержать 20 разных маршрутов");
+}
+for (const tool of sprintTools20260929) {
+  const page = dailyEvidenceGuidePages.find((item) => item.id === tool.id);
+  const html = htmlByRoute.get(tool.path) ?? "";
+  if (
+    !page?.indexable || page.path !== tool.path || page.guide.updated_at !== "2026-09-29"
+    || page.facts.length < 4 || page.faq.length < 2 || page.guide.sources.length < 2
+    || !html.includes(page.guide.heading) || !html.includes(page.guide.summary)
+    || !html.includes('data-evidence-guide-table="true"')
+  ) {
+    throw new Error(`Спринт 29.09: недостаточно самостоятельная страница ${tool.path}`);
+  }
+}
 const expectedDailyGuideCount = dailySeoCohorts.reduce((total, cohort) => total + cohort.pages.length, 0);
 const tvIntentGuideIds = [
   "tv-teletext-captions", "youtube-tv-subtitles", "tv-audio-track-language",
@@ -1875,6 +1892,7 @@ const tvIntentGuideIds = [
 ];
 const expectedGuideCount = expectedDailyGuideCount
   + 100 // Смежные интенты по ТВ.
+  + 20 // Спринт практических страниц 29.09.
   + tvIntentGuideIds.length
   + connectionGuideIds.length
   + seoSprintGuideIds.length

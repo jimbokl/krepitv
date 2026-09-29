@@ -8,18 +8,18 @@ import { formatFieldLabel } from "../lib/fieldLabel.mjs";
 import { emitResultCompleted } from "../lib/resultCompleted.mjs";
 import { selectionStartHandlers } from "../lib/selectionStart.mjs";
 
-export function HeightCalculator({ model = null }) {
+export function HeightCalculator({ model = null, initiallyBlank = false }) {
   const selectionHandlers = selectionStartHandlers(globalThis.window, "seo_next_step");
   const mountSelectionHref = model?.id
     ? `/podbor/?model=${encodeURIComponent(model.id)}`
     : "/podbor/";
   const [values, setValues] = useState({
-    diagonal: String(model?.diagonal_inches ?? 55),
-    eyeHeight: "110",
-    viewingDistance: "250",
+    diagonal: model ? String(model.diagonal_inches) : initiallyBlank ? "" : "55",
+    eyeHeight: initiallyBlank ? "" : "110",
+    viewingDistance: initiallyBlank ? "" : "250",
     viewingAngle: "0",
-    furnitureHeight: "70",
-    clearance: "10",
+    furnitureHeight: initiallyBlank ? "" : "70",
+    clearance: initiallyBlank ? "" : "10",
   });
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("idle");

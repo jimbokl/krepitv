@@ -514,6 +514,7 @@ function SeoArticle({ catalog, page }) {
         ) : null}
         {prioritizesTvEnergy ? <TvEnergyCalculator /> : null}
         {prioritizesEvidenceGuide ? <SeoEvidenceGuide guide={page.guide} pageId={page.id} /> : null}
+        {["adj-vysota-televizora-nad-tumboy", "adj-vysota-televizora-v-spalne", "adj-vysota-televizora-na-kuhne"].includes(page.id) ? <HeightCalculator initiallyBlank /> : null}
         {prioritizesTvDimensions ? (
           <>
             <TvDimensionsCalculator models={catalog.models} search={catalog.search} />
