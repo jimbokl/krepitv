@@ -90,6 +90,23 @@ test("React-каталог держит модели под брендами и 
       "verified-passport",
     );
     assert.equal(classifyScrewLookupSelection(allModels, null).status, "unknown");
+
+    const publishedModels = JSON.parse(await readFile(
+      new URL("../../data/tv_models.json", import.meta.url),
+      "utf8",
+    ));
+    const dataset = JSON.parse(await readFile(
+      new URL("../../datasets/ru-tv-vesa-screws/v1/tv-vesa-screws.json", import.meta.url),
+      "utf8",
+    ));
+    const publishedHtml = renderToStaticMarkup(
+      React.createElement(TvMountScrewCatalog, { models: publishedModels, search: [] }),
+    );
+    const releaseBase = `https://github.com/jimbokl/krepitv/releases/download/datasets-v${dataset.dataset_version}`;
+    assert.ok(publishedHtml.includes(`версия ${dataset.dataset_version}`));
+    assert.ok(publishedHtml.includes(`${releaseBase}/tv-vesa-screws.csv`));
+    assert.ok(publishedHtml.includes(`${releaseBase}/tv-vesa-screws.json`));
+    assert.ok(publishedHtml.includes(`В файлах ${dataset.models_count} точных моделей`));
   } finally {
     await vite.close();
   }

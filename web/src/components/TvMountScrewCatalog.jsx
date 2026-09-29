@@ -13,6 +13,9 @@ import { ModelSearch } from "./ModelSearch.jsx";
 import { formatCheckedDate } from "./TrustMark.jsx";
 import { screwMeasurement, WallMountScrews } from "./WallMountScrews.jsx";
 
+const screwDatasetVersion = "1.1.0";
+const screwDatasetDownloadBase = `https://github.com/jimbokl/krepitv/releases/download/datasets-v${screwDatasetVersion}`;
+
 function screwSummary(hardware) {
   return hardware.groups
     .map((group) => {
@@ -194,10 +197,10 @@ export function TvMountScrewCatalog({ models, search }) {
 
       <p className="mt-5 text-sm leading-relaxed text-muted">
         Открытый датасет «Винты VESA для популярных в России моделей телевизоров»,
-        версия 1.0.0: {" "}
+        версия {screwDatasetVersion}: {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
-          href="https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.csv"
+          href={`${screwDatasetDownloadBase}/tv-vesa-screws.csv`}
           rel="noreferrer"
           target="_blank"
         >
@@ -206,12 +209,12 @@ export function TvMountScrewCatalog({ models, search }) {
         или {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
-          href="https://github.com/jimbokl/krepitv/releases/download/datasets-v1.0.0/tv-vesa-screws.json"
+          href={`${screwDatasetDownloadBase}/tv-vesa-screws.json`}
           rel="noreferrer"
           target="_blank"
         >
           JSON
-        </a>. В файлах 26 точных моделей, паспортные размеры и официальные
+        </a>. В файлах {eligibleModels.length} точных моделей, паспортные размеры и официальные
         источники; {" "}
         <a
           className="font-semibold text-technical underline underline-offset-4"
