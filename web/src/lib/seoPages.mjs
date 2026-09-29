@@ -37,6 +37,20 @@ export function getHomeDiagnosticPages(pages) {
   });
 }
 
+function relatedTitleTerms(title) {
+  return new Set((title.toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [])
+    .filter((word) => word.length >= 4
+      && !word.startsWith("телевизор")
+      && !["через", "после", "перед", "нужно", "можно", "почему", "какой", "какая", "когда"].includes(word))
+    .map((word) => Array.from(word).slice(0, 6).join("")));
+}
+
+function wirelessTopicGroup(pageId) {
+  if (["adj-tv-screen-mirroring-ili-cast", "adj-iphone-na-televizor-airplay-ne-vidit", "adj-android-na-televizor-ne-transliruet"].includes(pageId)) return 0;
+  if (["adj-tv-bluetooth-naushniki-zaderzhka", "adj-tv-bluetooth-kolonka-kak-podklyuchit"].includes(pageId)) return 1;
+  return 2;
+}
+
 export function getRelatedPages(page, pages, limit = 6) {
   if (page.section === "Монтаж и размещение" || page.section === "Настройки и проверка ТВ") {
     const wallMaterials = [
@@ -82,11 +96,21 @@ export function getRelatedPages(page, pages, limit = 6) {
       "Приставки и приложения": "smart-tv-box",
       "Пульты": "universal-remote",
       "HDMI и кабели": "hdmi-cable-checker",
-      "Беспроводное подключение": "tv-bluetooth-setup",
+      "Беспроводное подключение": ["phone-to-tv", "tv-bluetooth-setup", "tv-no-internet"][wirelessTopicGroup(page.id)],
     }[page.section];
-    const sameSection = pages.filter((item) => item.id !== page.id && item.section === page.section && isIndexableSeoPage(item)).slice(0, Math.max(0, limit - 1));
+    const sameSection = pages.filter((item) => item.id !== page.id
+      && item.section === page.section
+      && isIndexableSeoPage(item)
+      && (page.section !== "Беспроводное подключение" || wirelessTopicGroup(item.id) === wirelessTopicGroup(page.id)));
+    if (["Саундбары и звук", "Беспроводное подключение", "HDMI и кабели"].includes(page.section)) {
+      const terms = relatedTitleTerms(page.h1);
+      const score = (item) => [...relatedTitleTerms(item.h1)].filter((term) => terms.has(term)).length;
+      sameSection.sort((left, right) => score(right) - score(left));
+    }
     const hub = pages.find((item) => item.id === hubId && isIndexableSeoPage(item));
-    return hub ? [...sameSection, hub] : sameSection;
+    const related = sameSection.slice(0, Math.max(0, limit - (hub ? 1 : 0)));
+    return hub && hub.id !== page.id && !related.some((item) => item.id === hub.id)
+      ? [...related, hub] : related;
   }
   const preferred = preferredRelatedIds(page.id);
   return pages

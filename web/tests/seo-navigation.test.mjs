@@ -75,3 +75,36 @@ test("каждое доказательное руководство имеет 
     }
   }
 });
+
+test("справочник и страницы подключения ведут по симптомам на существующие каноникалы", async () => {
+  const guide = await readFile(artifactFile("/spravochnik/"), "utf8");
+  assert.match(guide, /data-guide-start-routes="true"/u);
+  for (const pathname of [
+    "/kak-povesit-televizor-na-stenu/",
+    "/kak-podklyuchit-saundbar-k-televizoru/",
+    "/kak-podklyuchit-telefon-k-televizoru/",
+    "/televizor-pishet-net-signala/",
+  ]) {
+    assert.match(guide, new RegExp(`href="${pathname}"`, "u"));
+    assert.equal(existsSync(artifactFile(pathname)), true, pathname);
+  }
+  for (const [source, targets] of [
+    ["/kak-podklyuchit-saundbar-k-televizoru/", [
+      "/net-zvuka-cherez-hdmi-arc/",
+      "/otstaet-zvuk-ot-video-na-televizore/",
+      "/hdmi-cec-na-televizore/",
+    ]],
+    ["/kak-podklyuchit-telefon-k-televizoru/", [
+      "/iphone-na-televizor-airplay-ne-vidit/",
+      "/android-na-televizor-ne-transliruet/",
+      "/televizor-ne-podklyuchaetsya-k-internetu/",
+    ]],
+  ]) {
+    const html = await readFile(artifactFile(source), "utf8");
+    assert.match(html, /data-followup-routes=/u, source);
+    for (const target of targets) {
+      assert.match(html, new RegExp(`href="${target}"`, "u"), `${source} → ${target}`);
+      assert.equal(existsSync(artifactFile(target)), true, target);
+    }
+  }
+});

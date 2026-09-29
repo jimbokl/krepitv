@@ -498,6 +498,7 @@ function SeoArticle({ catalog, page }) {
           <>
             <PhoneTvConnectionWizard />
             <PhoneTvConnectionReference />
+            <SeoFollowupRoutes pageId={page.id} />
           </>
         ) : null}
         {prioritizesTvNoSignal ? (
@@ -510,6 +511,7 @@ function SeoArticle({ catalog, page }) {
           <>
             <TvTrafficTaskWizard task={tvTrafficTask} />
             <TvTrafficTaskReference task={tvTrafficTask} />
+            <SeoFollowupRoutes pageId={page.id} />
           </>
         ) : null}
         {prioritizesTvEnergy ? <TvEnergyCalculator /> : null}
@@ -688,7 +690,7 @@ function SeoArticle({ catalog, page }) {
             {relatedPages.map((item) => (
               <a className="group flex min-h-32 flex-col justify-between bg-paper p-5 transition hover:bg-white" href={item.path} key={item.id}>
                 <span className="font-mono text-[0.68rem] uppercase text-muted">
-                  {kindLabels[item.kind] ?? "Справочник"}
+                  {item.section ?? kindLabels[item.kind] ?? "Справочник"}
                 </span>
                 <span className="mt-4 flex items-end justify-between gap-4 font-display text-xl font-bold leading-tight group-hover:text-action">
                   {shortTitle(item)} <ArrowRight aria-hidden="true" className="size-5 shrink-0" />
@@ -700,6 +702,43 @@ function SeoArticle({ catalog, page }) {
       </div>
     </main>
   );
+}
+
+function SeoFollowupRoutes({ pageId }) {
+  const routeGroups = {
+    "soundbar-to-tv": {
+      label: "Что делать после подключения саундбара",
+      title: "Если звук всё ещё не работает",
+      intro: "Выберите именно свой симптом. ARC, задержка звука и управление одним пультом требуют разных проверок.",
+      routes: [
+        { title: "Через ARC нет звука", detail: "Проверьте нужные HDMI-разъёмы, выход звука и настройки CEC.", href: "/net-zvuka-cherez-hdmi-arc/" },
+        { title: "Звук отстаёт от видео", detail: "Найдите, где появляется задержка: в телевизоре, источнике или саундбаре.", href: "/otstaet-zvuk-ot-video-na-televizore/" },
+        { title: "Не работает один пульт", detail: "Сверьте поддержку и настройки HDMI-CEC на обоих устройствах.", href: "/hdmi-cec-na-televizore/" },
+      ],
+    },
+    "phone-to-tv": {
+      label: "Что делать, если трансляция с телефона не работает",
+      title: "Если телефон не видит телевизор",
+      intro: "Не ищите универсальную кнопку: дальнейшая проверка зависит от телефона и способа передачи.",
+      routes: [
+        { title: "iPhone не видит ТВ", detail: "Проверьте поддержку AirPlay, сеть и доступность приёмника.", href: "/iphone-na-televizor-airplay-ne-vidit/" },
+        { title: "Android не транслирует", detail: "Разделите Cast, дублирование экрана и кабель — у них разные условия.", href: "/android-na-televizor-ne-transliruet/" },
+        { title: "ТВ теряет сеть", detail: "Сначала восстановите соединение, затем повторите трансляцию.", href: "/televizor-ne-podklyuchaetsya-k-internetu/" },
+      ],
+    },
+  };
+  const group = routeGroups[pageId];
+  if (!group) return null;
+  return <nav aria-label={group.label} className="border-y-2 border-ink py-7" data-followup-routes={pageId}>
+    <h2 className="font-display text-3xl font-extrabold">{group.title}</h2>
+    <p className="mt-2 max-w-3xl leading-relaxed text-muted">{group.intro}</p>
+    <div className="mt-5 grid gap-3 sm:grid-cols-3">
+      {group.routes.map((route) => <a className="border-2 border-ink bg-white p-5 transition hover:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href={route.href} key={route.href}>
+        <strong className="block font-display text-xl">{route.title}</strong>
+        <span className="mt-2 block text-sm leading-relaxed text-muted">{route.detail}</span>
+      </a>)}
+    </div>
+  </nav>;
 }
 
 function SeoEvidenceGuide({ guide, pageId }) {

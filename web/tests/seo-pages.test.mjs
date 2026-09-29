@@ -104,6 +104,33 @@ test("traffic utilities link to each other without creating diagnostic variants"
   );
 });
 
+test("смежные страницы о звуке ссылаются на конкретную проблему раньше общего хаба", () => {
+  const pages = [
+    { id: "soundbar-to-tv", h1: "Как подключить саундбар к телевизору", section: null, indexable: true },
+    { id: "soundbar-optical", h1: "Саундбар через оптический кабель", section: "Саундбары и звук", indexable: true },
+    { id: "soundbar-arc", h1: "Саундбар через HDMI ARC", section: "Саундбары и звук", indexable: true },
+    { id: "soundbar-no-sound", h1: "Нет звука через саундбар", section: "Саундбары и звук", indexable: true },
+    { id: "soundbar-bluetooth", h1: "Саундбар через Bluetooth", section: "Саундбары и звук", indexable: true },
+  ];
+  const related = getRelatedPages(pages[2], pages, 3).map((page) => page.id);
+  assert.equal(related[0], "soundbar-optical");
+  assert.equal(related.at(-1), "soundbar-to-tv");
+  assert.equal(new Set(related).size, related.length);
+});
+
+test("AirPlay и Android связаны с трансляцией, а не с произвольными Wi-Fi советами", () => {
+  const pages = [
+    { id: "adj-tv-ne-vidit-wifi-5ghz", h1: "Телевизор не видит Wi-Fi 5 ГГц", section: "Беспроводное подключение", indexable: true },
+    { id: "adj-tv-bluetooth-naushniki-zaderzhka", h1: "Задержка Bluetooth-наушников", section: "Беспроводное подключение", indexable: true },
+    { id: "adj-tv-screen-mirroring-ili-cast", h1: "Зеркалирование экрана или Cast", section: "Беспроводное подключение", indexable: true },
+    { id: "adj-iphone-na-televizor-airplay-ne-vidit", h1: "iPhone не видит телевизор по AirPlay", section: "Беспроводное подключение", indexable: true },
+    { id: "adj-android-na-televizor-ne-transliruet", h1: "Android не транслирует экран на ТВ", section: "Беспроводное подключение", indexable: true },
+    { id: "phone-to-tv", h1: "Как подключить телефон к телевизору", indexable: true },
+  ];
+  const related = getRelatedPages(pages[3], pages, 3).map((page) => page.id);
+  assert.deepEqual(related, ["adj-tv-screen-mirroring-ili-cast", "adj-android-na-televizor-ne-transliruet", "phone-to-tv"]);
+});
+
 test("home diagnostic block uses nine canonical pages without generated variants", () => {
   const catalog = [
     { id: "tv-wont-turn-on", path: "/televizor-ne-vklyuchaetsya/", indexable: true },

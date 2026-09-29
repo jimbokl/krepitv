@@ -2995,17 +2995,63 @@ fn mount_page_body(
     ))
 }
 
+fn related_title_terms(title: &str) -> HashSet<String> {
+    title
+        .to_lowercase()
+        .split(|character: char| !character.is_alphanumeric())
+        .filter(|word| {
+            word.chars().count() >= 4
+                && !word.starts_with("телевизор")
+                && !matches!(
+                    *word,
+                    "через"
+                        | "после"
+                        | "перед"
+                        | "нужно"
+                        | "можно"
+                        | "почему"
+                        | "какой"
+                        | "какая"
+                        | "когда"
+                )
+        })
+        .map(|word| word.chars().take(6).collect())
+        .collect()
+}
+
+fn wireless_topic_group(page_id: &str) -> u8 {
+    match page_id {
+        "adj-tv-screen-mirroring-ili-cast"
+        | "adj-iphone-na-televizor-airplay-ne-vidit"
+        | "adj-android-na-televizor-ne-transliruet" => 0,
+        "adj-tv-bluetooth-naushniki-zaderzhka" | "adj-tv-bluetooth-kolonka-kak-podklyuchit" => 1,
+        _ => 2,
+    }
+}
+
 fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPage> {
     if let Some(section) = page.section.as_deref() {
-        let mut related: Vec<&SeoPage> = pages
+        let mut candidates: Vec<&SeoPage> = pages
             .iter()
             .filter(|item| {
                 item.id != page.id
                     && item.section.as_deref() == Some(section)
                     && is_indexable_seo_page(item)
+                    && (section != "Беспроводное подключение"
+                        || wireless_topic_group(&item.id) == wireless_topic_group(&page.id))
             })
-            .take(5)
             .collect();
+        if matches!(
+            section,
+            "Саундбары и звук" | "Беспроводное подключение" | "HDMI и кабели"
+        ) {
+            let terms = related_title_terms(&page.h1);
+            candidates.sort_by_key(|item| {
+                let shared = terms.intersection(&related_title_terms(&item.h1)).count();
+                std::cmp::Reverse(shared)
+            });
+        }
+        let mut related: Vec<&SeoPage> = candidates.into_iter().take(5).collect();
         let hub = match section {
             "Питание и розетки" => "tv-zone-sockets",
             "Подсветка" => "picture-setup",
@@ -3014,14 +3060,26 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             "Приставки и приложения" => "smart-tv-box",
             "Пульты" => "universal-remote",
             "HDMI и кабели" => "hdmi-cable-checker",
-            "Беспроводное подключение" => "tv-bluetooth-setup",
+            "Беспроводное подключение" => {
+                match wireless_topic_group(&page.id) {
+                    0 => "phone-to-tv",
+                    1 => "tv-bluetooth-setup",
+                    _ => "tv-no-internet",
+                }
+            }
             _ => "vesa",
         };
         if let Some(item) = pages
             .iter()
             .find(|item| item.id == hub && is_indexable_seo_page(item))
         {
-            related.push(item);
+            if item.id != page.id
+                && !related
+                    .iter()
+                    .any(|related_page| related_page.id == item.id)
+            {
+                related.push(item);
+            }
         }
         return related;
     }
@@ -4894,6 +4952,7 @@ fn seo_page_body(
         .collect::<Vec<_>>()
         .join("\n");
     let calculator_note = seo_calculator_note(&page.id);
+    let followup_routes = seo_followup_routes_html(&page.id);
     let brand_matcher_note = seo_brand_mount_matcher_html(page, models, mounts, graph);
     let buy_mount_comparison = seo_buy_mount_comparison_html(page, mounts, graph);
     let catalog = seo_catalog_html(page, models, mounts, graph);
@@ -4947,7 +5006,7 @@ fn seo_page_body(
         format!("{evidence_guide}{facts_section}")
     } else {
         format!(
-            "{brand_matcher_note}{facts_section}{buy_mount_comparison}{catalog}{calculator_note}"
+            "{brand_matcher_note}{facts_section}{buy_mount_comparison}{catalog}{calculator_note}{followup_routes}"
         )
     };
     let mount_funnel_next_step = seo_mount_funnel_next_step_html();
@@ -4984,6 +5043,18 @@ fn seo_page_body(
         answer_content = answer_content,
         mount_funnel_next_step = mount_funnel_next_step,
     ))
+}
+
+fn seo_followup_routes_html(page_id: &str) -> &'static str {
+    match page_id {
+        "soundbar-to-tv" => {
+            r#"<nav class="border-y-2 border-ink py-7" aria-label="Что делать после подключения саундбара" data-followup-routes="soundbar-to-tv"><h2 class="font-display text-3xl font-extrabold">Если звук всё ещё не работает</h2><p class="mt-2 max-w-3xl leading-relaxed text-muted">Выберите именно свой симптом. ARC, задержка звука и управление одним пультом требуют разных проверок.</p><div class="mt-5 grid gap-3 sm:grid-cols-3"><a class="border-2 border-ink bg-white p-5 transition hover:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href="/net-zvuka-cherez-hdmi-arc/"><strong class="block font-display text-xl">Через ARC нет звука</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Проверьте нужные HDMI-разъёмы, выход звука и настройки CEC.</span></a><a class="border-2 border-ink bg-white p-5 transition hover:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href="/otstaet-zvuk-ot-video-na-televizore/"><strong class="block font-display text-xl">Звук отстаёт от видео</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Найдите, где появляется задержка: в телевизоре, источнике или саундбаре.</span></a><a class="border-2 border-ink bg-white p-5 transition hover:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href="/hdmi-cec-na-televizore/"><strong class="block font-display text-xl">Не работает один пульт</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Сверьте поддержку и настройки HDMI-CEC на обоих устройствах.</span></a></div></nav>"#
+        }
+        "phone-to-tv" => {
+            r#"<nav class="border-y-2 border-ink py-7" aria-label="Что делать, если трансляция с телефона не работает" data-followup-routes="phone-to-tv"><h2 class="font-display text-3xl font-extrabold">Если телефон не видит телевизор</h2><p class="mt-2 max-w-3xl leading-relaxed text-muted">Не ищите универсальную кнопку: дальнейшая проверка зависит от телефона и способа передачи.</p><div class="mt-5 grid gap-3 sm:grid-cols-3"><a class="border-2 border-ink bg-white p-5 transition hover:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href="/iphone-na-televizor-airplay-ne-vidit/"><strong class="block font-display text-xl">iPhone не видит ТВ</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Проверьте поддержку AirPlay, сеть и доступность приёмника.</span></a><a class="border-2 border-ink bg-white p-5 transition hover:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href="/android-na-televizor-ne-transliruet/"><strong class="block font-display text-xl">Android не транслирует</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Разделите Cast, дублирование экрана и кабель — у них разные условия.</span></a><a class="border-2 border-ink bg-white p-5 transition hover:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href="/televizor-ne-podklyuchaetsya-k-internetu/"><strong class="block font-display text-xl">ТВ теряет сеть</strong><span class="mt-2 block text-sm leading-relaxed text-muted">Сначала восстановите соединение, затем повторите трансляцию.</span></a></div></nav>"#
+        }
+        _ => "",
+    }
 }
 
 fn seo_editorial_photo_html(page: &SeoPage) -> String {
@@ -5069,6 +5140,7 @@ fn seo_visual_steps_html(page: &SeoPage) -> String {
 }
 
 fn guide_index_body(pages: &[SeoPage]) -> String {
+    let quick_routes = r#"<nav class="border-b-2 border-ink py-8" aria-label="Начните с вашей задачи" data-guide-start-routes="true"><h2 class="font-display text-3xl font-extrabold">С какой задачей пришли?</h2><p class="mt-2 max-w-3xl leading-relaxed text-muted">Не нужно читать весь справочник. Выберите ближайшую ситуацию — на странице будет конкретная проверка или расчёт.</p><div class="mt-6 grid gap-3 sm:grid-cols-2"><a class="group flex min-h-36 flex-col justify-between border-2 border-ink bg-white p-5 transition hover:-translate-y-0.5 hover:border-action" href="/kak-povesit-televizor-na-stenu/"><span class="font-mono text-xs text-action">01 · Выберите маршрут</span><span class="mt-4 flex items-end justify-between gap-4"><span><strong class="block font-display text-2xl font-extrabold">Вешаю на стену</strong><span class="mt-1 block text-sm leading-relaxed text-muted">Высота, разметка и проверка крепления</span></span><span aria-hidden="true" class="text-2xl text-action">↗</span></span></a><a class="group flex min-h-36 flex-col justify-between border-2 border-ink bg-white p-5 transition hover:-translate-y-0.5 hover:border-action" href="/kak-podklyuchit-saundbar-k-televizoru/"><span class="font-mono text-xs text-action">02 · Выберите маршрут</span><span class="mt-4 flex items-end justify-between gap-4"><span><strong class="block font-display text-2xl font-extrabold">Подключаю звук</strong><span class="mt-1 block text-sm leading-relaxed text-muted">Саундбар, ARC и пропавший звук</span></span><span aria-hidden="true" class="text-2xl text-action">↗</span></span></a><a class="group flex min-h-36 flex-col justify-between border-2 border-ink bg-white p-5 transition hover:-translate-y-0.5 hover:border-action" href="/kak-podklyuchit-telefon-k-televizoru/"><span class="font-mono text-xs text-action">03 · Выберите маршрут</span><span class="mt-4 flex items-end justify-between gap-4"><span><strong class="block font-display text-2xl font-extrabold">Показываю с телефона</strong><span class="mt-1 block text-sm leading-relaxed text-muted">AirPlay, Cast и проводное подключение</span></span><span aria-hidden="true" class="text-2xl text-action">↗</span></span></a><a class="group flex min-h-36 flex-col justify-between border-2 border-ink bg-white p-5 transition hover:-translate-y-0.5 hover:border-action" href="/televizor-pishet-net-signala/"><span class="font-mono text-xs text-action">04 · Выберите маршрут</span><span class="mt-4 flex items-end justify-between gap-4"><span><strong class="block font-display text-2xl font-extrabold">Ищу причину сбоя</strong><span class="mt-1 block text-sm leading-relaxed text-muted">Нет сигнала — начните с источника</span></span><span aria-hidden="true" class="text-2xl text-action">↗</span></span></a></div></nav>"#;
     let group_html = |title: &str, has_guide: bool| {
         let links = pages
             .iter()
@@ -5110,7 +5182,7 @@ fn guide_index_body(pages: &[SeoPage]) -> String {
             escape_html(name), section_pages.len(), escape_html(name), links)
     }).collect::<Vec<_>>().join("");
     static_layout(&format!(
-        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-guide-index=\"true\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{guide_count} полезных материалов</p><h1 class=\"mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]\">Справочник по телевизорам и креплениям</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Инструкции, проверочные таблицы и локальные калькуляторы KREPI TV. Каждый материал ведёт к точной модели, VESA или следующему безопасному шагу.</p></header><div class=\"grid gap-8 py-8 lg:grid-cols-2\">{instructions}{utilities}</div><section class=\"border-t-2 border-ink py-8\" aria-label=\"Смежные задачи по телевизору\"><h2 class=\"font-display text-3xl font-extrabold\">Выберите задачу</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Питание, свет, звук, эфир и устройства рядом с телевизором. В каждом материале — схема, быстрый помощник и таблица проверок.</p><div class=\"mt-6 grid gap-3 md:grid-cols-2\">{adjacent_sections}</div></section></article>"
+        "<article class=\"mx-auto max-w-[1100px] px-5 py-12 sm:px-8\" data-guide-index=\"true\"><header class=\"border-b-2 border-ink pb-8\"><p class=\"font-mono text-xs uppercase tracking-[0.12em] text-action\">{guide_count} полезных материалов</p><h1 class=\"mt-3 font-display text-[clamp(3rem,6vw,6.4rem)] font-extrabold leading-[0.92]\">Справочник по телевизорам и креплениям</h1><p class=\"mt-6 max-w-3xl text-lg leading-relaxed text-muted\">Инструкции, проверочные таблицы и локальные калькуляторы KREPI TV. Каждый материал ведёт к точной модели, VESA или следующему безопасному шагу.</p></header>{quick_routes}<div class=\"grid gap-8 py-8 lg:grid-cols-2\">{instructions}{utilities}</div><section class=\"border-t-2 border-ink py-8\" aria-label=\"Смежные задачи по телевизору\"><h2 class=\"font-display text-3xl font-extrabold\">Выберите задачу</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Питание, свет, звук, эфир и устройства рядом с телевизором. В каждом материале — схема, быстрый помощник и таблица проверок.</p><div class=\"mt-6 grid gap-3 md:grid-cols-2\">{adjacent_sections}</div></section></article>"
     ))
 }
 

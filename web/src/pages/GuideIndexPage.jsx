@@ -9,6 +9,12 @@ export function GuideIndexPage({ catalog }) {
     { label: "Калькуляторы, таблицы и подборы", pages: pages.filter((page) => !page.guide && !page.section) },
   ];
   const sections = [...new Set(pages.map((page) => page.section).filter(Boolean))];
+  const routes = [
+    { label: "Вешаю на стену", detail: "Высота, разметка и проверка крепления", href: "/kak-povesit-televizor-na-stenu/" },
+    { label: "Подключаю звук", detail: "Саундбар, ARC и пропавший звук", href: "/kak-podklyuchit-saundbar-k-televizoru/" },
+    { label: "Показываю с телефона", detail: "AirPlay, Cast и проводное подключение", href: "/kak-podklyuchit-telefon-k-televizoru/" },
+    { label: "Ищу причину сбоя", detail: "Нет сигнала — начните с источника", href: "/televizor-pishet-net-signala/" },
+  ];
 
   return (
     <main className="min-h-screen bg-paper text-ink">
@@ -27,6 +33,16 @@ export function GuideIndexPage({ catalog }) {
             src="/assets/images/home-step-model.webp"
           />
         </header>
+        <nav className="border-b-2 border-ink py-8" aria-label="Начните с вашей задачи" data-guide-start-routes="true">
+          <h2 className="font-display text-3xl font-extrabold">С какой задачей пришли?</h2>
+          <p className="mt-2 max-w-3xl leading-relaxed text-muted">Не нужно читать весь справочник. Выберите ближайшую ситуацию — на странице будет конкретная проверка или расчёт.</p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {routes.map((route, index) => <a className="group flex min-h-36 flex-col justify-between border-2 border-ink bg-white p-5 transition hover:-translate-y-0.5 hover:border-action focus:outline-none focus-visible:ring-2 focus-visible:ring-action" href={route.href} key={route.href}>
+              <span className="font-mono text-xs text-action">0{index + 1} · Выберите маршрут</span>
+              <span className="mt-4 flex items-end justify-between gap-4"><span><strong className="block font-display text-2xl font-extrabold group-hover:text-action">{route.label}</strong><span className="mt-1 block text-sm leading-relaxed text-muted">{route.detail}</span></span><span aria-hidden="true" className="text-2xl text-action">↗</span></span>
+            </a>)}
+          </div>
+        </nav>
         <div className="grid gap-8 py-8 lg:grid-cols-2">
           {groups.map((group) => (
             <section className="border-t-2 border-ink" key={group.label}>
