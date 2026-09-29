@@ -8,10 +8,11 @@ const source = await readFile(
 );
 
 test("компактное уведомление объясняет аналитику и сохраняет отказ", () => {
-  assert.match(source, /Для улучшения сайта используем Метрику без записи ввода\./u);
+  assert.match(source, /Метрика без записи ввода\./u);
   assert.match(source, /href="\/politika-konfidencialnosti\/"/u);
   assert.match(source, /aria-label="Скрыть уведомление об аналитике"/u);
-  assert.match(source, />\s*Отключить аналитику\s*</u);
+  assert.match(source, /aria-label="Отключить аналитику"/u);
+  assert.match(source, />\s*Отключить\s*</u);
   assert.doesNotMatch(source, /\bfixed\b/u);
   assert.doesNotMatch(source, /primary-button|secondary-button/u);
 });
@@ -21,7 +22,7 @@ test("analytics notice has no loading state", () => {
 });
 
 test("analytics notice has no empty state", () => {
-  assert.match(source, /Метрику без записи ввода/u);
+  assert.match(source, /Метрика без записи ввода/u);
 });
 
 test("analytics notice has no error state", () => {

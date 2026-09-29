@@ -28,22 +28,23 @@ export function MetrikaConsent() {
   return (
     <aside
       aria-label="Настройка аналитики"
-      className="border-b border-line/60 bg-white text-muted"
+      className="border-b border-line/60 bg-paper text-muted"
       data-consent-placement="inline"
     >
       <div className="mx-auto flex max-w-[1440px] items-center gap-2 px-4 sm:px-8 lg:px-12">
-        <p className="min-w-0 flex-1 py-2 text-xs leading-[18px]">
-          Для улучшения сайта используем Метрику без записи ввода.{" "}
+        <p className="min-w-0 flex-1 py-1.5 text-xs leading-4">
+          Метрика без записи ввода.{" "}
           <a className="text-muted underline decoration-line underline-offset-2 hover:text-ink hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink" href="/politika-konfidencialnosti/">
             Политика
           </a>
           <span aria-hidden="true"> · </span>
           <button
+            aria-label="Отключить аналитику"
             className="inline-flex min-h-6 items-center text-muted underline decoration-line underline-offset-2 hover:text-ink hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             onClick={disable}
             type="button"
           >
-            Отключить аналитику
+            Отключить
           </button>
         </p>
         <button

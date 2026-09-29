@@ -32,13 +32,62 @@ const media = argument("--media", "screen");
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
 const consent = argument("--consent", "denied");
+const metrikaQueueQa = process.argv.includes("--metrika-queue-qa");
 const affiliateReportEnabled = process.argv.includes("--affiliate-report");
 const placementAttributionRequired = process.argv.includes("--require-placement-attribution");
 const chromePath = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const metrikaQueueExpression = metrikaQueueQa ? `(() => {
+  const queue = window.ym?.a;
+  if (!Array.isArray(queue)) return null;
+  return queue
+    .filter(([, method, goal]) => method === "reachGoal" && ["tool_usage", "result_completed"].includes(goal))
+    .map(([, , goal, parameters]) => ({
+      goal,
+      toolId: parameters?.tool_id ?? null,
+      action: parameters?.action ?? null,
+      resultType: parameters?.result_type ?? null,
+      sourcePath: parameters?.source_path ?? null,
+      parameterKeys: Object.keys(parameters ?? {}).sort(),
+    }));
+})()` : "[]";
+
+function assertQueuedToolGoals(report, toolId, expectedStarts, expectedCompletions) {
+  if (!metrikaQueueQa) return;
+  if (!Array.isArray(report.metrikaGoals)) {
+    throw new Error("Metrika queue unavailable: analytics script may not be blocked");
+  }
+  const goals = report.metrikaGoals.filter((goal) => goal.toolId === toolId);
+  const starts = goals.filter((goal) => goal.goal === "tool_usage");
+  const completions = goals.filter((goal) => goal.goal === "result_completed");
+  if (starts.length !== expectedStarts || completions.length !== expectedCompletions) {
+    throw new Error(`Metrika queue goal count mismatch for ${toolId}`);
+  }
+  const expectedPath = new URL(url).pathname;
+  for (const goal of goals) {
+    const allowedKeys = goal.goal === "tool_usage"
+      ? ["action", "source_path", "tool_id"]
+      : ["result_count", "result_type", "source_path", "tool_id"];
+    if (
+      goal.sourcePath !== expectedPath
+      || goal.parameterKeys.some((key) => !allowedKeys.includes(key))
+      || (goal.goal === "tool_usage" && goal.action !== "started")
+      || (goal.goal === "result_completed" && !goal.resultType)
+    ) {
+      throw new Error(`Metrika queue contains an invalid ${toolId} goal`);
+    }
+  }
+}
 
 if (!Number.isInteger(width) || width < 320 || width > 3840) throw new Error("Invalid viewport width");
 if (!Number.isInteger(height) || height < 480 || height > 5000) throw new Error("Invalid viewport height");
 if (!["denied", "granted", "prompt"].includes(consent)) throw new Error("Invalid consent mode");
+if (metrikaQueueQa && (
+  consent !== "granted"
+  || !["127.0.0.1", "localhost", "::1"].includes(new URL(url).hostname)
+  || !(guidedSelectionState || screwLookupState)
+)) {
+  throw new Error("Metrika queue QA requires a local tool scenario with granted consent");
+}
 if (![100, 200].includes(textZoom)) throw new Error("Invalid text zoom; use 100 or 200");
 if (!["screen", "print"].includes(media)) throw new Error("Invalid media; use screen or print");
 if (subtitleState && !["teletext", "unknown", "accessibility"].includes(subtitleState)) {
@@ -222,6 +271,12 @@ try {
   });
 
   await send("Page.enable");
+  if (metrikaQueueQa) {
+    await send("Network.enable");
+    await send("Network.setBlockedURLs", {
+      urls: ["*://mc.yandex.ru/*", "*://mc.yandex.com/*"],
+    });
+  }
   if (consent !== "prompt") {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
@@ -1209,6 +1264,7 @@ try {
           cableVerdict: document.querySelector("[data-cable-clearance-verdict]")?.getAttribute("data-cable-clearance-verdict") ?? null,
           installationKitReady: Boolean(document.querySelector('[data-installation-kit-build-summary="true"]')),
           productEvents: window.__qaProductEvents ?? [],
+          metrikaGoals: ${metrikaQueueExpression},
         };
       })()`,
       awaitPromise: true,
@@ -1282,6 +1338,20 @@ try {
     if (!expectedCableVerdict && kitCompletions.length) {
       throw new Error("Guided selection emitted a completed result before the final kit");
     }
+    assertQueuedToolGoals(
+      guidedSelectionReport,
+      "installation_kit",
+      guidedSelectionState === "default" ? 0 : 1,
+      expectedCableVerdict ? 1 : 0,
+    );
+    if (metrikaQueueQa && expectedCableVerdict) {
+      const goal = guidedSelectionReport.metrikaGoals.find((item) => (
+        item.goal === "result_completed" && item.toolId === "installation_kit"
+      ));
+      if (goal?.resultType !== kitCompletions[0].resultType) {
+        throw new Error("Guided selection queue result differs from the product event");
+      }
+    }
   }
   let screwLookupReport = null;
   if (screwLookupState) {
@@ -1342,6 +1412,7 @@ try {
           knownWithoutPassport: Boolean(root.querySelector('[data-known-model-without-screw-passport]')),
           unknownModel: Boolean(root.querySelector('[data-model-search-empty="true"]')),
           productEvents: window.__qaProductEvents ?? [],
+          metrikaGoals: ${metrikaQueueExpression},
         };
       })()`,
       awaitPromise: true,
@@ -1380,6 +1451,20 @@ try {
     }
     if (screwLookupState === "unknown" && !screwLookupReport.unknownModel) {
       throw new Error("Unknown screw model lacked the empty state");
+    }
+    assertQueuedToolGoals(
+      screwLookupReport,
+      "screw_lookup",
+      screwLookupState === "empty" ? 0 : 1,
+      screwLookupState === "verified" ? 1 : 0,
+    );
+    if (metrikaQueueQa && screwLookupState === "verified") {
+      const goal = screwLookupReport.metrikaGoals.find((item) => (
+        item.goal === "result_completed" && item.toolId === "screw_lookup"
+      ));
+      if (goal?.resultType !== screwCompletions[0].resultType) {
+        throw new Error("Screw lookup queue result differs from the product event");
+      }
     }
   }
   let modelInteractionReport = null;
