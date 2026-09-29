@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const pages = JSON.parse(readFileSync(resolve(root, "data/seo_pages.json"), "utf8"));
 const themes = JSON.parse(readFileSync(resolve(root, "data/internal_visual_pages.json"), "utf8"));
+const remainingThemes = JSON.parse(readFileSync(resolve(root, "data/internal_visual_remaining.json"), "utf8"));
 const indexed = new Map(pages.map((page) => [page.id, page]));
 const selected = [];
 
@@ -64,7 +65,7 @@ assert.deepEqual(
   "Четыре инструмента вне руководств изменились",
 );
 assert.deepEqual(
-  pages.filter((page) => page.guide).map((page) => page.id).filter((id) => !selected.includes(id)),
+  pages.filter((page) => page.guide).map((page) => page.id).filter((id) => !new Set([...selected, ...Object.values(remainingThemes).flatMap((theme) => theme.ids)]).has(id)),
   [],
   "Часть руководств не вошла в пул",
 );

@@ -1897,9 +1897,14 @@ const expectedGuideCount = expectedDailyGuideCount
   + connectionGuideIds.length
   + seoSprintGuideIds.length
   + yandexSuggestGuideIds.length
-  + 1; // Сценарий монтажа на деревянную стену.
+  + 1 // Сценарий монтажа на деревянную стену.
+  + 1; // Три способа узнать VESA на существующей странице.
 if (dailyEvidenceGuidePages.length !== expectedGuideCount) {
   throw new Error(`Ожидалось ${expectedGuideCount} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
+}
+const vesaLookupGuide = dailyEvidenceGuidePages.find((page) => page.id === "how-to-find-vesa");
+if (vesaLookupGuide?.guide.steps.length !== 3 || vesaLookupGuide.guide.sources.length < 2) {
+  throw new Error("Руководство по поиску VESA должно содержать три маршрута и официальные источники");
 }
 for (const id of connectionGuideIds) {
   const page = dailyEvidenceGuidePages.find((item) => item.id === id);

@@ -8,6 +8,8 @@ const themes = JSON.parse(readFileSync(new URL("../../data/internal_visual_pages
 
 test("visual cohort covers exactly 100 existing indexable pages", () => {
   const selected = Object.values(themes).flatMap((theme) => theme.ids);
+  const remaining = JSON.parse(readFileSync(new URL("../../data/internal_visual_remaining.json", import.meta.url), "utf8"));
+  const allVisualIds = new Set([...selected, ...Object.values(remaining).flatMap((theme) => theme.ids)]);
   const pageById = new Map(pages.map((page) => [page.id, page]));
   assert.equal(selected.length, 100);
   assert.equal(new Set(selected).size, 100);
@@ -17,7 +19,7 @@ test("visual cohort covers exactly 100 existing indexable pages", () => {
     assert.ok(getInternalVisual(id)?.src.startsWith("/assets/images/"), `${id}: missing image`);
   }
   assert.deepEqual(
-    pages.filter((page) => page.guide).map((page) => page.id).filter((id) => !selected.includes(id)),
+    pages.filter((page) => page.guide).map((page) => page.id).filter((id) => !allVisualIds.has(id)),
     [],
   );
   assert.equal(getInternalVisual("not-in-cohort"), null);
