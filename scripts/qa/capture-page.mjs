@@ -27,6 +27,7 @@ const subtitleState = argument("--subtitle-state", null);
 const connectionState = argument("--connection-state", null);
 const tvEnergyState = argument("--tv-energy-state", null);
 const guidedSelectionState = argument("--guided-selection-state", null);
+const screwLookupState = argument("--screw-lookup-state", null);
 const media = argument("--media", "screen");
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
@@ -125,7 +126,15 @@ if (guidedSelectionState && ![
 ].includes(guidedSelectionState)) {
   throw new Error("Invalid guided selection state");
 }
-if ([phoneTvState, tvNoSignalState, tvTrafficState, tvEnergyState, guidedSelectionState].filter(Boolean).length > 1) {
+if (screwLookupState && ![
+  "empty",
+  "unknown",
+  "known-without-passport",
+  "verified",
+].includes(screwLookupState)) {
+  throw new Error("Invalid screw lookup state");
+}
+if ([phoneTvState, tvNoSignalState, tvTrafficState, tvEnergyState, guidedSelectionState, screwLookupState].filter(Boolean).length > 1) {
   throw new Error("Choose only one interactive QA state");
 }
 if (placementAttributionRequired && !affiliateReportEnabled) {
@@ -216,6 +225,21 @@ try {
   if (consent !== "prompt") {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
+    });
+  }
+  if (guidedSelectionState || screwLookupState) {
+    await send("Page.addScriptToEvaluateOnNewDocument", {
+      source: `window.__qaProductEvents = [];
+        for (const name of ["krepitv:tool-usage", "krepitv:result-completed"]) {
+          window.addEventListener(name, (event) => {
+            window.__qaProductEvents.push({
+              name,
+              toolId: event.detail?.toolId ?? null,
+              action: event.detail?.action ?? null,
+              resultType: event.detail?.resultType ?? null,
+            });
+          });
+        }`,
     });
   }
   const wasmQaState = connectionState || phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState || guidedSelectionState;
@@ -1184,6 +1208,7 @@ try {
           marketLinks: page.querySelectorAll('a[href*="market.yandex.ru"]').length,
           cableVerdict: document.querySelector("[data-cable-clearance-verdict]")?.getAttribute("data-cable-clearance-verdict") ?? null,
           installationKitReady: Boolean(document.querySelector('[data-installation-kit-build-summary="true"]')),
+          productEvents: window.__qaProductEvents ?? [],
         };
       })()`,
       awaitPromise: true,
@@ -1232,6 +1257,129 @@ try {
       || !guidedSelectionReport.installationKitReady
     )) {
       throw new Error(`Guided selection did not reach ${guidedSelectionState}`);
+    }
+    const kitStarts = guidedSelectionReport.productEvents.filter((event) => (
+      event.name === "krepitv:tool-usage"
+      && event.toolId === "installation_kit"
+      && event.action === "started"
+    ));
+    const kitCompletions = guidedSelectionReport.productEvents.filter((event) => (
+      event.name === "krepitv:result-completed"
+      && event.toolId === "installation_kit"
+    ));
+    if (guidedSelectionState === "default" && (kitStarts.length || kitCompletions.length)) {
+      throw new Error("Guided selection emitted product events before interaction");
+    }
+    if (guidedSelectionState !== "default" && kitStarts.length !== 1) {
+      throw new Error(`Guided selection expected one start, got ${kitStarts.length}`);
+    }
+    if (expectedCableVerdict && (
+      kitCompletions.length !== 1
+      || !kitCompletions[0].resultType
+    )) {
+      throw new Error(`Guided selection expected one completed result, got ${kitCompletions.length}`);
+    }
+    if (!expectedCableVerdict && kitCompletions.length) {
+      throw new Error("Guided selection emitted a completed result before the final kit");
+    }
+  }
+  let screwLookupReport = null;
+  if (screwLookupState) {
+    const interaction = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = ${JSON.stringify(screwLookupState)};
+        const waitFor = (predicate, message, timeout = 10000) => new Promise((resolve, reject) => {
+          const startedAt = Date.now();
+          const timer = setInterval(() => {
+            const value = predicate();
+            if (value) {
+              clearInterval(timer);
+              resolve(value);
+            } else if (Date.now() - startedAt > timeout) {
+              clearInterval(timer);
+              reject(new Error(message));
+            }
+          }, 25);
+        });
+        const root = await waitFor(
+          () => document.querySelector('[data-screw-catalog="true"]'),
+          "Screw lookup did not hydrate",
+        );
+        if (state !== "empty") {
+          const query = {
+            unknown: "no-such-television-model",
+            "known-without-passport": "Samsung QE55Q70DAUXRU",
+            verified: "Samsung QE43Q7FAAUXRU",
+          }[state];
+          const input = root.querySelector('input[aria-label="Модель телевизора"]');
+          const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+          if (!input || !setter) throw new Error("Screw lookup input not found");
+          setter.call(input, query);
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+          if (state === "unknown") {
+            await waitFor(() => root.querySelector('[data-model-search-empty="true"]'), "Unknown-model state missing");
+          } else {
+            const button = await waitFor(
+              () => {
+                const candidate = root.querySelector('form button[type="submit"]');
+                return candidate && !candidate.disabled ? candidate : null;
+              },
+              "Exact model did not enable screw lookup",
+            );
+            button.click();
+            await waitFor(
+              () => state === "verified"
+                ? root.querySelector('[data-selected-screw-model="samsung-qe43q7faauxru"]')
+                : root.querySelector('[data-known-model-without-screw-passport="samsung-qe55q70dauxru"]'),
+              "Screw lookup result did not render",
+            );
+          }
+        }
+        return {
+          state,
+          selectedPassport: Boolean(root.querySelector('[data-selected-screw-model]')),
+          knownWithoutPassport: Boolean(root.querySelector('[data-known-model-without-screw-passport]')),
+          unknownModel: Boolean(root.querySelector('[data-model-search-empty="true"]')),
+          productEvents: window.__qaProductEvents ?? [],
+        };
+      })()`,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (interaction.exceptionDetails || !interaction.result?.value) {
+      const detail = interaction.exceptionDetails?.exception?.description
+        ?? interaction.exceptionDetails?.text
+        ?? "no result";
+      throw new Error(`Screw lookup interaction failed: ${detail}`);
+    }
+    screwLookupReport = interaction.result.value;
+    const screwStarts = screwLookupReport.productEvents.filter((event) => (
+      event.name === "krepitv:tool-usage"
+      && event.toolId === "screw_lookup"
+      && event.action === "started"
+    ));
+    const screwCompletions = screwLookupReport.productEvents.filter((event) => (
+      event.name === "krepitv:result-completed"
+      && event.toolId === "screw_lookup"
+    ));
+    if (screwStarts.length !== (screwLookupState === "empty" ? 0 : 1)) {
+      throw new Error(`Screw lookup expected start count mismatch: ${screwStarts.length}`);
+    }
+    if (screwCompletions.length !== (screwLookupState === "verified" ? 1 : 0)) {
+      throw new Error(`Screw lookup expected completion count mismatch: ${screwCompletions.length}`);
+    }
+    if (screwLookupState === "verified" && (
+      !screwLookupReport.selectedPassport
+      || screwCompletions[0].resultType !== "mount_screws_found"
+    )) {
+      throw new Error("Verified screw passport did not produce its completed result");
+    }
+    if (screwLookupState === "known-without-passport" && !screwLookupReport.knownWithoutPassport) {
+      throw new Error("Known screw model lacked the safe no-passport result");
+    }
+    if (screwLookupState === "unknown" && !screwLookupReport.unknownModel) {
+      throw new Error("Unknown screw model lacked the empty state");
     }
   }
   let modelInteractionReport = null;
@@ -1623,6 +1771,7 @@ try {
   if (tvEnergyReport) process.stdout.write(`${JSON.stringify(tvEnergyReport)}\n`);
   if (subtitleReport) process.stdout.write(`${JSON.stringify(subtitleReport)}\n`);
   if (guidedSelectionReport) process.stdout.write(`${JSON.stringify(guidedSelectionReport)}\n`);
+  if (screwLookupReport) process.stdout.write(`${JSON.stringify(screwLookupReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();
