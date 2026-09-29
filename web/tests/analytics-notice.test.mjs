@@ -8,11 +8,13 @@ const source = await readFile(
 );
 
 test("уведомление содержит точную сноску, политику, подтверждение и отказ", () => {
-  assert.match(source, /Продолжая пользоваться сайтом, вы принимаете необходимое использование аналитики\./u);
+  assert.match(source, /Продолжая пользоваться сайтом, вы принимаете необходимую аналитику\./u);
+  assert.match(source, /Метрика — без Вебвизора; введённые данные не передаём\./u);
   assert.match(source, /href="\/politika-konfidencialnosti\/"/u);
   assert.match(source, />\s*Понятно\s*</u);
   assert.match(source, />\s*Отключить аналитику\s*</u);
   assert.doesNotMatch(source, /\bfixed\b/u);
+  assert.doesNotMatch(source, /primary-button|secondary-button/u);
 });
 
 test("analytics notice has no loading state", () => {
