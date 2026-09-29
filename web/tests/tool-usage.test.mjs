@@ -118,3 +118,78 @@ test("tracker игнорирует события вне размеченных 
   assert.deepEqual(events, []);
   tracker.dispose();
 });
+
+test("точечная разметка не считает навигационный клик запуском инструмента", () => {
+  const listeners = new Map();
+  const events = [];
+  const documentObject = {
+    addEventListener(type, listener) { listeners.set(type, listener); },
+    removeEventListener(type) { listeners.delete(type); },
+  };
+  const windowObject = {
+    CustomEvent: class CustomEvent {
+      constructor(type, options) {
+        this.type = type;
+        this.detail = options.detail;
+      }
+    },
+    dispatchEvent(event) { events.push(event); },
+    location: { pathname: "/podbor/" },
+  };
+  const boundary = {
+    dataset: { analyticsTool: "installation_kit", analyticsEvents: "input change" },
+  };
+  const target = {
+    closest(selector) {
+      return selector === "[data-analytics-tool]" ? boundary : null;
+    },
+  };
+  const tracker = installToolUsageTracker({ documentObject, windowObject });
+
+  listeners.get("click")({ type: "click", target });
+  listeners.get("submit")({ type: "submit", target });
+  assert.equal(events.length, 0);
+  listeners.get("change")({ type: "change", target });
+  listeners.get("input")({ type: "input", target });
+  assert.equal(events.length, 1);
+  assert.deepEqual(events[0].detail, {
+    action: "started",
+    sourcePath: "/podbor/",
+    toolId: "installation_kit",
+  });
+  tracker.dispose();
+});
+
+test("выбор предложенной модели без набора текста считается запуском поиска", () => {
+  const listeners = new Map();
+  const events = [];
+  const documentObject = {
+    addEventListener(type, listener) { listeners.set(type, listener); },
+    removeEventListener(type) { listeners.delete(type); },
+  };
+  const windowObject = {
+    CustomEvent: class CustomEvent {
+      constructor(type, options) {
+        this.type = type;
+        this.detail = options.detail;
+      }
+    },
+    dispatchEvent(event) { events.push(event); },
+    location: { pathname: "/kakie-vinty-dlya-kronshteyna-televizora/" },
+  };
+  const boundary = {
+    dataset: { analyticsTool: "screw_lookup", analyticsEvents: "input change submit" },
+  };
+  const target = {
+    closest(selector) {
+      if (selector === "[data-analytics-tool]") return boundary;
+      if (selector === "[data-analytics-start-click]") return { dataset: { analyticsStartClick: "true" } };
+      return null;
+    },
+  };
+  const tracker = installToolUsageTracker({ documentObject, windowObject });
+  listeners.get("click")({ type: "click", target });
+  assert.equal(events.length, 1);
+  assert.equal(events[0].detail.toolId, "screw_lookup");
+  tracker.dispose();
+});

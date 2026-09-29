@@ -58,6 +58,21 @@ test("каждый инструмент объявляет стабильную 
   assert.match(trafficWizard, /data-analytics-tool=\{config\.toolId\}/u);
 });
 
+test("монтажный комплект и поиск винтов считают действия в форме, а не клики по странице", async () => {
+  const guided = await source("pages/GuidedSelectionPage.jsx");
+  const guidedShell = guided.split("\n").find((line) => line.includes('data-kit-shell="true"'));
+  assert.ok(guidedShell);
+  assert.doesNotMatch(guidedShell, /data-analytics-tool/u);
+  assert.match(guided, /<div className="relative z-20 min-w-0" data-analytics-tool="installation_kit" data-analytics-events="input change">/u);
+
+  const screws = await source("components/TvMountScrewCatalog.jsx");
+  assert.doesNotMatch(screws, /<section[^>]*data-analytics-tool="screw_lookup"/u);
+  assert.match(screws, /<div className="min-w-0" data-analytics-tool="screw_lookup" data-analytics-events="input change submit">\s*<ModelSearch/u);
+
+  const search = await source("components/ModelSearch.jsx");
+  assert.match(search, /data-analytics-start-click="true"/u);
+});
+
 test("интент-инструмент считает результат при показе первого полезного шага", async () => {
   const code = await source("components/IntentDecisionTool.jsx");
   const chooseStep = code.match(/function chooseStep\(index\) \{([\s\S]*?)\n  \}/u)?.[1] ?? "";

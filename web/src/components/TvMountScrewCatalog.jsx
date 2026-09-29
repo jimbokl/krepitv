@@ -77,7 +77,6 @@ export function TvMountScrewCatalog({ models, search }) {
     <section
       aria-labelledby="screw-catalog-title"
       className="border-y-2 border-ink py-8"
-      data-analytics-tool="screw_lookup"
       data-screw-catalog="true"
       data-searchable-model-count={models.length}
     >
@@ -98,7 +97,7 @@ export function TvMountScrewCatalog({ models, search }) {
             Это не анкеры для стены и не винты для ножек.
           </p>
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0" data-analytics-tool="screw_lookup" data-analytics-events="input change submit">
           <ModelSearch
             buttonLabel="Проверить модель"
             compact

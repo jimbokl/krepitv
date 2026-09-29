@@ -109,6 +109,12 @@ export function installToolUsageTracker({
   const started = new Set();
   function handleInteraction(event) {
     const boundary = event?.target?.closest?.("[data-analytics-tool]");
+    const allowedEvents = boundary?.dataset?.analyticsEvents;
+    if (allowedEvents && !allowedEvents.trim().split(/\s+/u).includes(event?.type)) {
+      const selectedSuggestion = event?.type === "click" &&
+        event?.target?.closest?.("[data-analytics-start-click]");
+      if (!selectedSuggestion) return;
+    }
     const toolId = boundary?.dataset?.analyticsTool;
     const sourcePath = windowObject.location?.pathname;
     const detail = toolUsageDetail({ action: TOOL_USAGE_STARTED, toolId }, sourcePath);

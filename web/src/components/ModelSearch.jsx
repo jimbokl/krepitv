@@ -188,6 +188,7 @@ export function ModelSearch({
               results.map((item, index) => (
                 <button
                   aria-selected={activeIndex === index}
+                  data-analytics-start-click="true"
                   className={`flex w-full items-center justify-between gap-4 border-b border-line px-5 py-4 text-left text-lg last:border-b-0 hover:bg-paper focus:bg-paper focus:outline-none ${activeIndex === index ? "bg-paper" : ""}`}
                   id={`${listboxId}-option-${index}`}
                   key={item.id}

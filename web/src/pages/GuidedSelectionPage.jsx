@@ -136,7 +136,7 @@ export function GuidedSelectionPage({ catalog, embedded = false }) {
   }
 
   const shell = (
-    <div className="mx-auto grid min-h-screen max-w-[1487px] content-start lg:grid-cols-[18.5rem_minmax(0,1fr)]" data-analytics-tool="installation_kit" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
+    <div className="mx-auto grid min-h-screen max-w-[1487px] content-start lg:grid-cols-[18.5rem_minmax(0,1fr)]" data-guided-selection-page="true" data-guided-selection-step={state.step} data-kit-shell="true">
           <aside className="self-start border-b border-line bg-panel px-5 py-3 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-8 lg:py-8">
             <div className="flex items-center justify-between gap-3 lg:block"><Brand compact /><span className="font-mono text-xs text-muted lg:hidden">Шаг {state.step} из 6</span></div>
             <p className="mt-3 hidden max-w-48 text-sm leading-snug text-muted lg:block">От модели телевизора до безопасного плана установки</p>
@@ -156,7 +156,7 @@ export function GuidedSelectionPage({ catalog, embedded = false }) {
               <h1 className="mt-2 break-words font-display text-[clamp(2rem,5vw,4rem)] font-extrabold leading-[1.02] outline-none" ref={stepHeadingRef} tabIndex={-1}>{heading}{state.step === 2 && state.brand ? ` ${state.brand}` : ""}</h1>
               <p className="mt-3 max-w-[900px] text-base leading-relaxed text-muted sm:text-lg">{description}</p>
               <div className={state.step === 1 ? "mt-5 grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(19rem,0.72fr)] xl:gap-12" : "mt-7"}>
-                <div className="relative z-20 min-w-0">
+                <div className="relative z-20 min-w-0" data-analytics-tool="installation_kit" data-analytics-events="input change">
                   {state.step === 1 ? <BrandStep brand={state.brand} brandOptions={brandOptions} onChange={(value) => dispatch({ type: "set-brand", value })} onSubmit={advance} /> : null}
                   {state.step === 2 ? <ModelStep brand={state.brand} modelId={state.modelId} modelOptions={modelOptions} onChange={(value) => dispatch({ type: "set-model", value })} onSubmit={advance} /> : null}
                   {state.step === 3 ? <WallProfileStep onChange={(value) => dispatch({ type: "set-wall-profile", value })} value={state.wallProfile} /> : null}
