@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import {
   buildWallSceneDiagram,
   scenePointFromClient,
 } from "../lib/wallScenePlan.mjs";
 import { formatNumber } from "./ModelFacts.jsx";
+import { RoomStage } from "./scene/RoomStage.jsx";
 
 export function WallPlannerDiagram({
   example = false,
@@ -14,6 +15,7 @@ export function WallPlannerDiagram({
 }) {
   const diagram = buildWallSceneDiagram(plan);
   const pointerRef = useRef(null);
+  const id = useId();
 
   function moveFromPointer(event) {
     if (!interactive || typeof onMove !== "function") return;
@@ -83,8 +85,8 @@ export function WallPlannerDiagram({
       </div>
 
       <svg
-        aria-labelledby="wall-planner-title wall-planner-description"
-        className={`mt-4 block h-auto w-full max-w-full outline-none ${interactive ? "touch-none cursor-move focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2" : ""}`}
+        aria-labelledby={`${id}-title ${id}-description`}
+        className={`room-stage mt-4 block h-auto w-full max-w-full outline-none ${interactive ? "touch-none cursor-move focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2" : ""}`}
         onKeyDown={keyDown}
         onPointerCancel={pointerUp}
         onPointerDown={pointerDown}
@@ -95,31 +97,12 @@ export function WallPlannerDiagram({
         tabIndex={interactive ? 0 : undefined}
         viewBox={diagram.viewBox}
       >
-        <title id="wall-planner-title">Схема телевизора на стене</title>
-        <desc id="wall-planner-description">
+        <title id={`${id}-title`}>Схема телевизора на стене</title>
+        <desc id={`${id}-description`}>
           Телевизор показан в масштабе вместе с тумбой, линией глаз и зазорами до краёв стены.
           {interactive ? " Схему можно перемещать указателем или клавишами со стрелками." : ""}
         </desc>
-        <rect className="fill-paper" height="650" width="1000" x="0" y="0" />
-        <rect className="fill-white stroke-ink" strokeWidth="5" {...diagram.wall} />
-        <line
-          className="stroke-technical"
-          strokeDasharray="14 10"
-          strokeWidth="4"
-          x1={diagram.wall.x}
-          x2={diagram.wall.x + diagram.wall.width}
-          y1={diagram.eyeLineY}
-          y2={diagram.eyeLineY}
-        />
-        {diagram.furniture ? (
-          <rect className="fill-line stroke-ink" strokeWidth="4" {...diagram.furniture} />
-        ) : null}
-        <rect
-          className="fill-ink stroke-action"
-          rx="7"
-          strokeWidth="6"
-          {...diagram.screen}
-        />
+        <RoomStage diagram={diagram} />
         <circle
           className="fill-action stroke-white"
           cx={diagram.center.x}

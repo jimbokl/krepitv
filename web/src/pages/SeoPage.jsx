@@ -46,7 +46,7 @@ import { SlimMountClearance } from "../components/SlimMountClearance.jsx";
 import { ConnectionHelper } from "../components/ConnectionHelper.jsx";
 import { CONNECTION_HELPERS } from "../lib/connectionHelpers.mjs";
 import { ViewingDistanceCalculator } from "../components/ViewingDistanceCalculator.jsx";
-import { WallPlannerCalculator } from "../components/WallPlannerCalculator.jsx";
+import { PAGE_SCENES } from "../lib/instructionScenes.mjs";
 import { modelHref } from "../lib/catalog.js";
 import { INTENT_TOOLS } from "../lib/intentTools.mjs";
 import { getInternalVisual } from "../lib/internalVisualPages.mjs";
@@ -61,6 +61,10 @@ import { getRelatedPages, isIndexableSeoPage } from "../lib/seoPages.mjs";
 
 const TvPurchaseChecklist = lazy(() => import("../components/TvPurchaseChecklist.jsx")
   .then((module) => ({ default: module.TvPurchaseChecklist })));
+const WallPlannerCalculator = lazy(() => import("../components/WallPlannerCalculator.jsx")
+  .then((module) => ({ default: module.WallPlannerCalculator })));
+const InstructionScene = lazy(() => import("../components/scene/InstructionScene.jsx")
+  .then((module) => ({ default: module.InstructionScene })));
 
 const kindLabels = {
   guide: "Практическое руководство",
@@ -480,18 +484,9 @@ function SeoArticle({ catalog, page }) {
           <ol className="seo-visual-route__list">{page.guide.steps.map((step, index) => <li className="seo-visual-route__item" key={step.label}><span className="seo-visual-route__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><p className="seo-visual-route__label">{step.label}</p><h3>{step.title}</h3><a href="#мастер">Проверить в мастере <span aria-hidden="true">↗</span></a></li>)}</ol>
         </section> : null}
 
-        {page.id === "mounting-map" ? (
-          <aside className="my-6 rounded-lg bg-ink p-5 text-white sm:p-7" aria-label="Порядок работы с монтажной картой">
-            <p className="font-mono text-xs uppercase tracking-wide text-white/70">Начните здесь</p>
-            <h2 className="mt-2 font-display text-2xl font-bold sm:text-3xl">Три простых действия</h2>
-            <ol className="mt-5 grid gap-4 sm:grid-cols-3">
-              <li><strong className="block text-lg text-orange-400">1. Измерьте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Расстояние от пола до глаз и высоту мебели.</span></li>
-              <li><strong className="block text-lg text-orange-400">2. Рассчитайте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Посмотрите, где окажется экран.</span></li>
-              <li><strong className="block text-lg text-orange-400">3. Сверьте</strong><span className="mt-1 block text-sm leading-relaxed text-white/85">Отверстия размечайте по вашему кронштейну, не по экрану.</span></li>
-            </ol>
-            <a className="mt-5 inline-flex min-h-11 items-center font-semibold underline underline-offset-4" href="#монтажная-карта">Перейти к расчёту ↓</a>
-          </aside>
-        ) : <EditorialAccountability evidence={editorialEvidence} />}
+        {PAGE_SCENES[page.id] ? <Suspense fallback={<div aria-busy="true" className="instruction-scene instruction-scene--loading"><p>Загружаем наглядную инструкцию…</p></div>}><InstructionScene kind={PAGE_SCENES[page.id]} /></Suspense> : null}
+
+        {page.id !== "mounting-map" ? <EditorialAccountability evidence={editorialEvidence} /> : null}
 
         {!prioritizesPrimaryLookup && !prioritizesBrandComparison && page.id !== "mounting-map" ? (
           <section
@@ -566,7 +561,7 @@ function SeoArticle({ catalog, page }) {
           <EditorialAccountability evidence={editorialEvidence} />
         </> : null}
         {prioritizesWallPlanner ? (
-          <WallPlannerCalculator models={catalog.models} search={catalog.search} />
+          <Suspense fallback={<p aria-busy="true" className="my-8 text-sm text-muted">Загружаем планировщик стены…</p>}><WallPlannerCalculator models={catalog.models} search={catalog.search} /></Suspense>
         ) : null}
         {page.id === "tv-zone-sockets" ? (
           <TvZoneSocketCalculator

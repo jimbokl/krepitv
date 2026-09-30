@@ -28,6 +28,9 @@ const connectionState = argument("--connection-state", null);
 const tvEnergyState = argument("--tv-energy-state", null);
 const guidedSelectionState = argument("--guided-selection-state", null);
 const screwLookupState = argument("--screw-lookup-state", null);
+const instructionSceneState = argument("--instruction-scene-state", null);
+const instructionSceneStep = argument("--instruction-scene-step", null);
+const wallPlannerState = argument("--wall-planner-state", null);
 const media = argument("--media", "screen");
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
@@ -282,7 +285,7 @@ try {
       source: `localStorage.setItem("krepitv:metrika-consent", ${JSON.stringify(consent)});`,
     });
   }
-  if (guidedSelectionState || screwLookupState) {
+  if (guidedSelectionState || screwLookupState || instructionSceneState || wallPlannerState) {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: `window.__qaProductEvents = [];
         for (const name of ["krepitv:tool-usage", "krepitv:result-completed"]) {
@@ -297,7 +300,7 @@ try {
         }`,
     });
   }
-  const wasmQaState = connectionState || phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState || guidedSelectionState;
+  const wasmQaState = connectionState || phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState || guidedSelectionState || wallPlannerState;
   if (["loading", "error", "retry"].includes(wasmQaState)) {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: wasmQaState === "loading"
@@ -325,6 +328,9 @@ try {
     screenWidth: width,
     screenHeight: height,
   });
+  if (instructionSceneState === "reduced-motion") {
+    await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
+  }
   const loaded = once("Page.loadEventFired");
   await send("Page.navigate", { url });
   await loaded;
@@ -341,6 +347,123 @@ try {
         document.head.appendChild(style);
       })()`,
     });
+  }
+  let instructionReport = null;
+  if (instructionSceneState || wallPlannerState) {
+    const qa = await send("Runtime.evaluate", {
+      expression: ` (async () => {
+        const tick = (ms = 80) => new Promise(resolve => setTimeout(resolve, ms));
+        const sceneState = ${JSON.stringify(instructionSceneState)};
+        const sceneStep = ${JSON.stringify(instructionSceneStep)};
+        const plannerState = ${JSON.stringify(wallPlannerState)};
+        const root = document.querySelector(sceneState ? '[data-instruction-scene]' : '[data-analytics-tool="wall_planner"]');
+        if (!root) throw new Error('Visual instruction root missing');
+        let report = {kind: sceneState ? root.dataset.instructionScene : 'wall-planner', state: sceneState || plannerState};
+        if (sceneState) {
+          const steps = [...root.querySelectorAll('.instruction-scene__timeline button')];
+          const back = root.querySelector('[aria-label="Предыдущий шаг"]');
+          const next = root.querySelector('[aria-label="Следующий шаг"]');
+          const play = () => root.querySelector('[aria-pressed]');
+          const pose = () => root.querySelector('svg.room-stage').dataset.scenePose;
+          if (!back.disabled || next.disabled || steps.length < 4 || root.dataset.scenePlaying !== 'false') throw new Error('Initial scene controls invalid');
+          if (sceneState === 'success') {
+            report.poses = [];
+            for (const button of steps) {
+              button.click(); await tick(800); report.poses.push(pose());
+              const transform = getComputedStyle(root.querySelector('.room-stage__television')).transform;
+              if (['back','rails','plate'].includes(pose()) && (transform === 'none' || transform === 'matrix(1, 0, 0, 1, 0, 0)')) throw new Error('Scene pose has no visual translation');
+            }
+            if (!next.disabled || back.disabled || !root.querySelector('[aria-current="step"]')) throw new Error('End bounds invalid');
+            if (root.querySelector('.instruction-scene__next').getAttribute('href').startsWith('http')) throw new Error('Scene should lead to an existing tool');
+          } else if (sceneState === 'paused') {
+            play().click(); await tick(5650);
+            if (steps[0].getAttribute('aria-current') === 'step') throw new Error('Playback did not advance');
+            play().click(); await tick();
+            if (root.dataset.scenePlaying !== 'false') throw new Error('Pause failed');
+            const saved = pose(); await tick(5650);
+            if (pose() !== saved) throw new Error('Paused scene advanced');
+          } else if (sceneState === 'reduced-motion') {
+            if (play() || !root.textContent.includes('Переходы без анимации')) throw new Error('Reduced motion controls invalid');
+            steps[1].click(); await tick();
+            if (getComputedStyle(root.querySelector('.room-stage__television')).transitionDuration !== '0s') throw new Error('Reduced motion transition active');
+          }
+          const opacity = selector => +getComputedStyle(root.querySelector(selector)).opacity;
+          if (root.dataset.instructionScene === 'sockets' && sceneState === 'success') {
+            if (opacity('.room-stage__socket') !== 1 || opacity('[data-room-connection="power"]') !== 1 || opacity('[data-room-connection="hdmi"]') !== 0) throw new Error('Power access scene confused with HDMI');
+          }
+          if (root.dataset.instructionScene === 'hdmi' && sceneState === 'success') {
+            if (opacity('.room-stage__socket') !== 0 || opacity('[data-room-connection="power"]') !== 0 || opacity('[data-room-connection="hdmi"]') !== 1) throw new Error('HDMI scene confused with power outlet');
+          }
+          if (sceneStep !== null) { steps[Number(sceneStep)].click(); await tick(800); report.captureStep = Number(sceneStep); }
+          if (root.querySelector('[data-analytics-tool]') || window.__qaProductEvents.length) throw new Error('Illustration emitted calculator events');
+          report.stepCount = steps.length;
+          report.pose = pose();
+        } else {
+          const form = root.querySelector('form');
+          const submit = form.querySelector('button[type="submit"]');
+          const manual = [...root.querySelectorAll('button')].find(button => button.textContent.includes('По диагонали'));
+          if (manual) { manual.click(); await tick(); }
+          if (plannerState === 'empty') {
+            const field = form.querySelector('input[name="wallWidth"]');
+            const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+            setter.call(field, ''); field.dispatchEvent(new Event('input',{bubbles:true})); await tick();
+            if (!submit.disabled) throw new Error('Empty input did not disable calculation');
+          } else if (['success','loading','error'].includes(plannerState)) {
+            submit.click(); submit.click();
+            await tick(900);
+            if (plannerState === 'success') {
+              const result = root.querySelector('[data-wall-planner-result]');
+              if (!result || !result.textContent.includes('Схема готова')) throw new Error('Planner result missing');
+              const svg = result.querySelector('svg.room-stage');
+              const screen = svg.querySelector('.room-stage__television > rect');
+              const wall = svg.querySelector('rect[rx="2"]');
+              if (!screen || !wall || +screen.getAttribute('width') <= 0) throw new Error('Scaled geometry missing');
+              report.screenWidth = +screen.getAttribute('width');
+              report.screenHeight = +screen.getAttribute('height');
+              if (Math.abs(report.screenWidth / report.screenHeight - 16/9) > 0.01) throw new Error('Screen aspect ratio distorted');
+              report.completions = window.__qaProductEvents.filter(event => event.name === 'krepitv:result-completed' && event.toolId === 'wall_planner').length;
+              if (report.completions !== 1) throw new Error('Planner completion duplicated');
+            } else if (plannerState === 'loading' && (!submit.disabled || !submit.textContent.includes('Строим схему'))) throw new Error('Loading state invalid');
+            else if (plannerState === 'error' && (!root.textContent.includes('Схема не построена') || root.querySelector('button[type="submit"]').textContent.trim() !== 'Повторить')) throw new Error('Error fallback or retry action missing');
+          }
+        }
+        return report;
+      })()`, awaitPromise: true, returnByValue: true,
+    });
+    if (qa.exceptionDetails) throw new Error(qa.exceptionDetails.exception?.description || 'Visual scene QA failed');
+    instructionReport = qa.result.value;
+    if (instructionSceneState === 'focus') {
+      await send('Emulation.setFocusEmulationEnabled', {enabled:true});
+      await send('Runtime.evaluate', {expression:"document.querySelectorAll('.instruction-scene__timeline button')[1].focus()"});
+      await send('Input.dispatchKeyEvent', {type:'keyDown',key:'Enter',code:'Enter',text:'\r',unmodifiedText:'\r',windowsVirtualKeyCode:13,nativeVirtualKeyCode:13});
+      await send('Input.dispatchKeyEvent', {type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+      await new Promise(resolve => setTimeout(resolve,100));
+      const checked = await send('Runtime.evaluate', {expression:"document.querySelectorAll('.instruction-scene__timeline button')[1].getAttribute('aria-current') === 'step'",returnByValue:true});
+      if (!checked.result.value) throw new Error('Keyboard Enter did not change scene step');
+      instructionReport.keyboardStep = true;
+    }
+    if (wallPlannerState === 'success') {
+      await send('Emulation.setFocusEmulationEnabled', {enabled:true});
+      const geometry = async () => {
+        const value = await send('Runtime.evaluate', {expression:`(() => {
+          const root = document.querySelector('[data-wall-planner-result]');
+          const svg = root.querySelector('svg.room-stage');
+          return {x:+svg.querySelector('.room-stage__television > rect').getAttribute('x'),scale:+svg.querySelector('rect[rx="2"]').getAttribute('width')/+document.querySelector('input[name="wallWidth"]').value,completions:window.__qaProductEvents.filter(event => event.name === 'krepitv:result-completed' && event.toolId === 'wall_planner').length};
+        })()`,returnByValue:true});
+        return value.result.value;
+      };
+      const before = await geometry();
+      await send('Runtime.evaluate', {expression:"document.querySelector('[data-wall-planner-result] svg.room-stage').focus()"});
+      for (const [modifiers,distance] of [[0,1],[8,5]]) {
+        const previous = await geometry();
+        await send('Input.dispatchKeyEvent', {type:'rawKeyDown',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39,modifiers});
+        await send('Input.dispatchKeyEvent', {type:'keyUp',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39,modifiers});
+        await new Promise(resolve => setTimeout(resolve,200));
+        const after = await geometry();
+        if (Math.abs((after.x-previous.x)/before.scale-distance)>0.01 || after.completions!==1) throw new Error('Keyboard planner movement or completion invalid');
+      }
+      instructionReport.keyboardMovementCm = [1,5];
+    }
   }
   let phoneTvReport = null;
   if (connectionState) {
@@ -1648,7 +1771,12 @@ try {
       if (focused.result.value !== true) throw new Error("QA keyboard focus is not visibly rendered");
     }
   }
-  await send("Emulation.setEmulatedMedia", { media });
+  await send("Emulation.setEmulatedMedia", {
+    media,
+    ...(instructionSceneState === "reduced-motion"
+      ? { features: [{ name: "prefers-reduced-motion", value: "reduce" }] }
+      : {}),
+  });
   const effectiveSelector = selector
     || (["success", "needs-check", "no-direct-path", "retry"].includes(phoneTvState)
       ? "[data-phone-tv-result]"
@@ -1711,6 +1839,27 @@ try {
       : "window.scrollTo(0, 0); new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))",
     awaitPromise: true,
   });
+  if (instructionSceneState === "focus") {
+    const visibleFocus = await send("Runtime.evaluate", {
+      expression: `(() => {
+        const element = document.activeElement;
+        const rect = element.getBoundingClientRect();
+        return element.matches(":focus-visible") && rect.top >= 0 && rect.bottom <= innerHeight
+          && rect.left >= 0 && rect.right <= innerWidth;
+      })()`,
+      returnByValue: true,
+    });
+    if (visibleFocus.result.value !== true) throw new Error("QA final focus is outside the screenshot viewport");
+  }
+  if (instructionSceneState === "reduced-motion") {
+    const reducedMotionVisible = await send("Runtime.evaluate", {
+      expression: `matchMedia("(prefers-reduced-motion: reduce)").matches
+        && !!document.querySelector(".instruction-scene__motion-note")
+        && !document.querySelector('.instruction-scene__controls button[aria-pressed]')`,
+      returnByValue: true,
+    });
+    if (reducedMotionVisible.result.value !== true) throw new Error("QA reduced-motion state changed before screenshot");
+  }
   const dimensions = await send("Runtime.evaluate", {
     expression: "({ innerWidth, innerHeight, scrollX, scrollY, scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight })",
     returnByValue: true,
@@ -1857,6 +2006,7 @@ try {
   if (subtitleReport) process.stdout.write(`${JSON.stringify(subtitleReport)}\n`);
   if (guidedSelectionReport) process.stdout.write(`${JSON.stringify(guidedSelectionReport)}\n`);
   if (screwLookupReport) process.stdout.write(`${JSON.stringify(screwLookupReport)}\n`);
+  if (instructionReport) process.stdout.write(`${JSON.stringify(instructionReport)}\n`);
   if (affiliateReportEnabled) process.stdout.write(`${JSON.stringify(sanitizedAffiliateReport)}\n`);
 } finally {
   socket?.close();

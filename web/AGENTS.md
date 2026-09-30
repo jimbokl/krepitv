@@ -41,5 +41,9 @@ When implementing from a selected generated mock, treat that image as the source
 - Обратная связь по уведомлению аналитики (29.09.2026): оно должно выглядеть
   как короткая, ненавязчивая полоса; ссылка на политику и возможность отказа
   остаются рядом с текстом.
+- Предпочтение 30.09.2026: выразительная современная графика должна объяснять
+  действия через управляемые анимированные сцены. Переиспользовать общий SVG-
+  движок, сохранять простой русский текст, ручные шаги и режим без движения;
+  условная сцена не подменяет точный расчёт или шаблон производителя.
 
 Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.

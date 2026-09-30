@@ -87,6 +87,8 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
   const moveSequence = useRef(0);
+  const pendingCalculation = useRef(false);
+  const calculationSequence = useRef(0);
 
   const requiredNames = ["wallWidth", "wallHeight", "centerX", "centerY", "furnitureWidth", "furnitureHeight", "eyeLine"];
   const canCalculate = status !== "loading"
@@ -94,6 +96,9 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
     && (mode === "manual" ? values.diagonal !== "" : Boolean(selectedModel));
 
   function resetResult() {
+    calculationSequence.current += 1;
+    moveSequence.current += 1;
+    pendingCalculation.current = false;
     setResult(null);
     setStatus("idle");
     setError(null);
@@ -124,12 +129,16 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
 
   async function submit(event) {
     event.preventDefault();
+    if (pendingCalculation.current || !canCalculate) return;
+    pendingCalculation.current = true;
+    const sequence = ++calculationSequence.current;
     setStatus("loading");
     setError(null);
     try {
       const plan = await calculateWallScenePlan(
         plannerInputsForModel(values, mode === "model" ? selectedModel : null),
       );
+      if (sequence !== calculationSequence.current) return;
       setResult(plan);
       setValues((current) => ({
         ...current,
@@ -142,9 +151,12 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
       });
       setStatus("ready");
     } catch (caught) {
+      if (sequence !== calculationSequence.current) return;
       setResult(null);
       setError(caught instanceof Error ? caught.message : "Не удалось построить схему");
       setStatus("error");
+    } finally {
+      if (sequence === calculationSequence.current) pendingCalculation.current = false;
     }
   }
 
@@ -186,21 +198,27 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
 
   return (
     <section className="border-y-2 border-ink py-7" data-analytics-tool="wall_planner" id="планировщик-стены">
-      <div className="grid gap-7 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start">
-        <div className="flex items-start gap-4">
-          <Ruler aria-hidden="true" className="size-14 shrink-0 text-action" weight="regular" />
-          <div>
+      <div className="grid gap-7 lg:grid-cols-2 lg:items-start">
+        <div className="min-w-0">
+          <div className="flex flex-col items-start gap-4 sm:flex-row">
+            <Ruler aria-hidden="true" className="size-14 shrink-0 text-action" weight="regular" />
+            <div>
             <p className="font-mono text-xs uppercase tracking-[0.12em] text-action">
               Бесплатно · всё остаётся в браузере
             </p>
-            <h2 className="mt-2 font-display text-4xl font-bold leading-none">
+            <h2 className="mt-2 font-display text-3xl font-bold leading-none sm:text-4xl">
               Планировщик стены
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
               Задайте стену и экран. Точная модель использует паспортные габариты,
               ручная диагональ — геометрию 16:9 без рамки.
             </p>
+            </div>
           </div>
+          {!result ? <div className="mt-6" data-wall-planner-default="true">
+            <WallPlannerDiagram example plan={examplePlan} screenLabel="Телевизор 55″" />
+            <p className="mt-3 flex gap-3 text-sm leading-relaxed text-muted"><Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-action" />Пример для ориентира. Введите свои размеры — получите личную схему.</p>
+          </div> : <p className="mt-6 border-l-2 border-action pl-4 text-sm text-muted">Ваша схема готова ниже. Перетащите экран, чтобы примерить другое положение.</p>}
         </div>
 
         <div className="min-w-0">
@@ -250,7 +268,7 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
           <form className="mt-5 grid gap-5" onSubmit={submit}>
             <fieldset>
               <legend className="font-display text-xl font-bold">Стена и экран</legend>
-              <div className="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+              <div className="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {mode === "manual" ? (
                   <NumberField
                     hint="Активная область 16:9, без рамки."
@@ -282,7 +300,7 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
             </details>
 
             <button className="primary-button justify-self-start" disabled={!canCalculate} type="submit">
-              {status === "loading" ? "Строим схему…" : "Примерить телевизор на стене"}
+              {status === "loading" ? "Строим схему…" : status === "error" ? "Повторить" : "Примерить телевизор на стене"}
               <ArrowRight aria-hidden="true" />
             </button>
           </form>
@@ -304,16 +322,7 @@ export function WallPlannerCalculator({ models = [], search = [] }) {
             onMove={moveScreen}
             result={result}
           />
-        ) : (
-          <div className="mt-6" data-wall-planner-default="true">
-            <WallPlannerDiagram example plan={examplePlan} screenLabel="Телевизор 55″" />
-            <p className="mt-3 flex gap-3 text-sm leading-relaxed text-muted">
-              <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-action" />
-              Это демонстрационный пример, а не ваш результат: стена 420 × 270 см,
-              экран 55″ и тумба 180 × 55 см.
-            </p>
-          </div>
-        )}
+        ) : null}
       </div>
 
       <WallPlannerExamples />
@@ -473,6 +482,7 @@ function NumberField({ hint, label, max, min = "0", name, onChange, value, unit 
         className="input-control"
         max={max}
         min={min}
+        name={name}
         onChange={(event) => onChange(name, event.target.value)}
         required
         step="0.1"
