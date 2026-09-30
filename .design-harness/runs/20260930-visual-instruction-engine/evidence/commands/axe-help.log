@@ -1,0 +1,35 @@
+Usage: axe <url...> [options]
+
+Options:
+  -V, --version                 output the version number
+  -i, --include <list>          CSS selector of included elements, comma
+                                separated
+  -e, --exclude <list>          CSS selector of excluded elements, comma
+                                separated
+  -r, --rules <list>            IDs of rules to run, comma separated
+  -t, --tags <list>             Tags of rules to run, comma separated
+  -l, --disable <list>          IDs of rules to disable, comma separated
+  -b, --browser [browser-name]  Which browser to run (Webdriver required)
+  -s, --save [filename]         Save the output as a JSON file. Filename is
+                                optional
+  -j, --stdout                  Output results to STDOUT and silence all other
+                                output
+  -d, --dir <path>              Output directory
+  -a, --axe-source <path>       Path to axe.js file
+  -q, --exit                    Exit with `1` failure code if any a11y tests
+                                fail
+  -v, --verbose                 Output metadata like test tool name, version
+                                and environment
+  --load-delay <n>              Set how much time (milliseconds) axe will wait
+                                after page load before running the audit
+                                (default: 0)
+  --timeout <n>                 Set how much time (seconds) axe has to run
+                                (default: "90")
+  --timer                       Log the time it takes to run
+  --show-errors [boolean]       Display the full error stack (default: true)
+  --no-reporter                 Turn the CLI reporter off
+  --chrome-options [options]    Options to provide to headless Chrome
+  --chromedriver-path <path>    Absolute path to the desired chromedriver
+                                executable
+  --chrome-path <path>          Path to the desired chrome executable
+  -h, --help                    display help for command

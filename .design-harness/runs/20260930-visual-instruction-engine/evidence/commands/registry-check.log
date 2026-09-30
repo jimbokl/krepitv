@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-09-30T14:22:17.529585Z",
+  "stats": {
+    "projects": 144,
+    "projectsWithSkills": 33,
+    "projectsWithHarnesses": 39,
+    "skills": 226,
+    "validSkills": 200,
+    "harnesses": 180,
+    "harnessPackages": 74,
+    "harnessEntrypoints": 106,
+    "issues": 252,
+    "errors": 0,
+    "warnings": 75,
+    "info": 177
+  },
+  "drift": {
+    "skills": {
+      "added": [
+        "/Users/dmitrij/.codex/skills/telegrampost/SKILL.md",
+        "/Users/dmitrij/Documents/ChatGPT/Personal/.dzen-poster/venv/lib/python3.14/site-packages/playwright/driver/package/lib/tools/skills/playwright-cli/SKILL.md",
+        "/Users/dmitrij/Documents/ChatGPT/Personal/.dzen-poster/venv/lib/python3.14/site-packages/playwright/driver/package/lib/tools/skills/playwright-component-testing/SKILL.md",
+        "/Users/dmitrij/Documents/ChatGPT/Personal/.dzen-poster/venv/lib/python3.14/site-packages/playwright/driver/package/lib/tools/skills/playwright-trace/SKILL.md",
+        "/Volumes/DevSim/Projects/gemma4-developer-agent/data/local_eval/v13-20260930/output/v13/skills/notbad-lite/SKILL.md"
+      ],
+      "removed": [
+        "/Users/dmitrij/.codex/skills/.system/plugin-creator/SKILL.md"
+      ],
+      "changed": []
+    },
+    "harnesses": {
+      "added": [
+        "/Volumes/DevSim/Projects/.codex-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/task/harness.rs",
+        "/Volumes/DevSim/Projects/polymarket-user-trading-gateway/run/decision-harness"
+      ],
+      "removed": [],
+      "changed": [
+        "/Users/dmitrij/Documents/Solaros/harness",
+        "/Volumes/DevSim/Projects/polymarket-user-trading-gateway/harness"
+      ]
+    },
+    "hasDrift": true
+  },
+  "passed": false
+}

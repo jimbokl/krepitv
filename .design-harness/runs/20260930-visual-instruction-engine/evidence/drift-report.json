@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "run": "20260930-visual-instruction-engine",
+  "generated_at": "2026-09-30T15:06:33.854314+00:00",
+  "scanned_files": [
+    "web/src/components/scene/RoomStage.jsx",
+    "web/src/components/scene/InstructionScene.jsx",
+    "web/src/components/WallPlannerCalculator.jsx",
+    "web/src/components/WallPlannerDiagram.jsx",
+    "web/src/pages/SeoPage.jsx"
+  ],
+  "findings": []
+}

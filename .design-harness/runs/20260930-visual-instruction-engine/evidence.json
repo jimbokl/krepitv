@@ -1,0 +1,794 @@
+{
+  "version": 1,
+  "task_id": "20260930-visual-instruction-engine",
+  "commands": [
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "output_path": "evidence/commands/diff-check.log",
+      "covers": []
+    },
+    {
+      "id": "full-build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "output_path": "evidence/commands/full-build.log",
+      "covers": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "success",
+        "disabled",
+        "focus",
+        "paused",
+        "reduced-motion"
+      ]
+    },
+    {
+      "id": "scene-browser",
+      "command": "node scripts/qa/verify-instruction-scenes.mjs",
+      "environment": {
+        "SCENE_QA_URL": "http://127.0.0.1:4191"
+      },
+      "exit_code": 0,
+      "output_path": "evidence/commands/scene-browser.log",
+      "covers": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "success",
+        "disabled",
+        "focus",
+        "paused",
+        "reduced-motion"
+      ]
+    },
+    {
+      "id": "axe-default",
+      "command": "axe default-state smoke for the new scene and wall-planner regions",
+      "exit_code": 0,
+      "output_path": "evidence/commands/axe.log",
+      "covers": [
+        "default"
+      ]
+    },
+    {
+      "id": "source-drift",
+      "command": "scan-drift --base cfb0e668a --files changed UI sources",
+      "exit_code": 0,
+      "output_path": "evidence/commands/drift.log",
+      "covers": []
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "scene-mobile-default",
+      "path": "evidence/screenshots/scene-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-mobile-success",
+      "path": "evidence/screenshots/scene-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-mobile-disabled",
+      "path": "evidence/screenshots/scene-mobile-disabled.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-mobile-focus",
+      "path": "evidence/screenshots/scene-mobile-focus.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "scene-mobile-paused",
+      "path": "evidence/screenshots/scene-mobile-paused.png",
+      "state": "paused",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-mobile-reduced-motion",
+      "path": "evidence/screenshots/scene-mobile-reduced-motion.png",
+      "state": "reduced-motion",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-mobile-default",
+      "path": "evidence/screenshots/planner-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-mobile-success",
+      "path": "evidence/screenshots/planner-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-mobile-empty",
+      "path": "evidence/screenshots/planner-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-mobile-loading",
+      "path": "evidence/screenshots/planner-mobile-loading.png",
+      "state": "loading",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-mobile-error",
+      "path": "evidence/screenshots/planner-mobile-error.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "expected_dimensions": {
+        "width": 320,
+        "height": 800
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-tablet-default",
+      "path": "evidence/screenshots/scene-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-tablet-success",
+      "path": "evidence/screenshots/scene-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-tablet-disabled",
+      "path": "evidence/screenshots/scene-tablet-disabled.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-tablet-focus",
+      "path": "evidence/screenshots/scene-tablet-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "scene-tablet-paused",
+      "path": "evidence/screenshots/scene-tablet-paused.png",
+      "state": "paused",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-tablet-reduced-motion",
+      "path": "evidence/screenshots/scene-tablet-reduced-motion.png",
+      "state": "reduced-motion",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-tablet-default",
+      "path": "evidence/screenshots/planner-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-tablet-success",
+      "path": "evidence/screenshots/planner-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-tablet-empty",
+      "path": "evidence/screenshots/planner-tablet-empty.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-tablet-loading",
+      "path": "evidence/screenshots/planner-tablet-loading.png",
+      "state": "loading",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-tablet-error",
+      "path": "evidence/screenshots/planner-tablet-error.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "expected_dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-desktop-default",
+      "path": "evidence/screenshots/scene-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-desktop-success",
+      "path": "evidence/screenshots/scene-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-desktop-disabled",
+      "path": "evidence/screenshots/scene-desktop-disabled.png",
+      "state": "disabled",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-desktop-focus",
+      "path": "evidence/screenshots/scene-desktop-focus.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "scene-desktop-paused",
+      "path": "evidence/screenshots/scene-desktop-paused.png",
+      "state": "paused",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "scene-desktop-reduced-motion",
+      "path": "evidence/screenshots/scene-desktop-reduced-motion.png",
+      "state": "reduced-motion",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-desktop-default",
+      "path": "evidence/screenshots/planner-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-desktop-success",
+      "path": "evidence/screenshots/planner-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-desktop-empty",
+      "path": "evidence/screenshots/planner-desktop-empty.png",
+      "state": "empty",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-desktop-loading",
+      "path": "evidence/screenshots/planner-desktop-loading.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "planner-desktop-error",
+      "path": "evidence/screenshots/planner-desktop-error.png",
+      "state": "error",
+      "viewport_id": "desktop",
+      "expected_dimensions": {
+        "width": 1440,
+        "height": 900
+      },
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    }
+    , {
+      "id": "planner-tablet-boundary",
+      "path": "evidence/screenshots/planner-tablet-success-diagram-boundary.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "expected_dimensions": {"width": 768, "height": 1024},
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    },
+    {
+      "id": "planner-desktop-boundary",
+      "path": "evidence/screenshots/planner-desktop-success-diagram-boundary.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "expected_dimensions": {"width": 1440, "height": 900},
+      "reviewer": "/root/visual_engine_review",
+      "inspection_date": "2026-09-30",
+      "checks": {"nonblank": true, "no_overflow": true, "no_overlap": true, "text_fits": true}
+    }
+  ],
+  "assets": [],
+  "state_coverage": {
+    "default": [
+      "scene-mobile-default",
+      "planner-mobile-default",
+      "scene-tablet-default",
+      "planner-tablet-default",
+      "scene-desktop-default",
+      "planner-desktop-default"
+    ],
+    "loading": [
+      "planner-mobile-loading",
+      "planner-tablet-loading",
+      "planner-desktop-loading"
+    ],
+    "empty": [
+      "planner-mobile-empty",
+      "planner-tablet-empty",
+      "planner-desktop-empty"
+    ],
+    "error": [
+      "planner-mobile-error",
+      "planner-tablet-error",
+      "planner-desktop-error"
+    ],
+    "success": [
+      "scene-mobile-success",
+      "planner-mobile-success",
+      "scene-tablet-success",
+      "planner-tablet-success",
+      "scene-desktop-success",
+      "planner-desktop-success",
+      "planner-tablet-boundary",
+      "planner-desktop-boundary"
+    ],
+    "disabled": [
+      "scene-mobile-disabled",
+      "scene-tablet-disabled",
+      "scene-desktop-disabled"
+    ],
+    "focus": [
+      "scene-mobile-focus",
+      "scene-tablet-focus",
+      "scene-desktop-focus"
+    ],
+    "paused": [
+      "scene-mobile-paused",
+      "scene-tablet-paused",
+      "scene-desktop-paused"
+    ],
+    "reduced-motion": [
+      "scene-mobile-reduced-motion",
+      "scene-tablet-reduced-motion",
+      "scene-desktop-reduced-motion"
+    ]
+  },
+  "viewport_coverage": {
+    "mobile": [
+      "scene-mobile-default",
+      "scene-mobile-success",
+      "scene-mobile-disabled",
+      "scene-mobile-focus",
+      "scene-mobile-paused",
+      "scene-mobile-reduced-motion",
+      "planner-mobile-default",
+      "planner-mobile-success",
+      "planner-mobile-empty",
+      "planner-mobile-loading",
+      "planner-mobile-error"
+    ],
+    "tablet": [
+      "scene-tablet-default",
+      "scene-tablet-success",
+      "scene-tablet-disabled",
+      "scene-tablet-focus",
+      "scene-tablet-paused",
+      "scene-tablet-reduced-motion",
+      "planner-tablet-default",
+      "planner-tablet-success",
+      "planner-tablet-empty",
+      "planner-tablet-loading",
+      "planner-tablet-error",
+      "planner-tablet-boundary"
+    ],
+    "desktop": [
+      "scene-desktop-default",
+      "scene-desktop-success",
+      "scene-desktop-disabled",
+      "scene-desktop-focus",
+      "scene-desktop-paused",
+      "scene-desktop-reduced-motion",
+      "planner-desktop-default",
+      "planner-desktop-success",
+      "planner-desktop-empty",
+      "planner-desktop-loading",
+      "planner-desktop-error",
+      "planner-desktop-boundary"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/visual_engine_review",
+    "independent": true,
+    "verdict": "pass",
+    "findings": []
+  },
+  "rollback": {
+    "documented": true,
+    "path": "review.md"
+  }
+}
