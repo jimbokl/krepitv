@@ -351,6 +351,18 @@ try {
   }
   let instructionReport = null;
   if (instructionSceneState || wallPlannerState) {
+    // Production enhancement includes asynchronous catalog and lazy-chunk loads.
+    // Wait for its observable root instead of treating a fixed 700 ms as readiness.
+    await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const selector = ${JSON.stringify(instructionSceneState ? '[data-instruction-scene]' : '[data-analytics-tool="wall_planner"]')};
+        const deadline = Date.now() + 30000;
+        while (!document.querySelector(selector) && Date.now() < deadline) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        return Boolean(document.querySelector(selector));
+      })()`, awaitPromise: true, returnByValue: true,
+    });
     const qa = await send("Runtime.evaluate", {
       expression: ` (async () => {
         const tick = (ms = 80) => new Promise(resolve => setTimeout(resolve, ms));
