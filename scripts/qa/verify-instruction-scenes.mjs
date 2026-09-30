@@ -27,15 +27,19 @@ for (const [route,step] of [['/rozetki-pod-televizor-na-stene/',1],['/rozetki-po
 for (const [viewport,width,height] of [['mobile',320,800],['tablet',768,1024],['desktop',1440,900]]) {
   cases.push({viewport,width,height,state:'success',route:'/televizor-na-stene/',scene:false,diagram:true});
 }
+for (const [viewport,width,height] of [['tablet',768,1024],['desktop',1440,900]]) {
+  cases.push({viewport,width,height,state:'success',route:'/televizor-na-stene/',scene:false,diagram:true,boundary:true});
+}
 let passed = 0;
 for (const item of cases) {
-  const name = `${item.scene?'scene':'planner'}-${item.extra?item.route.split('/')[1]+'-':''}${item.viewport}-${item.state}${item.zoom?'-zoom':''}${item.step!==undefined?'-step'+item.step:''}${item.diagram?'-diagram':''}`;
+  const name = `${item.scene?'scene':'planner'}-${item.extra?item.route.split('/')[1]+'-':''}${item.viewport}-${item.state}${item.zoom?'-zoom':''}${item.step!==undefined?'-step'+item.step:''}${item.diagram?'-diagram':''}${item.boundary?'-boundary':''}`;
   const output = `${run}/evidence/screenshots/${name}.png`;
   const selector = item.scene ? item.state==='focus'?'.instruction-scene__timeline':item.state==='disabled'?'.instruction-scene__controls':'[data-instruction-scene]' : item.diagram?'[data-wall-planner-diagram="результат"]':item.state==='success'?'[data-wall-planner-result]':item.state==='empty'?'input[name="wallWidth"]':item.state==='loading'?'[data-analytics-tool="wall_planner"] button[type="submit"]':item.state==='error'?'[data-analytics-tool="wall_planner"] [role="status"]':'[data-analytics-tool="wall_planner"]';
   const args = ['scripts/qa/capture-page.mjs','--url',`${base}${item.route}`,'--output',output,'--width',String(item.width),'--height',String(item.height),item.scene?'--instruction-scene-state':'--wall-planner-state',item.state,'--selector',selector];
   if (item.state==='focus') args.push('--focus-selector','.instruction-scene__timeline button:first-child');
   if (item.zoom) args.push('--text-zoom','200','--text-spacing');
   if (item.step!==undefined) args.push('--instruction-scene-step',String(item.step));
+  if (item.boundary) args.push('--wall-planner-boundary');
   const result = spawnSync(process.execPath,args,{encoding:'utf8',maxBuffer:2_000_000});
   if (result.status !== 0) { process.stderr.write(`${name}: ${result.stderr}\n${result.stdout}`); process.exit(result.status || 1); }
   passed++;

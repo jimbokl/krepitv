@@ -31,6 +31,7 @@ const screwLookupState = argument("--screw-lookup-state", null);
 const instructionSceneState = argument("--instruction-scene-state", null);
 const instructionSceneStep = argument("--instruction-scene-step", null);
 const wallPlannerState = argument("--wall-planner-state", null);
+const wallPlannerBoundary = process.argv.includes("--wall-planner-boundary");
 const media = argument("--media", "screen");
 const textZoom = Number(argument("--text-zoom", "100"));
 const textSpacing = process.argv.includes("--text-spacing");
@@ -409,6 +410,11 @@ try {
             setter.call(field, ''); field.dispatchEvent(new Event('input',{bubbles:true})); await tick();
             if (!submit.disabled) throw new Error('Empty input did not disable calculation');
           } else if (['success','loading','error'].includes(plannerState)) {
+            if (${JSON.stringify(wallPlannerBoundary)}) {
+              const field = form.querySelector('input[name="centerY"]');
+              Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(field, '0');
+              field.dispatchEvent(new Event('input',{bubbles:true})); await tick();
+            }
             submit.click(); submit.click();
             await tick(900);
             if (plannerState === 'success') {
@@ -423,6 +429,14 @@ try {
               if (Math.abs(report.screenWidth / report.screenHeight - 16/9) > 0.01) throw new Error('Screen aspect ratio distorted');
               report.completions = window.__qaProductEvents.filter(event => event.name === 'krepitv:result-completed' && event.toolId === 'wall_planner').length;
               if (report.completions !== 1) throw new Error('Planner completion duplicated');
+              if (${JSON.stringify(wallPlannerBoundary)}) {
+                const label = [...svg.querySelectorAll('text')].find(node => node.textContent.startsWith('снизу'));
+                const style = getComputedStyle(label);
+                const y = +label.getAttribute('y');
+                if (y < +screen.getAttribute('y') || y > +screen.getAttribute('y') + report.screenHeight) throw new Error('Boundary fixture did not overlap the screen');
+                if (style.paintOrder !== 'stroke' || +style.strokeWidth.replace('px','') < 6 || style.stroke === 'none' || style.fill === style.stroke) throw new Error('Boundary label lacks its persistent contrast halo');
+                report.boundaryLabelHalo = true;
+              }
             } else if (plannerState === 'loading' && (!submit.disabled || !submit.textContent.includes('Строим схему'))) throw new Error('Loading state invalid');
             else if (plannerState === 'error' && (!root.textContent.includes('Схема не построена') || root.querySelector('button[type="submit"]').textContent.trim() !== 'Повторить')) throw new Error('Error fallback or retry action missing');
           }

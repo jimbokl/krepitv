@@ -148,8 +148,11 @@ export function WallPlannerDiagram({
 function DimensionLabel({ anchor, label, x, y }) {
   return (
     <text
-      className="hidden fill-muted font-mono text-base font-semibold sm:block"
+      className="hidden fill-ink stroke-paper font-mono text-base font-semibold sm:block"
       dominantBaseline="middle"
+      paintOrder="stroke"
+      strokeLinejoin="round"
+      strokeWidth="6"
       textAnchor={anchor}
       x={x}
       y={y}
