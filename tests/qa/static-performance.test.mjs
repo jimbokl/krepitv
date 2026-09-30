@@ -25,6 +25,7 @@ test("responsive images preserve originals, alt, priority and do not create nest
   assert.match(result, /home-hero-model-480.webp 480w/u);
   assert.match(result, /home-hero-model-775.avif 775w/u);
   assert.doesNotMatch(result, /home-hero-model-(800|1240)/u);
+  assert.doesNotMatch(result, /display:contents/u);
   assert.match(result, /fetchpriority="high"/u);
   assert.match(result, /alt="Стена" loading="lazy"/u);
   assert.equal((result.match(/<picture\b/gu) ?? []).length, 2);

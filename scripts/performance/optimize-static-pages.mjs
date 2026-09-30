@@ -24,8 +24,9 @@ export function addResponsiveImages(html) {
     const name = block.match(/src="\/assets\/images\/([^"/]+)\.(?:webp|avif|png)"/u)?.[1];
     const image = responsiveImages[name];
     const srcset = image.widths.map((width) => `/assets/images/${name}-${width}.avif ${width}w`).join(", ");
-    // display:contents preserves the original image's grid/flex sizing.
-    return `<picture style="display:contents"><source type="image/avif" srcset="${srcset}" sizes="${image.sizes}" data-responsive-image="true">${enhanced}</picture>`;
+    // Keep one grid/flex item. display:contents can expose source as an extra item.
+    const imageClass = block.match(/\bclass="([^"]*)"/u)?.[1] || "block";
+    return `<picture class="${imageClass}" style="display:block"><source type="image/avif" srcset="${srcset}" sizes="${image.sizes}" data-responsive-image="true">${enhanced}</picture>`;
   });
 }
 
