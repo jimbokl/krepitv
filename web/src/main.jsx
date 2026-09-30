@@ -1,6 +1,5 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import "@fontsource-variable/roboto-condensed/wght.css";
+import "@fontsource/roboto-condensed/700.css";
+import "@fontsource/roboto-condensed/800.css";
 import "@fontsource-variable/ibm-plex-sans/wght.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import { bootClient } from "./lib/clientBoot.mjs";
@@ -20,18 +19,14 @@ const staticNavigation = installStaticNavigation();
 
 if (rootElement?.dataset.pageKind === "home") {
   void Promise.all([
-    import("./components/HomeSearchIsland.jsx"),
+    import("./lib/homeSearchEnhancement.mjs"),
     import("./lib/modelSearch.mjs"),
   ]).then(
-    ([{ HomeSearchIsland }, { loadHomeSearch }]) => bootClient({
+    ([{ enhanceHomeSearch }, { loadHomeSearch }]) => bootClient({
       rootElement,
       loadHomeSearch,
       renderHome(island, search) {
-        createRoot(island).render(
-          <React.StrictMode>
-            <HomeSearchIsland search={search} />
-          </React.StrictMode>,
-        );
+        enhanceHomeSearch(island, search);
       },
     }),
     reportEnhancementError,
@@ -41,16 +36,13 @@ if (rootElement?.dataset.pageKind === "home") {
   void Promise.all([
     import("./components/ModelOffersIsland.jsx"),
     import("./lib/catalog.js"),
+    import("./lib/renderReactIsland.jsx"),
   ]).then(
-    ([{ ModelOffersIsland }, { loadFreshModelAffiliateOffers }]) => bootClient({
+    ([{ ModelOffersIsland }, { loadFreshModelAffiliateOffers }, { renderReactIsland }]) => bootClient({
       rootElement,
       loadIslandData: () => loadFreshModelAffiliateOffers({ modelId }),
       renderIsland(island, offers) {
-        createRoot(island).render(
-          <React.StrictMode>
-            <ModelOffersIsland modelId={modelId} offers={offers} />
-          </React.StrictMode>,
-        );
+        renderReactIsland(island, ModelOffersIsland, { modelId, offers });
       },
     }),
     reportEnhancementError,
@@ -59,16 +51,13 @@ if (rootElement?.dataset.pageKind === "home") {
   void Promise.all([
     import("./pages/GuidedSelectionPage.jsx"),
     import("./lib/catalog.js"),
+    import("./lib/renderReactIsland.jsx"),
   ]).then(
-    ([{ GuidedSelectionPage }, { loadCatalog }]) => bootClient({
+    ([{ GuidedSelectionPage }, { loadCatalog }, { renderReactIsland }]) => bootClient({
       rootElement,
       loadIslandData: loadCatalog,
       renderIsland(island, catalog) {
-        createRoot(island).render(
-          <React.StrictMode>
-            <GuidedSelectionPage catalog={catalog} embedded />
-          </React.StrictMode>,
-        );
+        renderReactIsland(island, GuidedSelectionPage, { catalog, embedded: true });
       },
     }),
     reportEnhancementError,
@@ -77,18 +66,15 @@ if (rootElement?.dataset.pageKind === "home") {
   void Promise.all([
     import("./App.jsx"),
     import("./lib/catalog.js"),
+    import("./lib/renderReactIsland.jsx"),
   ]).then(
-    ([{ App, preloadAppRoute }, { loadCatalog }]) => preloadAppRoute(rootElement).then(
+    ([{ App, preloadAppRoute }, { loadCatalog }, { renderReactIsland }]) => preloadAppRoute(rootElement).then(
       () => bootClient({
         rootElement,
         loadCatalog,
         render(catalog) {
           staticNavigation.dispose();
-          createRoot(rootElement).render(
-            <React.StrictMode>
-              <App catalog={catalog} />
-            </React.StrictMode>,
-          );
+          renderReactIsland(rootElement, App, { catalog });
         },
       }),
     ),

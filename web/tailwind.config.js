@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./**/*.html", "./src/**/*.{js,jsx}"],
+  content: ["./index.html", "./**/*.html", "./src/**/*.{js,jsx,mjs}"],
   theme: {
     extend: {
       colors: {
@@ -18,7 +18,7 @@ export default {
         danger: "#B42318",
       },
       fontFamily: {
-        display: ['"Roboto Condensed Variable"', "Arial Narrow", "sans-serif"],
+        display: ['"Roboto Condensed"', "Arial Narrow", "sans-serif"],
         sans: ['"IBM Plex Sans Variable"', "Arial", "sans-serif"],
         mono: ['"IBM Plex Mono"', "monospace"],
       },

@@ -2,7 +2,8 @@ import sharp from "sharp";
 import { fileURLToPath } from "node:url";
 
 export const responsiveImages = {
-  "home-hero-model": { widths: [480, 800, 1240], sizes: "(min-width: 1024px) 48vw, 100vw" },
+  // The source is 775 px wide: descriptors must name the actual pixel width.
+  "home-hero-model": { widths: [480, 775], sizes: "(min-width: 1024px) 48vw, 100vw" },
   "home-step-model": { widths: [320, 640, 960], sizes: "(min-width: 1024px) 32vw, (min-width: 640px) 45vw, 100vw" },
   "home-step-wall": { widths: [320, 640, 960], sizes: "(min-width: 1024px) 32vw, (min-width: 640px) 45vw, 100vw" },
   "home-step-height": { widths: [320, 640, 960], sizes: "(min-width: 1024px) 32vw, (min-width: 640px) 45vw, 100vw" },
@@ -18,6 +19,7 @@ export async function generateResponsiveImages(root = new URL("../../web/public/
         const output = fileURLToPath(new URL(`${name}-${width}.${format}`, root));
         const pipeline = sharp(input).resize({ width, withoutEnlargement: true });
         const result = await (format === "avif" ? pipeline.avif({ quality: 52, effort: 6 }) : pipeline.webp({ quality: 78 })).toFile(output);
+        if (result.width !== width) throw new Error(`Неверная ширина ${name}-${width}.${format}: ${result.width}`);
         bytes += result.size;
       }
     }

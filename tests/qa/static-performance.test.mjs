@@ -4,15 +4,31 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { addResponsiveImages, optimizeStaticPages } from "../../scripts/performance/optimize-static-pages.mjs";
+import sharp from "sharp";
+import { responsiveImages } from "../../scripts/performance/responsive-images.mjs";
+
+test("every image srcset descriptor agrees with the encoded dimensions", async () => {
+  for (const [name, { widths }] of Object.entries(responsiveImages)) {
+    for (const width of widths) {
+      for (const format of ["avif", "webp"]) {
+        const file = new URL(`../../web/public/assets/images/${name}-${width}.${format}`, import.meta.url);
+        assert.equal((await sharp(file.pathname).metadata()).width, width, file.pathname);
+      }
+    }
+  }
+});
 
 test("responsive images preserve originals, alt, priority and do not create nested pictures", () => {
   const html = '<picture><source srcset="/assets/images/mount-wall-system.avif" type="image/avif"><img src="/assets/images/mount-wall-system.png" alt="Стена" loading="lazy"></picture><img src="/assets/images/home-hero-model.webp" alt="Модель" fetchpriority="high">';
   const result = addResponsiveImages(html);
   assert.match(result, /mount-wall-system-320.avif 320w/u);
   assert.match(result, /home-hero-model-480.webp 480w/u);
+  assert.match(result, /home-hero-model-775.avif 775w/u);
+  assert.doesNotMatch(result, /home-hero-model-(800|1240)/u);
   assert.match(result, /fetchpriority="high"/u);
   assert.match(result, /alt="Стена" loading="lazy"/u);
-  assert.equal((result.match(/<picture>/gu) ?? []).length, 1);
+  assert.equal((result.match(/<picture\b/gu) ?? []).length, 2);
+  assert.doesNotMatch(result, /<picture[^>]*>(?:(?!<\/picture>).)*<picture/su);
   assert.equal(addResponsiveImages(result), result);
 });
 
