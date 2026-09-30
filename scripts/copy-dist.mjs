@@ -1,9 +1,11 @@
 import { cp, mkdir, rm, writeFile } from "node:fs/promises";
+import { optimizeStaticPages } from "./performance/optimize-static-pages.mjs";
 
 const source = new URL("../web/dist/client/", import.meta.url);
 const target = new URL("../docs/", import.meta.url);
 
 await mkdir(target, { recursive: true });
+await optimizeStaticPages(source);
 await cp(source, target, { recursive: true });
 // wasm-pack creates a package-local `*` rule. It is useful for npm packaging,
 // but would silently remove the runtime from a GitHub Pages commit.

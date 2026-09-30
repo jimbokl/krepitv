@@ -18,8 +18,8 @@ export default {
         danger: "#B42318",
       },
       fontFamily: {
-        display: ['"Roboto Condensed"', "Arial Narrow", "sans-serif"],
-        sans: ['"IBM Plex Sans"', "Arial", "sans-serif"],
+        display: ['"Roboto Condensed Variable"', "Arial Narrow", "sans-serif"],
+        sans: ['"IBM Plex Sans Variable"', "Arial", "sans-serif"],
         mono: ['"IBM Plex Mono"', "monospace"],
       },
       boxShadow: {

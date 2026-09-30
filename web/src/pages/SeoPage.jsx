@@ -439,6 +439,7 @@ function SeoArticle({ catalog, page }) {
           </div>
           <div className="seo-editorial-hero__intro">
           <p className="mt-6 max-w-[1000px] text-lg leading-relaxed text-muted sm:text-xl">
+            {["tv-freezes", "tv-energy-consumption", "diagonal-65"].includes(page.id) ? <span className="mb-2 block font-mono text-xs font-semibold uppercase tracking-wide text-action" data-answer-summary="true">Короткий ответ</span> : null}
             {page.lead}
           </p>
           {is65MountPage ? <div className="diagonal-lookup" id="seo-model-search">
@@ -844,8 +845,8 @@ function SeoEvidenceGuide({ guide, pageId }) {
             </tr>
           </thead>
           <tbody>
-            {guide.steps.map((step) => (
-              <tr className="border-t border-line align-top" data-evidence-guide-step={step.label} key={step.label}>
+            {guide.steps.map((step, index) => (
+              <tr className="border-t border-line align-top" id={`shag-${index + 1}`} data-evidence-guide-step={step.label} key={step.label}>
                 <th className="p-4 text-left font-display text-lg" scope="row">{step.label}</th>
                 <td className="p-4 font-semibold">{step.title}</td>
                 <td className="p-4 leading-relaxed text-muted">{step.body}</td>

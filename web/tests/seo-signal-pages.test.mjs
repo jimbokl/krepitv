@@ -35,7 +35,9 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   assert.ok(INTENT_TOOL_IDS.every((id) => (
     id === "tv-disable-subtitles"
       ? page(id)?.updated_at === "2026-09-23"
-      : ["tv-freezes", "tv-purchase-checklist"].includes(id)
+      : id === "tv-freezes"
+        ? page(id)?.updated_at === "2026-09-30"
+      : id === "tv-purchase-checklist"
         ? page(id)?.updated_at === "2026-09-29"
       : updatedIds.has(id)
   )));
@@ -43,8 +45,8 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   assert.equal(tvIntentCohortIds.size, 14);
   const updateDates = {
     "tv-disable-subtitles": "2026-09-23",
-    "tv-energy-consumption": "2026-09-22",
-    "tv-freezes": "2026-09-29",
+    "tv-energy-consumption": "2026-09-30",
+    "tv-freezes": "2026-09-30",
   };
   assert.ok([...targetIds].every((id) => page(id)?.updated_at === (updateDates[id] || "2026-09-18")));
   assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-09-23");
@@ -54,7 +56,7 @@ test("measured SEO winners and new intent tools expose truthful material-update 
 
 test("energy page answers the measured query before the calculator", () => {
   const candidate = page("tv-energy-consumption");
-  assert.match(candidate.title, /Сколько электричества потребляет телевизор/u);
+  assert.match(candidate.title, /Сколько электроэнергии потребляет телевизор/u);
   assert.match(candidate.description, /за месяц и год/u);
   assert.match(candidate.lead, /100 Вт/u);
   assert.match(candidate.lead, /12 кВт·ч за 30 дней/u);
@@ -100,13 +102,13 @@ test("storage cleanup answers the measured intent with platform-specific safe ro
 test("frozen TV page answers the no-response intent before destructive recovery", () => {
   const candidate = page("tv-freezes");
 
-  assert.match(candidate.title, /^Что делать, если телевизор завис и не реагирует на пульт/u);
+  assert.match(candidate.title, /^Завис телевизор: что делать, если не реагирует на пульт/u);
   assert.match(candidate.description, /не реагирует/u);
   assert.match(candidate.description, /обновление/u);
   assert.match(candidate.h1, /завис и не реагирует/u);
   assert.match(candidate.lead, /сначала убедитесь, что на экране не идёт обновление/u);
   assert.match(candidate.lead, /Заводской сброс — не первый шаг/u);
-  assert.equal(candidate.updated_at, "2026-09-29");
+  assert.equal(candidate.updated_at, "2026-09-30");
   assert.equal(candidate.guide.updated_at, "2026-08-06");
   assert.deepEqual(
     candidate.guide.steps.map(({ label }) => label),

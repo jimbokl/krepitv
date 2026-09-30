@@ -1350,7 +1350,7 @@ fn seo_evidence_guide_json_ld(page: &SeoPage, canonical: &str) -> Option<String>
                 "position": index + 1,
                 "name": step.title,
                 "text": step.body,
-                "url": format!("{canonical}#мастер")
+                "url": format!("{canonical}#shag-{}", index + 1)
             })
         })
         .collect::<Vec<_>>();
@@ -1368,16 +1368,17 @@ fn seo_evidence_guide_json_ld(page: &SeoPage, canonical: &str) -> Option<String>
         "headline": page.h1,
         "description": page.description,
         "inLanguage": "ru-RU",
-        "datePublished": guide.updated_at,
         "dateModified": page.updated_at.as_deref().unwrap_or(guide.updated_at.as_str()),
         "isAccessibleForFree": true,
         "author": {
             "@type": "Organization",
+            "@id": "https://krepitv.ru/redaktsiya/#organization",
             "name": "Редакция KREPI TV",
             "url": "https://krepitv.ru/redaktsiya/"
         },
         "publisher": {
             "@type": "Organization",
+            "@id": "https://krepitv.ru/#organization",
             "name": "KREPI TV",
             "url": "https://krepitv.ru/"
         },
@@ -1647,6 +1648,9 @@ fn html_shell(
     let static_body = inject_visible_breadcrumbs(static_body.unwrap_or_default(), head.json_ld);
     let robots_meta = head
         .robots
+        .or(Some(
+            "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
+        ))
         .map(|value| {
             format!(
                 "<meta name=\"robots\" content=\"{}\">\n",
@@ -4884,9 +4888,11 @@ fn seo_evidence_guide_html(page: &SeoPage) -> String {
     let table_rows = guide
         .steps
         .iter()
-        .map(|step| {
+        .enumerate()
+        .map(|(index, step)| {
             format!(
-                "<tr class=\"border-t border-line align-top\" data-evidence-guide-step=\"{}\"><th class=\"p-4 text-left font-display text-lg\" scope=\"row\">{}</th><td class=\"p-4 font-semibold\">{}</td><td class=\"p-4 leading-relaxed text-muted\">{}</td></tr>",
+                "<tr class=\"border-t border-line align-top\" id=\"shag-{}\" data-evidence-guide-step=\"{}\"><th class=\"p-4 text-left font-display text-lg\" scope=\"row\">{}</th><td class=\"p-4 font-semibold\">{}</td><td class=\"p-4 leading-relaxed text-muted\">{}</td></tr>",
+                index + 1,
                 escape_html(&step.label),
                 escape_html(&step.label),
                 escape_html(&step.title),
@@ -5010,6 +5016,16 @@ fn seo_page_body(
         )
     };
     let mount_funnel_next_step = seo_mount_funnel_next_step_html();
+    let intro_lead = if ["tv-freezes", "tv-energy-consumption", "diagonal-65"]
+        .contains(&page.id.as_str())
+    {
+        format!(
+            "<span class=\"mb-2 block font-mono text-xs font-semibold uppercase tracking-wide text-action\" data-answer-summary=\"true\">Короткий ответ</span>{}",
+            escape_html(&page.lead)
+        )
+    } else {
+        escape_html(&page.lead)
+    };
     let intro = if !editorial_photo.is_empty() {
         let intro_action = if page.id == "diagonal-65" {
             seo_diagonal_65_intro_action_html(models, graph)
@@ -5025,7 +5041,7 @@ fn seo_page_body(
             escape_html(&page.id),
             escape_html(page_kind_label),
             escape_html(&page.h1),
-            escape_html(&page.lead),
+            intro_lead,
             intro_action,
             editorial_photo,
             visual_steps,
@@ -5035,7 +5051,7 @@ fn seo_page_body(
             "<p class=\"font-mono text-xs uppercase text-action\">{}</p><h1 class=\"mt-3 font-display text-5xl font-extrabold sm:text-7xl\">{}</h1><p class=\"mt-5 max-w-3xl text-lg leading-relaxed text-muted\">{}</p>",
             escape_html(page_kind_label),
             escape_html(&page.h1),
-            escape_html(&page.lead),
+            intro_lead,
         )
     };
 
@@ -8342,7 +8358,7 @@ mod tests {
             assert!(page.facts.len() >= 6);
             assert!(page.faq.len() >= 6);
             let expected_lastmod = if id == "tv-energy-consumption" {
-                "2026-09-22"
+                "2026-09-30"
             } else {
                 SEO_FUNNEL_UPDATED_AT
             };
@@ -8550,7 +8566,7 @@ mod tests {
             .iter()
             .find(|page| page.id == "tv-energy-consumption")
             .expect("Нет страницы расхода электричества");
-        assert_eq!(seo_page_lastmod(energy), "2026-09-22");
+        assert_eq!(seo_page_lastmod(energy), "2026-09-30");
     }
 
     #[test]

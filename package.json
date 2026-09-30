@@ -7,6 +7,7 @@
   },
   "packageManager": "npm@10.9.8",
   "scripts": {
+    "assets:responsive": "node scripts/performance/responsive-images.mjs",
     "build:content": "cargo run --locked -p krepitv-sitegen --release",
     "build:wasm": "node scripts/build-wasm.mjs",
     "build:web": "npm --prefix web run build",
@@ -65,5 +66,9 @@
     "dev": "npm run dev:prepare && npm --prefix web run dev",
     "verify:wasm-repro": "node scripts/verify-wasm-reproducibility.mjs",
     "verify": "cargo fmt --all --check && cargo test --workspace --locked && npm run verify:wasm-repro && npm --prefix web run check:ru && npm --prefix web run test:sites && npm run validate:installation-kit-data && npm run catalog:verify && npm run catalog:test && npm run qa:test && npm run dataset:check && node scripts/verify.mjs && npm run catalog:audit-model-pages && npm run affiliate:validate && npm run affiliate:validate-public && npm run affiliate:validate-hubs && npm run affiliate:validate-hubs-public && npm run affiliate:check-model-manifest && npm run affiliate:validate-models && npm run affiliate:validate-models-public && npm run affiliate:test && npm run indexnow:test && npm run analytics:test"
+  },
+  "devDependencies": {
+    "beasties": "^0.4.1",
+    "sharp": "^0.34.5"
   }
 }

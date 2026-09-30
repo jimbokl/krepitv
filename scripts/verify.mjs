@@ -1440,11 +1440,15 @@ for (const mount of mounts) {
 for (const page of seoPages.filter((item) => item.guide)) {
   const html = htmlByRoute.get(page.path) ?? "";
   const expectedModifiedDate = page.updated_at ?? page.guide.updated_at;
+  const guideSchema = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/gsu)]
+    .map((match) => JSON.parse(match[1]))
+    .find((schema) => Array.isArray(schema.step));
   if (
     !html.includes('"@type":["Article","HowTo"]')
     || !html.includes('"name":"Редакция KREPI TV"')
     || !html.includes('"url":"https://krepitv.ru/redaktsiya/"')
-    || !html.includes(`"datePublished":"${page.guide.updated_at}"`)
+    || !guideSchema
+    || guideSchema.datePublished !== undefined
     || !html.includes(`"dateModified":"${expectedModifiedDate}"`)
   ) {
     throw new Error(`Article/HowTo JSON-LD не совпадает с видимым автором и датой: ${page.path}`);

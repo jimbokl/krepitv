@@ -11,6 +11,8 @@
     "check:ru": "node scripts/check-russian-ui.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/ibm-plex-sans": "^5.2.6",
+    "@fontsource-variable/roboto-condensed": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
     "@fontsource/roboto-condensed": "^5.3.0",
