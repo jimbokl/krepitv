@@ -4,6 +4,7 @@ import {
   SUBTITLE_ACCESS,
   SUBTITLE_SOURCES,
   SUBTITLE_TESTS,
+  subtitlePlanText,
   subtitleRoute,
   validSubtitleState,
 } from "../lib/subtitleSourceWizard.mjs";
@@ -43,6 +44,9 @@ function ChoiceGroup({ legend, options, onChoose, selected }) {
 export function SubtitleSourceWizard() {
   const [answers, setAnswers] = useState(initialState);
   const [feedback, setFeedback] = useState("");
+  const [copyState, setCopyState] = useState("");
+  const [copyText, setCopyText] = useState("");
+  const copyRequest = useRef(0);
   const emitted = useRef(false);
   const result = subtitleRoute(answers);
 
@@ -54,20 +58,29 @@ export function SubtitleSourceWizard() {
     }
   }, [answers]);
 
+  useEffect(() => () => { copyRequest.current += 1; }, []);
+
+  function clearFeedback() {
+    copyRequest.current += 1;
+    setFeedback("");
+    setCopyState("");
+    setCopyText("");
+  }
+
   function chooseSource(source) {
     setAnswers({ source, observation: "", access: "" });
-    setFeedback("");
+    clearFeedback();
   }
 
   function chooseObservation(observation) {
     setAnswers((current) => ({ ...current, observation, access: "" }));
-    setFeedback("");
+    clearFeedback();
   }
 
   function chooseAccess(access) {
     const next = { ...answers, access };
     setAnswers(next);
-    setFeedback("");
+    clearFeedback();
     const completed = subtitleRoute(next);
     if (completed && !emitted.current) {
       // Only a controlled route label is measured; individual answers stay in this tab.
@@ -81,7 +94,24 @@ export function SubtitleSourceWizard() {
 
   function startOver() {
     setAnswers(validSubtitleState(null));
-    setFeedback("");
+    clearFeedback();
+  }
+
+  async function copyPlan() {
+    const text = subtitlePlanText(answers);
+    if (!text) return;
+    const request = ++copyRequest.current;
+    setCopyState("pending");
+    setCopyText("");
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+      await navigator.clipboard.writeText(text);
+      if (request === copyRequest.current) setCopyState("copied");
+    } catch {
+      if (request !== copyRequest.current) return;
+      setCopyText(text);
+      setCopyState("manual");
+    }
   }
 
   return (
@@ -98,7 +128,7 @@ export function SubtitleSourceWizard() {
         Кто показывает субтитры?
       </h3>
       <p className="mt-3 max-w-3xl leading-relaxed text-muted">
-        Сравните источники изображения и получите безопасный следующий шаг. Мастер не меняет настройки телевизора. Выбранные наблюдения остаются в этой вкладке; аналитика учитывает только тип готового маршрута.
+        Ответьте на три вопроса — покажем, где искать переключатель. Настройки телевизора мастер не меняет. Ответы остаются в этой вкладке.
       </p>
 
       <ChoiceGroup
@@ -133,8 +163,38 @@ export function SubtitleSourceWizard() {
             <p className="mt-3 max-w-3xl leading-relaxed"><strong>Как проверить:</strong> {result.check}</p>
             <p className="mt-3 max-w-3xl border-l-2 border-technical pl-3 text-sm leading-relaxed">{result.accessibility}</p>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              Ниже — таблица без интерактива и прямые ссылки на инструкции производителей. Если меню отличается, ищите руководство по полному коду модели.
+              Если меню отличается, сверяйтесь с инструкцией вашей модели. Общая настройка ТВ может не действовать на приложение или приставку.
             </p>
+            <div className="mt-5 flex flex-wrap gap-3" aria-label="Сохранение и продолжение проверки">
+              <button
+                className="min-h-12 border-2 border-action bg-action px-4 py-3 font-semibold text-white focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-60"
+                data-subtitle-copy="true"
+                disabled={copyState === "pending"}
+                onClick={copyPlan}
+                type="button"
+              >
+                {copyState === "pending" ? "Копируем…" : "Скопировать инструкцию"}
+              </button>
+              <a className="inline-flex min-h-12 items-center border-2 border-ink px-4 py-3 font-semibold focus-visible:ring-2 focus-visible:ring-action" href="#istochniki" onClick={() => { const sources = document.getElementById("istochniki"); if (sources) sources.open = true; }}>Инструкции производителей</a>
+              {result.id === "teletext" || result.id === "broadcast" ? (
+                <a className="inline-flex min-h-12 items-center px-1 font-semibold text-technical underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-action" href="/kak-ubrat-teletext-i-skrytye-subtitry/">Подробнее о тексте на телеканале</a>
+              ) : result.id === "unknown" || result.id === "tv_possible" ? (
+                <a className="inline-flex min-h-12 items-center px-1 font-semibold text-technical underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-action" href="/kak-uznat-model-televizora/">Где найти точную модель ТВ</a>
+              ) : null}
+            </div>
+            <p aria-live="polite" className="mt-3 text-sm text-muted" data-subtitle-copy-status="true">
+              {copyState === "copied" ? "Инструкция скопирована. Можно сохранить в заметках или отправить тому, кто настраивает телевизор." : copyState === "manual" ? "Браузер не разрешил копирование. Выделите текст ниже и скопируйте вручную." : "Сохраните маршрут, чтобы не проходить проверку повторно. Копирование не отправляет ваши ответы на сервер."}
+            </p>
+            {copyText ? (
+              <textarea
+                aria-label="Инструкция для ручного копирования"
+                className="mt-3 min-h-64 w-full border-2 border-ink bg-paper p-4 text-sm leading-relaxed focus-visible:ring-2 focus-visible:ring-action"
+                data-subtitle-copy-fallback="true"
+                onFocus={(event) => event.currentTarget.select()}
+                readOnly
+                value={copyText}
+              />
+            ) : null}
             <div className="mt-5 flex flex-wrap gap-3" aria-label="Необязательная отметка результата">
               <button className="min-h-12 border-2 border-ink px-4 font-semibold focus-visible:ring-2 focus-visible:ring-action" onClick={() => setFeedback("yes")} type="button">Помогло</button>
               <button className="min-h-12 border-2 border-ink px-4 font-semibold focus-visible:ring-2 focus-visible:ring-action" onClick={() => setFeedback("no")} type="button">Пока нет</button>

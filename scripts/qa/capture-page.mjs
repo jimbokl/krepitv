@@ -94,7 +94,7 @@ if (metrikaQueueQa && (
 }
 if (![100, 200].includes(textZoom)) throw new Error("Invalid text zoom; use 100 or 200");
 if (!["screen", "print"].includes(media)) throw new Error("Invalid media; use screen or print");
-if (subtitleState && !["teletext", "unknown", "accessibility"].includes(subtitleState)) {
+if (subtitleState && !["teletext", "unknown", "accessibility", "copy", "copy-manual"].includes(subtitleState)) {
   throw new Error("Invalid subtitle wizard state");
 }
 if (observedModelState && ![
@@ -1062,7 +1062,16 @@ try {
         const usageEvents = [];
         window.addEventListener('krepitv:result-completed', event => events.push(event.detail));
         window.addEventListener('krepitv:tool-usage', event => usageEvents.push(event.detail));
-        const choices = state === 'teletext' ? [0, 0, 1] : state === 'accessibility' ? [0, 1, 0] : [4, 2, 2];
+        const copying = state === 'copy' || state === 'copy-manual';
+        let clipboardText = '';
+        if (copying) Object.defineProperty(navigator, 'clipboard', {
+          configurable: true,
+          value: { writeText: async text => {
+            if (state === 'copy-manual') throw new Error('Clipboard denied by QA');
+            clipboardText = text;
+          } },
+        });
+        const choices = state === 'teletext' || copying ? [0, 0, 1] : state === 'accessibility' ? [0, 1, 0] : [4, 2, 2];
         for (let index = 0; index < choices.length; index += 1) {
           await waitFor(() => tool.querySelectorAll('fieldset').length > index, 'Subtitle step did not render');
           const button = tool.querySelectorAll('fieldset')[index]?.querySelectorAll('button')[choices[index]];
@@ -1076,7 +1085,18 @@ try {
         const resultText = tool.querySelector('[data-subtitle-result]').textContent;
         const expected = state === 'unknown' ? 'не определён' : state === 'accessibility' ? 'согласуйте' : 'телетекст';
         if (!resultText.includes(expected)) throw new Error('Subtitle route has an unexpected result');
-        return { state, toolId: events[0].toolId, resultType: events[0].resultType, usageEvents: usageEvents.length, hasResult: true };
+        if (copying) {
+          tool.querySelector('[data-subtitle-copy]').click();
+          await waitFor(() => state === 'copy-manual'
+            ? tool.querySelector('[data-subtitle-copy-fallback]')
+            : tool.querySelector('[data-subtitle-copy-status]')?.textContent.includes('скопирована'), 'Subtitle copy did not finish');
+          const text = state === 'copy-manual' ? tool.querySelector('[data-subtitle-copy-fallback]').value : clipboardText;
+          if (!text.includes('телетекст') || !text.includes('#istochniki')) throw new Error('Subtitle copy lost its route or sources');
+          if (events.length !== 1 || usageEvents.length !== 1) throw new Error('Copying duplicated useful-result events');
+          tool.querySelector('a[href="#istochniki"]').click();
+          if (!document.getElementById('istochniki')?.open) throw new Error('Sources stayed collapsed');
+        }
+        return { state, toolId: events[0].toolId, resultType: events[0].resultType, usageEvents: usageEvents.length, hasResult: true, copied: copying };
       })()`,
       awaitPromise: true,
       returnByValue: true,

@@ -34,7 +34,7 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   const updatedIds = new Set(updated.map((candidate) => candidate.id));
   assert.ok(INTENT_TOOL_IDS.every((id) => (
     id === "tv-disable-subtitles"
-      ? page(id)?.updated_at === "2026-09-23"
+      ? page(id)?.updated_at === "2026-10-02"
       : id === "tv-freezes"
         ? page(id)?.updated_at === "2026-09-30"
       : id === "tv-purchase-checklist"
@@ -44,7 +44,7 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   assert.ok([...tvIntentCohortIds].every((id) => updatedIds.has(id)));
   assert.equal(tvIntentCohortIds.size, 14);
   const updateDates = {
-    "tv-disable-subtitles": "2026-09-23",
+    "tv-disable-subtitles": "2026-10-02",
     "tv-energy-consumption": "2026-09-30",
     "tv-freezes": "2026-09-30",
   };

@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   subtitleRoute,
+  subtitlePlanText,
   validSubtitleState,
 } from "../src/lib/subtitleSourceWizard.mjs";
 
@@ -47,6 +48,17 @@ test("неполный или противоречивый ввод не соз�
   assert.equal(route("app", "only_hdmi"), null);
   assert.equal(subtitleRoute({ source: "app", observation: "one_video" }), null);
   assert.equal(route("app", "one_video", "maybe"), null);
+});
+
+test("сохраняемая инструкция соответствует результату и не превращает неизвестность в совет", () => {
+  assert.equal(subtitlePlanText({ source: "app" }), null);
+  const known = subtitlePlanText({ source: "broadcast", observation: "teletext", access: "yes" });
+  assert.match(known, /телетекст/u);
+  assert.match(known, /сначала согласуйте/u);
+  assert.match(known, /#istochniki/u);
+  const unknown = subtitlePlanText({ source: "unknown", observation: "unclear", access: "unknown", email: "private-user@example.test" });
+  assert.match(unknown, /Источник пока не определён/u);
+  assert.doesNotMatch(unknown, /private-user|сбросьте|заводской сброс/u);
 });
 
 test("сохранённый маршрут принимает только контролируемые значения", () => {

@@ -39,6 +39,18 @@ test("Vite SSR tests are serialized on constrained GitHub runners", async () => 
   );
 });
 
+test("every production builder installs and caches both locked npm dependency sets", async () => {
+  for (const url of [workflowUrl, pagesWorkflowUrl, ciWorkflowUrl]) {
+    const workflow = await readFile(url, "utf8");
+    assert.match(workflow, /cache-dependency-path:\s*\|\s*\n\s*package-lock\.json\s*\n\s*web\/package-lock\.json/);
+    const rootInstall = workflow.indexOf("run: npm ci --no-audit --no-fund");
+    const webInstall = workflow.indexOf("run: npm --prefix web ci --no-audit --no-fund");
+    const build = workflow.indexOf("npm run build");
+    assert.ok(rootInstall >= 0 && rootInstall < build, `${url.pathname}: root build dependencies must be installed before production build`);
+    assert.ok(webInstall >= 0 && webInstall < build, `${url.pathname}: frontend dependencies must be installed before production build`);
+  }
+});
+
 test("official JavaScript actions are pinned to audited Node 24 releases", async () => {
   const workflows = await Promise.all([
     workflowUrl,

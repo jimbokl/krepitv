@@ -104,3 +104,17 @@ export function validSubtitleState(input) {
   const access = SUBTITLE_ACCESS.some((item) => item.id === input?.access) ? input.access : "";
   return { source, observation, access };
 }
+
+export function subtitlePlanText(input) {
+  const result = subtitleRoute(input);
+  if (!result) return null;
+  return [
+    "Крепи ТВ — маршрут отключения субтитров",
+    result.title,
+    `Что сделать: ${result.action}`,
+    `Как проверить: ${result.check}`,
+    result.accessibility,
+    "Не сбрасывайте телевизор ради одной настройки. Если источник не определён, сначала проверьте его.",
+    "Инструкция и официальные источники: https://krepitv.ru/kak-otklyuchit-subtitry-na-televizore/#istochniki",
+  ].join("\n\n");
+}

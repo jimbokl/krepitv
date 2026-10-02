@@ -8556,7 +8556,7 @@ mod tests {
                 .find(|page| page.id == id)
                 .unwrap_or_else(|| panic!("Нет SEO-страницы {id}"));
             let expected = if id == "tv-disable-subtitles" {
-                "2026-09-23"
+                "2026-10-02"
             } else {
                 "2026-09-18"
             };
