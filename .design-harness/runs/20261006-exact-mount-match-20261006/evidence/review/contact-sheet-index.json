@@ -1,0 +1,239 @@
+{
+  "reviewer": "Codex independent reviewer — sprint_review_20261006",
+  "count": 163,
+  "sheets": [
+    {
+      "sheet": "contact-01.png",
+      "shots": [
+        "evidence/screenshots/matcher-desktop-default.png",
+        "evidence/screenshots/matcher-desktop-disabled.png",
+        "evidence/screenshots/matcher-desktop-empty.png",
+        "evidence/screenshots/matcher-desktop-error.png",
+        "evidence/screenshots/matcher-desktop-focus.png",
+        "evidence/screenshots/matcher-desktop-loading.png",
+        "evidence/screenshots/matcher-desktop-success.png",
+        "evidence/screenshots/matcher-mobile-default.png",
+        "evidence/screenshots/matcher-mobile-disabled.png",
+        "evidence/screenshots/matcher-mobile-empty.png",
+        "evidence/screenshots/matcher-mobile-error.png",
+        "evidence/screenshots/matcher-mobile-focus.png"
+      ]
+    },
+    {
+      "sheet": "contact-02.png",
+      "shots": [
+        "evidence/screenshots/matcher-mobile-loading.png",
+        "evidence/screenshots/matcher-mobile-success.png",
+        "evidence/screenshots/matcher-resize-desktop-success.png",
+        "evidence/screenshots/matcher-resize-mobile-success.png",
+        "evidence/screenshots/matcher-resize-tablet-success.png",
+        "evidence/screenshots/matcher-spacing-desktop-success.png",
+        "evidence/screenshots/matcher-spacing-mobile-success.png",
+        "evidence/screenshots/matcher-spacing-tablet-success.png",
+        "evidence/screenshots/matcher-tablet-default.png",
+        "evidence/screenshots/matcher-tablet-disabled.png",
+        "evidence/screenshots/matcher-tablet-empty.png",
+        "evidence/screenshots/matcher-tablet-error.png"
+      ]
+    },
+    {
+      "sheet": "contact-03.png",
+      "shots": [
+        "evidence/screenshots/matcher-tablet-focus.png",
+        "evidence/screenshots/matcher-tablet-loading.png",
+        "evidence/screenshots/matcher-tablet-success.png",
+        "evidence/screenshots/tv-allm-enable-desktop-default.png",
+        "evidence/screenshots/tv-allm-enable-desktop-success.png",
+        "evidence/screenshots/tv-allm-enable-mobile-default.png",
+        "evidence/screenshots/tv-allm-enable-mobile-success.png",
+        "evidence/screenshots/tv-allm-enable-resize-desktop-success.png",
+        "evidence/screenshots/tv-allm-enable-resize-mobile-success.png",
+        "evidence/screenshots/tv-allm-enable-resize-tablet-success.png",
+        "evidence/screenshots/tv-allm-enable-spacing-desktop-success.png",
+        "evidence/screenshots/tv-allm-enable-spacing-mobile-success.png"
+      ]
+    },
+    {
+      "sheet": "contact-04.png",
+      "shots": [
+        "evidence/screenshots/tv-allm-enable-spacing-tablet-success.png",
+        "evidence/screenshots/tv-allm-enable-tablet-default.png",
+        "evidence/screenshots/tv-allm-enable-tablet-success.png",
+        "evidence/screenshots/tv-dual-headphones-desktop-default.png",
+        "evidence/screenshots/tv-dual-headphones-desktop-success.png",
+        "evidence/screenshots/tv-dual-headphones-mobile-default.png",
+        "evidence/screenshots/tv-dual-headphones-mobile-success.png",
+        "evidence/screenshots/tv-dual-headphones-resize-desktop-success.png",
+        "evidence/screenshots/tv-dual-headphones-resize-mobile-success.png",
+        "evidence/screenshots/tv-dual-headphones-resize-tablet-success.png",
+        "evidence/screenshots/tv-dual-headphones-spacing-desktop-success.png",
+        "evidence/screenshots/tv-dual-headphones-spacing-mobile-success.png"
+      ]
+    },
+    {
+      "sheet": "contact-05.png",
+      "shots": [
+        "evidence/screenshots/tv-dual-headphones-spacing-tablet-success.png",
+        "evidence/screenshots/tv-dual-headphones-tablet-default.png",
+        "evidence/screenshots/tv-dual-headphones-tablet-success.png",
+        "evidence/screenshots/tv-home-recommendations-desktop-default.png",
+        "evidence/screenshots/tv-home-recommendations-desktop-success.png",
+        "evidence/screenshots/tv-home-recommendations-mobile-default.png",
+        "evidence/screenshots/tv-home-recommendations-mobile-success.png",
+        "evidence/screenshots/tv-home-recommendations-resize-desktop-success.png",
+        "evidence/screenshots/tv-home-recommendations-resize-mobile-success.png",
+        "evidence/screenshots/tv-home-recommendations-resize-tablet-success.png",
+        "evidence/screenshots/tv-home-recommendations-spacing-desktop-success.png",
+        "evidence/screenshots/tv-home-recommendations-spacing-mobile-success.png"
+      ]
+    },
+    {
+      "sheet": "contact-06.png",
+      "shots": [
+        "evidence/screenshots/tv-home-recommendations-spacing-tablet-success.png",
+        "evidence/screenshots/tv-home-recommendations-tablet-default.png",
+        "evidence/screenshots/tv-home-recommendations-tablet-success.png",
+        "evidence/screenshots/tv-internet-speed-desktop-default.png",
+        "evidence/screenshots/tv-internet-speed-desktop-success.png",
+        "evidence/screenshots/tv-internet-speed-mobile-default.png",
+        "evidence/screenshots/tv-internet-speed-mobile-success.png",
+        "evidence/screenshots/tv-internet-speed-resize-desktop-success.png",
+        "evidence/screenshots/tv-internet-speed-resize-mobile-success.png",
+        "evidence/screenshots/tv-internet-speed-resize-tablet-success.png",
+        "evidence/screenshots/tv-internet-speed-spacing-desktop-success.png",
+        "evidence/screenshots/tv-internet-speed-spacing-mobile-success.png"
+      ]
+    },
+    {
+      "sheet": "contact-07.png",
+      "shots": [
+        "evidence/screenshots/tv-internet-speed-spacing-tablet-success.png",
+        "evidence/screenshots/tv-internet-speed-tablet-default.png",
+        "evidence/screenshots/tv-internet-speed-tablet-success.png",
+        "evidence/screenshots/tv-oled-qled-choice-desktop-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-desktop-success.png",
+        "evidence/screenshots/tv-oled-qled-choice-mobile-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-mobile-success.png",
+        "evidence/screenshots/tv-oled-qled-choice-overview-desktop-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-overview-mobile-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-photo-desktop-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-photo-mobile-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-resize-desktop-success.png"
+      ]
+    },
+    {
+      "sheet": "contact-08.png",
+      "shots": [
+        "evidence/screenshots/tv-oled-qled-choice-resize-mobile-success.png",
+        "evidence/screenshots/tv-oled-qled-choice-resize-tablet-success.png",
+        "evidence/screenshots/tv-oled-qled-choice-sources-desktop-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-sources-mobile-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-spacing-desktop-success.png",
+        "evidence/screenshots/tv-oled-qled-choice-spacing-mobile-success.png",
+        "evidence/screenshots/tv-oled-qled-choice-spacing-tablet-success.png",
+        "evidence/screenshots/tv-oled-qled-choice-table-desktop-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-table-mobile-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-tablet-default.png",
+        "evidence/screenshots/tv-oled-qled-choice-tablet-success.png",
+        "evidence/screenshots/tv-start-screen-desktop-default.png"
+      ]
+    },
+    {
+      "sheet": "contact-09.png",
+      "shots": [
+        "evidence/screenshots/tv-start-screen-desktop-success.png",
+        "evidence/screenshots/tv-start-screen-mobile-default.png",
+        "evidence/screenshots/tv-start-screen-mobile-success.png",
+        "evidence/screenshots/tv-start-screen-resize-desktop-success.png",
+        "evidence/screenshots/tv-start-screen-resize-mobile-success.png",
+        "evidence/screenshots/tv-start-screen-resize-tablet-success.png",
+        "evidence/screenshots/tv-start-screen-spacing-desktop-success.png",
+        "evidence/screenshots/tv-start-screen-spacing-mobile-success.png",
+        "evidence/screenshots/tv-start-screen-spacing-tablet-success.png",
+        "evidence/screenshots/tv-start-screen-tablet-default.png",
+        "evidence/screenshots/tv-start-screen-tablet-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-desktop-default.png"
+      ]
+    },
+    {
+      "sheet": "contact-10.png",
+      "shots": [
+        "evidence/screenshots/tv-usb-wifi-adapter-desktop-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-mobile-default.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-mobile-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-resize-desktop-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-resize-mobile-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-resize-tablet-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-spacing-desktop-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-spacing-mobile-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-spacing-tablet-success.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-tablet-default.png",
+        "evidence/screenshots/tv-usb-wifi-adapter-tablet-success.png",
+        "evidence/screenshots/tv-vrr-enable-desktop-default.png"
+      ]
+    },
+    {
+      "sheet": "contact-11.png",
+      "shots": [
+        "evidence/screenshots/tv-vrr-enable-desktop-success.png",
+        "evidence/screenshots/tv-vrr-enable-mobile-default.png",
+        "evidence/screenshots/tv-vrr-enable-mobile-success.png",
+        "evidence/screenshots/tv-vrr-enable-resize-desktop-success.png",
+        "evidence/screenshots/tv-vrr-enable-resize-mobile-success.png",
+        "evidence/screenshots/tv-vrr-enable-resize-tablet-success.png",
+        "evidence/screenshots/tv-vrr-enable-spacing-desktop-success.png",
+        "evidence/screenshots/tv-vrr-enable-spacing-mobile-success.png",
+        "evidence/screenshots/tv-vrr-enable-spacing-tablet-success.png",
+        "evidence/screenshots/tv-vrr-enable-tablet-default.png",
+        "evidence/screenshots/tv-vrr-enable-tablet-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-desktop-default.png"
+      ]
+    },
+    {
+      "sheet": "contact-12.png",
+      "shots": [
+        "evidence/screenshots/tv-wifi-5ghz-desktop-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-mobile-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-mobile-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-overview-desktop-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-overview-mobile-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-photo-desktop-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-photo-mobile-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-resize-desktop-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-resize-mobile-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-resize-tablet-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-sources-desktop-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-sources-mobile-default.png"
+      ]
+    },
+    {
+      "sheet": "contact-13.png",
+      "shots": [
+        "evidence/screenshots/tv-wifi-5ghz-spacing-desktop-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-spacing-mobile-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-spacing-tablet-success.png",
+        "evidence/screenshots/tv-wifi-5ghz-table-desktop-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-table-mobile-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-tablet-default.png",
+        "evidence/screenshots/tv-wifi-5ghz-tablet-success.png",
+        "evidence/screenshots/tv-wifi-drops-desktop-default.png",
+        "evidence/screenshots/tv-wifi-drops-desktop-success.png",
+        "evidence/screenshots/tv-wifi-drops-mobile-default.png",
+        "evidence/screenshots/tv-wifi-drops-mobile-success.png",
+        "evidence/screenshots/tv-wifi-drops-resize-desktop-success.png"
+      ]
+    },
+    {
+      "sheet": "contact-14.png",
+      "shots": [
+        "evidence/screenshots/tv-wifi-drops-resize-mobile-success.png",
+        "evidence/screenshots/tv-wifi-drops-resize-tablet-success.png",
+        "evidence/screenshots/tv-wifi-drops-spacing-desktop-success.png",
+        "evidence/screenshots/tv-wifi-drops-spacing-mobile-success.png",
+        "evidence/screenshots/tv-wifi-drops-spacing-tablet-success.png",
+        "evidence/screenshots/tv-wifi-drops-tablet-default.png",
+        "evidence/screenshots/tv-wifi-drops-tablet-success.png"
+      ]
+    }
+  ]
+}

@@ -12,6 +12,7 @@ export function Brand({ compact = false }) {
       <span className={sizeClass}>
         Крепи
       </span>
+      {" "}
       <span className={`${sizeClass} text-action`}>
         ТВ
       </span>

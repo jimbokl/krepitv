@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "run": "20261006-exact-mount-match-20261006",
+  "generated_at": "2026-10-06T10:37:47.299926+00:00",
+  "scanned_files": [
+    "web/src/components/ExactMountMatcher.jsx",
+    "web/src/components/IntentDecisionTool.jsx",
+    "web/src/components/Brand.jsx",
+    "web/src/pages/SeoPage.jsx",
+    "web/public/krepitv-engine-loader.js"
+  ],
+  "findings": []
+}

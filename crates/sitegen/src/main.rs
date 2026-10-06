@@ -1667,7 +1667,7 @@ fn html_shell(
 fn static_header() -> &'static str {
     concat!(
         "<header class=\"relative border-b-2 border-ink bg-paper\"><div class=\"mx-auto flex min-w-0 max-w-[1440px] items-center justify-between gap-3 px-5 py-4 sm:gap-6 sm:px-8\">",
-        "<a class=\"inline-flex shrink-0 items-baseline gap-1 whitespace-nowrap font-display font-extrabold uppercase leading-none tracking-[-0.05em] text-ink\" href=\"/\" aria-label=\"Крепи ТВ — главная\"><span class=\"text-[clamp(1rem,8vw,2.2rem)]\">Крепи</span><span class=\"text-[clamp(1rem,8vw,2.2rem)] text-action\">ТВ</span></a>",
+        "<a class=\"inline-flex shrink-0 items-baseline gap-1 whitespace-nowrap font-display font-extrabold uppercase leading-none tracking-[-0.05em] text-ink\" href=\"/\" aria-label=\"Крепи ТВ — главная\"><span class=\"text-[clamp(1rem,8vw,2.2rem)]\">Крепи</span> <span class=\"text-[clamp(1rem,8vw,2.2rem)] text-action\">ТВ</span></a>",
         "<button aria-controls=\"site-primary-navigation\" aria-expanded=\"false\" aria-label=\"Открыть меню\" class=\"flex size-11 shrink-0 items-center justify-center rounded focus:outline-none focus:ring-2 focus:ring-action xl:hidden\" data-static-navigation-toggle=\"true\" type=\"button\"><span aria-hidden=\"true\" class=\"font-mono text-2xl leading-none\" data-static-navigation-open-icon=\"true\">☰</span><span aria-hidden=\"true\" class=\"hidden font-mono text-3xl leading-none\" data-static-navigation-close-icon=\"true\">×</span></button>",
         "<nav class=\"absolute inset-x-4 top-full z-40 hidden max-h-screen flex-col gap-1 overflow-y-auto rounded-md border border-line bg-white p-3 shadow-menu xl:static xl:flex xl:max-h-none xl:flex-row xl:items-center xl:gap-5 xl:overflow-visible xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none\" aria-label=\"Основная навигация\" id=\"site-primary-navigation\">",
         "<a class=\"border-b-2 border-transparent px-2 py-3 font-display text-base font-bold uppercase transition hover:text-action xl:py-2\" href=\"/televizor-pishet-net-signala/\">Нет сигнала</a>",
@@ -3146,6 +3146,43 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         ]
     } else {
         match page.id.as_str() {
+            "tv-wifi-5ghz" | "tv-usb-wifi-adapter" | "tv-wifi-drops" | "tv-internet-speed" => &[
+                "tv-wifi-5ghz",
+                "tv-usb-wifi-adapter",
+                "tv-wifi-drops",
+                "tv-internet-speed",
+                "tv-wifi-limited",
+                "tv-internet-setup",
+            ],
+            "tv-vrr-enable" | "tv-allm-enable" => &[
+                "tv-vrr-enable",
+                "tv-allm-enable",
+                "tv-120hz-enable",
+                "tv-game-mode",
+                "tv-hdr-enable",
+                "hdmi-cable-checker",
+            ],
+            "tv-dual-headphones" => &[
+                "tv-headphones",
+                "tv-bluetooth-setup",
+                "tv-audio-video-sync",
+                "tv-no-sound",
+            ],
+            "tv-home-recommendations" | "tv-start-screen" => &[
+                "tv-home-recommendations",
+                "tv-start-screen",
+                "tv-store-mode",
+                "tv-hdmi-cec",
+                "tv-app-install",
+                "smart-tv-setup",
+            ],
+            "tv-oled-qled-choice" => &[
+                "tv-purchase-checklist",
+                "tv-screen-uniformity",
+                "viewing-distance",
+                "tv-game-mode",
+                "tv-model-lookup",
+            ],
             "tv-wifi-limited" => &["tv-no-internet", "tv-internet-setup", "phone-hotspot"],
             "tv-safe-mode-exit" => &["tv-app-install", "tv-restart", "tv-factory-reset"],
             "tv-hdmi-laptop-not-detected" => {
@@ -4026,8 +4063,72 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
         }
     };
 
+    // Keep contextual incoming links identical to getRelatedPages in the client.
+    // New guides augment the established topic graph, rather than replacing it.
+    let universe_ids = [
+        "tv-wifi-5ghz",
+        "tv-usb-wifi-adapter",
+        "tv-wifi-drops",
+        "tv-internet-speed",
+        "tv-vrr-enable",
+        "tv-allm-enable",
+        "tv-dual-headphones",
+        "tv-home-recommendations",
+        "tv-start-screen",
+        "tv-oled-qled-choice",
+    ];
+    let universe_groups: &[&[&str]] = &[
+        &[
+            "tv-wifi-5ghz",
+            "tv-usb-wifi-adapter",
+            "tv-wifi-drops",
+            "tv-internet-speed",
+            "tv-wifi-limited",
+            "tv-internet-setup",
+        ],
+        &[
+            "tv-vrr-enable",
+            "tv-allm-enable",
+            "tv-120hz-enable",
+            "tv-game-mode",
+            "tv-hdr-enable",
+            "hdmi-cable-checker",
+        ],
+        &[
+            "tv-dual-headphones",
+            "tv-headphones",
+            "tv-bluetooth-setup",
+            "tv-audio-video-sync",
+            "tv-no-sound",
+        ],
+        &[
+            "tv-home-recommendations",
+            "tv-start-screen",
+            "tv-store-mode",
+            "tv-hdmi-cec",
+            "tv-app-install",
+            "smart-tv-setup",
+        ],
+        &[
+            "tv-oled-qled-choice",
+            "tv-purchase-checklist",
+            "tv-screen-uniformity",
+            "viewing-distance",
+            "tv-game-mode",
+            "tv-model-lookup",
+        ],
+    ];
+    let incoming_ids: Vec<&str> = if universe_ids.contains(&page.id.as_str()) {
+        Vec::new()
+    } else {
+        universe_groups
+            .iter()
+            .filter(|group| group.contains(&page.id.as_str()))
+            .flat_map(|group| group.iter().copied().filter(|id| universe_ids.contains(id)))
+            .collect()
+    };
     let mut related = Vec::new();
-    for id in preferred_ids {
+    for id in incoming_ids.iter().chain(preferred_ids.iter()) {
         let Some(candidate) = pages
             .iter()
             .find(|candidate| candidate.id == *id && is_indexable_seo_page(candidate))
@@ -4871,13 +4972,23 @@ fn seo_catalog_html(
     if page.id == "vesa" {
         return seo_vesa_model_catalog_html(models, graph);
     }
-    match page.kind.as_str() {
+    let catalog = match page.kind.as_str() {
         "mechanism" | "commercial" | "mount-brand" | "slim" => {
             seo_mechanism_catalog_html(page, mounts, graph)
         }
         "vesa" | "diagonal" | "brand" => seo_model_catalog_html(page, models, graph),
         "screws" => seo_screw_catalog_html(models),
         _ => String::new(),
+    };
+    if matches!(
+        page.id.as_str(),
+        "vesa-200x200" | "vesa-300x200" | "full-motion-mount"
+    ) {
+        format!(
+            "<section class=\"mb-7 rounded-xl border-2 border-ink bg-white p-5 sm:p-7\"><h2 class=\"font-display text-2xl font-extrabold\">Подберите крепление для своей модели</h2><p class=\"mt-3 max-w-3xl leading-relaxed text-muted\">Сначала найдите точную модель телевизора. Проверка учитывает обе стороны VESA, опубликованную массу с указанием её типа и диапазон диагоналей. Одна диагональ или похожее название не подтверждают совместимость.</p><p class=\"mt-3\"><a class=\"text-technical underline\" href=\"/podbor/\">Открыть подбор по бренду и модели</a> · <a class=\"text-technical underline\" href=\"/modeli/\">Найти паспорт телевизора</a></p></section>{catalog}"
+        )
+    } else {
+        catalog
     }
 }
 
@@ -4919,7 +5030,7 @@ fn seo_evidence_guide_html(page: &SeoPage) -> String {
         .collect::<Vec<_>>()
         .join("\n");
     let content = format!(
-        "<section class=\"border-y-2 border-ink py-7\" data-evidence-guide=\"{}\" id=\"мастер\"><nav class=\"mb-7 grid gap-2 border-y border-line py-4 font-display text-sm font-bold sm:grid-cols-2 lg:grid-cols-4\" data-guide-toc=\"true\" aria-label=\"Содержание руководства\"><a class=\"underline decoration-line underline-offset-4\" href=\"#мастер\">Инструмент</a><a class=\"underline decoration-line underline-offset-4\" href=\"#granitsa\">Граница проверки</a><a class=\"underline decoration-line underline-offset-4\" href=\"#istochniki\">Источники</a><a class=\"underline decoration-line underline-offset-4\" href=\"#svyazannye-materialy\">По теме</a></nav><p class=\"font-mono text-xs uppercase text-action\">{}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">{}</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">{}</p><h3 class=\"mt-7 font-display text-2xl font-extrabold [overflow-wrap:anywhere]\" id=\"evidence-guide-table-title\">Таблица решений по наблюдаемому признаку</h3><p class=\"mt-2 font-mono text-xs uppercase text-action sm:hidden\">Таблица прокручивается вправо →</p><div class=\"mt-4 overflow-x-auto border-2 border-ink\"><table aria-labelledby=\"evidence-guide-table-title\" class=\"w-full min-w-[720px] bg-white text-sm\" data-evidence-guide-table=\"true\"><thead><tr class=\"bg-ink text-paper\"><th class=\"p-4 text-left\" scope=\"col\">Ситуация</th><th class=\"p-4 text-left\" scope=\"col\">Следующий шаг</th><th class=\"p-4 text-left\" scope=\"col\">Как проверить</th></tr></thead><tbody>{}</tbody></table></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\" data-evidence-guide-stop=\"true\" id=\"granitsa\">{}</p><details class=\"mt-7 border border-line bg-white p-4\" id=\"istochniki\"><summary class=\"cursor-pointer font-display font-bold\">Официальные источники и границы проверки</summary><nav class=\"mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2\" aria-label=\"Официальные источники\">{}</nav><p class=\"mt-4 font-mono text-xs text-muted\">Материал проверен {}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\">Редакционная проверка KREPI TV: выводы ограничены официальными инструкциями и наблюдаемыми признаками. <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика, источники и границы проверки</a>.</p></details></section>",
+        "<section class=\"border-y-2 border-ink py-7\" data-evidence-guide=\"{}\" id=\"мастер\"><nav class=\"mb-7 grid gap-2 border-y border-line py-4 font-display text-sm font-bold sm:grid-cols-2 lg:grid-cols-4\" data-guide-toc=\"true\" aria-label=\"Содержание руководства\"><a class=\"underline decoration-line underline-offset-4\" href=\"#мастер\">Инструмент</a><a class=\"underline decoration-line underline-offset-4\" href=\"#granitsa\">Граница проверки</a><a class=\"underline decoration-line underline-offset-4\" href=\"#istochniki\">Источники</a><a class=\"underline decoration-line underline-offset-4\" href=\"#svyazannye-materialy\">По теме</a></nav><p class=\"font-mono text-xs uppercase text-action\">{}</p><h2 class=\"mt-2 font-display text-3xl font-extrabold\">{}</h2><p class=\"mt-3 max-w-4xl leading-relaxed text-muted\">{}</p><h3 class=\"mt-7 font-display text-2xl font-extrabold [overflow-wrap:anywhere]\" id=\"evidence-guide-table-title\">Таблица решений по наблюдаемому признаку</h3><p class=\"mt-2 font-mono text-xs uppercase text-action sm:hidden\">Таблица прокручивается вправо →</p><div class=\"mt-4 overflow-x-auto border-2 border-ink\" tabindex=\"0\" role=\"region\" aria-labelledby=\"evidence-guide-table-title\"><table aria-labelledby=\"evidence-guide-table-title\" class=\"w-full min-w-[720px] bg-white text-sm\" data-evidence-guide-table=\"true\"><thead><tr class=\"bg-ink text-paper\"><th class=\"p-4 text-left\" scope=\"col\">Ситуация</th><th class=\"p-4 text-left\" scope=\"col\">Следующий шаг</th><th class=\"p-4 text-left\" scope=\"col\">Как проверить</th></tr></thead><tbody>{}</tbody></table></div><p class=\"mt-6 border-l-2 border-danger pl-4 text-sm font-semibold\" data-evidence-guide-stop=\"true\" id=\"granitsa\">{}</p><details class=\"mt-7 border border-line bg-white p-4\" id=\"istochniki\"><summary class=\"cursor-pointer font-display font-bold\">Официальные источники и границы проверки</summary><nav class=\"mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2\" aria-label=\"Официальные источники\">{}</nav><p class=\"mt-4 font-mono text-xs text-muted\">Материал проверен {}</p><p class=\"mt-3 text-sm leading-relaxed text-muted\">Редакционная проверка KREPI TV: выводы ограничены официальными инструкциями и наблюдаемыми признаками. <a class=\"font-semibold text-action underline underline-offset-4\" href=\"/metodika/\">Методика, источники и границы проверки</a>.</p></details></section>",
         escape_html(&page.id),
         escape_html(&guide.kicker),
         escape_html(&guide.heading),
@@ -6480,7 +6591,13 @@ fn main() {
             &adjacent_tool_svg(tool),
         );
     }
-    seo_pages.extend(adjacent_tool_pages(adjacent_tools, &adjacent_sources, 100));
+    // Wi-Fi 5 GHz keeps its existing URL; its expanded guide now lives in seo_pages.
+    assert!(
+        seo_pages
+            .iter()
+            .any(|page| page.id == "tv-wifi-5ghz" && page.path == "/tv-ne-vidit-wifi-5ghz/")
+    );
+    seo_pages.extend(adjacent_tool_pages(adjacent_tools, &adjacent_sources, 99));
     seo_pages.extend(adjacent_tool_pages(sprint_tools, &adjacent_sources, 20));
     let trust_pages: Vec<TrustPage> = read_json(&data.join("trust_pages.json"));
     let editorial_policy: EditorialPolicy = read_json(&data.join("editorial_policy.json"));
@@ -8405,12 +8522,12 @@ mod tests {
                     "tv-no-signal",
                 ],
                 "tv-headphones" => &[
+                    "tv-dual-headphones",
                     "tv-speakers",
                     "soundbar-to-tv",
                     "tv-no-sound",
                     "tv-no-internet",
                     "smart-tv-box",
-                    "tv-remote-not-working",
                 ],
                 "tv-energy-consumption" => &[
                     "tv-turns-off",
@@ -8508,12 +8625,12 @@ mod tests {
                     "smart-tv-box",
                 ],
                 "tv-app-install" => &[
+                    "tv-home-recommendations",
+                    "tv-start-screen",
                     "tv-storage-cleanup",
                     "tv-no-internet",
                     "tv-firmware-update",
                     "smart-tv-box",
-                    "tv-factory-reset",
-                    "phone-to-tv",
                 ],
                 "tv-factory-reset" => &[
                     "tv-firmware-update",
@@ -8638,6 +8755,54 @@ mod tests {
         assert!(!html.contains("tricolor.ru/help"));
         assert!(!html.contains("market.yandex.ru"));
         assert!(!html.contains("data-affiliate"));
+    }
+
+    #[test]
+    fn tv_universe_incoming_links_preserve_the_established_topic_graph() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        for (from, required) in [
+            (
+                "tv-internet-setup",
+                &[
+                    "tv-wifi-5ghz",
+                    "tv-usb-wifi-adapter",
+                    "tv-wifi-drops",
+                    "tv-internet-speed",
+                ][..],
+            ),
+            (
+                "tv-game-mode",
+                &["tv-vrr-enable", "tv-allm-enable", "tv-oled-qled-choice"][..],
+            ),
+            ("tv-headphones", &["tv-dual-headphones"][..]),
+        ] {
+            let page = pages
+                .iter()
+                .find(|page| page.id == from)
+                .expect("existing topic page");
+            let related = related_seo_pages(page, &pages);
+            for id in required {
+                assert!(
+                    related.iter().any(|page| page.id == *id),
+                    "{from} must link to {id}"
+                );
+            }
+            assert_eq!(related.len(), 6);
+        }
+        let page = pages.iter().find(|page| page.id == "tv-wifi-5ghz").unwrap();
+        assert_eq!(
+            related_seo_pages(page, &pages)
+                .iter()
+                .map(|page| page.id.as_str())
+                .collect::<Vec<_>>(),
+            vec![
+                "tv-usb-wifi-adapter",
+                "tv-wifi-drops",
+                "tv-internet-speed",
+                "tv-wifi-limited",
+                "tv-internet-setup"
+            ]
+        );
     }
 
     #[test]

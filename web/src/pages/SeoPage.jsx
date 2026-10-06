@@ -66,6 +66,8 @@ const WallPlannerCalculator = lazy(() => import("../components/WallPlannerCalcul
   .then((module) => ({ default: module.WallPlannerCalculator })));
 const InstructionScene = lazy(() => import("../components/scene/InstructionScene.jsx")
   .then((module) => ({ default: module.InstructionScene })));
+const ExactMountMatcher = lazy(() => import("../components/ExactMountMatcher.jsx")
+  .then((module) => ({ default: module.ExactMountMatcher })));
 
 const kindLabels = {
   guide: "Практическое руководство",
@@ -301,6 +303,7 @@ function SeoArticle({ catalog, page }) {
   const [query, setQuery] = useState("");
   const is65MountPage = page.id === "diagonal-65";
   const prioritizesBrandComparison = page.id === "mount-brand-onkron";
+  const prioritizesExactMatch = ["vesa-200x200", "vesa-300x200", "full-motion-mount"].includes(page.id);
   const prioritizesBuyComparison = page.id === "buy-tv-mount";
   const prioritizesScrewLookup = page.id === "tv-mount-screws";
   const prioritizesVesaLookup = page.id === "vesa";
@@ -490,7 +493,7 @@ function SeoArticle({ catalog, page }) {
 
         {page.id !== "mounting-map" ? <EditorialAccountability evidence={editorialEvidence} /> : null}
 
-        {!prioritizesPrimaryLookup && !prioritizesBrandComparison && page.id !== "mounting-map" ? (
+        {!prioritizesPrimaryLookup && !prioritizesBrandComparison && !prioritizesExactMatch && page.id !== "mounting-map" ? (
           <section
             className={`${["tv-zone-sockets", "tilt-mount", "vesa"].includes(page.id) ? "hidden sm:grid" : "grid"} divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0`}
             aria-label="Ключевые факты"
@@ -517,6 +520,7 @@ function SeoArticle({ catalog, page }) {
             <SeoHubOffers offers={affiliateOffers} page={page} />
           </>
         ) : null}
+        {prioritizesExactMatch ? <Suspense fallback={<p className="my-7 text-muted" role="status">Загружаем точный подбор креплений…</p>}><ExactMountMatcher affiliateOffers={catalog.affiliateOffers} models={catalog.models} mounts={catalog.mounts} vesa={page.kind === "vesa" ? page.id.split("-")[1].split("x").map(Number) : null} mechanism={page.id === "full-motion-mount" ? "full-motion" : "any"} /></Suspense> : null}
 
         {page.id === "mounting-height" ? <HeightCalculator /> : null}
         {page.id === "viewing-distance" ? <ViewingDistanceCalculator /> : null}
@@ -580,7 +584,7 @@ function SeoArticle({ catalog, page }) {
             search={catalog.search}
           />
         ) : null}
-        {(page.id === "vesa" || page.kind === "vesa") ? (
+        {(page.id === "vesa" || page.kind === "vesa") && !prioritizesExactMatch ? (
           <VesaMatchCalculator
             initialWidth={page.kind === "vesa" ? page.id.split("-")[1].split("x")[0] : "200"}
             initialHeight={page.kind === "vesa" ? page.id.split("-")[1].split("x")[1] : "200"}
@@ -591,7 +595,7 @@ function SeoArticle({ catalog, page }) {
           <TvMountScrewCatalog models={catalog.models} search={catalog.search} />
         ) : null}
 
-        {!is65MountPage && !prioritizesPrimaryLookup && !prioritizesBrandComparison ? (
+        {!is65MountPage && !prioritizesPrimaryLookup && !prioritizesBrandComparison && !prioritizesExactMatch ? (
           <section className="relative z-20 py-7" aria-labelledby="seo-model-search">
           <div className="grid gap-5 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-end">
             <div>
@@ -836,7 +840,7 @@ function SeoEvidenceGuide({ guide, pageId }) {
         Таблица решений по наблюдаемому признаку
       </h3>
       <p className="mt-2 font-mono text-xs uppercase text-action sm:hidden">Таблица прокручивается вправо →</p>
-      <div className="mt-4 overflow-x-auto border-2 border-ink">
+      <div className="mt-4 overflow-x-auto border-2 border-ink" tabIndex={0} role="region" aria-labelledby={`${pageId}-guide-table-title`}>
         <table aria-labelledby={`${pageId}-guide-table-title`} className="w-full min-w-[720px] bg-white text-sm" data-evidence-guide-table="true">
           <thead>
             <tr className="bg-ink text-paper">

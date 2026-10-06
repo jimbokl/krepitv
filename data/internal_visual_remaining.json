@@ -1,4 +1,28 @@
 {
+  "network-universe": {
+    "src": "/assets/images/internal-wireless.webp",
+    "alt": "Человек проверяет связь телевизора с домашней сетью",
+    "caption": "Иллюстрация домашнего подключения. Диапазоны Wi-Fi и поддерживаемые адаптеры проверяйте по точной модели.",
+    "ids": ["tv-wifi-5ghz", "tv-usb-wifi-adapter", "tv-wifi-drops", "tv-internet-speed"]
+  },
+  "settings-universe": {
+    "src": "/assets/images/internal-settings.webp",
+    "alt": "Человек выбирает настройку телевизора с пульта",
+    "caption": "Меню на фото условное. Игровые режимы и экран запуска зависят от телевизора, источника и версии системы.",
+    "ids": ["tv-vrr-enable", "tv-allm-enable", "tv-home-recommendations", "tv-start-screen"]
+  },
+  "audio-universe": {
+    "src": "/assets/images/internal-connection.webp",
+    "alt": "Человек осматривает подключения телевизора перед настройкой звука",
+    "caption": "Фото не доказывает поддержку двух пар наушников. Её нужно подтвердить для конкретной модели.",
+    "ids": ["tv-dual-headphones"]
+  },
+  "display-universe": {
+    "src": "/assets/images/internal-display.webp",
+    "alt": "Телевизор в жилой комнате при дневном свете",
+    "caption": "Иллюстрация условий просмотра, а не сравнение качества матриц. Проверяйте конкретные модели при подходящем освещении.",
+    "ids": ["tv-oled-qled-choice"]
+  },
   "connection-more": {
     "src": "/assets/images/internal-connection.webp",
     "alt": "Человек осматривает разъёмы телевизора перед подключением устройства",

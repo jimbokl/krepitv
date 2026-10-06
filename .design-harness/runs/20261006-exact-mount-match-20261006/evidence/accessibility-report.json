@@ -1,0 +1,965 @@
+{
+  "scope": "13 changed routes: WCAG 2 A/AA, 2.1 A/AA and 2.2 AA automated rules; manual keyboard/text-resize review remains required",
+  "scans": [
+    {
+      "route": "/vesa/200x200/",
+      "state": "default",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/300x200/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/tipy-kronshteynov/povorotnyy/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "error",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "empty",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/tv-ne-vidit-wifi-5ghz/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/usb-wifi-adapter-dlya-televizora/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/televizor-teryaet-wifi/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/skorost-interneta-dlya-televizora/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-vklyuchit-vrr-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-vklyuchit-allm-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/dve-pary-naushnikov-k-televizoru/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-ubrat-reklamu-i-rekomendatsii-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-otklyuchit-avtozapusk-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/oled-ili-qled-chto-vybrat/",
+      "state": "success",
+      "viewport": {
+        "width": 320,
+        "height": 800
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "default",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/300x200/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/tipy-kronshteynov/povorotnyy/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "error",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "empty",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/tv-ne-vidit-wifi-5ghz/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/usb-wifi-adapter-dlya-televizora/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/televizor-teryaet-wifi/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/skorost-interneta-dlya-televizora/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-vklyuchit-vrr-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-vklyuchit-allm-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/dve-pary-naushnikov-k-televizoru/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-ubrat-reklamu-i-rekomendatsii-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-otklyuchit-avtozapusk-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/oled-ili-qled-chto-vybrat/",
+      "state": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "default",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/300x200/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/tipy-kronshteynov/povorotnyy/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "error",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/vesa/200x200/",
+      "state": "empty",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".min-h-14 > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/tv-ne-vidit-wifi-5ghz/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/usb-wifi-adapter-dlya-televizora/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/televizor-teryaet-wifi/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/skorost-interneta-dlya-televizora/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-vklyuchit-vrr-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-vklyuchit-allm-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/dve-pary-naushnikov-k-televizoru/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-ubrat-reklamu-i-rekomendatsii-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/kak-otklyuchit-avtozapusk-na-televizore/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/oled-ili-qled-chto-vybrat/",
+      "state": "success",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "version": "4.14.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".primary-button.min-h-14[href$=\"#мастер\"] > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

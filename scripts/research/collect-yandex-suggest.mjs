@@ -3,7 +3,7 @@ import path from 'node:path';
 
 // A bounded, unauthenticated snapshot of public search suggestions. This is
 // discovery evidence, not Wordstat frequency or proof of organic traffic.
-const seeds = [
+const defaultSeeds = [
   'как повесить телевизор',
   'как повесить телевизор на',
   'как повесить телевизор на кронштейн',
@@ -39,7 +39,11 @@ const seeds = [
 ];
 
 const root = new URL('../../', import.meta.url);
-const output = path.resolve(new URL('product-docs/research/raw/yandex-suggest-20260923/', root).pathname);
+function option(name, fallback) { const index = process.argv.indexOf(name); return index < 0 ? fallback : process.argv[index + 1]; }
+const seedFile = option('--seeds', null);
+const seeds = seedFile ? JSON.parse(await fs.readFile(path.resolve(seedFile), 'utf8')) : defaultSeeds;
+if (!Array.isArray(seeds) || !seeds.length || seeds.some((seed) => typeof seed !== 'string' || !seed.trim())) throw new Error('Expected a nonempty JSON array of seed phrases');
+const output = path.resolve(option('--out', new URL('product-docs/research/raw/yandex-suggest-20260923/', root).pathname));
 await fs.mkdir(output, { recursive: true });
 const raw = [];
 for (const [index, seed] of seeds.entries()) {
@@ -61,7 +65,7 @@ await fs.writeFile(path.join(output, 'raw.json'), JSON.stringify({ contract: { r
 const rows = new Map();
 for (const batch of raw) for (const candidate of batch.response[1]) {
   const phrase = String(candidate).normalize('NFC').trim().replace(/\s+/g, ' ');
-  if (!phrase || !/телевизор|тв|кронштейн|hdmi|пульт|субтитр|вай фай/i.test(phrase)) continue;
+  if (!phrase) continue;
   const key = phrase.toLocaleLowerCase('ru-RU');
   const row = rows.get(key) ?? { phrase, seeds: [] };
   if (!row.seeds.includes(batch.seed)) row.seeds.push(batch.seed);

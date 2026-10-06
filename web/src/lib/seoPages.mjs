@@ -51,7 +51,19 @@ function wirelessTopicGroup(pageId) {
   return 2;
 }
 
+const UNIVERSE_PAGE_IDS = ["tv-wifi-5ghz", "tv-usb-wifi-adapter", "tv-wifi-drops", "tv-internet-speed", "tv-vrr-enable", "tv-allm-enable", "tv-dual-headphones", "tv-home-recommendations", "tv-start-screen", "tv-oled-qled-choice"];
+const UNIVERSE_GROUPS = [
+  ["tv-wifi-5ghz", "tv-usb-wifi-adapter", "tv-wifi-drops", "tv-internet-speed", "tv-wifi-limited", "tv-internet-setup"],
+  ["tv-vrr-enable", "tv-allm-enable", "tv-120hz-enable", "tv-game-mode", "tv-hdr-enable", "hdmi-cable-checker"],
+  ["tv-dual-headphones", "tv-headphones", "tv-bluetooth-setup", "tv-audio-video-sync", "tv-no-sound"],
+  ["tv-home-recommendations", "tv-start-screen", "tv-store-mode", "tv-hdmi-cec", "tv-app-install", "smart-tv-setup"],
+  ["tv-oled-qled-choice", "tv-purchase-checklist", "tv-screen-uniformity", "viewing-distance", "tv-game-mode", "tv-model-lookup"],
+];
+
 export function getRelatedPages(page, pages, limit = 6) {
+  if (UNIVERSE_PAGE_IDS.includes(page.id)) {
+    return preferredRelatedIds(page.id).map((id) => pages.find((item) => item.id === id && isIndexableSeoPage(item))).filter(Boolean).slice(0, limit);
+  }
   if (page.section === "Монтаж и размещение" || page.section === "Настройки и проверка ТВ") {
     const wallMaterials = [
       "adj-televizor-na-stenu-s-plitkoy", "adj-televizor-na-kirpichnuyu-stenu",
@@ -112,7 +124,9 @@ export function getRelatedPages(page, pages, limit = 6) {
     return hub && hub.id !== page.id && !related.some((item) => item.id === hub.id)
       ? [...related, hub] : related;
   }
-  const preferred = preferredRelatedIds(page.id);
+  // Add contextual incoming links without replacing the established topic graph.
+  const additions = UNIVERSE_GROUPS.filter((group) => group.includes(page.id)).flatMap((group) => group.filter((id) => UNIVERSE_PAGE_IDS.includes(id)));
+  const preferred = [...new Set([...additions, ...preferredRelatedIds(page.id)])];
   return pages
     .filter((item) => item.id !== page.id && isIndexableSeoPage(item))
     .map((item, index) => ({
@@ -172,6 +186,8 @@ export function getModelContextPages(model, pages) {
 }
 
 function preferredRelatedIds(pageId) {
+  const universe = UNIVERSE_GROUPS.find((group) => group.includes(pageId));
+  if (universe && UNIVERSE_PAGE_IDS.includes(pageId)) return universe.filter((id) => id !== pageId);
   if (pageId === "tv-mount-screws") {
     return [
       "vesa",

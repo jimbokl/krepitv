@@ -33,7 +33,9 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   const updated = pages.filter((candidate) => candidate.updated_at === "2026-09-18");
   const updatedIds = new Set(updated.map((candidate) => candidate.id));
   assert.ok(INTENT_TOOL_IDS.every((id) => (
-    id === "tv-disable-subtitles"
+    ["tv-wifi-5ghz", "tv-usb-wifi-adapter", "tv-wifi-drops", "tv-internet-speed", "tv-vrr-enable", "tv-allm-enable", "tv-dual-headphones", "tv-home-recommendations", "tv-start-screen", "tv-oled-qled-choice"].includes(id)
+      ? page(id)?.updated_at === "2026-10-06"
+      : id === "tv-disable-subtitles"
       ? page(id)?.updated_at === "2026-10-02"
       : id === "tv-freezes"
         ? page(id)?.updated_at === "2026-09-30"

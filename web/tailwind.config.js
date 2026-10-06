@@ -3,6 +3,10 @@ export default {
   content: ["./index.html", "./**/*.html", "./src/**/*.{js,jsx,mjs}"],
   theme: {
     extend: {
+      spacing: {
+        "tool-gutter": "12px",
+        "tool-inset": "10px",
+      },
       colors: {
         paper: "#F7F5F0",
         panel: "#F3F1EC",

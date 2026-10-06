@@ -21,6 +21,11 @@ const maximumInitialJsBytes = 300 * 1024;
 const maximumModelChunkBytes = 40 * 1024;
 const maximumSeoChunkBytes = 400 * 1024;
 const baselineIndexableUrlCount = 309;
+const tvUniverseGuideIds = [
+  "tv-wifi-5ghz", "tv-usb-wifi-adapter", "tv-wifi-drops", "tv-internet-speed",
+  "tv-vrr-enable", "tv-allm-enable", "tv-dual-headphones",
+  "tv-home-recommendations", "tv-start-screen", "tv-oled-qled-choice",
+];
 const tvIntentIndexableUrlCount = 14;
 const connectionGuideIds = ["phone-hotspot", "offline-tv", "universal-remote"];
 const seoSprintGuideIds = [
@@ -505,7 +510,8 @@ const modelSearch = JSON.parse(
   await readFile(path.join(docs, "data/model-search.json"), "utf8"),
 );
 const expectedIndexableUrlCount = baselineIndexableUrlCount
-  + 100 // Смежные самостоятельные инструменты по ТВ.
+  + 99 // Wi-Fi 5 ГГц сохраняет адрес, но теперь входит в основной SEO-реестр.
+  + tvUniverseGuideIds.length
   + 20 // Спринт практических страниц 29.09.
   + tvIntentIndexableUrlCount
   + connectionGuideIds.length
@@ -1894,8 +1900,17 @@ const tvIntentGuideIds = [
   "tv-audio-video-sync", "tv-usb-video-subtitles", "tv-bluetooth-remote-pairing",
   "tv-motion-smoothing", "tv-usb-expand-storage",
 ];
+for (const id of tvUniverseGuideIds) {
+  const page = dailyEvidenceGuidePages.find((item) => item.id === id);
+  if (
+    !page?.indexable || page.updated_at !== "2026-10-06" || page.guide.updated_at !== "2026-10-06"
+    || page.guide.steps.length !== 3 || page.guide.sources.length < 2
+    || page.facts.length < 4 || page.faq.length < 3
+  ) throw new Error(`Семантический спринт 06.10: неполный контракт руководства ${id}`);
+}
 const expectedGuideCount = expectedDailyGuideCount
-  + 100 // Смежные интенты по ТВ.
+  + 99 // Wi-Fi 5 ГГц перенесён из смежного реестра в основной без второго URL.
+  + tvUniverseGuideIds.length // Девять новых руководств и один расширенный canonical.
   + 20 // Спринт практических страниц 29.09.
   + tvIntentGuideIds.length
   + connectionGuideIds.length

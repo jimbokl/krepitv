@@ -109,6 +109,26 @@ test("локальный WASM-загрузчик повторяет попытк
   }
 });
 
+test("сбой инициализации WASM сообщает интерфейсу ошибку без необработанного исключения", async () => {
+  const source = (await read("web/public/krepitv-engine-loader.js")).replace(/^import init, \* as engine from "\/pkg\/krepitv_engine\.js";\s*/, "");
+  const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+  const execute = new AsyncFunction("init", "engine", source);
+  const savedDispatch = globalThis.dispatchEvent;
+  const savedError = globalThis.__krepitvEngineError;
+  const events = [];
+  try {
+    globalThis.dispatchEvent = (event) => { events.push(event.type); return true; };
+    await assert.doesNotReject(execute(async () => { throw new Error("test: unavailable WASM"); }, {}));
+    assert.equal(globalThis.__krepitvEngineError, true);
+    assert.deepEqual(events, ["krepitv-engine-error"]);
+  } finally {
+    if (savedDispatch === undefined) delete globalThis.dispatchEvent;
+    else globalThis.dispatchEvent = savedDispatch;
+    if (savedError === undefined) delete globalThis.__krepitvEngineError;
+    else globalThis.__krepitvEngineError = savedError;
+  }
+});
+
 test("phone-to-TV bypasses generic catalog and affiliate placements", async () => {
   const source = await read("web/src/pages/SeoPage.jsx");
   assert.match(source, /const prioritizesPhoneTvConnection = page\.id === "phone-to-tv"/);

@@ -8,9 +8,9 @@ import { resultCompletedDetail } from "../src/lib/resultCompleted.mjs";
 const pages = JSON.parse(await readFile(new URL("../../data/seo_pages.json", import.meta.url), "utf8"));
 const byId = new Map(pages.map((page) => [page.id, page]));
 
-test("двадцать интерактивных проверок привязаны к отдельным существующим страницам с источниками", () => {
-  assert.equal(INTENT_TOOL_IDS.length, 20);
-  assert.equal(new Set(INTENT_TOOL_IDS).size, 20);
+test("тридцать интерактивных проверок привязаны к отдельным страницам с источниками", () => {
+  assert.equal(INTENT_TOOL_IDS.length, 30);
+  assert.equal(new Set(INTENT_TOOL_IDS).size, 30);
   for (const id of INTENT_TOOL_IDS) {
     const page = byId.get(id);
     const tool = INTENT_TOOLS[id];

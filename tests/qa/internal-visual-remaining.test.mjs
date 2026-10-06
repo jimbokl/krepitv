@@ -10,7 +10,7 @@ const newIds = Object.values(read("internal_visual_remaining")).flatMap((theme) 
 
 test("каждая существующая SEO-страница имеет одну визуальную тему без дублей", () => {
   assert.equal(oldIds.length, 100);
-  assert.equal(newIds.length, 55);
+  assert.equal(newIds.length, 65);
   assert.equal(internalVisualCount(), pages.length);
   assert.deepEqual(new Set([...oldIds, ...newIds]), new Set(pages.map((page) => page.id)));
   for (const page of pages) {

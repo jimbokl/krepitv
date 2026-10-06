@@ -4,8 +4,7 @@ try {
   await init();
   globalThis.__krepitvEngine = engine;
   globalThis.dispatchEvent(new CustomEvent("krepitv-engine-ready"));
-} catch (error) {
+} catch {
   globalThis.__krepitvEngineError = true;
   globalThis.dispatchEvent(new CustomEvent("krepitv-engine-error"));
-  throw error;
 }

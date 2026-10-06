@@ -28,7 +28,7 @@ export function IntentDecisionTool({ guide, pageId }) {
   return (
     <section
       aria-labelledby={`${pageId}-decision-title`}
-      className="mt-7 border-2 border-ink bg-white p-5 sm:p-7"
+      className="mt-7 border-2 border-ink bg-white px-tool-gutter py-5 sm:p-7"
       data-analytics-tool={toolId}
       data-evidence-guide-tool="true"
       data-intent-tool={pageId}
@@ -48,7 +48,7 @@ export function IntentDecisionTool({ guide, pageId }) {
           {guide.steps.map((item, index) => (
             <button
               aria-pressed={stepIndex === index}
-              className={`min-h-14 border-2 px-4 py-3 text-left font-display font-bold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-action ${
+              className={`min-h-14 border-2 px-tool-gutter py-3 text-left font-display font-bold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-action sm:px-4 ${
                 stepIndex === index ? "border-action bg-action text-white" : "border-ink bg-paper hover:bg-white"
               }`}
               key={item.label}
@@ -62,7 +62,7 @@ export function IntentDecisionTool({ guide, pageId }) {
       </fieldset>
 
       {step ? (
-        <div aria-live="polite" className="mt-6 border-l-2 border-action pl-5" data-intent-step="true">
+        <div aria-live="polite" className="mt-6 border-l-2 border-action pl-tool-inset sm:pl-5" data-intent-step="true">
           <p className="font-mono text-xs uppercase text-action">Готово · безопасный первый шаг</p>
           <h4 className="mt-2 font-display text-xl font-bold">{step.title}</h4>
           <p className="mt-2 max-w-3xl leading-relaxed text-muted">{step.body}</p>
@@ -75,7 +75,7 @@ export function IntentDecisionTool({ guide, pageId }) {
           <div className="mt-3 flex flex-wrap gap-3">
             <button
               aria-pressed={outcome === "yes"}
-              className={`min-h-12 border-2 px-5 py-2 font-display font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action ${
+              className={`min-h-12 border-2 px-tool-gutter py-2 font-display font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action sm:px-5 ${
                 outcome === "yes" ? "border-action bg-action text-white" : "border-ink bg-paper hover:bg-white"
               }`}
               onClick={() => complete("yes")}
@@ -85,7 +85,7 @@ export function IntentDecisionTool({ guide, pageId }) {
             </button>
             <button
               aria-pressed={outcome === "no"}
-              className={`min-h-12 border-2 px-5 py-2 font-display font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action ${
+              className={`min-h-12 border-2 px-tool-gutter py-2 font-display font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-action sm:px-5 ${
                 outcome === "no" ? "border-action bg-action text-white" : "border-ink bg-paper hover:bg-white"
               }`}
               onClick={() => complete("no")}
@@ -108,7 +108,7 @@ export function IntentDecisionTool({ guide, pageId }) {
           </>
         ) : (
           <p className="max-w-3xl text-sm leading-relaxed text-muted">
-            Сначала выберите ситуацию. Итог появится только после проверки — мы не выдаём неподтверждённое решение заранее.
+            {step ? "Первый шаг показан выше. Если проверите его на телевизоре, можно отметить результат — это необязательно." : "Выберите свою ситуацию — покажем безопасный первый шаг и что проверить дальше."}
           </p>
         )}
       </div>

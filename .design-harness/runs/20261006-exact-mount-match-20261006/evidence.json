@@ -1,0 +1,2690 @@
+{
+  "version": 1,
+  "task_id": "20261006-exact-mount-match-20261006",
+  "commands": [
+    {
+      "id": "build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "output_path": "evidence/commands/build.log",
+      "covers": [
+        "default",
+        "success"
+      ]
+    },
+    {
+      "id": "browser",
+      "command": "node scripts/qa/exact-mount-sprint.mjs",
+      "exit_code": 0,
+      "output_path": "evidence/commands/browser.log",
+      "covers": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "success",
+        "disabled",
+        "focus"
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-matcher-mobile-default",
+      "path": "evidence/screenshots/matcher-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-mobile-disabled",
+      "path": "evidence/screenshots/matcher-mobile-disabled.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-mobile-focus",
+      "path": "evidence/screenshots/matcher-mobile-focus.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-matcher-mobile-loading",
+      "path": "evidence/screenshots/matcher-mobile-loading.png",
+      "state": "loading",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-mobile-success",
+      "path": "evidence/screenshots/matcher-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-resize-mobile-success",
+      "path": "evidence/screenshots/matcher-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-spacing-mobile-success",
+      "path": "evidence/screenshots/matcher-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-mobile-error",
+      "path": "evidence/screenshots/matcher-mobile-error.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-mobile-empty",
+      "path": "evidence/screenshots/matcher-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-overview-mobile-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-overview-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-photo-mobile-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-photo-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-table-mobile-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-table-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-sources-mobile-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-sources-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-mobile-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-mobile-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-resize-mobile-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-mobile-default",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-mobile-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-resize-mobile-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-mobile-default",
+      "path": "evidence/screenshots/tv-wifi-drops-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-mobile-success",
+      "path": "evidence/screenshots/tv-wifi-drops-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-resize-mobile-success",
+      "path": "evidence/screenshots/tv-wifi-drops-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-wifi-drops-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-mobile-default",
+      "path": "evidence/screenshots/tv-internet-speed-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-mobile-success",
+      "path": "evidence/screenshots/tv-internet-speed-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-resize-mobile-success",
+      "path": "evidence/screenshots/tv-internet-speed-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-internet-speed-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-mobile-default",
+      "path": "evidence/screenshots/tv-vrr-enable-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-mobile-success",
+      "path": "evidence/screenshots/tv-vrr-enable-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-resize-mobile-success",
+      "path": "evidence/screenshots/tv-vrr-enable-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-vrr-enable-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-mobile-default",
+      "path": "evidence/screenshots/tv-allm-enable-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-mobile-success",
+      "path": "evidence/screenshots/tv-allm-enable-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-resize-mobile-success",
+      "path": "evidence/screenshots/tv-allm-enable-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-allm-enable-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-mobile-default",
+      "path": "evidence/screenshots/tv-dual-headphones-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-mobile-success",
+      "path": "evidence/screenshots/tv-dual-headphones-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-resize-mobile-success",
+      "path": "evidence/screenshots/tv-dual-headphones-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-dual-headphones-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-mobile-default",
+      "path": "evidence/screenshots/tv-home-recommendations-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-mobile-success",
+      "path": "evidence/screenshots/tv-home-recommendations-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-resize-mobile-success",
+      "path": "evidence/screenshots/tv-home-recommendations-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-home-recommendations-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-mobile-default",
+      "path": "evidence/screenshots/tv-start-screen-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-mobile-success",
+      "path": "evidence/screenshots/tv-start-screen-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-resize-mobile-success",
+      "path": "evidence/screenshots/tv-start-screen-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-start-screen-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-overview-mobile-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-overview-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-photo-mobile-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-photo-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-table-mobile-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-table-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-sources-mobile-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-sources-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-mobile-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-mobile-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-resize-mobile-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-resize-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-spacing-mobile-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-tablet-default",
+      "path": "evidence/screenshots/matcher-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-tablet-disabled",
+      "path": "evidence/screenshots/matcher-tablet-disabled.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-tablet-focus",
+      "path": "evidence/screenshots/matcher-tablet-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-matcher-tablet-loading",
+      "path": "evidence/screenshots/matcher-tablet-loading.png",
+      "state": "loading",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-tablet-success",
+      "path": "evidence/screenshots/matcher-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-resize-tablet-success",
+      "path": "evidence/screenshots/matcher-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-spacing-tablet-success",
+      "path": "evidence/screenshots/matcher-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-tablet-error",
+      "path": "evidence/screenshots/matcher-tablet-error.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-tablet-empty",
+      "path": "evidence/screenshots/matcher-tablet-empty.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-tablet-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-tablet-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-resize-tablet-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-tablet-default",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-tablet-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-resize-tablet-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-tablet-default",
+      "path": "evidence/screenshots/tv-wifi-drops-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-tablet-success",
+      "path": "evidence/screenshots/tv-wifi-drops-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-resize-tablet-success",
+      "path": "evidence/screenshots/tv-wifi-drops-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-wifi-drops-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-tablet-default",
+      "path": "evidence/screenshots/tv-internet-speed-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-tablet-success",
+      "path": "evidence/screenshots/tv-internet-speed-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-resize-tablet-success",
+      "path": "evidence/screenshots/tv-internet-speed-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-internet-speed-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-tablet-default",
+      "path": "evidence/screenshots/tv-vrr-enable-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-tablet-success",
+      "path": "evidence/screenshots/tv-vrr-enable-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-resize-tablet-success",
+      "path": "evidence/screenshots/tv-vrr-enable-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-vrr-enable-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-tablet-default",
+      "path": "evidence/screenshots/tv-allm-enable-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-tablet-success",
+      "path": "evidence/screenshots/tv-allm-enable-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-resize-tablet-success",
+      "path": "evidence/screenshots/tv-allm-enable-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-allm-enable-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-tablet-default",
+      "path": "evidence/screenshots/tv-dual-headphones-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-tablet-success",
+      "path": "evidence/screenshots/tv-dual-headphones-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-resize-tablet-success",
+      "path": "evidence/screenshots/tv-dual-headphones-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-dual-headphones-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-tablet-default",
+      "path": "evidence/screenshots/tv-home-recommendations-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-tablet-success",
+      "path": "evidence/screenshots/tv-home-recommendations-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-resize-tablet-success",
+      "path": "evidence/screenshots/tv-home-recommendations-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-home-recommendations-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-tablet-default",
+      "path": "evidence/screenshots/tv-start-screen-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-tablet-success",
+      "path": "evidence/screenshots/tv-start-screen-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-resize-tablet-success",
+      "path": "evidence/screenshots/tv-start-screen-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-start-screen-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-tablet-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-tablet-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-resize-tablet-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-resize-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-spacing-tablet-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-desktop-default",
+      "path": "evidence/screenshots/matcher-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-desktop-disabled",
+      "path": "evidence/screenshots/matcher-desktop-disabled.png",
+      "state": "disabled",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-desktop-focus",
+      "path": "evidence/screenshots/matcher-desktop-focus.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-matcher-desktop-loading",
+      "path": "evidence/screenshots/matcher-desktop-loading.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-desktop-success",
+      "path": "evidence/screenshots/matcher-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-resize-desktop-success",
+      "path": "evidence/screenshots/matcher-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-spacing-desktop-success",
+      "path": "evidence/screenshots/matcher-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-desktop-error",
+      "path": "evidence/screenshots/matcher-desktop-error.png",
+      "state": "error",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-matcher-desktop-empty",
+      "path": "evidence/screenshots/matcher-desktop-empty.png",
+      "state": "empty",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-overview-desktop-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-overview-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-photo-desktop-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-photo-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-table-desktop-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-table-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-sources-desktop-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-sources-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-desktop-default",
+      "path": "evidence/screenshots/tv-wifi-5ghz-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-desktop-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-resize-desktop-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-5ghz-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-wifi-5ghz-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-desktop-default",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-desktop-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-resize-desktop-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-usb-wifi-adapter-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-usb-wifi-adapter-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-desktop-default",
+      "path": "evidence/screenshots/tv-wifi-drops-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-desktop-success",
+      "path": "evidence/screenshots/tv-wifi-drops-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-resize-desktop-success",
+      "path": "evidence/screenshots/tv-wifi-drops-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-wifi-drops-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-wifi-drops-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-desktop-default",
+      "path": "evidence/screenshots/tv-internet-speed-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-desktop-success",
+      "path": "evidence/screenshots/tv-internet-speed-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-resize-desktop-success",
+      "path": "evidence/screenshots/tv-internet-speed-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-internet-speed-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-internet-speed-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-desktop-default",
+      "path": "evidence/screenshots/tv-vrr-enable-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-desktop-success",
+      "path": "evidence/screenshots/tv-vrr-enable-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-resize-desktop-success",
+      "path": "evidence/screenshots/tv-vrr-enable-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-vrr-enable-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-vrr-enable-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-desktop-default",
+      "path": "evidence/screenshots/tv-allm-enable-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-desktop-success",
+      "path": "evidence/screenshots/tv-allm-enable-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-resize-desktop-success",
+      "path": "evidence/screenshots/tv-allm-enable-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-allm-enable-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-allm-enable-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-desktop-default",
+      "path": "evidence/screenshots/tv-dual-headphones-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-desktop-success",
+      "path": "evidence/screenshots/tv-dual-headphones-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-resize-desktop-success",
+      "path": "evidence/screenshots/tv-dual-headphones-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-dual-headphones-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-dual-headphones-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-desktop-default",
+      "path": "evidence/screenshots/tv-home-recommendations-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-desktop-success",
+      "path": "evidence/screenshots/tv-home-recommendations-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-resize-desktop-success",
+      "path": "evidence/screenshots/tv-home-recommendations-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-home-recommendations-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-home-recommendations-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-desktop-default",
+      "path": "evidence/screenshots/tv-start-screen-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-desktop-success",
+      "path": "evidence/screenshots/tv-start-screen-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-resize-desktop-success",
+      "path": "evidence/screenshots/tv-start-screen-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-start-screen-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-start-screen-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-overview-desktop-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-overview-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-photo-desktop-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-photo-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-table-desktop-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-table-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-sources-desktop-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-sources-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-desktop-default",
+      "path": "evidence/screenshots/tv-oled-qled-choice-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-desktop-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-resize-desktop-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-resize-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-tv-oled-qled-choice-spacing-desktop-success",
+      "path": "evidence/screenshots/tv-oled-qled-choice-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    }
+  ],
+  "assets": [],
+  "state_coverage": {
+    "default": [
+      "shot-matcher-mobile-default",
+      "shot-tv-wifi-5ghz-overview-mobile-default",
+      "shot-tv-wifi-5ghz-photo-mobile-default",
+      "shot-tv-wifi-5ghz-table-mobile-default",
+      "shot-tv-wifi-5ghz-sources-mobile-default",
+      "shot-tv-wifi-5ghz-mobile-default",
+      "shot-tv-usb-wifi-adapter-mobile-default",
+      "shot-tv-wifi-drops-mobile-default",
+      "shot-tv-internet-speed-mobile-default",
+      "shot-tv-vrr-enable-mobile-default",
+      "shot-tv-allm-enable-mobile-default",
+      "shot-tv-dual-headphones-mobile-default",
+      "shot-tv-home-recommendations-mobile-default",
+      "shot-tv-start-screen-mobile-default",
+      "shot-tv-oled-qled-choice-overview-mobile-default",
+      "shot-tv-oled-qled-choice-photo-mobile-default",
+      "shot-tv-oled-qled-choice-table-mobile-default",
+      "shot-tv-oled-qled-choice-sources-mobile-default",
+      "shot-tv-oled-qled-choice-mobile-default",
+      "shot-matcher-tablet-default",
+      "shot-tv-wifi-5ghz-tablet-default",
+      "shot-tv-usb-wifi-adapter-tablet-default",
+      "shot-tv-wifi-drops-tablet-default",
+      "shot-tv-internet-speed-tablet-default",
+      "shot-tv-vrr-enable-tablet-default",
+      "shot-tv-allm-enable-tablet-default",
+      "shot-tv-dual-headphones-tablet-default",
+      "shot-tv-home-recommendations-tablet-default",
+      "shot-tv-start-screen-tablet-default",
+      "shot-tv-oled-qled-choice-tablet-default",
+      "shot-matcher-desktop-default",
+      "shot-tv-wifi-5ghz-overview-desktop-default",
+      "shot-tv-wifi-5ghz-photo-desktop-default",
+      "shot-tv-wifi-5ghz-table-desktop-default",
+      "shot-tv-wifi-5ghz-sources-desktop-default",
+      "shot-tv-wifi-5ghz-desktop-default",
+      "shot-tv-usb-wifi-adapter-desktop-default",
+      "shot-tv-wifi-drops-desktop-default",
+      "shot-tv-internet-speed-desktop-default",
+      "shot-tv-vrr-enable-desktop-default",
+      "shot-tv-allm-enable-desktop-default",
+      "shot-tv-dual-headphones-desktop-default",
+      "shot-tv-home-recommendations-desktop-default",
+      "shot-tv-start-screen-desktop-default",
+      "shot-tv-oled-qled-choice-overview-desktop-default",
+      "shot-tv-oled-qled-choice-photo-desktop-default",
+      "shot-tv-oled-qled-choice-table-desktop-default",
+      "shot-tv-oled-qled-choice-sources-desktop-default",
+      "shot-tv-oled-qled-choice-desktop-default"
+    ],
+    "disabled": [
+      "shot-matcher-mobile-disabled",
+      "shot-matcher-tablet-disabled",
+      "shot-matcher-desktop-disabled"
+    ],
+    "focus": [
+      "shot-matcher-mobile-focus",
+      "shot-matcher-tablet-focus",
+      "shot-matcher-desktop-focus"
+    ],
+    "loading": [
+      "shot-matcher-mobile-loading",
+      "shot-matcher-tablet-loading",
+      "shot-matcher-desktop-loading"
+    ],
+    "success": [
+      "shot-matcher-mobile-success",
+      "shot-matcher-resize-mobile-success",
+      "shot-matcher-spacing-mobile-success",
+      "shot-tv-wifi-5ghz-mobile-success",
+      "shot-tv-wifi-5ghz-resize-mobile-success",
+      "shot-tv-wifi-5ghz-spacing-mobile-success",
+      "shot-tv-usb-wifi-adapter-mobile-success",
+      "shot-tv-usb-wifi-adapter-resize-mobile-success",
+      "shot-tv-usb-wifi-adapter-spacing-mobile-success",
+      "shot-tv-wifi-drops-mobile-success",
+      "shot-tv-wifi-drops-resize-mobile-success",
+      "shot-tv-wifi-drops-spacing-mobile-success",
+      "shot-tv-internet-speed-mobile-success",
+      "shot-tv-internet-speed-resize-mobile-success",
+      "shot-tv-internet-speed-spacing-mobile-success",
+      "shot-tv-vrr-enable-mobile-success",
+      "shot-tv-vrr-enable-resize-mobile-success",
+      "shot-tv-vrr-enable-spacing-mobile-success",
+      "shot-tv-allm-enable-mobile-success",
+      "shot-tv-allm-enable-resize-mobile-success",
+      "shot-tv-allm-enable-spacing-mobile-success",
+      "shot-tv-dual-headphones-mobile-success",
+      "shot-tv-dual-headphones-resize-mobile-success",
+      "shot-tv-dual-headphones-spacing-mobile-success",
+      "shot-tv-home-recommendations-mobile-success",
+      "shot-tv-home-recommendations-resize-mobile-success",
+      "shot-tv-home-recommendations-spacing-mobile-success",
+      "shot-tv-start-screen-mobile-success",
+      "shot-tv-start-screen-resize-mobile-success",
+      "shot-tv-start-screen-spacing-mobile-success",
+      "shot-tv-oled-qled-choice-mobile-success",
+      "shot-tv-oled-qled-choice-resize-mobile-success",
+      "shot-tv-oled-qled-choice-spacing-mobile-success",
+      "shot-matcher-tablet-success",
+      "shot-matcher-resize-tablet-success",
+      "shot-matcher-spacing-tablet-success",
+      "shot-tv-wifi-5ghz-tablet-success",
+      "shot-tv-wifi-5ghz-resize-tablet-success",
+      "shot-tv-wifi-5ghz-spacing-tablet-success",
+      "shot-tv-usb-wifi-adapter-tablet-success",
+      "shot-tv-usb-wifi-adapter-resize-tablet-success",
+      "shot-tv-usb-wifi-adapter-spacing-tablet-success",
+      "shot-tv-wifi-drops-tablet-success",
+      "shot-tv-wifi-drops-resize-tablet-success",
+      "shot-tv-wifi-drops-spacing-tablet-success",
+      "shot-tv-internet-speed-tablet-success",
+      "shot-tv-internet-speed-resize-tablet-success",
+      "shot-tv-internet-speed-spacing-tablet-success",
+      "shot-tv-vrr-enable-tablet-success",
+      "shot-tv-vrr-enable-resize-tablet-success",
+      "shot-tv-vrr-enable-spacing-tablet-success",
+      "shot-tv-allm-enable-tablet-success",
+      "shot-tv-allm-enable-resize-tablet-success",
+      "shot-tv-allm-enable-spacing-tablet-success",
+      "shot-tv-dual-headphones-tablet-success",
+      "shot-tv-dual-headphones-resize-tablet-success",
+      "shot-tv-dual-headphones-spacing-tablet-success",
+      "shot-tv-home-recommendations-tablet-success",
+      "shot-tv-home-recommendations-resize-tablet-success",
+      "shot-tv-home-recommendations-spacing-tablet-success",
+      "shot-tv-start-screen-tablet-success",
+      "shot-tv-start-screen-resize-tablet-success",
+      "shot-tv-start-screen-spacing-tablet-success",
+      "shot-tv-oled-qled-choice-tablet-success",
+      "shot-tv-oled-qled-choice-resize-tablet-success",
+      "shot-tv-oled-qled-choice-spacing-tablet-success",
+      "shot-matcher-desktop-success",
+      "shot-matcher-resize-desktop-success",
+      "shot-matcher-spacing-desktop-success",
+      "shot-tv-wifi-5ghz-desktop-success",
+      "shot-tv-wifi-5ghz-resize-desktop-success",
+      "shot-tv-wifi-5ghz-spacing-desktop-success",
+      "shot-tv-usb-wifi-adapter-desktop-success",
+      "shot-tv-usb-wifi-adapter-resize-desktop-success",
+      "shot-tv-usb-wifi-adapter-spacing-desktop-success",
+      "shot-tv-wifi-drops-desktop-success",
+      "shot-tv-wifi-drops-resize-desktop-success",
+      "shot-tv-wifi-drops-spacing-desktop-success",
+      "shot-tv-internet-speed-desktop-success",
+      "shot-tv-internet-speed-resize-desktop-success",
+      "shot-tv-internet-speed-spacing-desktop-success",
+      "shot-tv-vrr-enable-desktop-success",
+      "shot-tv-vrr-enable-resize-desktop-success",
+      "shot-tv-vrr-enable-spacing-desktop-success",
+      "shot-tv-allm-enable-desktop-success",
+      "shot-tv-allm-enable-resize-desktop-success",
+      "shot-tv-allm-enable-spacing-desktop-success",
+      "shot-tv-dual-headphones-desktop-success",
+      "shot-tv-dual-headphones-resize-desktop-success",
+      "shot-tv-dual-headphones-spacing-desktop-success",
+      "shot-tv-home-recommendations-desktop-success",
+      "shot-tv-home-recommendations-resize-desktop-success",
+      "shot-tv-home-recommendations-spacing-desktop-success",
+      "shot-tv-start-screen-desktop-success",
+      "shot-tv-start-screen-resize-desktop-success",
+      "shot-tv-start-screen-spacing-desktop-success",
+      "shot-tv-oled-qled-choice-desktop-success",
+      "shot-tv-oled-qled-choice-resize-desktop-success",
+      "shot-tv-oled-qled-choice-spacing-desktop-success"
+    ],
+    "error": [
+      "shot-matcher-mobile-error",
+      "shot-matcher-tablet-error",
+      "shot-matcher-desktop-error"
+    ],
+    "empty": [
+      "shot-matcher-mobile-empty",
+      "shot-matcher-tablet-empty",
+      "shot-matcher-desktop-empty"
+    ]
+  },
+  "viewport_coverage": {
+    "mobile": [
+      "shot-matcher-mobile-default",
+      "shot-matcher-mobile-disabled",
+      "shot-matcher-mobile-focus",
+      "shot-matcher-mobile-loading",
+      "shot-matcher-mobile-success",
+      "shot-matcher-resize-mobile-success",
+      "shot-matcher-spacing-mobile-success",
+      "shot-matcher-mobile-error",
+      "shot-matcher-mobile-empty",
+      "shot-tv-wifi-5ghz-overview-mobile-default",
+      "shot-tv-wifi-5ghz-photo-mobile-default",
+      "shot-tv-wifi-5ghz-table-mobile-default",
+      "shot-tv-wifi-5ghz-sources-mobile-default",
+      "shot-tv-wifi-5ghz-mobile-default",
+      "shot-tv-wifi-5ghz-mobile-success",
+      "shot-tv-wifi-5ghz-resize-mobile-success",
+      "shot-tv-wifi-5ghz-spacing-mobile-success",
+      "shot-tv-usb-wifi-adapter-mobile-default",
+      "shot-tv-usb-wifi-adapter-mobile-success",
+      "shot-tv-usb-wifi-adapter-resize-mobile-success",
+      "shot-tv-usb-wifi-adapter-spacing-mobile-success",
+      "shot-tv-wifi-drops-mobile-default",
+      "shot-tv-wifi-drops-mobile-success",
+      "shot-tv-wifi-drops-resize-mobile-success",
+      "shot-tv-wifi-drops-spacing-mobile-success",
+      "shot-tv-internet-speed-mobile-default",
+      "shot-tv-internet-speed-mobile-success",
+      "shot-tv-internet-speed-resize-mobile-success",
+      "shot-tv-internet-speed-spacing-mobile-success",
+      "shot-tv-vrr-enable-mobile-default",
+      "shot-tv-vrr-enable-mobile-success",
+      "shot-tv-vrr-enable-resize-mobile-success",
+      "shot-tv-vrr-enable-spacing-mobile-success",
+      "shot-tv-allm-enable-mobile-default",
+      "shot-tv-allm-enable-mobile-success",
+      "shot-tv-allm-enable-resize-mobile-success",
+      "shot-tv-allm-enable-spacing-mobile-success",
+      "shot-tv-dual-headphones-mobile-default",
+      "shot-tv-dual-headphones-mobile-success",
+      "shot-tv-dual-headphones-resize-mobile-success",
+      "shot-tv-dual-headphones-spacing-mobile-success",
+      "shot-tv-home-recommendations-mobile-default",
+      "shot-tv-home-recommendations-mobile-success",
+      "shot-tv-home-recommendations-resize-mobile-success",
+      "shot-tv-home-recommendations-spacing-mobile-success",
+      "shot-tv-start-screen-mobile-default",
+      "shot-tv-start-screen-mobile-success",
+      "shot-tv-start-screen-resize-mobile-success",
+      "shot-tv-start-screen-spacing-mobile-success",
+      "shot-tv-oled-qled-choice-overview-mobile-default",
+      "shot-tv-oled-qled-choice-photo-mobile-default",
+      "shot-tv-oled-qled-choice-table-mobile-default",
+      "shot-tv-oled-qled-choice-sources-mobile-default",
+      "shot-tv-oled-qled-choice-mobile-default",
+      "shot-tv-oled-qled-choice-mobile-success",
+      "shot-tv-oled-qled-choice-resize-mobile-success",
+      "shot-tv-oled-qled-choice-spacing-mobile-success"
+    ],
+    "tablet": [
+      "shot-matcher-tablet-default",
+      "shot-matcher-tablet-disabled",
+      "shot-matcher-tablet-focus",
+      "shot-matcher-tablet-loading",
+      "shot-matcher-tablet-success",
+      "shot-matcher-resize-tablet-success",
+      "shot-matcher-spacing-tablet-success",
+      "shot-matcher-tablet-error",
+      "shot-matcher-tablet-empty",
+      "shot-tv-wifi-5ghz-tablet-default",
+      "shot-tv-wifi-5ghz-tablet-success",
+      "shot-tv-wifi-5ghz-resize-tablet-success",
+      "shot-tv-wifi-5ghz-spacing-tablet-success",
+      "shot-tv-usb-wifi-adapter-tablet-default",
+      "shot-tv-usb-wifi-adapter-tablet-success",
+      "shot-tv-usb-wifi-adapter-resize-tablet-success",
+      "shot-tv-usb-wifi-adapter-spacing-tablet-success",
+      "shot-tv-wifi-drops-tablet-default",
+      "shot-tv-wifi-drops-tablet-success",
+      "shot-tv-wifi-drops-resize-tablet-success",
+      "shot-tv-wifi-drops-spacing-tablet-success",
+      "shot-tv-internet-speed-tablet-default",
+      "shot-tv-internet-speed-tablet-success",
+      "shot-tv-internet-speed-resize-tablet-success",
+      "shot-tv-internet-speed-spacing-tablet-success",
+      "shot-tv-vrr-enable-tablet-default",
+      "shot-tv-vrr-enable-tablet-success",
+      "shot-tv-vrr-enable-resize-tablet-success",
+      "shot-tv-vrr-enable-spacing-tablet-success",
+      "shot-tv-allm-enable-tablet-default",
+      "shot-tv-allm-enable-tablet-success",
+      "shot-tv-allm-enable-resize-tablet-success",
+      "shot-tv-allm-enable-spacing-tablet-success",
+      "shot-tv-dual-headphones-tablet-default",
+      "shot-tv-dual-headphones-tablet-success",
+      "shot-tv-dual-headphones-resize-tablet-success",
+      "shot-tv-dual-headphones-spacing-tablet-success",
+      "shot-tv-home-recommendations-tablet-default",
+      "shot-tv-home-recommendations-tablet-success",
+      "shot-tv-home-recommendations-resize-tablet-success",
+      "shot-tv-home-recommendations-spacing-tablet-success",
+      "shot-tv-start-screen-tablet-default",
+      "shot-tv-start-screen-tablet-success",
+      "shot-tv-start-screen-resize-tablet-success",
+      "shot-tv-start-screen-spacing-tablet-success",
+      "shot-tv-oled-qled-choice-tablet-default",
+      "shot-tv-oled-qled-choice-tablet-success",
+      "shot-tv-oled-qled-choice-resize-tablet-success",
+      "shot-tv-oled-qled-choice-spacing-tablet-success"
+    ],
+    "desktop": [
+      "shot-matcher-desktop-default",
+      "shot-matcher-desktop-disabled",
+      "shot-matcher-desktop-focus",
+      "shot-matcher-desktop-loading",
+      "shot-matcher-desktop-success",
+      "shot-matcher-resize-desktop-success",
+      "shot-matcher-spacing-desktop-success",
+      "shot-matcher-desktop-error",
+      "shot-matcher-desktop-empty",
+      "shot-tv-wifi-5ghz-overview-desktop-default",
+      "shot-tv-wifi-5ghz-photo-desktop-default",
+      "shot-tv-wifi-5ghz-table-desktop-default",
+      "shot-tv-wifi-5ghz-sources-desktop-default",
+      "shot-tv-wifi-5ghz-desktop-default",
+      "shot-tv-wifi-5ghz-desktop-success",
+      "shot-tv-wifi-5ghz-resize-desktop-success",
+      "shot-tv-wifi-5ghz-spacing-desktop-success",
+      "shot-tv-usb-wifi-adapter-desktop-default",
+      "shot-tv-usb-wifi-adapter-desktop-success",
+      "shot-tv-usb-wifi-adapter-resize-desktop-success",
+      "shot-tv-usb-wifi-adapter-spacing-desktop-success",
+      "shot-tv-wifi-drops-desktop-default",
+      "shot-tv-wifi-drops-desktop-success",
+      "shot-tv-wifi-drops-resize-desktop-success",
+      "shot-tv-wifi-drops-spacing-desktop-success",
+      "shot-tv-internet-speed-desktop-default",
+      "shot-tv-internet-speed-desktop-success",
+      "shot-tv-internet-speed-resize-desktop-success",
+      "shot-tv-internet-speed-spacing-desktop-success",
+      "shot-tv-vrr-enable-desktop-default",
+      "shot-tv-vrr-enable-desktop-success",
+      "shot-tv-vrr-enable-resize-desktop-success",
+      "shot-tv-vrr-enable-spacing-desktop-success",
+      "shot-tv-allm-enable-desktop-default",
+      "shot-tv-allm-enable-desktop-success",
+      "shot-tv-allm-enable-resize-desktop-success",
+      "shot-tv-allm-enable-spacing-desktop-success",
+      "shot-tv-dual-headphones-desktop-default",
+      "shot-tv-dual-headphones-desktop-success",
+      "shot-tv-dual-headphones-resize-desktop-success",
+      "shot-tv-dual-headphones-spacing-desktop-success",
+      "shot-tv-home-recommendations-desktop-default",
+      "shot-tv-home-recommendations-desktop-success",
+      "shot-tv-home-recommendations-resize-desktop-success",
+      "shot-tv-home-recommendations-spacing-desktop-success",
+      "shot-tv-start-screen-desktop-default",
+      "shot-tv-start-screen-desktop-success",
+      "shot-tv-start-screen-resize-desktop-success",
+      "shot-tv-start-screen-spacing-desktop-success",
+      "shot-tv-oled-qled-choice-overview-desktop-default",
+      "shot-tv-oled-qled-choice-photo-desktop-default",
+      "shot-tv-oled-qled-choice-table-desktop-default",
+      "shot-tv-oled-qled-choice-sources-desktop-default",
+      "shot-tv-oled-qled-choice-desktop-default",
+      "shot-tv-oled-qled-choice-desktop-success",
+      "shot-tv-oled-qled-choice-resize-desktop-success",
+      "shot-tv-oled-qled-choice-spacing-desktop-success"
+    ]
+  },
+  "review": {
+    "reviewer": "sprint_review_20261006",
+    "independent": true,
+    "verdict": "pass",
+    "findings": [
+      {
+        "severity": "P3",
+        "blocking": false,
+        "description": "At 320 CSS px and 200% text, a matcher CTA wraps within a word without hiding or overlapping text. Recorded for later typography polish."
+      },
+      {
+        "severity": "P3",
+        "blocking": false,
+        "description": "Some narrow first columns in Wi-Fi/OLED guide tables wrap within words at 320 CSS px. Full content and keyboard horizontal scroll remain available; the primary step is repeated in the tool."
+      }
+    ]
+  },
+  "rollback": {
+    "documented": true,
+    "path": "rollback.md"
+  }
+}

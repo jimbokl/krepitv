@@ -7,6 +7,7 @@ export const TOOL_USAGE_STARTED = "started";
 export const KNOWN_TOOL_IDS = Object.freeze([
   ...Object.keys(CONNECTION_HELPERS).map(connectionToolId),
   "brand_mount_match",
+  "exact_mount_match",
   "digital_channel_setup",
   "height_calculator",
   "installation_kit",
