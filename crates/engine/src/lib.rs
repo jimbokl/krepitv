@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
+mod aspect_ratio;
 mod connection_helper;
 mod installation_kit;
 mod tv_task_helper;
@@ -12,7 +13,16 @@ pub fn connection_helper_json(task: &str, first: &str, second: &str, third: &str
         Err(error) => serde_json::json!({"error": error}).to_string(),
     }
 }
+pub use aspect_ratio::aspect_ratio_plan;
 pub use installation_kit::*;
+
+#[wasm_bindgen]
+pub fn aspect_ratio_plan_json(format: &str) -> String {
+    match aspect_ratio_plan(format) {
+        Ok(plan) => serde_json::to_string(&plan).expect("serializable aspect ratio plan"),
+        Err(error) => serde_json::json!({"error": error}).to_string(),
+    }
+}
 
 const LOAD_SAFETY_FACTOR: f64 = 1.25;
 const MIN_TV_DIAGONAL_INCHES: f64 = 19.0;

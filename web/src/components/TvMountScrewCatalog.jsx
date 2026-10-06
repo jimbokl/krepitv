@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import {
   ArrowRight,
   LinkSimple,
@@ -44,6 +44,16 @@ export function classifyScrewLookupSelection(models, item) {
 export function TvMountScrewCatalog({ models, search }) {
   const [query, setQuery] = useState("");
   const [selectedModel, setSelectedModel] = useState(null);
+  const [brand, setBrand] = useState("");
+  const fieldId = useId();
+  const modelBrands = useMemo(
+    () => [...new Set(models.map((model) => model.brand))].sort((a, b) => a.localeCompare(b, "ru")),
+    [models],
+  );
+  const brandModels = useMemo(
+    () => models.filter((model) => model.brand === brand).sort((a, b) => a.title.localeCompare(b.title, "ru", { numeric: true })),
+    [brand, models],
+  );
   const eligibleModels = useMemo(
     () => models.filter((model) => model.wall_mount_screws?.groups?.length),
     [models],
@@ -68,6 +78,7 @@ export function TvMountScrewCatalog({ models, search }) {
   function selectModel(item) {
     const { model, status } = classifyScrewLookupSelection(models, item);
     setSelectedModel(model);
+    if (model) setBrand(model.brand);
     if (!model || status !== "verified-passport") return;
     emitResultCompleted(window, {
       toolId: "screw_lookup",
@@ -100,7 +111,30 @@ export function TvMountScrewCatalog({ models, search }) {
             Это не анкеры для стены и не винты для ножек.
           </p>
         </div>
-        <div className="min-w-0" data-analytics-tool="screw_lookup" data-analytics-events="input change submit">
+        <div className="min-w-0">
+          <div className="mb-5 grid gap-3 sm:grid-cols-2" data-analytics-tool="screw_lookup" data-analytics-events="change">
+            <label className="grid min-w-0 gap-2 text-sm font-semibold" htmlFor={`${fieldId}-brand`}>1. Бренд телевизора
+              <select id={`${fieldId}-brand`} value={brand} className="min-h-12 w-full min-w-0 rounded-md border-2 border-ink bg-paper px-3 text-base font-normal focus:outline-none focus-visible:ring-2 focus-visible:ring-action" onChange={(event) => { setBrand(event.target.value); setSelectedModel(null); setQuery(""); }}>
+                <option value="">Выберите бренд</option>
+                {modelBrands.map((name) => <option value={name} key={name}>{name}</option>)}
+              </select>
+            </label>
+            <label className="grid min-w-0 gap-2 text-sm font-semibold" htmlFor={`${fieldId}-model`}>2. Точная модель
+              <select id={`${fieldId}-model`} value={selectedModel?.brand === brand ? selectedModel.id : ""} disabled={!brand} className="min-h-12 w-full min-w-0 rounded-md border-2 border-ink bg-paper px-3 text-base font-normal focus:outline-none focus-visible:ring-2 focus-visible:ring-action disabled:cursor-not-allowed disabled:opacity-50" onChange={(event) => { const model = models.find((candidate) => candidate.id === event.target.value); setQuery(model?.title ?? ""); selectModel(model ? { id: model.id } : null); }}>
+                <option value="">{brand ? "Выберите полный код модели" : "Сначала выберите бренд"}</option>
+                {brandModels.map((model) => <option value={model.id} key={model.id}>{model.model}{eligibleIds.has(model.id) ? " — паспорт винтов" : " — винты не подтверждены"}</option>)}
+              </select>
+            </label>
+          </div>
+          <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+            {selectedModel
+              ? selectedModel.wall_mount_screws?.groups?.length
+                ? `Для ${selectedModel.title} найден подтверждённый паспорт винтов. Результат ниже.`
+                : `${selectedModel.title}: паспорт винтов пока не подтверждён. Ниже доступны официальные характеристики.`
+              : brand ? `Выбран бренд ${brand}. Выберите точную модель.` : ""}
+          </p>
+          <p className="mb-3 text-sm text-muted">Или найдите модель по полному коду с наклейки на корпусе:</p>
+          <div className="min-w-0" data-analytics-tool="screw_lookup" data-analytics-events="input change submit">
           <ModelSearch
             buttonLabel="Проверить модель"
             compact
@@ -112,6 +146,7 @@ export function TvMountScrewCatalog({ models, search }) {
             search={search}
             value={query}
           />
+          </div>
         </div>
       </div>
 
@@ -125,7 +160,7 @@ export function TvMountScrewCatalog({ models, search }) {
           <dd className="mt-1 font-display text-3xl font-extrabold">{eligibleModels.length}</dd>
         </div>
         <div className="bg-paper p-4">
-          <dt className="font-mono text-xs uppercase text-muted">Брендов</dt>
+          <dt className="font-mono text-xs uppercase text-muted">Брендов с паспортом</dt>
           <dd className="mt-1 font-display text-3xl font-extrabold">{brands}</dd>
         </div>
         <div className="bg-paper p-4">

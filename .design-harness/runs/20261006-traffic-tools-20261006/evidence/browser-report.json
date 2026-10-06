@@ -1,0 +1,379 @@
+{
+  "base": "127.0.0.1",
+  "checks": [
+    "aspect-mobile: 4 formats, keyboard submit/result focus, loading, reset, geometry, privacy, 200% text and no overflow",
+    "aspect-mobile: blocked WASM and real retry passed",
+    "screws-mobile: native selects, exact passport, unsupported model, queue deduplication",
+    "no-JS-mobile: aspect table, verified screw cards/model links and self-canonical",
+    "aspect-tablet: 4 formats, keyboard submit/result focus, loading, reset, geometry, privacy, 200% text and no overflow",
+    "aspect-tablet: blocked WASM and real retry passed",
+    "screws-tablet: native selects, exact passport, unsupported model, queue deduplication",
+    "no-JS-tablet: aspect table, verified screw cards/model links and self-canonical",
+    "aspect-desktop: 4 formats, keyboard submit/result focus, loading, reset, geometry, privacy, 200% text and no overflow",
+    "aspect-desktop: blocked WASM and real retry passed",
+    "screws-desktop: native selects, exact passport, unsupported model, queue deduplication",
+    "no-JS-desktop: aspect table, verified screw cards/model links and self-canonical"
+  ],
+  "shots": [
+    {
+      "id": "shot-aspect-mobile-default",
+      "path": "evidence/screenshots/aspect-mobile-default.png",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-mobile-empty",
+      "path": "evidence/screenshots/aspect-mobile-empty.png",
+      "state": "empty",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-mobile-disabled",
+      "path": "evidence/screenshots/aspect-mobile-disabled.png",
+      "state": "disabled",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-mobile-focus",
+      "path": "evidence/screenshots/aspect-mobile-focus.png",
+      "state": "focus",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-mobile-loading",
+      "path": "evidence/screenshots/aspect-mobile-loading.png",
+      "state": "loading",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-mobile-success",
+      "path": "evidence/screenshots/aspect-mobile-success.png",
+      "state": "success",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-large-text-mobile-success",
+      "path": "evidence/screenshots/aspect-large-text-mobile-success.png",
+      "state": "success",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-text-spacing-mobile-success",
+      "path": "evidence/screenshots/aspect-text-spacing-mobile-success.png",
+      "state": "success",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-mobile-error",
+      "path": "evidence/screenshots/aspect-mobile-error.png",
+      "state": "error",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-screws-mobile-default",
+      "path": "evidence/screenshots/screws-mobile-default.png",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-screws-mobile-focus",
+      "path": "evidence/screenshots/screws-mobile-focus.png",
+      "state": "focus",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-screws-mobile-success",
+      "path": "evidence/screenshots/screws-mobile-success.png",
+      "state": "success",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-screws-large-text-mobile-success",
+      "path": "evidence/screenshots/screws-large-text-mobile-success.png",
+      "state": "success",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-screws-text-spacing-mobile-success",
+      "path": "evidence/screenshots/screws-text-spacing-mobile-success.png",
+      "state": "success",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-screws-mobile-empty",
+      "path": "evidence/screenshots/screws-mobile-empty.png",
+      "state": "empty",
+      "viewport": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "shot-aspect-tablet-default",
+      "path": "evidence/screenshots/aspect-tablet-default.png",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-tablet-empty",
+      "path": "evidence/screenshots/aspect-tablet-empty.png",
+      "state": "empty",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-tablet-disabled",
+      "path": "evidence/screenshots/aspect-tablet-disabled.png",
+      "state": "disabled",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-tablet-focus",
+      "path": "evidence/screenshots/aspect-tablet-focus.png",
+      "state": "focus",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-tablet-loading",
+      "path": "evidence/screenshots/aspect-tablet-loading.png",
+      "state": "loading",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-tablet-success",
+      "path": "evidence/screenshots/aspect-tablet-success.png",
+      "state": "success",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-large-text-tablet-success",
+      "path": "evidence/screenshots/aspect-large-text-tablet-success.png",
+      "state": "success",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-text-spacing-tablet-success",
+      "path": "evidence/screenshots/aspect-text-spacing-tablet-success.png",
+      "state": "success",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-tablet-error",
+      "path": "evidence/screenshots/aspect-tablet-error.png",
+      "state": "error",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-screws-tablet-default",
+      "path": "evidence/screenshots/screws-tablet-default.png",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-screws-tablet-focus",
+      "path": "evidence/screenshots/screws-tablet-focus.png",
+      "state": "focus",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-screws-tablet-success",
+      "path": "evidence/screenshots/screws-tablet-success.png",
+      "state": "success",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-screws-large-text-tablet-success",
+      "path": "evidence/screenshots/screws-large-text-tablet-success.png",
+      "state": "success",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-screws-text-spacing-tablet-success",
+      "path": "evidence/screenshots/screws-text-spacing-tablet-success.png",
+      "state": "success",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-screws-tablet-empty",
+      "path": "evidence/screenshots/screws-tablet-empty.png",
+      "state": "empty",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "shot-aspect-desktop-default",
+      "path": "evidence/screenshots/aspect-desktop-default.png",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-aspect-desktop-empty",
+      "path": "evidence/screenshots/aspect-desktop-empty.png",
+      "state": "empty",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-aspect-desktop-disabled",
+      "path": "evidence/screenshots/aspect-desktop-disabled.png",
+      "state": "disabled",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-aspect-desktop-focus",
+      "path": "evidence/screenshots/aspect-desktop-focus.png",
+      "state": "focus",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-aspect-desktop-loading",
+      "path": "evidence/screenshots/aspect-desktop-loading.png",
+      "state": "loading",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-aspect-desktop-success",
+      "path": "evidence/screenshots/aspect-desktop-success.png",
+      "state": "success",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-aspect-large-text-desktop-success",
+      "path": "evidence/screenshots/aspect-large-text-desktop-success.png",
+      "state": "success",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-aspect-text-spacing-desktop-success",
+      "path": "evidence/screenshots/aspect-text-spacing-desktop-success.png",
+      "state": "success",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-aspect-desktop-error",
+      "path": "evidence/screenshots/aspect-desktop-error.png",
+      "state": "error",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-screws-desktop-default",
+      "path": "evidence/screenshots/screws-desktop-default.png",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-screws-desktop-focus",
+      "path": "evidence/screenshots/screws-desktop-focus.png",
+      "state": "focus",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-screws-desktop-success",
+      "path": "evidence/screenshots/screws-desktop-success.png",
+      "state": "success",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-screws-large-text-desktop-success",
+      "path": "evidence/screenshots/screws-large-text-desktop-success.png",
+      "state": "success",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-screws-text-spacing-desktop-success",
+      "path": "evidence/screenshots/screws-text-spacing-desktop-success.png",
+      "state": "success",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "shot-screws-desktop-empty",
+      "path": "evidence/screenshots/screws-desktop-empty.png",
+      "state": "empty",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

@@ -1,0 +1,794 @@
+{
+  "version": 1,
+  "task_id": "20261006-traffic-tools-20261006",
+  "commands": [
+    {
+      "id": "build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "output_path": "evidence/commands/build.log",
+      "covers": [
+        "default",
+        "success"
+      ]
+    },
+    {
+      "id": "browser",
+      "command": "node scripts/qa/traffic-tools-sprint.mjs",
+      "exit_code": 0,
+      "output_path": "evidence/commands/browser.log",
+      "covers": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "success",
+        "disabled",
+        "focus"
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "shot-aspect-mobile-default",
+      "path": "evidence/screenshots/aspect-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-mobile-empty",
+      "path": "evidence/screenshots/aspect-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-mobile-disabled",
+      "path": "evidence/screenshots/aspect-mobile-disabled.png",
+      "state": "disabled",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-mobile-focus",
+      "path": "evidence/screenshots/aspect-mobile-focus.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-aspect-mobile-loading",
+      "path": "evidence/screenshots/aspect-mobile-loading.png",
+      "state": "loading",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-mobile-success",
+      "path": "evidence/screenshots/aspect-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-large-text-mobile-success",
+      "path": "evidence/screenshots/aspect-large-text-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-text-spacing-mobile-success",
+      "path": "evidence/screenshots/aspect-text-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-mobile-error",
+      "path": "evidence/screenshots/aspect-mobile-error.png",
+      "state": "error",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-mobile-default",
+      "path": "evidence/screenshots/screws-mobile-default.png",
+      "state": "default",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-mobile-focus",
+      "path": "evidence/screenshots/screws-mobile-focus.png",
+      "state": "focus",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-screws-mobile-success",
+      "path": "evidence/screenshots/screws-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-large-text-mobile-success",
+      "path": "evidence/screenshots/screws-large-text-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-text-spacing-mobile-success",
+      "path": "evidence/screenshots/screws-text-spacing-mobile-success.png",
+      "state": "success",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-mobile-empty",
+      "path": "evidence/screenshots/screws-mobile-empty.png",
+      "state": "empty",
+      "viewport_id": "mobile",
+      "width": 320,
+      "height": 800,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-tablet-default",
+      "path": "evidence/screenshots/aspect-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-tablet-empty",
+      "path": "evidence/screenshots/aspect-tablet-empty.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-tablet-disabled",
+      "path": "evidence/screenshots/aspect-tablet-disabled.png",
+      "state": "disabled",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-tablet-focus",
+      "path": "evidence/screenshots/aspect-tablet-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-aspect-tablet-loading",
+      "path": "evidence/screenshots/aspect-tablet-loading.png",
+      "state": "loading",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-tablet-success",
+      "path": "evidence/screenshots/aspect-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-large-text-tablet-success",
+      "path": "evidence/screenshots/aspect-large-text-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-text-spacing-tablet-success",
+      "path": "evidence/screenshots/aspect-text-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-tablet-error",
+      "path": "evidence/screenshots/aspect-tablet-error.png",
+      "state": "error",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-tablet-default",
+      "path": "evidence/screenshots/screws-tablet-default.png",
+      "state": "default",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-tablet-focus",
+      "path": "evidence/screenshots/screws-tablet-focus.png",
+      "state": "focus",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-screws-tablet-success",
+      "path": "evidence/screenshots/screws-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-large-text-tablet-success",
+      "path": "evidence/screenshots/screws-large-text-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-text-spacing-tablet-success",
+      "path": "evidence/screenshots/screws-text-spacing-tablet-success.png",
+      "state": "success",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-tablet-empty",
+      "path": "evidence/screenshots/screws-tablet-empty.png",
+      "state": "empty",
+      "viewport_id": "tablet",
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-desktop-default",
+      "path": "evidence/screenshots/aspect-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-desktop-empty",
+      "path": "evidence/screenshots/aspect-desktop-empty.png",
+      "state": "empty",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-desktop-disabled",
+      "path": "evidence/screenshots/aspect-desktop-disabled.png",
+      "state": "disabled",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-desktop-focus",
+      "path": "evidence/screenshots/aspect-desktop-focus.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-aspect-desktop-loading",
+      "path": "evidence/screenshots/aspect-desktop-loading.png",
+      "state": "loading",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-desktop-success",
+      "path": "evidence/screenshots/aspect-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-large-text-desktop-success",
+      "path": "evidence/screenshots/aspect-large-text-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-text-spacing-desktop-success",
+      "path": "evidence/screenshots/aspect-text-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-aspect-desktop-error",
+      "path": "evidence/screenshots/aspect-desktop-error.png",
+      "state": "error",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-desktop-default",
+      "path": "evidence/screenshots/screws-desktop-default.png",
+      "state": "default",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-desktop-focus",
+      "path": "evidence/screenshots/screws-desktop-focus.png",
+      "state": "focus",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true,
+        "focus_visible": true
+      }
+    },
+    {
+      "id": "shot-screws-desktop-success",
+      "path": "evidence/screenshots/screws-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-large-text-desktop-success",
+      "path": "evidence/screenshots/screws-large-text-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-text-spacing-desktop-success",
+      "path": "evidence/screenshots/screws-text-spacing-desktop-success.png",
+      "state": "success",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    },
+    {
+      "id": "shot-screws-desktop-empty",
+      "path": "evidence/screenshots/screws-desktop-empty.png",
+      "state": "empty",
+      "viewport_id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "nonblank": true,
+        "no_overflow": true,
+        "no_overlap": true,
+        "text_fits": true
+      }
+    }
+  ],
+  "assets": [],
+  "state_coverage": {
+    "default": [
+      "shot-aspect-mobile-default",
+      "shot-screws-mobile-default",
+      "shot-aspect-tablet-default",
+      "shot-screws-tablet-default",
+      "shot-aspect-desktop-default",
+      "shot-screws-desktop-default"
+    ],
+    "empty": [
+      "shot-aspect-mobile-empty",
+      "shot-screws-mobile-empty",
+      "shot-aspect-tablet-empty",
+      "shot-screws-tablet-empty",
+      "shot-aspect-desktop-empty",
+      "shot-screws-desktop-empty"
+    ],
+    "disabled": [
+      "shot-aspect-mobile-disabled",
+      "shot-aspect-tablet-disabled",
+      "shot-aspect-desktop-disabled"
+    ],
+    "focus": [
+      "shot-aspect-mobile-focus",
+      "shot-screws-mobile-focus",
+      "shot-aspect-tablet-focus",
+      "shot-screws-tablet-focus",
+      "shot-aspect-desktop-focus",
+      "shot-screws-desktop-focus"
+    ],
+    "loading": [
+      "shot-aspect-mobile-loading",
+      "shot-aspect-tablet-loading",
+      "shot-aspect-desktop-loading"
+    ],
+    "success": [
+      "shot-aspect-mobile-success",
+      "shot-aspect-large-text-mobile-success",
+      "shot-aspect-text-spacing-mobile-success",
+      "shot-screws-mobile-success",
+      "shot-screws-large-text-mobile-success",
+      "shot-screws-text-spacing-mobile-success",
+      "shot-aspect-tablet-success",
+      "shot-aspect-large-text-tablet-success",
+      "shot-aspect-text-spacing-tablet-success",
+      "shot-screws-tablet-success",
+      "shot-screws-large-text-tablet-success",
+      "shot-screws-text-spacing-tablet-success",
+      "shot-aspect-desktop-success",
+      "shot-aspect-large-text-desktop-success",
+      "shot-aspect-text-spacing-desktop-success",
+      "shot-screws-desktop-success",
+      "shot-screws-large-text-desktop-success",
+      "shot-screws-text-spacing-desktop-success"
+    ],
+    "error": [
+      "shot-aspect-mobile-error",
+      "shot-aspect-tablet-error",
+      "shot-aspect-desktop-error"
+    ]
+  },
+  "viewport_coverage": {
+    "mobile": [
+      "shot-aspect-mobile-default",
+      "shot-aspect-mobile-empty",
+      "shot-aspect-mobile-disabled",
+      "shot-aspect-mobile-focus",
+      "shot-aspect-mobile-loading",
+      "shot-aspect-mobile-success",
+      "shot-aspect-large-text-mobile-success",
+      "shot-aspect-text-spacing-mobile-success",
+      "shot-aspect-mobile-error",
+      "shot-screws-mobile-default",
+      "shot-screws-mobile-focus",
+      "shot-screws-mobile-success",
+      "shot-screws-large-text-mobile-success",
+      "shot-screws-text-spacing-mobile-success",
+      "shot-screws-mobile-empty"
+    ],
+    "tablet": [
+      "shot-aspect-tablet-default",
+      "shot-aspect-tablet-empty",
+      "shot-aspect-tablet-disabled",
+      "shot-aspect-tablet-focus",
+      "shot-aspect-tablet-loading",
+      "shot-aspect-tablet-success",
+      "shot-aspect-large-text-tablet-success",
+      "shot-aspect-text-spacing-tablet-success",
+      "shot-aspect-tablet-error",
+      "shot-screws-tablet-default",
+      "shot-screws-tablet-focus",
+      "shot-screws-tablet-success",
+      "shot-screws-large-text-tablet-success",
+      "shot-screws-text-spacing-tablet-success",
+      "shot-screws-tablet-empty"
+    ],
+    "desktop": [
+      "shot-aspect-desktop-default",
+      "shot-aspect-desktop-empty",
+      "shot-aspect-desktop-disabled",
+      "shot-aspect-desktop-focus",
+      "shot-aspect-desktop-loading",
+      "shot-aspect-desktop-success",
+      "shot-aspect-large-text-desktop-success",
+      "shot-aspect-text-spacing-desktop-success",
+      "shot-aspect-desktop-error",
+      "shot-screws-desktop-default",
+      "shot-screws-desktop-focus",
+      "shot-screws-desktop-success",
+      "shot-screws-large-text-desktop-success",
+      "shot-screws-text-spacing-desktop-success",
+      "shot-screws-desktop-empty"
+    ]
+  },
+  "review": {
+    "reviewer": "sprint_review_20261006",
+    "independent": true,
+    "verdict": "pass",
+    "findings": []
+  },
+  "rollback": {
+    "documented": true,
+    "path": "rollback.md"
+  }
+}

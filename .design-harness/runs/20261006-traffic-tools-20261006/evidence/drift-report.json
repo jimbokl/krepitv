@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "run": "20261006-traffic-tools-20261006",
+  "generated_at": "2026-10-06T08:39:37.488422+00:00",
+  "scanned_files": [
+    "web/src/components/TvAspectRatioSimulator.jsx",
+    "web/src/components/TvMountScrewCatalog.jsx",
+    "web/src/pages/SeoPage.jsx"
+  ],
+  "findings": []
+}

@@ -459,6 +459,13 @@ export async function calculateTvTrafficTask(values) {
   return response;
 }
 
+export async function calculateAspectRatioPlan(format) {
+  const engine = await loadEngine();
+  const response = JSON.parse(engine.aspect_ratio_plan_json(format));
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateTvEnergyPlan(values) {
   const engine = await loadEngine();
   const response = JSON.parse(

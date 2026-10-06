@@ -1,6 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export function aspect_ratio_plan_json(format: string): string;
+
 export function build_installation_kit_json(input_json: string): string;
 
 export function calculate_tv_no_signal_json(source: string, tv_menu_visible: string, source_powered: string, input_matches: string, cable_connected: string, receiver_menu_visible: string): string;
@@ -39,6 +41,7 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
+    readonly aspect_ratio_plan_json: (a: number, b: number, c: number) => void;
     readonly build_installation_kit_json: (a: number, b: number, c: number) => void;
     readonly calculate_tv_no_signal_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number) => void;
     readonly connection_helper_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;

@@ -39,6 +39,8 @@ test("measured SEO winners and new intent tools expose truthful material-update 
         ? page(id)?.updated_at === "2026-09-30"
       : id === "tv-purchase-checklist"
         ? page(id)?.updated_at === "2026-09-29"
+      : id === "tv-aspect-ratio"
+        ? page(id)?.updated_at === "2026-10-06"
       : updatedIds.has(id)
   )));
   assert.ok([...tvIntentCohortIds].every((id) => updatedIds.has(id)));
@@ -52,6 +54,7 @@ test("measured SEO winners and new intent tools expose truthful material-update 
   assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-09-23");
   assert.equal(page("tv-disable-voice").guide.updated_at, "2026-08-07");
   assert.equal(page("vesa-size").guide.updated_at, "2026-08-08");
+  assert.equal(page("tv-aspect-ratio").guide.updated_at, "2026-10-06");
 });
 
 test("energy page answers the measured query before the calculator", () => {

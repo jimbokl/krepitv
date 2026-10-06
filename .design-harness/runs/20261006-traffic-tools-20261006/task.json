@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "id": "20261006-traffic-tools-20261006",
+  "kind": "ui",
+  "status": "ready",
+  "implementer": "root",
+  "created_at": "2026-10-06T08:05:01.527574+00:00",
+  "states": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "success",
+    "disabled",
+    "focus"
+  ],
+  "behavior_evidence_states": {},
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 320,
+      "height": 800
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "allowed_files": ["web/src/components/TvAspectRatioSimulator.jsx", "web/src/components/TvMountScrewCatalog.jsx", "web/src/pages/SeoPage.jsx", "web/src/lib/catalog.js", "web/src/lib/toolUsage.mjs", "web/tests", "crates/engine/src/aspect_ratio.rs", "crates/engine/src/lib.rs", "crates/sitegen/src/main.rs", "data/seo_pages.json", "scripts/qa", "docs", "BACKLOG.md", "HANDOFF.md", "product-docs", ".design-harness/runs/20261006-traffic-tools-20261006"],
+  "verification_commands": [
+    {"id":"build","command":"npm run build","covers":["default","success"]},
+    {"id":"browser","command":"node scripts/qa/traffic-tools-sprint.mjs","covers":["default","loading","empty","error","success","disabled","focus"]}
+  ],
+  "asset_specs": [],
+  "exact_content": [{"id":"format-labels","value":"Без искажений · Обрезать края · Растянуть","strategy":"deterministic-overlay"}],
+  "claims": [{"id":"bars","text":"Формат 4:3 может оставлять полосы по бокам; настройки зависят от модели.","source_ids":["lg-bars","lg-format"]}],
+  "sources": [
+    {"id":"lg-bars","url":"https://www.lg.com/ru/support/product-help/CT20206007-20153413233851","retrieved_at":"2026-10-06T08:00:00Z"},
+    {"id":"lg-format","url":"https://www.lg.com/ru/support/product-help/CT20206007-20153413199152LST","retrieved_at":"2026-10-06T08:00:00Z"},
+    {"id":"tokens","path":"DESIGN.md","retrieved_at":"2026-10-06T08:00:00Z"}
+  ]
+}

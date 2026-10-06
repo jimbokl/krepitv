@@ -27,6 +27,7 @@ import {
   TvTrafficTaskWizard,
 } from "../components/TvTrafficTaskWizard.jsx";
 import { TvEnergyCalculator } from "../components/TvEnergyCalculator.jsx";
+import { TvAspectRatioSimulator } from "../components/TvAspectRatioSimulator.jsx";
 import { IntentDecisionTool } from "../components/IntentDecisionTool.jsx";
 import { SubtitleSourceWizard } from "../components/SubtitleSourceWizard.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
@@ -796,7 +797,7 @@ function SeoEvidenceGuide({ guide, pageId }) {
         {guide.heading}
       </h2>
       <p className="mt-3 max-w-4xl leading-relaxed text-muted">{guide.summary}</p>
-      {pageId === "tv-disable-subtitles" ? <SubtitleSourceWizard /> : CONNECTION_HELPERS[pageId] ? <ConnectionHelper pageId={pageId} /> : hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
+      {pageId === "tv-aspect-ratio" ? <TvAspectRatioSimulator /> : pageId === "tv-disable-subtitles" ? <SubtitleSourceWizard /> : CONNECTION_HELPERS[pageId] ? <ConnectionHelper pageId={pageId} /> : hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
       <fieldset className="mt-7 border-2 border-ink bg-white p-5" data-evidence-guide-tool="true">
         <legend className="px-2 font-display text-2xl font-extrabold">Что вы наблюдаете?</legend>
         <div className="mt-2 grid gap-3 md:grid-cols-3">

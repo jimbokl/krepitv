@@ -23,6 +23,7 @@ export const KNOWN_TOOL_IDS = Object.freeze([
   "tilt_angle_calculator",
   "turn_clearance_calculator",
   "tv_app_install",
+  "tv_aspect_ratio",
   "tv_dimensions_calculator",
   "tv_energy_calculator",
   "tv_factory_reset",

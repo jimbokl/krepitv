@@ -81,6 +81,10 @@ test("React-каталог держит модели под брендами и 
     assert.equal(/(?:\d[\d\s.,]*\s*(?:₽|руб(?:\.|ля|лей)?))|(?:₽\s*\d)/iu.test(html), false);
     assert.equal(html.includes('data-searchable-model-count="4"'), true);
     assert.equal(html.includes('data-model-search-count="4"'), true);
+    assert.match(html, /1\. Бренд телевизора/);
+    assert.match(html, /2\. Точная модель/);
+    assert.match(html, /<select[^>]*disabled/);
+    assert.match(html, /<option value="LG">LG<\/option>/);
     assert.equal(
       classifyScrewLookupSelection(allModels, search.at(-1)).status,
       "known-without-passport",
