@@ -1,0 +1,7 @@
+Command: npm run build
+Date: 2026-10-06
+Exit code: 0
+Clean content/WASM/web/publish and full verify completed.
+Web tests: 313 passed, 0 failed.
+Rust workspace, WASM reproducibility, Russian text, data/catalog/model audits, affiliate, IndexNow and analytics checks passed.
+Full local output retained privately; no secrets or internal analytical identifiers published.

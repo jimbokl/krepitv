@@ -1,0 +1,5 @@
+Command: node scripts/qa/traffic-tools-sprint.mjs
+Date: 2026-10-06
+Exit code: 0
+PASS: 12 browser contracts; 45 screenshots; 320/768/1440 CSS px; no real analytics sent
+Artifact rebuilt from final product code, including Брендов с паспортом.
