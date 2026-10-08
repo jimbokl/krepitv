@@ -36,7 +36,7 @@ function offer(entityId = "itech-p4f") {
   };
 }
 
-test("footer каждой React-страницы выводит безопасную прямую ссылку Маркета", async () => {
+test("footer телевизионной страницы выводит безопасную прямую ссылку Маркета", async () => {
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
   const vite = await createServer({
     root,
@@ -67,6 +67,21 @@ test("footer каждой React-страницы выводит безопасн
   } finally {
     await vite.close();
   }
+});
+
+test("мониторный помощник не получает случайный телевизионный кронштейн из общего footer", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const vite = await createServer({ root, logLevel: "silent", server: { middlewareMode: true }, appType: "custom" });
+  try {
+    const { SiteFooter } = await vite.ssrLoadModule("/src/components/SiteFooter.jsx");
+    const html = renderToStaticMarkup(React.createElement(SiteFooter, {
+      catalog: { affiliateOffers: [offer()], compatibilityEdges: [] },
+      currentPath: "/kronshteyn-dlya-monitora/",
+    }));
+    assert.doesNotMatch(html, /market\.yandex|data-affiliate-global-slot|data-affiliate-global-link/u);
+    assert.match(html, /<footer/u);
+    assert.match(html, /href="\/vesa\/"/u);
+  } finally { await vite.close(); }
 });
 
 test("общий CTA не дублирует точное предложение модельной страницы", async () => {

@@ -56,9 +56,11 @@ export function hasContextualAffiliateOffer(catalog, currentPath) {
 }
 
 export function SiteFooter({ catalog, currentPath = "" }) {
+  // The TV catalog does not establish compatibility for a monitor or its desk.
+  const isMonitorMount = currentPath === "/kronshteyn-dlya-monitora/";
   const [standaloneOffers, setStandaloneOffers] = useState([]);
   useEffect(() => {
-    if (catalog !== undefined) return undefined;
+    if (catalog !== undefined || isMonitorMount) return undefined;
     let active = true;
     loadFreshAffiliateOffers().then((offers) => {
       if (active) setStandaloneOffers(offers);
@@ -66,14 +68,14 @@ export function SiteFooter({ catalog, currentPath = "" }) {
     return () => {
       active = false;
     };
-  }, [catalog]);
-  const sitewideOffer = selectSitewideAffiliateOffer(
+  }, [catalog, isMonitorMount]);
+  const sitewideOffer = isMonitorMount ? null : selectSitewideAffiliateOffer(
     catalog === undefined ? { affiliateOffers: standaloneOffers } : catalog,
   );
   const contextualOfferExists = hasContextualAffiliateOffer(catalog, currentPath);
   return (
     <>
-      {!contextualOfferExists ? (
+      {!isMonitorMount && !contextualOfferExists ? (
         <aside
           aria-label="Проверенное предложение Яндекс Маркета"
           className="border-t-2 border-ink bg-white text-ink"
