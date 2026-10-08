@@ -13,6 +13,7 @@ export const KNOWN_TOOL_IDS = Object.freeze([
   "installation_kit",
   "laptop_tv_connection",
   "mounting_map_calculator",
+  "monitor_mount_match",
   "phone_tv_connection",
   "picture_setup",
   "screen_cleaning",

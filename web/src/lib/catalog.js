@@ -466,6 +466,13 @@ export async function calculateAspectRatioPlan(format) {
   return response;
 }
 
+export async function calculateMonitorMountPlan(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(engine.monitor_mount_plan_json(JSON.stringify(values)));
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateTvEnergyPlan(values) {
   const engine = await loadEngine();
   const response = JSON.parse(

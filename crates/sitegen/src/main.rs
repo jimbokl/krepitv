@@ -3034,6 +3034,21 @@ fn wireless_topic_group(page_id: &str) -> u8 {
 }
 
 fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPage> {
+    if page.id == "monitor-mount" {
+        return [
+            "vesa",
+            "how-to-find-vesa",
+            "wall-material-check",
+            "tv-mount-screws",
+        ]
+        .iter()
+        .filter_map(|id| {
+            pages
+                .iter()
+                .find(|item| item.id == *id && is_indexable_seo_page(item))
+        })
+        .collect();
+    }
     if let Some(section) = page.section.as_deref() {
         let mut candidates: Vec<&SeoPage> = pages
             .iter()
@@ -3995,8 +4010,8 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
             ],
             "tv-zone-sockets" => &["mounting-map", "wall-mounted-tv", "mounting-height", "vesa"],
             "vesa" => &[
+                "monitor-mount",
                 "vesa-size",
-                "vesa-600x400",
                 "tv-model-lookup",
                 "tv-mount-screws",
                 "wall-mounted-tv",
@@ -4043,7 +4058,13 @@ fn related_seo_pages<'a>(page: &SeoPage, pages: &'a [SeoPage]) -> Vec<&'a SeoPag
                 "vesa",
                 "mounting-map",
             ],
-            "how-to-find-vesa" => &["tv-mount-screws", "vesa", "vesa-200x200", "vesa-300x200"],
+            "how-to-find-vesa" => &[
+                "monitor-mount",
+                "tv-mount-screws",
+                "vesa",
+                "vesa-200x200",
+                "vesa-300x200",
+            ],
             "mounting-height" => &[
                 "wall-planner",
                 "mounting-map",
@@ -5040,11 +5061,21 @@ fn seo_evidence_guide_html(page: &SeoPage) -> String {
         sources,
         escape_html(&guide.updated_at),
     );
-    if page.id == "tv-aspect-ratio" {
+    if page.id == "monitor-mount" {
+        content.replacen(
+            "<h3 class=\"mt-7",
+            &format!("{}<h3 class=\"mt-7", monitor_mount_static_html()),
+            1,
+        )
+    } else if page.id == "tv-aspect-ratio" {
         format!("{}{}", seo_aspect_ratio_example_html(), content)
     } else {
         content
     }
+}
+
+fn monitor_mount_static_html() -> &'static str {
+    r#"<section class="mt-7 rounded-xl border-2 border-ink bg-paper p-5 sm:p-7" data-monitor-static="true"><p class="font-mono text-xs uppercase text-action">Монитор → крепление → стол</p><h3 class="mt-2 font-display text-2xl font-extrabold">Подойдёт ли выбранный кронштейн?</h3><p class="mt-3 max-w-3xl leading-relaxed">Интерактивная проверка сравнивает VESA 75 × 75 или 100 × 100 мм, массу каждого экрана, число площадок, границы газлифта и толщину стола. Для расчёта включите JavaScript; инструкция и таблица доступны без него.</p><ol class="mt-4 list-decimal space-y-3 pl-5"><li>Найдите VESA и массу монитора без подставки в его паспорте.</li><li>Сверьте VESA, максимум на одно плечо и, для газлифта, минимальную нагрузку кронштейна.</li><li>Для стола измерьте толщину и проверьте диапазон основания, материал и место снизу. Для стены используйте только разрешённый настенный монтаж.</li></ol><details class="mt-5 border-t border-line pt-4"><summary class="cursor-pointer font-semibold">Пример проверки без расчёта</summary><p class="mt-3 text-sm leading-relaxed">Условный экран: VESA 100 × 100 мм, масса 5 кг. Условное плечо: VESA 75 × 75 и 100 × 100 мм, газлифт 2–9 кг. Эти параметры совпали. При столешнице 25 мм и основании 10–50 мм совпала также толщина. Но прочность стола, винты и форма площадки этим примером не подтверждены. Это не характеристики конкретных товаров.</p></details></section>"#
 }
 
 fn seo_page_body(
@@ -5135,7 +5166,11 @@ fn seo_page_body(
             "{brand_matcher_note}{facts_section}{buy_mount_comparison}{catalog}{calculator_note}{followup_routes}"
         )
     };
-    let mount_funnel_next_step = seo_mount_funnel_next_step_html();
+    let mount_funnel_next_step = if page.id == "monitor-mount" {
+        ""
+    } else {
+        seo_mount_funnel_next_step_html()
+    };
     let intro_lead = if ["tv-freezes", "tv-energy-consumption", "diagonal-65"]
         .contains(&page.id.as_str())
     {
@@ -5241,6 +5276,7 @@ fn seo_editorial_photo_html(page: &SeoPage) -> String {
 fn internal_visual_label(page_id: &str) -> Option<&'static str> {
     let (name, _) = internal_visual_theme(page_id)?;
     Some(match name {
+        "monitor-workspace" => "Крепления для мониторов",
         "connection" => "Подключение и воспроизведение",
         "wireless" => "Беспроводное подключение",
         "diagnostics" => "Проверка неисправности",
@@ -5268,6 +5304,7 @@ fn internal_visual_label(page_id: &str) -> Option<&'static str> {
 
 fn seo_visual_action(page_id: &str, has_guide: bool) -> (&'static str, &'static str) {
     match page_id {
+        "monitor-mount" => ("#мастер", "Проверить монитор и крепление"),
         "phone-to-tv" => ("#мастер-подключения", "Выбрать способ подключения"),
         "tv-no-signal" => ("#мастер-проверки-сигнала", "Проверить сигнал"),
         "mounting-map" => ("#монтажная-карта", "Рассчитать высоту экрана"),

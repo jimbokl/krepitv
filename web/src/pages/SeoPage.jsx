@@ -68,6 +68,8 @@ const InstructionScene = lazy(() => import("../components/scene/InstructionScene
   .then((module) => ({ default: module.InstructionScene })));
 const ExactMountMatcher = lazy(() => import("../components/ExactMountMatcher.jsx")
   .then((module) => ({ default: module.ExactMountMatcher })));
+const MonitorMountChecker = lazy(() => import("../components/MonitorMountChecker.jsx")
+  .then((module) => ({ default: module.MonitorMountChecker })));
 
 const kindLabels = {
   guide: "Практическое руководство",
@@ -149,6 +151,11 @@ const tvTrafficTaskByPageId = new Map([
 ]);
 
 const trafficUtilityCtas = {
+  "monitor-mount": {
+    title: "Сначала проверьте совместимость",
+    description: "Мониторные крепления проверяются отдельно от каталога телевизоров: VESA, масса, плечо и основание стола.",
+    href: "#мастер", label: "Проверить параметры", shortLabel: "К проверке монитора",
+  },
   "phone-to-tv": {
     title: "Проверьте размер экрана",
     description: "После подключения рассчитайте реальную ширину и высоту телевизора по диагонали.",
@@ -392,8 +399,10 @@ function SeoArticle({ catalog, page }) {
     "mount-choice": "Выбор кронштейна",
     cleaning: "Уход за экраном",
     energy: "Расчёт электроэнергии",
+    "monitor-workspace": "Крепления для мониторов",
   }[editorialPhoto.name] : seoPageKindLabel(page));
   const visualAction = {
+    "monitor-mount": { href: "#мастер", label: "Проверить монитор и крепление" },
     "phone-to-tv": { href: "#мастер-подключения", label: "Выбрать способ подключения" },
     "tv-no-signal": { href: "#мастер-проверки-сигнала", label: "Проверить сигнал" },
     "mounting-map": { href: "#монтажная-карта", label: "Рассчитать высоту экрана" },
@@ -708,7 +717,7 @@ function SeoArticle({ catalog, page }) {
           </aside>
         </div>
 
-        <MountFunnelNextStep />
+        {page.id !== "monitor-mount" ? <MountFunnelNextStep /> : null}
 
         <section className="mt-12 border-t-2 border-ink pt-6" aria-labelledby="more-title" id="svyazannye-materialy">
           <div className="flex flex-wrap items-end justify-between gap-3">
@@ -801,7 +810,7 @@ function SeoEvidenceGuide({ guide, pageId }) {
         {guide.heading}
       </h2>
       <p className="mt-3 max-w-4xl leading-relaxed text-muted">{guide.summary}</p>
-      {pageId === "tv-aspect-ratio" ? <TvAspectRatioSimulator /> : pageId === "tv-disable-subtitles" ? <SubtitleSourceWizard /> : CONNECTION_HELPERS[pageId] ? <ConnectionHelper pageId={pageId} /> : hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
+      {pageId === "monitor-mount" ? <Suspense fallback={<p className="my-7 text-muted" role="status">Загружаем проверку монитора и крепления… Инструкция ниже уже доступна.</p>}><MonitorMountChecker /></Suspense> : pageId === "tv-aspect-ratio" ? <TvAspectRatioSimulator /> : pageId === "tv-disable-subtitles" ? <SubtitleSourceWizard /> : CONNECTION_HELPERS[pageId] ? <ConnectionHelper pageId={pageId} /> : hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
       <fieldset className="mt-7 border-2 border-ink bg-white p-5" data-evidence-guide-tool="true">
         <legend className="px-2 font-display text-2xl font-extrabold">Что вы наблюдаете?</legend>
         <div className="mt-2 grid gap-3 md:grid-cols-3">

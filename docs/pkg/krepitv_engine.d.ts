@@ -13,6 +13,8 @@ export function height_plan_json(diagonal_inches: number, eye_height_cm: number,
 
 export function match_mounts_json(tv_weight_kg: number, diagonal_inches: number, vesa_width_mm: number, vesa_height_mm: number, requested_mechanism: string, mounts_json: string): string;
 
+export function monitor_mount_plan_json(input_json: string): string;
+
 export function mounting_map_json(diagonal_inches: number, eye_height_cm: number, viewing_distance_cm: number, viewing_angle_deg: number, furniture_height_cm: number, requested_clearance_cm: number, vesa_vertical_offset_cm: number, wall_plate_offset_cm: number): string;
 
 export function phone_tv_connection_plan_json(phone: string, tv: string, goal: string, connector: string, same_network: string, hdmi: string, android_video_output: string): string;
@@ -47,6 +49,7 @@ export interface InitOutput {
     readonly connection_helper_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly height_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly match_mounts_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
+    readonly monitor_mount_plan_json: (a: number, b: number, c: number) => void;
     readonly mounting_map_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly phone_tv_connection_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number) => void;
     readonly tilt_angle_plan_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;

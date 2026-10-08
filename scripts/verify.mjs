@@ -510,6 +510,7 @@ const modelSearch = JSON.parse(
   await readFile(path.join(docs, "data/model-search.json"), "utf8"),
 );
 const expectedIndexableUrlCount = baselineIndexableUrlCount
+  + 1 // Самостоятельная проверка крепления для монитора, 08.10.
   + 99 // Wi-Fi 5 ГГц сохраняет адрес, но теперь входит в основной SEO-реестр.
   + tvUniverseGuideIds.length
   + 20 // Спринт практических страниц 29.09.
@@ -1863,6 +1864,13 @@ for (const page of seoPages) {
 
   const funnelMarkers = html.match(/data-mount-funnel-next-step="true"/g) ?? [];
   const funnelSection = html.match(/<section\b[^>]*data-mount-funnel-next-step="true"[^>]*>[\s\S]*?<\/section>/i)?.[0] ?? "";
+  if (page.id === "monitor-mount") {
+    if (funnelMarkers.length !== 0 || !html.includes('data-monitor-static="true"')
+      || !html.includes("массу каждого экрана") || !html.includes("не подтверждены")) {
+      throw new Error("Мониторная страница должна содержать собственную проверку, а не подбор телевизора");
+    }
+    continue;
+  }
   if (
     funnelMarkers.length !== 1
     || !funnelSection.includes('href="/podbor/"')
@@ -1917,7 +1925,8 @@ const expectedGuideCount = expectedDailyGuideCount
   + seoSprintGuideIds.length
   + yandexSuggestGuideIds.length
   + 1 // Сценарий монтажа на деревянную стену.
-  + 1; // Три способа узнать VESA на существующей странице.
+  + 1 // Три способа узнать VESA на существующей странице.
+  + 1; // Спринт 08.10: выбор кронштейна для монитора.
 if (dailyEvidenceGuidePages.length !== expectedGuideCount) {
   throw new Error(`Ожидалось ${expectedGuideCount} evidence guide, получено ${dailyEvidenceGuidePages.length}`);
 }
@@ -1975,12 +1984,13 @@ for (const cohort of dailySeoCohorts) {
 }
 for (const page of dailyEvidenceGuidePages) {
   const html = htmlByRoute.get(dataPageRoute(page)) ?? "";
+  const expectedStepCount = page.id === "monitor-mount" ? 6 : 3;
   if (
-    page.guide.steps.length !== 3
+    page.guide.steps.length !== expectedStepCount
     || page.guide.sources.length < 2
     || !html.includes(`data-evidence-guide="${page.id}"`)
     || !html.includes('data-evidence-guide-table="true"')
-    || (html.match(/data-evidence-guide-step=/g) ?? []).length !== 3
+    || (html.match(/data-evidence-guide-step=/g) ?? []).length !== expectedStepCount
     || !html.includes("Таблица решений по наблюдаемому признаку")
     || !html.includes("/metodika/")
     || !html.includes(page.guide.updated_at)

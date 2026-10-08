@@ -4,6 +4,7 @@ use wasm_bindgen::prelude::*;
 mod aspect_ratio;
 mod connection_helper;
 mod installation_kit;
+mod monitor_mount;
 mod tv_task_helper;
 
 #[wasm_bindgen]
@@ -15,6 +16,18 @@ pub fn connection_helper_json(task: &str, first: &str, second: &str, third: &str
 }
 pub use aspect_ratio::aspect_ratio_plan;
 pub use installation_kit::*;
+pub use monitor_mount::{MonitorMountInput, monitor_mount_plan};
+
+#[wasm_bindgen]
+pub fn monitor_mount_plan_json(input_json: &str) -> String {
+    let result = serde_json::from_str::<MonitorMountInput>(input_json)
+        .map_err(|_| "Не удалось прочитать параметры проверки.")
+        .and_then(monitor_mount_plan);
+    match result {
+        Ok(plan) => serde_json::to_string(&plan).expect("serializable monitor mount plan"),
+        Err(error) => serde_json::json!({"error": error}).to_string(),
+    }
+}
 
 #[wasm_bindgen]
 pub fn aspect_ratio_plan_json(format: &str) -> String {

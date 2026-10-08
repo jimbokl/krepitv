@@ -61,6 +61,10 @@ const UNIVERSE_GROUPS = [
 ];
 
 export function getRelatedPages(page, pages, limit = 6) {
+  if (page.id === "monitor-mount") {
+    return ["vesa", "how-to-find-vesa", "wall-material-check", "tv-mount-screws"]
+      .map((id) => pages.find((item) => item.id === id && isIndexableSeoPage(item))).filter(Boolean).slice(0, limit);
+  }
   if (UNIVERSE_PAGE_IDS.includes(page.id)) {
     return preferredRelatedIds(page.id).map((id) => pages.find((item) => item.id === id && isIndexableSeoPage(item))).filter(Boolean).slice(0, limit);
   }
@@ -186,6 +190,8 @@ export function getModelContextPages(model, pages) {
 }
 
 function preferredRelatedIds(pageId) {
+  if (pageId === "vesa") return ["monitor-mount", "vesa-size", "tv-model-lookup", "tv-mount-screws", "wall-mounted-tv", "how-to-find-vesa"];
+  if (pageId === "how-to-find-vesa") return ["monitor-mount", "tv-mount-screws", "vesa", "vesa-200x200", "vesa-300x200"];
   const universe = UNIVERSE_GROUPS.find((group) => group.includes(pageId));
   if (universe && UNIVERSE_PAGE_IDS.includes(pageId)) return universe.filter((id) => id !== pageId);
   if (pageId === "tv-mount-screws") {

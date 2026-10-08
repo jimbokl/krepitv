@@ -1,4 +1,10 @@
 {
+  "monitor-workspace": {
+    "src": "/assets/images/monitor-mount-workspace.svg",
+    "alt": "Монитор на регулируемом плече: VESA соединяет экран с кронштейном, струбцина держится за край стола",
+    "caption": "Схема, не монтажный шаблон. Проверьте отдельно соединение с монитором и основание на столе.",
+    "ids": ["monitor-mount"]
+  },
   "network-universe": {
     "src": "/assets/images/internal-wireless.webp",
     "alt": "Человек проверяет связь телевизора с домашней сетью",

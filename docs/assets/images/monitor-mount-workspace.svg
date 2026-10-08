@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" fill="none">
+  <title>Монитор, крепление и стол: три отдельные проверки</title>
+  <rect width="1200" height="900" fill="#eee9df"/>
+  <path d="M0 672H1200M936 0V672" stroke="#d8d1c4" stroke-width="3"/>
+  <circle cx="1035" cy="127" r="61" fill="#d6dccf"/>
+  <path d="M1035 127V88M1035 127L1065 143" stroke="#24312a" stroke-width="5" stroke-linecap="round"/>
+  <rect x="188" y="557" width="812" height="37" rx="8" fill="#d19465" stroke="#24312a" stroke-width="6"/>
+  <path d="M226 594V834M965 594V834" stroke="#24312a" stroke-width="19"/>
+  <path d="M819 558V419L705 359L612 364" stroke="#24312a" stroke-width="35" stroke-linejoin="round"/>
+  <path d="M819 552V418L704 358L612 364" stroke="#637d72" stroke-width="20" stroke-linejoin="round"/>
+  <circle cx="705" cy="358" r="26" fill="#24312a"/>
+  <circle cx="705" cy="358" r="12" fill="#c4d2c8"/>
+  <path d="M817 548H859V632H824" stroke="#24312a" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M827 620H856M841 603V635" stroke="#ed6838" stroke-width="9" stroke-linecap="round"/>
+  <rect x="323" y="204" width="331" height="244" rx="15" fill="#24312a"/>
+  <rect x="340" y="221" width="297" height="210" rx="8" fill="#637d72"/>
+  <path d="M364 245H543M364 257H543M364 269H543" stroke="#24312a" stroke-width="5" stroke-linecap="round"/>
+  <rect x="364" y="386" width="74" height="22" rx="4" fill="#24312a"/>
+  <rect x="575" y="294" width="94" height="94" rx="8" fill="#eee9df" stroke="#24312a" stroke-width="5"/>
+  <g fill="#ed6838"><circle cx="588" cy="307" r="6"/><circle cx="656" cy="307" r="6"/><circle cx="588" cy="375" r="6"/><circle cx="656" cy="375" r="6"/></g>
+  <path d="M588 307H656V375H588Z" stroke="#ed6838" stroke-width="3" stroke-dasharray="6 5"/>
+  <path d="M373 518H616L640 542H346Z" fill="#fcfaf6" stroke="#24312a" stroke-width="4"/>
+  <path d="M393 528H594" stroke="#b2b9ac" stroke-width="8" stroke-dasharray="12 4"/>
+  <rect x="893" y="497" width="38" height="55" rx="7" fill="#637d72"/><path d="M931 509H943V536H931" stroke="#637d72" stroke-width="7"/>
+  <path d="M655 411C775 420 780 517 809 527" stroke="#24312a" stroke-width="4" stroke-dasharray="7 5"/>
+  <rect x="66" y="74" width="424" height="64" rx="32" fill="#fcfaf6"/>
+  <text x="96" y="116" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#24312a">Не только диагональ</text>
+  <path d="M669 302L760 224H979" stroke="#ed6838" stroke-width="3"/>
+  <text x="772" y="203" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#24312a">01 · VESA и масса</text>
+  <path d="M726 359L890 359" stroke="#ed6838" stroke-width="3"/>
+  <text x="892" y="347" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#24312a">02 · Плечо</text>
+  <path d="M867 625L976 692" stroke="#ed6838" stroke-width="3"/>
+  <text x="737" y="738" font-family="Arial,sans-serif" font-size="27" font-weight="700" fill="#24312a">03 · Крепление к столу</text>
+  <text x="66" y="806" font-family="Arial,sans-serif" font-size="22" fill="#637268">Вид сзади · схема для выбора, не для сверления</text>
+</svg>
