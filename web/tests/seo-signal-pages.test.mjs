@@ -36,7 +36,7 @@ test("measured SEO winners and new intent tools expose truthful material-update 
     ["tv-wifi-5ghz", "tv-usb-wifi-adapter", "tv-wifi-drops", "tv-internet-speed", "tv-vrr-enable", "tv-allm-enable", "tv-dual-headphones", "tv-home-recommendations", "tv-start-screen", "tv-oled-qled-choice"].includes(id)
       ? page(id)?.updated_at === "2026-10-06"
       : id === "tv-disable-subtitles"
-      ? page(id)?.updated_at === "2026-10-02"
+      ? page(id)?.updated_at === "2026-10-13"
       : id === "tv-freezes"
         ? page(id)?.updated_at === "2026-09-30"
       : id === "tv-purchase-checklist"
@@ -45,15 +45,15 @@ test("measured SEO winners and new intent tools expose truthful material-update 
         ? page(id)?.updated_at === "2026-10-06"
       : updatedIds.has(id)
   )));
-  assert.ok([...tvIntentCohortIds].every((id) => updatedIds.has(id)));
+  assert.ok([...tvIntentCohortIds].every((id) => ["tv-teletext-captions", "youtube-tv-subtitles", "tv-usb-video-subtitles"].includes(id) ? page(id)?.updated_at === "2026-10-13" : updatedIds.has(id)));
   assert.equal(tvIntentCohortIds.size, 14);
   const updateDates = {
-    "tv-disable-subtitles": "2026-10-02",
+    "tv-disable-subtitles": "2026-10-13",
     "tv-energy-consumption": "2026-09-30",
     "tv-freezes": "2026-09-30",
   };
   assert.ok([...targetIds].every((id) => page(id)?.updated_at === (updateDates[id] || "2026-09-18")));
-  assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-09-23");
+  assert.equal(page("tv-disable-subtitles").guide.updated_at, "2026-10-13");
   assert.equal(page("tv-disable-voice").guide.updated_at, "2026-08-07");
   assert.equal(page("vesa-size").guide.updated_at, "2026-08-08");
   assert.equal(page("tv-aspect-ratio").guide.updated_at, "2026-10-06");
@@ -70,8 +70,10 @@ test("energy page answers the measured query before the calculator", () => {
 
 test("subtitle and voice pages use the users' exact problem language", () => {
   const subtitles = page("tv-disable-subtitles");
-  assert.match(subtitles.title, /отключить или убрать субтитры/u);
-  assert.match(subtitles.lead, /Чтобы убрать субтитры/u);
+  assert.match(subtitles.title, /отключить субтитры на телевизоре/u);
+  assert.match(subtitles.lead, /отключите субтитры в настройках ТВ/u);
+  assert.match(subtitles.lead, /YouTube.*плеере.*приставкой/u);
+  assert.match(subtitles.lead, /Сброс телевизора не нужен/u);
   assert.ok(subtitles.faq.some(([question]) => /убрать титры/u.test(question)));
 
   const voice = page("tv-disable-voice");

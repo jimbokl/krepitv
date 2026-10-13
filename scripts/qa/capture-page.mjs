@@ -88,13 +88,13 @@ if (!["denied", "granted", "prompt"].includes(consent)) throw new Error("Invalid
 if (metrikaQueueQa && (
   consent !== "granted"
   || !["127.0.0.1", "localhost", "::1"].includes(new URL(url).hostname)
-  || !(guidedSelectionState || screwLookupState)
+  || !(guidedSelectionState || screwLookupState || subtitleState)
 )) {
   throw new Error("Metrika queue QA requires a local tool scenario with granted consent");
 }
 if (![100, 200].includes(textZoom)) throw new Error("Invalid text zoom; use 100 or 200");
 if (!["screen", "print"].includes(media)) throw new Error("Invalid media; use screen or print");
-if (subtitleState && !["teletext", "unknown", "accessibility", "copy", "copy-manual"].includes(subtitleState)) {
+if (subtitleState && !["teletext", "notice", "youtube", "usb", "platform", "enable", "feedback", "unknown", "accessibility", "copy", "copy-manual", "loading", "error", "retry"].includes(subtitleState)) {
   throw new Error("Invalid subtitle wizard state");
 }
 if (observedModelState && ![
@@ -301,7 +301,7 @@ try {
         }`,
     });
   }
-  const wasmQaState = connectionState || phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState || guidedSelectionState || wallPlannerState;
+  const wasmQaState = connectionState || phoneTvState || tvNoSignalState || tvTrafficState || tvEnergyState || guidedSelectionState || wallPlannerState || subtitleState;
   if (["loading", "error", "retry"].includes(wasmQaState)) {
     await send("Page.addScriptToEvaluateOnNewDocument", {
       source: wasmQaState === "loading"
@@ -1060,8 +1060,10 @@ try {
         const tool = await waitFor(() => document.querySelector('[data-subtitle-wizard="true"]'), 'Subtitle wizard not found', 10000);
         const events = [];
         const usageEvents = [];
+        const interactions = [];
         window.addEventListener('krepitv:result-completed', event => events.push(event.detail));
         window.addEventListener('krepitv:tool-usage', event => usageEvents.push(event.detail));
+        window.addEventListener('krepitv:subtitle-interaction', event => interactions.push(event.detail));
         const copying = state === 'copy' || state === 'copy-manual';
         let clipboardText = '';
         if (copying) Object.defineProperty(navigator, 'clipboard', {
@@ -1071,20 +1073,65 @@ try {
             clipboardText = text;
           } },
         });
-        const choices = state === 'teletext' || copying ? [0, 0, 1] : state === 'accessibility' ? [0, 1, 0] : [4, 2, 2];
+        const choices = state === 'unknown' ? ['unknown', 'unknown', 'unclear']
+          : state === 'notice' || state === 'feedback' ? ['notice', 'broadcast', 'announcement']
+          : state === 'youtube' ? ['dialogue', 'youtube', 'cc_available']
+          : state === 'usb' ? ['dialogue', 'usb', 'sidecar']
+          : state === 'platform' || state === 'enable' || state === 'accessibility' ? ['dialogue', 'broadcast', 'captions']
+          : ['teletext', 'broadcast', 'teletext'];
+        if (state === 'enable') [...tool.querySelectorAll('button')].find(item => item.textContent === 'Включить').click();
         for (let index = 0; index < choices.length; index += 1) {
-          await waitFor(() => tool.querySelectorAll('fieldset').length > index, 'Subtitle step did not render');
-          const button = tool.querySelectorAll('fieldset')[index]?.querySelectorAll('button')[choices[index]];
+          const step = ['appearance', 'source', 'observation'][index];
+          await waitFor(() => tool.querySelector('[data-subtitle-step="' + step + '"]'), 'Subtitle step did not render');
+          const button = tool.querySelector('[data-subtitle-step="' + step + '"] [data-subtitle-choice="' + choices[index] + '"]');
           if (!button) throw new Error('Subtitle choice missing');
           button.click();
+          await new Promise(resolve => setTimeout(resolve, 40));
+        }
+        const calculate = tool.querySelector('[data-subtitle-calculate]');
+        if (calculate.disabled) throw new Error('Subtitle route did not become ready');
+        calculate.click();
+        if (state === 'loading') {
+          await waitFor(() => calculate.disabled && calculate.textContent.includes('Проверяем'), 'Subtitle loading state missing');
+          if (events.length || tool.querySelector('[data-subtitle-result] h4')) throw new Error('Loading emitted a result');
+          return { state, hasResult: false, loading: true };
+        }
+        if (state === 'error' || state === 'retry') {
+          await waitFor(() => tool.querySelector('[role="alert"]'), 'Subtitle WASM failure not visible');
+          if (events.length || !interactions.some(item => item.action === 'error')) throw new Error('Subtitle failure tracking is wrong');
+          if (state === 'error') return { state, hasResult: false, measuredError: true };
+          globalThis.__qaBlockWasm = false;
+          calculate.click();
         }
         await waitFor(() => tool.querySelector('[data-subtitle-result] h4'), 'Subtitle route did not render');
         if (events.length !== 1 || events[0].toolId !== 'subtitle_source_wizard' || usageEvents.length !== 1) {
           throw new Error('Subtitle result and usage were not measured exactly once');
         }
         const resultText = tool.querySelector('[data-subtitle-result]').textContent;
-        const expected = state === 'unknown' ? 'не определён' : state === 'accessibility' ? 'согласуйте' : 'телетекст';
-        if (!resultText.includes(expected)) throw new Error('Subtitle route has an unexpected result');
+        const expectedRoute = state === 'unknown' ? 'unknown' : state === 'notice' || state === 'feedback' ? 'notice' : state === 'youtube' ? 'youtube' : state === 'usb' ? 'usb_file' : ['platform', 'enable', 'accessibility'].includes(state) ? 'broadcast' : 'teletext';
+        if (events[0].resultType !== 'subtitle_' + expectedRoute || !resultText.includes('согласуйте')) throw new Error('Subtitle route has an unexpected result');
+        if (state === 'platform') {
+          const select = tool.querySelector('#subtitle-platform');
+          select.value = 'lg-26'; select.dispatchEvent(new Event('change', { bubbles: true }));
+          await waitFor(() => tool.textContent.includes('Функции слуха'), 'Version-specific LG path missing');
+        }
+        if (state === 'feedback') {
+          tool.querySelector('[data-subtitle-feedback="not_helped"]').click();
+          await waitFor(() => tool.querySelector('[data-subtitle-step="reason"]'), 'Feedback reasons missing');
+          tool.querySelector('[data-subtitle-choice="menu_differs"]').click();
+          tool.querySelector('[data-subtitle-feedback="helped"]').click();
+          tool.querySelector('[data-subtitle-feedback="helped"]').click();
+          if (events.length !== 1) throw new Error('Feedback duplicated prepared-result event');
+          await new Promise(resolve => setTimeout(resolve, 50));
+          if (${JSON.stringify(metrikaQueueQa)}) {
+            const queue = window.ym?.a ?? [];
+            const goals = queue.filter(args => args[1] === 'reachGoal' && args[2] === 'subtitle_interaction').map(args => args[3]);
+            for (const action of ['ready', 'not_helped', 'reason', 'helped']) {
+              if (goals.filter(item => item.action === action).length !== 1) throw new Error('Subtitle analytics deduplication failed for ' + action);
+            }
+            if (goals.some(item => item.source_path !== location.pathname || Object.keys(item).some(key => !['action', 'step', 'route', 'reason', 'attempt', 'source_path'].includes(key)))) throw new Error('Subtitle analytics has unsafe fields');
+          }
+        }
         if (copying) {
           tool.querySelector('[data-subtitle-copy]').click();
           await waitFor(() => state === 'copy-manual'

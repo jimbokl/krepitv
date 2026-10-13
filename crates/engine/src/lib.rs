@@ -5,6 +5,7 @@ mod aspect_ratio;
 mod connection_helper;
 mod installation_kit;
 mod monitor_mount;
+mod subtitle_help;
 mod tv_task_helper;
 
 #[wasm_bindgen]
@@ -17,6 +18,17 @@ pub fn connection_helper_json(task: &str, first: &str, second: &str, third: &str
 pub use aspect_ratio::aspect_ratio_plan;
 pub use installation_kit::*;
 pub use monitor_mount::{MonitorMountInput, monitor_mount_plan};
+
+#[wasm_bindgen]
+pub fn subtitle_help_plan_json(input_json: &str) -> String {
+    let result = serde_json::from_str::<subtitle_help::SubtitleHelpInput>(input_json)
+        .map_err(|_| "Не удалось прочитать ответы. Выберите варианты заново.")
+        .and_then(subtitle_help::subtitle_help_plan);
+    match result {
+        Ok(plan) => serde_json::to_string(&plan).expect("serializable subtitle plan"),
+        Err(error) => serde_json::json!({"error": error}).to_string(),
+    }
+}
 
 #[wasm_bindgen]
 pub fn monitor_mount_plan_json(input_json: &str) -> String {

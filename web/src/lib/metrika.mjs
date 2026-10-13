@@ -4,6 +4,7 @@ import {
   mountDetailClickDetail,
 } from "./mountDetailClick.mjs";
 import { RESULT_COMPLETED_EVENT } from "./resultCompleted.mjs";
+import { SUBTITLE_INTERACTION_EVENT, subtitleInteractionDetail } from "./subtitleInteraction.mjs";
 import {
   INSTALLATION_KIT_INTERACTION_EVENT,
   installationKitInteractionDetail,
@@ -22,6 +23,7 @@ export {
   AFFILIATE_VIEW_EVENT,
   MOUNT_DETAIL_CLICK_EVENT,
   RESULT_COMPLETED_EVENT,
+  SUBTITLE_INTERACTION_EVENT,
   INSTALLATION_KIT_INTERACTION_EVENT,
   TOOL_USAGE_EVENT,
   SELECTION_START_EVENT,
@@ -30,6 +32,7 @@ export const AFFILIATE_CLICK_GOAL = "market_click";
 export const AFFILIATE_VIEW_GOAL = "market_offer_view";
 export const MOUNT_DETAIL_CLICK_GOAL = "mount_detail_click";
 export const RESULT_COMPLETED_GOAL = "result_completed";
+export const SUBTITLE_INTERACTION_GOAL = "subtitle_interaction";
 export const INSTALLATION_KIT_INTERACTION_GOAL = "installation_kit_interaction";
 export const TOOL_USAGE_GOAL = "tool_usage";
 export const SELECTION_START_GOAL = "selection_start";
@@ -106,6 +109,7 @@ export function installMetrika({
       trackMarketOfferView() { return false; },
       trackMountDetailClick() { return false; },
       trackResultCompleted() { return false; },
+      trackSubtitleInteraction() { return false; },
       trackInstallationKitInteraction() { return false; },
       trackToolUsage() { return false; },
       trackSelectionStart() { return false; },
@@ -228,6 +232,21 @@ export function installMetrika({
     trackInstallationKitInteraction(event?.detail);
   }
 
+  const subtitleEvents = new Set();
+  function trackSubtitleInteraction(detail = {}) {
+    const safe = subtitleInteractionDetail(detail);
+    const sourcePath = safePagePath(windowObject.location?.pathname);
+    if (!safe || !sourcePath) return false;
+    const key = JSON.stringify([sourcePath, safe]);
+    if (subtitleEvents.has(key)) return false;
+    subtitleEvents.add(key);
+    ym(normalizedCounterId, "reachGoal", SUBTITLE_INTERACTION_GOAL, { ...safe, source_path: sourcePath });
+    return true;
+  }
+  function handleSubtitleInteraction(event) {
+    trackSubtitleInteraction(event?.detail);
+  }
+
   function trackToolUsage(detail = {}) {
     const safeDetail = toolUsageDetail(detail, detail?.sourcePath);
     if (!safeDetail) return false;
@@ -265,6 +284,7 @@ export function installMetrika({
   windowObject.addEventListener(AFFILIATE_VIEW_EVENT, handleAffiliateView);
   windowObject.addEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
   windowObject.addEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
+  windowObject.addEventListener(SUBTITLE_INTERACTION_EVENT, handleSubtitleInteraction);
   windowObject.addEventListener(
     INSTALLATION_KIT_INTERACTION_EVENT,
     handleInstallationKitInteraction,
@@ -278,6 +298,7 @@ export function installMetrika({
       windowObject.removeEventListener(AFFILIATE_VIEW_EVENT, handleAffiliateView);
       windowObject.removeEventListener(MOUNT_DETAIL_CLICK_EVENT, handleMountDetailClick);
       windowObject.removeEventListener(RESULT_COMPLETED_EVENT, handleResultCompleted);
+      windowObject.removeEventListener(SUBTITLE_INTERACTION_EVENT, handleSubtitleInteraction);
       windowObject.removeEventListener(
         INSTALLATION_KIT_INTERACTION_EVENT,
         handleInstallationKitInteraction,
@@ -285,11 +306,13 @@ export function installMetrika({
       windowObject.removeEventListener(TOOL_USAGE_EVENT, handleToolUsage);
       windowObject.removeEventListener(SELECTION_START_EVENT, handleSelectionStart);
       completedResults.clear();
+      subtitleEvents.clear();
     },
     trackMarketClick,
     trackMarketOfferView,
     trackMountDetailClick,
     trackResultCompleted,
+    trackSubtitleInteraction,
     trackInstallationKitInteraction,
     trackToolUsage,
     trackSelectionStart,

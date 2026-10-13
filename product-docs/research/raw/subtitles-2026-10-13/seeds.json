@@ -1,0 +1,14 @@
+[
+  {"candidate_id":"broadcast-notice","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"скрытое субтитрирование телепередач","variant":"notice"},
+  {"candidate_id":"broadcast-notice","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"субтитры скрытый телетекст","variant":"teletext"},
+  {"candidate_id":"disable","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"как отключить субтитры на телевизоре","variant":"core"},
+  {"candidate_id":"disable","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"как убрать субтитры на телевизоре","variant":"synonym"},
+  {"candidate_id":"enable","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"как включить субтитры на телевизоре","variant":"opposite-intent"},
+  {"candidate_id":"teletext","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"как убрать телетекст на телевизоре","variant":"teletext-disable"},
+  {"candidate_id":"usb-subtitles","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"телевизор не видит субтитры","variant":"file-help"},
+  {"candidate_id":"subtitle-tools","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"синхронизация субтитров","variant":"timing"},
+  {"candidate_id":"subtitle-tools","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"изменить кодировку субтитров","variant":"encoding"},
+  {"candidate_id":"remote-help","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"настройка телевизора удаленно","variant":"service"},
+  {"candidate_id":"creator-service","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"субтитры на заказ","variant":"different-buyer"},
+  {"candidate_id":"discovery","candidate_path":"/kak-otklyuchit-subtitry-na-televizore/","query":"субтитры телевизор","operator_query":"субтитры телевизор","variant":"broad-discovery-not-additive"}
+]

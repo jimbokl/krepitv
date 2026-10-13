@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { SUBTITLE_PAGE_IDS } from "../lib/subtitlePages.mjs";
 import {
   ArrowRight,
   CheckCircle,
@@ -29,7 +30,6 @@ import {
 import { TvEnergyCalculator } from "../components/TvEnergyCalculator.jsx";
 import { TvAspectRatioSimulator } from "../components/TvAspectRatioSimulator.jsx";
 import { IntentDecisionTool } from "../components/IntentDecisionTool.jsx";
-import { SubtitleSourceWizard } from "../components/SubtitleSourceWizard.jsx";
 import { MountingMapCalculator } from "../components/MountingMapCalculator.jsx";
 import { MountFunnelNextStep } from "../components/MountFunnelNextStep.jsx";
 import { HeightCalculator } from "../components/HeightCalculator.jsx";
@@ -70,6 +70,8 @@ const ExactMountMatcher = lazy(() => import("../components/ExactMountMatcher.jsx
   .then((module) => ({ default: module.ExactMountMatcher })));
 const MonitorMountChecker = lazy(() => import("../components/MonitorMountChecker.jsx")
   .then((module) => ({ default: module.MonitorMountChecker })));
+const SubtitleHelpSection = lazy(() => import("../components/SubtitleSourceWizard.jsx")
+  .then((module) => ({ default: module.SubtitleHelpSection })));
 
 const kindLabels = {
   guide: "Практическое руководство",
@@ -810,7 +812,7 @@ function SeoEvidenceGuide({ guide, pageId }) {
         {guide.heading}
       </h2>
       <p className="mt-3 max-w-4xl leading-relaxed text-muted">{guide.summary}</p>
-      {pageId === "monitor-mount" ? <Suspense fallback={<p className="my-7 text-muted" role="status">Загружаем проверку монитора и крепления… Инструкция ниже уже доступна.</p>}><MonitorMountChecker /></Suspense> : pageId === "tv-aspect-ratio" ? <TvAspectRatioSimulator /> : pageId === "tv-disable-subtitles" ? <SubtitleSourceWizard /> : CONNECTION_HELPERS[pageId] ? <ConnectionHelper pageId={pageId} /> : hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
+      {pageId === "monitor-mount" ? <Suspense fallback={<p className="my-7 text-muted" role="status">Загружаем проверку монитора и крепления… Инструкция ниже уже доступна.</p>}><MonitorMountChecker /></Suspense> : pageId === "tv-aspect-ratio" ? <TvAspectRatioSimulator /> : SUBTITLE_PAGE_IDS.has(pageId) ? <Suspense fallback={<p className="my-7 text-muted" role="status">Загружаем помощник по субтитрам… Инструкция ниже уже доступна.</p>}><SubtitleHelpSection pageId={pageId} /></Suspense> : CONNECTION_HELPERS[pageId] ? <ConnectionHelper pageId={pageId} /> : hasIntentTool ? <IntentDecisionTool guide={guide} pageId={pageId} /> : (
       <fieldset className="mt-7 border-2 border-ink bg-white p-5" data-evidence-guide-tool="true">
         <legend className="px-2 font-display text-2xl font-extrabold">Что вы наблюдаете?</legend>
         <div className="mt-2 grid gap-3 md:grid-cols-3">

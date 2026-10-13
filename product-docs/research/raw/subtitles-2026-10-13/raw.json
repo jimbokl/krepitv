@@ -1,0 +1,549 @@
+[
+  {
+    "seed": {
+      "candidate_id": "broadcast-notice",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "скрытое субтитрирование телепередач",
+      "variant": "notice"
+    },
+    "operator_query": "\"[скрытое субтитрирование телепередач]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "broadcast-notice",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "субтитры скрытый телетекст",
+      "variant": "teletext"
+    },
+    "operator_query": "\"[субтитры скрытый телетекст]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "disable",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "как отключить субтитры на телевизоре",
+      "variant": "core"
+    },
+    "operator_query": "\"[как отключить субтитры на телевизоре]\"",
+    "response": {
+      "associations": [],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1163",
+          "text": "как отключить субтитры на телевизоре"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "disable",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "как убрать субтитры на телевизоре",
+      "variant": "synonym"
+    },
+    "operator_query": "\"[как убрать субтитры на телевизоре]\"",
+    "response": {
+      "associations": [],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "1191",
+          "text": "как убрать субтитры на телевизоре"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "enable",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "как включить субтитры на телевизоре",
+      "variant": "opposite-intent"
+    },
+    "operator_query": "\"[как включить субтитры на телевизоре]\"",
+    "response": {
+      "associations": [],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "368",
+          "text": "как включить субтитры на телевизоре"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "teletext",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "как убрать телетекст на телевизоре",
+      "variant": "teletext-disable"
+    },
+    "operator_query": "\"[как убрать телетекст на телевизоре]\"",
+    "response": {
+      "associations": [],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "35",
+          "text": "как убрать телетекст на телевизоре"
+        }
+      ]
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "usb-subtitles",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "телевизор не видит субтитры",
+      "variant": "file-help"
+    },
+    "operator_query": "\"[телевизор не видит субтитры]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "subtitle-tools",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "синхронизация субтитров",
+      "variant": "timing"
+    },
+    "operator_query": "\"[синхронизация субтитров]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "subtitle-tools",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "изменить кодировку субтитров",
+      "variant": "encoding"
+    },
+    "operator_query": "\"[изменить кодировку субтитров]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "remote-help",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "настройка телевизора удаленно",
+      "variant": "service"
+    },
+    "operator_query": "\"[настройка телевизора удаленно]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "creator-service",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "субтитры на заказ",
+      "variant": "different-buyer"
+    },
+    "operator_query": "\"[субтитры на заказ]\"",
+    "response": {
+      "associations": [],
+      "popular": []
+    }
+  },
+  {
+    "seed": {
+      "candidate_id": "discovery",
+      "candidate_path": "/kak-otklyuchit-subtitry-na-televizore/",
+      "query": "субтитры телевизор",
+      "operator_query": "субтитры телевизор",
+      "variant": "broad-discovery-not-additive"
+    },
+    "operator_query": "субтитры телевизор",
+    "response": {
+      "associations": [],
+      "popular": [
+        {
+          "isAssociations": false,
+          "value": "3851",
+          "text": "субтитры на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "1191",
+          "text": "как убрать субтитры на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "1163",
+          "text": "как отключить субтитры на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "368",
+          "text": "как включить субтитры на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "335",
+          "text": "как выключить субтитры на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "148",
+          "text": "как отключить субтитры на телевизоре haier"
+        },
+        {
+          "isAssociations": false,
+          "value": "129",
+          "text": "как отключить субтитры на телевизоре самсунг"
+        },
+        {
+          "isAssociations": false,
+          "value": "128",
+          "text": "как убрать субтитры на телевизоре haier"
+        },
+        {
+          "isAssociations": false,
+          "value": "118",
+          "text": "как убрать субтитры на телевизоре самсунг"
+        },
+        {
+          "isAssociations": false,
+          "value": "101",
+          "text": "как убрать субтитры на телевизоре lg"
+        },
+        {
+          "isAssociations": false,
+          "value": "100",
+          "text": "как отключить субтитры на телевизоре lg"
+        },
+        {
+          "isAssociations": false,
+          "value": "91",
+          "text": "как убрать субтитры с экрана телевизора"
+        },
+        {
+          "isAssociations": false,
+          "value": "77",
+          "text": "как настроить субтитры на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "48",
+          "text": "телевизор с субтитрами для глухих"
+        },
+        {
+          "isAssociations": false,
+          "value": "46",
+          "text": "как отключить субтитры в окко на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "44",
+          "text": "как выключить субтитры на телевизоре lg"
+        },
+        {
+          "isAssociations": false,
+          "value": "42",
+          "text": "как отключить субтитры на телевизоре tcl"
+        },
+        {
+          "isAssociations": false,
+          "value": "41",
+          "text": "как включить субтитры на телевизоре самсунг"
+        },
+        {
+          "isAssociations": false,
+          "value": "38",
+          "text": "как убрать субтитры на телевизоре tcl"
+        },
+        {
+          "isAssociations": false,
+          "value": "34",
+          "text": "как отключить субтитры на телевизоре хайер"
+        },
+        {
+          "isAssociations": false,
+          "value": "31",
+          "text": "убрать субтитры на телевизоре сони"
+        },
+        {
+          "isAssociations": false,
+          "value": "30",
+          "text": "как выключить субтитры на телевизоре самсунг"
+        },
+        {
+          "isAssociations": false,
+          "value": "29",
+          "text": "как включить субтитры на телевизоре lg"
+        },
+        {
+          "isAssociations": false,
+          "value": "29",
+          "text": "как отключить субтитры на телевизоре dexp"
+        },
+        {
+          "isAssociations": false,
+          "value": "27",
+          "text": "как убрать субтитры на телевизоре хайер"
+        },
+        {
+          "isAssociations": false,
+          "value": "26",
+          "text": "как включить субтитры на рутубе на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "24",
+          "text": "приставка для телевизора как убрать субтитры"
+        },
+        {
+          "isAssociations": false,
+          "value": "23",
+          "text": "как отключить субтитры на телевизоре hisense"
+        },
+        {
+          "isAssociations": false,
+          "value": "22",
+          "text": "как включить субтитры на телевизоре сбер"
+        },
+        {
+          "isAssociations": false,
+          "value": "22",
+          "text": "как убрать субтитры на телевизоре тошиба"
+        },
+        {
+          "isAssociations": false,
+          "value": "20",
+          "text": "как отключить субтитры на телевизоре тошиба"
+        },
+        {
+          "isAssociations": false,
+          "value": "19",
+          "text": "как убрать субтитры на телевизоре сбер салют"
+        },
+        {
+          "isAssociations": false,
+          "value": "18",
+          "text": "как отключить субтитры на телевизоре лджи"
+        },
+        {
+          "isAssociations": false,
+          "value": "17",
+          "text": "как выключить субтитры на телевизоре haier"
+        },
+        {
+          "isAssociations": false,
+          "value": "17",
+          "text": "как на телевизоре хаер отключить субтитры"
+        },
+        {
+          "isAssociations": false,
+          "value": "17",
+          "text": "телевизор с субтитрами для слабослышащих"
+        },
+        {
+          "isAssociations": false,
+          "value": "16",
+          "text": "как убрать субтитры на телевизоре панасоник"
+        },
+        {
+          "isAssociations": false,
+          "value": "16",
+          "text": "как убрать субтитры на телевизоре филипс"
+        },
+        {
+          "isAssociations": false,
+          "value": "16",
+          "text": "как отключить субтитры на телевизоре сбер"
+        },
+        {
+          "isAssociations": false,
+          "value": "15",
+          "text": "как убрать субтитры на телевизоре dexp"
+        },
+        {
+          "isAssociations": false,
+          "value": "14",
+          "text": "как выключить субтитры на телевизоре хайер"
+        },
+        {
+          "isAssociations": false,
+          "value": "14",
+          "text": "можно ли в телевизоре убрать субтитры"
+        },
+        {
+          "isAssociations": false,
+          "value": "13",
+          "text": "как убрать субтитры на телевизоре дексп"
+        },
+        {
+          "isAssociations": false,
+          "value": "13",
+          "text": "как выключить субтитры на телевизоре tcl"
+        },
+        {
+          "isAssociations": false,
+          "value": "13",
+          "text": "как убрать субтитры на телевизоре лджи"
+        },
+        {
+          "isAssociations": false,
+          "value": "13",
+          "text": "как настроить субтитры на телевизоре самсунг"
+        },
+        {
+          "isAssociations": false,
+          "value": "12",
+          "text": "как отключить субтитры на телевизоре samsung"
+        },
+        {
+          "isAssociations": false,
+          "value": "12",
+          "text": "как убрать субтитры на телевизоре hisense"
+        },
+        {
+          "isAssociations": false,
+          "value": "11",
+          "text": "как отключить субтитры на телевизоре панасоник"
+        },
+        {
+          "isAssociations": false,
+          "value": "11",
+          "text": "как убрать субтитры на телевизоре тсл"
+        },
+        {
+          "isAssociations": false,
+          "value": "11",
+          "text": "как включить субтитры на телевизоре tcl"
+        },
+        {
+          "isAssociations": false,
+          "value": "9",
+          "text": "как отключить субтитры на телевизоре дексп"
+        },
+        {
+          "isAssociations": false,
+          "value": "9",
+          "text": "как убрать субтитры на телевизоре econ"
+        },
+        {
+          "isAssociations": false,
+          "value": "9",
+          "text": "как отключить субтитры на телевизоре bbk"
+        },
+        {
+          "isAssociations": false,
+          "value": "9",
+          "text": "как отключить субтитры на телевизоре тсл"
+        },
+        {
+          "isAssociations": false,
+          "value": "9",
+          "text": "как убрать субтитры на телевизоре sony"
+        },
+        {
+          "isAssociations": false,
+          "value": "9",
+          "text": "приставка для телевизора как убрать субтитры mediaroom"
+        },
+        {
+          "isAssociations": false,
+          "value": "8",
+          "text": "как убрать субтитры на телевизоре триколор"
+        },
+        {
+          "isAssociations": false,
+          "value": "8",
+          "text": "как отключить субтитры на телевизоре sony"
+        },
+        {
+          "isAssociations": false,
+          "value": "8",
+          "text": "как отключить субтитры на телевизоре ксиоми"
+        },
+        {
+          "isAssociations": false,
+          "value": "7",
+          "text": "где отключают субтитры на телевизоре tlc"
+        },
+        {
+          "isAssociations": false,
+          "value": "7",
+          "text": "как убрать субтитры на телевизоре ростелеком"
+        },
+        {
+          "isAssociations": false,
+          "value": "7",
+          "text": "как выключить субтитры на телевизоре витязь"
+        },
+        {
+          "isAssociations": false,
+          "value": "7",
+          "text": "как убрать субтитры на телевизоре tuvio"
+        },
+        {
+          "isAssociations": false,
+          "value": "7",
+          "text": "как включить субтитры в кинопоиске на телевизоре"
+        },
+        {
+          "isAssociations": false,
+          "value": "7",
+          "text": "как настроить телевизор hisense на субтитры"
+        },
+        {
+          "isAssociations": false,
+          "value": "7",
+          "text": "как отключить субтитры на телевизоре asano"
+        },
+        {
+          "isAssociations": false,
+          "value": "6",
+          "text": "как включить субтитры на телевизоре лос"
+        },
+        {
+          "isAssociations": false,
+          "value": "6",
+          "text": "tuvio телевизор тв как включить субтитры"
+        },
+        {
+          "isAssociations": false,
+          "value": "6",
+          "text": "как выключить субтитры на телевизоре сони"
+        },
+        {
+          "isAssociations": false,
+          "value": "5",
+          "text": "как убрать субтитры на телевизоре hyundai"
+        },
+        {
+          "isAssociations": false,
+          "value": "5",
+          "text": "как убрать субтитры на телевизоре tkl 40s5400"
+        },
+        {
+          "isAssociations": false,
+          "value": "5",
+          "text": "как отключить субтитры на телевизоре хендай"
+        }
+      ]
+    }
+  }
+]

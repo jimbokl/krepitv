@@ -1958,7 +1958,10 @@ for (const id of yandexSuggestGuideIds) {
 }
 for (const id of tvIntentGuideIds) {
   const page = dailyEvidenceGuidePages.find((item) => item.id === id);
-  if (!page || page.guide.updated_at !== "2026-09-18") {
+  const expectedUpdatedAt = ["tv-teletext-captions", "youtube-tv-subtitles", "tv-usb-video-subtitles"].includes(id)
+    ? "2026-10-13"
+    : "2026-09-18";
+  if (!page || page.guide.updated_at !== expectedUpdatedAt) {
     throw new Error(`Новый SEO-интент ${id} не содержит актуальный evidence guide`);
   }
 }

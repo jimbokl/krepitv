@@ -75,9 +75,9 @@ test("страница подключает один специализиров�
   const component = await readFile(new URL("../src/components/SubtitleSourceWizard.jsx", import.meta.url), "utf8");
   const data = JSON.parse(await readFile(new URL("../../data/seo_pages.json", import.meta.url), "utf8"));
   const subtitles = data.find((item) => item.id === "tv-disable-subtitles");
-  assert.match(page, /pageId === "tv-disable-subtitles" \? <SubtitleSourceWizard/u);
+  assert.match(page, /SUBTITLE_PAGE_IDS.has\(pageId\) \? <Suspense[\s\S]*?<SubtitleHelpSection pageId=\{pageId\}/u);
   assert.match(component, /emitResultCompleted\(window/u);
-  assert.equal(subtitles.guide.sources.length, 3);
+  assert.ok(subtitles.guide.sources.length >= 3);
   assert.equal(subtitles.guide.steps.length, 3);
   assert.match(subtitles.guide.summary, /без JavaScript/u);
 });

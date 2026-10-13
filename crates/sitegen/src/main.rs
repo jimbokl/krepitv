@@ -5066,7 +5066,13 @@ fn seo_evidence_guide_html(page: &SeoPage) -> String {
         sources,
         escape_html(&guide.updated_at),
     );
-    if page.id == "monitor-mount" {
+    if page.id == "tv-disable-subtitles" {
+        content.replacen(
+            "<h3 class=\"mt-7",
+            &format!("{}<h3 class=\"mt-7", subtitle_platform_static_html()),
+            1,
+        )
+    } else if page.id == "monitor-mount" {
         content.replacen(
             "<h3 class=\"mt-7",
             &format!("{}<h3 class=\"mt-7", monitor_mount_static_html()),
@@ -5077,6 +5083,24 @@ fn seo_evidence_guide_html(page: &SeoPage) -> String {
     } else {
         content
     }
+}
+
+fn subtitle_platform_static_html() -> String {
+    let data: serde_json::Value =
+        serde_json::from_str(include_str!("../../../data/subtitle_help.json"))
+            .expect("valid subtitle reference data");
+    let rows = data["platforms"].as_array().expect("subtitle platforms").iter().map(|item| {
+        let field = |name: &str| escape_html(item[name].as_str().expect("subtitle reference field"));
+        format!("<tr class=\"border-b border-line align-top\"><th scope=\"row\" class=\"p-3 text-left font-semibold\">{}</th><td class=\"p-3 leading-relaxed\">{}</td><td class=\"p-3 leading-relaxed\">{} <a href=\"{}\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"font-semibold text-technical underline\">Источник: {}</a></td></tr>", field("label"), field("path"), field("scope"), field("url"), field("source"))
+    }).collect::<String>();
+    format!(
+        "<details class=\"my-7 rounded-xl border border-line bg-white p-4\" data-subtitle-platform-reference=\"true\"><summary class=\"cursor-pointer font-display text-lg font-bold\">Где субтитры в меню Samsung, LG и Google TV</summary><p class=\"mt-3 text-sm leading-relaxed text-muted\">Для встроенного тюнера или поддерживаемого системного меню. Приложения и приставки настраиваются отдельно. Сверьте модель и версию системы; если путь не совпал, не меняйте соседние функции.</p><div class=\"mt-4 overflow-x-auto\" role=\"region\" aria-label=\"Пути меню субтитров\" tabindex=\"0\"><table class=\"w-full min-w-[600px] text-sm\"><thead><tr class=\"bg-ink text-white\"><th scope=\"col\" class=\"p-3 text-left\">Система</th><th scope=\"col\" class=\"p-3 text-left\">Где искать</th><th scope=\"col\" class=\"p-3 text-left\">Граница проверки</th></tr></thead><tbody>{rows}</tbody></table></div><p class=\"mt-3 text-xs text-muted\">Сверено с официальными справками {}. Год покупки не всегда равен году модели.</p></details>",
+        escape_html(
+            data["checked_at"]
+                .as_str()
+                .expect("subtitle reference date")
+        )
+    )
 }
 
 fn monitor_mount_static_html() -> &'static str {
@@ -8734,6 +8758,37 @@ mod tests {
     }
 
     #[test]
+    fn subtitle_sprint_keeps_four_independent_static_guides_and_versioned_paths() {
+        let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
+        for id in [
+            "tv-disable-subtitles",
+            "tv-teletext-captions",
+            "youtube-tv-subtitles",
+            "tv-usb-video-subtitles",
+        ] {
+            let page = pages
+                .iter()
+                .find(|page| page.id == id)
+                .expect("subtitle canonical");
+            let html = seo_page_body(page, &pages, &[], &[], &[]);
+            assert_eq!(seo_page_lastmod(page), "2026-10-13");
+            assert!(html.contains("id=\"istochniki\""));
+            assert!(html.contains("<table"));
+            assert!(html.contains("без JavaScript"));
+            assert!(
+                html.contains("https://support.google.com/youtube/")
+                    || html.contains("https://www.samsung.com/")
+                    || html.contains("https://www.sony.ru/")
+            );
+            if id == "tv-disable-subtitles" {
+                assert!(html.contains("data-subtitle-platform-reference"));
+                assert!(html.contains("webOS 26"));
+                assert!(html.contains("2014–2024"));
+            }
+        }
+    }
+
+    #[test]
     fn measured_page_update_date_overrides_cohort_fallback() {
         let pages: Vec<SeoPage> = read_json(&workspace_root().join("data/seo_pages.json"));
         for id in ["tv-disable-subtitles", "tv-disable-voice", "vesa-size"] {
@@ -8742,7 +8797,7 @@ mod tests {
                 .find(|page| page.id == id)
                 .unwrap_or_else(|| panic!("Нет SEO-страницы {id}"));
             let expected = if id == "tv-disable-subtitles" {
-                "2026-10-02"
+                "2026-10-13"
             } else {
                 "2026-09-18"
             };

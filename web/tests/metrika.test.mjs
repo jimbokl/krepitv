@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { SUBTITLE_INTERACTION_EVENT } from "../src/lib/subtitleInteraction.mjs";
 import {
   AFFILIATE_CLICK_EVENT,
   AFFILIATE_CLICK_GOAL,
@@ -46,6 +47,26 @@ function createBrowserDouble() {
   };
   return { documentObject, listeners, scripts, windowObject };
 }
+
+test("subtitle ready and actual outcome stay separate, deduplicated and private", () => {
+  const browser = createBrowserDouble();
+  browser.windowObject.location = { pathname: "/kak-otklyuchit-subtitry-na-televizore/", search: "?email=private" };
+  const calls = [];
+  browser.windowObject.ym = (...args) => calls.push(args);
+  const metrika = installMetrika({ counterId: 123456, ...browser });
+  const detail = { action: "ready", step: "result", route: "notice", attempt: 1, email: "private" };
+  browser.listeners.get(SUBTITLE_INTERACTION_EVENT)({ detail });
+  browser.listeners.get(SUBTITLE_INTERACTION_EVENT)({ detail });
+  browser.listeners.get(SUBTITLE_INTERACTION_EVENT)({ detail: { ...detail, action: "helped" } });
+  browser.listeners.get(SUBTITLE_INTERACTION_EVENT)({ detail: { ...detail, attempt: 2 } });
+  browser.listeners.get(SUBTITLE_INTERACTION_EVENT)({ detail: { ...detail, action: "private" } });
+  const goals = calls.filter(call => call[2] === "subtitle_interaction");
+  assert.deepEqual(goals.map(call => call[3].action), ["ready", "helped", "ready"]);
+  assert.doesNotMatch(JSON.stringify(goals), /private|email|\?/u);
+  assert.ok(!calls.some(call => call[2] === "result_completed"));
+  metrika.dispose();
+  assert.equal(browser.listeners.has(SUBTITLE_INTERACTION_EVENT), false);
+});
 
 test("без идентификатора Метрика не загружается и не подписывается на клики", () => {
   const browser = createBrowserDouble();

@@ -27,6 +27,10 @@ export const REQUIRED_METRIKA_GOALS = Object.freeze([
     eventId: "selection_start",
     name: "Переход к точному подбору кронштейна",
   }),
+  Object.freeze({
+    eventId: "subtitle_interaction",
+    name: "Этап и результат помощи с субтитрами",
+  }),
 ]);
 
 function isExactActionGoal(goal, eventId) {

@@ -473,6 +473,13 @@ export async function calculateMonitorMountPlan(values) {
   return response;
 }
 
+export async function calculateSubtitleHelpPlan(values) {
+  const engine = await loadEngine();
+  const response = JSON.parse(engine.subtitle_help_plan_json(JSON.stringify(values)));
+  if (response.error) throw new Error(response.error);
+  return response;
+}
+
 export async function calculateTvEnergyPlan(values) {
   const engine = await loadEngine();
   const response = JSON.parse(
