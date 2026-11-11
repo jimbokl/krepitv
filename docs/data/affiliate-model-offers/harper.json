@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-11T11:57:44.942Z",
+  "generated_at": "2026-11-11T22:46:37.416Z",
   "placements": [
     {
       "model_id": "harper-24r470t",
       "model_path": "/modeli/harper-24r470t/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=eq6c1fzn0slfnuno2ps3kpqhehvzbyb9&utm_referral_context=nwboNzVxzPcKwWoEXHe1UNhTl-AnS_f6Ul_FZ7evaQTjvPsxO5PNBqKeiBLVskU0N6QqOgkp4Q4l4_B32JvxuA0FGq-K8ZLJZD402vOEUdi7g13soRq0h0njaQiCw4Ccn8caQDEIIvBQRYyQYoG8r267ARlT3MNCZRitB1w9XzvWJKORXiAOmGVkgMj7DyiqVeDOj0lJxQvmziN-gh2wOrNE-to6JSgIekTrCx1OUvUhvz2-yqxLBWZBFDEs3ppy&clid=15238076&vid=krepitvmodelharper24r470tr01holderlcds50360910e4c248a3&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-11T11:53:51.008Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=nvdhaus6n41pa84ppo680q7xhl6up1tz&utm_referral_context=f_9rUf1I89loK03KKMXDXmQIAyqq1IHFeI3_118bFWIFqaqOo78iKvzq9x55grXR8SDiWNaZTsas_hINv5Qqy6QpqoKqea2nbNv8v7vDFwZ4JaUOvzR-C8TuoG2bzKe41dhevG6p-em5UgHlVOL2Q8ctSrud1DX0FyRxHZFdz4oTGC6_FbbNAXsAXPFMqTQhFIFJk-xU7QlYxjP7CbkqrnzdAJWXvvPHz-vbl7B1gPQqQSpbjX2VwFg7cDfZzlkn&clid=15238076&vid=krepitvmodelharper24r470tr01holderlcds50360910e4c248a3&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-11T22:43:03.476Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -26,11 +26,35 @@
       "rank": 1
     },
     {
+      "model_id": "harper-24r470t",
+      "model_path": "/modeli/harper-24r470t/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=blbnmeuoudhz24d6yg9k7w8488g4otqm&utm_referral_context=BPEio-hM-Trw3ADxJY1tbvfGD07RNDE__U3bRPGM7QA9fSNVXfwXRg0mTwDIE5xsknZFueuzX4Mi5xFSo4yf4UXu7ZaZmF2Tlk7njh1pVcaFYAUOlC_xDakRLtzFETsuJA5AWNiTrG_5cVjTcH1xaiOeWXOLHmZeyET_55uynV1yN1tU-lRtU7OiVdBWlWQxqvKEDsz4md0pRQcNGN9S5rW-KHTeyoLxwCGsDMgZaiNbZlPLVbqNiFPSLzHfGn1f&clid=15238076&vid=krepitvmodelharper24r470tr03kromaxatlantis45ee41a2fadad8&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-11T22:43:04.422Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "kromax-atlantis-45",
+        "entity_kind": "mount",
+        "id": "model-harper-24r470t-r03-kromax-atlantis-45",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/kromax-atlantis-45/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/18207042/2a0000019a9b76101cbf1678097257740f59/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора настенный наклонно-поворотный Kromax ATLANTIS-45 / до 65 дюймов / vesa 400x400",
+        "vid": "krepitvmodelharper24r470tr03kromaxatlantis45ee41a2fadad8"
+      },
+      "placement_id": "model-harper-24r470t-r03-kromax-atlantis-45",
+      "rank": 3
+    },
+    {
       "model_id": "harper-32r670t",
       "model_path": "/modeli/harper-32r670t/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=39rao4wxb3eq707kl242t0yppqr3j1ue&utm_referral_context=4o5ddn0F3bT2vA4znGsQgyAuXUuRD549I3VugTmmYTe_HcVTD3QntpNKdLtCw4Ce3A8ZzBrFwQHEfo2a4e3gLhIA039y0UgTqjRbMKqwlmsddIADYlGo_9xJ8VpFNtSxLtGfBmBoyrxokro-w8ip-CEFXnX0euzG8Jlgi3t4GENzZjwwso3-L2wn7ePjR0QRuOgiMb7IbUdM59aMkjJBndkxVeUvbj-q2l7acd9tCQus1WcNk5r4htk0X-lMdR34&clid=15238076&vid=krepitvmodelharper32r670tr01holderlcds50365bb5f613fae1&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-11T11:53:52.533Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=2vro3lm96y0u1jytuckpyrvcnub0j2dt&utm_referral_context=Ua58EvSGorqa9OsYG98HT3mPXC8VyzvlPTnY2h_Me9Ni6po9bnB6wRIKoFcGUOw7jD1B9RZsTKNDYYkukHPd950kXp-UvRjwCEp_sr8m2eLQcUoNTALhNJXQDwC8bwyeSYgbIsTEWbbIv3yUT_GnDvowYjcJjfv-qDREyimSmGTse_EPREMwX1VpSxV4QBmnf48iH5eIH2nNm-f1HHQkDOGm1elfoQeYu4dTtIHuj-cvMzAv9nJ159oOB4v8ZgW4&clid=15238076&vid=krepitvmodelharper32r670tr01holderlcds50365bb5f613fae1&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-11T22:43:04.901Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -53,8 +77,8 @@
       "model_id": "harper-32r670t",
       "model_path": "/modeli/harper-32r670t/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=qj5bsyombbeqs1vfo2w6iclqaib6ddxt&utm_referral_context=4VswF29y_QbUwej5b3DycdBQJ4aF9uL8ECB8BiS3T7p3cMQNlPXvIMaHT_Rs0i0r9ibbIANNeV2eoX3yl1J-7A_5BpA7HLyhPpyPPhCa9N-bBUKsHZopFx8U-QFoOJE4zDjftonHhNScGBgxvngx1MMeBqQYYsSrLjib82L6nLybzkp6yXoKShwpgeWNTgWKQ-t0F4bGJuNcAp37MKUh8OAR_2fomV8wrvBPk-jiee5NI-15N_nPlNDS9SKw3N0o&clid=15238076&vid=krepitvmodelharper32r670tr03kromaxatlantis45194857c58c3b&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-11T11:53:53.550Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=4b7eeb4y1gxl8qkcvtwsbndku99rnt5f&utm_referral_context=DTpaiqFXwOk0vADgBw63qKQqtPUpRZ4XxU-QuNxX8Rmdya-nj1vgT98162EKw46Df5mCXXh-bc-f8FQTZPe9J-MZmX_vY3E2JvcoW87jBt78LKWQXZQsCV9s5lwUatqOAmJUUzWCDIAucG-awo0oRfwkJ2vw8AdVvUDIqDUs7y87sG-VPJYHhVj4AJN1_FEhSJKngSxINZwBxUWOlf7idIssOTYoIK4zngwbExwHq7qvzNBsvQ0ZNZtD4yAEsoCF&clid=15238076&vid=krepitvmodelharper32r670tr03kromaxatlantis45194857c58c3b&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-11T22:43:05.863Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -77,8 +101,8 @@
       "model_id": "harper-40f720t",
       "model_path": "/modeli/harper-40f720t/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=9zefwgh7cd3xy151x37t8524xtnu537n&utm_referral_context=AlXkYnNK0hfIRpj66stt5PNHb_EtWMn-Pp9X6e-349tfpYUraBiQTc4QtGvWx1c37iVJzhYsL2-ryliTJpJkWBGbv4lBA2E9v34k2ireRknifjSIHc--Prv7aIPqiSbvQltIPRXbEocg4hUCfXplY04bWQoe6GQp2qbaczrSrnpkRuNRV2JbvGiQoxa0RCIvwjEEP2VC11F6AzC0mWru6fyLsrp_VM1hctW-5hAPxZfBnUU-jlMzccxsYB_UOqJq&clid=15238076&vid=krepitvmodelharper40f720tr01holderlcds503612f792c084d4&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-11T11:53:54.048Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=7wf071l85q72gbef8usykhk9c3zw3l6r&utm_referral_context=7lGzDiDh4o1Z7DEA2EH5YKr_MSFLIiWlp2d-V7R71hZJkniPGan2GdhO5bhepRn66gySAR8J8QQXfCj6egdEhp4w23HeZl0Kf8ttLElegwshjVHMg__AwL3H0iXGwujhI7djjUp9y4H2An-5ZxgUKD0g3RUNunFIhHNV1T6E1G_d9fuSvM8al_3nkPQLIe9huhtCuYUrFP6-VcVFsyYRgOGkZmAFlarlILGIagsOfWTRYYgWenV5KAzgRF-CJnAU&clid=15238076&vid=krepitvmodelharper40f720tr01holderlcds503612f792c084d4&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-11T22:43:06.352Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -101,8 +125,8 @@
       "model_id": "harper-40f720t",
       "model_path": "/modeli/harper-40f720t/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=7eadhrcn01ego2eb3sizkraoazylxlsi&utm_referral_context=muwDdCdyDLcP_uaW6il6R1Hs4PctlhI7swZzvBftQzKDiwqcVZIbj-KebvhRF-Lj6OtapQe_uIIVFjgBbHIY-Tpmwqwtx8rETg1cSSlgpGUUFca-fRkmF4jFnB8yNbyz-I5Kx8YO8FJMFgAL5GDCWmfHLjAhdH-rzSidzWIEDXA5QRduHJT4BjKpgPdmuBoR18M3rhcP0ucpgZadaI6aVR7TYT8GHZoO3jQxjSMHxOa8hMaWpB9BxRUCoxy7y8jZ&clid=15238076&vid=krepitvmodelharper40f720tr03kromaxatlantis45fc67b4822dbc&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-11T11:53:55.040Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=rxg40fcu6k824d4z8d136ffgoog5tod1&utm_referral_context=gFP4G5E1LbKQbuAADUy7H0and7wukYiG3AirvNgPYcRWYq1-5rHui3Od4NvDESi72omSY8VWrp4AYUUJXfQbJSocSH2aGY1NDtJVZapAdabo9ZbBxzufGjp0Je6VZg9_yeIkLGNOUoTnp0YrDRymCfuhUNjARkya8hQzfln1FquP0M6tZ1jwZpolXQSU9aD9RFLQ05CxPMU0acDfX_juLhCjVxmJjyDbt7Yu64y1qWCAQrlY6DECgSQKT20-HXuW&clid=15238076&vid=krepitvmodelharper40f720tr03kromaxatlantis45fc67b4822dbc&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-11T22:43:07.292Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -125,8 +149,8 @@
       "model_id": "harper-43f670ts",
       "model_path": "/modeli/harper-43f670ts/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=6egw3r67hfvnkbar5ji69vivzqhfjz0b&utm_referral_context=4_2UsAUXQgdKouxpmHtnhYZbZLQ_rE0rMp6PdBn27as2LJP9hpTFWwYvRIRIEi4TTJewaBMlEVnejsSmiUQP5BRp7YwkGKwgHKcP8_3PH6twB9HI4hSFzdXOa6WWc_AxS4DofvQ6PUIcNG1pxbtY88JsxVZufGV458IjeXns9MykiXt-scKm2wviRlnS8UYM7ridAbHPjJzWpualgpcZfJIOqWKnT2qFqwxqNMICKhcZy5_CIiL8oYx1eHUv3XQh&clid=15238076&vid=krepitvmodelharper43f670tsr01holderlcds5036875f19e47bfd&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-11T11:53:55.538Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=lzi48gf70vppc51kxhhw0yrq9zrreezn&utm_referral_context=Y2cnurYQdrS8RDSKMj3GO6RKV0T-G0ZaZ-mwJ5fpnZFU8YdrIu8CYH57fWAqEGAlbZg4aSA1JgCuC7ueX5DA-0KMato0rom_rcb7tiNl7M-W5fcqIvZI3d7-lhVEfrjpGOgAeokizsCuH7zHcNdjmw9PIVsunMxkFElj8oLYEGBvmfkoFKvsMa6Ms2l_wpl35Q34SSFaXp6ouTO5U3h2c8BmUtQx9KSgc68LUdV1FgudfDDFsvN60oD3AcoLeDIL&clid=15238076&vid=krepitvmodelharper43f670tsr01holderlcds5036875f19e47bfd&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-11T22:43:07.771Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -149,8 +173,8 @@
       "model_id": "harper-43f670ts",
       "model_path": "/modeli/harper-43f670ts/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=hua2uo5lvii30vft8t573zp0jaqs72wa&utm_referral_context=HhBHtP0ohYyMOTkjkhjT9waIwvY0ail6rpK7MDnFFvyQwIpEWqjZ_q-gGHZdLAYpbVXeyTQAVT7xa80I3UlMFAUcnU0k67ZPXETmo2URssYsppc2i-SkbC-VPa_torQnHtimGRylp8cYE1XndBXUQb3txNi5WL5Lr3oOoMJxhy9gU5OlgNzqpvspvkTC5Yvo3helAv7pDtUJbDU_Iq99Tuxp1lnw7xtKAqoW6SAvMnzyTOKIBoaKb685OAT6SCJ5&clid=15238076&vid=krepitvmodelharper43f670tsr03kromaxatlantis453513296d0b57&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-11T11:53:56.538Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-atlantis-45--do-65-dyuymov--vesa-400x400/103730423130?refid=mjvrg9ozvj9mml4uff9fq47ur7u4fhp4&utm_referral_context=THFTWxM_3DbZVlwANvdnQo0dPTw2sc0BG2smgHjQ9CTzv5DgkXSid3Y7Zzp_HBjEw6tU0XQPzHULFqDverqwh9nlBkFFkNBvbxw-pjYlSvXVerBLpn2Jr3Z8oMUaBDNo0Vh9XCprl0aljTQsnlfmd-ly7Yak850KP1XYtzIGvUhSdU9mZAqSf9QiI_j2t32ySHVHtcWHU50gzaqA5KlelwiB5Xov6VCdhAqHXxBKgCQF1aFDKuZYca1dczMymcv5&clid=15238076&vid=krepitvmodelharper43f670tsr03kromaxatlantis453513296d0b57&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-11T22:43:08.714Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
