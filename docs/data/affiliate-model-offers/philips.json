@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-21T12:46:10.162Z",
+  "generated_at": "2026-11-21T21:45:09.861Z",
   "placements": [
     {
       "model_id": "philips-50pud7029",
       "model_path": "/modeli/philips-50pud7029/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=ltciyf3kxiz0fxq83n22jxz7sk5vep3d&utm_referral_context=Z8jenASgMNNF37_LbLUrC8ndbq_tG16dbpc_7kyqsDw7QZxmaAosKQw5gSaKWPWuFncshz3UKBoRIQ2pPfefNvGS46DR69rSex14YyD4SUlpg9RZK4K-tPYH7WLlwggWaR7IKDMzh4Ioe3hlfHEGBRr-bocFjcnhic1WeluRHFFd7m7gWihSavuTtJhu8PpMhL8FbZXtMp3kIaJ2oKVmkbvjNiYfuPkXbx0xu1r77x2VyfC-R068ABYpancArCgM&clid=15238076&vid=krepitvmodelphilips50pud7029r02kromaxdix186ff957bd8cb5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-21T12:43:27.136Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=xbe8o8ntf18y2fupp8l1soyhqpw55sbx&utm_referral_context=FEBeu5JfLBPBiauQNT_2wShTtR0aNxKRgSOZSLwN2d3NzGsCuOVWF-SM51_OcTeEvPvRAaApK7eIMmEX-tLFa4DRbnZ-kg9VBxjcLkcmTQu2chWqr5mQc1hPY9eZODKxurtVdPmumFXUrKH89KGompwwFAX1bsx6diETqGapVUSeW_MleuGMoaw8h3vGzjteBPT89O2DfjSpIOc48J-pxztMKNyCoGS_58oClWz-k6IkmbSd9pmtBkn68mJ88lLq&clid=15238076&vid=krepitvmodelphilips50pud7029r02kromaxdix186ff957bd8cb5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-21T21:42:31.668Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -24,30 +24,6 @@
       },
       "placement_id": "model-philips-50pud7029-r02-kromax-dix-18",
       "rank": 2
-    },
-    {
-      "model_id": "philips-50pud7029",
-      "model_path": "/modeli/philips-50pud7029/",
-      "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=d34fw7556jyl9scfk3ecq6zwm9wwknkp&utm_referral_context=nsDwLg8eijYBMTKUXEAwj_cdt3gMId8ZmReTW08_0QTGw6w9jMnJY0KK7ZhGT5fVA_zwRhJCGvFWdAEE_J3y1AiHcnxrmiuBHpCMcz8TqpHVdECcOh2hVal7iFBQNd-8jGS7WDAvklC5jH1-fL1t7pMFYVVoGmmRHPI6JUTd1RvBGeD8inWDz9e_insLDpJO7aYX-w-Mqc52hdGCLDUFAIU6JNrjfK9uo13wvX3u8elF8vWuPqB6AA,,&clid=15238076&vid=krepitvmodelphilips50pud7029r03kromaxflat41a740a05e49b&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-21T12:43:27.745Z",
-        "clid": "15238076",
-        "compliance_mode": "non_ad_storefront",
-        "creative": null,
-        "eligibility": "publishable",
-        "entity_id": "kromax-flat-4",
-        "entity_kind": "mount",
-        "id": "model-philips-50pud7029-r03-kromax-flat-4",
-        "market_source_url": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017",
-        "page_name": "POKUPKI_PRODUCT",
-        "page_path": "/kronshteyny/kromax-flat-4/",
-        "product_photo": "https://avatars.mds.yandex.net/get-mpic/1669769/img_id1667224455382950766.jpeg/optimize",
-        "publishable": true,
-        "title": "KROMAX FLAT-4 BLACK Настенный кронштейн для LED/LCD телевизоров для ТВ 32-60\"",
-        "vid": "krepitvmodelphilips50pud7029r03kromaxflat41a740a05e49b"
-      },
-      "placement_id": "model-philips-50pud7029-r03-kromax-flat-4",
-      "rank": 3
     }
   ],
   "schema_version": 1
