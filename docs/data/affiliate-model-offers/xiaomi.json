@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-26T00:27:25.763Z",
+  "generated_at": "2026-11-26T14:00:38.556Z",
   "placements": [
     {
       "model_id": "xiaomi-tv-a-43-2025",
       "model_path": "/modeli/xiaomi-tv-a-43-2025/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=ln4e5a5iah0baandxrai40xutl3pi72a&utm_referral_context=IgmcVVHdwvrScxp-1T5Dwh0KUfn60RJVRAPtezDQplKVUQbVsXWuah7MiBPKU6jVqPpIbdC-4gePxF-VXf6RlI7ryMOS_Otmqz-fmXQatJwFDlAeOcA86IKU5QJHxggbXlBkXC3Biq0ecbX4WgkyZsFQeGHKns59lTlMWd_5KU22whTsazqNYk5TeqcnNzfRz10HdM0-zu4tBycbsV4GgYD06BwTbAWPNn9PdsQS6j7KMnDujBHchsArRCungDfz&clid=15238076&vid=krepitvmodelxiaomitva432025r01holderlcds503671d8d969fc87&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:05.571Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=bb1q13hbi1u7g0q6kofxjma8cp5ie9zx&utm_referral_context=gHHTtSdRLHjbzw2gONOdZH8B4zBIGRbgluEvX7a5UmGUtB7swOD-i0RcxBt3eIQOqFBXmSTReUnw0Av4WdBYlPHCLpQq_GKzI8p7P7Jb7-Mof0X4VkQYlzVuzWUzEKtGkqABoYV4ScdrP8hD4WGpYwtOh1yBdKCqKdvuPCyklkxCKB3DNLmwx7gG6FRZRxysO0fX_TPY2aXF2lwrLF4JpXsLlwqREadXy2ZuJBzKrVgufc9OejGxJMDsYTy3L8_X&clid=15238076&vid=krepitvmodelxiaomitva432025r01holderlcds503671d8d969fc87&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:18.460Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -26,11 +26,35 @@
       "rank": 1
     },
     {
+      "model_id": "xiaomi-tv-a-43-2025",
+      "model_path": "/modeli/xiaomi-tv-a-43-2025/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=k4ewinmnjozc0xlyctbfsph6krspm15x&utm_referral_context=HBGdlBhl7wGX7ht7lOcZ-Ftd0jTaJX70ip2ia6WnJVjs7o1GyWrxrz3_XTECiOdnLgnZvtqS-BaUi0yr2v_n9pQoNfnW3UM8ayQfjo5eke9axifkNAEpGwEFctKmGJQ0rl8IxardfPjACuy8SnkS8IxdOxi0BQ3tgwvbsEjCHWBeSU4dY-6-fKz2mnq-iFNwMJl3GmQhIm87xXLr_UvnfuOdw0wMosvbuYGOzKHtpbWxzceTM_YEHuMny-VdIagj&clid=15238076&vid=krepitvmodelxiaomitva432025r02holderlcds506652a4fb6bbe90&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:19.054Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-xiaomi-tv-a-43-2025-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelxiaomitva432025r02holderlcds506652a4fb6bbe90"
+      },
+      "placement_id": "model-xiaomi-tv-a-43-2025-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "xiaomi-tv-a-50-2025",
       "model_path": "/modeli/xiaomi-tv-a-50-2025/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=rvagjefx7zzysvqufwvs5t6llyzenoft&utm_referral_context=ZgKj7H3VpPk2mRFcEUWNXQ3Vc4tbHNlNIlW245JYzI5LNfEFN6_MY3u7BUz3iYEUurklc1AUJjkT_VfXdMNTiz5B8bfi4lsmhsZ1XhPp_onIGGgVDtmY9PhWEMQ_WcwADXb6M5iP_EFOKxQebT6FOyccrFJzg7OewJ0Mn0mWZkz26lmn2B5BSFDhC6zwTPkvTcgf_m5ZhzmDovkA4_sgZvuEwtlzt79ZZMtyyCw0zvD4VVHivNx_2oTIwHQ4MX_u&clid=15238076&vid=krepitvmodelxiaomitva502025r01holderlcds5036906313cdc2bf&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:07.413Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=0sdb9ctescpju0airm3x7j9el6xozj5j&utm_referral_context=FCREFxQYvuP49XCsh0PwQ7n3_W_zB9wFoBr78EjaBkPPvudu7SwgC1oOAzwglMnRhf3aZ_uMZxlm-iFXkYQvOreedih4DGTLi4hMCU7Zkd_D4lTwyUUdHWJHmfyvsXjWlH9F0fy1iAypTYzhpVQ57JlpB54w_nTiU3XhOwkZWTHIJ1uQscmlgzuEpctzcTwcUUCQnsfb-ZaM4_ATZBKCvCdQrG4N32fsIykJpYU3PaSQkQb28i3Vx3x56OMXaH0B&clid=15238076&vid=krepitvmodelxiaomitva502025r01holderlcds5036906313cdc2bf&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:20.275Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -50,11 +74,35 @@
       "rank": 1
     },
     {
+      "model_id": "xiaomi-tv-a-50-2025",
+      "model_path": "/modeli/xiaomi-tv-a-50-2025/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=93yo8m3n9b3byrtd5okv0bb4ab5u65jt&utm_referral_context=o5GRl_ksdn7VjQ0GSlHpGqGjF9LrzqMJjEIxhhiolXCVB3uOCPtJfnOLEbumiis8wg6j1UsDvS_rnol4L4MTsI87BfSsSWCMzJ1BIkJSIhzlncCVet1TGQC-yAV_byK1yFSn09WLQqTYpLDrVnhCo73ASt9aiGmH-iX1Q-23OIg6dSqTFW9MENfbW-D5bBLAthNXv_N24iA1CcXabdhMRVQ23L_pXYo6NBeRBSv1_eXX98BokOOlgT56YUlS9JPi&clid=15238076&vid=krepitvmodelxiaomitva502025r02holderlcds50664317696c3e01&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:20.996Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-xiaomi-tv-a-50-2025-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelxiaomitva502025r02holderlcds50664317696c3e01"
+      },
+      "placement_id": "model-xiaomi-tv-a-50-2025-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "xiaomi-tv-a-55-2025",
       "model_path": "/modeli/xiaomi-tv-a-55-2025/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=4s7qadnsbbqyuajnwa0kwzug4xqued7c&utm_referral_context=BX9pr1G4_wriEiYhXJr3KYt27RWEmX2gPEYTiTC0802yn8OzDx392hoFYdP6YE1cMcOMw24Fot0jvEedaaUY9GDAJ9psuHGAAc969bGoclRHTboAWSVGT7DOvQ3MxXkMXYipVoFHILooHZvIbxfR-e66aiVjQFUs5zG7rM-zCq1ty83HLxzKLIwGdUbZLTYQuT0m0814yIjLhoxM3LLQjTAJcWWJc9B9TayrVr43PmV2xFZAQ0JdNxpIcBJjtEFN&clid=15238076&vid=krepitvmodelxiaomitva552025r02kromaxdix186a9755d15baf&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:09.894Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=7nci5p2hsbqhfo1lf5q45egt3rzc2kgg&utm_referral_context=O1JgrYhWjSJJiCNuAsPYS08H1SeshCAhIRjC1Xo7wKA8N6j7Rrfctyy4W7b8dDgqqbRggtzD0I8-qgSKOz2QvhecTGr4Jx9LDo0iwQO_8CGBfCrtuEW2RLvSLRLc42iBysUbf0efKh0LodD07lDik-bhXJ1xPLQbd22haNr4u2bQLXgOqPzZ9jFnU7WYUZ12GXUGbl9YYpUkTuaa-A8vNdMIupXXglmgKwPFUrN1Uc-_1HXNdyn8yihTHc7g-EKR&clid=15238076&vid=krepitvmodelxiaomitva552025r02kromaxdix186a9755d15baf&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:22.807Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -77,8 +125,8 @@
       "model_id": "xiaomi-tv-a-55-2025",
       "model_path": "/modeli/xiaomi-tv-a-55-2025/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=mped0az5hqmv0e3zs3slnnb63dquboio&utm_referral_context=kdFTPsHzkujuj6XHQlcJkUDtYO_Br3rwaZG6W2eBueESrXwCcH8wXmreS9Oe-K1GIUZMRSf0Wvybhvtg8BnA9hOkN7fN9pMZlsQpEC48Lr2QCV6GZnZt0lPm31H0q-vDSwCY6RlD0lrQ4xMbIaw10JsFSYwhXLOnW4prg4hOBSiAtYUlKkryW5Kh-Xtrp6TTktFpnEUY8_i7LnZLvNKHaX0QMtqxmxipXQzZHYjq63_9Pywadtr-Hg,,&clid=15238076&vid=krepitvmodelxiaomitva552025r03kromaxflat4fc1cbc365aa3&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:10.519Z",
+        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=qj48o3x9epyja2c9haqzyt06enoxg1mh&utm_referral_context=dxVUVRSj62cCbU3vOnTECzrMGfnAcA7c3xZSi7KM2OWgcGJYW0pjvDc9AtANeckws779dM-1Q9QaURx3rG-c1zQ9fkCFzoL06-skApewEUCQ3QtUHnMeJ4sD2NCKKUZh1tud5TyvR_ldL1RUa2yDIgxpMCrEAyssJ-HSpgaEXuwYjWjF-q-dsMUm-Sj_KgTXSAR3Z-ZS2vu6TxReKejek9BFbzsu-ZmPP3d4D-ktHc3cyCFIrAkbKw,,&clid=15238076&vid=krepitvmodelxiaomitva552025r03kromaxflat4fc1cbc365aa3&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:23.426Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -101,8 +149,8 @@
       "model_id": "xiaomi-tv-a-pro-43-2025",
       "model_path": "/modeli/xiaomi-tv-a-pro-43-2025/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-na-stenu-dlya-televizora-32-65-onkron-nn24-fiksirovannyy-do-50-kg-chernyy/102126398329?refid=ky93iykldhn70u7pzpe7cegspuipzvxk&utm_referral_context=ezMNz6aLAOGd-wC0R3GbHw4-6zSvEwlM1cbZs2z_vvBP6n-U0Mk8q8RUToVSeZM3NoijMtYjxJNtb-DXZoKGOhEv6oAHl9f1QFf91vpegPLXtPug0dmB3nchOoCI2nUG79eITVmUz-fcAVQqpuK9yTHoX7f--lS8SetEIrxh3_htAsSvJjefg2jy3O6F-Tk0eaVd5FV931dc9YtfLBXQhLDFvN-UuZWacRKJkzR5BPK2Fta9BVsmDA,,&clid=15238076&vid=krepitvmodelxiaomitvapro432025r03onkronnn24f3c1e7a492f4&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:14.299Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-na-stenu-dlya-televizora-32-65-onkron-nn24-fiksirovannyy-do-50-kg-chernyy/102126398329?refid=z08t3rjcuas2m91n4usnvx05elmq93c9&utm_referral_context=4DO_3VjQQQR_3dwd6kJp-B45yc97LOfreV5CckWJcu_ghyWEfu0Ubw-RY8SM9lwqe7PX-p5GSHQzzWsncoACMzEopMTwBlFqZbAgUDzWj48eTMPW8vBMn9ORHkvZZaZG9hIOPK95zvf-k-c3thgNQ8tLDiluccMNm23cj-pQM8yMlxWmlboTgu3ABKTE8lqY-pFuQKeIVsh3g-yLGxDRgUnkxiwYikd_2NhsGLBQKYJMzVGpydIfxQ,,&clid=15238076&vid=krepitvmodelxiaomitvapro432025r03onkronnn24f3c1e7a492f4&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:27.182Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -125,8 +173,8 @@
       "model_id": "xiaomi-tv-a-pro-55-2025",
       "model_path": "/modeli/xiaomi-tv-a-pro-55-2025/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=aawcrsofriiiv6x7xagdybjgdhqfegvk&utm_referral_context=bLwL9cymMwXqfvbR6I9LxHsDzaDwMiQ-2mfDrCo0Zff6suU8Fn5ZZcznXMTCgnegYIs1O8NSE6YbI7bDYXReGDLmIBiVg7JCBl5pspb4KQ7g0jgx-HdWqeat8ZR0r0IXBL-yRUGT3qVrzBaL705x15Agy4KbWYgQ7FvoqtEhi2lmEI2Qep1Mx45-L1HOiWxF4_4W-eiZMG7XnLFj8QwjT5rfxADEesL5sDThUmjpLgaX_o4NyJn07CFuZDBBXOr4&clid=15238076&vid=krepitvmodelxiaomitvapro552025r02kromaxdix181fecfdf0fb02&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:15.552Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=wk2tjmd30pk9gv0u3nnf0nbbv016zhex&utm_referral_context=gIajrfhgQdwRDPrFPkabEmzIcCD6phu9b8sQ7W4VlaAxT92Bbd2nkvoh4yJp9Rq3ihqOLXzpLU4AphGAPfqhezFJ18bjOtrV5keoUnuLJJl86y-eG72aVfaMWwTrJTEx0iI_Q8DlBluaX2HNekhNi38KNnjT60FsNgkscq8PrCIZaXc32IpfQ8x-YJY3k2nE68IH9lyhR2jgIvj05XAUuYG7Fh4eM3kB-YIVwERTisrZ-RWgMbgVsrML5IVy9JDk&clid=15238076&vid=krepitvmodelxiaomitvapro552025r02kromaxdix181fecfdf0fb02&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:28.409Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -149,8 +197,8 @@
       "model_id": "xiaomi-tv-a-pro-55-2025",
       "model_path": "/modeli/xiaomi-tv-a-pro-55-2025/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=r3f88a06ervuotdue78u99v7ogjk2c1j&utm_referral_context=STCOIVQapRvyIbfl6ICgctlnVnQZAqy_FQ5evCBHTI6HYMgeYayF4VLCbmXqy4E2janRBN788cp3-NC8rzMhVBxjXYbhLNrZtty4GdyOoq72ZULKArcUK8f5dfeY1Xa9XBku7RLZIiFpHxI_vwrux82XN1y-aGkbn7gwUQdCu4BPcAnm8aks6iUSI9EsNuWjC2B6WXoegxc9Y7xJfysXbptlbvo3ERLUK5b6aZSeaTsZJDu36i5-3Q,,&clid=15238076&vid=krepitvmodelxiaomitvapro552025r03kromaxflat4f1f7c00addb2&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:16.165Z",
+        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=91tro22vc2v77iotz0cjjkdxabje4off&utm_referral_context=EPAeZcHVFIrv_MiHq_xVg4FlWg2vtf0IgC3IVRq5NQwN_w4HNDcoazIPi875vyLNCdE3whIV6B6Ta5dCdWdClS4XHmLe1iHW9_3LFv3lq5CbFHt_d40ALahh3D13vOoLwGAIWd3aN4c0jJozEn-0lNdtONIzIjg0zLKHpAysIr_iDpJGh3SmVR-IALBTb44iNB2BYEPghKcJPJePeq8z2xnu-4sWY_qrAzwtaNOq-6vhkMoXW8xNHw,,&clid=15238076&vid=krepitvmodelxiaomitvapro552025r03kromaxflat4f1f7c00addb2&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:29.008Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -173,8 +221,8 @@
       "model_id": "xiaomi-tv-a-pro-55-2026",
       "model_path": "/modeli/xiaomi-tv-a-pro-55-2026/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=gyfy7cz2773irvomm4536p0cbxll0k4j&utm_referral_context=JYnykzz_M1k8STFd2_AaJD0LGOw_EmU9ip2M1IZkXEsZLN0PgyRnMtpMvjAdw4Z4d9dKSEorzueEEoF9oGTPXBvXVYvym-kRdnw2cLAClrO-962u_Cz2Wh-bOu97lY9FGUYfrky2H4k95X2rYsRJScpwsNwE1f_VrCGAmpIW_1j8mL17SlICnbAN2lRR0vraVFguBob0FrVaUTGbalzXzEQY6dMZ9jYoWOe1hiok1Y5XQVulrAPr4mHpOEcXcj-P&clid=15238076&vid=krepitvmodelxiaomitvapro552026r01kromaxdix185df4e239c2df&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:16.774Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=k2kowekiltw782cz9ajacmqgry5g953k&utm_referral_context=CHKI4ZpkTCzol_fw8_CnP9qY1zggxGeret8vVHhIARH9Jdsjl3Dzpon34_Aczg6IqSmyiU4fZ52ZX9z61jszVo6_rgHV_Wl5XKH2Z232nIvylm26xYxWsB9fK3wEu7AG9HTZRlwh9AmRF5Oe20aUViISxxgcJp2NAg5ZL9FjHGmh77xWGlciMyHKfN8rIXOeOcaHPR3pqDYKtbl_cs_or2ML9U_VI5izjDRVqs7ZLLVgMRiEyNameUodJuRQtcxy&clid=15238076&vid=krepitvmodelxiaomitvapro552026r01kromaxdix185df4e239c2df&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:29.623Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -197,8 +245,8 @@
       "model_id": "xiaomi-tv-a-pro-55-2026",
       "model_path": "/modeli/xiaomi-tv-a-pro-55-2026/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-na-stenu-dlya-televizora-32-65-onkron-nn24-fiksirovannyy-do-50-kg-chernyy/102126398329?refid=5kdmetz9spfxeubnx0h4zl8xfugxy656&utm_referral_context=j8ePfx0frsZ0TGKQK45dkSVlX6b9WVvcoY2s4bDJoxfIYn3pDb01KEwYv3Fet_xgheYd1ulWCa23fuxG8yHeyu6cn3cmSyFgm1XkEVOyscMadQL991MFszy7WYnC9g2dY6bOEdd3MB4idZAXr8D7Jq41tkHMbSojnDm5hZWrRbxZRAJAI3ZGK1NU8bOOZCrnJl2fZdP7LISLnQXxv2UOODzCECse8aVNEzU8kLnMtMFrP9plxhHqqA,,&clid=15238076&vid=krepitvmodelxiaomitvapro552026r02onkronnn24fa18038d4e12&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:17.380Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-na-stenu-dlya-televizora-32-65-onkron-nn24-fiksirovannyy-do-50-kg-chernyy/102126398329?refid=5ckedrtjfolmunehcjom7omaxkid4cnb&utm_referral_context=mRzfHp7tlP5UNs3WNOQZAY1JXKy-c_CmqIXGFrOdMhPUEx9-nXC17cuTlVx3FOJpW06jlX93WRIKe6KxoN53Gm8HaIfR_846jVpy-0nPTQvnyS8rzQRXA5J4om6-l6Vne-od48Ehr_dmQvGT8a7xrC3dqULx5Ki6E8widuhOTXfclW5PX-KOW0z60XIguu7IIUvyK2m-H_zQf_8pLc9URq_D9MMnCgmeX_YXa7W3uB2MOmnUVHLKdw,,&clid=15238076&vid=krepitvmodelxiaomitvapro552026r02onkronnn24fa18038d4e12&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:30.233Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -221,8 +269,8 @@
       "model_id": "xiaomi-tv-a-pro-55-2026",
       "model_path": "/modeli/xiaomi-tv-a-pro-55-2026/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-tm5-bw/4559285774?refid=pdbry20x316ftwzdieaxe1p2aoixo6r5&utm_referral_context=P5qGfGNWDW1hK3gCI9HvwQRdGHGS8IXblIGaP2HLl5IiFNqrOB9kOMtLK77gX80ZehGDwJN-50jielHfxjR_ZF_85bskcQmIea2JGYEJTg332ztBGau8DXKlasBZk07ap_zpRE5UaXokysj0V77IzXSFMQkGW6D2rDjsQZ7fQO-pAFMCC8MGC4Pp5uvKRg0FlsMMQARZHlz8chrwxLkK_KSD_pkmEeypzpCxYodr3quvIzPULoglhNBGkCnSwJyw&clid=15238076&vid=krepitvmodelxiaomitvapro552026r03onkrontm5bw6dceb6c12a49&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:17.976Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-onkron-tm5-bw/4559285774?refid=djrl7gtn3dj83h89ccq2hjxgvusjcmiu&utm_referral_context=w-UFQxx5XQF5Yx0uTq6gix8v6L8OPy0zatw_Pl4LFC4ZSdwjbtMrExmJqm9LmGL49p-jJOXHsonnBX-Icyq7hGKX8g-xVJLyTsRsDxJICvPA_P9jDpDlVsLF3uGQg13b0G-W4ESkm37j4alrBtQIGNR4qViq08cwSAVXj0ihcwCnhvqPvPBEfwwyeKEKUDgYLUACsQiDO86wFNBFTkLAY8k1yC26Kxzbl7f_MfPcRjo_JPve6Xh8u2oMTtM2rXjF&clid=15238076&vid=krepitvmodelxiaomitvapro552026r03onkrontm5bw6dceb6c12a49&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:30.887Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -245,8 +293,8 @@
       "model_id": "xiaomi-tv-a-pro-65-2025",
       "model_path": "/modeli/xiaomi-tv-a-pro-65-2025/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=z2450mx9kro0t1x42gt9c07djps2n618&utm_referral_context=A-_cTQkEJo85yGj3hEBx4tZ3Es-qYIGbeRLAwgZS88CF85v6D1iH5n9Xn8tCabuwoDBUczWuV3ic2bFVbWOSp-CwDkL2mvFSvRHCJAQA3V8bvAI0HhqjmFAzgUJ5iqTHjWt8jKpul6cSnaE3XygbgrJQxb1rEN0MkpuZCmIY5aChE7V8Za8aBEF6lA6eJXk0vvCxMzp2sw21iy-jeTOV_6MbxYU26ZEZJMHGvlUw4CYaUd-8MGuuWiJgZCSbRK5p&clid=15238076&vid=krepitvmodelxiaomitvapro652025r03kromaxdix1808adb7452373&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:19.824Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=0l5zn4pjljax5ajtgvfdyqtkix3sq49a&utm_referral_context=xSTqaSaXQPd6AtIR86DIkcQgdzGrAhxfYdVjuM658U7M2Jrhfwvl8n-c-rMq31-ag4I2m2NHyV5J3fWZsy2ZofwrigxbWyoTp4QWBMj9GuPjQhHOaoCqeg2V8Y7F26aaE5Ykij6fqTdQyaJdMmIwHRqS0XigNIQOtjMRjfigajpLqh-nCWqrgaHBxYvAUhrezMnWCXgABylpJw2AP58faIS_Yjj0bIgQx9o7VAOlWfD26bKNuXryJIK4Hfep8AG1&clid=15238076&vid=krepitvmodelxiaomitvapro652025r03kromaxdix1808adb7452373&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:32.714Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -269,8 +317,8 @@
       "model_id": "xiaomi-tv-s-pro-mini-led-55-2026",
       "model_path": "/modeli/xiaomi-tv-s-pro-mini-led-55-2026/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=4a78rbvphzhkw1dnslev639f0rj8ww5f&utm_referral_context=OwemefK903VKJWkwMUdLPnVm3JfeBXIc3PJFWmLYJPEiyEjKlrEk_QD_ZioFzNgRKZuRl_r-xOxzxS_Ox-KXDdBp0eh7qeMwKm3xfQQMFViyW-J4PQV7ETzNdlO3jPBTceRHwYl0cEYtYbpd8X7DRrsanppgbkcXAY6dNsKd-8ll1SCLmoyOb2rreAkpd_I1wQn0GjjmK6sgOxFWDX6YcV6FxmHJWcudVZw8DIi2-qt4eladDy_v1WLmMfYvKUCV&clid=15238076&vid=krepitvmodelxiaomitvsprominiled552026r02kromaxdix18910b13257ee5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:21.038Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=kpvkkuovp5fbc1c7f1665y7iiz2ypz5i&utm_referral_context=udzQqQ5ky1oFNU_x74d0xfS1vCoCkyvdz3JNSwaWghzZUDttgPgAEjY9m7Ccx-0HvdAlF5Lqahy9kqXSAaxkiBwyWwzjK11s_lXnmnV21nMIq511m-p1hea9mGiUDYqWnuigwYg21T4hbLCdv7NUGFfCwBqYk4dsFZ5CDv2-j-5wYyNgLEg0Pd5Mu5CUTukX60aQ3iNqwusp0cfDMFCylbjLOTRxlgBqOBA6r0JBUl5kP1IjN13VX_L4C6mzGbxL&clid=15238076&vid=krepitvmodelxiaomitvsprominiled552026r02kromaxdix18910b13257ee5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:33.924Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -293,8 +341,8 @@
       "model_id": "xiaomi-tv-s-pro-mini-led-55-2026",
       "model_path": "/modeli/xiaomi-tv-s-pro-mini-led-55-2026/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=sp9sq27p1q51em8qhrxip51hnsjiqt07&utm_referral_context=s_gEeQP88HhYcECg8leHyshUEjlDjyyf-MwwicZAVY-r375u1hH-ab8FQO3DUNqgnvSrqkbXKAMAprzZhHrQI_ULcOLYnZ9m8NeXMvpssnw2FRNkUFESAd7Vuwlp65taXkc46cIcMsEkg2A_WkJ9sPcykxVB-NHEEfCnAYP_tg1UOp9McMKaHa9tHjnzAj8d0nUgRs4Z_CQ37I0PWbkyNg-bFZ3VkIbGckdedC3lzHmFTFHkmR8Cfw,,&clid=15238076&vid=krepitvmodelxiaomitvsprominiled552026r03kromaxflat4a2d101aeb7cf&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:21.655Z",
+        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=ro1grl60uwm8jjdpam4uwyhfpoc7awg3&utm_referral_context=_GDD1lik9gvoix9mUDhvrSWqkbYMlVCdL0hdKf3CBg6znx35arCFWYTkjlCh23tR9lnHl-VzCZnXz9THKhfHiE7CkL3O_v9N0mT7CGCJKjFm1TUGzua4TjKeoEeYEL4uMVdLql8zSsloiU6BYVmHtoJiWUJRJo0x6STV94reG06jmuhg9_ZVhYlGmgaKF_fJMA0pRlJrksa1RBYhTSfdpbkKPSinFaLWcLVDfLpJjDSob6Xoy1v7FQ,,&clid=15238076&vid=krepitvmodelxiaomitvsprominiled552026r03kromaxflat4a2d101aeb7cf&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:34.527Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -317,8 +365,8 @@
       "model_id": "xiaomi-tv-s-pro-mini-led-75-2026",
       "model_path": "/modeli/xiaomi-tv-s-pro-mini-led-75-2026/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=5dbntdbpmp2g11o37lsbtc2kysdiha8t&utm_referral_context=KEfxK1hmT2e5gPS-EksqbPMJmWxz55QNaohz03WRYwUVPvB78kOXoKIxOjvzHT4-FAjYgxojiIIIXpKhjhXAH2Jv9C_No2uv_17UozzluH1GcrGx0XIUK-2I3EUkpQif8eZabhJUdpF4XDXNbWT933n6b8mv7QBxlX-q3HQDD-Vk6xrBZpRlmHZw9arzgQ93sBQQYaEzrh0v_WfHeWBtYsQ0eG1weVkcHtRsiogD9Z5QvkVAuyd7A7jV8FEquOLw&clid=15238076&vid=krepitvmodelxiaomitvsprominiled752026r02onkrontm6447ba02eb92c&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:22.877Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=5mel43azu2j1bqvwvlsyzeuon6xgjypk&utm_referral_context=KxY3izUFFz_SQmXYTh1E5mYeRSkxVhy7SlDA2ObfTVb-xKGAEwP07oNClTRfz4QXGInZKcGpIGuM-KYlb6VKGmsQWJbQq79UZ_qOy5NC-z7Y6LatWDkb5Z6rBpjiadC1VNlRgea1TjJlA2ULpP9rKpIlbwbnGAqZqjsJ1S-JpXU__BBcWhIclj9FlfhJMILp_83Co2nPgGc3RYQUh3RqjRdl4wnNNNZG4I3loURFXs6tIhn6nrFRuUGHf_i0Pe-y&clid=15238076&vid=krepitvmodelxiaomitvsprominiled752026r02onkrontm6447ba02eb92c&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:35.741Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,

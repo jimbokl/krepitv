@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-26T00:27:25.763Z",
+  "generated_at": "2026-11-26T14:00:38.556Z",
   "placements": [
     {
       "model_id": "digma-dm-led32sbb39",
       "model_path": "/modeli/digma-dm-led32sbb39/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=d9iuv6y49tafsgr0gwan0ecswm3up6zj&utm_referral_context=g4SjOjY-ufUBOsSvcH_JHAy-s64DU1ognJyXA4OHXWoPjTCwxQQXJErZCQGuvklwTIBaOmi-shmPZVLirI8TS3hSRVOom7eU3Z3XA01GE-buPDPq512vzdxw48eg0gwPFZKjsB8mZCUn-O3zI_4ACnN_3howu2w5ktOq9IRlH6pwCspCU_222SR4w5J0p1-WEeiP0nYBphAM0YO0Fy3gnBc99TBpKdvfs-FV__9kfZjrpLyVVuOiHY3nR9Q4VEzI&clid=15238076&vid=krepitvmodeldigmadmled32sbb39r01holderlcds5036bda4426ebfaf&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:22:48.090Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=us0jodbnhwv4tqint3bgjwufgvv89wye&utm_referral_context=CJwucOrNauC1GEvJ4LWm4IDVlhUINovhpERr9C-Co2xFvn8Mw7Dr51XLsX2-YDM8ouzXDRwk-xWGDfwqPtdm_aCuFh4OHVvfqxDiNlTu-Z_WPoP4GdgztPcIKwmpo3WOAaxwlgzT27u0BVHQZOXf95LtMKiU_GfcT_HIpMuYlL-snXThVu1RgtIb3jh0wVr95eToh97jb9PgGc9p9x2PwbniKh_wQXdmbctZIu6HgwcejqyIkIPj2NAuHpobZ7Nh&clid=15238076&vid=krepitvmodeldigmadmled32sbb39r01holderlcds5036bda4426ebfaf&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:55:49.081Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -24,6 +24,30 @@
       },
       "placement_id": "model-digma-dm-led32sbb39-r01-holder-lcds-5036",
       "rank": 1
+    },
+    {
+      "model_id": "digma-dm-led32sbb39",
+      "model_path": "/modeli/digma-dm-led32sbb39/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=c1nv4o5g0dths974v8fs7y9ohc5fs5uo&utm_referral_context=uPKrbLKIBMD_POvfhCmgwM7gADLWP3wEU1o-Ine6x2tXKwGDp4HuVs9eG6NZflIrBR_cSVfwlHYATpu_Vn-uWcrsb9VK8KslsEpXFNKRJBIHXsSROrXuMqitbT3Wam_xbbr-ZEGctJo36Wkw0BTRMFKXAJYAyz8FzRGnUrecdzyMMiSbszneFaUfLSAXlgtZMNYyLgA9azEpmXmFkgAwkFr-ciZzHBnuRcfrMouBW4pwR6tziE8_fo0xvkxClQDF&clid=15238076&vid=krepitvmodeldigmadmled32sbb39r02holderlcds5066866feacb75a7&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:55:49.698Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-digma-dm-led32sbb39-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodeldigmadmled32sbb39r02holderlcds5066866feacb75a7"
+      },
+      "placement_id": "model-digma-dm-led32sbb39-r02-holder-lcds-5066",
+      "rank": 2
     }
   ],
   "schema_version": 1

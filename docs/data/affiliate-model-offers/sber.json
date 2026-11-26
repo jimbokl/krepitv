@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-26T00:27:25.763Z",
+  "generated_at": "2026-11-26T14:00:38.556Z",
   "placements": [
     {
       "model_id": "sber-sdx-32f2139",
       "model_path": "/modeli/sber-sdx-32f2139/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=0175pf3nzhjyddrgn7m982854gedsb66&utm_referral_context=UaUeJYk-xbGlJIiSCR3ueW_Vg9GzUlzvttU3g7PVOwnf8jxMmnNwBij4psg7c-VPVMSgUQUKHBtWBNZ6rx5UToKGuYkHqF6VNzbFkqF0zOh45lLRU4OZsS1kKSFbOK-HoEmK74o_5u8ooEzaLio12DIa5IXScLUtCoXUzkZGpQeZgl4wEMvCRE2ZqvNkRMRGI-nRfyHFWX25iLIPCzmAO60dWpsZ5I1e6j-jQspD0HcCoT-EUhJDbKbbBnr5lZb3&clid=15238076&vid=krepitvmodelsbersdx32f2139r01holderlcds5036f9fad046d45d&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:41.253Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=2myn6d4z3lou6yj6grq71ut2vd3jxv24&utm_referral_context=pDAtE62HEsyRaizAYWDb3CPwdffXiVQCIIc2nPz0j8z5ecCp0L1AJqETSP-5BU8jH03tKMIGARHdOyJsbAm-aYgnT6TRzjIXuuTWRTMy_ovK1SX5ONxgU8UFDQqXTXF1sM3q-emheNF24q6POvXi-hoLxttgpweYslCB0kXkByv6rD8CaktR3Tmust15qllTpgaZhHyfR-T37BTt1lbcQZqSNdxdwXrJbbsm1bxVQghsfpebMn1lyqXl1gcE4nUW&clid=15238076&vid=krepitvmodelsbersdx32f2139r01holderlcds5036f9fad046d45d&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:42.623Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -26,11 +26,35 @@
       "rank": 1
     },
     {
+      "model_id": "sber-sdx-32f2139",
+      "model_path": "/modeli/sber-sdx-32f2139/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=1ak7ojpcei9r8t3eh1jr4kdjg0bjelep&utm_referral_context=UADjqHOS21trx82Gr5-007FmOfsk4e9hw6YijP_GLC_eJjahtyV-13OVZFW_bv6g_HvNWYx4YcbrMOSFU4fagtY8ufBD0pzB9qrCJNysL3p-MHMurkCHOqsUeSYsTK7UMOmR1u4WxLAdEZ3ouaOWo-Od_hiicXCY7xq3OAqFSFb2MNDZ4Kru5qqXEClemnnNfJItdIj4U0QQ_AR0GNFhdMkzRWJVdcla7v6Xqn8b6lDO93Bz3wTHbCwC6yyPjtoV&clid=15238076&vid=krepitvmodelsbersdx32f2139r02holderlcds5066c87c1bf07105&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:43.233Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-sber-sdx-32f2139-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsbersdx32f2139r02holderlcds5066c87c1bf07105"
+      },
+      "placement_id": "model-sber-sdx-32f2139-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "sber-sdx-32f3112",
       "model_path": "/modeli/sber-sdx-32f3112/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=82u9k6qop47h4qc2ruk4ubprej7mioiq&utm_referral_context=XVjd7dCXk_EXZoXS2sQNzgV7Y92otS6kCM2CeP9Oh2BBv6i4LzULZXp2E6cgiHs5QYBi-a-_hxITeXm4Z1DzUnjLL9yIhsvGZOSzLiYlsRx47r5eNbLCxGOR-rxH7isG-Z7yqDA3nEiAAe2ecQflI7IAkS9dJIS2skcwrtGEVW8Gfp1ZmYCbAK4ppTAFK2ZQsiNHej5YBKiVRLfndSY5dvjAqq2999980LboWtUP7FspUckxD6PmQsYRqQ1Uq6LD&clid=15238076&vid=krepitvmodelsbersdx32f3112r01holderlcds503629a85b1caecd&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:43.102Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=q4u42jucobchxkiy8tqzt49vzhzybglg&utm_referral_context=1t5BkH-i8iKRsv5kBUB473CYqKnnnls6jQMOdzklPrWgjO3-MYHB5Fw7KJrGPXgAMSnwYHH8rL_Fn05o7MZkt-k5tEFZNNwzKPwpr9Pxn9VWVStbAXC9l1NDOPyGJA8NPzqClzWupIW2tczAlkJbAQYtngvctHqCc3KKLZC9apa7Y-vmRwsMoDJqG6O0V88vMQIUZJRTSwv8YjDO2KnQbbtXeEzUa9xXW-i5f7PfsX_KikF5Sq1opS5A3LGU45Rr&clid=15238076&vid=krepitvmodelsbersdx32f3112r01holderlcds503629a85b1caecd&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:44.449Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -50,11 +74,35 @@
       "rank": 1
     },
     {
+      "model_id": "sber-sdx-32f3112",
+      "model_path": "/modeli/sber-sdx-32f3112/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=9jx6m2yzgfu5s7cmq2rvw1kyn1ji7isn&utm_referral_context=GPtnXvlZtFe36kn9hIDoV0MzGEjc_Iv39duSOV3JNTv6HO4MFL1bZzIUNaCPRRLzcLusobp2GnswLx3_2tSgoCrDj9UIHcpf1SNgl5eAFAXUMcB1jZpjJg-3793O8xkxCEqiFPAcX2Yt8YET40yATzq1OiRqTMAOEaX2V5j8Mv4weD1ICllX2qGWMZHtVKg49TuqFo5UiKv72pYCDBr_VFyD2A_zTDDYucPPjqInasVRCn1uJ08GTs2yrGECHHG4&clid=15238076&vid=krepitvmodelsbersdx32f3112r02holderlcds50664f200f9d504f&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:45.056Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-sber-sdx-32f3112-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsbersdx32f3112r02holderlcds50664f200f9d504f"
+      },
+      "placement_id": "model-sber-sdx-32f3112-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "sber-sdx-32h3113",
       "model_path": "/modeli/sber-sdx-32h3113/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=tybm2iowjmywdj03k3aegu3hrmvqyxqa&utm_referral_context=4iiaR8q0HWcinEHHoGZqajrXdGrrHivZgGbSxm8IgNR1o-yaYf74hRN6ogbD22Dzpmaw2TX49xbNJeV-DXZxFM6R4G2A3f5g96HlFGu3L7qftvLkeDrRnEo9BN8R4bja_IQnuutLEdHnTKFSPIdnd5f2p3yX-g-ODQrPzMhXJ0xMBqzMUjz2xG2W4muhjYc2bOizig06CbJ0hQ5dwYshH3n2qQ0fMt_pXvobwCpvzCrIg1lFvihxOG15vpVtUQ5E&clid=15238076&vid=krepitvmodelsbersdx32h3113r01holderlcds50360b92477c1c08&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:44.957Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=ljj1of9ouuchht3zfw6dspbr3lhtgpij&utm_referral_context=NsgSxVd3W27Wdj1WMucBNFK5wLXoSjkoMfiP__nmb9dUQKUdGp067Ppr3ADHrfDuZbCHSp5GW8dsjAioO5d4ofJMxVhN_LVWrCrbu8mlTmERoQqkX-ZnW2TohcpLiCzYF2H6ynrykK2kDSgJ2oMMYnPe3Qh5vg4FQHa9xVnk_RDnaQkjJm09KR-CE6jsug0pw_vcfFKTf80jQOf-YbMixzX-8ZDhIsWvXx1JqJhFJtWZ8jlq5DK4nQ9YrsfCOGuR&clid=15238076&vid=krepitvmodelsbersdx32h3113r01holderlcds50360b92477c1c08&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:46.272Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -74,11 +122,35 @@
       "rank": 1
     },
     {
+      "model_id": "sber-sdx-32h3113",
+      "model_path": "/modeli/sber-sdx-32h3113/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=khb3nctfau5gvncwn17mtahvl3p9g1rk&utm_referral_context=yz6Wb88kQ8fZzLN2zt6wJNGTb4lGr-VRdpnpdgQ6KcUsLnqg8MWvw0qagmXAc0WXkKOQoxRoolNYRyCPErmF1Edj7t6gmU4Xc4X0iVUIeNegkAmXiYnA2AcZijvP_A68ymASI8-TXHC2rbi6qFgnRV1TzUZEMHQDnspmJ4eHWrhuyJ7wCfuJadcPAGVpuHRY54n8K4rabJYG5ZgEXYcsPjzcJXB4NM2bFA2r4eUU0Wq9u2Io0Osq83-IK9DX2Bt8&clid=15238076&vid=krepitvmodelsbersdx32h3113r02holderlcds50662e2af7bb8d8a&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:46.893Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-sber-sdx-32h3113-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsbersdx32h3113r02holderlcds50662e2af7bb8d8a"
+      },
+      "placement_id": "model-sber-sdx-32h3113-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "sber-sdx-32h3114",
       "model_path": "/modeli/sber-sdx-32h3114/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=oinaefd7yokw3hpu9iwgbkv3lexhtunf&utm_referral_context=rb-MIlHnBz2UH-2qbxJGdTWrVG-1bD6uQqQ5_8dBeMJ_L5krqW4FB0ZmJUVwfDejKL5dK2LSW2YtEQvCcYhrHKLM8Jom4kGWPofGlO1DSxBnMbgukyyfeT1aq9N-KZZtLJ7F_tItw9FqPF8CmYYPvV83-6aLH7dvyPiDvDbqR6uDTy3ItFCS-PTQWkr2yp96sptumK8FqxSy_O3rUAoALNKQSiF6G8Jnj4wqrlcSxUQBzAVHdGZTSwH1dbBwcssL&clid=15238076&vid=krepitvmodelsbersdx32h3114r01holderlcds503691d276a66ad1&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:46.812Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=wyv814jybf6jmg1fr9wlim80yvlchr95&utm_referral_context=_XsLhJLlac2OoAT_VkODSbHDlCUH_Ed7H5gpeuKplirrWITQEQbYgmX54XLTU6vMyCbMBh1vefQdRVGwIzVU2FlZu56ZBQPoNhOrZiMSWByEG5Ga3x5VjX_h_QvW3SH8YI-B57FmqIP14xMZO_XQ2Z7hAeMOL3qjufbV_wOrBPBcijJvjH0h1V5fDZrISIo-50AzDGUP1fJ13kknBXNHQOIIPl6e1RF1j-6mfBtgRM-huVYYSRFA1Hig4dDtVYrQ&clid=15238076&vid=krepitvmodelsbersdx32h3114r01holderlcds503691d276a66ad1&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:48.119Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -98,11 +170,35 @@
       "rank": 1
     },
     {
+      "model_id": "sber-sdx-32h3114",
+      "model_path": "/modeli/sber-sdx-32h3114/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=5l41poruzwlqa1pmlvdetc3haj29pkbu&utm_referral_context=wyPbuTXh-fe-rUxEvsVz4X-dQK33-kUYfaSYb-0Xnv8PgICbf3QOieHv_1pXrmWsTaBNmCBE6jJ1qDx_7AR9RKeD_rpW7wo82TjbzHrV3lCtQ52S53PeAEzbcb9q-bjniPcf8miyI46h_pKaFgHOLpuUfFvJ_rRlLr-q5_UMQaLbsm9OCRq17m9BrbCh5GVo7Nf2Jj6eATMAS9I_CHzv1NMGsVATCVoutTTfce4gXpLA_GnDb8dK1D4kieSaKPK9&clid=15238076&vid=krepitvmodelsbersdx32h3114r02holderlcds50660d16b684e5cd&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:48.729Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-sber-sdx-32h3114-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsbersdx32h3114r02holderlcds50660d16b684e5cd"
+      },
+      "placement_id": "model-sber-sdx-32h3114-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "sber-sdx-43f3000dba",
       "model_path": "/modeli/sber-sdx-43f3000dba/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=2luuzbpb1j1kj1dc45p9leb4lvaj5e4f&utm_referral_context=0WoxeXd1K-dZvB8RqmoDZNSVBsgZV7baupZqrcYCQeImPxZ0Ssu2yLI8RVLCxDDt815Stbxln9M_VdOPzCEUJzwasaN0iOGj1ISM_te2RcqX_eR8fusUoXMSeEp7_GhZnnNfa7Wy1SnFW78HYZw5s_FAoK324oxtQ9AAdW65l6LB1X4E8CqChli8wWZ9NYR-PAceAyPgvJTMiltwuNiXm3Reu0ulklaP28U8RUWjeU6_vRCipUV3gdcicUsRI4-l&clid=15238076&vid=krepitvmodelsbersdx43f3000dbar01holderlcds503655ba419d6c86&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:48.664Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=hhio2u6gjiy55zxkqcelx1w1i8b07vga&utm_referral_context=dOjClMIEBlt0ds4GHDhUveuym0ABaaFToDjeU6Bln-WJ3PWETjkHMKivHG7HNUCThkf0GpLa6iM_mm2eEXp8w-26o1m1_e0I_0tOcwZUtl0WS3SJ__D6vnJAodDPiaCzSfg1avFNRaDGyTzSaMu0YAHIp5pHwpgjHwwa3Dldg7PgV9WquaWmfkYyOSKBbDbLsI2yLF69FwLRGqwivWZHCoDaD7GKp0mSE7EsrRnLzdriB5n1AWlqnCh618590Htt&clid=15238076&vid=krepitvmodelsbersdx43f3000dbar01holderlcds503655ba419d6c86&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:49.948Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -120,6 +216,30 @@
       },
       "placement_id": "model-sber-sdx-43f3000dba-r01-holder-lcds-5036",
       "rank": 1
+    },
+    {
+      "model_id": "sber-sdx-43f3000dba",
+      "model_path": "/modeli/sber-sdx-43f3000dba/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=724qgaot7djes24oe9369yi1k1ninfgp&utm_referral_context=nuUHGzmGkYFvoxECE0EPh0NVATH_zPwt1RFB1kURLsMnXNeYtj-uLS2GtIWhDjo30nkXtlCOH9EBVbsr3lD1k9V2U2Yzi6kXinmizUtTKAzPSkGd17k1S_hPdOIbEq20imQ5aC00flm9x4EML7Ag2zfuXy_vJ7f8Mtu38Wnom4wFmL18EFYGuRigzfrm-s_O3P8Q8anDNP01Dgb1KQQceHpPTs9DHFo305tGymZg2VGl4pQFjqbS_E0h5GDspJOr&clid=15238076&vid=krepitvmodelsbersdx43f3000dbar02holderlcds5066f30eb6f0b664&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:50.570Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-sber-sdx-43f3000dba-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsbersdx43f3000dbar02holderlcds5066f30eb6f0b664"
+      },
+      "placement_id": "model-sber-sdx-43f3000dba-r02-holder-lcds-5066",
+      "rank": 2
     }
   ],
   "schema_version": 1

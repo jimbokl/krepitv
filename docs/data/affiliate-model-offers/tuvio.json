@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-26T00:27:25.763Z",
+  "generated_at": "2026-11-26T14:00:38.556Z",
   "placements": [
     {
       "model_id": "tuvio-td24hbch11",
       "model_path": "/modeli/tuvio-td24hbch11/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=c8k22yu6h7pxhtl0s5l8tdovnm1b8agx&utm_referral_context=52fr0HzrIGNTw2D9JSpgGnwdSGTOdPl5qyjrtfcypammX4YJlGJ2J3VB8yrmb9hvZn2e-APG4oYhd0BpDZ7W4gPjFGaomSo1_wKrydlMyz0tK7GsD3dRlVVFFNTBXe3V_hmnCOvJk37fBqIfpqqUmG6PORdQwFLDeLk5i6mK6D9NNiN72-J5eS1iytj-HYDCbSNwq7ho1RA2a4qLsrlfpZEoJKTkS3aGlMEbBzdV3D576i3XLbnfVql4YAXoHBa7&clid=15238076&vid=krepitvmodeltuviotd24hbch11r01holderlcds5036efdb30c4c22d&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:26:47.630Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=yhz84ghtgsj87yijdc377vta6qvrbjkm&utm_referral_context=Mz9lBsuFT3eR0gWkAoqV7UNZfh7iNLwxJkHH-qZ-i3iapMr43dgXISQbqukSkBdRnRH1COAUBZi_UFEaxfiDadK9HIZ0KWG7fqEwadxcDPvnth_eVL_U46skJlQ9sfnkhnqCy51xGg7S4Nl3AeJd4dfRl8Br8M54W-skuWkSAFb31z-hHzMM_JyyEh8T05WR7mLUWb3t5AF419L3b80emqIU1jMmbWZy330wcB79jQ4JYL5DMcSuDchPvMZm4eLd&clid=15238076&vid=krepitvmodeltuviotd24hbch11r01holderlcds5036efdb30c4c22d&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:01.618Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -26,11 +26,35 @@
       "rank": 1
     },
     {
+      "model_id": "tuvio-td24hbch11",
+      "model_path": "/modeli/tuvio-td24hbch11/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=mpct2ktb979ztw9qibbrdbvr2ebk5hdx&utm_referral_context=hWO4a_xtXrTXcdO2gmfUHEMsw5Botes2VH_gymTOkZxl2d7RbehBMQlv-BXSJVZXtRhMH5fJLSJFGhKeFnetYU-KyrvJgmjJnoSSiam57GqSh_eH5k_N1xvtDLW-WamD_-yDMKO9XdM1Z8OhuerbjSGoaRrlglccHPGOC3pmCh41O3489GldPCzeggT7Lgip1AUYh6qk4bLP8WQSY3NogYcR8wqozqm1eZEuEbpavkDF1DNqsSizl6IFTaOK89HB&clid=15238076&vid=krepitvmodeltuviotd24hbch11r02holderlcds5066e1d04484949a&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:02.242Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-tuvio-td24hbch11-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodeltuviotd24hbch11r02holderlcds5066e1d04484949a"
+      },
+      "placement_id": "model-tuvio-td24hbch11-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "tuvio-td32hfbch12",
       "model_path": "/modeli/tuvio-td32hfbch12/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=pok6l7e2dg4kt9he1xoprbo2djabtq58&utm_referral_context=nW8-Y0fircbQZImnlauw0twp5H08blxjx-ld2sz7A65nXq2CGgeo1HIrDjounZcX9iBi8H2fpc0QVTNcj68htesuc6-hyEgpL4n-esYN_PwZ3se1g7eTLpjeDNbZ-ywtUeLT7xAXArHLFcUf-zLH4O9D51bcNCyTTjhQiu8qXCzTJiEDO7eUUuteT6x0rL5h4LPcy5vEC4B4SM3lRXzDXJ0UuA-cIHbb4UV5hn2Uvxr1Nw7wGSsEEZBC4ZzTq_TR&clid=15238076&vid=krepitvmodeltuviotd32hfbch12r01holderlcds5036d656155c49d0&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:26:49.484Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=av4f880ax67zh3qczh16x2rw8mq8g3hd&utm_referral_context=MwHHS8FRK1lt0RFGgU82Igz8H6p8pCnclJMJIElDqGReQ2WNexH36GSEjbEGphS97_t3Lzi4f_-XwjRmcuFPz2z698fvihfpQVS4-hZCnGgfm6zITdV1x8CeP7-05U4sSzT4Sui60Hjia7zxfUXxppwbHhg5dz-34DjX3JWHXp0HA0P5I1uzTxZbrNreD_qFw-or8JDvrAsSstUTllfk1NUbCcV5jTgPYBVfVluc7O9vrEv27fzi3Vw0lpHXvdx-&clid=15238076&vid=krepitvmodeltuviotd32hfbch12r01holderlcds5036d656155c49d0&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:03.484Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -50,11 +74,35 @@
       "rank": 1
     },
     {
+      "model_id": "tuvio-td32hfbch12",
+      "model_path": "/modeli/tuvio-td32hfbch12/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=xtqlpwpi2xqyooe24a93wg3ct1b3zbnj&utm_referral_context=OuEhJV1eB8g4H82Glhqu0FCH-1ZpuPwXBpHA9ex0OYJs40jYToPzYXF_vIyTugtoIzh7EV5MYkqVhrz0Tu6kdVBGRZtxvO8miy926yemhzJY1ObQ6aeLVBBEC5VSfnFcrk7i72UeoNwHHfVpJVZ7eiqHglqugWirBcfoPTn7T7y-t-Hxr3e-H6TK6n87ryJYHkpLO8Lv4aS_b0LW4zvTt4RD579CEtFOwat7pXqQZUG_h-5_aJ_en7ZyUNEWS8YP&clid=15238076&vid=krepitvmodeltuviotd32hfbch12r02holderlcds5066ddd83dad7f9c&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:04.095Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-tuvio-td32hfbch12-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodeltuviotd32hfbch12r02holderlcds5066ddd83dad7f9c"
+      },
+      "placement_id": "model-tuvio-td32hfbch12-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "tuvio-td43ufbhh13",
       "model_path": "/modeli/tuvio-td43ufbhh13/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=bv0xjoyxxgpg4eur4yatam18jx90n9r0&utm_referral_context=uIoqlVrYCzAF2YhEWsu8e0TLCWBwtQSXjqGqYw8I7VSNJtY929A5ImKz48jkVM27NDAr4KcLY96O-CBUK_dEhH9K2LpKy9rmy7uKE_qSSf7wTnOk9kmKgmfTJ8ocWMpNuIXOerv46nbf870YxPCku0-Cm9j1JwYfPp5UrX9AEpLZCBoZNHBLG-VzDl2cfH0kV3hW3yIsf23xS8Uf6PiBOPz0SM-J0NMYCGEXXpH0f1tQfhtrpuIyjLZSEgX9rf5E&clid=15238076&vid=krepitvmodeltuviotd43ufbhh13r01holderlcds5036092b2540e102&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:26:51.331Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=vkyfxp8h6curtokwo42qn957ojdfdk38&utm_referral_context=Sp81ZrTN4I96RamPy57FEwtW7Jfk_cxALRZ-4BQOJ-3Qx-QX34zW3fTJ-szit0vr2Az6G_1qwHqLV9ww-tGE96zukc-tJ6lMgHjBAD4ig25Q2KuFV_uUczMBDehATInQlTR_K550nHM58DnfigmBzbGe4fbmi6t7QaoKnjqlXNZXa2LP4XBkO4JjDkWHw9LtQfsxBUV_NAdhgqcaQjTrk6sDsFbNuNnCwjmyTCUIban8OtB3qVzWUmWOV1OMidY8&clid=15238076&vid=krepitvmodeltuviotd43ufbhh13r01holderlcds5036092b2540e102&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:05.325Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -74,11 +122,59 @@
       "rank": 1
     },
     {
+      "model_id": "tuvio-td43ufbhh13",
+      "model_path": "/modeli/tuvio-td43ufbhh13/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=qtspxftednfi9j69s4nl0dyu49fbl3yo&utm_referral_context=W-eOsXXCqrNDgvPNYUp0QD1a3LIeZMNsV96SWHCnUHA00fZIi2MMM0SCbXqhUUTv_yp1IlfbMZ2gT1g9aMWHro0edecEvbREPSsE2fSJypIEYcyyG5vGdsL6h2reWQlYXF5V3d2Rv6pmmnNqKHYnmUld7JlkaZHpKgdjaXWkzoEgV5lEkwlIHnKeg725rTJ4_8Vfx8hKrMaWcRTvkCwwgx610pKx8osg9zkiLK5SfC8pLRQQk8QO-Vwvdj2qJpot&clid=15238076&vid=krepitvmodeltuviotd43ufbhh13r02holderlcds506605879229fd16&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:05.942Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-tuvio-td43ufbhh13-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodeltuviotd43ufbhh13r02holderlcds506605879229fd16"
+      },
+      "placement_id": "model-tuvio-td43ufbhh13-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "tuvio-td50ufbhh11",
       "model_path": "/modeli/tuvio-td50ufbhh11/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=kdl1j9vsot3p17jp5jg1o11h0z4rxb6s&utm_referral_context=OrVl0s6lBOeYnF4emNlVt2_EnP-sbuD3yzbQfXybbiIp3_NqVZdDGfsArJjSW0T1w6_NtlQZYV47LwJiWgn7sNmFCH3pwwHqNCpb2zBPWDc6KSSMNBCrozj2E3nvLYsaz2axaqg1bV8WQUbtZ1rUIfydplyakOC7688t0uPzAYDzNDXnvGHTdVQBf5owz1p05ERPXvWXomV44X0PlLQ9QC0w6pYQRdomN2km9cy_3H13CHRwedbNA_9x3xoqqWr6&clid=15238076&vid=krepitvmodeltuviotd50ufbhh11r02kromaxdix18612d542db8c6&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:26:53.772Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=vrwc9e6rkcxnvfs0gxwknndpgom37853&utm_referral_context=zf2dnpw_uuwxUQZbd7Ql-S_UIQ7cN5jRw8qz_1HHcE5gCdZTWzj8Pjm34T7T0M-JbOHZRjdSiyUIS_bXKDi60OrKJjJQH_TQAHKVckzZc0BDBqK6TrKwtoZsNxxMhiKp3Sa_nrLMs_eBML61i1j6n4VHiDac-F9PCMmm_lRZqC4gfn0vknH5hTnEbgCX1U3QJi987kxN2jRHSJwLL85yxb95BeJ0v54URw-INXAJ4PsphzQm0oJv9MRqeBFVw2PL&clid=15238076&vid=krepitvmodeltuviotd50ufbhh11r01holderlcds5066600c7d3469b5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:07.156Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-tuvio-td50ufbhh11-r01-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodeltuviotd50ufbhh11r01holderlcds5066600c7d3469b5"
+      },
+      "placement_id": "model-tuvio-td50ufbhh11-r01-holder-lcds-5066",
+      "rank": 1
+    },
+    {
+      "model_id": "tuvio-td50ufbhh11",
+      "model_path": "/modeli/tuvio-td50ufbhh11/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=9vopeqyrkbd95yqqexnsbccyqu191r5i&utm_referral_context=1nqv2pqnrwQwXINS_ZkYXXQOzm6NbXeZfVRTEaH1gzc8RFXzDVWnD9c1kZ6YITnBVou1E-CRex3LKx2n_wZwCQcHErhMO8ko-B3ipDLyG7sWYVH6bnDl17_BsIwoOpL4Qokd1hS6nH0sCDvGWlcKS-pwP3Qh8qDwSCo7dBYrKUhehbtbDr_YwlMQizIgG48go7Loisv83jzeMK87gJC-lLl020N5-epSUfswaz4gBBNugZtTAs5QQb0DHqH9OkGn&clid=15238076&vid=krepitvmodeltuviotd50ufbhh11r02kromaxdix18612d542db8c6&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:07.778Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -101,8 +197,8 @@
       "model_id": "tuvio-td50ufbhh11",
       "model_path": "/modeli/tuvio-td50ufbhh11/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-na-stenu-dlya-televizora-32-65-onkron-nn24-fiksirovannyy-do-50-kg-chernyy/102126398329?refid=17yzvxv683ziz1exjlr8q6qji0zht640&utm_referral_context=gV3AqXhyQXRrQHJHtKbGqU1Aay_QTUNR25a-EJiEvbgj7FBI5R9ll6DBjvEAXbAFKXYUtea3-5Iyo0B7OAVhu4OKApvo33xp0U616ciCANcLiCIaXwc2-a4_X08TGXEUZeqCslM7OGanZyIP1ImNuQ5Z5WDaIskAfJwL0vYvtjKH1TOxEGS5g0M376nfNECOngjXhU1qYE80a2MDAzCfVfaK34InnXcci1hmQszRN0kzmYDR4-wL4A,,&clid=15238076&vid=krepitvmodeltuviotd50ufbhh11r03onkronnn24310db1b776a8&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:26:54.879Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-na-stenu-dlya-televizora-32-65-onkron-nn24-fiksirovannyy-do-50-kg-chernyy/102126398329?refid=bu7xz1d6csukelyoc9s518xih7amlq15&utm_referral_context=VfkuSmCnikn4lAJYfyXz3HKNlEbFls8zM1iraJwzQzTkFxn6Fbkf54JiOuo-0c1-pc-ApqIwiAd67Ujm7w62imHY5Z3MoY6EAvoYXCAjjQg9KGAKtRcaS6mbw4hziTMm3vUGhFRWR6PHfppgwSRA6EiMyAsjLV8Fc6Xwx3iTcbTk0w1fWvA7F02SAmYF11JF-iXXCghBAtqvm0waRBNnfwp19N-kmrwYOPqiZeSJWDavARIzG-rD6A,,&clid=15238076&vid=krepitvmodeltuviotd50ufbhh11r03onkronnn24310db1b776a8&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:08.406Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -125,8 +221,32 @@
       "model_id": "tuvio-td50ufbhh12",
       "model_path": "/modeli/tuvio-td50ufbhh12/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=2v7tf3q9lpnkuxiai6nb0mcwyr7mgyrb&utm_referral_context=wJ6dLYLcsiKZnOHuZu9GOqhNZ3z0HcWnoIsUYQyAeks6VPhsRfj5XZIVRNbSXTBxfdsMAOiwsvw6Jx6qiWE56JWBC_ph1lq6XPUGDKpu4_vlBrW7fb3IZ69rH31aDjAyexLMLL8nWdQE6O54Idyqo6c2aty8fBpfjLvJEcG_hOvk51X-nQPXlxF0cKWimZtDs0MdQ7YdPGJlrrR1b646lVURqzCugQ-Nl44Pj1ZU86UxNEO2ejmlqKxNmnU2ZZ5o&clid=15238076&vid=krepitvmodeltuviotd50ufbhh12r03kromaxdix183352c891d4f4&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:26:56.726Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=nkdxu1te33pn7etwdfwcjfr03l0u41of&utm_referral_context=W-FyC6uMo2fG0JlMUvcT5SWS-xxS2gvWfMQMDdz9cNOiK_y4dvHNeBGaunwBQ19tvB_qAjhKhJXocbw3hW6rNm5Mjz_GWQlR3c4oH4XYFR5GjpD-3NSl7TIbWCGG9-x55qOUoGwqzqiG_RqJQHew0HU-XL5AcHzxsuA6Nfm5j_gjnkDvcvVEDlzXr0TLVuEo4qo81wTup6r9_9uauUTqF1AbrNuRpIK1w4N_8f0bXmS3N94JQ5nFqx8Ahvxs9PG8&clid=15238076&vid=krepitvmodeltuviotd50ufbhh12r01holderlcds5066fae888f56984&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:09.019Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-tuvio-td50ufbhh12-r01-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodeltuviotd50ufbhh12r01holderlcds5066fae888f56984"
+      },
+      "placement_id": "model-tuvio-td50ufbhh12-r01-holder-lcds-5066",
+      "rank": 1
+    },
+    {
+      "model_id": "tuvio-td50ufbhh12",
+      "model_path": "/modeli/tuvio-td50ufbhh12/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=yheya7gi8lm90vj0id3xxolcje98gm0s&utm_referral_context=e4iXSzqa_KuNr9W6IaFCr3Zlktod3hT6FE48Lrez_Db8x7G0vrV-bDhpPpge7HdItmvG0YrmNNhFNiRcSseTRAaIQqWHmQ0PbE4ZoQYWgdHh0jSwUIjAdeBSnOerjaCYYI0finidlRGgUUKdsYiLEI1PrlALolVuITPmzjspJkl6NwC_YR_gO7pGSRceZTo0c8rBkyfVhYIXSNWftkEIeCmRiXs8zTWhR2-i6wAyHn0HvVmLjYiwq2bcvCAHc38g&clid=15238076&vid=krepitvmodeltuviotd50ufbhh12r03kromaxdix183352c891d4f4&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:10.244Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -149,8 +269,8 @@
       "model_id": "tuvio-td55ufbth51",
       "model_path": "/modeli/tuvio-td55ufbth51/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=zzy2nuagukde16y5om3hcrndm4a9l1zs&utm_referral_context=hS66uZUokkc7pk6hZ4X43dwOK9Y1teb0Sy5XGP9DgQhzH94QwIBgKScQycUYno7BmcBqK7u_EtV_dBLHkwr-z1DFOZK4K_3LG7iYJNAMDEhR0J__VQMe91PtF6FNjjN7RFVu8su9Gi-1umJYzwCEhB0rEuu9YPKIlTLIKS8bAv4pltutwrwyUfoo4U4qew7XSiL2BcGtvgZbWiZ2YpzGv-7_jzgu5-VGTWgLtFWmvwdRtlNezi-l6zC0ZMZz8lGs&clid=15238076&vid=krepitvmodeltuviotd55ufbth51r02kromaxdix18f723967623e1&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:26:57.961Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=nsoj9edzje1kh0ckf61tlspbvkt86vuc&utm_referral_context=lOdh38MJRGhGuhqY3t66KLU3WKcSwpwFvdsarThVqBqeKAQ05elea_1YX8mO7A48jdGZnn6bLoLsxIgnAfACSBBa-cQImWdoBqwn7uQPG4XoqOsUQOHdisXyHgjGXDkxqNPVwX94tanSEUDFnxq5Vh9SazbWBO16bXDvvH5uekvhOx3Lycjv5wMK1Ki8qOzjSpUUxoD9FKt2N6fW99kIcpRX55nifAeqrsRmHsKPZbp7FBDjRktS7Pq_XTg7vrQs&clid=15238076&vid=krepitvmodeltuviotd55ufbth51r02kromaxdix18f723967623e1&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:11.459Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -173,8 +293,8 @@
       "model_id": "tuvio-td55ufbth51",
       "model_path": "/modeli/tuvio-td55ufbth51/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=lgvt8ocwnanuaxqe2n29ouoq20z9pbki&utm_referral_context=h4q6IbUhWgRlvob6uPpI-KFQlsGyPNnaPDr9RNkwnPDq3OqqweJlSDGdnXG1C7MHdhwEfTtPSrJx6q4f0GhGsIqfwQfYxGPjrwIIWpg31aeURh4lcpQ1nKsp-wxFo35MO8krTJSyAJ_cPE2JBHj0yFtbkljs-rIu1qLN_vhiHC_BYRxOS2H7pKDHLq3QwQ0HOLPKmKa6eNGjbmA8C2JN43QfmMotio3mfE0I987DUnDtyWvFc4XWyg,,&clid=15238076&vid=krepitvmodeltuviotd55ufbth51r03kromaxflat4f51b7003ed6e&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:26:58.565Z",
+        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=rrdqv32u77e11m6btbgw959s3poc1luw&utm_referral_context=IeeSpyXxisy9kjB61X7qU-K4S1LREZg8fC8XpbKMIFiadgJbWxN3jZtgvBqs1PR1rvaEX32tNouODrR1OVnlzpbxV8rN1JLcpq1Bm3MqCNUR5jTfVQBggEg-8EoPDxYVb_w5PaGculdsKrzMePcYFkxZ49eDZ4SUQv86KZrF_GsVxrZv0ZpFZy-vuAElC8ItbFWnXtobVSMhyaGS91WxuuYvcsW0_GXhC68SHUsWZimvGqomT09jrg,,&clid=15238076&vid=krepitvmodeltuviotd55ufbth51r03kromaxflat4f51b7003ed6e&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:12.063Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -197,8 +317,8 @@
       "model_id": "tuvio-td65ufbhh12",
       "model_path": "/modeli/tuvio-td65ufbhh12/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=9cxuaqc7sz3007pjxw9yb0agiu2jseg9&utm_referral_context=W4inOPTX5KQYZr9nGh9f4Mehuievc9uXj-6IteQytYLOJMxr6VsPDYl7EwkLg4zUgm10hX2i0Ca0eBosrYyhDB0ByOcSd-FNw4f34zTplI1vRUZMTXKI-tEihPlUNcd7cfIWHjkUcPLrO1X7yF2NKELJttwhjo9x5z4eLEQ_dXVqw5Sr7NQwLntFKtx0xgfla5YKSWqREwOE0QfMGy60KRvWmhZME0stZpXhr396KhFGqLx2LKmMCRg4kVCdbZJQ&clid=15238076&vid=krepitvmodeltuviotd65ufbhh12r03kromaxdix18e0522b8b04be&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:00.423Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=1jarcidifk4ic7u61twdzw6jxo5pnziz&utm_referral_context=0THMwWWJXKcJpAiSHfYaolsf_CTuQVDfBwSd8mFRvrbpnapuhv-SloC0U_31CTac6fNmZ6TGRS6EmPeeyzeXJiJOejWDd39G-nfdZ4_MBGIbZi_efFNgEapuKquyfWertuzSDuV4P0-W4HLyDbWCtfIG6TwJe61xqODpoGnsiUq0N97Yx_ylVav27_P_spqGycbTieQu5SfWqpmX9xlN74A0JCroZ0hFO_CJMjrxLa8XMFxoPUDuVU-W6VvslIGK&clid=15238076&vid=krepitvmodeltuviotd65ufbhh12r03kromaxdix18e0522b8b04be&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:13.891Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -221,8 +341,8 @@
       "model_id": "tuvio-tm75ufgch52",
       "model_path": "/modeli/tuvio-tm75ufgch52/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=usj4h7o71yjzvo5lxn8ytfh1zdmahjx5&utm_referral_context=UFEoCXmXtnZuTW2uDx0fa5GBqHq-WFTqjckc6P0ZCb1nAjlSlWj2ZmA0wKkFm6GEJFSlco1A2gOiC2o33YeahPRLMd3fzg6qbUKKdDXl0IdhgYjbALByCOUFCFWcVp8ZILFgpYV63dHEn4sZ5z39LnqFyU08jYmfkJ3yjcMyqgYZEY0hEl5uT98z8wSf8Pvf2hJ6kF4RuDSGvMFdgcPdyIzjE3IeQeZObqmWZ-2R36WERQO8EO7AJ7c4p6S7hp5Y&clid=15238076&vid=krepitvmodeltuviotm75ufgch52r02onkrontm6fffc44883cc6&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:01.638Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=jgdaa5lw7gcqb7emd3hl17zh0pw0tgnv&utm_referral_context=pcw1TyYF8naBMvZT-g_hHG3OUPbFvLeHs6oUEMOjPbaE1rAXH4FOe4D5X_9rS-__ei4EzearZjI-eBl_dDx9lYL0k01ycIvTta9qXU-q9ocwtB9ob7fmdAo95trl_60wOaPiOehOsu6PgPa4xZ61WJkB-ljS13IAXE5Z3acgfpt107QS9HaCMb9tGlQylYHYYcl93BMxbtwH4nw5DYqWltrlT7jR8QVasE6qvxnkaVqn0SOezkD74rbE5IQoAkKZ&clid=15238076&vid=krepitvmodeltuviotm75ufgch52r02onkrontm6fffc44883cc6&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:15.382Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -245,8 +365,8 @@
       "model_id": "tuvio-tq65ufghh13",
       "model_path": "/modeli/tuvio-tq65ufghh13/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=97jpk48cuvdcwwahm3b74cnfi95hbxpn&utm_referral_context=CivzSCF1-4dHkYITpPfKJJJwBqgW0iqFg7ELVRcyHe3-xO9p3ioMDPHjMr6fCDiKNUjZhxLQh8dkx5vXV_nSgHRxgMRWZRQjo6hM3EGYpoExMMTYt-5idHrmb5ta2lYh_9t8vKQvkpGnUsGTXXu9OBo7t0J_7sl6YNp9D9d4EIMoFAiW9m7lBHKbl6JLltDgzOqOWyDrpPZLoDC7_V4-YeOpqrDg9qBoGmZvCwwOrjZkgH4AKhdcoJM9gbiywA_q&clid=15238076&vid=krepitvmodeltuviotq65ufghh13r03kromaxdix18b3df40d43c58&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:27:04.061Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=pnfrjyuerculpywdx1xbd9cdhuf9faks&utm_referral_context=3sNGPqvJemo8mdrFgnOKVCWS_t1gw2paztXzNU-yb857hi8a7qtz-6mqKaX1iFGQGCP0c4pT9XLs1O5s70vVgdDO5j6wuTV9tQuy2WEM6e-oKDQrUNSOT_CFzEDtH65KU3YJMdhwtUHTDkteZZgeTt2SXmiozbVK4QAxrnUtFjZC6PqV7qfV1qprRAPP0HU7O1IluIs3F4NPPbNEx-ZS2NIb2GyP0IFbeq6JTcZ0TjsDNqZRtNjpnxjv9XcPFQ_3&clid=15238076&vid=krepitvmodeltuviotq65ufghh13r03kromaxdix18b3df40d43c58&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T14:00:17.837Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,

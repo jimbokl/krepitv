@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-26T00:27:25.763Z",
+  "generated_at": "2026-11-26T14:00:38.556Z",
   "placements": [
     {
       "model_id": "samsung-ue32f6000fuxru",
       "model_path": "/modeli/samsung-ue32f6000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=zex50tw6vyrlpensza7w62h4bd8m07yh&utm_referral_context=4kuc0T4SFPflnhZB_DYu3g30R639WQ7RP4XyB1ISvXH3GTiuP2ve8IvifgRJMR2i8k9PSiO2SaIDnbN07pae6oCXG78s6PPMfk08ZjO-DI914VfZWQIn6v1Lkn0n3FxPvSVhkmQG86JSWCkZrXJ09u0d1LrnlOuHyLEd3EB3VfFecEsVHQ9xVZ4doSB_P3DesF1zqO40zRHlL2bJKYpbJvItevpYHTUQ4ThrwWc7WYq7JdgZKLVxjz4-ivVFHpZb&clid=15238076&vid=krepitvmodelsamsungue32f6000fuxrur01holderlcds5036c532337af280&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:22.105Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=rhb4eq154hzn9s6eqpiqu60rtkbskjlq&utm_referral_context=_tX6oPKmEQjiZCKnvntoRHcAjwpuKBFpoPgsbbyrHYxh99ct2GtzKw1o2ZGncY7T-acrOw9oKIup_rdRgHDt0TaT0870TD47tIMSYP_0qOvunuwXeOjio9RCHz47AVk1psGrbbwTsPcVklbYJyU0-Ixc21mSHOxexktVrUmguI8Pd2JVVtysTZ4vtTBaG9bLJ13qkebb1jZ51mrLR2XDsxVV_nZjYLUUOySPe3mT3eZC3DcD7-19TJecsiTman2x&clid=15238076&vid=krepitvmodelsamsungue32f6000fuxrur01holderlcds5036c532337af280&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:24.400Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -26,11 +26,35 @@
       "rank": 1
     },
     {
+      "model_id": "samsung-ue32f6000fuxru",
+      "model_path": "/modeli/samsung-ue32f6000fuxru/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=mcpt0fgcuqhrkg5uwpb195pqosfqdmzd&utm_referral_context=3mZlubzq4tidt0q37lxo9dluzD__FwRmf6VxcN0I8W-6YCNqpNBhZakwg2vYKwWaJA2D9-dl2-TRogWI-bWvX6nnwFLpG5XramCrBEe-hk6gPPgxiwnbDKoSGmxHBQeb8wRkH0MChQLI9na-c4a89rwlHtwDVODUudKwlDzb-ZKG-f6tyVGHvEeYrp2wfP26nOxyWs5DMCQTFNlmm7DIucxYN_Wr_A58nsKnmGTqy7V8pWKKXd6ofJY6nZ_j0Qsk&clid=15238076&vid=krepitvmodelsamsungue32f6000fuxrur02holderlcds5066be2168c58ddd&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:25.010Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-samsung-ue32f6000fuxru-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsamsungue32f6000fuxrur02holderlcds5066be2168c58ddd"
+      },
+      "placement_id": "model-samsung-ue32f6000fuxru-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "samsung-ue32h5000fuxru",
       "model_path": "/modeli/samsung-ue32h5000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=xd0f6kdjslheouvh78ph2w81ofn2t7ap&utm_referral_context=QbooxqhshBcWKeFINAO_jjGXAEeMLAIFbf4KmivLdvzSd3EskJwbThY4qq5A35fQ1QcUf2Gts7quRxp-t0-RsiK4M1AF69C_PQvCBhlqDTqUVTEsrGF2rlRm-_tbreYp_acNmD5Tc8Ly8E3lajJjVacxx3sMZCPdvI2qZ0t2d91w4OvvNLQU_nQiUSAeneHYCoXXcSmbC_02mnz6yekyaJytNfN3G1bXGTj9nwz36PaXM_3_2mUcid30_CbDBK0i&clid=15238076&vid=krepitvmodelsamsungue32h5000fuxrur01holderlcds50366f721d11bc17&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:23.944Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=owq5t1oi0vu7uyah5a9cqr2l4l07lz4m&utm_referral_context=AFP3dBDoUdPgPvd1daUz5E3uJGlujN5U8n7Iqqms_A-ZswbTsAP6P2uCjIeHBIFaETCbhDm38LSYgFcRDjRq6Z3Se-YUA3AY82abjSb9GZJTODaqEoEgeXhKi8cjyee1-h6_J22F0B5w-LqykOh7NYzvgClLWCfqdvoiuVdev3I15iBHp9bJd2U52zcMVQOa2BKXBEhHie1LTZf5WExw9FOt0dnNmzicxv4vHxzvtISnKeKCX6CEDSjm27ox1hp_&clid=15238076&vid=krepitvmodelsamsungue32h5000fuxrur01holderlcds50366f721d11bc17&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:26.208Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -50,11 +74,35 @@
       "rank": 1
     },
     {
+      "model_id": "samsung-ue32h5000fuxru",
+      "model_path": "/modeli/samsung-ue32h5000fuxru/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=qfs45rkx0j97k7bi9ca5vh8nvnks1auo&utm_referral_context=2wwoVq5E--HwuWQVpeDNe5mR4_z3uP23wDcuDYXSlEqiw_10dueqK3onGVOzazVwYHFEcwNd2f8Gc03SnTYehHdPBsOAeEUJXFXxb_t6SKPu8XzzGFZSgWRaKDovzRXduzodMyEc73KJkvRWM8eThnT6g9_Hogw0PvebIK6kITALudS5tHSWmzWpf_WwAHR3EGQhZuJ9W9Uj_HJuSw8L9S_v6B5wShvIFPsPkEHIOkDPcCL3GidspWEfmoez-VL4&clid=15238076&vid=krepitvmodelsamsungue32h5000fuxrur02holderlcds50663923516f3eb5&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:26.828Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-samsung-ue32h5000fuxru-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsamsungue32h5000fuxrur02holderlcds50663923516f3eb5"
+      },
+      "placement_id": "model-samsung-ue32h5000fuxru-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "samsung-ue43f6000fuxru",
       "model_path": "/modeli/samsung-ue43f6000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=af66u8mlrmbvuphtygsx9dxq18aoebcs&utm_referral_context=f4ePXCnqtdeCV6xAt1NmKqEdKyj6fjUsfvujD3ztZJDJOu5avTrycHpmXBkEVeQnRc6uubaS7Ja43nsPLkqvT-734B93maD4TMIap9OomIGnR2kXLKk2YR5uw8ZE9xNyyx-WTGWSVTuPL5Ghr-MlL4JzrkIQMvTUfv4K-fesd2gSOAZgkXSqnd6vffx3TNSSxNkC5bSVpAeObD4SddyGBBwZEr0KvTOB6Om6NKp1nP8xTkYoq1coVuakuHwYqB0d&clid=15238076&vid=krepitvmodelsamsungue43f6000fuxrur01holderlcds5036b3ad41183234&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:25.810Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=gslfvlw69zz6ynkui50wwl6uoy6rk81l&utm_referral_context=pKvD4T-u_BljP1ELvMSh8n1C5Rpx5m3LzPaLdgbwYLgIE9_d-X-ma4ay49TXlzYKFBgXtOm-2Fk_3KnGfcNWt7A3f0eUphW2G3qN8RyPS0UbY4us_luyoWOSS5mMPXQLjOC_qTgRaqazvOsNoymSqBOf7NQ-8NDQdRXEz93s1WsresizSZmTj2yr-y2VosXCpz2V3H5WtbRUASpbQMj9LZlu01ucGD1m99I_Ymiv21xzCqYTpSeW5FJYUTgSAdbe&clid=15238076&vid=krepitvmodelsamsungue43f6000fuxrur01holderlcds5036b3ad41183234&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:28.049Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -74,11 +122,35 @@
       "rank": 1
     },
     {
+      "model_id": "samsung-ue43f6000fuxru",
+      "model_path": "/modeli/samsung-ue43f6000fuxru/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=lafrnh6qzufxgx9uxb2o0iu24mx9gnxk&utm_referral_context=y6mv9qVBwutxQUS5ZzkNGCELK0CjYg54-gWO4Us0w4cxQzpDH3Dc90ZhgOTtW0OMrQ4FLN3r_tvCmVkeDA-siLGK_DuqICdiyfJeoCitb8pAcrERuUkGYJkCoENxEf6DiXFWPkftpSvA4fxQJP_RWk4e301aZTBUyQkCmJ-vKrzPbHIcJCROrfRRLekw425V4ZsXFN_yTGJYt0S1Yu6jBP45GloolmpoZUiU1PJVaMckAzPhsGrBcqBnrzmfLa6m&clid=15238076&vid=krepitvmodelsamsungue43f6000fuxrur02holderlcds5066fe0ec9d3ce0c&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:28.659Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-samsung-ue43f6000fuxru-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsamsungue43f6000fuxrur02holderlcds5066fe0ec9d3ce0c"
+      },
+      "placement_id": "model-samsung-ue43f6000fuxru-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "samsung-ue43u8000fuxru",
       "model_path": "/modeli/samsung-ue43u8000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=uxljpjig5zmfm9dl79cpon6guh6e3qgk&utm_referral_context=CAf242vfygWgBZfFhnz2sJbxAEE4h3Xdsj0-nySXoqNXBeX5JIy9GP0hXVxJ0jfQJvZWUahOBPFMy-cypzM25bHD44xMbbkoCBcjmdLY0hEusrGxocdjAjJDOwtnQK0yHFRmZq5sJJDiWTsXNVdQUO8LzTuhydB0G0N21ZD2ynRO99KrKCXSlKaLrcFG2dGWO8pVaO1X7C43xYVEHLPIpCSYMSVQF60nn-5zRYLcHl86D90RAlfUJ6BHBkbPKRqM&clid=15238076&vid=krepitvmodelsamsungue43u8000fuxrur01holderlcds5036b09b050fa77a&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:27.638Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-holder-lcds-5036-metallik-20-37-maks30kg-nastennyy-povorot-i-naklon/102216674458?refid=wnmnrzzottzla8h5uclcmr1dlbty9sdf&utm_referral_context=CPTVTR4gMNjgY5igrgLxA_SPYvEQtkstHB1IRy1cOGCY45TCj-tpzeanAORZ7pmnTKQ2oimgmHbeZbNs35d5qO6OzxVLz5NUmUbjT4XP4M4_BetNGD3G7NZlnPfC_m6v7h-LroYEv0Vvv5IDDiEita6SC_aIzxaYFECU7SLJrN7mdF-hJU1zj0rlt_jnQZ424HpwsgkN02kAl-m-CLEUQWfmBy6XtN3U44OVmi_lbyG9JqY9VrvKajBe4lbjUnNB&clid=15238076&vid=krepitvmodelsamsungue43u8000fuxrur01holderlcds5036b09b050fa77a&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:29.887Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -98,11 +170,35 @@
       "rank": 1
     },
     {
+      "model_id": "samsung-ue43u8000fuxru",
+      "model_path": "/modeli/samsung-ue43u8000fuxru/",
+      "offer": {
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557?refid=tsxxe2ypefkqbkss2gfdp7oer6ktdfr4&utm_referral_context=1TmZcTLzROftjwu9OxFDGmDdgLRye2aC7D-gyULsrG50E_jgGMEczPuMp8RC2Vf5qn9pNmXRhKO0nLsTx6aGjOq-Spg7j_m5RtoN-UJAw_R0VeS42DBXTVs1zM8P0d30QTsdtE2oXhoq_LdXIhPynH_Y8Kzsaot2vFpJYB26NiF2AvI_sy4iYjBQ_B754H8K00vaQ89bSx6Jz9eNDNYM_qZ_bz-JWQApAQ1pJ__zAACP6Zzjt38dlfPGxjO5NDfm&clid=15238076&vid=krepitvmodelsamsungue43u8000fuxrur02holderlcds50665f2fe7325b31&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:30.509Z",
+        "clid": "15238076",
+        "compliance_mode": "non_ad_storefront",
+        "creative": null,
+        "eligibility": "publishable",
+        "entity_id": "holder-lcds-5066",
+        "entity_kind": "mount",
+        "id": "model-samsung-ue43u8000fuxru-r02-holder-lcds-5066",
+        "market_source_url": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-holder-lcds-5066-chernyy-22-42-maks30kg-nastennyy-povorot-i-naklon/103193855557",
+        "page_name": "POKUPKI_PRODUCT",
+        "page_path": "/kronshteyny/holder-lcds-5066/",
+        "product_photo": "https://avatars.mds.yandex.net/get-mpic/6458782/img_id5653676195067944792.jpeg/optimize",
+        "publishable": true,
+        "title": "Кронштейн для телевизора Holder LCDS-5066, 22-42\", настенный, поворот и наклон, черный",
+        "vid": "krepitvmodelsamsungue43u8000fuxrur02holderlcds50665f2fe7325b31"
+      },
+      "placement_id": "model-samsung-ue43u8000fuxru-r02-holder-lcds-5066",
+      "rank": 2
+    },
+    {
       "model_id": "samsung-ue50u8000fuxru",
       "model_path": "/modeli/samsung-ue50u8000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=cjml502oigfvr5mfi657w44korqoj55w&utm_referral_context=_naaJMGS1nmT-K2Uu3sjf-XbZ3wf5wHBRXsa4SiKXfHJFu33AgxxNcjfS_LknSyKS-75tNZQrJ4FIiblMD-vdYxzsNXu_L-5r9qjjk04Dixd5qXLxxnrr14vW8J-Yf6tBc_neru1QXoIkuUDL9mfCRFHq28wSv9_3JeF23yWbV_75NrzBlo08fRhIWnEayNpLsrVQPkY8bY0KQU8gxhAxA3UwyeSiQJScyJTybMGVKhxWIpSI-Fno6HFC2ZK2xPA&clid=15238076&vid=krepitvmodelsamsungue50u8000fuxrur02kromaxdix1856f38ba7036d&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:30.207Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=exeekh3r9j4ve8nuc7m4o0oqtv1gajts&utm_referral_context=jmaOPvBqd8s5OIB94JYeX0luFZ-ZwiG0OMgaMfrtEXTlaB1DJuUeMlbQZ2PDPbGz9bjx9o8a23niRuU-4OlEHR0KLur2NuBmoUD-AyvvKPKKD2mDWf1fKLfRwvvWwS-luSFrSsq1SMVNYQZqH1nomdoUp7ESeGUDh5vksIR3UJVvikAyQBC3iWBpjEdjol6a2DgHAlpeHj47BHg3JjFma8mhAaO-hVxk9QVjVdpOXfsSdJhXTShUaBLkNyVuPB8i&clid=15238076&vid=krepitvmodelsamsungue50u8000fuxrur02kromaxdix1856f38ba7036d&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:32.337Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -125,8 +221,8 @@
       "model_id": "samsung-ue50u8000fuxru",
       "model_path": "/modeli/samsung-ue50u8000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=7o5w09su5984srz1bywrq0ptobyr3qia&utm_referral_context=hzpXWMGHNGYGQ-W93HDnwQQc3CRAA2GhQo6vAWzOaeAW_DBpM2V4y3NV9hPQQ1KtdrYLNxttJrtzRWu2zqsje5rUQctODv0y8tvzLhPdQx6cjBIXtdm-tvaDyusNGrmUC2NzIP7ScX4BQzIp_4PRY5s82MmZKcDHPRCtik0WqNdGBmeyPFMjgzTOE5QfdmR6h8_5cjLYDUatHGYKsGjwlR3J4fxmJSoX3mvacBZ14-xR3L91XeHQdA,,&clid=15238076&vid=krepitvmodelsamsungue50u8000fuxrur03kromaxflat4fdd3f4d1894e&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:30.847Z",
+        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=v56t0uw48wxg0xovbfjsc973lj7d59cd&utm_referral_context=WJdik3qD2gPrToZR7fI7LbeXP5cCYhvf5V2U510J4lbmzfJBoi-PiYsaR3pe1mE4Qki084bRORxg0gfXDyQWLrPfrWU2titYryQD9PNbgO-wtXeIb7qjqJ-xKM8c_f0KGrZvrsYCshQUznp0JuJECQgFh-7A1UTJpfhEs1LJz41pN778a8hsqILPOPxlQpaYbtpfz8Y48IZQnim83PlKTtNKV-aLinXkyJW0ifWsqzyUOU-Qb8tocg,,&clid=15238076&vid=krepitvmodelsamsungue50u8000fuxrur03kromaxflat4fdd3f4d1894e&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:32.948Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -149,8 +245,8 @@
       "model_id": "samsung-ue55du7100uxru",
       "model_path": "/modeli/samsung-ue55du7100uxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=gw0cxgektkrpxksx06n384ge36j04s7l&utm_referral_context=LgryT8LmhfwB2PPgzAiabCPXNE3a_e9jHJDnZTfDuKbqD76NDQt8k6T_AiVH7UO2g6EXJ5AnmZ7FSmFVU0p0M3uov5UUc7b7eNYb4NhMzewQ6Q_RCb9_A_oLaopGsjTg-5wFBKKcd2IuVl6204OTyq4pK1hquYhUi2yegmSC9C2Cf2tdFPeb3KsN4XWRjOtE9AKpotpxywEbnedoTVb0FBX6-LNqL1MtpJe_awf-PY_AbyaEITmTv3P5JUUUnDG3&clid=15238076&vid=krepitvmodelsamsungue55du7100uxrur02kromaxdix18de0b988e3260&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:32.092Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=zomy68x9wj06dhfzjyyw3nnqqjie4qnk&utm_referral_context=i7EgJqGcDet1prxY_yQt5eOaYLxwdfkAnvUoeda31FhV5ShR2gc2wnF1uWQ5I3AQ9Qhpi_vPkg7ZAvMYMnV2c7phvpgTIu3yAxAb2gO1z9eGJ55Qrg_925AmIBtCS7slbzIDWSZYK0q8mT01MGPImgiJytn_VinRJFkgdgoSlpEtQv9ZkRyeguWzo8EXlpTteZ5Suvm7g3QYqK4STyu8eC0O1i0JKkY39q5XxqgVmMMbStGODPQ6K1FMBPYX450b&clid=15238076&vid=krepitvmodelsamsungue55du7100uxrur02kromaxdix18de0b988e3260&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:34.150Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -173,8 +269,8 @@
       "model_id": "samsung-ue55du7100uxru",
       "model_path": "/modeli/samsung-ue55du7100uxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=fcj8v39cgf21134d7wihaspv3wnrphk4&utm_referral_context=N0WHAWvLXETcFueYoBvQF1wL8T6OJRo3yucwzQw7dA32OKDIIkjxFQPwnUCR5FRaf7XxW-rfd9_TlCl2krMC868HY6wl8D4Iw7wgvml7xKDXIePOxoUdvU5jkakIGwlL-Vg2Jz_IQAdw-gypCqcoMtxXX634_rI6s6Soy8PbwqQrxf5gWsgCzzi8SH_HP3pAMSUU25SFjLg_M8HH2ATf2_frehtn9_sujlo7LNwaPeecXE5LnZPvTA,,&clid=15238076&vid=krepitvmodelsamsungue55du7100uxrur03kromaxflat4a1cdaf20a0fe&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:32.700Z",
+        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=ie6szs5tv6svn5vzotzw9vox57uwncyt&utm_referral_context=svyRgavDPIuxx5fVLSY78tl0KsifuswJDZqSwUNiqHs6IDtii1BDrV5ISIBVpENt9sEurH5tM_gFKtDoIyiwHHLE0YDSOtDrsQ4T_HYlYXgOv_bz06Fg0yWWbRtcDX73fqtF3SXNs7XEN-ksxUOX8byN79SP8gdAxfstgGfosdWpaJJT57YAXc35GQxS_pgiKZEPuiTDSp7AzldOCnXYkOah3SMkclCW_IZ4it7YzWpX18-eVF-Ztw,,&clid=15238076&vid=krepitvmodelsamsungue55du7100uxrur03kromaxflat4a1cdaf20a0fe&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:34.774Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -197,8 +293,8 @@
       "model_id": "samsung-ue55u8000fuxru",
       "model_path": "/modeli/samsung-ue55u8000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=qipr21qd2p6cwl4h9ycfq511xwkpkj4v&utm_referral_context=VK-g6jJ440SZ1Jp5nlfK8ROaDEP7UCDVLQYCwEAd4bD95w_NLC1GJCCvwKoQWDAp-bOZ-sN9KQ10ShkY_Shp2c1jNxy0pM8nTgBXLWybqDEJElNKWb6I8QOKHDxSXqg23TXgd5r7eI1X9dJm-w8WtQZNdIhm3wt6PYkwWJZrvCa_ypNSkC3K0kfLBHzgG8qHMvzzJwaew8zPVX4a9DIOYXmkvohixXOVXkHHW65zR_J13ORQSvgrmIXz_29yk6YK&clid=15238076&vid=krepitvmodelsamsungue55u8000fuxrur02kromaxdix185a3a38637d38&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:33.923Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=cqhdtzd8bwguth9rtjz5pm0sw5yivu6j&utm_referral_context=Mc9lxb2DkbFIP5a46WA7hTbfkgzdx2HtZY5DPki7l8XvNWjmpXRCSE_jDs7dzbze1HtG8AntBF8TU-h4_wBhPlfu5037xzb1Q2g64E-BGzB4KoKYUZpnSVDghNKaNaK8bEt0PgxbNNKnylcpEfQjWCe7gzhQhTbolbqIgpRwqQFW9J0kW6Kc0DIdohkUiGwjCQWLir3oHAwdB6tc_eBsrl3Pzz1K9HUzcJenrL2Qs_GBXCiyB0AWbhGKDfjuDsGK&clid=15238076&vid=krepitvmodelsamsungue55u8000fuxrur02kromaxdix185a3a38637d38&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:35.997Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -221,8 +317,8 @@
       "model_id": "samsung-ue55u8000fuxru",
       "model_path": "/modeli/samsung-ue55u8000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=mhelg7uw3eia3de11p5846ejjvhhjtbo&utm_referral_context=4F1Y4i8udLHaEsVJgIcNzVccJSz39oQ8Z_A8FCFkLVQNLupeDV1-eosxUmLvLUqpOD2YyjhxkJsl7OY6b9z9qCOZv_XU2xtWlAVj2mNQrPgTnVf1A4ouo41HnCgkVxZnCu8AKNGNwUrwIsbMoXIX91d7GZmS2tlqVzBMCK51_W1mItcPY8mNwrFTVT6BT6gGE4FOB8LmwF-hs9SiKa1OfxfF7EEb0o8hLN5-Z3G6_lfItLst7I2b-Q,,&clid=15238076&vid=krepitvmodelsamsungue55u8000fuxrur03kromaxflat407c35469ab09&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:34.536Z",
+        "affiliate_href": "https://market.yandex.ru/card/kromax-flat-4-black-nastennyy-kronshteyn-dlya-ledlcd-televizorov-dlya-tv-32-60/103196138017?refid=s7kkiap5obuqjdckovcng0km5eem6fvs&utm_referral_context=Z8rgjp2FUc8RLQi3_2tDTazxm_fV32FbzxxCbbArWthxu27_9d7I5jlPS2rNL9XRxOfttUaOH6a6F9vN-gDh36PqPNlQyl82yzaBVsuLYL6MuduCBP7xJw-vblURjGt7_Z8EKCtu8AKcJ7GTYC6DVE6riU_ItmXC6fSdjvCFYX7vV0hqmajUzW-MEcDvoGeU-NJD5fU42gHdpW1vKD7EhlsRx2Bm4KlAeXhlInADbP_mfkQa2cTPlQ,,&clid=15238076&vid=krepitvmodelsamsungue55u8000fuxrur03kromaxflat407c35469ab09&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:36.607Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -245,8 +341,8 @@
       "model_id": "samsung-ue65u8000fuxru",
       "model_path": "/modeli/samsung-ue65u8000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=aexvyvcgw6d0rfxkkywbli74anj2gqmf&utm_referral_context=cde2VvUDPjV-Z6ZtgaSwA49a7vlZHJiYjQTtlEJKrO8_e_rnTswJ9vfVWPeiJeilkRbQITbJVCaBw1Ij2cdN8IwycIl39W6_Sb_ZXgDjeUd3ODG7wZk3H9ggNwZYOgaJYgyC38FycyIeuV_hCapmlf5mINggJBUhFA8F6x7cGa6NzQsHFOhHxaNuzEhL8ybDNnKkIMgDXUbl3_D9nzEvXyTBtaqZd8CEZNJZB02vM6tQ052nE2mlP3ZrDulstLPW&clid=15238076&vid=krepitvmodelsamsungue65u8000fuxrur03kromaxdix18f84bff623c02&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:36.365Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizora-nastennyy-naklonno-povorotnyy-kromax-dix-18--do-65-dyuymov--vesa-400x400/103730426851?refid=5e0ctkj5l08iqtjims1oxx6e0cp4k1uc&utm_referral_context=r0BqUWpPta8rqGK0sHkuSuWW8qP8h6fWnDG-vY7U2gbQ4BTI1LwVnQ8dDnsSmKZskJrEo1pn5LIDEHkhiUcKLQ3kMVYwYZ1_yDEhSw4J2ebFBzirkFNguMwU6w_pk6DPk101EC_GTKSkLwJHoLrCAo4ZBuEuIN1PjqMaAGubBCNomYcjo_UBAOLZuCW_BN6_GyegkLmHWTe30a2Sn7xQv4p7lXQnjhmbjDp6XfND2uzyyr3eIZ9Ed3d05RVjw4K0&clid=15238076&vid=krepitvmodelsamsungue65u8000fuxrur03kromaxdix18f84bff623c02&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:38.426Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -269,8 +365,8 @@
       "model_id": "samsung-ue75u8000fuxru",
       "model_path": "/modeli/samsung-ue75u8000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=eb2h32q8cu304kclruazybrfcuu424uo&utm_referral_context=h7szYUQ0O94M1SdPQqOuA1auYrEcR3r-nHUpTmmnomwDc_qHpLRdbsMMhciob9mWHE-B-nHTnLDme8SzF_0LJevu1gazRlntrOUEW5j36YZYIZbUYrY39WrwX1m8kdKOQ1vZtPKb03nYFvLl_4TFKst0mygKqwgHx31PI56XJx9tRx_znDOcR_j5BrFWu-35WWufiBIbp9Pury9TLSvkfpFk2OvkMDDlw1G8X93z2X1G2H6qCMhMzqruZbrQiTpw&clid=15238076&vid=krepitvmodelsamsungue75u8000fuxrur02onkrontm614649622e539&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:37.596Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=uf5w2rohhdpswq9tfiqv8mwmibmr2lpn&utm_referral_context=mykfhuLaE5v3Gxl9I0ubMLURt_GssLaNwXiGlKGGARcFIPqw9efnA5HbgHBY4XS3EOF1E7gnfQeQpw38Qp-oZgZG3Ooj3Wwd7KIip3y1NCP1MwafvNCwNbcfLPVeVrkbTmtcZvrZvJmTKRlk2v-63az3kll1hv14JidLg6CguOAQLvW5MkX-eec6ortQyF6W0AWkaEDxi3DeVkDOiYjBfCQau3ue9bybZfG11nmABPu7urwKP9ZkJlhfWoE48Ogq&clid=15238076&vid=krepitvmodelsamsungue75u8000fuxrur02onkrontm614649622e539&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:39.622Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
@@ -293,8 +389,8 @@
       "model_id": "samsung-ue85u8000fuxru",
       "model_path": "/modeli/samsung-ue85u8000fuxru/",
       "offer": {
-        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=9gwfnncn1ez4m7sh2c09k032h5ztd2c9&utm_referral_context=LYG9sPdaTlB_Q5-x9Gg-GFUsX-m2y_kx49mgWV5H4WMPpL6jAdorSlyOYb44WsfBYkKJM6ud6sDFLK4rLH2M9P08C-sNOdPI5MUOmCsnSH--tjeu4VSsYyVv9GfmamlJwCqm-4j4LV7Il35qpJhS6pGgvIzmRtXzBo3BjBEyQS9EJPYjYEiFP9bg0t-Jd-kp327FkoPe20QswucqwCSxn0bZ3EQDtEv5aV1-jRDWq2HkhNxY0M7BJSnBr0LKdhLM&clid=15238076&vid=krepitvmodelsamsungue85u8000fuxrur02onkrontm65450d5ad553c&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
-        "checked_at": "2026-11-26T00:25:39.425Z",
+        "affiliate_href": "https://market.yandex.ru/card/kronshteyn-dlya-televizorov-onkron-tm6-chernyy/5720427358?refid=k8chnagigixuwmmcppugd86tyith3s48&utm_referral_context=qtcyE1Y5IfGGtxobLHi8XDUDcjr6RuQ-Kzac1BXAVX5keG6B0vUmBnDp8LMZKzWiiSBcnNt09gC3dRQyWJYMpUqvB1C3m28yGgANs0txHGuiWLiofyGjW6npqoahuAUeWkwLCsE-MahyOKBI0wOKt4OrRkrOw8R4Gb8J2dyxkbE1q7vDzn7fRoQzjgsay9MBi_-fAVGyLOtNU9fZ44XAo3EIRfSOu7A-yZ2tnD1mFXpMNPd2BjKkc7EUwr1mtLwl&clid=15238076&vid=krepitvmodelsamsungue85u8000fuxrur02onkrontm65450d5ad553c&mclid=1003&distr_type=7&utm_source=partner_network&pp=900&utm_medium=link&utm_campaign=15238076",
+        "checked_at": "2026-11-26T13:58:41.398Z",
         "clid": "15238076",
         "compliance_mode": "non_ad_storefront",
         "creative": null,
